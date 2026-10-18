@@ -1,0 +1,61 @@
+---
+// The still paints first (it's the LCP image). The reel loads after the page has
+// finished, fades in over the still, and is skipped for reduced motion or Save-Data.
+import { Image } from 'astro:assets';
+import poster from '../assets/home/hero-poster.jpg';
+---
+<Image
+  src={poster}
+  alt=""
+  widths={[375, 560, 750, 1000, 1200]}
+  quality={75}
+  sizes="(min-width: 1024px) 49vw, 100vw"
+  loading="eager"
+  fetchpriority="high"
+  class="absolute inset-0 size-full object-cover"
+/>
+<video
+  data-showreel
+  class="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-500"
+  muted
+  loop
+  playsinline
+  preload="none"
+  aria-hidden="true"
+  tabindex="-1"
+></video>
+<button
+  type="button"
+  data-showreel-toggle
+  hidden
+  class="t-button absolute bottom-3 right-3 z-10 bg-[#111]/70 px-2 py-1 text-white hover:bg-[#111]"
+>Pause</button>
+<script is:inline>
+  (function () {
+    var v = document.querySelector('[data-showreel]');
+    var btn = document.querySelector('[data-showreel-toggle]');
+    if (!v) return;
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var c = navigator.connection;
+    if (c && (c.saveData || /2g/.test(c.effectiveType || ''))) return;
+
+    function start() {
+      var size = window.matchMedia('(min-width: 1024px)').matches ? 'desktop' : 'mobile';
+      var av1 = v.canPlayType('video/mp4; codecs="av01.0.05M.08"');
+      v.src = '/video/showreel-' + size + (av1 ? '-av1' : '') + '.mp4';
+      v.addEventListener('playing', function () {
+        v.style.opacity = '1';
+        btn.hidden = false;
+      }, { once: true });
+      v.play().catch(function () {});
+    }
+
+    btn.addEventListener('click', function () {
+      if (v.paused) { v.play(); btn.textContent = 'Pause'; }
+      else { v.pause(); btn.textContent = 'Play'; }
+    });
+
+    if (document.readyState === 'complete') setTimeout(start, 200);
+    else window.addEventListener('load', function () { setTimeout(start, 200); });
+  })();
+</script>
