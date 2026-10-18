@@ -1,0 +1,92 @@
+---
+// Case studies hub. Every card is in the HTML; filters only show and hide them.
+import Base from '../../layouts/Base.astro';
+import Schema from '../../components/Schema.astro';
+import Header from '../../components/Header.astro';
+import PageHero from '../../components/PageHero.astro';
+import WorkCard from '../../components/WorkCard.astro';
+import { SITE } from '../../data/site';
+import { CASE_STUDIES, FILTERS, WORK_META, WORK_HERO, WORK_TRUST } from '../../data/work';
+
+const url = new URL(WORK_META.path, SITE).href;
+const list = {
+  '@type': 'ItemList',
+  '@id': `${url}#case-studies`,
+  name: 'Shopify case studies',
+  numberOfItems: CASE_STUDIES.length,
+  itemListElement: CASE_STUDIES.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.client, url: new URL(c.href, SITE).href })),
+};
+// Only show a filter once it has two or more projects.
+const filters = FILTERS.filter((f) => CASE_STUDIES.filter((c) => c.services.includes(f.id)).length >= 2);
+const trustAfter = 6;
+---
+<Base title={WORK_META.title} description={WORK_META.description}>
+  <Schema
+    slot="head"
+    type="CollectionPage"
+    title={WORK_META.title}
+    description={WORK_META.description}
+    path={WORK_META.path}
+    breadcrumbs={[{ name: 'Home', path: '/' }, { name: 'Shopify success stories', path: WORK_META.path }]}
+    mainEntity={`${url}#case-studies`}
+    extra={[list]}
+  />
+  <Header />
+  <main id="main">
+    <PageHero eyebrow={WORK_HERO.eyebrow} heading={WORK_HERO.heading} intro={WORK_HERO.intro} />
+
+    <section id="case-studies" aria-label="Case studies" class="px-margin pb-section pt-large">
+      <div role="group" aria-label="Filter by service" class="flex flex-wrap gap-x-grid gap-y-3" data-filters>
+        <button type="button" data-filter="all" aria-pressed="true" class="t-button text-muted hover:text-ink aria-pressed:text-ink">All</button>
+        {filters.map((f) => (
+          <button type="button" data-filter={f.id} aria-pressed="false" class="t-button text-muted hover:text-ink aria-pressed:text-ink">{f.label}</button>
+        ))}
+      </div>
+
+      <ul class="mt-gutter grid gap-x-gutter gap-y-[64px] lg:grid-cols-2" data-grid>
+        {CASE_STUDIES.map((s, i) => (
+          <>
+            {i === trustAfter && (
+              <li data-trust class="lg:col-span-2">
+                <ul class="t-label flex flex-col items-start gap-3 tracking-[0.02em] text-ink sm:flex-row sm:items-center sm:justify-center sm:gap-0">
+                  <li class="flex items-center gap-2 sm:px-grid">
+                    <img src="/icons/google-g.png" alt="Google" width="25" height="25" class="size-[25px]" loading="lazy" />
+                    <span><span aria-hidden="true">★★★★★</span> 5/5<span class="sr-only"> on Google reviews</span></span>
+                  </li>
+                  {WORK_TRUST.map((t) => <li class="sm:border-l sm:border-line sm:px-grid">{t}</li>)}
+                </ul>
+              </li>
+            )}
+            <li data-card data-services={s.services.join(' ')}><WorkCard study={s} eager={i < 2} level={2} /></li>
+          </>
+        ))}
+      </ul>
+    </section>
+  </main>
+</Base>
+
+<script is:inline>
+  (function () {
+    var root = document.querySelector('[data-filters]');
+    if (!root) return;
+    var buttons = root.querySelectorAll('[data-filter]');
+    var cards = document.querySelectorAll('[data-card]');
+    var trust = document.querySelector('[data-trust]');
+    function apply(id) {
+      if (!root.querySelector('[data-filter="' + id + '"]')) id = 'all';
+      buttons.forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-filter') === id)); });
+      cards.forEach(function (c) {
+        c.hidden = id !== 'all' && c.getAttribute('data-services').split(' ').indexOf(id) === -1;
+      });
+      if (trust) trust.hidden = id !== 'all';
+    }
+    buttons.forEach(function (b) {
+      b.addEventListener('click', function () {
+        var id = b.getAttribute('data-filter');
+        apply(id);
+        history.replaceState(null, '', id === 'all' ? location.pathname : '#' + id);
+      });
+    });
+    if (location.hash) apply(location.hash.slice(1));
+  })();
+</script>

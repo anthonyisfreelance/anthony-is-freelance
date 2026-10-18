@@ -24,5 +24,16 @@
   "public/icons/facebook.svg": "https://www.figma.com/api/mcp/asset/279703eb-4bac-4102-b6d1-89f3f9bd7a9c.svg",
   "public/icons/tiktok.svg": "https://www.figma.com/api/mcp/asset/430f0151-b78d-4550-9e2a-d8cbcfc61b9e.svg",
   "public/icons/youtube.svg": "https://www.figma.com/api/mcp/asset/7d2f1f54-8279-4ece-b268-346105c6bff8.svg",
-  "src/assets/home/innovation-bg.jpg": "https://www.figma.com/api/mcp/asset/7dcced7c-bc2a-4ddb-a58f-3d38f8826752.png"
+  "src/assets/home/innovation-bg.jpg": "https://www.figma.com/api/mcp/asset/7dcced7c-bc2a-4ddb-a58f-3d38f8826752.png",
+  "src/assets/services/hero.jpg": "https://www.figma.com/api/mcp/asset/ac74dfd1-5a02-4f20-832e-f1369f20294f.png",
+  "src/assets/services/branding.jpg": "https://www.figma.com/api/mcp/asset/b3bc3c71-73a8-426b-b139-b615fa79eefc.png",
+  "src/assets/services/ux.jpg": "https://www.figma.com/api/mcp/asset/6498acc5-5619-4f09-97d0-03896ac3ee21.png",
+  "src/assets/services/bespoke.jpg": "https://www.figma.com/api/mcp/asset/62f1350a-36e1-460b-ad1d-d604770e2d1b.png",
+  "src/assets/services/plus.jpg": "https://www.figma.com/api/mcp/asset/314bd4aa-6082-4f51-92f3-fbff6d691c2b.png",
+  "src/assets/services/cro.jpg": "https://www.figma.com/api/mcp/asset/a2f86751-110f-4253-9ea2-7fece4fa8dc3.png",
+  "src/assets/services/migrations.jpg": "https://www.figma.com/api/mcp/asset/d300ab9b-2737-437e-b91c-52c5e4ae9a91.png",
+  "src/assets/services/subscriptions.jpg": "https://www.figma.com/api/mcp/asset/9c7d622a-bf75-41b6-b98e-29c91cb96945.png",
+  "src/assets/services/theme.jpg": "https://www.figma.com/api/mcp/asset/562fad26-093d-44d2-b47e-0689b26da641.png",
+  "src/assets/work/projektityyny.jpg": "https://www.figma.com/api/mcp/asset/b4a9b750-bd35-4676-8e39-144d9dc389ac.png",
+  "src/assets/work/fuzzball.jpg": "https://www.figma.com/api/mcp/asset/71698a3d-b989-4b79-b4c2-3488a27eacbf.png"
 }

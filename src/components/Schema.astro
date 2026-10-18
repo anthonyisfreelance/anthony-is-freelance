@@ -9,8 +9,12 @@ interface Props {
   path: string;
   faqs?: { q: string; a: string[] }[];
   isHome?: boolean;
+  breadcrumbs?: { name: string; path: string }[];
+  /** Extra nodes for this page (OfferCatalog, ItemList...), built from data, never hand-written. */
+  extra?: Record<string, unknown>[];
+  mainEntity?: string; // @id of the page's main entity
 }
-const { type = 'WebPage', title, description, path, faqs, isHome = false } = Astro.props;
+const { type = 'WebPage', title, description, path, faqs, isHome = false, breadcrumbs, extra = [], mainEntity } = Astro.props;
 const url = new URL(path, SITE).href;
 const b = ENTITY.business;
 
@@ -49,9 +53,21 @@ const graph: Record<string, unknown>[] = [
     description,
     isPartOf: { '@id': ENTITY.website.id },
     about: { '@id': isHome ? ENTITY.person.id : b.id },
+    author: { '@id': ENTITY.person.id },
     inLanguage: 'en-GB',
+    ...(breadcrumbs ? { breadcrumb: { '@id': `${url}#breadcrumb` } } : {}),
+    ...(mainEntity ? { mainEntity: { '@id': mainEntity } } : {}),
   },
 ];
+
+if (breadcrumbs) {
+  graph.push({
+    '@type': 'BreadcrumbList',
+    '@id': `${url}#breadcrumb`,
+    itemListElement: breadcrumbs.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: new URL(c.path, SITE).href })),
+  });
+}
+graph.push(...extra);
 
 // Full entity definitions live on the homepage; other pages reference them by @id.
 if (isHome) graph.push(person, business);
