@@ -7,7 +7,7 @@ interface Props {
   client: string;
   meta: string;
   claim: string;
-  image: ImageMetadata;
+  image?: ImageMetadata;
   badge?: ImageMetadata;
   badgeAlt?: string;
   href?: string;
@@ -22,7 +22,7 @@ const aspect = { square: 'aspect-square', portrait: 'aspect-[4/5]', 'portrait-sq
 ---
 <article class="hover-card relative flex flex-col">
   <div class:list={['relative overflow-hidden bg-line', aspect]}>
-    <Image
+    {image ? <Image
       src={image}
       alt=""
       widths={[240, 360, 480, 720, 960, 1400]}
@@ -30,7 +30,7 @@ const aspect = { square: 'aspect-square', portrait: 'aspect-[4/5]', 'portrait-sq
       sizes={sizes}
       class="zoom-img absolute inset-0 size-full object-cover"
       loading={eager ? 'eager' : 'lazy'}
-    />
+    /> : <span class="t-badge absolute inset-0 grid place-items-center text-muted">[Image to come]</span>}
     {badge && (
       <div class="absolute left-0 top-0 h-20 bg-surface p-3">
         <Image src={badge} alt={badgeAlt} height={56} class="h-full w-auto" />

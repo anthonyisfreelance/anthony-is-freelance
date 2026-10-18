@@ -1,0 +1,60 @@
+---
+// A service page section outside the standard set (who does what, rankings, which theme...),
+// or a dashed "to come" marker for a section that still needs content.
+import Heading from './Heading.astro';
+import type { Extra } from '../data/service-pages/types';
+interface Props { item: Extra }
+const { item: x } = Astro.props;
+const cell = 't-label tracking-[0.02em]';
+---
+{x.kind === 'todo' ? (
+  <section class="px-margin pt-section">
+    <div class="border-t border-line pt-section">
+      <div class="flex flex-col gap-3 border border-dashed border-muted/50 p-large">
+        <p class="t-badge flex items-center gap-2 text-ink"><span class="size-2 bg-blue" aria-hidden="true"></span>Section to come</p>
+        <h2 class="t-h5 uppercase text-ink">{x.title}</h2>
+        <p class="t-body text-muted">{x.note}</p>
+      </div>
+    </div>
+  </section>
+) : (
+  <section id={x.id} class="px-margin pt-section">
+    <div class:list={['border-t border-line pt-section', x.kind === 'text' && 'grid gap-gutter lg:grid-cols-2']}>
+      <div class:list={[x.kind === 'table' && 'lg:w-[676px]']}>
+        <Heading eyebrow={x.eyebrow}>{x.heading}</Heading>
+      </div>
+      {x.kind === 'text' && (
+        <div class="flex flex-col gap-loose">
+          {x.paragraphs && <div class="t-body flex flex-col gap-3 text-muted">{x.paragraphs.map((t) => <p>{t}</p>)}</div>}
+          {x.list && (
+            <ul class="flex flex-col gap-loose">
+              {x.list.map((li, i) => (
+                <li class:list={['flex flex-col gap-2', (i > 0 || x.paragraphs) && 'border-t border-line pt-loose']}>
+                  {li.title && <h3 class="t-h6 text-ink">{li.title}</h3>}
+                  <p class="t-body text-muted">{li.body}</p>
+                </li>
+              ))}
+            </ul>
+          )}
+          {x.note && <p class="t-small border-t border-line pt-loose text-muted">{x.note}</p>}
+        </div>
+      )}
+      {x.kind === 'table' && (
+        <table class="mt-gutter w-full border-collapse text-left lg:w-[1035px] lg:max-w-full">
+          <caption class="sr-only">{x.caption}</caption>
+          <thead>
+            <tr>{x.head.map((h) => <th scope="col" class="t-button-lg pb-loose pr-grid font-medium text-ink">{h}</th>)}</tr>
+          </thead>
+          <tbody>
+            {x.rows.map(([first, ...rest]) => (
+              <tr class="border-t border-line">
+                <th scope="row" class={`${cell} py-loose pr-grid align-top font-medium text-ink`}>{first}</th>
+                {rest.map((v) => <td class={`${cell} py-loose pr-grid align-top text-muted`}>{v}</td>)}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      )}
+    </div>
+  </section>
+)}

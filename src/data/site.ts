@@ -40,7 +40,7 @@ export const URLS = {
   branding: '/freelance-brand-designer/',
   ux: '/freelance-ux-ui-designer/',
   bespoke: '/shopify-website-design/bespoke-shopify-store-builds/',
-  plus: '/shopify-website-design/', // [CONFIRM] no Shopify Plus page yet
+  plus: '/shopify-website-design/shopify-plus-design/', // new page, URL from the service pages doc [CONFIRM]
   migrations: '/shopify-website-design/shopify-migration/',
   theme: '/shopify-website-design/shopify-theme-customisation/',
   cro: '/shopify-website-design/shopify-conversion-rate-optimisation/',
