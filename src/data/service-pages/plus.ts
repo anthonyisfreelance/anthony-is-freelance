@@ -88,9 +88,9 @@ export const PLUS: ServicePage = {
     ],
   },
   extras: [
-    { kind: 'todo', after: 'proof', title: 'More Plus proof', note: 'Big Dude Clothing joins once its case study is cleared to name. Gee Hair once it launches. The Plus filter on the work page appears with a second Plus project.' },
-    { kind: 'todo', after: 'process', title: 'Shopify Plus innovations', note: 'Off for now: none of the 13 innovations come from Plus projects yet. Returns when Big Dude Clothing or Gee Hair adds one.' },
-    { kind: 'todo', after: 'process', title: 'Testimonial', note: 'A verbatim quote from Big Dude Clothing or Jing Tea, with name, role and permission, plus a heading line from it.' },
+    { kind: 'todo', after: 'proof', title: 'More Plus proof', note: 'A second Plus project joins as a card once it is live and signed off. Projects in progress are never named. The Plus filter on the work page appears with a second Plus project.' },
+    { kind: 'todo', after: 'process', title: 'Shopify Plus innovations', note: 'Off for now: none of the 13 innovations come from Plus projects yet. Returns when a live Plus project adds one.' },
+    { kind: 'todo', after: 'process', title: 'Testimonial', note: 'A verbatim quote from Jing Tea, with name, role and permission, plus a heading line from it.' },
     { kind: 'todo', after: 'faqs', title: 'Articles', note: 'Shopify vs Shopify Plus, and Benefits of Shopify Plus: Should You Upgrade in 2026? Need their links.' },
   ],
 };

@@ -5,7 +5,6 @@ import { URLS, ENTITY } from './site';
 import drinkFinder from '../assets/home/drink-finder.jpg';
 import eastAtHome from '../assets/home/east-at-home.jpg';
 import wideFitShoes from '../assets/home/wide-fit-shoes.jpg';
-import notedAromas from '../assets/home/noted-aromas.jpg';
 import badgeDrinkFinder from '../assets/home/badge-drink-finder.png';
 import badgeEastAtHome from '../assets/home/badge-east-at-home.png';
 import innovationScreen from '../assets/home/innovation-screen.png';
@@ -65,10 +64,10 @@ export const STORIES = {
       href: URLS.caseStudies.wideFitShoes,
     },
     {
-      client: 'Noted Aromas',
+      // Newest launch. Image and case study to come.
+      client: 'Sensational Eyes',
       meta: 'Beauty · 2026',
-      claim: '34% more products',
-      image: notedAromas,
+      claim: '[CONFIRM: a theme customisation for a relaunched eye cream, and what it changed]',
     },
   ],
 };
@@ -82,11 +81,9 @@ export const BRANDS = {
     'Wrangler',
     'Drink Finder',
     'East at Home',
-    'Pooky',
-    'Big Dude Clothing',
     'Thameen London',
     'Projektityyny',
-    'Noted. Aromas',
+    'Sensational Eyes',
     'Fuzzball',
   ],
 };

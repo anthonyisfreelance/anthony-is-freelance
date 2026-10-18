@@ -29,7 +29,7 @@ export interface CaseStudy {
   meta: string;
   claim: string;
   proof: string;
-  href: string;
+  href?: string; // no link until the case study page exists
   image?: ImageMetadata;
   screen?: ImageMetadata;
   badge?: ImageMetadata;
@@ -124,6 +124,13 @@ export const CASE_STUDIES: CaseStudy[] = [
     claim: 'A Shopify Plus redesign for a luxury tea brand',
     proof: 'A gold and earth palette widened with neutrals, with gold kept for key actions.',
     href: p('jing-tea-shopify-website-design-case-study'),
+    services: ['theme-customisations'],
+  },
+  {
+    // Newest launch (brief, 18 October 2026). No case study page yet, so no link.
+    client: 'Sensational Eyes', meta: 'Beauty · 2026',
+    claim: '[CONFIRM: a theme customisation for a relaunched under-eye treatment, and what it changed]',
+    proof: '[CONFIRM: one design decision]',
     services: ['theme-customisations'],
   },
 ];

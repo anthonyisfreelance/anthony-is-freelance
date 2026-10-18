@@ -14,7 +14,7 @@ const list = {
   '@id': `${url}#case-studies`,
   name: 'Shopify case studies',
   numberOfItems: CASE_STUDIES.length,
-  itemListElement: CASE_STUDIES.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.client, url: new URL(c.href, SITE).href })),
+  itemListElement: CASE_STUDIES.map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.client, ...(c.href && { url: new URL(c.href, SITE).href }) })),
 };
 // Only show a filter once it has two or more projects.
 const filters = FILTERS.filter((f) => CASE_STUDIES.filter((c) => c.services.includes(f.id)).length >= 2);

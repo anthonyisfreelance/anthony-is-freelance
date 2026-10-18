@@ -2,13 +2,12 @@
 
 /* ------------------------------------------------------------------
    Fonts
-   Mint Grotesk Display Narrow Medium is the design font. Until the
-   licensed web files arrive, a free stand-in loads under the same
-   family name so nothing else changes when the real files drop in.
+   Mint Grotesk Display Narrow Medium, the licensed web file (added
+   18 October 2026). Licensed font: keep this repo private.
    ------------------------------------------------------------------ */
 @font-face {
   font-family: "Mint Grotesk Display";
-  src: url("/fonts/stand-in-display-500.woff2") format("woff2");
+  src: url("/fonts/mint-grotesk-display-narrow-500.woff2") format("woff2");
   font-weight: 500;
   font-style: normal;
   font-display: swap;

@@ -10,7 +10,7 @@ export const card = (client: string) => {
   return { client: s.client, meta: s.meta, claim: s.claim, proof: s.proof, href: s.href, image: s.image, badge: s.badge, badgeAlt: s.badgeAlt };
 };
 
-export const caseStudyHref = (client: string) => card(client).href;
+export const caseStudyHref = (client: string) => card(client).href ?? '';
 
 /** The hub's price sentence for a service, e.g. "From £5,000 + VAT", so all pages agree. */
 export const hubPrice = (name: string) => {

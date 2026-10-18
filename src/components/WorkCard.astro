@@ -39,7 +39,7 @@ const sizes = '(min-width: 1024px) 24vw, 50vw';
     <span class="flex-1">{s.client}</span><span class="flex-1 text-right">{s.meta}</span>
   </p>
   <H class="t-h6 mt-3 text-ink">
-    <a href={s.href} class="stretched-link link-hover"><span class="sr-only">{s.client}. </span>{s.claim}</a>
+    {s.href ? <a href={s.href} class="stretched-link link-hover"><span class="sr-only">{s.client}. </span>{s.claim}</a> : <><span class="sr-only">{s.client}. </span>{s.claim}</>}
   </H>
   <p class="sr-only">{s.meta}</p>
   <p class="t-label mt-3 border-t border-line pt-2 tracking-[0.02em] text-muted">{s.proof}</p>

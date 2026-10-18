@@ -46,7 +46,7 @@ export const THEME: ServicePage = {
   proof: {
     heading: "Theme customisations I've designed",
     link: { label: 'View all theme customisation work', href: `${URLS.work}#theme-customisations` },
-    cards: [card('Thameen London'), card('Wide Fit Shoes')],
+    cards: [card('Thameen London'), card('Wide Fit Shoes'), card('Sensational Eyes')],
   },
   routing: {
     eyebrow: ROUTING_EYEBROW,

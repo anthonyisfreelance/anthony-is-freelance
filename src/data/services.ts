@@ -2,11 +2,11 @@
 // page-copy/services-hub.md where Figma has placeholders or out-of-date facts.
 import { URLS } from './site';
 
-import hero from '../assets/services/hero.jpg';
+// Drink Finder (live work only, 18 October 2026). Swap for a final image when ready.
+import hero from '../assets/drink-finder/vineyard.jpg';
 import branding from '../assets/services/branding.jpg';
 import ux from '../assets/services/ux.jpg';
 import bespoke from '../assets/services/bespoke.jpg';
-import plus from '../assets/services/plus.jpg';
 import cro from '../assets/services/cro.jpg';
 import migrations from '../assets/services/migrations.jpg';
 import subscriptions from '../assets/services/subscriptions.jpg';
@@ -68,9 +68,10 @@ export const SERVICES_LIST = [
     name: 'Shopify Plus design',
     slug: 'shopify-plus-design',
     href: URLS.plus,
-    image: plus,
+    // Jing Tea image to come.
+    image: undefined,
     price: 10000,
-    body: 'Shopify Plus design is for high-volume brands already on Plus, or moving to it. Big Dude Clothing has been live on Shopify Plus since [CONFIRM: month] 2026.',
+    body: 'Shopify Plus design is for high-volume brands already on Plus, or moving to it. Jing Tea runs on a Plus store I designed [CONFIRM].',
     serviceType: 'Shopify Plus website design',
   },
   {
