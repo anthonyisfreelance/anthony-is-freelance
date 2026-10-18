@@ -36,7 +36,7 @@ const groups = [
     <nav aria-label="Main" class="hidden flex-wrap items-center justify-between gap-x-gutter gap-y-3 lg:flex">
       <ul class="flex flex-wrap items-center gap-x-grid gap-y-2">
         {triggers.map((t) => (
-          <li class="flex items-center">
+          <li data-mega-item class="relative flex items-center after:absolute after:inset-x-0 after:top-full after:h-[var(--bridge,0px)] after:content-['']">
             <a href={t.href} data-mega-link={t.id} class="t-button-lg link-hover whitespace-nowrap text-ink data-[active]:underline">{t.label}</a>
             <button
               type="button"
@@ -96,6 +96,7 @@ const groups = [
       panel(openId).hidden = true;
       trigger(openId).setAttribute('aria-expanded', 'false');
       link(openId).removeAttribute('data-active');
+      link(openId).closest('li').style.removeProperty('--bridge');
       openId = null;
       backdrop.hidden = true;
       header.removeAttribute('data-open');
@@ -107,39 +108,35 @@ const groups = [
       panel(id).hidden = false;
       trigger(id).setAttribute('aria-expanded', 'true');
       link(id).setAttribute('data-active', '');
+      // An invisible bridge from the title down to the panel, so moving the pointer
+      // straight down never crosses a gap that would close the menu.
+      var li = link(id).closest('li');
+      var gap = panel(id).getBoundingClientRect().top - li.getBoundingClientRect().bottom;
+      li.style.setProperty('--bridge', Math.max(0, Math.ceil(gap)) + 'px');
       openId = id;
       backdrop.hidden = false;
       header.setAttribute('data-open', '');
     }
 
+    // Hover: a short intent delay before opening (so passing over a title doesn't flash a menu),
+    // then the menu stays open only while the pointer is on a nav title or the open panel.
+    // Anywhere else (the bar, the blue backdrop, the page) closes it after a short grace period.
+    var OPEN_DELAY = 150, CLOSE_DELAY = 200;
+    function later(fn, ms) { clearTimeout(timer); timer = setTimeout(fn, ms); }
+
     triggers.forEach(function (t) {
       var id = t.getAttribute('data-mega-trigger');
       t.addEventListener('click', function () { clearTimeout(timer); openId === id ? close() : open(id); });
-      if (canHover) {
-        link(id).addEventListener('mouseenter', function () {
-          clearTimeout(timer);
-          timer = setTimeout(function () { open(id); }, openId ? 0 : 120);
-        });
-      }
+      if (!canHover) return;
+      var item = t.closest('li');
+      item.addEventListener('mouseenter', function () { later(function () { open(id); }, openId ? 0 : OPEN_DELAY); });
+      item.addEventListener('mouseleave', function () { later(close, CLOSE_DELAY); });
+      panel(id).addEventListener('mouseenter', function () { if (openId === id) clearTimeout(timer); });
+      panel(id).addEventListener('mouseleave', function () { later(close, CLOSE_DELAY); });
     });
 
-    if (canHover) {
-      header.addEventListener('mouseenter', function () { clearTimeout(timer); });
-      header.addEventListener('mouseleave', function () {
-        clearTimeout(timer);
-        timer = setTimeout(close, 250);
-      });
-      // The backdrop sits inside the header, so leaving the panel for it counts as leaving.
-      backdrop.addEventListener('mouseenter', function () {
-        clearTimeout(timer);
-        timer = setTimeout(close, 250);
-      });
-    }
     backdrop.addEventListener('click', close);
-    // Coming back from the backdrop onto the bar or the panel keeps the menu open.
-    header.addEventListener('mouseover', function (e) {
-      if (openId && !backdrop.contains(e.target)) clearTimeout(timer);
-    });
+    window.addEventListener('scroll', function () { if (openId && !header.contains(document.activeElement)) close(); }, { passive: true });
 
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && openId) {
