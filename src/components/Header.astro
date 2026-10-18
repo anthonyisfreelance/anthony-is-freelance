@@ -1,36 +1,39 @@
 ---
 // Mobile: solid bar. Desktop: transparent, sitting over the hero image.
+// The full nav needs ~650px; it only fits in the copy column from 1400px.
+// Below that: Start a project + Menu, so nothing sits over the video.
 import { NAV, URLS } from '../data/site';
 interface Props { overlay?: boolean }
 const { overlay = false } = Astro.props;
+const cta = 't-button shrink-0 whitespace-nowrap bg-white px-[14px] py-[10px] text-[#111] hover:opacity-90';
 ---
 <header class:list={['relative z-20 w-full bg-surface p-margin lg:py-loose', overlay && 'lg:absolute lg:left-0 lg:right-0 lg:bg-transparent']}>
-  <div class="flex items-center justify-between gap-gutter lg:grid lg:grid-cols-2">
+  <div class="flex items-center justify-between gap-gutter min-[1400px]:grid min-[1400px]:grid-cols-2">
     <a href={URLS.home} class="justify-self-start" aria-label="Anthony is Freelance, home">
       <img src="/icons/logo.svg" alt="Anthony is Freelance" width="172" height="44" class="h-[38px] w-auto lg:h-11" />
     </a>
 
-    <nav aria-label="Main" class="hidden items-center justify-between lg:flex">
-      <ul class="flex items-center gap-grid">
+    <nav aria-label="Main" class="hidden items-center justify-between gap-gutter min-[1400px]:flex">
+      <ul class="flex items-center gap-grid whitespace-nowrap">
         {NAV.map((item) => (
           <li><a href={item.href} class="t-button-lg text-ink hover:opacity-70">{item.label}</a></li>
         ))}
       </ul>
-      <a href={URLS.contact} class="t-button inline-flex items-center gap-1 bg-white px-[14px] py-2 text-[#111]">
-        Start a project
-        <img src="/icons/plus-dark.svg" alt="" width="18" height="18" class="size-[18px]" />
-      </a>
+      <a href={URLS.contact} class={cta}>Start a project</a>
     </nav>
 
-    <details class="lg:hidden">
-      <summary class="t-button cursor-pointer text-ink">Menu</summary>
-      <div class="absolute left-0 right-0 top-full z-30 border-t border-line bg-surface px-margin pb-large pt-loose">
-        <ul class="flex flex-col">
-          {NAV.map((item) => (
-            <li class="border-b border-line"><a href={item.href} class="t-button block py-4 text-ink">{item.label}</a></li>
-          ))}
-        </ul>
-      </div>
-    </details>
+    <div class="flex items-center gap-gutter min-[1400px]:hidden">
+      <a href={URLS.contact} class:list={[cta, 'hidden lg:inline-block']}>Start a project</a>
+      <details>
+        <summary class="t-button cursor-pointer text-ink">Menu</summary>
+        <div class="absolute left-0 right-0 top-full z-30 border-t border-line bg-surface px-margin pb-large pt-loose">
+          <ul class="flex flex-col">
+            {NAV.map((item) => (
+              <li class="border-b border-line"><a href={item.href} class="t-button block py-4 text-ink">{item.label}</a></li>
+            ))}
+          </ul>
+        </div>
+      </details>
+    </div>
   </div>
 </header>
