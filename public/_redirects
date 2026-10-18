@@ -1,0 +1,4 @@
+# Permanent redirects. One rule per line: old-path  new-path  301
+# Full map lives in the redirect spreadsheet; rows are added here once decided.
+
+/shopify-expert-uk/  /  301

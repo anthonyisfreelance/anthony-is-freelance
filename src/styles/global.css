@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+/* Design tokens. Placeholders until the Figma variables are pulled in. */
+@theme {
+  --color-ink: #1E2023;
+  --color-paper: #FFFFFF;
+  --color-grey-200: #EBEBEB;
+  --color-grey-100: #F7F7F7;
+  --color-accent: #0000FF; /* Blue: announcements and numbers only. Exact value from Figma. */
+
+  --font-sans: "Mint Grotesk", ui-sans-serif, system-ui, sans-serif;
+}
+
+html {
+  color: var(--color-ink);
+  background: var(--color-paper);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
