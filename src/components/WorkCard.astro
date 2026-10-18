@@ -1,20 +1,21 @@
 ---
 // Full case study card (work page and service page proof sections):
-// image (with the store's UI beside it where we have one), client · sector row, claim, proof line.
+// photo and the store's UI side by side, client · sector row, claim, proof line.
 import { Image } from 'astro:assets';
+import ScreenTile from './ScreenTile.astro';
 import type { CaseStudy } from '../data/work';
 interface Props { study: CaseStudy; eager?: boolean; level?: 2 | 3 }
 const { study: s, eager = false, level = 3 } = Astro.props;
 const H = `h${level}`;
 // Crop to the frame's ratio at build time, so phones don't download the hidden part of a portrait photo.
-const ratio = s.screen ? 5 / 4 : 5 / 8;
+const ratio = 5 / 4;
 const w = s.image ? Math.min(1400, s.image.width, Math.round(s.image.height / ratio)) : 0;
 const widths = [360, 560, 720, 1000, 1400].filter((x) => x < w).concat(w);
-const sizes = s.screen ? '(min-width: 1024px) 24vw, 50vw' : '(min-width: 1024px) 48vw, 100vw';
+const sizes = '(min-width: 1024px) 24vw, 50vw';
 ---
 <article class="hover-card relative flex flex-col" data-services={s.services.join(' ')}>
   <div class="grid grid-cols-2 gap-[2px]">
-    <div class:list={['relative overflow-hidden bg-line', s.screen ? 'aspect-[4/5]' : 'col-span-2 aspect-[8/5]']}>
+    <div class="relative aspect-[4/5] overflow-hidden bg-line">
       {s.image ? (
         <Image src={s.image} alt="" width={w} height={Math.round(w * ratio)} fit="cover" widths={widths} sizes={sizes} quality={75} loading={eager ? 'eager' : 'lazy'} fetchpriority={eager ? 'high' : undefined} class="zoom-img absolute inset-0 size-full object-cover" />
       ) : (
@@ -26,13 +27,11 @@ const sizes = s.screen ? '(min-width: 1024px) 24vw, 50vw' : '(min-width: 1024px)
         </div>
       )}
     </div>
-    {s.screen && (
-      <div class="relative aspect-[4/5] overflow-hidden bg-white" aria-hidden="true">
-        <div class="absolute inset-0 scale-125 blur-[60px]"><Image src={s.screen} alt="" width={200} class="size-full object-cover" /></div>
-        <div class="absolute inset-0 bg-white/20"></div>
-        <div class="absolute bottom-0 left-[17.63%] right-[17.63%] aspect-[216/376] overflow-hidden">
-          <Image src={s.screen} alt="" widths={[220, 440]} sizes="(min-width: 1024px) 15vw, 30vw" class="zoom-img size-full object-cover object-top" />
-        </div>
+    {s.screen ? (
+      <div aria-hidden="true"><ScreenTile screen={s.screen} ratio="portrait" sizes="(min-width: 1024px) 15vw, 30vw" /></div>
+    ) : (
+      <div class="relative aspect-[4/5] bg-line" aria-hidden="true">
+        <span class="t-badge absolute inset-0 grid place-items-center text-muted">[Screen to come]</span>
       </div>
     )}
   </div>

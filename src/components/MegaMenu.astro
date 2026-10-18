@@ -3,6 +3,7 @@
 // shown and hidden by the small script in Header.astro.
 import { Image } from 'astro:assets';
 import CaseStudyCard from './CaseStudyCard.astro';
+import ScreenTile from './ScreenTile.astro';
 import { MEGA } from '../data/site';
 import { STORIES, ARTICLES } from '../data/home';
 import screen from '../assets/home/innovation-screen.png';
@@ -30,16 +31,7 @@ const workCards = [STORIES.featured, ...STORIES.cards.filter((c) => c.href)].sli
           <div class="relative aspect-[4/5] overflow-hidden">
             <Image src={featured.image} alt="" widths={[280, 560]} sizes="280px" class="zoom-img absolute inset-0 size-full object-cover" />
           </div>
-          <div class="relative aspect-[4/5] overflow-hidden bg-white">
-            <div class="absolute inset-0 scale-125 blur-[60px]" aria-hidden="true">
-              <Image src={backdrop} alt="" width={200} class="absolute left-0 top-[-69.62%] h-[172.86%] w-full max-w-none" />
-              <Image src={screen} alt="" width={200} class="absolute inset-0 size-full object-cover" />
-            </div>
-            <div class="absolute inset-0 bg-white/20"></div>
-            <div class="absolute bottom-0 left-[17.63%] right-[17.63%] aspect-[216/376] overflow-hidden">
-              <Image src={screen} alt="" widths={[180, 360]} sizes="180px" class="zoom-img size-full object-cover object-top" />
-            </div>
-          </div>
+          <ScreenTile screen={screen} backdrop={backdrop} ratio="portrait" sizes="180px" />
         </div>
         <p class="t-badge flex gap-2 border-b border-line py-3 text-muted" aria-hidden="true">
           <span class="flex-1">{featured.client}</span><span class="flex-1 text-right">{featured.meta}</span>
