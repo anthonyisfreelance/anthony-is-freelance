@@ -27,7 +27,7 @@ const allMedia = [SHOWCASE.desktop, ...SHOWCASE.phones, ...HIGHLIGHTS.map((h) =>
 const hasVideo = allMedia.some((m) => m.video);
 
 const meta = 'font-display font-medium text-[14px] leading-[1.3] tracking-[0.02em]';
-const link = 'underline decoration-from-font underline-offset-2 hover:opacity-70';
+const link = 'underline underline-offset-4 hover:decoration-2';
 ---
 <Base title={META.title} description={META.description}>
   <Schema slot="head" title={META.title} description={META.description} path={META.path} breadcrumbs={META.breadcrumbs} about={clientId} extra={[client]} />

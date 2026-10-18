@@ -16,10 +16,10 @@ import image from '../../assets/home/services.jpg';
       </div>
       <ul class="flex flex-col gap-loose lg:gap-large">
         {SERVICES.items.map((s) => (
-          <li class="relative flex items-start gap-grid border-t border-line pt-loose lg:pt-large">
+          <li class="hover-card relative flex items-start gap-grid border-t border-line pt-loose lg:pt-large">
             <div class="grid flex-1 grid-cols-1 gap-x-grid gap-y-2 lg:grid-cols-[minmax(0,0.75fr)_minmax(0,1fr)]">
               <h3 class="t-h5 uppercase text-ink">
-                <a href={s.href} class="stretched-link hover:opacity-80">{s.name}</a>
+                <a href={s.href} class="stretched-link link-hover">{s.name}</a>
               </h3>
               <p class="t-body hidden text-muted lg:block">{s.line}</p>
             </div>

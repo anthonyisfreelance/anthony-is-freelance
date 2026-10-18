@@ -1,7 +1,9 @@
 ---
 // Mobile: solid bar. Desktop: transparent over the hero image, solid while a menu is open.
-// Full nav with mega menus from 1024px; it lines up with the copy column from 1400px
-// (as in Figma). Phones get Menu, which opens the same links as an accordion.
+// Desktop is always a 50/50 split as in Figma: logo left, nav in the right half (it wraps when tight).
+// Nav titles are links to their landing pages; hover opens the mega menu, and a small
+// button after each title (shown on keyboard focus) opens it for keyboard users.
+// Phones get Menu, which opens the same links as an accordion.
 import MegaMenu from './MegaMenu.astro';
 import { MEGA, URLS } from '../data/site';
 interface Props { overlay?: boolean }
@@ -9,9 +11,9 @@ const { overlay = false } = Astro.props;
 // Text box trimmed to cap height so the padding above and below the capitals is even (34px tall, as in Figma).
 const cta = 't-button inline-flex h-[34px] shrink-0 items-center whitespace-nowrap bg-white px-[14px] text-[#111] [text-box:trim-both_cap_alphabetic] hover:opacity-90';
 const triggers = [
-  { id: 'mega-services', label: MEGA.services.label },
-  { id: 'mega-work', label: MEGA.work.label },
-  { id: 'mega-articles', label: MEGA.articles.label },
+  { id: 'mega-services', label: MEGA.services.label, href: MEGA.services.viewAll.href },
+  { id: 'mega-work', label: MEGA.work.label, href: MEGA.work.viewAll.href },
+  { id: 'mega-articles', label: MEGA.articles.label, href: MEGA.articles.viewAll.href },
 ];
 const groups = [
   { title: 'Shopify services', links: [MEGA.services.viewAll, ...MEGA.services.columns.flat()] },
@@ -22,26 +24,30 @@ const groups = [
 <header
   data-header
   class:list={[
-    'relative z-20 w-full bg-surface p-margin transition-colors duration-200 lg:py-loose',
+    'relative z-20 w-full bg-surface p-margin transition-colors duration-200 lg:py-[40px]',
     overlay && 'lg:absolute lg:left-0 lg:right-0 lg:bg-transparent lg:data-[open]:bg-surface',
   ]}
 >
-  <div class="flex items-center justify-between gap-gutter min-[1400px]:grid min-[1400px]:grid-cols-2">
+  <div class="flex items-center justify-between gap-gutter lg:grid lg:grid-cols-2">
     <a href={URLS.home} class="justify-self-start" aria-label="Anthony is Freelance, home">
       <img src="/icons/logo.svg" alt="Anthony is Freelance" width="172" height="44" class="h-[38px] w-auto lg:h-11" />
     </a>
 
-    <nav aria-label="Main" class="hidden items-center gap-gutter lg:flex min-[1400px]:justify-between">
-      <ul class="flex items-center gap-grid whitespace-nowrap">
+    <nav aria-label="Main" class="hidden flex-wrap items-center justify-between gap-x-gutter gap-y-3 lg:flex">
+      <ul class="flex flex-wrap items-center gap-x-grid gap-y-2">
         {triggers.map((t) => (
-          <li>
+          <li class="flex items-center">
+            <a href={t.href} data-mega-link={t.id} class="t-button-lg link-hover whitespace-nowrap text-ink data-[active]:underline">{t.label}</a>
             <button
               type="button"
               data-mega-trigger={t.id}
               aria-expanded="false"
               aria-controls={t.id}
-              class="t-button-lg cursor-pointer text-ink underline-offset-4 hover:underline aria-expanded:underline"
-            >{t.label}</button>
+              class="sr-only cursor-pointer focus-visible:not-sr-only focus-visible:ml-2"
+            >
+              <span class="sr-only">Show the {t.label} menu</span>
+              <img src="/icons/plus.svg" alt="" width="14" height="14" class="size-[14px]" />
+            </button>
           </li>
         ))}
       </ul>
@@ -81,12 +87,17 @@ const groups = [
     function panel(id) { return document.getElementById(id); }
     function trigger(id) { return header.querySelector('[data-mega-trigger="' + id + '"]'); }
 
+    function link(id) { return header.querySelector('[data-mega-link="' + id + '"]'); }
+    var backdrop = header.querySelector('[data-mega-backdrop]');
+
     function close() {
       clearTimeout(timer);
       if (!openId) return;
       panel(openId).hidden = true;
       trigger(openId).setAttribute('aria-expanded', 'false');
+      link(openId).removeAttribute('data-active');
       openId = null;
+      backdrop.hidden = true;
       header.removeAttribute('data-open');
     }
     function open(id) {
@@ -95,7 +106,9 @@ const groups = [
       close();
       panel(id).hidden = false;
       trigger(id).setAttribute('aria-expanded', 'true');
+      link(id).setAttribute('data-active', '');
       openId = id;
+      backdrop.hidden = false;
       header.setAttribute('data-open', '');
     }
 
@@ -103,7 +116,7 @@ const groups = [
       var id = t.getAttribute('data-mega-trigger');
       t.addEventListener('click', function () { clearTimeout(timer); openId === id ? close() : open(id); });
       if (canHover) {
-        t.addEventListener('mouseenter', function () {
+        link(id).addEventListener('mouseenter', function () {
           clearTimeout(timer);
           timer = setTimeout(function () { open(id); }, openId ? 0 : 120);
         });
@@ -116,7 +129,17 @@ const groups = [
         clearTimeout(timer);
         timer = setTimeout(close, 250);
       });
+      // The backdrop sits inside the header, so leaving the panel for it counts as leaving.
+      backdrop.addEventListener('mouseenter', function () {
+        clearTimeout(timer);
+        timer = setTimeout(close, 250);
+      });
     }
+    backdrop.addEventListener('click', close);
+    // Coming back from the backdrop onto the bar or the panel keeps the menu open.
+    header.addEventListener('mouseover', function (e) {
+      if (openId && !backdrop.contains(e.target)) clearTimeout(timer);
+    });
 
     document.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && openId) {

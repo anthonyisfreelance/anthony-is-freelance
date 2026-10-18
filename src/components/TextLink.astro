@@ -8,7 +8,7 @@ const { href, external = false, class: className = '' } = Astro.props;
 ---
 <a
   href={href}
-  class:list={['t-button inline-flex items-center gap-1 text-ink hover:opacity-70 transition-opacity', className]}
+  class:list={['t-button inline-flex items-center gap-1 text-ink link-hover', className]}
   {...(external ? { target: '_blank', rel: 'noopener' } : {})}
 >
   <slot />

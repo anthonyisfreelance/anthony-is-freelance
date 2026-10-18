@@ -106,6 +106,7 @@
   --spacing-section: var(--section);
   --spacing-section-sm: var(--section-sm);
   --spacing-pre: var(--section-pre);
+  --spacing-section-pre: var(--section-pre);
 }
 
 /* ------------------------------------------------------------------
@@ -254,6 +255,35 @@
     position: absolute;
     inset: 0;
     z-index: 1;
+  }
+
+  /* Links: no colour change on hover, an underline instead (same as the nav). */
+  .link-hover {
+    text-underline-offset: 4px;
+    text-decoration-thickness: 1px;
+  }
+  .link-hover:hover,
+  .hover-card:hover .link-hover,
+  .link-hover:focus-visible {
+    text-decoration-line: underline;
+  }
+
+  /* Image links: a slow zoom while the card is hovered or focused. */
+  .zoom-img {
+    transition: transform 800ms ease-in-out;
+  }
+  .hover-card:hover .zoom-img,
+  .hover-card:focus-within .zoom-img {
+    transform: scale(1.05);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .zoom-img {
+      transition: none;
+    }
+    .hover-card:hover .zoom-img,
+    .hover-card:focus-within .zoom-img {
+      transform: none;
+    }
   }
 
   details > summary {

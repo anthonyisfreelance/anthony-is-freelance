@@ -39,7 +39,7 @@ const columns = [
                 </summary>
                 <ul class="flex flex-col gap-4 pb-loose lg:pb-0">
                   {col.links.map((l) => (
-                    <li><a href={l.href} class:list={['t-label text-ink hover:opacity-70', 'underline' in l && l.underline && 'underline']}>{l.label}</a></li>
+                    <li><a href={l.href} class:list={['t-label text-ink link-hover', 'underline' in l && l.underline && 'underline hover:decoration-2']}>{l.label}</a></li>
                   ))}
                 </ul>
               </details>

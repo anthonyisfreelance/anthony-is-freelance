@@ -19,7 +19,7 @@ interface Props {
 const { client, meta, claim, image, badge, badgeAlt = '', href, ratio = 'portrait', sizes = '(min-width: 1024px) 31vw, 50vw', stackMeta = false, eager = false } = Astro.props;
 const aspect = { square: 'aspect-square', portrait: 'aspect-[4/5]', 'portrait-square': 'aspect-[4/5] lg:aspect-square' }[ratio];
 ---
-<article class="relative flex flex-col">
+<article class="hover-card relative flex flex-col">
   <div class:list={['relative overflow-hidden bg-line', aspect]}>
     <Image
       src={image}
@@ -27,7 +27,7 @@ const aspect = { square: 'aspect-square', portrait: 'aspect-[4/5]', 'portrait-sq
       widths={[240, 360, 480, 720, 960, 1400]}
       quality={75}
       sizes={sizes}
-      class="absolute inset-0 size-full object-cover"
+      class="zoom-img absolute inset-0 size-full object-cover"
       loading={eager ? 'eager' : 'lazy'}
     />
     {badge && (
@@ -46,7 +46,7 @@ const aspect = { square: 'aspect-square', portrait: 'aspect-[4/5]', 'portrait-sq
     </p>
     <h3 class="t-h6 text-ink">
       {href ? (
-        <a href={href} class="stretched-link hover:opacity-80"><span class="sr-only">{client}. </span>{claim}</a>
+        <a href={href} class="stretched-link link-hover"><span class="sr-only">{client}. </span>{claim}</a>
       ) : (
         <><span class="sr-only">{client}. </span>{claim}</>
       )}

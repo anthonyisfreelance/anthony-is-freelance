@@ -64,7 +64,7 @@ const catalog = {
 
     <div class="px-margin pt-section-sm">
       <div class="relative aspect-[4/3] overflow-hidden lg:aspect-auto lg:h-[419px]">
-        <Image src={HUB_HERO.image} alt="" widths={[480, 960, 1400, 2000]} sizes="100vw" loading="eager" fetchpriority="high" quality={75} class="absolute inset-0 size-full object-cover" />
+        <Image src={HUB_HERO.image} alt="" widths={[480, 960, 1400, 2000]} sizes="100vw" loading="eager" fetchpriority="high" quality={75} class="zoom-img absolute inset-0 size-full object-cover" />
       </div>
     </div>
 
@@ -82,20 +82,20 @@ const catalog = {
     </ul>
 
     <!-- Eight services -->
-    <section class="px-margin pt-large">
+    <section class="px-margin pt-large lg:pt-section-pre">
       <div class="border-t border-line pt-section">
         <SectionIntro eyebrow={SERVICES_GRID.eyebrow} heading={SERVICES_GRID.heading}>
           <p slot="intro">{SERVICES_GRID.intro}</p>
         </SectionIntro>
         <ul class="mt-gutter grid gap-x-grid gap-y-gutter sm:grid-cols-2 lg:grid-cols-4">
           {SERVICES_LIST.map((s) => (
-            <li class="relative flex flex-col gap-loose">
+            <li class="hover-card relative flex flex-col gap-loose">
               <div class="relative aspect-square overflow-hidden bg-line">
-                <Image src={s.image} alt="" widths={[300, 450, 700]} sizes="(min-width: 1024px) 24vw, (min-width: 640px) 48vw, 100vw" quality={75} class="absolute inset-0 size-full object-cover" />
+                <Image src={s.image} alt="" widths={[300, 450, 700]} sizes="(min-width: 1024px) 24vw, (min-width: 640px) 48vw, 100vw" quality={75} class="zoom-img absolute inset-0 size-full object-cover" />
               </div>
               <div class="flex flex-1 flex-col gap-loose">
                 <h3 class="t-h5 flex items-start justify-between gap-2 uppercase text-ink">
-                  <a href={s.href} class="stretched-link hover:opacity-80">{s.name}</a>
+                  <a href={s.href} class="stretched-link link-hover">{s.name}</a>
                   <img src="/icons/arrow-up-right.svg" alt="" width="18" height="18" class="mt-[2px] size-[18px] shrink-0" loading="lazy" />
                 </h3>
                 <p class="t-body flex-1 text-muted">{s.body}</p>
@@ -121,7 +121,7 @@ const catalog = {
               <div class="grid flex-1 gap-x-grid gap-y-3 sm:grid-cols-[minmax(0,0.75fr)_minmax(0,1fr)]">
                 <h3 class="t-h5 uppercase text-ink">“{it.quote}”</h3>
                 <p class="t-body text-muted">
-                  {it.body.map((part) => part.href ? <a href={part.href} class="text-ink underline underline-offset-2 hover:opacity-80">{part.text}</a> : part.text)}
+                  {it.body.map((part) => part.href ? <a href={part.href} class="text-ink underline underline-offset-4 hover:decoration-2">{part.text}</a> : part.text)}
                 </p>
               </div>
               <a href={it.href} aria-label={`Go to the service for: ${it.quote}`} class="shrink-0 hover:opacity-70">

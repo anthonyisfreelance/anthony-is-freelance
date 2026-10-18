@@ -8,7 +8,7 @@ import { STORIES, ARTICLES } from '../data/home';
 import screen from '../assets/home/innovation-screen.png';
 import backdrop from '../assets/home/innovation-bg.jpg';
 
-const link = 't-button-lg text-ink hover:opacity-70';
+const link = 't-button-lg text-ink link-hover';
 const featured = STORIES.featured;
 const workCards = [STORIES.featured, ...STORIES.cards.filter((c) => c.href)].slice(0, 3);
 ---
@@ -25,10 +25,10 @@ const workCards = [STORIES.featured, ...STORIES.cards.filter((c) => c.href)].sli
           {col.map((l) => <li><a href={l.href} class={link}>{l.label}</a></li>)}
         </ul>
       ))}
-      <article class="relative flex w-[555px] max-w-[40%] flex-col">
+      <article class="hover-card relative flex w-[555px] max-w-[40%] flex-col">
         <div class="grid grid-cols-2 gap-[2px]">
-          <div class="relative aspect-[4/5]">
-            <Image src={featured.image} alt="" widths={[280, 560]} sizes="280px" class="absolute inset-0 size-full object-cover" />
+          <div class="relative aspect-[4/5] overflow-hidden">
+            <Image src={featured.image} alt="" widths={[280, 560]} sizes="280px" class="zoom-img absolute inset-0 size-full object-cover" />
           </div>
           <div class="relative aspect-[4/5] overflow-hidden bg-white">
             <div class="absolute inset-0 scale-125 blur-[60px]" aria-hidden="true">
@@ -37,7 +37,7 @@ const workCards = [STORIES.featured, ...STORIES.cards.filter((c) => c.href)].sli
             </div>
             <div class="absolute inset-0 bg-white/20"></div>
             <div class="absolute bottom-0 left-[17.63%] right-[17.63%] aspect-[216/376] overflow-hidden">
-              <Image src={screen} alt="" widths={[180, 360]} sizes="180px" class="size-full object-cover object-top" />
+              <Image src={screen} alt="" widths={[180, 360]} sizes="180px" class="zoom-img size-full object-cover object-top" />
             </div>
           </div>
         </div>
@@ -45,7 +45,7 @@ const workCards = [STORIES.featured, ...STORIES.cards.filter((c) => c.href)].sli
           <span class="flex-1">{featured.client}</span><span class="flex-1 text-right">{featured.meta}</span>
         </p>
         <p class="t-h6 mt-3 text-ink">
-          <a href={featured.href} class="stretched-link hover:opacity-80"><span class="sr-only">{featured.client}. </span>{featured.claim}</a>
+          <a href={featured.href} class="stretched-link link-hover"><span class="sr-only">{featured.client}. </span>{featured.claim}</a>
         </p>
       </article>
     </div>
@@ -75,10 +75,10 @@ const workCards = [STORIES.featured, ...STORIES.cards.filter((c) => c.href)].sli
   <div id="mega-articles" data-mega-panel hidden class="border-b border-line bg-surface px-margin pb-large pt-4">
     <div class="grid grid-cols-4 gap-gutter">
       {ARTICLES.items.slice(0, 3).map((a) => (
-        <article class="relative flex flex-col">
+        <article class="hover-card relative flex flex-col">
           <div class="aspect-square bg-line" aria-hidden="true"></div>
           <p class="t-badge border-b border-line py-3 text-muted">{a.category}</p>
-          <p class="t-h6 mt-3 text-ink"><a href={a.href} class="stretched-link hover:opacity-80">{a.title}</a></p>
+          <p class="t-h6 mt-3 text-ink"><a href={a.href} class="stretched-link link-hover">{a.title}</a></p>
         </article>
       ))}
       <div class="flex flex-col gap-gutter">
@@ -95,4 +95,7 @@ const workCards = [STORIES.featured, ...STORIES.cards.filter((c) => c.href)].sli
       </div>
     </div>
   </div>
+
+  <!-- Blue wash over the page below an open menu (#0059FF at 60%). Click or move onto it to close. -->
+  <div data-mega-backdrop hidden aria-hidden="true" class="h-screen bg-blue/60"></div>
 </div>
