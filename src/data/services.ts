@@ -110,6 +110,17 @@ export const SERVICES_LIST = [
     body: 'Theme customisations are for brands that need to move quickly, or want to see how far a premium theme goes before going bespoke. Thameen London, a luxury fragrance house stocked in Harrods, runs on one.',
     serviceType: 'Shopify theme customisation',
   },
+  {
+    // Built into every project, never sold or priced on its own (brief, 11 October 2026).
+    name: 'AI search visibility',
+    slug: 'ai-search-visibility',
+    href: URLS.aiSearch,
+    image: undefined,
+    price: undefined,
+    priceNote: 'Included with design projects',
+    body: 'AI search visibility is built into every store I design, bespoke or theme, so AI assistants like ChatGPT can find, read and recommend it.',
+    serviceType: 'Shopify AI search visibility design',
+  },
 ];
 
 export const formatPrice = (n: number) => `From £${n.toLocaleString('en-GB')} + VAT`;
