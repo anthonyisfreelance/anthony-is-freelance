@@ -1,19 +1,263 @@
 @import "tailwindcss";
 
-/* Design tokens. Placeholders until the Figma variables are pulled in. */
-@theme {
-  --color-ink: #1E2023;
-  --color-paper: #FFFFFF;
-  --color-grey-200: #EBEBEB;
-  --color-grey-100: #F7F7F7;
-  --color-accent: #0000FF; /* Blue: announcements and numbers only. Exact value from Figma. */
-
-  --font-sans: "Mint Grotesk", ui-sans-serif, system-ui, sans-serif;
+/* ------------------------------------------------------------------
+   Fonts
+   Mint Grotesk Display Narrow Medium is the design font. Until the
+   licensed web files arrive, a free stand-in loads under the same
+   family name so nothing else changes when the real files drop in.
+   ------------------------------------------------------------------ */
+@font-face {
+  font-family: "Mint Grotesk Display";
+  src: url("/fonts/stand-in-display-500.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
 }
 
-html {
-  color: var(--color-ink);
-  background: var(--color-paper);
-  font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
+@font-face {
+  font-family: "Source Serif Pro";
+  src: url("/fonts/source-serif-pro-400.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ------------------------------------------------------------------
+   Tokens, mirroring the Figma variables.
+   Mobile values first, desktop values from 1024px.
+   ------------------------------------------------------------------ */
+:root {
+  --page-margin: 16px;
+  --page-gutter: 16px;
+  --stack-default: 8px;
+  --stack-loose: 16px;
+  --stack-large: 24px;
+  --grid-loose: 16px;
+  --grid-large: 24px;
+  --section: 48px;
+  --section-sm: 40px;
+
+  --type-h1: 40px;
+  --type-h2: 28px;
+  --type-h5: 18px;
+  --type-h6: 16px;
+  --type-body: 16px;
+  --type-small: 14px;
+  --type-label: 14px;
+  --type-button-lg: 16px;
+  --type-button-sm: 14px;
+  --type-number: 64px;
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --page-margin: 24px;
+    --page-gutter: 40px;
+    --stack-loose: 24px;
+    --stack-large: 40px;
+    --grid-loose: 24px;
+    --grid-large: 40px;
+    --section: 80px;
+    --section-sm: 64px;
+
+    --type-h1: 64px;
+    --type-h2: 38px;
+    --type-h5: 22px;
+    --type-h6: 18px;
+    --type-number: 80px;
+  }
+}
+
+/* Colour modes. Dark is the default (sales pages); light for forms and info pages. */
+:root,
+.theme-dark {
+  --c-surface: #111111;
+  --c-text: #ffffff;
+  --c-muted: #c9c9c9;
+  --c-border: #393939;
+}
+
+.theme-light {
+  --c-surface: #ffffff;
+  --c-text: #111111;
+  --c-muted: #393939;
+  --c-border: #d8d8d8;
+}
+
+@theme inline {
+  --color-surface: var(--c-surface);
+  --color-ink: var(--c-text);
+  --color-muted: var(--c-muted);
+  --color-line: var(--c-border);
+  --color-blue: #0059ff;
+
+  --font-display: "Mint Grotesk Display", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "Source Serif Pro", Georgia, serif;
+
+  --spacing-margin: var(--page-margin);
+  --spacing-gutter: var(--page-gutter);
+  --spacing-stack: var(--stack-default);
+  --spacing-loose: var(--stack-loose);
+  --spacing-large: var(--stack-large);
+  --spacing-grid: var(--grid-loose);
+  --spacing-grid-lg: var(--grid-large);
+  --spacing-section: var(--section);
+  --spacing-section-sm: var(--section-sm);
+}
+
+/* ------------------------------------------------------------------
+   Type styles, named after the Figma text styles.
+   ------------------------------------------------------------------ */
+@utility t-h1 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--type-h1);
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+@utility t-h2 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--type-h2);
+  line-height: 1.1;
+  text-transform: uppercase;
+}
+
+@utility t-h5 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--type-h5);
+  line-height: 1.3;
+}
+
+@utility t-h6 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--type-h5);
+  line-height: 1.4;
+}
+
+@utility t-h7 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--type-h6);
+  line-height: 1.4;
+}
+
+@utility t-number {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--type-number);
+  line-height: 1;
+  color: var(--color-blue);
+}
+
+@utility t-body {
+  font-family: var(--font-serif);
+  font-size: var(--type-body);
+  line-height: 1.5;
+}
+
+@utility t-small {
+  font-family: var(--font-serif);
+  font-size: var(--type-small);
+  line-height: 1.5;
+}
+
+@utility t-label {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--type-label);
+  line-height: 1.3;
+}
+
+@utility t-badge {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--type-label);
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+@utility t-button {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--type-button-sm);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+@utility t-button-lg {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: var(--type-button-lg);
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+/* ------------------------------------------------------------------
+   Base
+   ------------------------------------------------------------------ */
+@layer base {
+  html {
+    background: var(--c-surface);
+    color: var(--c-text);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  body {
+    font-family: var(--font-serif);
+  }
+
+  .theme-light,
+  .theme-dark {
+    background: var(--c-surface);
+    color: var(--c-text);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-blue);
+    outline-offset: 3px;
+  }
+}
+
+/* Eyebrow: lives inside its heading as the first span.
+   Sentence case, full stop kept for screen readers but hidden. */
+@layer components {
+  .eyebrow {
+    display: block;
+    margin-bottom: var(--stack-loose);
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: var(--type-label);
+    line-height: 1.3;
+    text-transform: none;
+    color: var(--c-muted);
+  }
+
+  .eyebrow[data-deco]::before {
+    content: "+ ";
+  }
+
+  .eyebrow[data-deco]::after {
+    content: " +";
+  }
+
+  /* Stretch a card's single link over the whole card. */
+  .stretched-link::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+  }
+
+  details > summary {
+    list-style: none;
+  }
+
+  details > summary::-webkit-details-marker {
+    display: none;
+  }
 }

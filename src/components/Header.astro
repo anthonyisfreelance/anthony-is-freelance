@@ -1,0 +1,37 @@
+---
+// Transparent header that sits over the hero image. Mega menus come next.
+import { NAV, URLS } from '../data/site';
+interface Props { overlay?: boolean }
+const { overlay = false } = Astro.props;
+---
+<header class:list={['z-20 w-full px-margin py-loose', overlay ? 'absolute left-0 right-0' : 'relative']}>
+  <div class="grid grid-cols-[auto_1fr] items-center gap-gutter lg:grid-cols-2">
+    <a href={URLS.home} class="justify-self-start" aria-label="Anthony is Freelance, home">
+      <img src="/icons/logo.svg" alt="Anthony is Freelance" width="173" height="44" class="h-11 w-auto" />
+    </a>
+
+    <nav aria-label="Main" class="hidden items-center justify-between lg:flex">
+      <ul class="flex items-center gap-grid">
+        {NAV.map((item) => (
+          <li><a href={item.href} class="t-button-lg text-ink hover:opacity-70">{item.label}</a></li>
+        ))}
+      </ul>
+      <a href={URLS.contact} class="t-button inline-flex items-center gap-1 bg-white px-[14px] py-2 text-[#111]">
+        Start a project
+        <img src="/icons/plus-dark.svg" alt="" width="18" height="18" class="size-[18px]" />
+      </a>
+    </nav>
+
+    <details class="group justify-self-end lg:hidden">
+      <summary class="t-button-lg cursor-pointer text-ink">Menu</summary>
+      <div class="absolute left-0 right-0 top-full z-30 bg-surface px-margin pb-large pt-loose">
+        <ul class="flex flex-col gap-loose">
+          {NAV.map((item) => (
+            <li><a href={item.href} class="t-button-lg text-ink">{item.label}</a></li>
+          ))}
+          <li><a href={URLS.contact} class="t-button-lg text-ink">Start a project</a></li>
+        </ul>
+      </div>
+    </details>
+  </div>
+</header>

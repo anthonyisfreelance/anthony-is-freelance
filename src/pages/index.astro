@@ -1,12 +1,32 @@
 ---
 import Base from '../layouts/Base.astro';
+import Schema from '../components/Schema.astro';
+import Hero from '../components/home/Hero.astro';
+import Brands from '../components/home/Brands.astro';
+import Services from '../components/home/Services.astro';
+import About from '../components/home/About.astro';
+import Process from '../components/home/Process.astro';
+import Innovations from '../components/home/Innovations.astro';
+import Results from '../components/home/Results.astro';
+import Testimonials from '../components/home/Testimonials.astro';
+import Articles from '../components/home/Articles.astro';
+import Faqs from '../components/home/Faqs.astro';
+import Contact from '../components/home/Contact.astro';
+import { META, FAQS } from '../data/home';
 ---
-<Base title="Anthony is Freelance" description="New site in progress.">
-  <main class="min-h-svh grid place-items-center p-6 bg-grey-100">
-    <div class="max-w-xl">
-      <p class="uppercase tracking-wide text-sm">Anthony is Freelance</p>
-      <h1 class="mt-4 text-4xl uppercase">New site in progress</h1>
-      <p class="mt-4">Foundations only. The homepage build starts from the Figma designs.</p>
-    </div>
+<Base title={META.title} description={META.description}>
+  <Schema slot="head" title={META.title} description={META.description} path="/" faqs={FAQS.items} isHome />
+  <main id="main">
+    <Hero />
+    <Brands />
+    <Services />
+    <About />
+    <Process />
+    <Innovations />
+    <Results />
+    <Testimonials />
+    <Articles />
+    <Faqs />
+    <Contact />
   </main>
 </Base>

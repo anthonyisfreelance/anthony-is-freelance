@@ -1,0 +1,27 @@
+---
+import { Image } from 'astro:assets';
+import SectionIntro from '../SectionIntro.astro';
+import { RESULTS } from '../../data/home';
+import image from '../../assets/home/results.jpg';
+---
+<section class="pt-section-sm">
+  <div class="grid items-center gap-gutter pl-margin lg:grid-cols-2">
+    <div class="flex flex-col gap-large pr-margin lg:pr-0">
+      <SectionIntro eyebrow={RESULTS.eyebrow} heading={RESULTS.heading} split={false}>
+        <p slot="intro">{RESULTS.intro}</p>
+      </SectionIntro>
+      <dl class="grid grid-cols-2 gap-large">
+        {RESULTS.items.map((r) => (
+          <div class="flex flex-col gap-4">
+            <dd class="t-number order-1">{r.number}</dd>
+            <dt class="t-h7 order-2 text-ink">{r.label}</dt>
+            <dd class="t-label order-3 border-t border-line pt-2 tracking-[0.02em] text-muted">{r.caption}</dd>
+          </div>
+        ))}
+      </dl>
+    </div>
+    <div class="relative aspect-[4/5]">
+      <Image src={image} alt="" widths={[480, 720, 1000, 1400]} sizes="(min-width: 1024px) 50vw, 100vw" class="absolute inset-0 size-full object-cover" />
+    </div>
+  </div>
+</section>

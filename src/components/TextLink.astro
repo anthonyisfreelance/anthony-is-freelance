@@ -1,0 +1,16 @@
+---
+interface Props {
+  href: string;
+  external?: boolean;
+  class?: string;
+}
+const { href, external = false, class: className = '' } = Astro.props;
+---
+<a
+  href={href}
+  class:list={['t-button inline-flex items-center gap-1 text-ink hover:opacity-70 transition-opacity', className]}
+  {...(external ? { target: '_blank', rel: 'noopener' } : {})}
+>
+  <slot />
+  <img src="/icons/arrow-up-right.svg" alt="" width="18" height="18" class="size-[18px]" />
+</a>

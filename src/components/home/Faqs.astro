@@ -1,0 +1,25 @@
+---
+import Heading from '../Heading.astro';
+import { FAQS } from '../../data/home';
+---
+<section class="px-margin pb-section pt-section">
+  <div class="grid gap-gutter border-t border-line pt-section lg:grid-cols-2">
+    <div class="lg:sticky lg:top-loose lg:self-start">
+      <Heading eyebrow={FAQS.eyebrow}>{FAQS.heading}</Heading>
+    </div>
+    <div class="flex flex-col gap-loose">
+      {FAQS.items.map((f, i) => (
+        <details class:list={['group', i > 0 && 'border-t border-line pt-loose']} open={i === 0}>
+          <summary class="flex cursor-pointer items-center gap-4">
+            <h3 class="t-h7 flex-1 text-ink">{f.q}</h3>
+            <img src="/icons/plus.svg" alt="" width="18" height="18" class="size-[18px] group-open:hidden" />
+            <img src="/icons/minus.svg" alt="" width="18" height="18" class="hidden size-[18px] group-open:block" />
+          </summary>
+          <div class="t-body mt-3 flex flex-col gap-3 text-muted">
+            {f.a.map((p) => <p>{p}</p>)}
+          </div>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

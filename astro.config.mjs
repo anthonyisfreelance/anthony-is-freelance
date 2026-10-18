@@ -6,6 +6,6 @@ export default defineConfig({
   site: 'https://anthonyis.uk',
   // Match WordPress: every page URL ends in a slash.
   trailingSlash: 'always',
-  build: { format: 'directory' },
+  build: { format: 'directory', inlineStylesheets: 'always' },
   vite: { plugins: [tailwindcss()] },
 });

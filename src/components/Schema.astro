@@ -1,0 +1,73 @@
+---
+// Builds one @graph per page from the shared entity data. Pages pass their own bits.
+import { ENTITY, SITE } from '../data/site';
+
+interface Props {
+  type?: 'WebPage' | 'CollectionPage' | 'AboutPage' | 'ContactPage';
+  title: string;
+  description: string;
+  path: string;
+  faqs?: { q: string; a: string[] }[];
+  isHome?: boolean;
+}
+const { type = 'WebPage', title, description, path, faqs, isHome = false } = Astro.props;
+const url = new URL(path, SITE).href;
+const b = ENTITY.business;
+
+const person = {
+  '@type': 'Person',
+  '@id': ENTITY.person.id,
+  name: ENTITY.person.name,
+  jobTitle: ENTITY.person.jobTitle,
+  url: SITE + '/',
+  worksFor: { '@id': b.id },
+  sameAs: ENTITY.sameAs,
+};
+
+const business = {
+  '@type': 'ProfessionalService',
+  '@id': b.id,
+  name: b.name,
+  legalName: b.legalName,
+  url: SITE + '/',
+  telephone: b.telephone,
+  email: b.email,
+  founder: { '@id': ENTITY.person.id },
+  address: { '@type': 'PostalAddress', addressLocality: b.locality, addressRegion: b.region, addressCountry: b.country },
+  areaServed: { '@type': 'Country', name: 'United Kingdom' },
+  identifier: { '@type': 'PropertyValue', propertyID: 'Companies House', value: b.companyNumber },
+  sameAs: ENTITY.sameAs,
+};
+
+const graph: Record<string, unknown>[] = [
+  { '@type': 'WebSite', '@id': ENTITY.website.id, url: SITE + '/', name: ENTITY.website.name, publisher: { '@id': b.id }, inLanguage: 'en-GB' },
+  {
+    '@type': type,
+    '@id': `${url}#webpage`,
+    url,
+    name: title,
+    description,
+    isPartOf: { '@id': ENTITY.website.id },
+    about: { '@id': isHome ? ENTITY.person.id : b.id },
+    inLanguage: 'en-GB',
+  },
+];
+
+// Full entity definitions live on the homepage; other pages reference them by @id.
+if (isHome) graph.push(person, business);
+
+if (faqs?.length) {
+  graph.push({
+    '@type': 'FAQPage',
+    '@id': `${url}#faq`,
+    mainEntity: faqs.map((f) => ({
+      '@type': 'Question',
+      name: f.q,
+      acceptedAnswer: { '@type': 'Answer', text: f.a.join(' ') },
+    })),
+  });
+}
+
+const json = JSON.stringify({ '@context': 'https://schema.org', '@graph': graph });
+---
+<script type="application/ld+json" set:html={json} />

@@ -1,0 +1,51 @@
+---
+// Compact case study card, the same on every page.
+// The H3 reads "Client. Claim"; the client label is drawn visually in the top row.
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+interface Props {
+  client: string;
+  meta: string;
+  claim: string;
+  image: ImageMetadata;
+  badge?: ImageMetadata;
+  badgeAlt?: string;
+  href?: string;
+  ratio?: 'square' | 'portrait';
+  sizes?: string;
+  large?: boolean;
+  eager?: boolean;
+}
+const { client, meta, claim, image, badge, badgeAlt = '', href, ratio = 'portrait', sizes = '(min-width: 1024px) 31vw, 100vw', large = false, eager = false } = Astro.props;
+---
+<article class="relative flex flex-col">
+  <div class:list={['relative overflow-hidden bg-line', ratio === 'square' ? 'aspect-square' : 'aspect-[4/5]']}>
+    <Image
+      src={image}
+      alt=""
+      widths={[480, 720, 960, 1400]}
+      sizes={sizes}
+      class="absolute inset-0 size-full object-cover"
+      loading={eager ? 'eager' : 'lazy'}
+    />
+    {badge && (
+      <div class="absolute left-0 top-0 h-20 bg-surface p-3">
+        <Image src={badge} alt={badgeAlt} height={56} class="h-full w-auto" />
+      </div>
+    )}
+  </div>
+  <div class="flex flex-col gap-3">
+    <p class="t-badge flex gap-2 border-b border-line py-3 text-muted" aria-hidden="true">
+      <span class="flex-1">{client}</span>
+      <span class="flex-1 text-right">{meta}</span>
+    </p>
+    <h3 class:list={['t-h6 text-ink', large ? '' : '']}>
+      {href ? (
+        <a href={href} class="stretched-link hover:opacity-80"><span class="sr-only">{client}. </span>{claim}</a>
+      ) : (
+        <><span class="sr-only">{client}. </span>{claim}</>
+      )}
+    </h3>
+    <p class="sr-only">{meta}</p>
+  </div>
+</article>

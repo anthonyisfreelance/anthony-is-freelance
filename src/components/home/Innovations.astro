@@ -1,0 +1,32 @@
+---
+import { Image } from 'astro:assets';
+import SectionIntro from '../SectionIntro.astro';
+import TextLink from '../TextLink.astro';
+import { INNOVATIONS } from '../../data/home';
+---
+<section class="px-margin pt-section">
+  <div class="border-t border-line pt-section">
+    <SectionIntro eyebrow={INNOVATIONS.eyebrow} heading={INNOVATIONS.heading}>
+      <p slot="intro">{INNOVATIONS.intro}</p>
+      <TextLink slot="links" href={INNOVATIONS.link.href}>{INNOVATIONS.link.label}</TextLink>
+    </SectionIntro>
+    <ul class="mt-large grid gap-x-grid gap-y-large sm:grid-cols-2 lg:grid-cols-4">
+      {INNOVATIONS.items.map((item) => (
+        <li class="flex flex-col">
+          <div class="relative aspect-square overflow-hidden bg-white">
+            <!-- Blurred copy of the screen as the backdrop, then the screen itself -->
+            <Image src={item.image} alt="" width={200} class="absolute inset-0 size-full scale-125 object-cover blur-[60px]" aria-hidden="true" />
+            <div class="absolute inset-0 bg-white/20"></div>
+            <div class="absolute bottom-0 left-[24.5%] right-[24.5%] aspect-[216/376] overflow-hidden">
+              <Image src={item.image} alt="" widths={[220, 440]} sizes="(min-width: 1024px) 12vw, 50vw" class="size-full object-cover object-top" />
+            </div>
+          </div>
+          <div class="flex flex-col gap-3 pt-grid">
+            <h3 class="t-h6 text-ink"><span class="sr-only">{item.client}. </span>{item.title}</h3>
+            <p class="t-body text-muted">{item.body}</p>
+          </div>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

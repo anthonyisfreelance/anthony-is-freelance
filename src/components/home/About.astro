@@ -1,0 +1,21 @@
+---
+import { Image } from 'astro:assets';
+import Heading from '../Heading.astro';
+import TextLink from '../TextLink.astro';
+import { ABOUT } from '../../data/home';
+import image from '../../assets/home/anthony.jpg';
+---
+<section class="px-margin pt-section-sm">
+  <div class="grid gap-gutter lg:grid-cols-2">
+    <div class="relative aspect-[4/5]">
+      <Image src={image} alt={ABOUT.imageAlt} widths={[480, 720, 1000, 1400]} sizes="(min-width: 1024px) 48vw, 100vw" class="absolute inset-0 size-full object-cover" />
+    </div>
+    <div class="flex flex-col justify-end gap-loose">
+      <Heading eyebrow={ABOUT.eyebrow} deco={false}>{ABOUT.heading}</Heading>
+      <div class="t-body flex flex-col gap-[10px] text-muted">
+        {ABOUT.paragraphs.map((p) => <p>{p}</p>)}
+      </div>
+      <div><TextLink href={ABOUT.link.href}>{ABOUT.link.label}</TextLink></div>
+    </div>
+  </div>
+</section>

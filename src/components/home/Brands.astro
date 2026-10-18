@@ -1,0 +1,15 @@
+---
+import Heading from '../Heading.astro';
+import { BRANDS } from '../../data/home';
+---
+<section class="px-margin pt-section-sm">
+  <div class="gap-gutter border-t border-line pt-section-sm lg:flex">
+    <div class="flex-1"><Heading eyebrow={BRANDS.eyebrow}>{BRANDS.heading}</Heading></div>
+    <!-- Logo files to come: names stand in for now -->
+    <ul class="mt-large grid flex-1 grid-cols-2 gap-grid sm:grid-cols-5 lg:mt-0">
+      {BRANDS.logos.map((name) => (
+        <li class="t-badge flex h-[100px] items-center justify-center border border-dashed border-line text-center text-muted">{name}</li>
+      ))}
+    </ul>
+  </div>
+</section>

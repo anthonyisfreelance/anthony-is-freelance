@@ -1,0 +1,19 @@
+---
+// One heading element per section. The eyebrow sits inside it as the first span,
+// with its full stop kept for screen readers and hidden on screen.
+interface Props {
+  level?: 1 | 2 | 3;
+  eyebrow?: string;
+  deco?: boolean;
+  class?: string;
+}
+const { level = 2, eyebrow, deco = true, class: className = '' } = Astro.props;
+const Tag = `h${level}` as 'h1' | 'h2' | 'h3';
+const size = level === 1 ? 't-h1' : 't-h2';
+---
+<Tag class:list={[size, 'text-ink', className]}>
+  {eyebrow && (
+    <span class="eyebrow" data-deco={deco ? '' : undefined}>{eyebrow}<span class="sr-only">.</span></span>
+  )}
+  <slot />
+</Tag>

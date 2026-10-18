@@ -1,0 +1,54 @@
+---
+import { FOOTER_COLUMNS, SOCIAL, URLS, ENTITY } from '../data/site';
+const year = new Date().getFullYear();
+---
+<footer class="pt-section-sm">
+  <div class="flex flex-col items-center gap-[80px] bg-surface pb-large pt-[80px]">
+    <img src="/icons/wordmark.svg" alt="Anthony Bliss, Anthony is Freelance" width="1392" height="94" class="h-auto w-[calc(100%-2*var(--page-margin))]" loading="lazy" />
+
+    <div class="flex w-full flex-col gap-large">
+      <div class="px-margin">
+        <div class="grid grid-cols-2 gap-x-grid gap-y-large border-b border-line pb-[80px] lg:flex lg:justify-between">
+          <div class="col-span-2 flex flex-col gap-loose lg:w-[197px]">
+            <p class="t-label flex items-center gap-2 tracking-[0.02em] text-ink">
+              <img src="/icons/google-g.png" alt="Google" width="25" height="25" class="size-[25px]" loading="lazy" />
+              <span>★★★★★ 5/5</span>
+            </p>
+            <p class="t-label tracking-[0.02em] text-ink">2× winner, UK eCommerce Awards 2026</p>
+          </div>
+          {FOOTER_COLUMNS.map((col) => (
+            <nav aria-label={col.title} class="flex flex-col gap-loose lg:w-[198px]">
+              <p class="t-badge text-muted">{col.title}</p>
+              <ul class="flex flex-col gap-4">
+                {col.links.map((l) => <li><a href={l.href} class="t-label text-ink hover:opacity-70">{l.label}</a></li>)}
+              </ul>
+            </nav>
+          ))}
+          <nav aria-label="Get in touch" class="flex flex-col gap-loose lg:w-[198px]">
+            <p class="t-badge text-muted">Get in touch</p>
+            <ul class="t-label flex flex-col gap-4 text-ink">
+              <li><a href={URLS.about} class="hover:opacity-70">About</a></li>
+              <li><a href={URLS.contact} class="hover:opacity-70">Contact</a></li>
+              <li><a href={`tel:${ENTITY.business.telephoneDisplay}`} class="underline">{ENTITY.business.telephoneDisplay}</a></li>
+              <li><a href={`mailto:${ENTITY.business.email}`} class="underline">{ENTITY.business.email}</a></li>
+            </ul>
+          </nav>
+        </div>
+      </div>
+
+      <div class="flex flex-col items-center gap-large px-margin">
+        <ul class="flex items-center gap-4">
+          {SOCIAL.map((s) => (
+            <li><a href={s.href} aria-label={s.label}><img src={s.icon} alt="" width="24" height="24" class="size-6" loading="lazy" /></a></li>
+          ))}
+        </ul>
+        <p class="t-label flex flex-col items-center gap-2 text-center tracking-[0.02em] text-muted lg:flex-row lg:gap-10">
+          <span>© {year} Anthony is Freelance</span>
+          <span>Registered in England &amp; Wales No. {ENTITY.business.companyNumber}</span>
+          <span>VAT number 530 0230 61</span>
+          <span>Based in Falmouth, Cornwall, UK.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</footer>

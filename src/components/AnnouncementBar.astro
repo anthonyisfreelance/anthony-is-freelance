@@ -1,0 +1,20 @@
+---
+import { ANNOUNCEMENT } from '../data/site';
+---
+<div id="announcement" class="relative flex items-center gap-margin bg-blue px-margin py-3 text-white">
+  <a href={ANNOUNCEMENT.href} class="t-label flex-1 text-center hover:underline">{ANNOUNCEMENT.text} →</a>
+  <button type="button" class="shrink-0" aria-label="Close announcement" data-close-announcement>
+    <img src="/icons/close.svg" alt="" width="18" height="18" class="size-[18px]" />
+  </button>
+</div>
+<script is:inline>
+  (function () {
+    var bar = document.getElementById('announcement');
+    try { if (sessionStorage.getItem('announcement-closed') === '1') bar.remove(); } catch (e) {}
+    var btn = bar && bar.querySelector('[data-close-announcement]');
+    if (btn) btn.addEventListener('click', function () {
+      bar.remove();
+      try { sessionStorage.setItem('announcement-closed', '1'); } catch (e) {}
+    });
+  })();
+</script>

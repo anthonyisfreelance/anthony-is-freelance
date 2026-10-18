@@ -1,0 +1,40 @@
+---
+import Heading from '../Heading.astro';
+import { CONTACT } from '../../data/home';
+const field = 't-label h-[42px] w-full border border-line bg-surface px-3 tracking-[0.02em] text-ink placeholder:text-muted';
+const label = 't-label tracking-[0.02em] text-ink';
+---
+<section id="start-a-project" class="theme-light px-margin py-section-sm">
+  <div class="flex flex-col gap-large lg:flex-row lg:gap-[160px]">
+    <div class="lg:w-[437px] lg:shrink-0">
+      <Heading eyebrow={CONTACT.eyebrow}>{CONTACT.heading}</Heading>
+    </div>
+    <div class="flex flex-1 flex-col gap-loose">
+      <!-- [CONFIRM] form handling: a small Cloudflare function that emails the enquiry -->
+      <form method="post" class="flex flex-col gap-large">
+        <div class="grid gap-4 sm:grid-cols-3">
+          <label class="flex flex-col gap-2"><span class={label}>Name</span><input class={field} type="text" name="name" autocomplete="name" required /></label>
+          <label class="flex flex-col gap-2"><span class={label}>Email</span><input class={field} type="email" name="email" autocomplete="email" required /></label>
+          <label class="flex flex-col gap-2"><span class={label}>Your website</span><input class={field} type="url" name="website" placeholder="Yourstore.com" inputmode="url" /></label>
+        </div>
+        <fieldset class="flex flex-col gap-2">
+          <legend class={`${label} mb-2`}>Budget</legend>
+          <div class="grid gap-x-4 gap-y-2 sm:grid-cols-3">
+            {CONTACT.budgets.map((b) => (
+              <label class="t-label flex cursor-pointer items-center gap-2 border border-line p-3 tracking-[0.02em] text-muted has-[:checked]:border-ink has-[:checked]:text-ink">
+                <input type="radio" name="budget" value={b} class="size-[14px] shrink-0 appearance-none rounded-full border border-ink checked:bg-[radial-gradient(circle,var(--c-text)_45%,transparent_50%)]" />
+                {b}
+              </label>
+            ))}
+          </div>
+        </fieldset>
+        <label class="flex flex-col gap-2">
+          <span class={label}>Message (optional)</span>
+          <textarea name="message" rows="7" placeholder="Type your message..." class={`${field} h-auto min-h-[170px] py-3`}></textarea>
+        </label>
+        <div><button type="submit" class="t-button-lg bg-ink px-4 py-[15px] text-surface hover:opacity-90">Send message</button></div>
+      </form>
+      <p class="t-small border-t border-line pt-2 text-muted">{CONTACT.legal}</p>
+    </div>
+  </div>
+</section>

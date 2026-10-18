@@ -1,0 +1,24 @@
+---
+import SectionIntro from '../SectionIntro.astro';
+import TextLink from '../TextLink.astro';
+import { PROCESS } from '../../data/home';
+---
+<section class="px-margin pt-section">
+  <div class="border-t border-line pt-section">
+    <SectionIntro eyebrow={PROCESS.eyebrow} heading={PROCESS.heading}>
+      <p slot="intro">{PROCESS.intro}</p>
+      <TextLink slot="links" href={PROCESS.link.href}>{PROCESS.link.label}</TextLink>
+    </SectionIntro>
+    <ol class="mt-large grid gap-large sm:grid-cols-2 lg:grid-cols-4">
+      {PROCESS.steps.map((step, i) => (
+        <li class="flex flex-col gap-4 border-t border-line pt-loose pr-grid">
+          <span class="t-number" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+          <div class="flex flex-col gap-3">
+            <h3 class="t-h5 uppercase text-ink">{step.title}</h3>
+            <p class="t-body text-muted">{step.body}</p>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
