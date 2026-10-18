@@ -1,39 +1,133 @@
 ---
-// Mobile: solid bar. Desktop: transparent, sitting over the hero image.
-// The full nav needs ~650px; it only fits in the copy column from 1400px.
-// Below that: Start a project + Menu, so nothing sits over the video.
-import { NAV, URLS } from '../data/site';
+// Mobile: solid bar. Desktop: transparent over the hero image, solid while a menu is open.
+// Full nav with mega menus from 1024px; it lines up with the copy column from 1400px
+// (as in Figma). Phones get Menu, which opens the same links as an accordion.
+import MegaMenu from './MegaMenu.astro';
+import { MEGA, URLS } from '../data/site';
 interface Props { overlay?: boolean }
 const { overlay = false } = Astro.props;
-const cta = 't-button shrink-0 whitespace-nowrap bg-white px-[14px] py-[10px] text-[#111] hover:opacity-90';
+// Text box trimmed to cap height so the padding above and below the capitals is even (34px tall, as in Figma).
+const cta = 't-button inline-flex h-[34px] shrink-0 items-center whitespace-nowrap bg-white px-[14px] text-[#111] [text-box:trim-both_cap_alphabetic] hover:opacity-90';
+const triggers = [
+  { id: 'mega-services', label: MEGA.services.label },
+  { id: 'mega-work', label: MEGA.work.label },
+  { id: 'mega-articles', label: MEGA.articles.label },
+];
+const groups = [
+  { title: 'Shopify services', links: [MEGA.services.viewAll, ...MEGA.services.columns.flat()] },
+  { title: 'Success stories', links: [MEGA.work.viewAll, ...MEGA.work.links] },
+  { title: 'Articles', links: [MEGA.articles.viewAll] },
+];
 ---
-<header class:list={['relative z-20 w-full bg-surface p-margin lg:py-loose', overlay && 'lg:absolute lg:left-0 lg:right-0 lg:bg-transparent']}>
+<header
+  data-header
+  class:list={[
+    'relative z-20 w-full bg-surface p-margin transition-colors duration-200 lg:py-loose',
+    overlay && 'lg:absolute lg:left-0 lg:right-0 lg:bg-transparent lg:data-[open]:bg-surface',
+  ]}
+>
   <div class="flex items-center justify-between gap-gutter min-[1400px]:grid min-[1400px]:grid-cols-2">
     <a href={URLS.home} class="justify-self-start" aria-label="Anthony is Freelance, home">
       <img src="/icons/logo.svg" alt="Anthony is Freelance" width="172" height="44" class="h-[38px] w-auto lg:h-11" />
     </a>
 
-    <nav aria-label="Main" class="hidden items-center justify-between gap-gutter min-[1400px]:flex">
+    <nav aria-label="Main" class="hidden items-center gap-gutter lg:flex min-[1400px]:justify-between">
       <ul class="flex items-center gap-grid whitespace-nowrap">
-        {NAV.map((item) => (
-          <li><a href={item.href} class="t-button-lg text-ink hover:opacity-70">{item.label}</a></li>
+        {triggers.map((t) => (
+          <li>
+            <button
+              type="button"
+              data-mega-trigger={t.id}
+              aria-expanded="false"
+              aria-controls={t.id}
+              class="t-button-lg cursor-pointer text-ink underline-offset-4 hover:underline aria-expanded:underline"
+            >{t.label}</button>
+          </li>
         ))}
       </ul>
       <a href={URLS.contact} class={cta}>Start a project</a>
     </nav>
 
-    <div class="flex items-center gap-gutter min-[1400px]:hidden">
-      <a href={URLS.contact} class:list={[cta, 'hidden lg:inline-block']}>Start a project</a>
-      <details>
+    <div class="flex items-center gap-gutter lg:hidden">
+      <details data-compact-menu>
         <summary class="t-button cursor-pointer text-ink">Menu</summary>
-        <div class="absolute left-0 right-0 top-full z-30 border-t border-line bg-surface px-margin pb-large pt-loose">
-          <ul class="flex flex-col">
-            {NAV.map((item) => (
-              <li class="border-b border-line"><a href={item.href} class="t-button block py-4 text-ink">{item.label}</a></li>
-            ))}
-          </ul>
+        <div class="absolute left-0 right-0 top-full z-30 max-h-[calc(100svh-80px)] overflow-y-auto border-y border-line bg-surface px-margin pb-large">
+          {groups.map((g) => (
+            <details class="group border-b border-line">
+              <summary class="t-badge flex h-[50px] cursor-pointer items-center justify-between text-ink">
+                {g.title}
+                <img src="/icons/plus.svg" alt="" width="18" height="18" class="size-[18px] transition-transform group-open:rotate-45" />
+              </summary>
+              <ul class="flex flex-col gap-4 pb-loose">
+                {g.links.map((l) => <li><a href={l.href} class="t-button-lg text-ink">{l.label}</a></li>)}
+              </ul>
+            </details>
+          ))}
         </div>
       </details>
     </div>
   </div>
+  <MegaMenu />
 </header>
+
+<script is:inline>
+  (function () {
+    var header = document.querySelector('[data-header]');
+    if (!header) return;
+    var triggers = header.querySelectorAll('[data-mega-trigger]');
+    var openId = null, timer = null;
+    var canHover = window.matchMedia('(hover: hover)').matches;
+
+    function panel(id) { return document.getElementById(id); }
+    function trigger(id) { return header.querySelector('[data-mega-trigger="' + id + '"]'); }
+
+    function close() {
+      clearTimeout(timer);
+      if (!openId) return;
+      panel(openId).hidden = true;
+      trigger(openId).setAttribute('aria-expanded', 'false');
+      openId = null;
+      header.removeAttribute('data-open');
+    }
+    function open(id) {
+      clearTimeout(timer);
+      if (openId === id) return;
+      close();
+      panel(id).hidden = false;
+      trigger(id).setAttribute('aria-expanded', 'true');
+      openId = id;
+      header.setAttribute('data-open', '');
+    }
+
+    triggers.forEach(function (t) {
+      var id = t.getAttribute('data-mega-trigger');
+      t.addEventListener('click', function () { clearTimeout(timer); openId === id ? close() : open(id); });
+      if (canHover) {
+        t.addEventListener('mouseenter', function () {
+          clearTimeout(timer);
+          timer = setTimeout(function () { open(id); }, openId ? 0 : 120);
+        });
+      }
+    });
+
+    if (canHover) {
+      header.addEventListener('mouseenter', function () { clearTimeout(timer); });
+      header.addEventListener('mouseleave', function () {
+        clearTimeout(timer);
+        timer = setTimeout(close, 250);
+      });
+    }
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && openId) {
+        var t = trigger(openId);
+        close();
+        t.focus();
+      }
+    });
+    document.addEventListener('click', function (e) { if (!header.contains(e.target)) close(); });
+    header.addEventListener('focusout', function (e) {
+      if (e.relatedTarget && !header.contains(e.relatedTarget)) close();
+    });
+  })();
+</script>

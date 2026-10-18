@@ -120,3 +120,46 @@ export const SOCIAL = [
   { label: 'TikTok', icon: '/icons/tiktok.svg', href: '#' },
   { label: 'YouTube', icon: '/icons/youtube.svg', href: '#' },
 ];
+
+// Mega menu. Same data drives the desktop panels and the compact/mobile menu.
+export const MEGA = {
+  services: {
+    label: 'Shopify Services',
+    viewAll: { label: 'View all services', href: URLS.services },
+    columns: [
+      [
+        { label: 'Branding', href: URLS.branding },
+        { label: 'UX design', href: URLS.ux },
+        { label: 'Bespoke store design', href: URLS.bespoke },
+        { label: 'Shopify Plus design', href: URLS.plus },
+      ],
+      [
+        { label: 'Shopify CRO', href: URLS.cro },
+        { label: 'Migrations', href: URLS.migrations },
+        { label: 'Subscriptions', href: URLS.subscriptions },
+        { label: 'Theme customisations', href: URLS.theme },
+        { label: 'AI search visibility', href: URLS.aiSearch },
+      ],
+    ],
+  },
+  work: {
+    label: 'Shopify Success Stories',
+    viewAll: { label: 'View all success stories', href: URLS.work },
+    links: [
+      { label: 'Shopify innovations', href: URLS.innovations },
+      { label: 'Awards', href: URLS.awards },
+      { label: 'Client testimonials', href: URLS.testimonials },
+    ],
+  },
+  articles: {
+    label: 'Articles',
+    viewAll: { label: 'View all articles', href: URLS.articles },
+    sideHeading: 'More proof.',
+    sideLinks: [
+      { label: 'View all success stories', href: URLS.work, arrow: true },
+      { label: 'Shopify innovations', href: URLS.innovations },
+      { label: 'Awards', href: URLS.awards },
+      { label: 'Client testimonials', href: URLS.testimonials },
+    ],
+  },
+} as const;
