@@ -1,6 +1,3 @@
-# Keep preview addresses out of Google. Only matches *.pages.dev, never anthonyis.uk.
-https://:project.pages.dev/*
-  X-Robots-Tag: noindex
-
-https://:version.:project.pages.dev/*
+# Keep workers.dev preview addresses out of Google. Never matches anthonyis.uk.
+https://:prefix.:subdomain.workers.dev/*
   X-Robots-Tag: noindex

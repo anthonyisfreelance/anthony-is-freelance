@@ -1,6 +1,6 @@
 # anthonyis.uk
 
-Static site for Anthony is Freelance. Astro + Tailwind v4, hosted on Cloudflare Pages.
+Static site for Anthony is Freelance. Astro + Tailwind v4, hosted on Cloudflare Workers (static assets, see wrangler.jsonc).
 
 ## Rules
 - Designs come from Figma. Match them exactly; tokens live in `src/styles/global.css`.

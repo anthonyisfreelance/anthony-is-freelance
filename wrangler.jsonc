@@ -1,0 +1,9 @@
+{
+  // Static site served from Cloudflare Workers static assets.
+  "name": "anthony-is-freelance",
+  "compatibility_date": "2026-10-18",
+  "assets": {
+    "directory": "./dist",
+    "not_found_handling": "404-page"
+  }
+}
