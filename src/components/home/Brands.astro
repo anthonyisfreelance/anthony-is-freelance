@@ -3,12 +3,12 @@ import Heading from '../Heading.astro';
 import { BRANDS } from '../../data/home';
 ---
 <section class="px-margin pt-section-sm">
-  <div class="gap-gutter border-t border-line pt-section-sm lg:flex">
+  <div class="gap-gutter border-t border-line pt-section lg:flex lg:pt-section-sm">
     <div class="flex-1"><Heading eyebrow={BRANDS.eyebrow}>{BRANDS.heading}</Heading></div>
     <!-- Logo files to come: names stand in for now -->
-    <ul class="mt-large grid flex-1 grid-cols-2 gap-grid sm:grid-cols-5 lg:mt-0">
+    <ul class="mt-large grid flex-1 grid-cols-4 gap-grid lg:mt-0 lg:grid-cols-5">
       {BRANDS.logos.map((name) => (
-        <li class="t-badge flex h-[100px] items-center justify-center border border-dashed border-line text-center text-muted">{name}</li>
+        <li class="flex h-[60px] items-center justify-center border border-dashed border-line px-1 text-center text-[11px] font-display uppercase leading-tight text-muted lg:t-badge lg:h-[100px]">{name}</li>
       ))}
     </ul>
   </div>

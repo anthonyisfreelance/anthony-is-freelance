@@ -1,6 +1,6 @@
 ---
-// Hero and success stories share one grid: the image sticks on the left
-// while the copy, trust row and featured story scroll on the right.
+// Desktop: the image sticks on the left while copy, trust row and featured story scroll.
+// Mobile: solid header, square image, then everything stacked.
 import { Image } from 'astro:assets';
 import Header from '../Header.astro';
 import Heading from '../Heading.astro';
@@ -13,12 +13,13 @@ import heroImage from '../../assets/home/hero-a.jpg';
 <div class="relative">
   <Header overlay />
   <div class="grid lg:grid-cols-[minmax(0,700fr)_minmax(0,676fr)] lg:gap-gutter lg:pr-margin">
-    <div class="relative aspect-[4/5] bg-line lg:sticky lg:top-0 lg:self-start">
+    <div class="relative aspect-square bg-line lg:sticky lg:top-0 lg:aspect-[4/5] lg:self-start">
       <!-- [CONFIRM] showreel goes here; poster image for now -->
       <Image
         src={heroImage}
         alt=""
-        widths={[480, 720, 1000, 1400]}
+        widths={[375, 560, 750, 1000, 1200]}
+        quality={75}
         sizes="(min-width: 1024px) 49vw, 100vw"
         loading="eager"
         fetchpriority="high"
@@ -29,7 +30,7 @@ import heroImage from '../../assets/home/hero-a.jpg';
     <div class="px-margin pt-large lg:px-0 lg:pt-[124px]">
       <div class="flex flex-col gap-loose border-line lg:border-t lg:pt-[40px]">
         <Heading level={1} eyebrow={HERO.eyebrow}>
-          {HERO.lines[0]}<br />{HERO.lines[1]}
+          {HERO.lines[0]}<br class="hidden lg:inline" /> {HERO.lines[1]}
         </Heading>
         <p class="t-body text-muted">{HERO.intro}</p>
         <div class="flex flex-wrap gap-x-grid gap-y-4">
@@ -37,29 +38,29 @@ import heroImage from '../../assets/home/hero-a.jpg';
         </div>
       </div>
 
-      <ul class="t-label mt-[40px] grid grid-cols-2 gap-grid tracking-[0.02em] text-ink lg:flex lg:gap-0">
+      <ul class="t-label mt-large flex flex-col gap-3 tracking-[0.02em] text-ink lg:mt-[40px] lg:flex-row lg:gap-0">
         <li class="flex items-center gap-2 lg:flex-1 lg:justify-center">
           <img src="/icons/google-g.png" alt="Google" width="25" height="25" class="size-[25px]" />
           <span><span aria-hidden="true">★★★★★</span> 5.0<span class="sr-only"> out of 5 from Google reviews</span></span>
         </li>
         {HERO.trust.map((t) => (
-          <li class="lg:flex-1 lg:border-l lg:border-line lg:pl-grid lg:ml-grid">{t}</li>
+          <li class="lg:ml-grid lg:flex-1 lg:border-l lg:border-line lg:pl-grid">{t}</li>
         ))}
       </ul>
 
-      <section aria-labelledby="stories-heading" class="pt-section">
-        <div class="flex flex-col gap-large border-t border-line pt-section">
+      <section aria-label="Success stories" class="pt-large lg:pt-section">
+        <div class="flex flex-col gap-grid-lg border-t border-line pt-section">
           <SectionIntro eyebrow={STORIES.eyebrow} heading={STORIES.heading} split={false}>
             <p slot="intro">{STORIES.intro}</p>
             <TextLink slot="links" href={STORIES.link.href}>{STORIES.link.label}</TextLink>
           </SectionIntro>
-          <CaseStudyCard {...STORIES.featured} ratio="square" sizes="(min-width: 1024px) 47vw, 100vw" />
+          <CaseStudyCard {...STORIES.featured} ratio="portrait-square" sizes="(min-width: 1024px) 47vw, 100vw" />
         </div>
       </section>
     </div>
   </div>
 
-  <ul class="grid gap-x-grid gap-y-large px-margin pt-large lg:grid-cols-3">
-    {STORIES.cards.map((card) => <li><CaseStudyCard {...card} /></li>)}
+  <ul class="grid grid-cols-2 gap-x-grid gap-y-grid-lg px-margin pt-grid-lg lg:grid-cols-3 lg:pt-large">
+    {STORIES.cards.map((card) => <li><CaseStudyCard {...card} stackMeta /></li>)}
   </ul>
 </div>

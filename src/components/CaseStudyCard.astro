@@ -11,19 +11,21 @@ interface Props {
   badge?: ImageMetadata;
   badgeAlt?: string;
   href?: string;
-  ratio?: 'square' | 'portrait';
+  ratio?: 'square' | 'portrait' | 'portrait-square';
   sizes?: string;
-  large?: boolean;
+  stackMeta?: boolean; // small cards stack client and sector on mobile
   eager?: boolean;
 }
-const { client, meta, claim, image, badge, badgeAlt = '', href, ratio = 'portrait', sizes = '(min-width: 1024px) 31vw, 100vw', large = false, eager = false } = Astro.props;
+const { client, meta, claim, image, badge, badgeAlt = '', href, ratio = 'portrait', sizes = '(min-width: 1024px) 31vw, 50vw', stackMeta = false, eager = false } = Astro.props;
+const aspect = { square: 'aspect-square', portrait: 'aspect-[4/5]', 'portrait-square': 'aspect-[4/5] lg:aspect-square' }[ratio];
 ---
 <article class="relative flex flex-col">
-  <div class:list={['relative overflow-hidden bg-line', ratio === 'square' ? 'aspect-square' : 'aspect-[4/5]']}>
+  <div class:list={['relative overflow-hidden bg-line', aspect]}>
     <Image
       src={image}
       alt=""
-      widths={[480, 720, 960, 1400]}
+      widths={[240, 360, 480, 720, 960, 1400]}
+      quality={75}
       sizes={sizes}
       class="absolute inset-0 size-full object-cover"
       loading={eager ? 'eager' : 'lazy'}
@@ -34,12 +36,15 @@ const { client, meta, claim, image, badge, badgeAlt = '', href, ratio = 'portrai
       </div>
     )}
   </div>
-  <div class="flex flex-col gap-3">
-    <p class="t-badge flex gap-2 border-b border-line py-3 text-muted" aria-hidden="true">
+  <div class:list={['flex flex-col', stackMeta ? 'gap-2 lg:gap-3' : 'gap-3']}>
+    <p
+      class:list={['t-badge flex border-b border-line text-muted', stackMeta ? 'flex-col gap-1 py-2 lg:flex-row lg:gap-2 lg:py-3' : 'gap-2 py-3']}
+      aria-hidden="true"
+    >
       <span class="flex-1">{client}</span>
-      <span class="flex-1 text-right">{meta}</span>
+      <span class:list={['flex-1', stackMeta ? 'lg:text-right' : 'text-right']}>{meta}</span>
     </p>
-    <h3 class:list={['t-h6 text-ink', large ? '' : '']}>
+    <h3 class="t-h6 text-ink">
       {href ? (
         <a href={href} class="stretched-link hover:opacity-80"><span class="sr-only">{client}. </span>{claim}</a>
       ) : (

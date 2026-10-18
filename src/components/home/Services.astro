@@ -5,31 +5,31 @@ import TextLink from '../TextLink.astro';
 import { SERVICES } from '../../data/home';
 import image from '../../assets/home/services.jpg';
 ---
-<section class="pl-margin pt-section">
+<section class="px-margin pt-section-pre lg:pl-margin lg:pr-0">
   <div class="grid gap-gutter lg:grid-cols-[minmax(0,676fr)_minmax(0,700fr)]">
-    <div class="flex flex-col gap-large pr-margin lg:pr-0">
-      <div class="border-t border-line pt-section">
+    <div class="flex flex-col gap-large">
+      <div class="lg:border-t lg:border-line lg:pt-section">
         <SectionIntro eyebrow={SERVICES.eyebrow} heading={SERVICES.heading} split={false}>
           <p slot="intro">{SERVICES.intro}</p>
           <TextLink slot="links" href={SERVICES.link.href}>{SERVICES.link.label}</TextLink>
         </SectionIntro>
       </div>
-      <ul class="flex flex-col gap-large">
+      <ul class="flex flex-col gap-loose lg:gap-large">
         {SERVICES.items.map((s) => (
-          <li class="relative flex items-start gap-grid border-t border-line pt-large">
-            <div class="grid flex-1 grid-cols-1 gap-x-grid gap-y-2 sm:grid-cols-[minmax(0,0.75fr)_minmax(0,1fr)]">
+          <li class="relative flex items-start gap-grid border-t border-line pt-loose lg:pt-large">
+            <div class="grid flex-1 grid-cols-1 gap-x-grid gap-y-2 lg:grid-cols-[minmax(0,0.75fr)_minmax(0,1fr)]">
               <h3 class="t-h5 uppercase text-ink">
                 <a href={s.href} class="stretched-link hover:opacity-80">{s.name}</a>
               </h3>
-              <p class="t-body text-muted">{s.line}</p>
+              <p class="t-body hidden text-muted lg:block">{s.line}</p>
             </div>
             <img src="/icons/arrow-up-right.svg" alt="" width="18" height="18" class="size-[18px] shrink-0" loading="lazy" />
           </li>
         ))}
       </ul>
     </div>
-    <div class="relative aspect-[4/5] lg:sticky lg:top-0 lg:self-start">
-      <Image src={image} alt="" widths={[480, 720, 1000, 1400]} sizes="(min-width: 1024px) 49vw, 100vw" class="absolute inset-0 size-full object-cover" />
+    <div class="relative order-first mb-[16px] aspect-[4/5] lg:sticky lg:top-0 lg:order-none lg:mb-0 lg:self-start">
+      <Image src={image} alt="" widths={[400, 750, 1000, 1400]} sizes="(min-width: 1024px) 49vw, 100vw" class="absolute inset-0 size-full object-cover" />
     </div>
   </div>
 </section>

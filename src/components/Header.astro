@@ -1,13 +1,13 @@
 ---
-// Transparent header that sits over the hero image. Mega menus come next.
+// Mobile: solid bar. Desktop: transparent, sitting over the hero image.
 import { NAV, URLS } from '../data/site';
 interface Props { overlay?: boolean }
 const { overlay = false } = Astro.props;
 ---
-<header class:list={['z-20 w-full px-margin py-loose', overlay ? 'absolute left-0 right-0' : 'relative']}>
-  <div class="grid grid-cols-[auto_1fr] items-center gap-gutter lg:grid-cols-2">
+<header class:list={['relative z-20 w-full bg-surface p-margin lg:py-loose', overlay && 'lg:absolute lg:left-0 lg:right-0 lg:bg-transparent']}>
+  <div class="flex items-center justify-between gap-gutter lg:grid lg:grid-cols-2">
     <a href={URLS.home} class="justify-self-start" aria-label="Anthony is Freelance, home">
-      <img src="/icons/logo.svg" alt="Anthony is Freelance" width="173" height="44" class="h-11 w-auto" />
+      <img src="/icons/logo.svg" alt="Anthony is Freelance" width="172" height="44" class="h-[38px] w-auto lg:h-11" />
     </a>
 
     <nav aria-label="Main" class="hidden items-center justify-between lg:flex">
@@ -22,14 +22,13 @@ const { overlay = false } = Astro.props;
       </a>
     </nav>
 
-    <details class="group justify-self-end lg:hidden">
-      <summary class="t-button-lg cursor-pointer text-ink">Menu</summary>
-      <div class="absolute left-0 right-0 top-full z-30 bg-surface px-margin pb-large pt-loose">
-        <ul class="flex flex-col gap-loose">
+    <details class="lg:hidden">
+      <summary class="t-button cursor-pointer text-ink">Menu</summary>
+      <div class="absolute left-0 right-0 top-full z-30 border-t border-line bg-surface px-margin pb-large pt-loose">
+        <ul class="flex flex-col">
           {NAV.map((item) => (
-            <li><a href={item.href} class="t-button-lg text-ink">{item.label}</a></li>
+            <li class="border-b border-line"><a href={item.href} class="t-button block py-4 text-ink">{item.label}</a></li>
           ))}
-          <li><a href={URLS.contact} class="t-button-lg text-ink">Start a project</a></li>
         </ul>
       </div>
     </details>

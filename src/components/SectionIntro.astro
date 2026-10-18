@@ -19,6 +19,6 @@ const hasIntro = Astro.slots.has('intro');
     {hasLinks && !split && <div class="flex flex-wrap gap-x-grid gap-y-4"><slot name="links" /></div>}
   </div>
   {hasLinks && split && (
-    <div class="mt-loose flex flex-wrap gap-x-grid gap-y-4 lg:mt-0 lg:justify-end"><slot name="links" /></div>
+    <div class="mt-loose flex flex-col items-start gap-4 lg:mt-0 lg:flex-row lg:flex-wrap lg:justify-end lg:gap-x-grid"><slot name="links" /></div>
   )}
 </div>

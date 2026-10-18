@@ -23,5 +23,6 @@
   "public/icons/wordmark.svg": "https://www.figma.com/api/mcp/asset/e11af68d-7b95-40ea-97f4-b031bf1b58a1.svg",
   "public/icons/facebook.svg": "https://www.figma.com/api/mcp/asset/279703eb-4bac-4102-b6d1-89f3f9bd7a9c.svg",
   "public/icons/tiktok.svg": "https://www.figma.com/api/mcp/asset/430f0151-b78d-4550-9e2a-d8cbcfc61b9e.svg",
-  "public/icons/youtube.svg": "https://www.figma.com/api/mcp/asset/7d2f1f54-8279-4ece-b268-346105c6bff8.svg"
+  "public/icons/youtube.svg": "https://www.figma.com/api/mcp/asset/7d2f1f54-8279-4ece-b268-346105c6bff8.svg",
+  "src/assets/home/innovation-bg.jpg": "https://www.figma.com/api/mcp/asset/7dcced7c-bc2a-4ddb-a58f-3d38f8826752.png"
 }

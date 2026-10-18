@@ -34,13 +34,14 @@
   --stack-large: 24px;
   --grid-loose: 16px;
   --grid-large: 24px;
-  --section: 48px;
+  --section: 64px;
+  --section-pre: 24px;
   --section-sm: 40px;
 
-  --type-h1: 40px;
+  --type-h1: 38px;
   --type-h2: 28px;
   --type-h5: 18px;
-  --type-h6: 16px;
+  --type-h6: 14px;
   --type-body: 16px;
   --type-small: 14px;
   --type-label: 14px;
@@ -58,6 +59,7 @@
     --grid-loose: 24px;
     --grid-large: 40px;
     --section: 80px;
+    --section-pre: 80px;
     --section-sm: 64px;
 
     --type-h1: 64px;
@@ -103,6 +105,7 @@
   --spacing-grid-lg: var(--grid-large);
   --spacing-section: var(--section);
   --spacing-section-sm: var(--section-sm);
+  --spacing-pre: var(--section-pre);
 }
 
 /* ------------------------------------------------------------------

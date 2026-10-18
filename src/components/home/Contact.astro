@@ -12,14 +12,14 @@ const label = 't-label tracking-[0.02em] text-ink';
     <div class="flex flex-1 flex-col gap-loose">
       <!-- [CONFIRM] form handling: a small Cloudflare function that emails the enquiry -->
       <form method="post" class="flex flex-col gap-large">
-        <div class="grid gap-4 sm:grid-cols-3">
+        <div class="grid grid-cols-2 gap-4 lg:grid-cols-3">
           <label class="flex flex-col gap-2"><span class={label}>Name</span><input class={field} type="text" name="name" autocomplete="name" required /></label>
           <label class="flex flex-col gap-2"><span class={label}>Email</span><input class={field} type="email" name="email" autocomplete="email" required /></label>
-          <label class="flex flex-col gap-2"><span class={label}>Your website</span><input class={field} type="url" name="website" placeholder="Yourstore.com" inputmode="url" /></label>
+          <label class="col-span-2 flex flex-col gap-2 lg:col-span-1"><span class={label}>Your website</span><input class={field} type="url" name="website" placeholder="Yourstore.com" inputmode="url" /></label>
         </div>
         <fieldset class="flex flex-col gap-2">
           <legend class={`${label} mb-2`}>Budget</legend>
-          <div class="grid gap-x-4 gap-y-2 sm:grid-cols-3">
+          <div class="grid gap-x-4 gap-y-2 lg:grid-cols-3">
             {CONTACT.budgets.map((b) => (
               <label class="t-label flex cursor-pointer items-center gap-2 border border-line p-3 tracking-[0.02em] text-muted has-[:checked]:border-ink has-[:checked]:text-ink">
                 <input type="radio" name="budget" value={b} class="size-[14px] shrink-0 appearance-none rounded-full border border-ink checked:bg-[radial-gradient(circle,var(--c-text)_45%,transparent_50%)]" />
@@ -32,7 +32,12 @@ const label = 't-label tracking-[0.02em] text-ink';
           <span class={label}>Message (optional)</span>
           <textarea name="message" rows="7" placeholder="Type your message..." class={`${field} h-auto min-h-[170px] py-3`}></textarea>
         </label>
-        <div><button type="submit" class="t-button-lg bg-ink px-4 py-[15px] text-surface hover:opacity-90">Send message</button></div>
+        <div>
+          <button type="submit" class="t-button-lg flex w-full items-center justify-between bg-ink px-4 py-[15px] text-surface hover:opacity-90 lg:w-auto">
+            <span class="lg:hidden">Send</span><span class="hidden lg:inline">Send message</span>
+            <span aria-hidden="true" class="lg:hidden">→</span>
+          </button>
+        </div>
       </form>
       <p class="t-small border-t border-line pt-2 text-muted">{CONTACT.legal}</p>
     </div>

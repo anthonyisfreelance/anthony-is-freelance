@@ -8,7 +8,7 @@ import { ARTICLES } from '../../data/home';
     <SectionIntro eyebrow={ARTICLES.eyebrow} heading={ARTICLES.heading}>
       <TextLink slot="links" href={ARTICLES.link.href}>{ARTICLES.link.label}</TextLink>
     </SectionIntro>
-    <ul class="mt-grid-lg grid gap-x-grid gap-y-large sm:grid-cols-2 lg:grid-cols-4">
+    <ul class="mt-grid-lg grid grid-cols-2 gap-x-grid gap-y-large lg:grid-cols-4">
       {ARTICLES.items.map((a) => (
         <li>
           <article class="relative flex flex-col">

@@ -3,19 +3,23 @@ import { Image } from 'astro:assets';
 import SectionIntro from '../SectionIntro.astro';
 import TextLink from '../TextLink.astro';
 import { INNOVATIONS } from '../../data/home';
+import backdrop from '../../assets/home/innovation-bg.jpg';
 ---
-<section class="px-margin pt-section">
+<section class="px-margin pt-section-pre">
   <div class="border-t border-line pt-section">
     <SectionIntro eyebrow={INNOVATIONS.eyebrow} heading={INNOVATIONS.heading}>
       <p slot="intro">{INNOVATIONS.intro}</p>
       <TextLink slot="links" href={INNOVATIONS.link.href}>{INNOVATIONS.link.label}</TextLink>
     </SectionIntro>
-    <ul class="mt-large grid gap-x-grid gap-y-large sm:grid-cols-2 lg:grid-cols-4">
+    <ul class="mt-large grid grid-cols-2 gap-x-grid gap-y-large lg:grid-cols-4">
       {INNOVATIONS.items.map((item) => (
         <li class="flex flex-col">
           <div class="relative aspect-square overflow-hidden bg-white">
-            <!-- Blurred copy of the screen as the backdrop, then the screen itself -->
-            <Image src={item.image} alt="" width={200} class="absolute inset-0 size-full scale-125 object-cover blur-[60px]" aria-hidden="true" />
+            <!-- Blurred backdrop, as in Figma: background image and screen, softened -->
+            <div class="absolute inset-0 scale-125 blur-[60px]" aria-hidden="true">
+              <Image src={backdrop} alt="" width={200} class="absolute left-0 top-[-69.62%] h-[172.86%] w-full max-w-none" />
+              <Image src={item.image} alt="" width={200} class="absolute inset-0 size-full object-cover" />
+            </div>
             <div class="absolute inset-0 bg-white/20"></div>
             <div class="absolute bottom-0 left-[24.5%] right-[24.5%] aspect-[216/376] overflow-hidden">
               <Image src={item.image} alt="" widths={[220, 440]} sizes="(min-width: 1024px) 12vw, 50vw" class="size-full object-cover object-top" />

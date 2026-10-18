@@ -93,7 +93,7 @@ export const BRANDS = {
 
 export const SERVICES = {
   eyebrow: 'Shopify website design services',
-  heading: 'One designer, eight ways to help your store.',
+  heading: 'One designer, nine ways to help your store.',
   intro:
     'I design Shopify and Shopify Plus stores for DTC brands, with my whole attention on the design. For the build, I team up with great Shopify developers.',
   link: { label: 'View all Shopify design services', href: URLS.services },

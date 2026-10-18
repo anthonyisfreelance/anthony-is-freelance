@@ -1,1 +1,5 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18"><rect x="0.5" y="0.5" width="17" height="17" fill="none" stroke="#888"/></svg>
+<svg preserveAspectRatio="none" overflow="visible" style="display: block;" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Icon/Outline/Youtube">
+<path id="Youtube" d="M19.0128 5.89286C19.7869 6.10714 20.3992 6.7381 20.6072 7.53571C20.9884 8.98809 21 12 21 12C21 12 21 15.0238 20.6187 16.4643C20.4108 17.2619 19.7985 17.8929 19.0244 18.1071C17.6264 18.5 12 18.5 12 18.5C12 18.5 6.37356 18.5 4.97561 18.1071C4.20154 17.8929 3.58922 17.2619 3.38126 16.4643C3 15.0119 3 12 3 12C3 12 3 8.98809 3.3697 7.54762C3.57766 6.75 4.18999 6.11905 4.96406 5.90476C6.362 5.5119 11.9884 5.5 11.9884 5.5C11.9884 5.5 17.6149 5.5 19.0128 5.89286ZM14.8652 12L10.1977 14.7857V9.21429L14.8652 12Z" fill-rule="evenodd" clip-rule="evenodd" fill="white"/>
+</g>
+</svg>
