@@ -64,7 +64,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     services: ['bespoke-store-design'],
   },
   {
-    client: 'Hartnack & Co', meta: 'Stationery & gifts · [CONFIRM year]',
+    client: 'Hartnack & Co', meta: 'Stationery & gifts · 2025',
     claim: 'A bespoke store that sells made-to-order books online',
     proof: 'Landing pages by use, from business binders to pilot log books, help customers picture the product in their life.',
     href: p('hartnack-and-co-shopify-website-design-case-study'), image: hartnack,
@@ -85,7 +85,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     services: ['subscriptions', 'shopify-cro'],
   },
   {
-    client: 'Whistlefish', meta: 'Stationery & gifts · [CONFIRM year]',
+    client: 'Whistlefish', meta: 'Stationery & gifts · 2025',
     claim: 'A Shopify 2.0 redesign their own team now builds on',
     proof: '"We\'ve since been able to carry that framework into our own design team." Will Manders',
     href: p('whistlefish-2-0-shopify-website-design-case-study'), image: whistlefish,

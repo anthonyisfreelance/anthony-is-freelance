@@ -1,0 +1,319 @@
+---
+// Service page template. Every service page uses this, in the same section order
+// (Figma "Services - Sub Page"; page-copy/service-pages.md "The page model").
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Schema from './Schema.astro';
+import Header from './Header.astro';
+import Heading from './Heading.astro';
+import SectionIntro from './SectionIntro.astro';
+import TextLink from './TextLink.astro';
+import CaseStudyCard from './CaseStudyCard.astro';
+import ScreenTile from './ScreenTile.astro';
+import Faqs from './home/Faqs.astro';
+import Contact from './home/Contact.astro';
+import { SITE, ENTITY, URLS } from '../data/site';
+import type { ServicePage } from '../data/service-pages/types';
+
+interface Props { page: ServicePage }
+const { page: p } = Astro.props;
+
+const url = new URL(p.meta.path, SITE).href;
+const serviceId = `${url}#service`;
+const service = {
+  '@type': 'Service',
+  '@id': serviceId,
+  name: p.meta.name,
+  serviceType: p.meta.serviceType,
+  description: p.hero.intro.split('. ')[0] + '.',
+  provider: { '@id': ENTITY.person.id },
+  areaServed: { '@type': 'Country', name: 'United Kingdom' },
+  url,
+  ...(p.meta.minPrice
+    ? {
+        offers: {
+          '@type': 'Offer',
+          priceSpecification: {
+            '@type': 'PriceSpecification',
+            minPrice: p.meta.minPrice,
+            priceCurrency: 'GBP',
+            valueAddedTaxIncluded: false,
+            description: 'Design only. The build is quoted separately by the developer.',
+          },
+        },
+      }
+    : {}),
+};
+const breadcrumbs = [
+  { name: 'Home', path: URLS.home },
+  { name: 'Shopify website design services', path: URLS.services },
+  { name: p.meta.name, path: p.meta.path },
+];
+const h3caps = 'font-display text-[length:var(--type-h5)] font-medium uppercase leading-[1.1] text-ink lg:text-[26px]';
+const cell = 't-label tracking-[0.02em]';
+---
+<Base title={p.meta.title} description={p.meta.description}>
+  <Schema slot="head" title={p.meta.title} description={p.meta.description} path={p.meta.path} breadcrumbs={breadcrumbs} faqs={p.faqs.items} extra={[service]} about={serviceId} mainEntity={serviceId} />
+  <Header />
+  <main id="main">
+    <!-- Hero -->
+    <section class="px-margin">
+      <div class="grid gap-large border-t border-line pt-large lg:grid-cols-2 lg:gap-grid lg:pt-[40px]">
+        <div class="flex flex-col">
+          <Heading level={1} eyebrow={p.hero.eyebrow}>{p.hero.heading}</Heading>
+          <p class="t-body mt-loose text-muted lg:max-w-[676px]">{p.hero.intro}</p>
+          <div class="mt-large lg:mt-[38px]"><TextLink href={p.hero.cta.href}>{p.hero.cta.label}</TextLink></div>
+        </div>
+        <figure class="flex flex-col gap-[10px]">
+          <div class="relative aspect-[4/3] overflow-hidden bg-line lg:aspect-auto lg:h-[450px]">
+            <Image src={p.hero.image} alt={p.hero.imageAlt} widths={[400, 700, 1000, 1400]} sizes="(min-width: 1024px) 48vw, 100vw" quality={75} loading="eager" fetchpriority="high" class="absolute inset-0 size-full object-cover" />
+          </div>
+          <figcaption class="t-label tracking-[0.02em] text-muted">{p.hero.caption}</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Trust row -->
+    <section class="px-margin pt-large lg:pt-[40px]" aria-label="Why clients choose this service">
+      <ul class="t-label flex flex-col gap-2 tracking-[0.02em] text-ink lg:flex-row lg:gap-grid">
+        {p.trust.map((t, i) => (
+          <>
+            {i > 0 && <li class="hidden w-px self-stretch bg-line lg:block" aria-hidden="true"></li>}
+            <li class:list={['flex items-center lg:flex-1', i === 0 ? 'justify-center bg-[#1b1b1b] p-3 text-center' : 'px-3 py-1 lg:p-3 lg:px-0']}>{t}</li>
+          </>
+        ))}
+      </ul>
+    </section>
+
+    <!-- What's included, and who it's for -->
+    <section id="whats-included" class="px-margin pt-section lg:pt-[120px]">
+      <div class="grid gap-section-sm lg:grid-cols-2 lg:gap-gutter">
+        {[p.included, p.fit].map((block, b) => (
+          <div id={b === 1 ? 'right-fit' : undefined}>
+            <h2 class={h3caps}>{block.heading}</h2>
+            <ul class="mt-large flex flex-col gap-4">
+              {block.items.map((item, i) => (
+                <li class:list={['t-body flex gap-[10px] pl-[8px] text-ink', i > 0 && 'border-t border-line pt-4']}>
+                  <span aria-hidden="true">•</span><span>{item}</span>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Proof -->
+    <section id="proof" class="px-margin pt-section">
+      <div class="border-t border-line pt-section">
+        <div class="flex flex-col gap-loose lg:flex-row lg:items-end lg:justify-between lg:gap-gutter">
+          <h2 class="t-h2 text-ink lg:w-[676px]">{p.proof.heading}</h2>
+          {p.proof.link && <TextLink href={p.proof.link.href}>{p.proof.link.label}</TextLink>}
+        </div>
+        <ul class="mt-gutter grid gap-x-grid gap-y-gutter lg:grid-cols-2">
+          {p.proof.cards.map((c) => (
+            <li><CaseStudyCard {...c} ratio="portrait" sizes="(min-width: 1024px) 48vw, 100vw" /></li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- Routing: when this isn't the right call -->
+    <section class="px-margin pt-section">
+      <div class="grid gap-gutter border-t border-line pt-4 lg:grid-cols-2">
+        <div class="pt-section lg:sticky lg:top-0 lg:self-start">
+          <Heading eyebrow={p.routing.eyebrow}>{p.routing.heading}</Heading>
+          {p.routing.intro && <p class="t-body mt-loose text-muted">{p.routing.intro}</p>}
+        </div>
+        <ul class="flex flex-col gap-large lg:pt-section">
+          {p.routing.routes.map((r, i) => (
+            <li class:list={['flex flex-col gap-6', i > 0 && 'border-t border-line pt-large']}>
+              <h3 class="t-h6 text-ink">{r.situation}</h3>
+              <p class="t-body text-muted">{r.body}</p>
+              {r.links.length > 0 && (
+                <p class="flex flex-wrap gap-x-grid gap-y-2 border-t border-line pt-4">
+                  {r.links.map((l) => <TextLink href={l.href}>{l.label}</TextLink>)}
+                </p>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- How it runs -->
+    <section id="how-it-runs" class="px-margin pt-section">
+      <div class="border-t border-line pt-section">
+        <div class="flex flex-col gap-loose lg:flex-row lg:items-end lg:gap-gutter">
+          <div class="lg:w-[676px] lg:shrink-0"><Heading eyebrow={p.process.eyebrow}>{p.process.heading}</Heading></div>
+          <p class="t-body flex-1 text-muted">{p.process.intro}</p>
+        </div>
+        <ol class="mt-gutter grid grid-cols-1 gap-x-gutter gap-y-large sm:grid-cols-2 lg:grid-cols-4">
+          {p.process.steps.map((s, i) => (
+            <li class="flex flex-col gap-4 border-t border-line pr-grid pt-loose">
+              <span class="t-number" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+              <div class="flex flex-col gap-3">
+                <h3 class="t-h5 uppercase text-ink">{s.title}</h3>
+                <p class="t-body text-muted">{s.body}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <!-- Innovations -->
+    {p.innovations && (
+      <section id="innovations" class="px-margin pt-section">
+        <div class="border-t border-line pt-section">
+          <div class="lg:w-[676px]">
+            <Heading eyebrow={p.innovations.eyebrow}>{p.innovations.heading}</Heading>
+            {p.innovations.intro && <p class="t-body mt-loose text-muted">{p.innovations.intro}</p>}
+          </div>
+          <ul class="mt-gutter grid gap-x-grid gap-y-gutter sm:grid-cols-3">
+            {p.innovations.items.map((it) => (
+              <li class="flex flex-col">
+                <ScreenTile screen={it.screen} backdrop={it.backdrop} sizes="(min-width: 1024px) 16vw, (min-width: 640px) 16vw, 50vw" />
+                <div class="flex flex-col gap-3 pt-grid">
+                  <h3 class="t-h6 text-ink"><span class="sr-only">{it.client}. </span>{it.title}</h3>
+                  <p class="t-body text-muted">{it.body}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )}
+
+    <!-- Testimonial -->
+    <section class="px-margin pt-section">
+      <div class="flex flex-col gap-gutter border-t border-line pt-section lg:flex-row">
+        <h2 class="t-h2 flex-1 text-ink">{p.testimonial.heading}</h2>
+        <figure class="flex flex-col gap-gutter lg:w-[676px] lg:shrink-0">
+          <blockquote class="font-display text-[length:var(--type-h5)] font-medium leading-[1.3] text-ink lg:text-[length:var(--type-h2)]">“{p.testimonial.quote}”</blockquote>
+          <figcaption class="t-label text-muted">{p.testimonial.cite}</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <!-- Price and timeline -->
+    <section id="price" class="px-margin pt-section">
+      <div class="grid gap-gutter border-t border-line pt-6 lg:grid-cols-2">
+        <div class="pt-section lg:sticky lg:top-0 lg:self-start lg:pr-[119px]">
+          <Heading eyebrow={p.price.eyebrow}>{p.price.heading}</Heading>
+          <div class="t-body mt-loose flex flex-col gap-[10px] text-muted">{p.price.notes.map((n) => <p>{n}</p>)}</div>
+          <div class="mt-loose"><TextLink href={p.price.cta.href}>{p.price.cta.label}</TextLink></div>
+        </div>
+        <div class="lg:pt-[104px]">
+          <table class="w-full border-collapse text-left">
+            <caption class="sr-only">{p.price.caption}</caption>
+            <thead>
+              <tr>
+                <td class="w-1/5 pb-loose"></td>
+                <th scope="col" class="t-button-lg pb-loose pl-grid font-medium text-ink">{p.meta.name}</th>
+              </tr>
+            </thead>
+            <tbody>
+              {p.price.rows.map(([label, value]) => (
+                <tr class="border-t border-line">
+                  <th scope="row" class={`${cell} w-1/5 py-loose align-top font-medium text-muted`}>{label}</th>
+                  <td class={`${cell} py-loose pl-grid align-top text-ink`}>{value}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- Comparison -->
+    {p.comparison && (
+      <section class="px-margin pt-section">
+        <div class="border-t border-line pt-section">
+          <div class="lg:w-[676px]">
+            <Heading eyebrow={p.comparison.eyebrow} deco={false}>{p.comparison.heading}</Heading>
+            <p class="t-body mt-loose text-muted" aria-hidden="true">{p.comparison.caption}</p>
+          </div>
+          <div class="mt-gutter lg:w-[1035px] lg:max-w-full">
+            <table class="cmp w-full border-collapse text-left">
+              <caption class="sr-only">{p.comparison.caption}</caption>
+              <thead>
+                <tr>
+                  <td class="w-[220px]"></td>
+                  {p.comparison.columns.map((c) => (
+                    <th scope="col" class:list={['t-button-lg h-[80px] px-grid font-medium text-ink', c.current && 'bg-[#1b1b1b]']}>
+                      {c.label}{c.current && <span class="sr-only"> (this page)</span>}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {p.comparison.rows.map(([label, ...values]) => (
+                  <tr>
+                    <th scope="row" class={`${cell} border-t border-line py-loose pr-4 align-top font-medium text-muted`}>{label}</th>
+                    {values.map((v, i) => (
+                      <td class:list={[cell, 'border-t border-line px-grid py-loose align-top text-ink', p.comparison!.columns[i].current && 'bg-[#1b1b1b]']}>{v}</td>
+                    ))}
+                  </tr>
+                ))}
+                {p.comparison.examples && (
+                  <tr>
+                    <th scope="row" class={`${cell} border-t border-line py-loose pr-4 align-middle font-medium text-muted`}>Example</th>
+                    {p.comparison.examples.map((e, i) => (
+                      <td class:list={['border-t border-line px-grid py-loose align-top', p.comparison!.columns[i].current && 'bg-[#1b1b1b]']}>
+                        <a href={e.href} class="hover-card flex flex-col gap-3">
+                          <ScreenTile screen={e.screen} alt={e.alt} sizes="(min-width: 1024px) 12vw, 25vw" />
+                          <span class="font-display text-[12px] font-medium leading-[1.3] tracking-[0.02em] text-ink underline underline-offset-4 hover:decoration-2">{e.client}</span>
+                        </a>
+                      </td>
+                    ))}
+                  </tr>
+                )}
+              </tbody>
+            </table>
+            {p.comparison.note && <p class="t-small mt-0 border-t border-line pt-gutter text-muted">{p.comparison.note}</p>}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <div id="questions"><Faqs data={p.faqs} /></div>
+
+    <!-- Articles -->
+    {p.articles && (
+      <section class="px-margin pb-section">
+        <div class="border-t border-line pt-section">
+          <SectionIntro eyebrow={p.articles.eyebrow} heading={p.articles.heading}>
+            <TextLink slot="links" href={p.articles.link.href}>{p.articles.link.label}</TextLink>
+          </SectionIntro>
+          <ul class="mt-loose grid gap-x-4 gap-y-large sm:grid-cols-2">
+            {p.articles.items.map((a) => (
+              <li>
+                <article class="hover-card relative flex flex-col">
+                  <div class="aspect-video bg-line" aria-hidden="true"></div>
+                  <div class="flex flex-col gap-2 pt-2">
+                    <p class="t-badge border-b border-line pb-2 text-muted">{a.category}</p>
+                    <h3 class="t-h6 text-ink"><a href={a.href} class="stretched-link link-hover">{a.title}</a></h3>
+                  </div>
+                </article>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )}
+
+    <Contact />
+  </main>
+</Base>
+
+<style>
+  /* Comparison table: on phones each row stacks, label on top, the two services side by side. */
+  @media (max-width: 1023px) {
+    .cmp, .cmp thead, .cmp tbody { display: block; }
+    .cmp tr { display: grid; grid-template-columns: 1fr 1fr; }
+    .cmp tr > :first-child { grid-column: 1 / -1; padding-bottom: 8px; }
+    .cmp thead tr > :first-child { display: none; }
+    .cmp tbody tr > :not(:first-child) { border-top: 0; padding-top: 12px; }
+  }
+</style>

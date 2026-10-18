@@ -15,8 +15,9 @@ interface Props {
   sizes?: string;
   stackMeta?: boolean; // small cards stack client and sector on mobile
   eager?: boolean;
+  proof?: string; // service page proof sections add the proof line under the claim
 }
-const { client, meta, claim, image, badge, badgeAlt = '', href, ratio = 'portrait', sizes = '(min-width: 1024px) 31vw, 50vw', stackMeta = false, eager = false } = Astro.props;
+const { client, meta, claim, image, badge, badgeAlt = '', href, ratio = 'portrait', sizes = '(min-width: 1024px) 31vw, 50vw', stackMeta = false, eager = false, proof } = Astro.props;
 const aspect = { square: 'aspect-square', portrait: 'aspect-[4/5]', 'portrait-square': 'aspect-[4/5] lg:aspect-square' }[ratio];
 ---
 <article class="hover-card relative flex flex-col">
@@ -52,5 +53,6 @@ const aspect = { square: 'aspect-square', portrait: 'aspect-[4/5]', 'portrait-sq
       )}
     </h3>
     <p class="sr-only">{meta}</p>
+    {proof && <p class="t-label border-t border-line pt-2 tracking-[0.02em] text-muted">{proof}</p>}
   </div>
 </article>
