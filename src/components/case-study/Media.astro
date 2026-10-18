@@ -1,0 +1,40 @@
+---
+// A screen or photo. When a screen recording exists it plays over the still, muted and looping,
+// loaded after the page (see the script on the case study page). Reduced motion keeps the still.
+import { Image } from 'astro:assets';
+import type { Media } from '../../data/case-studies/drink-finder';
+interface Props {
+  media: Media;
+  fit?: 'contain' | 'cover';
+  sizes: string;
+  widths?: number[];
+  eager?: boolean;
+  class?: string;
+}
+const { media, fit = 'contain', sizes, widths, eager = false, class: className = '' } = Astro.props;
+const w = widths ?? [320, 480, 640, 960, 1280, 1600, 2400].filter((x) => x <= media.image.width).concat(media.image.width);
+const objectFit = fit === 'contain' ? 'object-contain' : 'object-cover';
+---
+<div class:list={['relative overflow-hidden', className]}>
+  <Image
+    src={media.image}
+    alt={media.alt}
+    widths={[...new Set(w)]}
+    sizes={sizes}
+    quality={78}
+    loading={eager ? 'eager' : 'lazy'}
+    fetchpriority={eager ? 'high' : undefined}
+    class:list={['absolute inset-0 size-full', objectFit]}
+  />
+  {media.video && (
+    <video
+      data-case-video={media.video}
+      muted
+      loop
+      playsinline
+      preload="none"
+      aria-hidden="true"
+      class:list={['absolute inset-0 size-full opacity-0 transition-opacity duration-300', objectFit]}
+    ></video>
+  )}
+</div>

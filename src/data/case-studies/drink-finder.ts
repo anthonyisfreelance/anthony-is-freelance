@@ -1,0 +1,174 @@
+// Drink Finder case study. Copy from the Figma frame "Work - Drink FInder" (48175:18636),
+// with page-copy/case-study-drink-finder.md filling the gaps where Figma has placeholder text.
+import { URLS } from '../site';
+import { CASE_STUDIES } from '../work';
+import hero from '../../assets/drink-finder/hero.jpg';
+import badge from '../../assets/drink-finder/badge-winner.png';
+import vineyard from '../../assets/drink-finder/vineyard.jpg';
+import stillDesktop from '../../assets/drink-finder/still-desktop.jpg';
+import stillCollection from '../../assets/drink-finder/still-collection.jpg';
+import stillPdp from '../../assets/drink-finder/still-pdp.jpg';
+import stillNav from '../../assets/drink-finder/still-nav.jpg';
+import phonePdp from '../../assets/drink-finder/phone-pdp.jpg';
+import phoneBrandCollection from '../../assets/drink-finder/phone-brand-collection.jpg';
+import uxHome from '../../assets/drink-finder/ux-home.jpg';
+import cocktail from '../../assets/drink-finder/cocktail.jpg';
+import brandBg from '../../assets/drink-finder/brand-bg.jpg';
+import type { ImageMetadata } from 'astro';
+
+/** A still image, with an optional screen recording (public path to an MP4) that plays over it. */
+export interface Media {
+  image: ImageMetadata;
+  alt: string;
+  video?: string;
+}
+
+export const META = {
+  path: URLS.caseStudies.drinkFinder,
+  title: 'Drink Finder Shopify Case Study: 34% More Website Sales',
+  description:
+    'How I redesigned Drink Finder and moved it to Shopify. 34% more website sales and 32% more customers in six months, on till data.',
+  breadcrumbs: [
+    { name: 'Home', path: URLS.home },
+    { name: 'Success stories', path: URLS.work },
+    { name: 'Drink Finder', path: URLS.caseStudies.drinkFinder },
+  ],
+};
+
+// The store the page is about, for schema.
+export const CLIENT = {
+  name: 'Drink Finder',
+  url: 'https://www.drinkfinder.co.uk/',
+  display: 'drinkfinder.co.uk',
+  parent: 'Constantine Stores Ltd',
+};
+
+export const HERO = {
+  eyebrow: 'Drink Finder Shopify case study',
+  figure: '34%',
+  heading: 'more website sales after launch',
+  standfirst:
+    'Drink Finder is the online shop of Constantine Stores, a Cornish wine and spirits merchant trading for more than 65 years, with more than 5,000 products for retail and trade buyers. I redesigned it around product discovery and moved it to Shopify, and it won UK eCommerce Website of the Year at the UK eCommerce Awards 2026.',
+  image: { image: hero, alt: '' } as Media,
+};
+
+export const BRIEF = {
+  eyebrow: 'The brief',
+  heading: 'Move to Shopify without losing the regulars',
+  body: [
+    'The Drink Finder brief was a move to Shopify with a redesign on top. The old site was dated, hard to use on a phone and hard to find your way around, and baskets were being abandoned.',
+    'There was no sales target. The job was to make the range easy to explore, fix the basket and come through the move in better shape than we went in.',
+  ],
+};
+
+export const DETAILS = {
+  sector: 'Food & Drink',
+  services: [
+    { label: 'Branding', href: URLS.branding },
+    { label: 'Bespoke store design', href: URLS.bespoke },
+    { label: 'UX Design', href: URLS.ux },
+    { label: 'Migrations', href: URLS.migrations },
+  ],
+  live: '19 August 2025',
+  liveIso: '2025-08-19',
+  results: '34% more website sales. 32% more customers.',
+  measured:
+    'Comparing the six months since launch, September to February, with the same period the year before. EPoS till data, marketplaces excluded.',
+  recognition:
+    'Winner, UK eCommerce Website of the Year, UK eCommerce Awards 2026. Also shortlisted for Food & Drink eCommerce Website of the Year.',
+  badge,
+  badgeAlt: 'UK eCommerce Awards 2026 winner',
+};
+
+// The full-width showcase under the brief: desktop homepage over a vineyard, then four phone screens.
+// [CONFIRM] Figma repeats one product page screen four times; swap in the four final screens.
+export const SHOWCASE = {
+  background: vineyard,
+  desktop: { image: stillDesktop, alt: 'The Drink Finder homepage on desktop, with search, the full category menu and the shop’s Cornish address in the header.' } as Media,
+  phones: [
+    { image: phonePdp, alt: 'A Drink Finder product page on mobile, with one, six and twelve bottle offers.' },
+    { image: phonePdp, alt: '' },
+    { image: phonePdp, alt: '' },
+    { image: phonePdp, alt: '' },
+  ] as Media[],
+};
+
+export const WORK_INTRO = {
+  eyebrow: 'The work',
+  heading: 'Four key highlights that helped get the results',
+  body: 'The Drink Finder work started with a UX review of the old site, before any design. The review showed which areas to improve, and that is where the concepts started.',
+};
+
+// Image and text rows, in Figma order. `flip` puts the media on the left.
+// `style: 'caps'` is the uppercase H3; `'plain'` is the sentence-case H6 style.
+export const HIGHLIGHTS = [
+  {
+    eyebrow: 'Shopify collection page design',
+    heading: 'Compare bottles without opening every one.',
+    style: 'caps',
+    body: 'Shopify collection page design is where wine shoppers compare. A Show extras switch opens every product card to show style, grape and country, so they compare side by side before they click.',
+    media: { image: stillCollection, alt: 'The Mix, match and save collection on mobile, with the Show extras switch above the products.' },
+    flip: false,
+  },
+  {
+    heading: 'Make the saving easy to see.',
+    style: 'plain',
+    body: "Shopify product page design puts grape, region and vintage next to the bottle. Six and twelve bottle offers are buttons you tap, and the basket shows the next saving. A good offer doesn't need pushing.",
+    media: { image: stillPdp, alt: 'A Drink Finder product page, with one, six and twelve bottle offers as buttons above the price.' },
+    flip: true,
+  },
+  {
+    heading: 'The nav is your site.',
+    style: 'plain',
+    body: 'I designed Drink Finder’s mobile navigation from scratch, so a customer gets from the home screen to a Spanish Rioja or an organic Cornish wine in a few taps. Search suggests popular searches and bottles before you type.',
+    media: { image: stillNav, alt: 'A Drink Finder product page on mobile.' },
+    flip: false,
+  },
+  {
+    heading: 'Design for what shoppers actually saw.',
+    style: 'caps',
+    body: 'The Shopify UX review mapped every screen at real phone sizes. Sticky sign-up buttons and a chat widget covered the buttons that mattered, so the offer moved into a notifications button in the header.',
+    media: { image: uxHome, alt: 'The Drink Finder homepage on mobile, with nothing covering the buttons.' },
+    flip: true,
+  },
+] as const satisfies readonly {
+  eyebrow?: string; heading: string; style: 'caps' | 'plain'; body: string; media: Media; flip: boolean;
+}[];
+
+// Scrolling column of screens beside a sticky photo.
+// [CONFIRM] Figma repeats one collection screen five times; swap in the five final screens.
+export const GALLERY = {
+  screens: Array.from({ length: 5 }, (_, i) => ({
+    image: phoneBrandCollection,
+    alt: i === 0 ? 'A Drink Finder brand collection page on mobile, with the distillery story above the products.' : '',
+  })) as Media[],
+  photo: { image: cocktail, alt: '' } as Media,
+  caption:
+    "The Drink Finder homepage on mobile, with search, the menu and the notifications button in a header that never covers what you're trying to tap.",
+};
+
+export const BRAND = {
+  background: brandBg,
+  eyebrow: 'Brand refinement and design system',
+  heading: 'Still Drink Finder, sharper on a phone.',
+  body: 'A brand refinement, not a rebrand: a tighter logomark for small screens, type for reading on a phone and colours that work the same on every page. Every screen was designed mobile first in Figma and handed over as a design system.',
+  media: { image: phonePdp, alt: 'A Drink Finder product page on mobile in the refined brand.' } as Media,
+};
+
+export const TESTIMONIAL = {
+  eyebrow: 'Drink Finder testimonial',
+  quote:
+    'Our site is a beast handling the distinct functional requirements for wine vs. spirits, managing wholesale and retail channels, and juggling complex shipping metrics. Ant was incredibly accommodating, ensuring the site received a modern upgrade without alienating our core customers. He kept the ‘Drink Finder’ soul intact while significantly smoothing out the user journey. … He didn’t just give us a facelift; he built a platform that performs.',
+  cite: 'Jon Wigmore, Marketing & E-Commerce, Constantine Stores Ltd, home of Drink Finder.',
+};
+
+const pick = (name: string) => {
+  const s = CASE_STUDIES.find((c) => c.client === name)!;
+  return { client: s.client, meta: s.meta, claim: s.claim, image: s.image!, badge: s.badge, badgeAlt: s.badgeAlt, href: s.href };
+};
+
+export const MORE = {
+  eyebrow: 'More Shopify success stories',
+  heading: 'Other stores, other problems. Solved.',
+  cards: [pick('East at Home'), pick('Fuzzball'), pick('Thameen London')],
+};
