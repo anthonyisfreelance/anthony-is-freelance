@@ -8,6 +8,7 @@ import SectionIntro from '../SectionIntro.astro';
 import CaseStudyCard from '../CaseStudyCard.astro';
 import { HERO, STORIES } from '../../data/home';
 import Showreel from '../Showreel.astro';
+import TrustTiles from '../TrustTiles.astro';
 ---
 <div class="relative">
   <Header overlay />
@@ -27,15 +28,10 @@ import Showreel from '../Showreel.astro';
         </div>
       </div>
 
-      <ul class="t-label mt-large flex flex-col gap-3 tracking-[0.02em] text-ink lg:mt-[40px] lg:flex-row lg:gap-0">
-        <li class="flex items-center gap-2 lg:flex-1 lg:justify-center">
-          <img src="/icons/google-g.png" alt="Google" width="25" height="25" class="size-[25px]" />
-          <span><span aria-hidden="true">★★★★★</span> 5.0<span class="sr-only"> out of 5 from Google reviews</span></span>
-        </li>
-        {HERO.trust.map((t) => (
-          <li class="lg:ml-grid lg:flex-1 lg:border-l lg:border-line lg:pl-grid">{t}</li>
-        ))}
-      </ul>
+      <TrustTiles
+        class="mt-12 lg:mt-20"
+        items={[{ google: true, stars: true, text: '5/5', srText: ' from Google reviews' }, ...HERO.trust.map((text) => ({ text }))]}
+      />
 
       <section aria-label="Success stories" class="pt-large lg:pt-section">
         <div class="flex flex-col gap-grid-lg border-t border-line pt-section">

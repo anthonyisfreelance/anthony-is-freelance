@@ -30,5 +30,7 @@
   "src/assets/services/subscriptions.jpg": "https://www.figma.com/api/mcp/asset/9c7d622a-bf75-41b6-b98e-29c91cb96945.png",
   "src/assets/services/theme.jpg": "https://www.figma.com/api/mcp/asset/562fad26-093d-44d2-b47e-0689b26da641.png",
   "src/assets/work/projektityyny.jpg": "https://www.figma.com/api/mcp/asset/b4a9b750-bd35-4676-8e39-144d9dc389ac.png",
-  "src/assets/work/fuzzball.jpg": "https://www.figma.com/api/mcp/asset/71698a3d-b989-4b79-b4c2-3488a27eacbf.png"
+  "src/assets/work/fuzzball.jpg": "https://www.figma.com/api/mcp/asset/71698a3d-b989-4b79-b4c2-3488a27eacbf.png",
+  "src/assets/home/drink-finder-menu.jpg": "https://www.figma.com/api/mcp/asset/25972358-c77e-4b85-a6a9-dd07e902eec4.png",
+  "public/icons/arrow-left.svg": "https://www.figma.com/api/mcp/asset/7c31e374-5991-4d30-afaf-16636b4c4a51.svg"
 }

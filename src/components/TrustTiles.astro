@@ -1,0 +1,27 @@
+---
+// Trust tiles (Figma "Icon and text Section" / "_Master Text", Background style):
+// each fact sits on the raised surface with its text centred.
+// Phones: a two-column grid, 8px gaps. From 1024px: one row, 12px gaps, the Google tile
+// sized to its content and the rest sharing the width.
+interface Tile { text: string; google?: boolean; stars?: boolean; srText?: string }
+interface Props { items: Tile[]; class?: string; label?: string; row?: boolean }
+const { items, class: className = '', label, row = true } = Astro.props;
+const odd = items.length % 2 === 1;
+---
+<ul
+  class:list={['t-tile grid grid-cols-2 gap-2 text-ink', row && 'lg:flex lg:items-stretch lg:gap-3', className]}
+  aria-label={label}
+>
+  {items.map((t, i) => (
+    <li
+      class:list={[
+        'flex items-center justify-center gap-2 bg-raised px-4 py-3 text-center',
+        t.google ? 'lg:shrink-0' : 'lg:flex-1',
+        odd && i === items.length - 1 && 'col-span-2',
+      ]}
+    >
+      {t.google && <img src="/icons/google-g.png" alt="Google" width="25" height="25" class="size-[25px] shrink-0" loading="lazy" />}
+      <span>{t.stars && <span aria-hidden="true">★★★★★ </span>}{t.text}{t.srText && <span class="sr-only">{t.srText}</span>}</span>
+    </li>
+  ))}
+</ul>

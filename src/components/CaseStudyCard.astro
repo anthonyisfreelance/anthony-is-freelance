@@ -11,14 +11,14 @@ interface Props {
   badge?: ImageMetadata;
   badgeAlt?: string;
   href?: string;
-  ratio?: 'square' | 'portrait' | 'portrait-square';
+  ratio?: 'square' | 'portrait' | 'portrait-square' | 'square-portrait';
   sizes?: string;
   stackMeta?: boolean; // small cards stack client and sector on mobile
   eager?: boolean;
   proof?: string; // service page proof sections add the proof line under the claim
 }
 const { client, meta, claim, image, badge, badgeAlt = '', href, ratio = 'portrait', sizes = '(min-width: 1024px) 31vw, 50vw', stackMeta = false, eager = false, proof } = Astro.props;
-const aspect = { square: 'aspect-square', portrait: 'aspect-[4/5]', 'portrait-square': 'aspect-[4/5] lg:aspect-square' }[ratio];
+const aspect = { square: 'aspect-square', portrait: 'aspect-[4/5]', 'portrait-square': 'aspect-[4/5] lg:aspect-square', 'square-portrait': 'aspect-square lg:aspect-[4/5]' }[ratio];
 ---
 <article class="hover-card relative flex flex-col">
   <div class:list={['relative overflow-hidden bg-line', aspect]}>

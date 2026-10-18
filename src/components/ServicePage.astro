@@ -10,6 +10,7 @@ import SectionIntro from './SectionIntro.astro';
 import TextLink from './TextLink.astro';
 import CaseStudyCard from './CaseStudyCard.astro';
 import ScreenTile from './ScreenTile.astro';
+import TrustTiles from './TrustTiles.astro';
 import ServiceExtra from './ServiceExtra.astro';
 import Faqs from './home/Faqs.astro';
 import Contact from './home/Contact.astro';
@@ -85,14 +86,7 @@ const cell = 't-label tracking-[0.02em]';
 
     <!-- Trust row -->
     <section class="px-margin pt-large lg:pt-[40px]" aria-label="Why clients choose this service">
-      <ul class="t-label flex flex-col gap-2 tracking-[0.02em] text-ink lg:flex-row lg:gap-grid">
-        {p.trust.map((t, i) => (
-          <>
-            {i > 0 && <li class="hidden w-px self-stretch bg-line lg:block" aria-hidden="true"></li>}
-            <li class:list={['flex items-center lg:flex-1', i === 0 ? 'justify-center bg-[#1b1b1b] p-3 text-center' : 'px-3 py-1 lg:p-3 lg:px-0']}>{t}</li>
-          </>
-        ))}
-      </ul>
+      <TrustTiles items={p.trust.map((text) => ({ text }))} />
     </section>
     {after('trust').map((x) => <ServiceExtra item={x} />)}
 
