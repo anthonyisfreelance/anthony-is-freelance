@@ -358,57 +358,28 @@ dialog[data-project-dialog]:not([open])::backdrop {
   }
 }
 
-/* Mega menu (desktop). Opening from closed: the blue wash fades in, the panel unrolls down over
-   it and its columns rise into place one after another. Moving to another menu while one is open
-   skips the unroll and only the new columns rise, so it feels quick. Closing is a short fade.
-   No motion for reduced-motion users: the menu simply appears, as before. */
+/* Mega menu (desktop). The bar and the panel appear instantly, together. Only what is inside the
+   panel moves: each column, then each item down the column, fades and rises into place with an
+   easy ease (the After Effects default). Same again when moving across to another menu.
+   No motion for reduced-motion users. */
 @media (prefers-reduced-motion: no-preference) {
-  [data-mega-backdrop]:not([hidden]) {
-    animation: mega-fade 400ms ease-out both;
+  [data-mega-panel]:not([hidden]) > div > :not(ul),
+  [data-mega-panel]:not([hidden]) > div > ul > li {
+    animation: mega-rise 560ms cubic-bezier(0.33, 0, 0.67, 1) both;
+    animation-delay: calc(var(--col, 0ms) + var(--row, 0) * 35ms);
   }
-  [data-mega-panel]:not([hidden]) {
-    animation: mega-unroll 560ms var(--ease-out-expo) both;
-  }
-  [data-mega-panel]:not([hidden]) > div > * {
-    animation: mega-rise 640ms var(--ease-out-expo) both;
-    animation-delay: 90ms;
-  }
-  [data-mega-panel]:not([hidden]) > div > :nth-child(2) { animation-delay: 140ms; }
-  [data-mega-panel]:not([hidden]) > div > :nth-child(3) { animation-delay: 190ms; }
-  [data-mega-panel]:not([hidden]) > div > :nth-child(4) { animation-delay: 240ms; }
-  [data-mega-panel]:not([hidden]) > div > :nth-child(5) { animation-delay: 290ms; }
-  [data-mega-swap] [data-mega-panel]:not([hidden]) {
-    animation: none;
-  }
-  [data-mega-swap] [data-mega-panel]:not([hidden]) > div > * {
-    animation-duration: 480ms;
-    animation-delay: 0ms;
-  }
-  [data-mega-swap] [data-mega-panel]:not([hidden]) > div > :nth-child(n + 2) {
-    animation-delay: 40ms;
-  }
-  [data-mega-wrap][data-mega-closing] > :not([hidden]) {
-    animation: mega-out 220ms ease-in forwards;
-  }
-  [data-header] {
-    transition: background-color 300ms ease-out;
-  }
-}
-:root {
-  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
-}
-@keyframes mega-fade {
-  from { opacity: 0; }
-}
-@keyframes mega-unroll {
-  from { clip-path: inset(0 0 100% 0); }
-  to { clip-path: inset(0 0 0 0); }
-}
-@keyframes mega-out {
-  to { opacity: 0; }
+  [data-mega-panel] > div > :nth-child(2) { --col: 50ms; }
+  [data-mega-panel] > div > :nth-child(3) { --col: 100ms; }
+  [data-mega-panel] > div > :nth-child(4) { --col: 150ms; }
+  [data-mega-panel] > div > :nth-child(5) { --col: 200ms; }
+  [data-mega-panel] li:nth-child(2) { --row: 1; }
+  [data-mega-panel] li:nth-child(3) { --row: 2; }
+  [data-mega-panel] li:nth-child(4) { --row: 3; }
+  [data-mega-panel] li:nth-child(5) { --row: 4; }
+  [data-mega-panel] li:nth-child(n + 6) { --row: 5; }
 }
 @keyframes mega-rise {
-  from { opacity: 0; translate: 0 10px; }
+  from { opacity: 0; translate: 0 12px; }
 }
 
 /* Big screens. Up to 1920px everything is exactly as designed. From 1920 to 2560 every heading
