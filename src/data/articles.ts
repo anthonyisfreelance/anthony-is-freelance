@@ -1,6 +1,6 @@
 // Articles: every live article, one category each (page-copy/articles.md, 1 October 2026).
 // Titles, URLs, dates and excerpts from WordPress, 19 October 2026. The excerpt is the first
-// sentence of the article's own excerpt. Featured images come across with the articles.
+// sentence of the article's own excerpt; cards don't show it (Figma), the schema does. Featured images come across with the articles.
 import { URLS } from './site';
 
 export const ARTICLE_CATEGORIES = [
@@ -50,9 +50,6 @@ export const ARTICLES_LIST: Article[] = [
 
 export const categoryLabel = (id: ArticleCategory) => ARTICLE_CATEGORIES.find((c) => c.id === id)!.label;
 
-/** "20 September 2026" */
-export const formatDate = (iso: string) =>
-  new Date(iso + 'T12:00:00Z').toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric', timeZone: 'UTC' });
 
 export const ARTICLES_PAGE = {
   path: URLS.articles,

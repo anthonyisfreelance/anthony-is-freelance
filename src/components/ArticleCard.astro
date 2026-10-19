@@ -1,24 +1,20 @@
 ---
-// Article card (articles page, homepage): image, category and publish date, the title as the only
-// link (stretched over the card), then the opening sentence. No "Read more", as on case study cards.
-import { type Article, categoryLabel, formatDate } from '../data/articles';
+// Article card (Figma "_Master blog posts", Articles page): image, category above a rule, then the
+// title as the only link, stretched over the card. Used on the articles page, homepage and mega menu.
+// Publish dates stay in the page schema.
+import { type Article, categoryLabel } from '../data/articles';
 interface Props {
   article: Article;
-  excerpt?: boolean;
   titleTag?: 'h2' | 'h3' | 'p'; // 'p' in menus, so they add no headings to the page
   ratio?: 'video' | 'square';
 }
-const { article: a, excerpt = true, titleTag: Title = 'h3', ratio = 'video' } = Astro.props;
+const { article: a, titleTag: Title = 'h3', ratio = 'video' } = Astro.props;
 ---
 <article class="hover-card relative flex h-full flex-col">
   <!-- Featured images come across with the articles -->
   <div class:list={['bg-line', ratio === 'square' ? 'aspect-square' : 'aspect-video']} aria-hidden="true"></div>
-  <div class="flex flex-col gap-2 pt-2 lg:gap-3">
-    <p class="t-badge flex flex-col gap-1 border-b border-line pb-2 text-muted sm:flex-row sm:gap-2 lg:pb-3">
-      <span class="flex-1">{categoryLabel(a.category)}</span>
-      <time datetime={a.date} class="sm:text-right">{formatDate(a.date)}</time>
-    </p>
+  <div class="flex flex-col gap-2 pt-3">
+    <p class="t-badge border-b border-line pb-2 text-muted">{categoryLabel(a.category)}</p>
     <Title class="t-h6 text-ink"><a href={a.href} class="stretched-link link-hover">{a.title}</a></Title>
-    {excerpt && <p class="t-small hidden text-muted sm:block">{a.excerpt}</p>}
   </div>
 </article>

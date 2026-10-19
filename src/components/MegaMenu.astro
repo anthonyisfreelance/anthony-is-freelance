@@ -67,7 +67,7 @@ const workCards = [STORIES.featured, ...STORIES.cards.filter((c) => c.href)].sli
   <!-- Articles -->
   <div id="mega-articles" data-mega-panel hidden class="border-b border-line bg-surface px-margin pb-large pt-4">
     <div class="grid grid-cols-4 gap-gutter">
-      {ARTICLES_LIST.slice(0, 3).map((a) => <ArticleCard article={a} excerpt={false} titleTag="p" ratio="square" />)}
+      {ARTICLES_LIST.slice(0, 3).map((a) => <ArticleCard article={a} titleTag="p" ratio="square" />)}
       <div class="flex flex-col gap-gutter">
         <p class="t-h6 text-ink">{MEGA.articles.sideHeading}</p>
         <ul class="flex flex-col gap-gutter">

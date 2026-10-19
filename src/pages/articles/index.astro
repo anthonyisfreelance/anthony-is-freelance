@@ -30,6 +30,7 @@ const blog = {
     headline: a.title,
     url: new URL(a.href, SITE).href,
     datePublished: a.date,
+    description: a.excerpt,
     articleSection: categoryLabel(a.category),
   })),
 };
@@ -67,7 +68,7 @@ const filters = ARTICLE_CATEGORIES.filter((c) => ARTICLES_LIST.some((a) => a.cat
             <Image src={photo} alt="Anthony Bliss" widths={[180, 360]} sizes="180px" class="absolute inset-0 size-full object-cover" />
           </div>
           <div class="t-body flex flex-col gap-loose text-muted">
-            <p class="text-ink">{P.author.award}</p>
+            <p class="t-h7 text-ink">{P.author.award}</p>
             <p>{P.author.experience}</p>
             <ul class="flex list-disc flex-col gap-2 pl-5">
               {P.author.rules.map((r) => <li>{r}</li>)}
