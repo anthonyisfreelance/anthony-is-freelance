@@ -1,0 +1,39 @@
+---
+// Filter buttons for a grid of cards (work page, articles). Every card is in the HTML; the filters
+// only show and hide them, so there are no filtered URLs to index. A card lists the filters it
+// belongs to in data-tags; anything marked data-filter-all only shows under All.
+// The chosen filter is kept in the URL hash, so a filtered view can be linked to.
+interface Props { label: string; filters: readonly { id: string; label: string }[] }
+const { label, filters } = Astro.props;
+---
+<div role="group" aria-label={label} class="flex flex-wrap gap-x-grid gap-y-3" data-filters>
+  <button type="button" data-filter="all" aria-pressed="true" class="t-button text-muted hover:text-ink aria-pressed:text-ink">All</button>
+  {filters.map((f) => (
+    <button type="button" data-filter={f.id} aria-pressed="false" class="t-button text-muted hover:text-ink aria-pressed:text-ink">{f.label}</button>
+  ))}
+</div>
+
+<script is:inline>
+  (function () {
+    var root = document.querySelector('[data-filters]');
+    if (!root) return;
+    var buttons = root.querySelectorAll('[data-filter]');
+    // Cards come after this script in the page, so look them up when filtering.
+    function apply(id) {
+      var cards = document.querySelectorAll('[data-tags]');
+      var onlyAll = document.querySelectorAll('[data-filter-all]');
+      if (!root.querySelector('[data-filter="' + id + '"]')) id = 'all';
+      buttons.forEach(function (b) { b.setAttribute('aria-pressed', String(b.getAttribute('data-filter') === id)); });
+      cards.forEach(function (c) { c.hidden = id !== 'all' && c.getAttribute('data-tags').split(' ').indexOf(id) === -1; });
+      onlyAll.forEach(function (el) { el.hidden = id !== 'all'; });
+    }
+    buttons.forEach(function (b) {
+      b.addEventListener('click', function () {
+        var id = b.getAttribute('data-filter');
+        apply(id);
+        history.replaceState(null, '', id === 'all' ? location.pathname : '#' + id);
+      });
+    });
+    if (location.hash) document.addEventListener('DOMContentLoaded', function () { apply(location.hash.slice(1)); });
+  })();
+</script>

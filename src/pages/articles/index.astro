@@ -1,0 +1,85 @@
+---
+// Articles landing page: like the work page, filters over a grid of every article
+// (three across on desktop, two on phones). Every card is in the HTML; filtering only shows
+// and hides them. Copy from page-copy/articles.md; articles from src/data/articles.ts.
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Schema from '../../components/Schema.astro';
+import Header from '../../components/Header.astro';
+import PageHero from '../../components/PageHero.astro';
+import Filters from '../../components/Filters.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+import Heading from '../../components/Heading.astro';
+import TextLink from '../../components/TextLink.astro';
+import Contact from '../../components/home/Contact.astro';
+import { SITE, ENTITY, URLS } from '../../data/site';
+import { ARTICLES_LIST, ARTICLE_CATEGORIES, ARTICLES_PAGE as P, categoryLabel } from '../../data/articles';
+import photo from '../../assets/home/anthony.jpg';
+
+const url = new URL(P.path, SITE).href;
+const blog = {
+  '@type': 'Blog',
+  '@id': `${url}#blog`,
+  name: 'Shopify Design and CRO Articles',
+  url,
+  inLanguage: 'en-GB',
+  author: { '@id': ENTITY.person.id },
+  publisher: { '@id': ENTITY.business.id },
+  blogPost: ARTICLES_LIST.map((a) => ({
+    '@type': 'BlogPosting',
+    headline: a.title,
+    url: new URL(a.href, SITE).href,
+    datePublished: a.date,
+    articleSection: categoryLabel(a.category),
+  })),
+};
+// Only show a filter once it has an article.
+const filters = ARTICLE_CATEGORIES.filter((c) => ARTICLES_LIST.some((a) => a.category === c.id));
+---
+<Base title={P.title} description={P.description}>
+  <Schema
+    slot="head"
+    type="CollectionPage"
+    title={P.title}
+    description={P.description}
+    path={P.path}
+    breadcrumbs={[{ name: 'Home', path: URLS.home }, { name: 'Articles', path: P.path }]}
+    mainEntity={`${url}#blog`}
+    extra={[blog]}
+  />
+  <Header />
+  <main id="main">
+    <PageHero eyebrow={P.eyebrow} heading={P.heading} intro={P.intro} />
+
+    <section id="articles" aria-label="Articles" class="px-margin pb-section pt-large">
+      <Filters label="Filter by topic" filters={filters} />
+      <ul class="mt-gutter grid grid-cols-2 gap-x-grid gap-y-large lg:grid-cols-3 lg:gap-y-[64px]">
+        {ARTICLES_LIST.map((a) => <li data-tags={a.category}><ArticleCard article={a} /></li>)}
+      </ul>
+    </section>
+
+    <!-- Author and standards -->
+    <section class="px-margin pb-section">
+      <div class="grid gap-gutter border-t border-line pt-section lg:grid-cols-2">
+        <Heading eyebrow={P.author.eyebrow}>{P.author.heading}</Heading>
+        <div class="flex flex-col gap-loose sm:flex-row sm:items-start sm:gap-grid">
+          <div class="relative aspect-[4/5] w-[140px] shrink-0 overflow-hidden lg:w-[180px]">
+            <Image src={photo} alt="Anthony Bliss" widths={[180, 360]} sizes="180px" class="absolute inset-0 size-full object-cover" />
+          </div>
+          <div class="t-body flex flex-col gap-loose text-muted">
+            <p class="text-ink">{P.author.award}</p>
+            <p>{P.author.experience}</p>
+            <ul class="flex list-disc flex-col gap-2 pl-5">
+              {P.author.rules.map((r) => <li>{r}</li>)}
+            </ul>
+            <div class="flex flex-wrap gap-x-grid gap-y-4">
+              {P.author.links.map((l) => <TextLink href={l.href} external={'external' in l && l.external}>{l.label}</TextLink>)}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <Contact />
+  </main>
+</Base>

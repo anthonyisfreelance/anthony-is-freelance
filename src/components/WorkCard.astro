@@ -13,7 +13,7 @@ const w = s.image ? Math.min(1400, s.image.width, Math.round(s.image.height / ra
 const widths = [360, 560, 720, 1000, 1400].filter((x) => x < w).concat(w);
 const sizes = '(min-width: 1024px) 24vw, 50vw';
 ---
-<article class="hover-card relative flex flex-col" data-services={s.services.join(' ')}>
+<article class="hover-card relative flex flex-col">
   <div class="grid grid-cols-2 gap-[2px]">
     <div class="relative aspect-[4/5] overflow-hidden bg-line">
       {s.image ? (

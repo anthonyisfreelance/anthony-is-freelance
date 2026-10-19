@@ -30,7 +30,7 @@ const triggers = [
     </a>
 
     <nav aria-label="Main" class="hidden flex-wrap items-center justify-between gap-x-gutter gap-y-3 lg:flex">
-      <ul class="flex flex-wrap items-center gap-x-grid gap-y-2">
+      <ul class="flex flex-wrap items-center gap-x-[clamp(24px,calc(6.4286vw-68.57px),96px)] gap-y-2">
         {triggers.map((t) => (
           <li data-mega-item class="relative flex items-center after:absolute after:inset-x-0 after:top-full after:h-[var(--bridge,0px)] after:content-['']">
             <a href={t.href} data-mega-link={t.id} class="t-button-lg link-hover whitespace-nowrap text-ink data-[active]:underline">{t.label}</a>

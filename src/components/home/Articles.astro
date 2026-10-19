@@ -1,7 +1,9 @@
 ---
 import SectionIntro from '../SectionIntro.astro';
 import TextLink from '../TextLink.astro';
+import ArticleCard from '../ArticleCard.astro';
 import { ARTICLES } from '../../data/home';
+import { ARTICLES_LIST } from '../../data/articles';
 ---
 <section class="px-margin pt-section-sm lg:pt-section-pre">
   <div class="border-t border-line pt-section">
@@ -9,17 +11,7 @@ import { ARTICLES } from '../../data/home';
       <TextLink slot="links" href={ARTICLES.link.href}>{ARTICLES.link.label}</TextLink>
     </SectionIntro>
     <ul class="mt-grid-lg grid grid-cols-2 gap-x-grid gap-y-large lg:grid-cols-4">
-      {ARTICLES.items.map((a) => (
-        <li>
-          <article class="hover-card relative flex flex-col">
-            <div class="aspect-video bg-line" aria-hidden="true"></div>
-            <div class="flex flex-col gap-2 pt-2">
-              <p class="t-badge border-b border-line pb-2 text-muted">{a.category}</p>
-              <h3 class="t-h6 text-ink"><a href={a.href} class="stretched-link link-hover">{a.title}</a></h3>
-            </div>
-          </article>
-        </li>
-      ))}
+      {ARTICLES_LIST.slice(0, 4).map((a) => <li><ArticleCard article={a} excerpt={false} /></li>)}
     </ul>
   </div>
 </section>

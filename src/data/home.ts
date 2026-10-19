@@ -243,21 +243,7 @@ export const ARTICLES = {
   eyebrow: 'Shopify design articles',
   heading: 'Findings from the stores I design',
   link: { label: 'View all articles', href: URLS.articles },
-  // Featured images come across with the articles.
-  items: [
-    { category: 'Shopify CRO', title: 'What Is a Good Conversion Rate on Shopify?', href: '/articles/good-conversion-rate-shopify/' },
-    { category: 'News', title: 'Two wins at the UK eCommerce Awards 2026', href: '/articles/shortlisted-uk-ecommerce-awards-2026/' },
-    {
-      category: 'Design and UX',
-      title: "What Is a Shopify UX Review (And Why It's Where Every Project Should Start)",
-      href: '/articles/shopify-ux-review/',
-    },
-    {
-      category: 'Design and UX',
-      title: 'Shopify Product Card Design: The Art of Cards That Convert',
-      href: '/articles/shopify-product-card-design/',
-    },
-  ],
+  // The four newest articles render from src/data/articles.ts.
 };
 
 export const FAQS = {

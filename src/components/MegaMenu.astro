@@ -5,7 +5,9 @@ import { Image } from 'astro:assets';
 import CaseStudyCard from './CaseStudyCard.astro';
 import ScreenTile from './ScreenTile.astro';
 import { MEGA } from '../data/site';
-import { STORIES, ARTICLES } from '../data/home';
+import { STORIES } from '../data/home';
+import { ARTICLES_LIST } from '../data/articles';
+import ArticleCard from './ArticleCard.astro';
 import screen from '../assets/home/innovation-screen.png';
 
 const link = 't-button-lg text-ink link-hover';
@@ -65,13 +67,7 @@ const workCards = [STORIES.featured, ...STORIES.cards.filter((c) => c.href)].sli
   <!-- Articles -->
   <div id="mega-articles" data-mega-panel hidden class="border-b border-line bg-surface px-margin pb-large pt-4">
     <div class="grid grid-cols-4 gap-gutter">
-      {ARTICLES.items.slice(0, 3).map((a) => (
-        <article class="hover-card relative flex flex-col">
-          <div class="aspect-square bg-line" aria-hidden="true"></div>
-          <p class="t-badge border-b border-line py-3 text-muted">{a.category}</p>
-          <p class="t-h6 mt-3 text-ink"><a href={a.href} class="stretched-link link-hover">{a.title}</a></p>
-        </article>
-      ))}
+      {ARTICLES_LIST.slice(0, 3).map((a) => <ArticleCard article={a} excerpt={false} titleTag="p" ratio="square" />)}
       <div class="flex flex-col gap-gutter">
         <p class="t-h6 text-ink">{MEGA.articles.sideHeading}</p>
         <ul class="flex flex-col gap-gutter">
