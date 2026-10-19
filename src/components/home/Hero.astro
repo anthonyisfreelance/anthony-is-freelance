@@ -7,6 +7,7 @@ import TextLink from '../TextLink.astro';
 import SectionIntro from '../SectionIntro.astro';
 import CaseStudyCard from '../CaseStudyCard.astro';
 import { HERO, STORIES } from '../../data/home';
+import { URLS } from '../../data/site';
 import Showreel from '../Showreel.astro';
 import TrustTiles from '../TrustTiles.astro';
 ---
@@ -24,7 +25,7 @@ import TrustTiles from '../TrustTiles.astro';
         </Heading>
         <p class="t-body text-muted">{HERO.intro}</p>
         <div class="flex flex-wrap gap-x-grid gap-y-4">
-          {HERO.ctas.map((c) => <TextLink href={c.href}>{c.label}</TextLink>)}
+          {HERO.ctas.map((c) => <TextLink href={c.href} data-project-open={c.href === URLS.contact ? '' : undefined}>{c.label}</TextLink>)}
         </div>
       </div>
 

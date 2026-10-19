@@ -1,0 +1,73 @@
+---
+// Start a project overlay. Every Start a project button carries data-project-open and opens it;
+// the buttons are still real links, so they work before the script runs.
+// Desktop (Figma "Overlay" 47742:10966): full screen, a blue testimonial panel on the left third,
+// the form on the right. Phones (Figma "Form" 48163:16962): the form slides up from the bottom
+// over the same blue wash as the mega menu. A modal <dialog>, so focus stays inside,
+// Escape closes it and the page behind is inert.
+import ProjectForm from './ProjectForm.astro';
+import TrustTiles from './TrustTiles.astro';
+import { CONTACT, PROJECT_DIALOG } from '../data/home';
+const { aside } = PROJECT_DIALOG;
+---
+<dialog
+  id="project-dialog"
+  data-project-dialog
+  aria-labelledby="project-dialog-title"
+  class="theme-light m-0 mt-auto max-h-[calc(100dvh-40px)] w-full max-w-none overflow-y-auto border-0 p-0 backdrop:bg-blue/60 lg:mt-0 lg:h-dvh lg:max-h-none lg:overflow-hidden"
+>
+  <div class="lg:grid lg:h-full lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)]">
+    <aside class="hidden bg-blue text-white lg:flex lg:flex-col lg:justify-between lg:overflow-y-auto" aria-label="What clients say">
+      <div class="p-margin">
+        <img src="/icons/logo.svg" alt="Anthony is Freelance" width="172" height="44" class="h-11 w-auto" />
+      </div>
+      <div class="flex flex-col gap-12 px-margin">
+        <p class="t-h2">{aside.heading}</p>
+        <figure class="flex flex-col gap-6">
+          <blockquote class="font-display text-[26px] font-medium leading-[1.5]">“{aside.quote}”</blockquote>
+          <figcaption class="t-label">{aside.cite}</figcaption>
+        </figure>
+      </div>
+      <TrustTiles
+        class="px-margin py-[40px] [--c-raised:#fff] [--c-text:#111]"
+        items={[{ google: true, stars: true, text: '5/5', srText: ' from Google reviews' }, ...PROJECT_DIALOG.trust.map((text) => ({ text }))]}
+      />
+    </aside>
+
+    <div class="flex flex-col lg:overflow-y-auto">
+      <div class="flex justify-end p-margin">
+        <button type="button" data-project-close aria-label="Close" class="t-button flex cursor-pointer items-center text-ink">
+          <span class="lg:hidden">Close</span>
+          <img src="/icons/close-dark.svg" alt="" width="18" height="18" class="hidden size-[18px] lg:block" />
+        </button>
+      </div>
+      <div class="flex flex-col gap-large px-margin pb-6 lg:px-[64px]">
+        <h2 id="project-dialog-title" class="t-h2 text-ink">
+          <span class="eyebrow lg:hidden" data-deco>{CONTACT.eyebrow}<span class="sr-only">.</span></span>
+          <span class="lg:hidden">{CONTACT.heading}</span>
+          <span class="hidden lg:inline">{PROJECT_DIALOG.heading}</span>
+        </h2>
+        <ProjectForm />
+      </div>
+    </div>
+  </div>
+</dialog>
+
+<script is:inline>
+  (function () {
+    var dialog = document.querySelector('[data-project-dialog]');
+    if (!dialog) return;
+    document.addEventListener('click', function (e) {
+      var trigger = e.target.closest && e.target.closest('[data-project-open]');
+      if (!trigger || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+      e.preventDefault();
+      // From inside the phone menu: close the menu first, then open the form.
+      var menu = document.querySelector('dialog[data-mobile-menu][open]');
+      if (menu) menu.close();
+      if (!dialog.open) dialog.showModal();
+    });
+    dialog.querySelector('[data-project-close]').addEventListener('click', function () { dialog.close(); });
+    // A click on the blue wash (the dialog's backdrop) closes it.
+    dialog.addEventListener('click', function (e) { if (e.target === dialog) dialog.close(); });
+  })();
+</script>

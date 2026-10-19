@@ -311,3 +311,15 @@ export const CONTACT = {
   budgets: ['Under £5,000', '£5,000 – £10,000', '£10,000 – £20,000', '£20,000+', 'Not sure yet'],
   legal: 'Anthony Bliss · Falmouth, Cornwall · Anthonyis Limited, company number 10575474',
 };
+
+// The Start a project overlay (Figma "Overlay" 47742:10966 desktop, "Form" 48163:16962 mobile).
+// Desktop has its own heading; phones reuse the eyebrow and heading above.
+export const PROJECT_DIALOG = {
+  heading: 'Start a project',
+  aside: {
+    heading: 'What clients say about working with me.',
+    quote: 'A true craftsman who takes pride in his work and delivers amazing results.',
+    cite: 'Ali Zaman, Owner, East at Home · 2026',
+  },
+  trust: ['20+ years ecommerce and brand experience', 'UK eCommerce Website of the Year 2026'],
+};

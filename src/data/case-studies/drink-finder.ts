@@ -8,7 +8,7 @@ import vineyard from '../../assets/drink-finder/vineyard.jpg';
 import stillDesktop from '../../assets/drink-finder/still-desktop.jpg';
 import stillCollection from '../../assets/drink-finder/still-collection.jpg';
 import stillPdp from '../../assets/drink-finder/still-pdp.jpg';
-import stillNav from '../../assets/drink-finder/still-nav.jpg';
+import navSearch from '../../assets/drink-finder/nav-search.jpg';
 import phonePdp from '../../assets/drink-finder/phone-pdp.jpg';
 import phoneBrandCollection from '../../assets/drink-finder/phone-brand-collection.jpg';
 import uxHome from '../../assets/drink-finder/ux-home.jpg';
@@ -100,39 +100,37 @@ export const WORK_INTRO = {
 };
 
 // Image and text rows, in Figma order. `flip` puts the media on the left.
-// `style: 'caps'` is the uppercase H3; `'plain'` is the sentence-case H6 style.
+// [CONFIRM] Figma uses one search screen (nav-search.jpg) in rows one, two and four as a placeholder.
+// It is used here for the nav row it shows; the other rows keep their own screens until final
+// tall phone screens (375 × 820) are ready.
 export const HIGHLIGHTS = [
   {
     eyebrow: 'Shopify collection page design',
     heading: 'Compare bottles without opening every one.',
-    style: 'caps',
     body: 'Shopify collection page design is where wine shoppers compare. A Show extras switch opens every product card to show style, grape and country, so they compare side by side before they click.',
     media: { image: stillCollection, alt: 'The Mix, match and save collection on mobile, with the Show extras switch above the products.' },
     flip: false,
   },
   {
     heading: 'Make the saving easy to see.',
-    style: 'plain',
     body: "Shopify product page design puts grape, region and vintage next to the bottle. Six and twelve bottle offers are buttons you tap, and the basket shows the next saving. A good offer doesn't need pushing.",
     media: { image: stillPdp, alt: 'A Drink Finder product page, with one, six and twelve bottle offers as buttons above the price.' },
     flip: true,
   },
   {
     heading: 'The nav is your site.',
-    style: 'plain',
     body: 'I designed Drink Finder’s mobile navigation from scratch, so a customer gets from the home screen to a Spanish Rioja or an organic Cornish wine in a few taps. Search suggests popular searches and bottles before you type.',
-    media: { image: stillNav, alt: 'A Drink Finder product page on mobile.' },
+    media: { image: navSearch, alt: 'Drink Finder search on mobile, with popular searches and popular products showing before you type.' },
     flip: false,
   },
   {
     heading: 'Design for what shoppers actually saw.',
-    style: 'caps',
     body: 'The Shopify UX review mapped every screen at real phone sizes. Sticky sign-up buttons and a chat widget covered the buttons that mattered, so the offer moved into a notifications button in the header.',
     media: { image: uxHome, alt: 'The Drink Finder homepage on mobile, with nothing covering the buttons.' },
     flip: true,
   },
 ] as const satisfies readonly {
-  eyebrow?: string; heading: string; style: 'caps' | 'plain'; body: string; media: Media; flip: boolean;
+  eyebrow?: string; heading: string; body: string; media: Media; flip: boolean;
 }[];
 
 // Scrolling column of screens beside a sticky photo.
