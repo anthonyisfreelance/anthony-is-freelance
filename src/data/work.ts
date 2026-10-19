@@ -40,16 +40,9 @@ export interface CaseStudy {
 const p = (slug: string) => `/portfolio/${slug}/`;
 
 export const CASE_STUDIES: CaseStudy[] = [
+  // Best first (work page doc, 19 October 2026). Sector and go-live month on every card.
   {
-    client: 'East at Home', meta: 'Food & drink · 2025',
-    claim: '82% more revenue after a mobile-first redesign',
-    proof: 'October to June vs the same months a year earlier. GA4, UK sessions.',
-    href: URLS.caseStudies.eastAtHome, image: eastAtHome,
-    badge: badgeEastAtHome, badgeAlt: 'UK eCommerce Awards 2026 winner: UK User Experience of the Year',
-    services: ['bespoke-store-design', 'shopify-cro', 'shopify-ux-design'],
-  },
-  {
-    client: 'Drink Finder', meta: 'Food & drink · 2025',
+    client: 'Drink Finder', meta: 'Food & drink · August 2025',
     claim: '34% more website sales after moving to Shopify',
     proof: 'September to February vs the same months a year earlier. EPoS till data, marketplaces excluded.',
     href: URLS.caseStudies.drinkFinder, image: drinkFinder, screen,
@@ -57,66 +50,83 @@ export const CASE_STUDIES: CaseStudy[] = [
     services: ['migrations', 'bespoke-store-design', 'shopify-cro'],
   },
   {
-    client: 'Projektityyny', meta: 'Home · 2026',
+    client: 'East at Home', meta: 'Food & drink · October 2025',
+    claim: '82% more revenue after a mobile-first redesign',
+    proof: 'October to June vs the same months a year earlier. GA4, UK sessions.',
+    href: URLS.caseStudies.eastAtHome, image: eastAtHome,
+    badge: badgeEastAtHome, badgeAlt: 'UK eCommerce Awards 2026 winner: UK User Experience of the Year',
+    services: ['bespoke-store-design', 'shopify-cro', 'shopify-ux-design'],
+  },
+  {
+    client: 'Fuzzball', meta: 'Pets · August 2025',
+    claim: '63% higher conversion rate after a subscription redesign',
+    proof: 'August 2025 to August 2026 vs the same months a year earlier. GA4.',
+    href: p('fuzzball-shopify-website-design-case-study'), image: fuzzball,
+    services: ['subscriptions', 'shopify-cro'],
+  },
+  {
+    client: 'Projektityyny', meta: 'Home · June 2026',
     claim: 'A mobile-first store launch for a Nordic-inspired textiles brand',
-    proof: 'PageSpeed 93 [CONFIRM date, device]. Over 80% of visitors on mobile.',
+    // PageSpeed dropped (19 October 2026): speed is development work, not design.
+    proof: 'Every past collection stays live as a shoppable lookbook, so campaign photography keeps earning traffic.',
     href: p('projektityyny-shopify-website-design-case-study'), image: projektityyny,
     services: ['bespoke-store-design'],
   },
   {
-    client: 'Hartnack & Co', meta: 'Stationery & gifts · 2025',
-    claim: 'A bespoke store that sells made-to-order books online',
-    proof: 'Landing pages by use, from business binders to pilot log books, help customers picture the product in their life.',
-    href: p('hartnack-and-co-shopify-website-design-case-study'), image: hartnack,
-    services: ['bespoke-store-design', 'shopify-ux-design'],
-  },
-  {
-    client: 'Thameen London', meta: 'Beauty · 2025',
+    client: 'Thameen London', meta: 'Beauty · March 2026',
     claim: 'Off headless, onto a premium theme the team runs themselves',
     proof: '"A journey that feels both effortless for the customer and truly reflective of Thameen\'s luxury positioning." Nour Abdel-Motaal',
     href: p('thameen-london-shopify-website-design-case-study'), image: thameen,
     services: ['theme-customisations'],
   },
   {
-    client: 'Fuzzball', meta: 'Pets · 2025',
-    claim: 'A subscription redesign for a pet food brand',
-    proof: 'The menu carries quality, delivery and how-it-works messages, so people trust the subscription before signing up.',
-    href: p('fuzzball-shopify-website-design-case-study'), image: fuzzball,
-    services: ['subscriptions', 'shopify-cro'],
+    client: 'Dr Lipp', meta: 'Beauty · May 2024',
+    claim: '38% higher conversion rate after a re-theme',
+    proof: 'May 2024 to February 2025 vs the previous period. Shopify Analytics.',
+    href: p('dr-lipp-shopify-website-case-study'),
+    services: ['theme-customisations'],
   },
   {
-    client: 'Whistlefish', meta: 'Stationery & gifts · 2025',
+    client: 'Whistlefish', meta: 'Stationery & gifts · April 2025',
     claim: 'A Shopify 2.0 redesign their own team now builds on',
     proof: '"We\'ve since been able to carry that framework into our own design team." Will Manders',
     href: p('whistlefish-2-0-shopify-website-design-case-study'), image: whistlefish,
     services: ['bespoke-store-design', 'shopify-ux-design', 'shopify-cro'],
   },
   {
-    client: 'Wide Fit Shoes', meta: 'Fashion · 2025',
+    client: 'Wide Fit Shoes', meta: 'Fashion · August 2024',
     claim: 'A theme rebuild running both the UK and US stores',
     proof: 'Product cards show width and colours before the click, on a palette built for WCAG AAA contrast [CONFIRM scope].',
     href: URLS.caseStudies.wideFitShoes, image: wideFitShoes,
     services: ['theme-customisations'],
   },
   {
-    client: 'East West Apparel', meta: 'Fashion · [CONFIRM year]',
-    claim: 'A WooCommerce to Shopify migration that lifted sales',
-    proof: '"The increase in sales because of it." Jamie Lee, Owner',
-    href: p('east-west-apparel-shopify-website-design-case-study'),
-    services: ['migrations'],
+    client: 'Hartnack & Co', meta: 'Stationery & gifts · June 2025',
+    // No figure: GA4 shows conversion down since launch, so 39% and 91% are off (19 October 2026).
+    claim: 'A bespoke store that sells made-to-order books online',
+    proof: 'Landing pages by use, from business binders to pilot log books, help customers picture the product in their life.',
+    href: p('hartnack-and-co-shopify-website-design-case-study'), image: hartnack,
+    services: ['bespoke-store-design', 'shopify-ux-design'],
   },
   {
-    client: 'Window Fleur', meta: 'Home · [CONFIRM year]',
+    client: 'Window Fleur', meta: 'Home · August 2024',
     claim: '[CONFIRM: what the project was and what it changed]',
     proof: "Brand patterns carry key shopping messages through the store, in a way that's fun and memorable.",
     href: p('window-fleur-shopify-case-study'),
     services: ['bespoke-store-design', 'subscriptions'],
   },
   {
-    client: 'Dr Lipp', meta: 'Beauty · [CONFIRM year]',
-    claim: 'A re-theme that gave the team a section library to build with',
+    client: 'East West Apparel', meta: 'Fashion · 2025',
+    claim: 'A WooCommerce to Shopify migration that lifted sales',
+    proof: '"The increase in sales because of it." Jamie Lee, Owner',
+    href: p('east-west-apparel-shopify-website-design-case-study'),
+    services: ['migrations'],
+  },
+  {
+    // Newest launch (brief, 18 October 2026). No case study page yet, so no link.
+    client: 'Sensational Eyes', meta: 'Beauty · 2026',
+    claim: '[CONFIRM: a theme customisation for a relaunched under-eye treatment, and what it changed]',
     proof: '[CONFIRM: one design decision]',
-    href: p('dr-lipp-shopify-website-case-study'),
     services: ['theme-customisations'],
   },
   {
@@ -124,13 +134,6 @@ export const CASE_STUDIES: CaseStudy[] = [
     claim: 'A Shopify Plus redesign for a luxury tea brand',
     proof: 'A gold and earth palette widened with neutrals, with gold kept for key actions.',
     href: p('jing-tea-shopify-website-design-case-study'),
-    services: ['theme-customisations'],
-  },
-  {
-    // Newest launch (brief, 18 October 2026). No case study page yet, so no link.
-    client: 'Sensational Eyes', meta: 'Beauty · 2026',
-    claim: '[CONFIRM: a theme customisation for a relaunched under-eye treatment, and what it changed]',
-    proof: '[CONFIRM: one design decision]',
     services: ['theme-customisations'],
   },
 ];

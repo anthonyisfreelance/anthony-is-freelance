@@ -105,8 +105,7 @@ const RECORDS: InnovationRecord[] = [
     problem: 'When a Projektityyny collection sold out, its campaign photography disappeared with it.',
     howItWorks:
       'Every past collection stays live as a shoppable lookbook, so the photography keeps bringing in search traffic long after the launch.',
-    // [CONFIRM] date, device and the Tom credit decision.
-    evidence: 'The whole image-led store scores 93 on Google PageSpeed.',
+    // No evidence line: PageSpeed is dropped (19 October 2026), as speed is development work.
     caption: "Projektityyny's lookbook archive.",
     alt: "A past collection in Projektityyny's lookbook archive on mobile.",
   },
@@ -156,8 +155,7 @@ const RECORDS: InnovationRecord[] = [
       "Hartnack & Co's binders and boxes come in thousands of possible variations, and the choice was overwhelming customers.",
     howItWorks:
       'The builder splits the choice into guided steps, with slide-up tips, bespoke icons and a cost tracker that stays on screen.',
-    // [CONFIRM] window, source and approval.
-    evidence: 'Project result: 39% more visitors buying.',
+    // No evidence line: GA4 shows conversion down since launch, so the 39% is off (19 October 2026).
     caption: "Hartnack & Co's step-by-step product builder.",
     alt: "A step in Hartnack & Co's product builder on mobile, with a tip and the running cost.",
   },
@@ -219,8 +217,7 @@ const RECORDS: InnovationRecord[] = [
     problem: "In Fuzzball's quiz cart, it wasn't clear which items were the trial and which would repeat.",
     howItWorks:
       'The cart separates the trial from the repeating order, so customers see exactly what they’re signing up to and nobody subscribes by accident.',
-    // [CONFIRM] window, source and approval.
-    evidence: 'Clicks from the quiz summary to checkout up 86%.',
+    // No evidence line until the 86% (quiz summary to checkout) has a window and source.
     caption: "Fuzzball's quiz cart, with the trial and subscription split.",
     alt: "Fuzzball's quiz cart on mobile, with the trial and the repeating order shown separately.",
   },
@@ -251,8 +248,8 @@ const RECORDS: InnovationRecord[] = [
     service: S.branding,
     problem: 'A quiz is a form, and forms feel like a chore.',
     howItWorks: "Fuzzball's cat chases a ball along the quiz progress bar, so finishing the quiz feels like part of the brand.",
-    // [CONFIRM] window, source and approval.
-    evidence: 'Project result: purchase conversion up 62.5% after the quiz redesign.',
+    // [CONFIRM] Fuzzball's approval to publish the figure.
+    evidence: 'Project result: conversion rate up 63%, August 2025 to August 2026 against the year before. GA4.',
     caption: "Fuzzball's quiz progress bar.",
     alt: "Fuzzball's quiz on mobile, with the cat chasing a ball along the progress bar.",
   },

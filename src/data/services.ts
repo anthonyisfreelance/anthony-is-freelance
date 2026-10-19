@@ -98,7 +98,7 @@ export const SERVICES_LIST = [
     href: URLS.subscriptions,
     image: subscriptions,
     price: 10000,
-    body: "Subscription design is for brands where repeat purchase is the business model, from quizzes to build-a-box flows. Fuzzball's purchase conversion rose 62.5% [CONFIRM: window and source].",
+    body: "Subscription design is for brands where repeat purchase is the business model, from quizzes to build-a-box flows. Fuzzball's conversion rate rose 63% in the 12 months after launch.",
     serviceType: 'Shopify subscription design',
   },
   {
@@ -202,22 +202,22 @@ export const RECENT_WORK = {
   cards: [
     {
       client: 'Projektityyny',
-      meta: 'Home · 2026',
+      meta: 'Home · June 2026',
       claim: 'A mobile-first store launch for a Nordic-inspired textiles brand',
       image: projektityyny,
       href: '/portfolio/projektityyny-shopify-website-design-case-study/',
     },
     {
       client: 'Thameen London',
-      meta: 'Beauty · 2025',
+      meta: 'Beauty · March 2026',
       claim: 'Off headless, onto a premium theme the team runs themselves',
       image: theme,
       href: '/portfolio/thameen-london-shopify-website-design-case-study/',
     },
     {
       client: 'Fuzzball',
-      meta: 'Pets · 2025',
-      claim: 'A quiz-led subscription journey for a cat food brand',
+      meta: 'Pets · August 2025',
+      claim: '63% higher conversion rate after a subscription redesign',
       image: fuzzball,
       href: '/portfolio/fuzzball-shopify-website-design-case-study/',
     },

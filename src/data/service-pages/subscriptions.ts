@@ -17,7 +17,7 @@ export const SUBSCRIPTIONS: ServicePage = {
     eyebrow: 'Shopify subscription design',
     heading: 'Easy to join. Easy to stay.',
     intro:
-      'Shopify subscription design covers the pages and flows customers use to subscribe: product pages with subscription options, quizzes, build-a-box journeys and account pages for pausing or changing an order. I design them so every choice is clear, however complex the subscription app behind them. Subscription design is usually part of a theme customisation or bespoke project, and priced with it. [CONFIRM] At Fuzzball, purchase conversion rose 62.5%. [CONFIRM window and source]',
+      'Shopify subscription design covers the pages and flows customers use to subscribe: product pages with subscription options, quizzes, build-a-box journeys and account pages for pausing or changing an order. I design them so every choice is clear, however complex the subscription app behind them. Subscription design is usually part of a theme customisation or bespoke project, and priced with it. At Fuzzball, the conversion rate rose 63% in the 12 months after launch.',
     cta: { label: 'Start a subscription project', href: '#start-a-project' },
     caption: "Fuzzball. The cat food quiz on mobile.",
   },
