@@ -106,12 +106,26 @@ const triggers = [
     var OPEN_DELAY = 150, CLOSE_DELAY = 200;
     function later(fn, ms) { clearTimeout(timer); timer = setTimeout(fn, ms); }
 
+    // After clicking a nav title, the next page loads with the pointer already resting on that
+    // title, and the first nudge of the mouse would reopen its menu. So hover stays off until the
+    // pointer has been somewhere other than a nav title (or has left the one it landed on).
+    var hoverReady = false;
+    document.addEventListener('mousemove', function first(e) {
+      document.removeEventListener('mousemove', first);
+      var landed = e.target.closest && e.target.closest('[data-mega-item]');
+      if (!landed) { hoverReady = true; return; }
+      landed.addEventListener('mouseleave', function () { hoverReady = true; }, { once: true });
+    });
+
     triggers.forEach(function (t) {
       var id = t.getAttribute('data-mega-trigger');
       t.addEventListener('click', function () { clearTimeout(timer); openId === id ? close() : open(id); });
       if (!canHover) return;
       var item = t.closest('li');
-      item.addEventListener('mouseenter', function () { later(function () { open(id); }, openId ? 0 : OPEN_DELAY); });
+      item.addEventListener('mouseenter', function () {
+        if (!hoverReady) return;
+        later(function () { open(id); }, openId ? 0 : OPEN_DELAY);
+      });
       item.addEventListener('mouseleave', function () { later(close, CLOSE_DELAY); });
       panel(id).addEventListener('mouseenter', function () { if (openId === id) clearTimeout(timer); });
       panel(id).addEventListener('mouseleave', function () { later(close, CLOSE_DELAY); });

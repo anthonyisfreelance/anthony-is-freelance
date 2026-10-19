@@ -1,0 +1,72 @@
+---
+// Testimonials: the record of every client quote, in full, word for word, named and dated, each
+// linked to its case study and any public original. Every excerpt elsewhere links to an anchor here.
+// No carousel and no review schema (Google gives no stars for reviews a business hosts itself).
+import Base from '../../layouts/Base.astro';
+import Schema from '../../components/Schema.astro';
+import Header from '../../components/Header.astro';
+import PageHero from '../../components/PageHero.astro';
+import SectionIntro from '../../components/SectionIntro.astro';
+import TextLink from '../../components/TextLink.astro';
+import Contact from '../../components/home/Contact.astro';
+import { URLS, ENTITY } from '../../data/site';
+import { TESTIMONIALS_LIST, TESTIMONIALS_PAGE as P } from '../../data/testimonials';
+const isYear = (y: string) => /^\d{4}$/.test(y);
+---
+<Base title={P.title} description={P.description}>
+  <Schema
+    slot="head"
+    title={P.title}
+    description={P.description}
+    path={P.path}
+    about={ENTITY.person.id}
+    breadcrumbs={[{ name: 'Home', path: URLS.home }, { name: 'Shopify success stories', path: URLS.work }, { name: 'Testimonials', path: P.path }]}
+  />
+  <Header />
+  <main id="main">
+    <PageHero eyebrow={P.eyebrow} heading={P.heading} intro={P.intro}>
+      <!-- Each platform links to the reviews themselves. Plain text, never a widget. -->
+      <ul class="flex flex-wrap gap-2" aria-label="Independent reviews">
+        {P.trust.map((t) => (
+          <li>
+            <a href={t.href} class="t-tile inline-flex items-center gap-2 bg-raised px-4 py-3 text-ink hover:underline">
+              <img src="/icons/google-g.png" alt="Google" width="25" height="25" class="size-[25px]" loading="lazy" />
+              <span><span aria-hidden="true">★★★★★ </span>{t.text}</span>
+              <img src="/icons/arrow-up-right.svg" alt="" width="18" height="18" class="size-[18px]" />
+            </a>
+          </li>
+        ))}
+      </ul>
+    </PageHero>
+
+    <section id="testimonials" class="px-margin pb-section pt-section">
+      <div class="border-t border-line pt-section">
+        <SectionIntro eyebrow={P.list.eyebrow} heading={P.list.heading} />
+        <ul class="mt-large flex flex-col">
+          {TESTIMONIALS_LIST.map((t) => (
+            <li id={t.id} class="grid scroll-mt-6 gap-loose border-t border-line py-large lg:grid-cols-2 lg:gap-gutter">
+              <h3 class="t-h5 uppercase text-ink">{t.client}</h3>
+              <figure class="flex flex-col gap-loose">
+                <blockquote cite={t.google?.href} class="font-display flex flex-col gap-4 text-[length:var(--type-h5)] font-medium leading-[1.4] text-ink">
+                  {t.quote.map((q, i) => <p>{i === 0 && '“'}{q}{i === t.quote.length - 1 && '”'}</p>)}
+                </blockquote>
+                <figcaption class="t-label tracking-[0.02em] text-muted">
+                  {t.name}, {t.credit} · {isYear(t.year) ? <time datetime={t.year}>{t.year}</time> : t.year}
+                </figcaption>
+                {t.measured && <p class="t-label border-t border-line pt-3 tracking-[0.02em] text-muted"><span class="text-ink">Measured.</span> {t.measured}</p>}
+                {(t.caseStudy || t.google) && (
+                  <div class="flex flex-col items-start gap-4 pt-2 lg:flex-row lg:flex-wrap lg:gap-x-grid">
+                    {t.caseStudy && <TextLink href={t.caseStudy}>Read the {t.client} case study</TextLink>}
+                    {t.google && <TextLink href={t.google.href} external>Also reviewed on Google, {t.google.label}</TextLink>}
+                  </div>
+                )}
+              </figure>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <Contact eyebrow={P.cta.eyebrow} heading={P.cta.heading} intro={P.cta.intro} />
+  </main>
+</Base>

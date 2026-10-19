@@ -5,10 +5,11 @@
 // when the tile scrolls into view (the shared script in Base.astro) and is skipped for reduced
 // motion. With `controls`, the video shows its own controls and poster instead.
 // On hover (inside a .hover-card) the whole tile zooms, backdrop and phone together.
+// Without a screen (an innovation whose still hasn't been added yet) it shows an empty phone.
 import { Image, getImage } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 interface Props {
-  screen: ImageMetadata;
+  screen?: ImageMetadata;
   video?: string;
   controls?: boolean;
   alt?: string;
@@ -20,8 +21,15 @@ interface Props {
 }
 const { screen, video, controls = false, alt = '', label, ratio = 'square', inset, sizes = '(min-width: 1024px) 15vw, 40vw', class: className = '' } = Astro.props;
 const side = inset ?? (ratio === 'portrait' ? '17.63%' : '24.5%');
-const poster = video && controls ? (await getImage({ src: screen, width: 660 })).src : undefined;
+const poster = screen && video && controls ? (await getImage({ src: screen, width: 660 })).src : undefined;
 ---
+{!screen ? (
+  <div class:list={['relative overflow-hidden bg-raised', ratio === 'portrait' ? 'aspect-[4/5]' : 'aspect-square', className]} aria-hidden="true">
+    <div class="absolute bottom-0 flex aspect-[216/376] items-center justify-center border border-b-0 border-line" style={`left:${side};right:${side}`}>
+      <span class="t-badge px-2 text-center text-muted">Recording to come</span>
+    </div>
+  </div>
+) : (
 <div class:list={['relative overflow-hidden bg-white', ratio === 'portrait' ? 'aspect-[4/5]' : 'aspect-square', className]}>
   <div class="zoom-img absolute inset-0">
     <div class="absolute inset-0 scale-125 blur-[60px]" aria-hidden="true">
@@ -60,3 +68,4 @@ const poster = video && controls ? (await getImage({ src: screen, width: 660 }))
     </div>
   </div>
 </div>
+)}

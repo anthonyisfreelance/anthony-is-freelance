@@ -1,0 +1,82 @@
+---
+// Contact: the form first (most people arrive having decided), then the direct details, then
+// where other enquiries go. No final CTA, FAQs or testimonial: the page is the CTA.
+import Base from '../../layouts/Base.astro';
+import Schema from '../../components/Schema.astro';
+import Header from '../../components/Header.astro';
+import PageHero from '../../components/PageHero.astro';
+import Heading from '../../components/Heading.astro';
+import ProjectForm from '../../components/ProjectForm.astro';
+import Rich from '../../components/Rich.astro';
+import { URLS, ENTITY } from '../../data/site';
+import { CONTACT_PAGE as P, NEXT_STEPS, DETAILS, OTHER } from '../../data/contact';
+---
+<Base title={P.title} description={P.description}>
+  <Schema
+    slot="head"
+    type="ContactPage"
+    title={P.title}
+    description={P.description}
+    path={P.path}
+    about={ENTITY.person.id}
+    mainEntity={ENTITY.business.id}
+    breadcrumbs={[{ name: 'Home', path: URLS.home }, { name: 'Contact', path: P.path }]}
+  />
+  <Header />
+  <main id="main">
+    <PageHero eyebrow={P.eyebrow} heading={P.heading} intro={P.intro}>
+      <p class="t-label tracking-[0.02em] text-ink lg:w-half">{P.availability}</p>
+    </PageHero>
+
+    <!-- The enquiry form, on the light form surface used at the foot of every page -->
+    <section id="start-a-project" aria-labelledby="form-heading" class="theme-light mt-section px-margin py-section-sm">
+      <h2 id="form-heading" class="sr-only">Enquiry form</h2>
+      <div class="flex flex-col gap-large lg:flex-row lg:gap-[160px]">
+        <div class="flex flex-col gap-loose lg:order-last lg:flex-1">
+          <ProjectForm />
+          <p class="t-small text-muted">{NEXT_STEPS.privacy}</p>
+        </div>
+        <div class="flex flex-col gap-loose lg:w-[437px] lg:shrink-0">
+          <h3 class="t-h7 text-ink">{NEXT_STEPS.heading}</h3>
+          <ol class="flex flex-col">
+            {NEXT_STEPS.steps.map((s, i) => (
+              <li class="flex gap-grid border-t border-line py-3">
+                <span class="t-label w-6 shrink-0 text-muted" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
+                <span class="t-body text-ink">{s}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact details -->
+    <section id={DETAILS.id} class="scroll-mt-6 px-margin pt-section">
+      <div class="grid gap-gutter border-t border-line pt-section lg:grid-cols-2">
+        <Heading eyebrow={DETAILS.eyebrow}>{DETAILS.heading}</Heading>
+        <dl class="flex flex-col">
+          {DETAILS.items.map((d, i) => (
+            <div class:list={['grid gap-1 py-loose sm:grid-cols-[120px_minmax(0,1fr)] sm:gap-grid', i > 0 && 'border-t border-line']}>
+              <dt class="t-label tracking-[0.02em] text-muted">{d.term}</dt>
+              <dd class="t-body text-ink">{d.href ? <a href={d.href} class="underline underline-offset-4 hover:decoration-2">{d.value}</a> : d.value}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </section>
+
+    <!-- Other enquiries -->
+    <section id={OTHER.id} class="scroll-mt-6 px-margin py-section">
+      <div class="grid gap-gutter border-t border-line pt-section lg:grid-cols-2">
+        <Heading eyebrow={OTHER.eyebrow}>{OTHER.heading}</Heading>
+        <ul class="flex flex-col">
+          {OTHER.items.map((o, i) => (
+            <li class:list={['t-body py-loose text-muted', i > 0 && 'border-t border-line']}>
+              <span class="text-ink">{o.title}</span> <Rich text={o.text} link={'link' in o ? o.link : undefined} />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  </main>
+</Base>

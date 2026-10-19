@@ -48,7 +48,8 @@ export const URLS = {
   aiSearch: '/shopify-website-design/shopify-ai-search-design/',
   work: '/work/',
   innovations: '/innovations/',
-  awards: '/articles/shortlisted-uk-ecommerce-awards-2026/',
+  awards: '/awards/', // new page, the full award record
+  awardsStory: '/articles/shortlisted-uk-ecommerce-awards-2026/',
   testimonials: '/testimonials/',
   articles: '/articles/',
   about: '/about/',

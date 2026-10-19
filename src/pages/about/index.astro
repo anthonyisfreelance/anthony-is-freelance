@@ -1,0 +1,106 @@
+---
+// About: the site's entity page. Who Anthony Bliss is, the experience behind it, the dated record
+// since going independent, how he thinks and who he works best with. Copy from src/data/about.ts.
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Schema from '../../components/Schema.astro';
+import Header from '../../components/Header.astro';
+import PageHero from '../../components/PageHero.astro';
+import Heading from '../../components/Heading.astro';
+import SectionIntro from '../../components/SectionIntro.astro';
+import TextLink from '../../components/TextLink.astro';
+import Rich from '../../components/Rich.astro';
+import Faqs from '../../components/home/Faqs.astro';
+import Contact from '../../components/home/Contact.astro';
+import { URLS, ENTITY } from '../../data/site';
+import { ABOUT_PAGE as P, CAREER, MILESTONES, PRINCIPLES, INDEPENDENT, FIT, ABOUT_FAQS, ABOUT_CTA } from '../../data/about';
+import photo from '../../assets/site/anthony.jpg';
+---
+<Base title={P.title} description={P.description}>
+  <Schema
+    slot="head"
+    type="AboutPage"
+    title={P.title}
+    description={P.description}
+    path={P.path}
+    about={ENTITY.person.id}
+    mainEntity={ENTITY.person.id}
+    breadcrumbs={[{ name: 'Home', path: URLS.home }, { name: 'About', path: P.path }]}
+    faqs={ABOUT_FAQS.items}
+  />
+  <Header />
+  <main id="main">
+    <PageHero eyebrow={P.eyebrow} heading={P.heading} intro={P.intro}>
+      <figure class="flex flex-col gap-3">
+        <div class="relative aspect-[3/2] overflow-hidden lg:aspect-[21/9]">
+          <Image src={photo} alt={P.photoAlt} widths={[480, 750, 1200, 1800, 2400]} sizes="(min-width: 2560px) 2512px, 100vw" loading="eager" class="absolute inset-0 size-full object-cover" />
+        </div>
+        <figcaption class="t-label tracking-[0.02em] text-muted">{P.photoCaption}</figcaption>
+      </figure>
+    </PageHero>
+
+    <!-- Career -->
+    <section id="career" class="px-margin pt-section">
+      <div class="grid gap-gutter border-t border-line pt-section lg:grid-cols-2">
+        <div class="lg:sticky lg:top-loose lg:self-start"><Heading eyebrow={CAREER.eyebrow}>{CAREER.heading}</Heading></div>
+        <div class="t-body flex flex-col gap-loose text-muted">
+          {CAREER.paragraphs.map((p) => <p>{p}</p>)}
+          <p>{CAREER.degree.before}<cite class="italic">{CAREER.degree.book}</cite>{CAREER.degree.after}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Since 2023 -->
+    <section id="since-2023" class="px-margin pt-section">
+      <div class="border-t border-line pt-section">
+        <SectionIntro eyebrow={MILESTONES.eyebrow} heading={MILESTONES.heading}>
+          <p slot="intro">{MILESTONES.intro}</p>
+          <TextLink slot="links" href={MILESTONES.link.href}>{MILESTONES.link.label}</TextLink>
+        </SectionIntro>
+        <ol class="mt-large flex flex-col">
+          {MILESTONES.items.map((m) => (
+            <li class="grid gap-2 border-t border-line py-loose lg:grid-cols-2 lg:gap-gutter">
+              <p class="t-h7 text-ink"><time datetime={m.iso}>{m.label}</time></p>
+              <p class="t-body text-muted"><Rich text={m.text} link={'link' in m ? m.link : undefined} /></p>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+
+    <!-- How I work -->
+    <section id="how-i-work" class="px-margin pt-section">
+      <div class="border-t border-line pt-section">
+        <SectionIntro eyebrow={PRINCIPLES.eyebrow} heading={PRINCIPLES.heading}>
+          <p slot="intro">{PRINCIPLES.intro}</p>
+          <TextLink slot="links" href={PRINCIPLES.link.href}>{PRINCIPLES.link.label}</TextLink>
+        </SectionIntro>
+        <ul class="mt-large grid gap-x-grid gap-y-large sm:grid-cols-2 lg:grid-cols-4">
+          {PRINCIPLES.items.map((p) => (
+            <li class="flex flex-col gap-3 border-t border-line pt-loose">
+              <h3 class="t-h6 text-ink">{p.title}</h3>
+              <p class="t-body text-muted">{p.body}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- Independent by choice, and who I work best with -->
+    {[INDEPENDENT, FIT].map((s) => (
+      <section class="px-margin pt-section">
+        <div class="grid gap-gutter border-t border-line pt-section lg:grid-cols-2">
+          <Heading eyebrow={s.eyebrow}>{s.heading}</Heading>
+          <div class="t-body flex flex-col gap-loose text-muted">
+            {s.paragraphs.map((p) => <p>{p}</p>)}
+            {'link' in s && <div class="pt-2"><TextLink href={s.link.href}>{s.link.label}</TextLink></div>}
+          </div>
+        </div>
+      </section>
+    ))}
+
+    <div id="questions"><Faqs data={ABOUT_FAQS} /></div>
+
+    <Contact eyebrow={ABOUT_CTA.eyebrow} heading={ABOUT_CTA.heading} intro={ABOUT_CTA.intro} />
+  </main>
+</Base>

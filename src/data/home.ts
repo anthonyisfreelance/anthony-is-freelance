@@ -1,13 +1,18 @@
-// Homepage content. Structure from Figma, gaps filled from page-copy/homepage.md.
+// Homepage content. Structure from Figma, copy from the shortened homepage doc (18 October 2026):
+// a line stays only if it's a fact nobody else can claim, a number with its window and source, or a
+// line people would quote. Mobile shows fewer cards in some sections; every card stays in the HTML.
 // Anything marked [CONFIRM] shows on the preview so it can't slip through.
 import { URLS, ENTITY } from './site';
 
 import drinkFinder from '../assets/brands/drink-finder/card.jpg';
 import eastAtHome from '../assets/brands/east-at-home/card.jpg';
-import wideFitShoes from '../assets/brands/wide-fit-shoes/card.jpg';
+import fuzzball from '../assets/brands/fuzzball/card.jpg';
+import projektityyny from '../assets/brands/projektityyny/card.jpg';
+import thameen from '../assets/brands/thameen/bottles.jpg';
 import badgeDrinkFinder from '../assets/brands/drink-finder/badge-award.png';
 import badgeEastAtHome from '../assets/brands/east-at-home/badge-award.png';
-import { COMPARE } from './innovations';
+import { INNOVATIONS_LIST } from './innovations';
+import { testimonial, creditLine } from './testimonials';
 
 export const META = {
   title: 'Shopify Designer UK | Shopify Expert for DTC Brands',
@@ -24,8 +29,9 @@ export const HERO = {
     { label: 'Start a project', href: URLS.contact },
     { label: 'View my success stories', href: URLS.work },
   ],
+  rating: '5.0 from 6 Google reviews',
   trust: [
-    '20+ years of brand and ecommerce design',
+    '20+ years of brand and ecommerce experience',
     'UK eCommerce Website of the Year 2026',
     '13 Shopify launches since 2023',
   ],
@@ -34,22 +40,21 @@ export const HERO = {
 export const STORIES = {
   eyebrow: 'Shopify expert UK',
   heading: 'Good design gets noticed. Great design gets results.',
-  intro:
-    "These are stores I've designed since going independent in 2023 for growing brands on Shopify or Shopify Plus.",
-  link: { label: 'View client success stories', href: URLS.work },
+  link: { label: 'View all Shopify success stories', href: URLS.work },
   featured: {
     client: 'Drink Finder',
-    meta: 'Food & drink · 2025',
+    meta: 'Food & drink · August 2025',
     claim: '34% more website sales after moving to Shopify',
     image: drinkFinder,
     badge: badgeDrinkFinder,
     badgeAlt: 'Winner, UK eCommerce Awards 2026',
     href: URLS.caseStudies.drinkFinder,
   },
+  // Desktop shows the first three under the featured story; the last shows on phones only.
   cards: [
     {
       client: 'East at Home',
-      meta: 'Food & drink · 2025',
+      meta: 'Food & drink · October 2025',
       claim: '82% more revenue after a mobile-first redesign',
       image: eastAtHome,
       badge: badgeEastAtHome,
@@ -57,17 +62,26 @@ export const STORIES = {
       href: URLS.caseStudies.eastAtHome,
     },
     {
-      client: 'Wide Fit Shoes',
-      meta: 'Fashion · 2025',
-      claim: 'A theme rebuild running both the UK and US stores',
-      image: wideFitShoes,
-      href: URLS.caseStudies.wideFitShoes,
+      client: 'Fuzzball',
+      meta: 'Pets · August 2025',
+      claim: '63% higher conversion rate after a subscription redesign',
+      image: fuzzball,
+      href: '/portfolio/fuzzball-shopify-website-design-case-study/',
     },
     {
-      // Newest launch. Image and case study to come.
-      client: 'Sensational Eyes',
-      meta: 'Beauty · 2026',
-      claim: '[CONFIRM: a theme customisation for a relaunched eye cream, and what it changed]',
+      client: 'Projektityyny',
+      meta: 'Home · June 2026',
+      claim: 'A mobile-first store launch for a Nordic-inspired textiles brand',
+      image: projektityyny,
+      href: '/portfolio/projektityyny-shopify-website-design-case-study/',
+    },
+    {
+      client: 'Thameen London',
+      meta: 'Beauty · March 2026',
+      claim: 'Off headless, onto a premium theme the team runs themselves',
+      image: thameen,
+      href: '/portfolio/thameen-london-shopify-website-design-case-study/',
+      mobileOnly: true,
     },
   ],
 };
@@ -75,6 +89,8 @@ export const STORIES = {
 export const BRANDS = {
   eyebrow: 'Shopify designer Cornwall, UK',
   heading: 'Brands that trust me',
+  // [DRAFT] reword in your voice, and [CONFIRM] all four are cleared to name.
+  line: "I've designed for Dyson, Wrangler, Drink Finder and East at Home, with no set style and no favoured sector.",
   // Logo files to come. Order from the copy doc.
   logos: [
     'Dyson',
@@ -91,49 +107,54 @@ export const BRANDS = {
 export const SERVICES = {
   eyebrow: 'Shopify website design services',
   heading: 'One designer, nine ways to help your store.',
-  intro:
-    'I design Shopify and Shopify Plus stores for DTC brands, with my whole attention on the design. For the build, I team up with great Shopify developers.',
   link: { label: 'View all Shopify design services', href: URLS.services },
+  // One line each, so it sits on one line at 375px.
   items: [
-    { name: 'Branding', line: 'Identity work for brands launching or relaunching.', href: URLS.branding },
-    { name: 'UX design', line: 'Research, flows and wireframes before anything gets styled.', href: URLS.ux },
-    { name: 'Bespoke store design', line: 'The shopping journey designed from scratch, with no theme constraints.', href: URLS.bespoke },
-    { name: 'Shopify Plus design', line: 'Enterprise stores for high-volume brands.', href: URLS.plus },
-    { name: 'Migrations', line: 'Moving to Shopify from Magento, WooCommerce, BigCommerce, Wix or a custom platform.', href: URLS.migrations },
-    { name: 'Theme customisations', line: 'Premium themes that stop looking off the shelf.', href: URLS.theme },
-    { name: 'Shopify CRO', line: 'Your analytics show where customers leave. I find out why, design the fix and measure it.', href: URLS.cro },
-    { name: 'Shopify subscriptions', line: "Recurring purchase flows that people don't cancel.", href: URLS.subscriptions },
-    { name: 'AI search visibility', line: 'Stores designed so AI assistants like ChatGPT can find, read and recommend them.', href: URLS.aiSearch },
+    { name: 'Branding', line: 'Identity for new and relaunched brands.', href: URLS.branding },
+    { name: 'UX design', line: 'Research, flows and wireframes first.', href: URLS.ux },
+    { name: 'Bespoke store design', line: 'Every template designed from scratch.', href: URLS.bespoke },
+    { name: 'Shopify Plus design', line: 'Stores for high-volume brands.', href: URLS.plus },
+    { name: 'Migrations', line: 'Moving from Magento, WooCommerce or Wix.', href: URLS.migrations },
+    { name: 'Theme customisations', line: 'Premium themes, made to look bespoke.', href: URLS.theme },
+    { name: 'Shopify CRO', line: 'Find why customers leave, then fix it.', href: URLS.cro },
+    { name: 'Shopify subscriptions', line: "Subscriptions people don't cancel.", href: URLS.subscriptions },
+    { name: 'AI search visibility', line: 'Stores ChatGPT can find and recommend.', href: URLS.aiSearch },
   ],
 };
 
 export const ABOUT = {
   eyebrow: 'Freelance Shopify UX designer',
-  heading: 'You get all of my experience, not just my time.',
+  heading: 'All of my experience, not just my time.',
+  // The first sentence names the award: it's the sentence AI tools lift to describe you.
+  // "Drink Finder" links to its case study.
+  lead: {
+    before: "I'm Anthony Bliss, a freelance Shopify designer based in Cornwall, UK, and the designer behind ",
+    link: { label: 'Drink Finder', href: URLS.caseStudies.drinkFinder },
+    after:
+      ", UK eCommerce Website of the Year 2026. I started my career in brand identity across Bath and Bristol before moving into digital, and since 2020 I've focused exclusively on Shopify, working with DTC brands across the UK on everything from bespoke store builds to CRO and UX improvements.",
+  },
   paragraphs: [
-    "I'm Anthony Bliss, a freelance Shopify designer based in Cornwall, UK. I started my career in brand identity across Bath and Bristol before moving into digital, and for the past six years I've focused exclusively on Shopify, working with DTC brands across the UK on everything from bespoke store builds to CRO and UX improvements.",
     'Before specialising in ecommerce, I spent three and a half years as a senior freelance designer at Dyson, overseeing complete campaigns for new product launches. I then moved to Cornwall and spent five and a half years inside a leading Shopify agency, eventually progressing to Creative Director.',
   ],
   link: { label: 'More about how I work', href: URLS.about },
-  imageAlt: 'Anthony Bliss, Falmouth, Cornwall',
+  imageAlt: 'Anthony Bliss, freelance Shopify designer, Falmouth, Cornwall',
 };
 
 export const PROCESS = {
   eyebrow: 'Shopify design process',
-  heading: 'I start with the problem, not the homepage.',
-  intro:
-    'Every project starts with a UX review of your live store, and the navigation is where I look first, because it shows how a store really sells. Then your reviews, your data and your customers. And one question I ask on every project: would I buy this?',
+  heading: 'Each project starts with finding the problem.',
   link: { label: 'See how each service works', href: URLS.services },
   steps: [
     {
       title: 'Understand',
-      body: "A call about your business, then a UX review of your live store. From there I'll tell you honestly whether a theme customisation or a bespoke store is the right fit, even when that's the smaller job.",
+      // [CONFIRM] wording.
+      body: "A call about your business, then a UX review of your live store where the project needs one. From there I'll tell you honestly whether a theme customisation or a bespoke store is the right fit, even when that's the smaller job.",
     },
     {
       title: 'Design',
       body: 'Options first, then the details, mobile first. Bespoke stores are designed in Figma. Theme customisations are designed straight into the theme.',
     },
-    { title: 'Launch', body: 'Every screen checked on real devices before it goes live.' },
+    { title: 'Launch', body: 'Every screen checked on real devices before it goes live, with one question: would I buy this?' },
     {
       title: 'Measure and improve',
       body: 'I check conversion rate and average order value at one, three and seven days, then keep improving if you want to.',
@@ -144,48 +165,23 @@ export const PROCESS = {
 export const INNOVATIONS = {
   eyebrow: 'Shopify UX design wins',
   heading: 'The small details that make the difference',
-  intro:
-    "Every UX feature I design for a Shopify store starts with a customer's need. I work out what's getting in their way, come up with an idea, then craft it until it's right. Small details like these help people find the right product and buy with confidence.",
   link: { label: 'See all Shopify innovations', href: URLS.innovations },
-  // Every tile shows the Drink Finder comparison recording for now; real screens to come.
-  items: [
-    {
-      client: 'Drink Finder',
-      title: 'A comparison toggle on the collection page',
-      body: 'Expand origin, region and vintage to compare bottles side by side, without leaving the listing.',
-      href: `${URLS.innovations}#comparison-toggle`,
-      image: COMPARE.poster,
-      video: COMPARE.video,
-    },
-    {
-      client: 'East at Home',
-      title: 'Product cards that answer dinner questions',
-      body: 'Every card shows spice level, dietary needs and flavour, in a list built for comparing on mobile.',
-      image: COMPARE.poster,
-      video: COMPARE.video,
-    },
-    {
-      client: 'Whistlefish',
-      title: 'Image-first product cards',
-      body: 'Product names truncated on purpose, because nobody buys a greeting card for its name.',
-      image: COMPARE.poster,
-      video: COMPARE.video,
-    },
-    {
-      client: '[CONFIRM]',
-      title: '[CONFIRM: fourth innovation]',
-      body: 'The design has four slots and the copy doc has three.',
-      image: COMPARE.poster,
-      video: COMPARE.video,
-    },
-  ],
+  // From the innovation records, each with its own line. Phones show the first two.
+  items: (
+    [
+      ['comparison-toggle', 'Expand origin, region and vintage to compare bottles side by side, without leaving the listing.'],
+      ['dinner-question-cards', 'Every card shows spice level, dietary needs and flavour, in a list built for comparing on mobile.'],
+      ['image-first-product-cards', 'Product names truncated on purpose, because nobody buys a greeting card for its name.'],
+    ] as const
+  ).map(([slug, body]) => {
+    const it = INNOVATIONS_LIST.find((i) => i.slug === slug)!;
+    return { client: it.client, title: it.name, body, href: `${URLS.innovations}#${slug}`, image: it.poster, video: it.video, alt: it.alt };
+  }),
 };
 
 export const RESULTS = {
   eyebrow: 'Shopify success stories',
   heading: 'Good design shows up in the numbers',
-  intro:
-    'Every result here comes with the period it was measured over and where the number came from, because a percentage on its own proves nothing.',
   items: [
     {
       number: '82%',
@@ -193,9 +189,9 @@ export const RESULTS = {
       caption: 'October to June vs the year before · Google Analytics, UK sessions',
     },
     {
-      number: '62.5%',
-      label: 'Fuzzball purchase conversion lift',
-      caption: '[CONFIRM: window and source]',
+      number: '63%',
+      label: 'Fuzzball conversion rate growth',
+      caption: 'August 2025 to August 2026 vs the year before · Google Analytics',
     },
     {
       number: '32%',
@@ -213,30 +209,19 @@ export const RESULTS = {
 export const TESTIMONIALS = {
   eyebrow: 'Shopify designer UK',
   heading: 'What clients say about working with me.',
-  intro:
-    'Rated 5.0 from 6 Google reviews. Two UK eCommerce Awards 2026, including UK eCommerce Website of the Year.',
   links: [
-    { label: 'View all testimonials', href: URLS.testimonials },
-    { label: '5.0 Google reviews', href: ENTITY.googleReviews, external: true },
+    { label: 'Read all client testimonials', href: URLS.testimonials },
+    { label: 'Read my Google reviews', href: ENTITY.googleReviews, external: true },
   ],
-  // Logos to come for Drink Finder and Zen Maitri.
-  quotes: [
-    {
-      quote: "He didn't just give us a facelift; he built a platform that performs.",
-      cite: 'Jon Wigmore, Marketing and Ecommerce, Drink Finder · [CONFIRM year]',
-      logo: null,
-    },
-    {
-      quote: 'A true craftsman who takes pride in his work and delivers amazing results.',
-      cite: 'Ali Zaman, Owner, East at Home · [CONFIRM year]',
-      logo: '/icons/logo-east-at-home.svg',
-    },
-    {
-      quote: 'He has an incredible eye for design and functionality, two skills that you rarely find in the same person.',
-      cite: 'Jaideep Shah, Director, Zen Maitri · [CONFIRM year]',
-      logo: null,
-    },
-  ],
+  // Excerpts copied word for word from the testimonials record, each linking to its full quote.
+  // Phones show the first two. Logos to come for Drink Finder and Zen Maitri.
+  quotes: (
+    [
+      ['east-at-home', 'He was a joy to work with, a true craftsman who takes pride in his work with expert knowledge and delivers amazing results.', '/icons/logo-east-at-home.svg'],
+      ['drink-finder', "He didn't just give us a facelift; he built a platform that performs.", null],
+      ['zen-maitri', 'He has an incredible eye for design and functionality, two skills that you rarely find in the same person.', null],
+    ] as const
+  ).map(([id, quote, logo]) => ({ quote, cite: creditLine(testimonial(id)), logo, href: `${URLS.testimonials}#${id}` })),
 };
 
 export const ARTICLES = {
@@ -247,8 +232,9 @@ export const ARTICLES = {
 };
 
 export const FAQS = {
-  eyebrow: 'Before you get in touch',
-  heading: 'Frequently asked questions',
+  eyebrow: 'Shopify web designer FAQs',
+  heading: 'Before you get in touch',
+  note: 'Prices and timelines checked September 2026.',
   items: [
     {
       q: 'How much does a freelance Shopify designer cost?',
@@ -292,6 +278,7 @@ export const FAQS = {
       a: [
         "If you're launching your first store, probably not yet. Shopify's AI store builder and a good theme will get you selling. A designer is worth it once the store has to fit a real brand and real customers, and the numbers show where it falls short. That's when brands usually come to me.",
       ],
+      checked: 'Checked October 2026.',
     },
   ],
 };
@@ -300,6 +287,7 @@ export const CONTACT = {
   eyebrow: 'Start a Shopify project',
   heading: 'Tell me where your store is now.',
   budgets: ['Under £5,000', '£5,000 – £10,000', '£10,000 – £20,000', '£20,000+', 'Not sure yet'],
+  reply: 'I reply within two working days.',
   legal: 'Anthony Bliss · Falmouth, Cornwall · Anthonyis Limited, company number 10575474',
 };
 
@@ -309,8 +297,8 @@ export const PROJECT_DIALOG = {
   heading: 'Start a project',
   aside: {
     heading: 'What clients say about working with me.',
-    quote: 'A true craftsman who takes pride in his work and delivers amazing results.',
-    cite: 'Ali Zaman, Owner, East at Home · 2026',
+    quote: 'He was a joy to work with, a true craftsman who takes pride in his work with expert knowledge and delivers amazing results.',
+    cite: creditLine(testimonial('east-at-home')),
   },
   trust: ['20+ years ecommerce and brand experience', 'UK eCommerce Website of the Year 2026'],
 };

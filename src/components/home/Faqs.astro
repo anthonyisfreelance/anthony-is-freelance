@@ -1,13 +1,14 @@
 ---
 import Heading from '../Heading.astro';
 import { FAQS } from '../../data/home';
-interface Props { data?: { eyebrow: string; heading: string; items: { q: string; a: string[] }[] } }
+interface Props { data?: { eyebrow: string; heading: string; note?: string; items: { q: string; a: string[]; checked?: string }[] } }
 const { data = FAQS } = Astro.props;
 ---
 <section class="px-margin pb-section pt-section-pre">
   <div class="grid gap-gutter border-t border-line pt-section lg:grid-cols-2">
     <div class="lg:sticky lg:top-loose lg:self-start">
       <Heading eyebrow={data.eyebrow}>{data.heading}</Heading>
+      {data.note && <p class="t-label mt-loose tracking-[0.02em] text-muted">{data.note}</p>}
     </div>
     <div class="flex flex-col gap-loose">
       {data.items.map((f, i) => (
@@ -19,6 +20,7 @@ const { data = FAQS } = Astro.props;
           </summary>
           <div class="t-body mt-3 flex flex-col gap-3 text-muted">
             {f.a.map((p) => <p>{p}</p>)}
+            {f.checked && <p class="t-label tracking-[0.02em]">{f.checked}</p>}
           </div>
         </details>
       ))}

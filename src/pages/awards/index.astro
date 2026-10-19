@@ -1,0 +1,140 @@
+---
+// Awards: the permanent, checkable record of every award and shortlisting, each linked to the
+// organiser. Order follows how a sceptical reader checks a claim: the claim, each award, the full
+// record, how it was judged, who else says so. Copy and data from src/data/awards.ts.
+// Links to the organiser open in the same tab: they're the proof, so nothing hides them.
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Schema from '../../components/Schema.astro';
+import Header from '../../components/Header.astro';
+import PageHero from '../../components/PageHero.astro';
+import Heading from '../../components/Heading.astro';
+import SectionIntro from '../../components/SectionIntro.astro';
+import TextLink from '../../components/TextLink.astro';
+import Rich from '../../components/Rich.astro';
+import Contact from '../../components/home/Contact.astro';
+import { URLS, ENTITY } from '../../data/site';
+import { AWARDS_PAGE as P, AWARD_SECTIONS, RECORD, JUDGING, COVERAGE, AWARDS_CTA, AWARDS_SCHEMA, UPDATED } from '../../data/awards';
+import badge from '../../assets/brands/drink-finder/badge-award.png';
+
+const [secondBefore, secondAfter] = P.second.split('{date}');
+const cell = 'border-t border-line py-3 pr-grid text-left align-top';
+---
+<Base title={P.title} description={P.description}>
+  <Schema
+    slot="head"
+    title={P.title}
+    description={P.description}
+    path={P.path}
+    about={ENTITY.person.id}
+    breadcrumbs={[{ name: 'Home', path: URLS.home }, { name: 'Shopify success stories', path: URLS.work }, { name: 'Awards', path: P.path }]}
+    page={AWARDS_SCHEMA}
+  />
+  <Header />
+  <main id="main">
+    <PageHero eyebrow={P.eyebrow} heading={P.heading} intro={P.intro}>
+      <div class="flex flex-col gap-large lg:flex-row lg:items-end lg:justify-between lg:gap-gutter">
+        <div class="flex flex-col gap-loose lg:w-half">
+          <p class="t-body text-muted">{secondBefore}<time datetime={P.announced.iso}>{P.announced.label}</time>{secondAfter}</p>
+          <p class="t-label tracking-[0.02em] text-muted">Updated <time datetime={UPDATED.iso}>{UPDATED.label}</time></p>
+        </div>
+        <!-- The claim is always text; the badge sits beside it, never instead of it. -->
+        <Image src={badge} alt={P.badgeAlt} widths={[240, 480]} sizes="240px" class="h-auto w-[180px] lg:w-[240px]" />
+      </div>
+    </PageHero>
+
+    <!-- Edge-to-edge splits: the photo runs to the screen edge, the copy keeps the page margin. -->
+    {AWARD_SECTIONS.map((a, i) => (
+      <section id={a.id} class="scroll-mt-6 pt-section">
+        <div class="grid items-center gap-large lg:grid-cols-2 lg:gap-gutter">
+          <div class:list={['relative aspect-[3/2] lg:aspect-[4/5]', i % 2 === 1 && 'lg:order-last']}>
+            <Image src={a.image} alt={a.imageAlt} widths={[480, 750, 1000, 1400]} sizes="(min-width: 1024px) 50vw, 100vw" class="absolute inset-0 size-full object-cover" />
+          </div>
+          <div class:list={['flex flex-col gap-loose px-margin', i % 2 === 0 ? 'lg:pl-0' : 'lg:pr-0']}>
+            <Heading eyebrow={a.eyebrow}>{a.heading}</Heading>
+            <div class="t-body flex flex-col gap-loose text-muted">
+              {a.paragraphs.map((p) => <p><Rich text={p.text} link={p.link} date={p.date} /></p>)}
+            </div>
+            <p class="t-label border-t border-line pt-3 tracking-[0.02em] text-muted"><span class="text-ink">Project result.</span> {a.result}</p>
+            <div class="flex flex-col items-start gap-4 pt-2 lg:flex-row lg:flex-wrap lg:gap-x-grid">
+              {a.links.map((l) => <TextLink href={l.href}>{l.label}</TextLink>)}
+            </div>
+          </div>
+        </div>
+      </section>
+    ))}
+
+    <!-- The full record: a real table, new years on top -->
+    <section id="record" class="scroll-mt-6 px-margin pt-section">
+      <div class="border-t border-line pt-section">
+        <SectionIntro eyebrow={RECORD.eyebrow} heading={RECORD.heading}>
+          <p slot="intro">{RECORD.intro}</p>
+        </SectionIntro>
+        <div class="mt-large overflow-x-auto">
+          <table class="t-small w-full min-w-[560px] border-b border-line text-muted">
+            <caption class="sr-only">{RECORD.caption}</caption>
+            <thead class="t-badge text-ink">
+              <tr>
+                <th scope="col" class={cell}>Year</th>
+                <th scope="col" class={cell}>Category</th>
+                <th scope="col" class={cell}>Project</th>
+                <th scope="col" class={cell}>Outcome</th>
+                <th scope="col" class={cell}>Proof</th>
+              </tr>
+            </thead>
+            <tbody>
+              {RECORD.rows.map((r) => (
+                <tr>
+                  <td class={cell}>{r.year}</td>
+                  <th scope="row" class:list={[cell, 'font-normal text-ink']}>{r.category}</th>
+                  <td class={cell}>{r.project}</td>
+                  <td class:list={[cell, r.outcome === 'Winner' && 'text-ink']}>{r.outcome}</td>
+                  <td class={cell}><a href={r.proof.href} class="text-ink underline underline-offset-4 hover:decoration-2">{r.proof.label}</a></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- How the awards are judged -->
+    <section id={JUDGING.id} class="scroll-mt-6 px-margin pt-section">
+      <div class="grid gap-gutter border-t border-line pt-section lg:grid-cols-2">
+        <Heading eyebrow={JUDGING.eyebrow}>{JUDGING.heading}</Heading>
+        <div class="t-body flex flex-col gap-loose text-muted">
+          {JUDGING.paragraphs.map((p) => <p>{p}</p>)}
+          <p>
+            In 2026, judging took place on <time datetime={JUDGING.dates[0].iso}>{JUDGING.dates[0].label}</time>, the shortlist
+            was announced on <time datetime={JUDGING.dates[1].iso}>{JUDGING.dates[1].label}</time> and the winners were
+            announced online on <time datetime={JUDGING.dates[2].iso}>{JUDGING.dates[2].label}</time>. {JUDGING.fee}
+          </p>
+          <p>{JUDGING.naming}</p>
+          <div class="flex flex-col items-start gap-4 pt-2 lg:flex-row lg:gap-x-grid">
+            {JUDGING.links.map((l) => <TextLink href={l.href}>{l.label}</TextLink>)}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Coverage -->
+    <section id={COVERAGE.id} class="scroll-mt-6 px-margin py-section">
+      <div class="grid gap-gutter border-t border-line pt-section lg:grid-cols-2">
+        <Heading eyebrow={COVERAGE.eyebrow}>{COVERAGE.heading}</Heading>
+        <ul class="flex flex-col">
+          {COVERAGE.items.map((c, i) => (
+            <li class:list={['hover-card relative flex items-start gap-grid py-loose', i > 0 && 'border-t border-line']}>
+              <div class="flex flex-1 flex-col gap-2">
+                <h3 class="t-h7 text-ink"><a href={c.href} class="stretched-link link-hover">{c.title}</a></h3>
+                <p class="t-body text-muted">{c.line}</p>
+              </div>
+              <img src="/icons/arrow-up-right.svg" alt="" width="18" height="18" class="size-[18px] shrink-0" loading="lazy" />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <Contact eyebrow={AWARDS_CTA.eyebrow} heading={AWARDS_CTA.heading} intro={AWARDS_CTA.intro} />
+  </main>
+</Base>

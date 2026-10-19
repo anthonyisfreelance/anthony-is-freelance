@@ -6,14 +6,13 @@ import { TESTIMONIALS } from '../../data/home';
 <section class="px-margin pt-section-pre">
   <div class="border-t border-line pt-section">
     <SectionIntro eyebrow={TESTIMONIALS.eyebrow} heading={TESTIMONIALS.heading}>
-      <p slot="intro">{TESTIMONIALS.intro}</p>
       {TESTIMONIALS.links.map((l) => <TextLink slot="links" href={l.href} external={l.external}>{l.label}</TextLink>)}
     </SectionIntro>
     <ul class="mt-large grid gap-large lg:grid-cols-3">
-      {TESTIMONIALS.quotes.map((t) => (
-        <li>
+      {TESTIMONIALS.quotes.map((t, i) => (
+        <li class:list={[i > 1 && 'max-lg:hidden']}>
           <figure class="flex h-full flex-col justify-between gap-large border-t border-line pt-large">
-            <blockquote class="font-display text-[length:var(--type-h2)] font-medium leading-[1.3] text-ink">“{t.quote}”</blockquote>
+            <blockquote cite={t.href} class="font-display text-[length:var(--type-h2)] font-medium leading-[1.3] text-ink"><a href={t.href} class="link-hover">“{t.quote}”</a></blockquote>
             <figcaption class="t-label flex items-start gap-grid text-muted">
               {t.logo ? <img src={t.logo} alt="" width="57" height="37" class="h-[37px] w-[57px] shrink-0" loading="lazy" /> : <span class="h-[37px] w-[57px] shrink-0 border border-dashed border-line" aria-hidden="true"></span>}
               <span>{t.cite}</span>

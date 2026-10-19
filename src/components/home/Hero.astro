@@ -31,13 +31,12 @@ import TrustTiles from '../TrustTiles.astro';
 
       <TrustTiles
         class="mt-12 lg:mt-20"
-        items={[{ google: true, stars: true, text: '5/5', srText: ' from Google reviews' }, ...HERO.trust.map((text) => ({ text }))]}
+        items={[{ google: true, stars: true, text: HERO.rating }, ...HERO.trust.map((text) => ({ text }))]}
       />
 
       <section aria-label="Success stories" class="pt-large lg:pt-section">
         <div class="flex flex-col gap-grid-lg border-t border-line pt-section">
           <SectionIntro eyebrow={STORIES.eyebrow} heading={STORIES.heading} split={false}>
-            <p slot="intro">{STORIES.intro}</p>
             <TextLink slot="links" href={STORIES.link.href}>{STORIES.link.label}</TextLink>
           </SectionIntro>
           <CaseStudyCard {...STORIES.featured} ratio="portrait-square" sizes="(min-width: 1024px) 47vw, 100vw" />
@@ -47,6 +46,6 @@ import TrustTiles from '../TrustTiles.astro';
   </div>
 
   <ul class="grid grid-cols-2 gap-x-grid gap-y-grid-lg px-margin pt-grid-lg lg:grid-cols-3 lg:pt-large">
-    {STORIES.cards.map((card) => <li><CaseStudyCard {...card} stackMeta /></li>)}
+    {STORIES.cards.map(({ mobileOnly, ...card }) => <li class:list={[mobileOnly && 'lg:hidden']}><CaseStudyCard {...card} stackMeta /></li>)}
   </ul>
 </div>

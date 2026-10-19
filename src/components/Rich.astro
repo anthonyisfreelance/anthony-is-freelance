@@ -1,0 +1,16 @@
+---
+// A sentence from the data with {link} and {date} placeholders, so links and dates stay inline
+// (the date in a time element) while the words live in one place.
+interface Props {
+  text: string;
+  link?: { label: string; href: string };
+  date?: { iso: string; label: string };
+}
+const { text, link, date } = Astro.props;
+const parts = text.split(/(\{link\}|\{date\})/);
+---
+{parts.map((part) =>
+  part === '{link}' && link ? <a href={link.href} class="text-ink underline underline-offset-4 hover:decoration-2">{link.label}</a>
+  : part === '{date}' && date ? <time datetime={date.iso}>{date.label}</time>
+  : part
+)}
