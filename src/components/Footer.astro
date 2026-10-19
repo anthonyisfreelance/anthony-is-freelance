@@ -1,6 +1,7 @@
 ---
 // Desktop: columns. Mobile: the same columns as an accordion.
 // Columns start open (the no-JS fallback); a few lines close them on phones.
+import TrustTiles from './TrustTiles.astro';
 import { FOOTER_COLUMNS, SOCIAL, URLS, ENTITY } from '../data/site';
 const year = new Date().getFullYear();
 const columns = [
@@ -23,13 +24,12 @@ const columns = [
     <div class="flex w-full flex-col gap-grid-lg lg:gap-large">
       <div class="lg:px-margin">
         <div class="flex flex-col gap-grid-lg lg:flex-row lg:justify-between lg:gap-0 lg:border-b lg:border-line lg:pb-[80px]">
-          <div class="order-2 flex flex-col gap-2 border-y border-line py-3 lg:order-none lg:w-[197px] lg:gap-loose lg:border-0 lg:py-0">
-            <p class="t-label flex items-center gap-2 tracking-[0.02em] text-ink">
-              <img src="/icons/google-g.png" alt="Google" width="25" height="25" class="size-[25px]" loading="lazy" />
-              <span>★★★★★ 5/5</span>
-            </p>
-            <p class="t-label tracking-[0.02em] text-ink">2× winner, UK eCommerce Awards 2026</p>
-          </div>
+          <TrustTiles
+            stack
+            label="Reviews and awards"
+            class="order-2 lg:order-none lg:w-[197px] lg:self-start"
+            items={[{ google: true, stars: true, text: '5/5', srText: ' from Google reviews' }, { text: '2× winner, UK eCommerce Awards 2026' }]}
+          />
           <div class="order-1 flex flex-col lg:order-none lg:contents">
             {columns.map((col, i) => (
               <details open data-footer-col class:list={['group lg:w-[198px]', i < columns.length - 1 && 'border-b border-line lg:border-0']}>

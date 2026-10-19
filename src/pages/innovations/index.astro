@@ -51,7 +51,6 @@ const items = await Promise.all(
   }),
 );
 const list = { '@type': 'ItemList', '@id': `${url}#innovations`, name: 'Shopify UX examples', numberOfItems: items.length, itemListElement: items };
-const label = 't-label tracking-[0.02em] text-muted';
 ---
 <Base title={P.title} description={P.description}>
   <Schema
@@ -75,28 +74,30 @@ const label = 't-label tracking-[0.02em] text-muted';
           <SectionIntro eyebrow={g.eyebrow} heading={g.heading}>
             {'intro' in g && g.intro && <p slot="intro">{g.intro}</p>}
           </SectionIntro>
-          <div class="mt-gutter flex flex-col gap-section">
+          <!-- Grid: four across on desktop, two on tablets, one on phones. Each entry keeps its
+               full copy, set small, under the playing screen. -->
+          <ul class="mt-gutter grid gap-x-grid gap-y-section sm:grid-cols-2 lg:grid-cols-4 lg:gap-y-gutter">
             {g.items.map((it) => (
-              <article id={it.slug} class="grid scroll-mt-6 gap-large border-t border-line pt-large lg:grid-cols-2 lg:gap-gutter">
-                <div class="flex flex-col gap-loose lg:pr-gutter">
-                  <h3 class="t-h5 text-ink">{it.name}</h3>
-                  <p class={label}>
-                    {it.clientHref ? <a href={it.clientHref} class="text-ink underline underline-offset-4 hover:decoration-2">{it.client}</a> : it.client} · {it.year}
-                  </p>
-                  <dl class="flex flex-col gap-loose">
-                    <div class="flex flex-col gap-2"><dt class={label}>The problem</dt><dd class="t-body text-muted">{it.problem}</dd></div>
-                    <div class="flex flex-col gap-2"><dt class={label}>How it works</dt><dd class="t-body text-muted">{it.howItWorks}</dd></div>
-                    {it.evidence && <div class="flex flex-col gap-2"><dt class={label}>Evidence</dt><dd class="t-body text-muted">{it.evidence}</dd></div>}
-                  </dl>
-                  <p class={label}>Part of <a href={it.service.href} class="text-ink underline underline-offset-4 hover:decoration-2">{it.service.label}</a></p>
-                </div>
-                <figure class="flex flex-col gap-3 max-lg:order-first">
-                  <ScreenTile screen={it.poster} video={it.video} controls alt={it.alt} label={it.caption} sizes="(min-width: 1024px) 24vw, 50vw" />
-                  <figcaption class={label}>{it.caption}</figcaption>
+              <li id={it.slug} class="flex scroll-mt-6 flex-col gap-loose">
+                <figure>
+                  <ScreenTile screen={it.poster} video={it.video} alt={it.alt} sizes="(min-width: 1024px) 24vw, (min-width: 640px) 48vw, 100vw" />
+                  <figcaption class="sr-only">{it.caption}</figcaption>
                 </figure>
-              </article>
+                <div class="flex flex-col gap-2">
+                  <h3 class="t-h6 text-ink">{it.name}</h3>
+                  <p class="t-badge text-muted">
+                    {it.clientHref ? <a href={it.clientHref} class="underline underline-offset-4 hover:text-ink">{it.client}</a> : it.client} · {it.year}
+                  </p>
+                </div>
+                <dl class="t-small flex flex-col gap-3 border-t border-line pt-3 text-muted">
+                  <div><dt class="t-badge mb-1 text-ink">The problem</dt><dd>{it.problem}</dd></div>
+                  <div><dt class="t-badge mb-1 text-ink">How it works</dt><dd>{it.howItWorks}</dd></div>
+                  {it.evidence && <div><dt class="t-badge mb-1 text-ink">Evidence</dt><dd>{it.evidence}</dd></div>}
+                </dl>
+                <p class="t-label mt-auto border-t border-line pt-3 tracking-[0.02em] text-muted">Part of <a href={it.service.href} class="text-ink underline underline-offset-4 hover:decoration-2">{it.service.label}</a></p>
+              </li>
             ))}
-          </div>
+          </ul>
         </div>
       </section>
     ))}

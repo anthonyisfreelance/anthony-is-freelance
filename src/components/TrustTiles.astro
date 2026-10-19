@@ -3,21 +3,26 @@
 // each fact sits on the raised surface with its text centred.
 // Phones: a two-column grid, 8px gaps. From 1024px: one row, 12px gaps, the Google tile
 // sized to its content and the rest sharing the width.
+// stack: one tile under another at every size, 8px apart (the footer).
 interface Tile { text: string; google?: boolean; stars?: boolean; srText?: string }
-interface Props { items: Tile[]; class?: string; label?: string; row?: boolean }
-const { items, class: className = '', label, row = true } = Astro.props;
+interface Props { items: Tile[]; class?: string; label?: string; row?: boolean; stack?: boolean }
+const { items, class: className = '', label, row = true, stack = false } = Astro.props;
 const odd = items.length % 2 === 1;
 ---
 <ul
-  class:list={['t-tile grid grid-cols-2 gap-2 text-ink', row && 'lg:flex lg:items-stretch lg:gap-3', className]}
+  class:list={[
+    't-tile text-ink',
+    stack ? 'flex flex-col gap-2' : ['grid grid-cols-2 gap-2', row && 'lg:flex lg:items-stretch lg:gap-3'],
+    className,
+  ]}
   aria-label={label}
 >
   {items.map((t, i) => (
     <li
       class:list={[
         'flex items-center justify-center gap-2 bg-raised px-4 py-3 text-center',
-        t.google ? 'lg:shrink-0' : 'lg:flex-1',
-        odd && i === items.length - 1 && 'col-span-2',
+        !stack && (t.google ? 'lg:shrink-0' : 'lg:flex-1'),
+        !stack && odd && i === items.length - 1 && 'col-span-2',
       ]}
     >
       {t.google && <img src="/icons/google-g.png" alt="Google" width="25" height="25" class="size-[25px] shrink-0" loading="lazy" />}
