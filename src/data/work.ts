@@ -2,17 +2,17 @@
 // Services are filter data only and never show on the card.
 import type { ImageMetadata } from 'astro';
 import { URLS } from './site';
-import drinkFinder from '../assets/home/drink-finder.jpg';
-import eastAtHome from '../assets/home/east-at-home.jpg';
-import wideFitShoes from '../assets/home/wide-fit-shoes.jpg';
-import screen from '../assets/home/innovation-screen.png';
-import badgeDrinkFinder from '../assets/home/badge-drink-finder.png';
-import badgeEastAtHome from '../assets/home/badge-east-at-home.png';
-import projektityyny from '../assets/work/projektityyny.jpg';
-import fuzzball from '../assets/work/fuzzball.jpg';
-import hartnack from '../assets/services/bespoke.jpg';
-import thameen from '../assets/services/theme.jpg';
-import whistlefish from '../assets/services/ux.jpg';
+import drinkFinder from '../assets/brands/drink-finder/card.jpg';
+import eastAtHome from '../assets/brands/east-at-home/card.jpg';
+import wideFitShoes from '../assets/brands/wide-fit-shoes/card.jpg';
+import screen from '../assets/brands/drink-finder/screen-home.png';
+import badgeDrinkFinder from '../assets/brands/drink-finder/badge-award.png';
+import badgeEastAtHome from '../assets/brands/east-at-home/badge-award.png';
+import projektityyny from '../assets/brands/projektityyny/card.jpg';
+import fuzzball from '../assets/brands/fuzzball/card.jpg';
+import hartnack from '../assets/brands/hartnack-and-co/box.jpg';
+import thameen from '../assets/brands/thameen/bottles.jpg';
+import whistlefish from '../assets/brands/whistlefish/apron.jpg';
 
 export const FILTERS = [
   { id: 'bespoke-store-design', label: 'Bespoke store design' },

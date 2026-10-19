@@ -3,17 +3,17 @@
 import { URLS } from '../site';
 import { CASE_STUDIES } from '../work';
 import { COMPARE } from '../innovations';
-import hero from '../../assets/drink-finder/hero.jpg';
-import badge from '../../assets/drink-finder/badge-winner.png';
-import vineyard from '../../assets/drink-finder/vineyard.jpg';
-import stillDesktop from '../../assets/drink-finder/still-desktop.jpg';
-import stillPdp from '../../assets/drink-finder/still-pdp.jpg';
-import navSearch from '../../assets/drink-finder/nav-search.jpg';
-import phonePdp from '../../assets/drink-finder/phone-pdp.jpg';
-import phoneBrandCollection from '../../assets/drink-finder/phone-brand-collection.jpg';
-import uxHome from '../../assets/drink-finder/ux-home.jpg';
-import cocktail from '../../assets/drink-finder/cocktail.jpg';
-import brandBg from '../../assets/drink-finder/brand-bg.jpg';
+import hero from '../../assets/brands/drink-finder/hero.jpg';
+import badge from '../../assets/brands/drink-finder/badge-winner.png';
+import vineyard from '../../assets/brands/drink-finder/vineyard.jpg';
+import stillDesktop from '../../assets/brands/drink-finder/still-desktop.jpg';
+import stillPdp from '../../assets/brands/drink-finder/still-pdp.jpg';
+import navSearch from '../../assets/brands/drink-finder/nav-search.jpg';
+import phonePdp from '../../assets/brands/drink-finder/phone-pdp.jpg';
+import phoneBrandCollection from '../../assets/brands/drink-finder/phone-brand-collection.jpg';
+import uxHome from '../../assets/brands/drink-finder/ux-home.jpg';
+import cocktail from '../../assets/brands/drink-finder/cocktail.jpg';
+import brandBg from '../../assets/brands/drink-finder/brand-bg.jpg';
 import type { ImageMetadata } from 'astro';
 
 /** A still image, with an optional screen recording (public path to an MP4) that plays over it. */

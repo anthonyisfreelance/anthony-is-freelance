@@ -2,11 +2,11 @@
 // Anything marked [CONFIRM] shows on the preview so it can't slip through.
 import { URLS, ENTITY } from './site';
 
-import drinkFinder from '../assets/home/drink-finder.jpg';
-import eastAtHome from '../assets/home/east-at-home.jpg';
-import wideFitShoes from '../assets/home/wide-fit-shoes.jpg';
-import badgeDrinkFinder from '../assets/home/badge-drink-finder.png';
-import badgeEastAtHome from '../assets/home/badge-east-at-home.png';
+import drinkFinder from '../assets/brands/drink-finder/card.jpg';
+import eastAtHome from '../assets/brands/east-at-home/card.jpg';
+import wideFitShoes from '../assets/brands/wide-fit-shoes/card.jpg';
+import badgeDrinkFinder from '../assets/brands/drink-finder/badge-award.png';
+import badgeEastAtHome from '../assets/brands/east-at-home/badge-award.png';
 import { COMPARE } from './innovations';
 
 export const META = {

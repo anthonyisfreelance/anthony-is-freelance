@@ -4,14 +4,14 @@ import { URLS } from '../site';
 import { CASE_STUDIES } from '../work';
 import type { ImageMetadata } from 'astro';
 import type { ServicePage } from './types';
-import drinkFinderPhoto from '../../assets/service-pages/drink-finder-margarita.jpg';
-import whistlefishPhoto from '../../assets/service-pages/whistlefish-cards.jpg';
-import projektityynyPhoto from '../../assets/service-pages/projektityyny-beach.jpg';
-import hartnackPhoto from '../../assets/services/bespoke.jpg';
-import shopByRoom from '../../assets/service-pages/projektityyny-shop-by-room.jpg';
-import redWine from '../../assets/service-pages/drink-finder-red-wine.jpg';
-import thameenCollection from '../../assets/service-pages/thameen-collection.jpg';
-import innovationScreen from '../../assets/home/innovation-screen.png';
+import drinkFinderPhoto from '../../assets/brands/drink-finder/margarita.jpg';
+import whistlefishPhoto from '../../assets/brands/whistlefish/cards.jpg';
+import projektityynyPhoto from '../../assets/brands/projektityyny/beach.jpg';
+import hartnackPhoto from '../../assets/brands/hartnack-and-co/box.jpg';
+import shopByRoom from '../../assets/brands/projektityyny/shop-by-room.jpg';
+import redWine from '../../assets/brands/drink-finder/red-wine.jpg';
+import thameenCollection from '../../assets/brands/thameen/collection.jpg';
+import innovationScreen from '../../assets/brands/drink-finder/screen-home.png';
 
 const card = (client: string, image: ImageMetadata) => {
   const s = CASE_STUDIES.find((c) => c.client === client)!;

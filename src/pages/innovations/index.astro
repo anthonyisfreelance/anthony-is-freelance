@@ -22,7 +22,7 @@ const groups = INNOVATION_GROUPS.map((g) => ({ ...g, items: INNOVATIONS_LIST.fil
 // Schema: the page's ItemList, one CreativeWork per innovation, with its video.
 const items = await Promise.all(
   INNOVATIONS_LIST.map(async (it, n) => {
-    const poster = new URL((await getImage({ src: it.poster, width: 750 })).src, SITE).href;
+    const poster = it.poster && new URL((await getImage({ src: it.poster, width: 750 })).src, SITE).href;
     return {
       '@type': 'ListItem',
       position: n + 1,
@@ -36,14 +36,14 @@ const items = await Promise.all(
         dateCreated: it.year,
         about: { '@type': 'Organization', name: it.client },
         ...(it.clientHref && { isPartOf: { '@type': 'WebPage', url: new URL(it.clientHref, SITE).href } }),
-        ...(it.video && {
+        ...(it.video && poster && {
           video: {
             '@type': 'VideoObject',
             name: it.name,
             description: it.caption,
             thumbnailUrl: poster,
             contentUrl: new URL(it.video, SITE).href,
-            uploadDate: it.videoUploaded,
+            ...(it.videoUploaded && { uploadDate: it.videoUploaded }),
           },
         }),
       },
@@ -79,8 +79,17 @@ const list = { '@type': 'ItemList', '@id': `${url}#innovations`, name: 'Shopify 
           <ul class="mt-gutter grid gap-x-grid gap-y-section sm:grid-cols-2 lg:grid-cols-4 lg:gap-y-gutter">
             {g.items.map((it) => (
               <li id={it.slug} class="flex scroll-mt-6 flex-col gap-loose">
+                {/* No screen still yet: an empty phone until the files go in (see src/assets/brands/README.md). */}
                 <figure>
-                  <ScreenTile screen={it.poster} video={it.video} alt={it.alt} sizes="(min-width: 1024px) 24vw, (min-width: 640px) 48vw, 100vw" />
+                  {it.poster ? (
+                    <ScreenTile screen={it.poster} video={it.video} alt={it.alt} sizes="(min-width: 1024px) 24vw, (min-width: 640px) 48vw, 100vw" />
+                  ) : (
+                    <div class="relative aspect-square overflow-hidden bg-raised" aria-hidden="true">
+                      <div class="absolute bottom-0 left-[24.5%] right-[24.5%] flex aspect-[216/376] items-center justify-center border border-b-0 border-line">
+                        <span class="t-badge text-muted">Recording to come</span>
+                      </div>
+                    </div>
+                  )}
                   <figcaption class="sr-only">{it.caption}</figcaption>
                 </figure>
                 <div class="flex flex-col gap-2">

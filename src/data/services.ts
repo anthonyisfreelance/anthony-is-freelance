@@ -3,16 +3,16 @@
 import { URLS } from './site';
 
 // Drink Finder (live work only, 18 October 2026). Swap for a final image when ready.
-import hero from '../assets/drink-finder/vineyard.jpg';
-import branding from '../assets/services/branding.jpg';
-import ux from '../assets/services/ux.jpg';
-import bespoke from '../assets/services/bespoke.jpg';
-import cro from '../assets/services/cro.jpg';
-import migrations from '../assets/services/migrations.jpg';
-import subscriptions from '../assets/services/subscriptions.jpg';
-import theme from '../assets/services/theme.jpg';
-import projektityyny from '../assets/work/projektityyny.jpg';
-import fuzzball from '../assets/work/fuzzball.jpg';
+import hero from '../assets/brands/drink-finder/vineyard.jpg';
+import branding from '../assets/site/services/branding.jpg';
+import ux from '../assets/brands/whistlefish/apron.jpg';
+import bespoke from '../assets/brands/hartnack-and-co/box.jpg';
+import cro from '../assets/brands/east-at-home/curry.jpg';
+import migrations from '../assets/site/services/migrations.jpg';
+import subscriptions from '../assets/brands/fuzzball/treats.jpg';
+import theme from '../assets/brands/thameen/bottles.jpg';
+import projektityyny from '../assets/brands/projektityyny/card.jpg';
+import fuzzball from '../assets/brands/fuzzball/card.jpg';
 
 export const HUB_META = {
   title: 'Shopify Website Design Services UK | Anthony is Freelance',
