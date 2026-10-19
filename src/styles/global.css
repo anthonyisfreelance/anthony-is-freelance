@@ -39,6 +39,7 @@
 
   --type-h1: 38px;
   --type-h2: 28px;
+  --type-h3: 26px; /* desktop only, used with lg: */
   --type-h5: 18px;
   --type-h6: 14px;
   --type-body: 16px;
@@ -156,7 +157,8 @@
 @utility t-number {
   font-family: var(--font-display);
   font-weight: 500;
-  font-size: var(--type-number);
+  /* 13vw keeps a figure like 62.5% inside its half-width column on small phones. */
+  font-size: min(var(--type-number), 13vw);
   line-height: 1;
   color: var(--color-blue);
 }
@@ -356,19 +358,22 @@ dialog[data-project-dialog]:not([open])::backdrop {
   }
 }
 
-/* Big screens. Up to 1920px everything is exactly as designed. From 1920 to 2560 the headings
-   (H1, H2 and the big numbers) grow with the screen, up to a third bigger at 2560, so they keep their
-   weight next to the images. Body copy, buttons and logos stay the same size. Past 2560 the page
-   stops growing and centres; the announcement bar and the form background still run full width.
-   Pages can opt out (<Base scale={false}>), as the Drink Finder case study does. */
+/* Big screens. Up to 1920px everything is exactly as designed. From 1920 to 2560 every heading
+   size (H1 to H6, card titles and the big numbers) grows with the screen, up to a third bigger at
+   2560, so headings keep their weight next to the images. Body copy, buttons and logos stay the same size. Past 2560 the page
+   stops growing and centres (.page-frame in Base.astro); the announcement bar and the form
+   background (.bleed) still run the full width of the screen. */
 @media (min-width: 1920px) {
-  .page-scale {
+  :root {
     --type-h1: clamp(64px, 3.3333vw, 85.33px);
     --type-h2: clamp(38px, 1.9792vw, 50.67px);
+    --type-h3: clamp(26px, 1.3542vw, 34.67px);
+    --type-h5: clamp(22px, 1.1458vw, 29.33px);
+    --type-h6: clamp(18px, 0.9375vw, 24px);
     --type-number: clamp(80px, 4.1667vw, 106.67px);
   }
 }
-.page-scale .page-frame {
+.page-frame {
   max-width: 2560px;
   margin-inline: auto;
 }

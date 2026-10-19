@@ -9,15 +9,12 @@ interface Props {
   title: string;
   description: string;
   announcement?: boolean;
-  /** Big screens: from 1920px the headings grow with the screen, and past 2560px the page stops
-      growing and centres (see .page-scale in global.css). On by default. */
-  scale?: boolean;
 }
-const { title, description, announcement = true, scale = true } = Astro.props;
+const { title, description, announcement = true } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
 <!doctype html>
-<html lang="en-GB" class:list={['theme-dark', scale && 'page-scale']}>
+<html lang="en-GB" class="theme-dark">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />

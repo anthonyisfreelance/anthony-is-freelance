@@ -9,6 +9,7 @@ Static site for Anthony is Freelance. Astro + Tailwind v4, hosted on Cloudflare 
 - Schema: one `@graph` per page, built by a shared component from entity data with stable `@id`s. Never hand-write JSON-LD per page.
 - British English in all copy.
 - Keep JavaScript to a minimum. Performance target: 100 on Lighthouse mobile.
+- Big screens: from 1920 to 2560px the heading size tokens grow with the screen, and past 2560 the page stops and centres (see the end of `global.css`). Set heading sizes with the type tokens, never fixed px, so they scale too.
 
 ## Commands
 - `npm run dev` local preview
