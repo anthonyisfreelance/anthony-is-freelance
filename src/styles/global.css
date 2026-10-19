@@ -355,3 +355,26 @@ dialog[data-project-dialog]:not([open])::backdrop {
     transition: none;
   }
 }
+
+/* Big screens. Up to 1920px everything is exactly as designed. From 1920 to 2560 the headings
+   (H1, H2 and the big numbers) grow with the screen, up to a third bigger at 2560, so they keep their
+   weight next to the images. Body copy, buttons and logos stay the same size. Past 2560 the page
+   stops growing and centres; the announcement bar and the form background still run full width.
+   Pages can opt out (<Base scale={false}>), as the Drink Finder case study does. */
+@media (min-width: 1920px) {
+  .page-scale {
+    --type-h1: clamp(64px, 3.3333vw, 85.33px);
+    --type-h2: clamp(38px, 1.9792vw, 50.67px);
+    --type-number: clamp(80px, 4.1667vw, 106.67px);
+  }
+}
+.page-scale .page-frame {
+  max-width: 2560px;
+  margin-inline: auto;
+}
+
+/* A section background that carries on to the screen edges past 2560 (the white form section). */
+.bleed {
+  box-shadow: 0 0 0 100vmax var(--c-surface);
+  clip-path: inset(0 -100vmax);
+}

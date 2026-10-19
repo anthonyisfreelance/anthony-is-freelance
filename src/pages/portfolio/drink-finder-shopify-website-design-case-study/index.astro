@@ -29,7 +29,7 @@ const hasVideo = allMedia.some((m) => m.video);
 const meta = 'font-display font-medium text-[14px] leading-[1.3] tracking-[0.02em]';
 const link = 'underline underline-offset-4 hover:decoration-2';
 ---
-<Base title={META.title} description={META.description}>
+<Base title={META.title} description={META.description} scale={false}>
   <Schema slot="head" title={META.title} description={META.description} path={META.path} breadcrumbs={META.breadcrumbs} about={clientId} extra={[client]} />
   <Header overlay />
   <main id="main">

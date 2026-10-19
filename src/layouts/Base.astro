@@ -9,12 +9,15 @@ interface Props {
   title: string;
   description: string;
   announcement?: boolean;
+  /** Big screens: from 1920px the headings grow with the screen, and past 2560px the page stops
+      growing and centres (see .page-scale in global.css). On by default. */
+  scale?: boolean;
 }
-const { title, description, announcement = true } = Astro.props;
+const { title, description, announcement = true, scale = true } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
 <!doctype html>
-<html lang="en-GB" class="theme-dark">
+<html lang="en-GB" class:list={['theme-dark', scale && 'page-scale']}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -34,8 +37,10 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
   <body class="bg-surface text-ink">
     <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:bg-white focus:px-3 focus:py-2 focus:text-[#111]">Skip to content</a>
     {announcement && <AnnouncementBar />}
-    <slot />
-    <Footer />
+    <div class="page-frame">
+      <slot />
+      <Footer />
+    </div>
     <StickyCta />
     <ProjectDialog />
   </body>
