@@ -355,3 +355,14 @@ dialog[data-project-dialog]:not([open])::backdrop {
     transition: none;
   }
 }
+
+/* Trial: text never gets too wide to read on big screens. Layouts, images and grids still fill
+   the screen; only the text inside them stops growing. Body copy stops at 720px (just over the
+   676px intro width in Figma), headings and big quotes at 1000px. At 1440 nothing changes.
+   Text with a rule above it (like the line under the form) keeps its full width. */
+.text-cap main :is(h1, h2, blockquote) {
+  max-width: 1000px;
+}
+.text-cap main :is(.t-body, .t-small):not([class*="border-"]) {
+  max-width: 720px;
+}

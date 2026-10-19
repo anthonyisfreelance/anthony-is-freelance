@@ -14,7 +14,7 @@ import Faqs from '../components/home/Faqs.astro';
 import Contact from '../components/home/Contact.astro';
 import { META, FAQS } from '../data/home';
 ---
-<Base title={META.title} description={META.description}>
+<Base title={META.title} description={META.description} textCap>
   <Schema slot="head" title={META.title} description={META.description} path="/" faqs={FAQS.items} isHome />
   <main id="main">
     <Hero />
