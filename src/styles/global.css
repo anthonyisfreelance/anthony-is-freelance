@@ -389,3 +389,11 @@ dialog[data-project-dialog]:not([open])::backdrop {
 @utility w-half {
   width: calc(50% - var(--page-gutter) / 2);
 }
+
+/* The announcement bar pushes the hero down by its height on first load, so anything pinned to
+   the bottom of a full-height hero (the showreel's Pause) lifts by the same amount to stay on screen. */
+@media (min-width: 1024px) {
+  html:has(#announcement) {
+    --bar-h: 42px;
+  }
+}

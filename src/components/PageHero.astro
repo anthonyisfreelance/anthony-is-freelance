@@ -1,12 +1,13 @@
 ---
-// Top of an inner page: rule, eyebrow inside the H1, intro, then anything slotted below.
+// Top of an inner page: rule, eyebrow inside the H1, intro (in the left half on desktop, the same
+// 50/50 rule as every section heading), then anything slotted below.
 import Heading from './Heading.astro';
 interface Props { eyebrow: string; heading: string; intro?: string }
 const { eyebrow, heading, intro } = Astro.props;
 ---
 <section class="px-margin">
   <div class="flex flex-col gap-large border-t border-line pt-large lg:pt-[40px]">
-    <div class="flex max-w-[916px] flex-col gap-loose">
+    <div class="flex flex-col gap-loose lg:w-half">
       <Heading level={1} eyebrow={eyebrow}>{heading}</Heading>
       {intro && <p class="t-body text-muted">{intro}</p>}
     </div>

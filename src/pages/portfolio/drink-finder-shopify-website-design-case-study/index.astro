@@ -55,7 +55,7 @@ const link = 'underline underline-offset-4 hover:decoration-2';
             {BRIEF.body.map((p) => <p>{p}</p>)}
           </div>
         </div>
-        <dl class:list={[meta, 'flex flex-col gap-loose border-t border-line pt-large lg:w-[716px] lg:shrink-0 lg:border-l lg:border-t-0 lg:pl-gutter lg:pt-0']}>
+        <dl class:list={[meta, 'flex flex-col gap-loose border-t border-line pt-large lg:w-[calc(50%+var(--page-gutter)/2)] lg:shrink-0 lg:border-l lg:border-t-0 lg:pl-gutter lg:pt-0']}>
           <div class="flex gap-2"><dt class="w-[120px] shrink-0 text-[#c4c4c4]">Sector</dt><dd class="flex-1 text-ink">{DETAILS.sector}</dd></div>
           <div class="flex gap-2">
             <dt class="w-[120px] shrink-0 text-[#c4c4c4]">Services</dt>
