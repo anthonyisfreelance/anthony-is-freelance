@@ -107,7 +107,7 @@ export const THEME: ServicePage = {
       { client: 'Drink Finder', href: URLS.caseStudies.drinkFinder, alt: '' },
       { client: 'Thameen London', href: caseStudyHref('Thameen London'), alt: '' },
     ],
-    note: 'Bespoke store design starts from £10,000 + VAT, design only, with six to eight weeks of design and about the same again for the build.',
+    notes: ['Bespoke store design starts from £10,000 + VAT, design only, with six to eight weeks of design and about the same again for the build.'],
   },
   faqs: {
     eyebrow: 'Before you get in touch',

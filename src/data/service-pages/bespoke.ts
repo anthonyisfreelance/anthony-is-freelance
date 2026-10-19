@@ -153,7 +153,6 @@ export const BESPOKE: ServicePage = {
     caption: 'Bespoke store design at a glance',
     rows: [
       ['Starting price', 'From £10,000 + VAT, design only'],
-      ['Design time', 'Six to eight weeks'],
       ['Build time', 'About the same again'],
       ['What you get', 'The full Figma file: design system, every template and a clickable prototype'],
       ['Who builds it', 'A developer I introduce, or your own team or agency, quoted separately'],
@@ -177,7 +176,10 @@ export const BESPOKE: ServicePage = {
       { client: 'Drink Finder', href: URLS.caseStudies.drinkFinder, screen: redWine, alt: 'The Drink Finder red wine collection on mobile.' },
       { client: 'Thameen London', href: CASE_STUDIES.find((c) => c.client === 'Thameen London')!.href, screen: thameenCollection, alt: 'A Thameen London collection on mobile.' },
     ],
-    note: 'Theme customisations start from £5,000 + VAT, design only, over four to eight weeks.',
+    notes: [
+      'Prices checked September 2026. Every project is quoted individually once the brief is defined.',
+      'The price moves with how many templates you need, how complex the products are (configurators, bundles, subscriptions), and whether the brand needs refining first.',
+    ],
   },
 
   testimonial: {

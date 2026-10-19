@@ -212,12 +212,13 @@ const cell = 't-label tracking-[0.02em]';
     )}
     {after('testimonial').map((x) => <ServiceExtra item={x} />)}
 
-    <!-- Price and timeline (Figma "Pricing table", Grid variant): heading sticky on the left; the
-         table on the right with its values on the raised surface, and the notes under it. -->
+    <!-- Price and timeline (Figma "Pricing table", Grid variant): heading, notes and quote link sticky
+         on the left; the table on the right with its values on the raised surface. -->
     <section id="price" class="px-margin pt-section">
       <div class="grid gap-gutter border-t border-line pt-6 lg:grid-cols-2">
         <div class="pt-section lg:sticky lg:top-0 lg:self-start lg:pr-[119px]">
           <Heading eyebrow={p.price.eyebrow}>{p.price.heading}</Heading>
+          <div class="t-body mt-loose flex flex-col gap-[10px] text-muted">{p.price.notes.map((n) => <p>{n}</p>)}</div>
           <div class="mt-loose"><TextLink href={p.price.cta.href}>{p.price.cta.label}</TextLink></div>
         </div>
         <div class="lg:pt-[104px]">
@@ -238,7 +239,6 @@ const cell = 't-label tracking-[0.02em]';
               ))}
             </tbody>
           </table>
-          <div class="t-small flex flex-col gap-[10px] border-t border-line pt-grid-lg text-muted">{p.price.notes.map((n) => <p>{n}</p>)}</div>
         </div>
       </div>
     </section>
@@ -287,11 +287,11 @@ const cell = 't-label tracking-[0.02em]';
                     ))}
                   </tr>
                 )}
-                <!-- Last row: get a quote for this service, or go to the other one -->
+                <!-- Last row (no rule above it): get a quote for this service, or go to the other one -->
                 <tr>
-                  <td class="border-t border-line max-lg:hidden"></td>
+                  <td class="max-lg:hidden"></td>
                   {p.comparison.columns.map((c) => (
-                    <td class:list={['border-t border-line px-grid py-loose align-middle', c.current && 'bg-raised']}>
+                    <td class:list={['px-grid py-loose align-middle', c.current && 'bg-raised']}>
                       {c.current ? (
                         <a href={p.price.cta.href} data-project-open class="t-button inline-flex items-center gap-1 bg-white px-[14px] py-2 text-[#111] hover:opacity-90">
                           {p.price.cta.label}
@@ -308,7 +308,7 @@ const cell = 't-label tracking-[0.02em]';
                 </tr>
               </tbody>
             </table>
-            {p.comparison.note && <p class="t-small border-t border-line pt-grid-lg text-muted">{p.comparison.note}</p>}
+            {p.comparison.notes && <div class="t-small mt-large flex flex-col gap-[10px] text-muted">{p.comparison.notes.map((n) => <p>{n}</p>)}</div>}
           </div>
         </div>
       </section>

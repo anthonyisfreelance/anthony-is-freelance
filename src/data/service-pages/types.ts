@@ -47,7 +47,7 @@ export interface ServicePage {
     columns: { label: string; href: string; current?: boolean }[];
     rows: [string, string, string][];
     examples?: { client: string; href: string; screen?: ImageMetadata; alt: string }[];
-    note?: string;
+    notes?: string[];
   };
   faqs?: { eyebrow: string; heading: string; items: { q: string; a: string[] }[] };
   articles?: { eyebrow: string; heading: string; link: Link; items: { category: string; title: string; href: string }[] };
