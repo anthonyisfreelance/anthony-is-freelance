@@ -4,7 +4,7 @@ import Heading from './Heading.astro';
 interface Props { eyebrow: string; heading: string; intro?: string }
 const { eyebrow, heading, intro } = Astro.props;
 ---
-<section class="wrap px-margin">
+<section class="px-margin">
   <div class="flex flex-col gap-large border-t border-line pt-large lg:pt-[40px]">
     <div class="flex max-w-[916px] flex-col gap-loose">
       <Heading level={1} eyebrow={eyebrow}>{heading}</Heading>

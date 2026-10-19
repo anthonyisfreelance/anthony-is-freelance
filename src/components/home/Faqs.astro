@@ -4,7 +4,7 @@ import { FAQS } from '../../data/home';
 interface Props { data?: { eyebrow: string; heading: string; items: { q: string; a: string[] }[] } }
 const { data = FAQS } = Astro.props;
 ---
-<section class="wrap px-margin pb-section pt-section-pre">
+<section class="px-margin pb-section pt-section-pre">
   <div class="grid gap-gutter border-t border-line pt-section lg:grid-cols-2">
     <div class="lg:sticky lg:top-loose lg:self-start">
       <Heading eyebrow={data.eyebrow}>{data.heading}</Heading>

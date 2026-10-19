@@ -13,7 +13,7 @@ import TrustTiles from '../TrustTiles.astro';
 ---
 <div class="relative">
   <Header overlay />
-  <div class="grid lg:grid-cols-[minmax(0,700fr)_minmax(0,676fr)] lg:gap-gutter lg:pr-wrap">
+  <div class="grid lg:grid-cols-[minmax(0,700fr)_minmax(0,676fr)] lg:gap-gutter lg:pr-margin">
     <div class="relative aspect-square bg-line lg:sticky lg:top-0 lg:aspect-[4/5] lg:self-start">
       <Showreel />
     </div>
@@ -46,7 +46,7 @@ import TrustTiles from '../TrustTiles.astro';
     </div>
   </div>
 
-  <ul class="wrap grid grid-cols-2 gap-x-grid gap-y-grid-lg px-margin pt-grid-lg lg:grid-cols-3 lg:pt-large">
+  <ul class="grid grid-cols-2 gap-x-grid gap-y-grid-lg px-margin pt-grid-lg lg:grid-cols-3 lg:pt-large">
     {STORIES.cards.map((card) => <li><CaseStudyCard {...card} stackMeta /></li>)}
   </ul>
 </div>

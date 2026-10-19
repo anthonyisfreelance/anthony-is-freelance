@@ -65,7 +65,7 @@ const catalog = {
       </nav>
     </PageHero>
 
-    <div class="wrap px-margin pt-[64px] lg:pt-section-sm">
+    <div class="px-margin pt-[64px] lg:pt-section-sm">
       <div class="relative aspect-[16/9] overflow-hidden lg:aspect-auto lg:h-[419px]">
         <Image src={HUB_HERO.image} alt="" widths={[480, 960, 1400, 2000]} sizes="100vw" loading="eager" fetchpriority="high" quality={75} class="zoom-img absolute inset-0 size-full object-cover" />
       </div>
@@ -73,12 +73,12 @@ const catalog = {
 
     <!-- Trust row (Figma "Icon and text Section"): Google first, every fact on a raised tile -->
     <TrustTiles
-      class="wrap px-margin pt-12 lg:pt-large"
+      class="px-margin pt-12 lg:pt-large"
       items={[...HUB_HERO.trust.filter((t) => t.google), ...HUB_HERO.trust.filter((t) => !t.google)].map((t) => ({ text: t.text, google: t.google }))}
     />
 
     <!-- Eight services -->
-    <section class="wrap px-margin pt-section">
+    <section class="px-margin pt-section">
       <div>
         <SectionIntro eyebrow={SERVICES_GRID.eyebrow} heading={SERVICES_GRID.heading}>
           <p slot="intro">{SERVICES_GRID.intro}</p>
@@ -105,7 +105,7 @@ const catalog = {
     </section>
 
     <!-- Situation guide -->
-    <section class="wrap px-margin pt-section">
+    <section class="px-margin pt-section">
       <div class="grid gap-gutter border-t border-line pt-4 lg:grid-cols-2">
         <div class="pt-section lg:sticky lg:top-0 lg:self-start">
           <Heading eyebrow={SITUATIONS.eyebrow}>{SITUATIONS.heading}</Heading>
@@ -130,7 +130,7 @@ const catalog = {
     </section>
 
     <!-- Recent work -->
-    <section class="wrap pt-section">
+    <section class="pt-section">
       <div class="px-margin">
         <div class="border-t border-line pt-section">
           <SectionIntro eyebrow={RECENT_WORK.eyebrow} heading={RECENT_WORK.heading}>
@@ -148,7 +148,7 @@ const catalog = {
     </section>
 
     <!-- Testimonial -->
-    <section class="wrap px-margin pt-section">
+    <section class="px-margin pt-section">
       <div class="flex flex-col gap-gutter border-t border-line pt-section lg:flex-row">
         <div class="flex-1"><Heading eyebrow={HUB_TESTIMONIAL.eyebrow}>{HUB_TESTIMONIAL.heading}</Heading></div>
         <figure class="flex flex-col gap-grid-lg border-t border-line pt-large lg:w-[676px] lg:max-w-[48%]">

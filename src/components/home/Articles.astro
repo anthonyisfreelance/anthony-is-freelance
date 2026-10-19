@@ -3,7 +3,7 @@ import SectionIntro from '../SectionIntro.astro';
 import TextLink from '../TextLink.astro';
 import { ARTICLES } from '../../data/home';
 ---
-<section class="wrap px-margin pt-section-sm lg:pt-section-pre">
+<section class="px-margin pt-section-sm lg:pt-section-pre">
   <div class="border-t border-line pt-section">
     <SectionIntro eyebrow={ARTICLES.eyebrow} heading={ARTICLES.heading}>
       <TextLink slot="links" href={ARTICLES.link.href}>{ARTICLES.link.label}</TextLink>
