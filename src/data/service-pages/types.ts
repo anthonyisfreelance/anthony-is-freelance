@@ -38,7 +38,7 @@ export interface ServicePage {
   process: { eyebrow: string; heading: string; intro: string; steps: { title: string; body: string }[] };
   innovations?: {
     eyebrow: string; heading: string; intro?: string;
-    items: { client: string; title: string; body: string; screen?: ImageMetadata; backdrop?: ImageMetadata }[];
+    items: { client: string; title: string; body: string; screen?: ImageMetadata; video?: string }[];
   };
   testimonial?: { heading: string; quote: string; cite: string };
   price: { eyebrow: string; heading: string; notes: string[]; cta: Link; caption: string; rows: [string, string][] };

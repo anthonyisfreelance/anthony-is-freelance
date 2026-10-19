@@ -360,9 +360,10 @@ dialog[data-project-dialog]:not([open])::backdrop {
 
 /* Big screens. Up to 1920px everything is exactly as designed. From 1920 to 2560 every heading
    size (H1 to H6, card titles and the big numbers) grows with the screen, up to a third bigger at
-   2560, so headings keep their weight next to the images. Body copy, buttons and logos stay the same size. Past 2560 the page
-   stops growing and centres (.page-frame in Base.astro); the announcement bar and the form
-   background (.bleed) still run the full width of the screen. */
+   2560, so headings keep their weight next to the images. Body copy, buttons and logos stay the
+   same size. Past 2560 the page margin grows instead, so content stops at 2512px and centres while
+   anything edge to edge (hero images, full-bleed backgrounds, the announcement bar, the form
+   background) keeps running to the screen edges. */
 @media (min-width: 1920px) {
   :root {
     --type-h1: clamp(64px, 3.3333vw, 85.33px);
@@ -373,13 +374,18 @@ dialog[data-project-dialog]:not([open])::backdrop {
     --type-number: clamp(80px, 4.1667vw, 106.67px);
   }
 }
-.page-frame {
-  max-width: 2560px;
-  margin-inline: auto;
+@media (min-width: 2560px) {
+  :root {
+    --page-margin: calc((100vw - 2560px) / 2 + 24px);
+  }
+  /* Overlays keep the standard margin. */
+  dialog {
+    --page-margin: 24px;
+  }
 }
 
-/* A section background that carries on to the screen edges past 2560 (the white form section). */
-.bleed {
-  box-shadow: 0 0 0 100vmax var(--c-surface);
-  clip-path: inset(0 -100vmax);
+/* The left (or right) half of a 50/50 split, less half the gutter: 676px at 1440, as in Figma.
+   Section headings sit in it so every section lines up with the one above. */
+@utility w-half {
+  width: calc(50% - var(--page-gutter) / 2);
 }

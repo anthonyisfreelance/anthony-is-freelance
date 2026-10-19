@@ -1,5 +1,6 @@
 ---
-// Section header used across the page: heading, optional intro, links to the right on desktop.
+// Section header used across the site: heading and intro in the left half on desktop (50/50, as in
+// Figma), links bottom right.
 import Heading from './Heading.astro';
 interface Props {
   eyebrow: string;
@@ -13,7 +14,7 @@ const hasLinks = Astro.slots.has('links');
 const hasIntro = Astro.slots.has('intro');
 ---
 <div class:list={[split ? 'lg:flex lg:items-end lg:justify-between lg:gap-gutter' : '', className]}>
-  <div class:list={['flex flex-col gap-loose', split ? 'lg:w-[676px] lg:max-w-[48%]' : '']}>
+  <div class:list={['flex flex-col gap-loose', split ? 'lg:w-half lg:shrink-0' : '']}>
     <Heading eyebrow={eyebrow} deco={deco} >{heading}</Heading>
     {hasIntro && <div class="t-body text-muted"><slot name="intro" /></div>}
     {hasLinks && !split && <div class="flex flex-wrap gap-x-grid gap-y-4"><slot name="links" /></div>}

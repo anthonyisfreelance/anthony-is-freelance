@@ -7,7 +7,7 @@ import eastAtHome from '../assets/home/east-at-home.jpg';
 import wideFitShoes from '../assets/home/wide-fit-shoes.jpg';
 import badgeDrinkFinder from '../assets/home/badge-drink-finder.png';
 import badgeEastAtHome from '../assets/home/badge-east-at-home.png';
-import innovationScreen from '../assets/home/innovation-screen.png';
+import { COMPARE } from './innovations';
 
 export const META = {
   title: 'Shopify Designer UK | Shopify Expert for DTC Brands',
@@ -147,31 +147,36 @@ export const INNOVATIONS = {
   intro:
     "Every UX feature I design for a Shopify store starts with a customer's need. I work out what's getting in their way, come up with an idea, then craft it until it's right. Small details like these help people find the right product and buy with confidence.",
   link: { label: 'See all Shopify innovations', href: URLS.innovations },
-  // Real UI images to come; all four use the Drink Finder screen for now.
+  // Every tile shows the Drink Finder comparison recording for now; real screens to come.
   items: [
     {
       client: 'Drink Finder',
       title: 'A comparison toggle on the collection page',
       body: 'Expand origin, region and vintage to compare bottles side by side, without leaving the listing.',
-      image: innovationScreen,
+      href: `${URLS.innovations}#comparison-toggle`,
+      image: COMPARE.poster,
+      video: COMPARE.video,
     },
     {
       client: 'East at Home',
       title: 'Product cards that answer dinner questions',
       body: 'Every card shows spice level, dietary needs and flavour, in a list built for comparing on mobile.',
-      image: innovationScreen,
+      image: COMPARE.poster,
+      video: COMPARE.video,
     },
     {
       client: 'Whistlefish',
       title: 'Image-first product cards',
       body: 'Product names truncated on purpose, because nobody buys a greeting card for its name.',
-      image: innovationScreen,
+      image: COMPARE.poster,
+      video: COMPARE.video,
     },
     {
       client: '[CONFIRM]',
       title: '[CONFIRM: fourth innovation]',
       body: 'The design has four slots and the copy doc has three.',
-      image: innovationScreen,
+      image: COMPARE.poster,
+      video: COMPARE.video,
     },
   ],
 };

@@ -47,7 +47,7 @@ export const URLS = {
   subscriptions: '/shopify-website-design/shopify-subscriptions/',
   aiSearch: '/shopify-website-design/shopify-ai-search-design/',
   work: '/work/',
-  innovations: '/work/', // [CONFIRM] innovations page URL
+  innovations: '/innovations/',
   awards: '/articles/shortlisted-uk-ecommerce-awards-2026/',
   testimonials: '/testimonials/',
   articles: '/articles/',

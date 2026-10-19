@@ -1,29 +1,62 @@
 ---
 // A phone screen standing in a softly blurred copy of itself, as in the Figma innovation tiles.
+// The background is always the tile's own screen, blurred, so a row of tiles has different
+// backgrounds. A screen recording (public path to an MP4) can play over the still: it starts
+// when the tile scrolls into view (the shared script in Base.astro) and is skipped for reduced
+// motion. With `controls`, the video shows its own controls and poster instead.
 // On hover (inside a .hover-card) the whole tile zooms, backdrop and phone together.
-import { Image } from 'astro:assets';
+import { Image, getImage } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 interface Props {
   screen: ImageMetadata;
-  backdrop?: ImageMetadata; // extra layer behind the blur, as in some Figma tiles
+  video?: string;
+  controls?: boolean;
   alt?: string;
+  label?: string; // accessible name for the video when it has controls
   ratio?: 'square' | 'portrait';
   inset?: string; // horizontal inset of the phone, as a percentage of the tile
   sizes?: string;
   class?: string;
 }
-const { screen, backdrop, alt = '', ratio = 'square', inset, sizes = '(min-width: 1024px) 15vw, 40vw', class: className = '' } = Astro.props;
+const { screen, video, controls = false, alt = '', label, ratio = 'square', inset, sizes = '(min-width: 1024px) 15vw, 40vw', class: className = '' } = Astro.props;
 const side = inset ?? (ratio === 'portrait' ? '17.63%' : '24.5%');
+const poster = video && controls ? (await getImage({ src: screen, width: 660 })).src : undefined;
 ---
 <div class:list={['relative overflow-hidden bg-white', ratio === 'portrait' ? 'aspect-[4/5]' : 'aspect-square', className]}>
   <div class="zoom-img absolute inset-0">
     <div class="absolute inset-0 scale-125 blur-[60px]" aria-hidden="true">
-      {backdrop && <Image src={backdrop} alt="" width={200} class="absolute left-0 top-[-69.62%] h-[172.86%] w-full max-w-none" />}
       <Image src={screen} alt="" width={200} class="absolute inset-0 size-full object-cover" />
     </div>
     <div class="absolute inset-0 bg-white/20"></div>
     <div class="absolute bottom-0 aspect-[216/376] overflow-hidden" style={`left:${side};right:${side}`}>
       <Image src={screen} alt={alt} widths={[220, 440, 660]} sizes={sizes} class="size-full object-cover object-top" />
+      {video && (controls ? (
+        <video
+          src={video}
+          poster={poster}
+          data-autoplay
+          controls
+          muted
+          loop
+          playsinline
+          preload="none"
+          aria-label={label}
+          class="absolute inset-0 size-full object-cover object-top"
+        ></video>
+      ) : (
+        <video
+          src={video}
+          data-autoplay
+          data-fade
+          muted
+          loop
+          playsinline
+          preload="none"
+          aria-hidden="true"
+          tabindex="-1"
+          class="absolute inset-0 size-full object-cover object-top opacity-0 transition-opacity duration-300"
+        ></video>
+      ))}
     </div>
   </div>
 </div>

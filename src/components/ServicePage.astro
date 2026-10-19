@@ -10,6 +10,7 @@ import SectionIntro from './SectionIntro.astro';
 import TextLink from './TextLink.astro';
 import CaseStudyCard from './CaseStudyCard.astro';
 import ScreenTile from './ScreenTile.astro';
+import { COMPARE } from '../data/innovations';
 import TrustTiles from './TrustTiles.astro';
 import ServiceExtra from './ServiceExtra.astro';
 import Faqs from './home/Faqs.astro';
@@ -113,7 +114,7 @@ const cell = 't-label tracking-[0.02em]';
     <section id="proof" class="px-margin pt-section">
       <div class="border-t border-line pt-section">
         <div class="flex flex-col gap-loose lg:flex-row lg:items-end lg:justify-between lg:gap-gutter">
-          <h2 class="t-h2 text-ink lg:w-[676px]">{p.proof.heading}</h2>
+          <h2 class="t-h2 text-ink lg:w-half">{p.proof.heading}</h2>
           {p.proof.link && <TextLink href={p.proof.link.href}>{p.proof.link.label}</TextLink>}
         </div>
         <ul class="mt-gutter grid gap-x-grid gap-y-gutter lg:grid-cols-2">
@@ -154,7 +155,7 @@ const cell = 't-label tracking-[0.02em]';
     <section id="how-it-runs" class="px-margin pt-section">
       <div class="border-t border-line pt-section">
         <div class="flex flex-col gap-loose lg:flex-row lg:items-end lg:gap-gutter">
-          <div class="lg:w-[676px] lg:shrink-0"><Heading eyebrow={p.process.eyebrow}>{p.process.heading}</Heading></div>
+          <div class="lg:w-half lg:shrink-0"><Heading eyebrow={p.process.eyebrow}>{p.process.heading}</Heading></div>
           <p class="t-body flex-1 text-muted">{p.process.intro}</p>
         </div>
         <ol class="mt-gutter grid grid-cols-1 gap-x-gutter gap-y-large sm:grid-cols-2 lg:grid-cols-4">
@@ -176,14 +177,15 @@ const cell = 't-label tracking-[0.02em]';
     {p.innovations && (
       <section id="innovations" class="px-margin pt-section">
         <div class="border-t border-line pt-section">
-          <div class="lg:w-[676px]">
+          <div class="lg:w-half">
             <Heading eyebrow={p.innovations.eyebrow}>{p.innovations.heading}</Heading>
             {p.innovations.intro && <p class="t-body mt-loose text-muted">{p.innovations.intro}</p>}
           </div>
           <ul class="mt-gutter grid gap-x-grid gap-y-gutter sm:grid-cols-3">
             {p.innovations.items.map((it) => (
               <li class="flex flex-col">
-                {it.screen ? <ScreenTile screen={it.screen} backdrop={it.backdrop} sizes="(min-width: 1024px) 16vw, (min-width: 640px) 16vw, 50vw" /> : <div class="aspect-square grid place-items-center bg-line"><span class="t-badge text-muted">[Image to come]</span></div>}
+                {/* Every tile shows the Drink Finder comparison recording for now; per-item screens to come. */}
+                <ScreenTile screen={COMPARE.poster} video={COMPARE.video} sizes="(min-width: 1024px) 16vw, (min-width: 640px) 16vw, 50vw" />
                 <div class="flex flex-col gap-3 pt-grid">
                   <h3 class="t-h6 text-ink"><span class="sr-only">{it.client}. </span>{it.title}</h3>
                   <p class="t-body text-muted">{it.body}</p>
@@ -201,7 +203,7 @@ const cell = 't-label tracking-[0.02em]';
     <section class="px-margin pt-section">
       <div class="flex flex-col gap-gutter border-t border-line pt-section lg:flex-row">
         <h2 class="t-h2 flex-1 text-ink">{p.testimonial.heading}</h2>
-        <figure class="flex flex-col gap-gutter lg:w-[676px] lg:shrink-0">
+        <figure class="flex flex-col gap-gutter lg:w-half lg:shrink-0">
           <blockquote class="font-display text-[length:var(--type-h5)] font-medium leading-[1.3] text-ink lg:text-[length:var(--type-h2)]">“{p.testimonial.quote}”</blockquote>
           <figcaption class="t-label text-muted">{p.testimonial.cite}</figcaption>
         </figure>
@@ -245,7 +247,7 @@ const cell = 't-label tracking-[0.02em]';
     {p.comparison && (
       <section class="px-margin pt-section">
         <div class="border-t border-line pt-section">
-          <div class="lg:w-[676px]">
+          <div class="lg:w-half">
             <Heading eyebrow={p.comparison.eyebrow} deco={false}>{p.comparison.heading}</Heading>
             <p class="t-body mt-loose text-muted" aria-hidden="true">{p.comparison.caption}</p>
           </div>

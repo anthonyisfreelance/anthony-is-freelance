@@ -9,7 +9,10 @@ Static site for Anthony is Freelance. Astro + Tailwind v4, hosted on Cloudflare 
 - Schema: one `@graph` per page, built by a shared component from entity data with stable `@id`s. Never hand-write JSON-LD per page.
 - British English in all copy.
 - Keep JavaScript to a minimum. Performance target: 100 on Lighthouse mobile.
-- Big screens: from 1920 to 2560px the heading size tokens grow with the screen, and past 2560 the page stops and centres (see the end of `global.css`). Set heading sizes with the type tokens, never fixed px, so they scale too.
+- Big screens: from 1920 to 2560px the heading size tokens grow with the screen. Past 2560 the page margin grows so content stops at 2512px and centres, while edge-to-edge images and backgrounds keep running to the screen edges (see the end of `global.css`). Set heading sizes with the type tokens, never fixed px, so they scale too.
+- Section headings sit in the left half of a 50/50 split (`lg:w-half`, 676px at 1440), links bottom right. Use `SectionIntro`.
+- Edge-to-edge splits (photo to a screen edge, copy beside it) split on the centre line: `lg:grid-cols-2 lg:gap-gutter`, with the page margin only on the copy side.
+- Innovations render from `src/data/innovations.ts`. Screen recordings use `video[data-autoplay]` (the shared script in `Base.astro`); nothing downloads until in view.
 
 ## Commands
 - `npm run dev` local preview

@@ -5,6 +5,7 @@ import Base from '../../../layouts/Base.astro';
 import Schema from '../../../components/Schema.astro';
 import Header from '../../../components/Header.astro';
 import Heading from '../../../components/Heading.astro';
+import TextLink from '../../../components/TextLink.astro';
 import CaseStudyCard from '../../../components/CaseStudyCard.astro';
 import Media from '../../../components/case-study/Media.astro';
 import Contact from '../../../components/home/Contact.astro';
@@ -23,9 +24,6 @@ const client = {
   parentOrganization: { '@type': 'Organization', name: CLIENT.parent },
 };
 
-const allMedia = [SHOWCASE.desktop, ...SHOWCASE.phones, ...HIGHLIGHTS.map((h) => h.media), ...GALLERY.screens, BRAND.media];
-const hasVideo = allMedia.some((m) => m.video);
-
 const meta = 'font-display font-medium text-[14px] leading-[1.3] tracking-[0.02em]';
 const link = 'underline underline-offset-4 hover:decoration-2';
 ---
@@ -33,14 +31,15 @@ const link = 'underline underline-offset-4 hover:decoration-2';
   <Schema slot="head" title={META.title} description={META.description} path={META.path} breadcrumbs={META.breadcrumbs} about={clientId} extra={[client]} />
   <Header overlay />
   <main id="main">
-    <!-- Hero: photo left, headline right -->
-    <section class="lg:grid lg:grid-cols-[700fr_740fr]">
+    <!-- Hero: photo from the left screen edge to the centre line, headline right. The rule sits
+         under the header as on every other page; the copy is centred beside the photo. -->
+    <section class="lg:grid lg:grid-cols-2 lg:gap-gutter">
       <div class="relative">
-        <Media media={HERO.image} fit="cover" sizes="(min-width: 1024px) 49vw, 100vw" eager class="aspect-[700/736] w-full" />
+        <Media media={HERO.image} fit="cover" sizes="(min-width: 1024px) 50vw, 100vw" eager class="aspect-[700/736] w-full lg:max-h-dvh" />
         <div class="absolute inset-0 hidden bg-[linear-gradient(to_bottom,rgba(0,0,0,0.35)_0%,rgba(0,0,0,0)_21%)] lg:block" aria-hidden="true"></div>
       </div>
-      <div class="px-margin pt-large lg:pl-gutter lg:pr-[39px] lg:pt-[124px]">
-        <div class="border-t border-line pt-large lg:pt-section">
+      <div class="px-margin pt-large lg:flex lg:flex-col lg:pl-0 lg:pt-[124px]">
+        <div class="border-t border-line pt-large lg:flex lg:flex-1 lg:flex-col lg:justify-center lg:py-section lg:pr-[15px]">
           <Heading level={1} eyebrow={HERO.eyebrow}><span class="text-blue">{HERO.figure}</span> {HERO.heading}</Heading>
           <p class="t-body mt-loose text-muted">{HERO.standfirst}</p>
         </div>
@@ -82,16 +81,17 @@ const link = 'underline underline-offset-4 hover:decoration-2';
       </div>
     </section>
 
-    <!-- Showcase: the desktop homepage and four phone screens over a fixed vineyard photo -->
+    <!-- Showcase: the desktop homepage and four phone screens over a vineyard photo that fills the
+         screen, edge to edge, all the way through the section -->
     <section class="relative mt-section lg:mt-[120px]" aria-label="Drink Finder screens">
       <div class="absolute inset-0" aria-hidden="true">
-        <div class="sticky top-0 h-[min(800px,100vh)] w-full overflow-hidden">
+        <div class="sticky top-0 h-dvh w-full overflow-hidden">
           <Image src={SHOWCASE.background} alt="" widths={[640, 1024, 1440, 2160, 2879]} sizes="100vw" quality={70} class="size-full object-cover" />
           <div class="absolute inset-0 bg-black/40"></div>
         </div>
       </div>
       <div class="relative flex flex-col items-center gap-section py-section lg:gap-[200px] lg:pb-[200px] lg:pt-[120px]">
-        <div class="w-full px-margin lg:w-[63.6%] lg:px-0">
+        <div class="w-full px-margin lg:w-[63.6%] lg:max-w-[1628px] lg:px-0">
           <Media media={SHOWCASE.desktop} sizes="(min-width: 1024px) 64vw, 100vw" class="aspect-[916/518] w-full" />
         </div>
         <ul class="grid w-full grid-cols-2 gap-grid px-margin lg:flex lg:w-auto lg:justify-center">
@@ -115,14 +115,14 @@ const link = 'underline underline-offset-4 hover:decoration-2';
         ))}
       </div>
       <figure class="relative max-lg:order-first lg:sticky lg:top-0 lg:w-[48.61%] lg:self-start">
-        <Media media={GALLERY.photo} fit="cover" sizes="(min-width: 1024px) 49vw, 100vw" class="aspect-[700/875] w-full" />
+        <Media media={GALLERY.photo} fit="cover" sizes="(min-width: 1024px) 49vw, 100vw" class="aspect-[700/875] w-full lg:aspect-auto lg:h-dvh" />
         <figcaption class="absolute bottom-0 left-0 max-w-[467px] p-5 font-display text-[14px] font-medium leading-[1.3] tracking-[0.02em] text-white">{GALLERY.caption}</figcaption>
       </figure>
     </section>
 
     <!-- The work -->
     <section class="px-margin pt-section lg:pt-[120px]">
-      <div class="max-w-[676px]">
+      <div class="lg:w-half">
         <Heading eyebrow={WORK_INTRO.eyebrow} deco={false}>{WORK_INTRO.heading}</Heading>
         <p class="t-body mt-loose text-muted">{WORK_INTRO.body}</p>
       </div>
@@ -140,6 +140,7 @@ const link = 'underline underline-offset-4 hover:decoration-2';
               {h.heading}
             </h3>
             <p class="t-body mt-loose text-muted">{h.body}</p>
+            {'link' in h && h.link && <div class="mt-loose"><TextLink href={h.link.href}>{h.link.label}</TextLink></div>}
           </div>
           <Media
             media={h.media}
@@ -150,8 +151,8 @@ const link = 'underline underline-offset-4 hover:decoration-2';
       </section>
     ))}
 
-    <!-- Brand refinement, over a full-bleed photo -->
-    <section class="relative py-section">
+    <!-- Brand refinement, over a full-bleed photo at least a screen tall -->
+    <section class="relative py-section lg:flex lg:min-h-dvh lg:flex-col lg:justify-center">
       <div class="absolute inset-0" aria-hidden="true">
         <Image src={BRAND.background} alt="" widths={[640, 1024, 1440, 1620]} sizes="100vw" quality={70} class="size-full object-cover" />
         <div class="absolute inset-0 bg-black/20"></div>
@@ -169,8 +170,8 @@ const link = 'underline underline-offset-4 hover:decoration-2';
     <section class="px-margin pt-section lg:pt-[120px]">
       <div class="border-t border-line pt-section">
         <h2 class="eyebrow !mb-0" data-deco>{TESTIMONIAL.eyebrow}</h2>
-        <figure class="mt-gutter flex flex-col gap-gutter lg:pr-[120px]">
-          <blockquote class="font-display text-[length:var(--type-h5)] font-medium leading-[1.3] text-ink lg:text-[length:var(--type-h2)]">“{TESTIMONIAL.quote}”</blockquote>
+        <figure class="mt-gutter flex flex-col gap-gutter">
+          <blockquote class="font-display text-[length:var(--type-h5)] font-medium leading-[1.3] text-ink lg:max-w-[30.3em] lg:text-[length:var(--type-h2)]">“{TESTIMONIAL.quote}”</blockquote>
           <figcaption class="t-label text-muted">{TESTIMONIAL.cite}</figcaption>
         </figure>
       </div>
@@ -179,7 +180,7 @@ const link = 'underline underline-offset-4 hover:decoration-2';
     <!-- More success stories -->
     <section class="px-margin pt-section pb-section lg:pt-[120px]">
       <div class="border-t border-line pt-section">
-        <div class="max-w-[676px]"><Heading eyebrow={MORE.eyebrow}>{MORE.heading}</Heading></div>
+        <div class="lg:w-half"><Heading eyebrow={MORE.eyebrow}>{MORE.heading}</Heading></div>
         <ul class="mt-gutter grid grid-cols-2 gap-x-grid gap-y-grid-lg lg:grid-cols-3">
           {MORE.cards.map((c) => <li><CaseStudyCard {...c} stackMeta /></li>)}
         </ul>
@@ -189,17 +190,4 @@ const link = 'underline underline-offset-4 hover:decoration-2';
     <Contact />
   </main>
 
-  {hasVideo && (
-    <script is:inline>
-      addEventListener('load', () => {
-        if (matchMedia('(prefers-reduced-motion: reduce)').matches || navigator.connection?.saveData) return;
-        const io = new IntersectionObserver((entries) => entries.forEach(({ target: v, isIntersecting }) => {
-          if (!isIntersecting) return v.pause();
-          if (!v.src) { v.src = v.dataset.caseVideo; v.addEventListener('playing', () => (v.style.opacity = 1), { once: true }); }
-          v.play().catch(() => {});
-        }), { rootMargin: '200px' });
-        document.querySelectorAll('video[data-case-video]').forEach((v) => io.observe(v));
-      });
-    </script>
-  )}
 </Base>

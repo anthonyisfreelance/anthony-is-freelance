@@ -13,12 +13,12 @@ import TrustTiles from '../TrustTiles.astro';
 ---
 <div class="relative">
   <Header overlay />
-  <div class="grid lg:grid-cols-[minmax(0,700fr)_minmax(0,676fr)] lg:gap-gutter lg:pr-margin">
-    <div class="relative aspect-square bg-line lg:sticky lg:top-0 lg:aspect-[4/5] lg:self-start">
+  <div class="grid lg:grid-cols-2 lg:gap-gutter">
+    <div class="relative aspect-square bg-line lg:sticky lg:top-0 lg:aspect-[4/5] lg:max-h-dvh lg:self-start">
       <Showreel />
     </div>
 
-    <div class="px-margin pt-large lg:px-0 lg:pt-[124px]">
+    <div class="px-margin pt-large lg:pl-0 lg:pt-[124px]">
       <div class="flex flex-col gap-loose border-line lg:border-t lg:pt-[40px]">
         <Heading level={1} eyebrow={HERO.eyebrow}>
           {HERO.lines[0]}<br class="hidden lg:inline" /> {HERO.lines[1]}

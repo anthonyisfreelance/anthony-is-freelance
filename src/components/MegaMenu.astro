@@ -7,7 +7,6 @@ import ScreenTile from './ScreenTile.astro';
 import { MEGA } from '../data/site';
 import { STORIES, ARTICLES } from '../data/home';
 import screen from '../assets/home/innovation-screen.png';
-import backdrop from '../assets/home/innovation-bg.jpg';
 
 const link = 't-button-lg text-ink link-hover';
 const featured = STORIES.featured;
@@ -31,7 +30,7 @@ const workCards = [STORIES.featured, ...STORIES.cards.filter((c) => c.href)].sli
           <div class="relative aspect-[4/5] overflow-hidden">
             <Image src={featured.image} alt="" widths={[280, 560]} sizes="280px" class="zoom-img absolute inset-0 size-full object-cover" />
           </div>
-          <ScreenTile screen={screen} backdrop={backdrop} ratio="portrait" sizes="180px" />
+          <ScreenTile screen={screen} ratio="portrait" sizes="180px" />
         </div>
         <p class="t-badge flex gap-2 border-b border-line py-3 text-muted" aria-hidden="true">
           <span class="flex-1">{featured.client}</span><span class="flex-1 text-right">{featured.meta}</span>

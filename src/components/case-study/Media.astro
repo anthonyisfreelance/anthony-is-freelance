@@ -1,6 +1,6 @@
 ---
 // A screen or photo. When a screen recording exists it plays over the still, muted and looping,
-// loaded after the page (see the script on the case study page). Reduced motion keeps the still.
+// loaded when it scrolls into view (the shared script in Base.astro). Reduced motion keeps the still.
 import { Image } from 'astro:assets';
 import type { Media } from '../../data/case-studies/drink-finder';
 interface Props {
@@ -28,12 +28,15 @@ const objectFit = fit === 'contain' ? 'object-contain' : 'object-cover';
   />
   {media.video && (
     <video
-      data-case-video={media.video}
+      src={media.video}
+      data-autoplay
+      data-fade
       muted
       loop
       playsinline
       preload="none"
       aria-hidden="true"
+      tabindex="-1"
       class:list={['absolute inset-0 size-full opacity-0 transition-opacity duration-300', objectFit]}
     ></video>
   )}

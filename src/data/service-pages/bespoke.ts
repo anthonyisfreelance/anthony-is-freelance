@@ -12,7 +12,6 @@ import shopByRoom from '../../assets/service-pages/projektityyny-shop-by-room.jp
 import redWine from '../../assets/service-pages/drink-finder-red-wine.jpg';
 import thameenCollection from '../../assets/service-pages/thameen-collection.jpg';
 import innovationScreen from '../../assets/home/innovation-screen.png';
-import innovationBg from '../../assets/home/innovation-bg.jpg';
 
 const card = (client: string, image: ImageMetadata) => {
   const s = CASE_STUDIES.find((c) => c.client === client)!;
@@ -126,7 +125,6 @@ export const BESPOKE: ServicePage = {
         title: 'A comparison toggle on the collection page',
         body: 'Expand origin, region and vintage to compare bottles side by side, without leaving the listing.',
         screen: innovationScreen,
-        backdrop: innovationBg,
       },
       {
         client: 'Projektityyny',
@@ -140,7 +138,6 @@ export const BESPOKE: ServicePage = {
         body: 'Thousands of variations split into guided steps, with tips and a cost tracker that stays on screen.',
         // [CONFIRM] Figma shows the Drink Finder screen here as a placeholder. Swap in the Hartnack builder.
         screen: innovationScreen,
-        backdrop: innovationBg,
       },
     ],
   },

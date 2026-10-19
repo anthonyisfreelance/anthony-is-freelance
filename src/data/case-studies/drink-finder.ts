@@ -2,11 +2,11 @@
 // with page-copy/case-study-drink-finder.md filling the gaps where Figma has placeholder text.
 import { URLS } from '../site';
 import { CASE_STUDIES } from '../work';
+import { COMPARE } from '../innovations';
 import hero from '../../assets/drink-finder/hero.jpg';
 import badge from '../../assets/drink-finder/badge-winner.png';
 import vineyard from '../../assets/drink-finder/vineyard.jpg';
 import stillDesktop from '../../assets/drink-finder/still-desktop.jpg';
-import stillCollection from '../../assets/drink-finder/still-collection.jpg';
 import stillPdp from '../../assets/drink-finder/still-pdp.jpg';
 import navSearch from '../../assets/drink-finder/nav-search.jpg';
 import phonePdp from '../../assets/drink-finder/phone-pdp.jpg';
@@ -108,7 +108,8 @@ export const HIGHLIGHTS = [
     eyebrow: 'Shopify collection page design',
     heading: 'Compare bottles without opening every one.',
     body: 'Shopify collection page design is where wine shoppers compare. A Show extras switch opens every product card to show style, grape and country, so they compare side by side before they click.',
-    media: { image: stillCollection, alt: 'The Mix, match and save collection on mobile, with the Show extras switch above the products.' },
+    media: { image: COMPARE.poster, video: COMPARE.video, alt: 'A Drink Finder collection on mobile, with the Show extras switch turning on style, grape and country on every card.' },
+    link: { label: 'See the comparison toggle', href: `${URLS.innovations}#comparison-toggle` },
     flip: false,
   },
   {
@@ -130,7 +131,7 @@ export const HIGHLIGHTS = [
     flip: true,
   },
 ] as const satisfies readonly {
-  eyebrow?: string; heading: string; body: string; media: Media; flip: boolean;
+  eyebrow?: string; heading: string; body: string; media: Media; flip: boolean; link?: { label: string; href: string };
 }[];
 
 // Scrolling column of screens beside a sticky photo.

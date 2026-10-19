@@ -6,9 +6,9 @@ import { SERVICES } from '../../data/home';
 // Whistlefish (live work only, 18 October 2026). Swap for a final image when ready.
 import image from '../../assets/services/ux.jpg';
 ---
-<section class="px-margin pt-section-pre lg:pl-margin lg:pr-0">
-  <div class="grid gap-gutter lg:grid-cols-[minmax(0,676fr)_minmax(0,700fr)]">
-    <div class="flex flex-col gap-large">
+<section class="px-margin pt-section-pre lg:px-0">
+  <div class="grid gap-gutter lg:grid-cols-2">
+    <div class="flex flex-col gap-large lg:pl-margin">
       <div class="lg:border-t lg:border-line lg:pt-section">
         <SectionIntro eyebrow={SERVICES.eyebrow} heading={SERVICES.heading} split={false}>
           <p slot="intro">{SERVICES.intro}</p>

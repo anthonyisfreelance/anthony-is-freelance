@@ -34,11 +34,30 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
   <body class="bg-surface text-ink">
     <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:bg-white focus:px-3 focus:py-2 focus:text-[#111]">Skip to content</a>
     {announcement && <AnnouncementBar />}
-    <div class="page-frame">
-      <slot />
-      <Footer />
-    </div>
+    <slot />
+    <Footer />
     <StickyCta />
     <ProjectDialog />
+    <script is:inline>
+      // Screen recordings (video[data-autoplay]) play while on screen and pause off it. Nothing
+      // downloads until a video is first in view. Reduced motion and Save-Data keep the still;
+      // videos with controls can still be played by hand. data-fade videos fade in over their still.
+      (function () {
+        var vids = document.querySelectorAll('video[data-autoplay]');
+        if (!vids.length || !('IntersectionObserver' in window)) return;
+        if (matchMedia('(prefers-reduced-motion: reduce)').matches || (navigator.connection && navigator.connection.saveData)) return;
+        var io = new IntersectionObserver(function (entries) {
+          entries.forEach(function (e) {
+            var v = e.target;
+            if (e.isIntersecting) v.play().catch(function () {});
+            else v.pause();
+          });
+        }, { rootMargin: '200px' });
+        vids.forEach(function (v) {
+          if (v.hasAttribute('data-fade')) v.addEventListener('playing', function () { v.style.opacity = 1; }, { once: true });
+          io.observe(v);
+        });
+      })();
+    </script>
   </body>
 </html>
