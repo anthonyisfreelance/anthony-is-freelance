@@ -4,6 +4,7 @@
 // Nav titles are links to their landing pages; hover opens the mega menu, and a small
 // button after each title (shown on keyboard focus) opens it for keyboard users.
 // Phones get Menu, which opens the full-screen menu in MobileMenu.astro.
+// Over an edge-to-edge hero (overlay) the bar runs full width with it; otherwise it stops at 1800px.
 import MegaMenu from './MegaMenu.astro';
 import MobileMenu from './MobileMenu.astro';
 import { MEGA, URLS } from '../data/site';
@@ -21,10 +22,10 @@ const triggers = [
   data-header
   class:list={[
     'relative z-20 w-full bg-surface p-margin lg:py-[40px]',
-    overlay && 'lg:absolute lg:left-0 lg:right-0 lg:bg-transparent lg:data-[open]:bg-surface',
+    overlay && 'lg:absolute lg:left-0 lg:right-0 lg:bg-transparent lg:pr-wrap lg:data-[open]:bg-surface',
   ]}
 >
-  <div class="flex items-center justify-between gap-gutter lg:grid lg:grid-cols-2">
+  <div class:list={['flex items-center justify-between gap-gutter lg:grid lg:grid-cols-2', !overlay && 'wrap-inner']}>
     <a href={URLS.home} class="flex h-12 items-center justify-self-start lg:h-auto" aria-label="Anthony is Freelance, home">
       <img src="/icons/logo.svg" alt="Anthony is Freelance" width="172" height="44" class="h-[38px] w-auto lg:h-11" />
     </a>
@@ -54,7 +55,7 @@ const triggers = [
       <button type="button" data-menu-open aria-haspopup="dialog" aria-controls="mobile-menu" aria-expanded="false" class="t-button cursor-pointer text-ink">Menu</button>
     </div>
   </div>
-  <MegaMenu />
+  <MegaMenu overlay={overlay} />
 </header>
 <MobileMenu />
 

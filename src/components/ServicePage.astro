@@ -64,7 +64,7 @@ const cell = 't-label tracking-[0.02em]';
   <Header />
   <main id="main">
     <!-- Hero -->
-    <section class="px-margin">
+    <section class="wrap px-margin">
       <div class="grid gap-large border-t border-line pt-large lg:grid-cols-2 lg:gap-grid lg:pt-[40px]">
         <div class="flex flex-col">
           <Heading level={1} eyebrow={p.hero.eyebrow}>{p.hero.heading}</Heading>
@@ -85,13 +85,13 @@ const cell = 't-label tracking-[0.02em]';
     </section>
 
     <!-- Trust row -->
-    <section class="px-margin pt-large lg:pt-[40px]" aria-label="Why clients choose this service">
+    <section class="wrap px-margin pt-large lg:pt-[40px]" aria-label="Why clients choose this service">
       <TrustTiles items={p.trust.map((text) => ({ text }))} />
     </section>
     {after('trust').map((x) => <ServiceExtra item={x} />)}
 
     <!-- What's included, and who it's for -->
-    <section id="whats-included" class="px-margin pt-section lg:pt-[120px]">
+    <section id="whats-included" class="wrap px-margin pt-section lg:pt-[120px]">
       <div class="grid gap-section-sm lg:grid-cols-2 lg:gap-gutter">
         {[p.included, p.fit].map((block, b) => (
           <div id={b === 1 ? 'right-fit' : undefined}>
@@ -110,7 +110,7 @@ const cell = 't-label tracking-[0.02em]';
     {after('included').map((x) => <ServiceExtra item={x} />)}
 
     <!-- Proof -->
-    <section id="proof" class="px-margin pt-section">
+    <section id="proof" class="wrap px-margin pt-section">
       <div class="border-t border-line pt-section">
         <div class="flex flex-col gap-loose lg:flex-row lg:items-end lg:justify-between lg:gap-gutter">
           <h2 class="t-h2 text-ink lg:w-[676px]">{p.proof.heading}</h2>
@@ -126,7 +126,7 @@ const cell = 't-label tracking-[0.02em]';
     {after('proof').map((x) => <ServiceExtra item={x} />)}
 
     <!-- Routing: when this isn't the right call -->
-    <section class="px-margin pt-section">
+    <section class="wrap px-margin pt-section">
       <div class="grid gap-gutter border-t border-line pt-4 lg:grid-cols-2">
         <div class="pt-section lg:sticky lg:top-0 lg:self-start">
           <Heading eyebrow={p.routing.eyebrow}>{p.routing.heading}</Heading>
@@ -151,7 +151,7 @@ const cell = 't-label tracking-[0.02em]';
     {after('routing').map((x) => <ServiceExtra item={x} />)}
 
     <!-- How it runs -->
-    <section id="how-it-runs" class="px-margin pt-section">
+    <section id="how-it-runs" class="wrap px-margin pt-section">
       <div class="border-t border-line pt-section">
         <div class="flex flex-col gap-loose lg:flex-row lg:items-end lg:gap-gutter">
           <div class="lg:w-[676px] lg:shrink-0"><Heading eyebrow={p.process.eyebrow}>{p.process.heading}</Heading></div>
@@ -174,7 +174,7 @@ const cell = 't-label tracking-[0.02em]';
 
     <!-- Innovations -->
     {p.innovations && (
-      <section id="innovations" class="px-margin pt-section">
+      <section id="innovations" class="wrap px-margin pt-section">
         <div class="border-t border-line pt-section">
           <div class="lg:w-[676px]">
             <Heading eyebrow={p.innovations.eyebrow}>{p.innovations.heading}</Heading>
@@ -198,7 +198,7 @@ const cell = 't-label tracking-[0.02em]';
 
     <!-- Testimonial -->
     {p.testimonial && (
-    <section class="px-margin pt-section">
+    <section class="wrap px-margin pt-section">
       <div class="flex flex-col gap-gutter border-t border-line pt-section lg:flex-row">
         <h2 class="t-h2 flex-1 text-ink">{p.testimonial.heading}</h2>
         <figure class="flex flex-col gap-gutter lg:w-[676px] lg:shrink-0">
@@ -211,7 +211,7 @@ const cell = 't-label tracking-[0.02em]';
     {after('testimonial').map((x) => <ServiceExtra item={x} />)}
 
     <!-- Price and timeline -->
-    <section id="price" class="px-margin pt-section">
+    <section id="price" class="wrap px-margin pt-section">
       <div class="grid gap-gutter border-t border-line pt-6 lg:grid-cols-2">
         <div class="pt-section lg:sticky lg:top-0 lg:self-start lg:pr-[119px]">
           <Heading eyebrow={p.price.eyebrow}>{p.price.heading}</Heading>
@@ -243,7 +243,7 @@ const cell = 't-label tracking-[0.02em]';
 
     <!-- Comparison -->
     {p.comparison && (
-      <section class="px-margin pt-section">
+      <section class="wrap px-margin pt-section">
         <div class="border-t border-line pt-section">
           <div class="lg:w-[676px]">
             <Heading eyebrow={p.comparison.eyebrow} deco={false}>{p.comparison.heading}</Heading>
@@ -299,7 +299,7 @@ const cell = 't-label tracking-[0.02em]';
 
     <!-- Articles -->
     {p.articles && (
-      <section class="px-margin pb-section">
+      <section class="wrap px-margin pb-section">
         <div class="border-t border-line pt-section">
           <SectionIntro eyebrow={p.articles.eyebrow} heading={p.articles.heading}>
             <TextLink slot="links" href={p.articles.link.href}>{p.articles.link.label}</TextLink>

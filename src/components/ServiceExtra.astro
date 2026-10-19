@@ -8,7 +8,7 @@ const { item: x } = Astro.props;
 const cell = 't-label tracking-[0.02em]';
 ---
 {x.kind === 'todo' ? (
-  <section class="px-margin pt-section">
+  <section class="wrap px-margin pt-section">
     <div class="border-t border-line pt-section">
       <div class="flex flex-col gap-3 border border-dashed border-muted/50 p-large">
         <p class="t-badge flex items-center gap-2 text-ink"><span class="size-2 bg-blue" aria-hidden="true"></span>Section to come</p>
@@ -18,7 +18,7 @@ const cell = 't-label tracking-[0.02em]';
     </div>
   </section>
 ) : (
-  <section id={x.id} class="px-margin pt-section">
+  <section id={x.id} class="wrap px-margin pt-section">
     <div class:list={['border-t border-line pt-section', x.kind === 'text' && 'grid gap-gutter lg:grid-cols-2']}>
       <div class:list={[x.kind === 'table' && 'lg:w-[676px]']}>
         <Heading eyebrow={x.eyebrow}>{x.heading}</Heading>
