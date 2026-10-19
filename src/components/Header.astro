@@ -71,22 +71,43 @@ const triggers = [
 
     function link(id) { return header.querySelector('[data-mega-link="' + id + '"]'); }
     var backdrop = header.querySelector('[data-mega-backdrop]');
+    var wrap = header.querySelector('[data-mega-wrap]');
+    var still = window.matchMedia('(prefers-reduced-motion: reduce)');
+    var fading = null, fadeTimer = null; // a menu fading out after close
 
+    // Unmark the open menu (titles, ARIA, hover bridge) without hiding its panel.
+    function release(id) {
+      trigger(id).setAttribute('aria-expanded', 'false');
+      link(id).removeAttribute('data-active');
+      link(id).closest('li').style.removeProperty('--bridge');
+    }
+    // Finish a close: hide the panel and the wash.
+    function settle() {
+      clearTimeout(fadeTimer);
+      if (fading) panel(fading).hidden = true;
+      fading = null;
+      backdrop.hidden = true;
+      wrap.removeAttribute('data-mega-closing');
+    }
     function close() {
       clearTimeout(timer);
       if (!openId) return;
-      panel(openId).hidden = true;
-      trigger(openId).setAttribute('aria-expanded', 'false');
-      link(openId).removeAttribute('data-active');
-      link(openId).closest('li').style.removeProperty('--bridge');
+      release(openId);
+      fading = openId;
       openId = null;
-      backdrop.hidden = true;
       header.removeAttribute('data-open');
+      if (still.matches) return settle();
+      // Fade out (see Mega menu in global.css), then hide.
+      wrap.setAttribute('data-mega-closing', '');
+      fadeTimer = setTimeout(settle, 220);
     }
     function open(id) {
       clearTimeout(timer);
       if (openId === id) return;
-      close();
+      if (fading) settle();
+      // Already open on another menu: swap straight across without the unroll.
+      wrap.toggleAttribute('data-mega-swap', !!openId);
+      if (openId) { release(openId); panel(openId).hidden = true; }
       panel(id).hidden = false;
       trigger(id).setAttribute('aria-expanded', 'true');
       link(id).setAttribute('data-active', '');

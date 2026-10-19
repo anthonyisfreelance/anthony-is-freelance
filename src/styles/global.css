@@ -358,6 +358,59 @@ dialog[data-project-dialog]:not([open])::backdrop {
   }
 }
 
+/* Mega menu (desktop). Opening from closed: the blue wash fades in, the panel unrolls down over
+   it and its columns rise into place one after another. Moving to another menu while one is open
+   skips the unroll and only the new columns rise, so it feels quick. Closing is a short fade.
+   No motion for reduced-motion users: the menu simply appears, as before. */
+@media (prefers-reduced-motion: no-preference) {
+  [data-mega-backdrop]:not([hidden]) {
+    animation: mega-fade 400ms ease-out both;
+  }
+  [data-mega-panel]:not([hidden]) {
+    animation: mega-unroll 560ms var(--ease-out-expo) both;
+  }
+  [data-mega-panel]:not([hidden]) > div > * {
+    animation: mega-rise 640ms var(--ease-out-expo) both;
+    animation-delay: 90ms;
+  }
+  [data-mega-panel]:not([hidden]) > div > :nth-child(2) { animation-delay: 140ms; }
+  [data-mega-panel]:not([hidden]) > div > :nth-child(3) { animation-delay: 190ms; }
+  [data-mega-panel]:not([hidden]) > div > :nth-child(4) { animation-delay: 240ms; }
+  [data-mega-panel]:not([hidden]) > div > :nth-child(5) { animation-delay: 290ms; }
+  [data-mega-swap] [data-mega-panel]:not([hidden]) {
+    animation: none;
+  }
+  [data-mega-swap] [data-mega-panel]:not([hidden]) > div > * {
+    animation-duration: 480ms;
+    animation-delay: 0ms;
+  }
+  [data-mega-swap] [data-mega-panel]:not([hidden]) > div > :nth-child(n + 2) {
+    animation-delay: 40ms;
+  }
+  [data-mega-wrap][data-mega-closing] > :not([hidden]) {
+    animation: mega-out 220ms ease-in forwards;
+  }
+  [data-header] {
+    transition: background-color 300ms ease-out;
+  }
+}
+:root {
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+@keyframes mega-fade {
+  from { opacity: 0; }
+}
+@keyframes mega-unroll {
+  from { clip-path: inset(0 0 100% 0); }
+  to { clip-path: inset(0 0 0 0); }
+}
+@keyframes mega-out {
+  to { opacity: 0; }
+}
+@keyframes mega-rise {
+  from { opacity: 0; translate: 0 10px; }
+}
+
 /* Big screens. Up to 1920px everything is exactly as designed. From 1920 to 2560 every heading
    size (H1 to H6, card titles and the big numbers) grows with the screen, up to a third bigger at
    2560, so headings keep their weight next to the images. Body copy, buttons and logos stay the

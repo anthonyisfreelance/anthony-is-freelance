@@ -1,6 +1,6 @@
 ---
 // Desktop mega menu panels. All links are in the HTML (crawlable); panels are
-// shown and hidden by the small script in Header.astro.
+// shown and hidden by the small script in Header.astro. Motion lives in global.css (Mega menu).
 import { Image } from 'astro:assets';
 import CaseStudyCard from './CaseStudyCard.astro';
 import ScreenTile from './ScreenTile.astro';
@@ -14,9 +14,13 @@ const link = 't-button-lg text-ink link-hover';
 const featured = STORIES.featured;
 const workCards = [STORIES.featured, ...STORIES.cards.filter((c) => c.href)].slice(0, 3);
 ---
-<div class="absolute left-0 right-0 top-full z-30 hidden lg:block">
+<div data-mega-wrap class="absolute left-0 right-0 top-full z-30 hidden lg:block">
+  <!-- Blue wash over the page below an open menu (#0059FF at 60%). It runs up behind the panel, so the
+       panel unrolls over it. Click or move onto it to close. -->
+  <div data-mega-backdrop hidden aria-hidden="true" class="absolute inset-x-0 top-0 h-screen bg-blue/60"></div>
+
   <!-- Services -->
-  <div id="mega-services" data-mega-panel hidden class="border-b border-line bg-surface px-margin pb-large pt-4">
+  <div id="mega-services" data-mega-panel hidden class="relative border-b border-line bg-surface px-margin pb-large pt-4">
     <div class="flex items-start justify-between gap-gutter">
       <a href={MEGA.services.viewAll.href} class={`${link} inline-flex items-center gap-2`}>
         {MEGA.services.viewAll.label}
@@ -45,7 +49,7 @@ const workCards = [STORIES.featured, ...STORIES.cards.filter((c) => c.href)].sli
   </div>
 
   <!-- Success stories -->
-  <div id="mega-work" data-mega-panel hidden class="border-b border-line bg-surface px-margin pb-large pt-4">
+  <div id="mega-work" data-mega-panel hidden class="relative border-b border-line bg-surface px-margin pb-large pt-4">
     <div class="flex items-start gap-gutter">
       <ul class="flex w-[318px] shrink-0 flex-col gap-loose">
         <li>
@@ -65,7 +69,7 @@ const workCards = [STORIES.featured, ...STORIES.cards.filter((c) => c.href)].sli
   </div>
 
   <!-- Articles -->
-  <div id="mega-articles" data-mega-panel hidden class="border-b border-line bg-surface px-margin pb-large pt-4">
+  <div id="mega-articles" data-mega-panel hidden class="relative border-b border-line bg-surface px-margin pb-large pt-4">
     <div class="grid grid-cols-4 gap-gutter">
       {ARTICLES_LIST.slice(0, 3).map((a) => <ArticleCard article={a} titleTag="p" ratio="square" />)}
       <div class="flex flex-col gap-gutter">
@@ -82,7 +86,4 @@ const workCards = [STORIES.featured, ...STORIES.cards.filter((c) => c.href)].sli
       </div>
     </div>
   </div>
-
-  <!-- Blue wash over the page below an open menu (#0059FF at 60%). Click or move onto it to close. -->
-  <div data-mega-backdrop hidden aria-hidden="true" class="h-screen bg-blue/60"></div>
 </div>
