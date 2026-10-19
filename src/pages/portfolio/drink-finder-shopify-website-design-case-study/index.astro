@@ -105,13 +105,13 @@ const link = 'underline underline-offset-4 hover:decoration-2';
     <!-- Scrolling screens beside a sticky photo -->
     <section class="flex flex-col lg:flex-row" aria-label="More Drink Finder screens">
       <div
-        class="flex gap-4 overflow-x-auto px-margin py-section-sm max-lg:snap-x max-lg:snap-mandatory lg:flex-1 lg:flex-col lg:gap-[80px] lg:overflow-visible lg:pb-[120px] lg:pr-gutter lg:pt-section"
+        class="flex gap-4 overflow-x-auto px-margin py-section-sm max-lg:snap-x max-lg:snap-mandatory lg:flex-1 lg:flex-col lg:items-center lg:gap-[80px] lg:overflow-visible lg:pb-[120px] lg:pr-gutter lg:pt-section"
         tabindex="0"
         role="region"
         aria-label="Drink Finder brand collection screens"
       >
         {GALLERY.screens.map((m) => (
-          <Media media={m} sizes="(min-width: 1024px) 47vw, 60vw" class="aspect-[563/1230] w-[60%] shrink-0 snap-start lg:aspect-square lg:w-full" />
+          <Media media={m} sizes="(min-width: 1024px) 676px, 60vw" class="aspect-[563/1230] w-[60%] shrink-0 snap-start lg:aspect-square lg:w-full lg:max-w-[676px]" />
         ))}
       </div>
       <figure class="relative max-lg:order-first lg:sticky lg:top-0 lg:w-[48.61%] lg:self-start">
@@ -128,14 +128,13 @@ const link = 'underline underline-offset-4 hover:decoration-2';
       </div>
     </section>
 
-    <!-- Highlights. Desktop: a narrow phone screen and the copy, centred inside a 240px inset. -->
+    <!-- Highlights. Desktop: a 320px phone screen and 434px of copy, centred as a pair. Fixed sizes, so the screens never scale up on big monitors. -->
     {HIGHLIGHTS.map((h, i) => (
       <section class:list={['px-margin pt-section lg:pt-[120px]', i === HIGHLIGHTS.length - 1 && 'pb-section lg:pb-[120px]']}>
         <div class:list={[
-          'grid gap-large border-t border-line pt-section lg:items-center lg:gap-[163px] lg:px-[240px] lg:pt-0',
-          h.flip ? 'lg:grid-cols-[minmax(0,1fr)_434px]' : 'lg:grid-cols-[434px_minmax(0,1fr)]',
+          'grid gap-large border-t border-line pt-section lg:flex lg:items-center lg:justify-center lg:gap-[163px] lg:pt-0',
         ]}>
-          <div class:list={['flex flex-col', h.flip && 'lg:order-2']}>
+          <div class:list={['flex flex-col lg:w-[434px] lg:shrink-0', h.flip && 'lg:order-2']}>
             <h3 class="font-display text-[length:var(--type-h5)] font-medium leading-[1.3] text-ink lg:text-[26px]">
               {'eyebrow' in h && h.eyebrow && <span class="eyebrow">{h.eyebrow}<span class="sr-only">.</span></span>}
               {h.heading}
@@ -145,7 +144,7 @@ const link = 'underline underline-offset-4 hover:decoration-2';
           <Media
             media={h.media}
             sizes="(min-width: 1024px) 320px, 100vw"
-            class:list={['aspect-square w-full max-lg:order-first lg:aspect-[375/820]', h.flip && 'lg:order-1']}
+            class:list={['aspect-square w-full max-lg:order-first lg:aspect-[375/820] lg:w-[320px] lg:shrink-0', h.flip && 'lg:order-1']}
           />
         </div>
       </section>
@@ -162,7 +161,7 @@ const link = 'underline underline-offset-4 hover:decoration-2';
           <Heading level={3} eyebrow={BRAND.eyebrow} deco={false}>{BRAND.heading}</Heading>
           <p class="t-body mt-loose text-ink">{BRAND.body}</p>
         </div>
-        <Media media={BRAND.media} sizes="(min-width: 1024px) 47vw, 100vw" class="aspect-square w-full max-lg:order-first" />
+        <Media media={BRAND.media} sizes="(min-width: 1024px) 676px, 100vw" class="aspect-square w-full max-lg:order-first lg:max-w-[676px]" />
       </div>
     </section>
 
