@@ -9,12 +9,14 @@ interface Props {
   title: string;
   description: string;
   announcement?: boolean;
+  /** Trial: from 1920px the page scales up as a whole, then stops at 2560px and centres (see .page-frame). */
+  scale?: boolean;
 }
-const { title, description, announcement = true } = Astro.props;
+const { title, description, announcement = true, scale = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
 <!doctype html>
-<html lang="en-GB" class="theme-dark">
+<html lang="en-GB" class:list={['theme-dark', scale && 'page-scale']}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -30,12 +32,25 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <link rel="preload" href="/fonts/mint-grotesk-display-narrow-500.woff2" as="font" type="font/woff2" crossorigin />
     <link rel="preload" href="/fonts/source-serif-pro-400.woff2" as="font" type="font/woff2" crossorigin />
     <slot name="head" />
+    {scale && (
+      <script is:inline>
+        // Big screens: lay the page out at 1920px and zoom it to fit the window, up to 2560px wide.
+        (function () {
+          var root = document.documentElement;
+          function fit() { root.style.setProperty('--page-zoom', Math.min(Math.max(root.clientWidth / 1920, 1), 2560 / 1920)); }
+          fit();
+          addEventListener('resize', fit);
+        })();
+      </script>
+    )}
   </head>
   <body class="bg-surface text-ink">
     <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:bg-white focus:px-3 focus:py-2 focus:text-[#111]">Skip to content</a>
-    {announcement && <AnnouncementBar />}
-    <slot />
-    <Footer />
+    <div class="page-frame">
+      {announcement && <AnnouncementBar />}
+      <slot />
+      <Footer />
+    </div>
     <StickyCta />
     <ProjectDialog />
   </body>

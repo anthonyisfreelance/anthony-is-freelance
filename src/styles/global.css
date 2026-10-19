@@ -355,3 +355,13 @@ dialog[data-project-dialog]:not([open])::backdrop {
     transition: none;
   }
 }
+
+/* Trial: big screens. Up to 1920px the page is exactly as designed. From 1920 to 2560 it is laid
+   out at 1920 and zoomed to fit, so type, spacing and images grow together and keep the balance of
+   the design. Past 2560 it stops growing and centres. Zoom re-lays the page out at the larger size,
+   so text stays sharp. Set by the small script in Base.astro; without it the page is unscaled. */
+.page-scale .page-frame {
+  zoom: var(--page-zoom, 1);
+  max-width: 1920px;
+  margin-inline: auto;
+}
