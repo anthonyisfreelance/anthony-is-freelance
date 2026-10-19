@@ -9,8 +9,10 @@ interface Props {
   title: string;
   description: string;
   announcement?: boolean;
+  /** Cap non edge-to-edge content at 1800px (see .wrap in global.css). Trialled on one page first. */
+  cap?: boolean;
 }
-const { title, description, announcement = true } = Astro.props;
+const { title, description, announcement = true, cap = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 ---
 <!doctype html>
@@ -31,7 +33,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <link rel="preload" href="/fonts/source-serif-pro-400.woff2" as="font" type="font/woff2" crossorigin />
     <slot name="head" />
   </head>
-  <body class="bg-surface text-ink">
+  <body class:list={['bg-surface text-ink', cap && 'cap']}>
     <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:bg-white focus:px-3 focus:py-2 focus:text-[#111]">Skip to content</a>
     {announcement && <AnnouncementBar />}
     <slot />

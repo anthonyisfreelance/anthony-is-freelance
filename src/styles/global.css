@@ -355,3 +355,16 @@ dialog[data-project-dialog]:not([open])::backdrop {
     transition: none;
   }
 }
+
+/* Max page width. Edge-to-edge sections (split heroes, full-bleed photos and backgrounds)
+   stay full width; everything else stops at 1800px and centres. .wrap goes on an element that
+   carries its own page margin; .wrap-inner on one inside a parent that does.
+   Switched on per page with <Base cap> while it is trialled. */
+.cap .wrap {
+  max-width: 1800px;
+  margin-inline: auto;
+}
+.cap .wrap-inner {
+  max-width: calc(1800px - 2 * var(--page-margin));
+  margin-inline: auto;
+}
