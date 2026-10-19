@@ -1,0 +1,187 @@
+{
+ "seoTitle": "What Is a Good Conversion Rate on Shopify? 2026 Benchmarks",
+ "description": "A good Shopify conversion rate is above 3.2%. The average is 1.4%. Here is what the benchmarks actually say, why sector matters more, and what moves the number.",
+ "published": "2026-09-20",
+ "modified": "2026-09-21",
+ "hero": {
+  "file": "What-Is-a-Good-Conversion-Rate-on-Shopify_.webp",
+  "alt": "Shopify logo beside a rising line graph, illustrating Shopify conversion rate benchmarks"
+ },
+ "faqHeading": "Shopify conversion rate questions.",
+ "blocks": [
+  {
+   "type": "h2",
+   "text": "The short answer",
+   "id": "the-short-answer"
+  },
+  {
+   "type": "html",
+   "html": "<p>A good conversion rate on Shopify is anything above 3.2%. That puts a store in the top 20%. The platform average is 1.4%, and above 4.7% puts you in the top 10%.</p>\n<p>Those figures come from Littledata’s benchmark of 2,800 Shopify stores. They are a useful yardstick and a poor target, because your sector, your price point, your device mix and where your traffic comes from move the number more than anything on your site does.</p>"
+  },
+  {
+   "type": "h3",
+   "text": "Key takeaways"
+  },
+  {
+   "type": "html",
+   "html": "<ul>\n<li>The average Shopify conversion rate is 1.4%. Above 3.2% is the top 20%, above 4.7% is the top 10%.</li>\n<li>Mobile converts at 1.2% against 1.9% on desktop, and mobile is where most of the traffic sits.</li>\n<li>UK and Irish independent merchants averaged 2.23% in August 2026, up from 1.85% a year earlier, on 13.69% fewer visitors.</li>\n<li>Sector moves the number more than tactics do. Food and drink averaged 1.58% in August 2026, arts and crafts 5.81%.</li>\n<li>A realistic target is a 10% to 30% relative improvement over a few months, not a doubling.</li>\n</ul>"
+  },
+  {
+   "type": "h2",
+   "text": "What is a good conversion rate on Shopify?",
+   "id": "what-is-a-good-conversion-rate-on-shopify"
+  },
+  {
+   "type": "html",
+   "html": "<p>Above 3.2% is good and above 4.7% is excellent. The average sits at 1.4%. These are Littledata’s Shopify-specific percentiles, taken from a benchmark of 2,800 stores, and they are the only widely published benchmark measuring Shopify on its own rather than ecommerce as a whole.</p>\n<div class=\"table-wrap\"><table>\n<thead>\n<tr>\n<th>Performance</th>\n<th>Shopify conversion rate</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>Average</td>\n<td>1.4%</td>\n</tr>\n<tr>\n<td>Top 20%</td>\n<td>Above 3.2%</td>\n</tr>\n<tr>\n<td>Top 10%</td>\n<td>Above 4.7%</td>\n</tr>\n<tr>\n<td>Average, mobile</td>\n<td>1.2%</td>\n</tr>\n<tr>\n<td>Average, desktop</td>\n<td>1.9%</td>\n</tr>\n<tr>\n<td>Top 10%, mobile</td>\n<td>Above 3.9%</td>\n</tr>\n<tr>\n<td>Top 10%, desktop</td>\n<td>Above 6.5%</td>\n</tr>\n</tbody>\n</table></div>\n<p>Source: <a href=\"https://www.littledata.io/ecommerce-conversion-rate\">Littledata</a>.</p>\n<p>One caveat, because most articles quoting these numbers leave it out. Littledata’s benchmark is a 2023 dataset. It is still the most recent Shopify-only benchmark published anywhere, which is why everyone cites it, but it is not this year’s number. If you find a page quoting an updated Littledata study across several thousand more stores, check it against Littledata’s own page before you trust it.</p>"
+  },
+  {
+   "type": "h2",
+   "text": "Does a good conversion rate depend on your sector?",
+   "id": "does-a-good-conversion-rate-depend-on-your-sector"
+  },
+  {
+   "type": "html",
+   "html": "<p>Yes, and more than most brands expect. In August 2026, arts and crafts stores across the UK and Ireland averaged 5.81% while baby and child averaged 0.57%. That is a tenfold spread inside the same month and the same dataset.</p>\n<div class=\"table-wrap\"><table>\n<thead>\n<tr>\n<th>Sector</th>\n<th>Aug 2026</th>\n<th>Aug 2025</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>Arts and crafts</td>\n<td>5.81%</td>\n<td>4.00%</td>\n</tr>\n<tr>\n<td>Health and wellbeing</td>\n<td>3.31%</td>\n<td>3.30%</td>\n</tr>\n<tr>\n<td>Kitchen and home appliances</td>\n<td>2.98%</td>\n<td>3.47%</td>\n</tr>\n<tr>\n<td>Pet care</td>\n<td>2.56%</td>\n<td>2.62%</td>\n</tr>\n<tr>\n<td>All markets</td>\n<td>2.23%</td>\n<td>1.85%</td>\n</tr>\n<tr>\n<td>Sports and recreation</td>\n<td>2.11%</td>\n<td>1.57%</td>\n</tr>\n<tr>\n<td>Cars and motorcycling</td>\n<td>1.86%</td>\n<td>1.27%</td>\n</tr>\n<tr>\n<td>Fashion, clothing and accessories</td>\n<td>1.86%</td>\n<td>1.45%</td>\n</tr>\n<tr>\n<td>Toys, games and collectables</td>\n<td>1.64%</td>\n<td>2.03%</td>\n</tr>\n<tr>\n<td>Food and drink</td>\n<td>1.58%</td>\n<td>1.16%</td>\n</tr>\n<tr>\n<td>Baby and child</td>\n<td>0.57%</td>\n<td>0.62%</td>\n</tr>\n</tbody>\n</table></div>\n<p>Source: <a href=\"https://www.irpcommerce.com/ecommercemarketdata.aspx\">IRP Commerce</a>, August 2026.</p>\n<p>Two things sit underneath any sector average. The first is price point. Lower priced, repeat purchase products convert higher, and considered purchases always convert lower because people research, compare and come back. Baby and child makes the point. It has the lowest conversion rate in the table at 0.57%, but an average order value of £855.57 and an average item price of £665.15, which points to big-ticket purchases like prams and nursery furniture. Each session there is worth £5.01, against £1.92 across all markets.</p>\n<p>The second is traffic source. Returning customers convert far better than cold paid traffic, so scaling acquisition usually drags the headline rate down even when the site itself is performing better. The same sector fits that pattern. Its visitor numbers rose 57.89% year on year while its conversion rate fell, and acquisition costs rose 26.83%, the second steepest increase of any sector.</p>"
+  },
+  {
+   "type": "h2",
+   "text": "Why is your mobile conversion rate lower than desktop?",
+   "id": "why-is-your-mobile-conversion-rate-lower-than-desktop"
+  },
+  {
+   "type": "html",
+   "html": "<p>Because most stores are still designed for desktop and then squeezed onto a phone. On Shopify, mobile averages 1.2% against 1.9% on desktop. The gap widens at the top, where the best 10% of stores manage more than 3.9% on mobile and more than 6.5% on desktop.</p>\n<p>That matters because mobile is where the traffic is. In August 2026, mobile accounted for 63.7% of sales across UK and Irish independent merchants, desktop 34.7% and tablet 1.6%. If your mobile rate sits far below your desktop rate, the losses are concentrated on the majority of your visits.</p>\n<p>The fix is rarely a mobile-specific patch bolted on at the end. It is designing the journey for a phone first and letting the desktop version inherit it.</p>"
+  },
+  {
+   "type": "h2",
+   "text": "Are you measuring the same number as the benchmark?",
+   "id": "are-you-measuring-the-same-number-as-the-benchmark"
+  },
+  {
+   "type": "html",
+   "html": "<p>Almost every published benchmark counts sessions, not people. Conversion rate is transactions divided by sessions, multiplied by 100. If your own figure counts unique visitors instead, it will read higher for the same store, and comparing it to a session-based benchmark will flatter you.</p>\n<p>IRP Commerce states its calculation openly: transactions divided by sessions, times 100. Littledata’s Shopify figures are session based too. Your Shopify dashboard reports by session, and GA4 can give you a different number again depending on how it has been set up.</p>\n<p>Bot traffic is the other trap. Inflated session counts push a reported conversion rate down without anything changing on the site. I have worked on stores where the analytics were unusable for year-on-year comparison for that exact reason, and the only honest option was to benchmark against order data instead.</p>\n<p>Before you decide your rate is poor, check you are comparing like with like.</p>"
+  },
+  {
+   "type": "h2",
+   "text": "Why is your conversion rate below the benchmark?",
+   "id": "why-is-your-conversion-rate-below-the-benchmark"
+  },
+  {
+   "type": "html",
+   "html": "<p>Usually it is not one broken thing. It is friction spread thinly across the journey.</p>\n<p>Discovery is the first leak. If people cannot find the right product quickly they leave before they ever reach a product page, and large catalogues suffer most, because a stock theme menu was never built for thousands of products.</p>\n<p>The product card is the second. People decide on collection pages far more than most brands realise, so a card that does not answer the question driving the decision forces everyone into a product page they did not need to open.</p>\n<p>The third is cost surprise. Unclear delivery thresholds and charges that appear late kill more sales than any design detail.</p>\n<p>I have written separately about <a href=\"/articles/how-to-increase-conversion-rates-on-your-shopify-store/\">the practical fixes</a>.</p>"
+  },
+  {
+   "type": "h2",
+   "text": "What actually moves the number?",
+   "id": "what-actually-moves-the-number"
+  },
+  {
+   "type": "html",
+   "html": "<p>This is the part I can speak to from projects rather than theory.</p>"
+  },
+  {
+   "type": "h3",
+   "text": "Design the collection page around the decision"
+  },
+  {
+   "type": "image",
+   "file": "East-at-home-collection-page.webp",
+   "alt": "East at Home Shopify collection page product cards showing review counts, spice level, dietary icons, price and a Quick Shop button"
+  },
+  {
+   "type": "html",
+   "html": "<p>On East at Home, a DTC food brand, the collection pages were rebuilt around bespoke product cards that surface what actually drives the choice: spice level, dietary fit, flavour. A customer can compare the range without opening a single product page.</p>\n<p>Conversion rate rose 14% from a base that was already well above sector average, and revenue grew 82% year on year.</p>\n<p><a href=\"/portfolio/east-at-home-shopify-website-design-case-study/\">Read the East at Home case study</a></p>"
+  },
+  {
+   "type": "h3",
+   "text": "Let people compare without leaving the listing"
+  },
+  {
+   "type": "image",
+   "file": "Drink-finder-comparison-toggle.webp",
+   "alt": "Drink Finder Shopify collection page with the comparison toggle off and on, expanding product cards to show country, region, vintage and wine style"
+  },
+  {
+   "type": "html",
+   "html": "<p>Drink Finder is a Cornish wine and spirits merchant with more than 5,000 products. I designed a comparison toggle that expands details like origin and age inside the listing, so shoppers can weigh bottles side by side before opening anything.</p>\n<p>In a category where people compare constantly, that changed the browsing experience entirely. Website sales grew 34% and customer numbers grew 32% year on year, in a period when the premium drinks market was contracting.</p>\n<p><a href=\"/portfolio/drink-finder-shopify-website-design-case-study/\">Read the Drink Finder case study</a></p>"
+  },
+  {
+   "type": "h3",
+   "text": "Make the value of buying more visible at the moment of decision"
+  },
+  {
+   "type": "html",
+   "html": "<p>Rather than fixed bundle variants, a quantity selector that recalculates the total, the saving and the price per unit live as the customer adjusts the amount. A basket progress bar shows what each threshold unlocks.</p>\n<p>No countdown timers and no artificial scarcity anywhere in it. Order value rose through clarity.</p>"
+  },
+  {
+   "type": "h3",
+   "text": "Build navigation for the catalogue you actually have"
+  },
+  {
+   "type": "html",
+   "html": "<p>A theme’s default menu will not cope with thousands of products. On the drinks project the mobile navigation was built from scratch rather than bent out of a generic component, and a catalogue that had been a barrier became calm to browse. Checkout starts rose 23% and add to basket actions rose 27%.</p>"
+  },
+  {
+   "type": "h3",
+   "text": "Map the journey before designing anything"
+  },
+  {
+   "type": "html",
+   "html": "<p>Every one of those decisions came out of reviewing the purchase journey rather than instinct. The whole journey gets mapped, each step flagged where customers hesitate, and only then does design start. That is <a href=\"/articles/shopify-ux-review/\">what a Shopify UX review is for</a>.</p>"
+  },
+  {
+   "type": "h2",
+   "text": "What does not work?",
+   "id": "what-does-not-work"
+  },
+  {
+   "type": "html",
+   "html": "<strong>Countdown timers and manufactured scarcity.</strong> They cost trust, and the lift fades as soon as customers recognise the pattern.</p>\n<p><strong>Discounting to fix a conversion problem.</strong> It hides the problem and teaches customers to wait.</p>\n<p><strong>Redesigning because the site looks dated.</strong> If you cannot say which step in the journey is losing people, a redesign is a gamble rather than a fix.</p>\n<p><strong>Copying a competitor’s layout.</strong> Their layout suits their catalogue, their price point and their customers.</p>"
+  },
+  {
+   "type": "h2",
+   "text": "How much improvement is realistic?",
+   "id": "how-much-improvement-is-realistic"
+  },
+  {
+   "type": "html",
+   "html": "<p>A 10% to 30% relative improvement over a few months is a good outcome for most stores. Moving from 1.5% to 1.8% sounds unremarkable and is worth a great deal of money on the same traffic.</p>\n<p>Be sceptical of anyone promising to double it. Stores that see enormous jumps usually had something badly broken rather than something that needed optimising.</p>\n<p>Allow four to six weeks after a change before judging the result, and longer if your traffic is modest. The market moves as well. Across UK and Irish independent merchants, visitor numbers fell 13.69% year on year in August 2026 while conversion rose 20.49% and revenue per session rose 24.65%. Fewer people are arriving and the ones who do are worth more. A store that only held flat against that was not standing still.</p>"
+  },
+  {
+   "type": "h2",
+   "text": "Where to start",
+   "id": "where-to-start"
+  },
+  {
+   "type": "html",
+   "html": "<p>A good Shopify conversion rate is above 3.2%, the average is 1.4%, and the top 10% clear 4.7%. None of those numbers means much until you account for your sector, your price point and your device mix, which is why the most useful benchmark is your own previous period.</p>\n<p>Measure your rate by device and by traffic source before you measure it against anyone else. One blended number hides the problem. Split it and it usually points straight at it.</p>\n<p>If you want it looked at properly, that is the work I do with DTC brands. More on <a href=\"/shopify-website-design/shopify-conversion-rate-optimisation/\">Shopify conversion rate optimisation</a>.</p>"
+  }
+ ],
+ "faqs": [
+  {
+   "q": "What is the average conversion rate on Shopify?",
+   "html": "<p>1.4% across all stores, according to Littledata’s benchmark of 2,800 Shopify sites. Mobile averages 1.2% and desktop 1.9%. Sector and price point cause enormous variation, so treat the average as a reference point rather than a target.</p>"
+  },
+  {
+   "q": "Is 2% a good conversion rate on Shopify?",
+   "html": "<p>2% is above the Shopify average of 1.4% and below the 3.2% that marks the top 20%. Whether it is good for your store depends on your sector, your price point and how much of your traffic is cold and paid.</p>"
+  },
+  {
+   "q": "How is a Shopify conversion rate calculated?",
+   "html": "<p>Transactions divided by sessions, multiplied by 100. Sessions, not unique visitors. A visitor-based figure reads higher for the same store, so check which one a benchmark uses before comparing yourself to it.</p>"
+  },
+  {
+   "q": "Why is my mobile conversion rate lower than my desktop rate?",
+   "html": "<p>That is normal. On Shopify, mobile averages 1.2% against 1.9% on desktop. A very large gap usually means the site was designed desktop first and squeezed down. Since mobile carries most of the traffic, closing that gap is often the single biggest opportunity.</p>"
+  },
+  {
+   "q": "What is a good conversion rate for a UK store?",
+   "html": "<p>Across UK and Irish independent merchants the average session conversion rate was 2.23% in August 2026, up from 1.85% a year earlier, according to IRP Commerce. That figure covers all platforms rather than Shopify alone, and it varies sharply by sector.</p>"
+  },
+  {
+   "q": "How long does it take to improve a Shopify conversion rate?",
+   "html": "<p>Allow four to six weeks after a change before the data means anything, and longer on modest traffic. A realistic outcome is a 10% to 30% relative improvement over a few months rather than a sudden jump.</p>"
+  }
+ ]
+}

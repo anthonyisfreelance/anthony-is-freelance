@@ -40,3 +40,7 @@ Common names, where they exist:
 - `hero.jpg`: the case study header image.
 - `menu.jpg`: the photo in the mega menu feature.
 - `badge-award.png`: the award badge.
+
+## Article images
+
+Each article has a folder at `src/assets/articles/<article slug>/`. Drop in the images using the same file names as on WordPress (for example `Shopify-product-card-designs.webp`) and they replace the placeholders on the next build. Until then each placeholder shows the image's alt text, so you can see which one goes where. The file names for each article are in its content file, `src/data/article-content/<slug>.json`.

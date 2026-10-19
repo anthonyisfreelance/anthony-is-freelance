@@ -1,0 +1,189 @@
+{
+ "seoTitle": "Shopify Product Card Design: The Art of Cards That Convert",
+ "description": "How to design Shopify product cards that convert, with seven worked examples from real DTC projects across very different brands and budgets.",
+ "published": "2026-05-05",
+ "modified": "2026-10-12",
+ "hero": {
+  "file": "Shopify-product-card-designs.webp",
+  "alt": "Three bespoke Shopify product card designs for East at Home, Thameen London and Drink Finder"
+ },
+ "faqHeading": "Shopify product card questions.",
+ "blocks": [
+  {
+   "type": "h2",
+   "text": "Introduction",
+   "id": "introduction"
+  },
+  {
+   "type": "html",
+   "html": "<p>Most articles about Shopify product cards talk about layout best practice in the abstract. Show a good image. Make the price visible. Add a quick add button. All true, but it skips the more important question: what does this specific brand selling these specific products actually need this card to do?</p>\n<p>I am Anthony, a UK <a href=\"/\">Shopify expert</a> specialising in design and conversion rate optimisation for ambitious DTC brands. My background is unusual for a Shopify designer. I spent ten years in branding, working for some of the best agencies in Bath and Bristol, before moving into digital because I loved it. I then spent three and a half years freelancing at Dyson, before moving to Cornwall and joining a leading Shopify agency as Creative Director.</p>\n<p>After five and a half years leading design at the agency across a wide range of DTC stores, I went fully freelance three years ago, working directly with founders, brand teams and also with some of the best Shopify agencies in the UK. The work has been a celebration of getting to do exactly the kind of design I care about most, with clients who genuinely value that craft.</p>\n<p>The seven projects featured here cover both routes I take with clients: full <a href=\"/shopify-website-design/bespoke-shopify-store-builds/\">bespoke Shopify store builds</a> and <a href=\"/shopify-website-design/shopify-theme-customisation/\">Shopify theme customisation</a> projects where a well-chosen premium theme is the foundation. The right approach depends on the brief, the budget, and where the brand is in its growth. The product card matters just as much regardless of which path the project takes.</p>"
+  },
+  {
+   "type": "h2",
+   "text": "Why premium theme product cards stop working as soon as you add your products",
+   "id": "why-premium-theme-product-cards-stop-working-as-soon-as-you-add-your-products"
+  },
+  {
+   "type": "html",
+   "html": "<p>Premium Shopify themes look fantastic in their demo stores. The cards sit on a clean grid, the imagery is consistent, the typography is balanced, and the whole thing feels considered. There is a reason for that. The demo content is designed to make the theme look its best.</p>\n<p>The dummy products in a theme demo are typically chosen with three things in mind. They have similar image treatments, often shot on the same background. They have similar name lengths, so nothing breaks the grid. And they have a small enough range that you never see the theme handle 500 products from the same brand. None of those things are true of a real store.</p>\n<p>As soon as you load your real products into a premium theme, the cards almost always start to underperform. Long product names break the grid. Inconsistent imagery makes the page feel chaotic. The information your customers actually need to make a decision is missing or buried. The card that flattered the theme stops flattering your products.</p>\n<p>This is not an argument against premium themes. Premium themes can be excellent foundations, with strong layout systems, performance, and structural decisions that would take significant time and money to recreate from scratch. The point is that the default product card is rarely the part of the theme worth keeping as-is. It was designed for dummy products, not yours.</p>"
+  },
+  {
+   "type": "h2",
+   "text": "Why the product card is the highest-leverage component to redesign",
+   "id": "why-the-product-card-is-the-highest-leverage-component-to-redesign"
+  },
+  {
+   "type": "html",
+   "html": "<p>Whether the project is a full bespoke build or a theme customisation, the product card is consistently one of the most important areas to invest design thinking. Three reasons why.</p>\n<p><strong>Frequency.</strong> Every customer browsing a collection sees the product card, often dozens of times in a single visit. No other component is encountered as often. Improving it compounds across every collection page, every campaign, and every marketing landing page on the site.</p>\n<p><strong>Conversion impact.</strong> The card is the bridge between browsing and considering. A card that surfaces the right information removes friction and reduces unnecessary clicks. A card that hides important details forces customers into a navigate-and-back-out pattern that hurts conversion rate, particularly on mobile.</p>\n<p><strong>Brand perception.</strong> Customers spend more time looking at product cards than they do looking at the homepage. A redesigned product card on a customised theme can completely change the feeling of the site. The same theme with default product cards looks like the demo. The same theme with redesigned product cards looks like your brand. On a bespoke build, the same logic applies — the product card is where the design language gets stress-tested at scale.</p>\n<p>The seven examples that follow show what that thinking looks like in practice. They span both bespoke builds and theme customisation, and you will see that the principles are the same regardless of which approach the project took. Where the approaches differ is in what each one allows you to do, which is worth flagging on each example.</p>"
+  },
+  {
+   "type": "h2",
+   "text": "Seven Shopify product card designs from real projects",
+   "id": "seven-shopify-product-card-designs-from-real-projects"
+  },
+  {
+   "type": "h3",
+   "text": "1. Thameen London. Luxury fragrance, editorial restraint"
+  },
+  {
+   "type": "image",
+   "file": "Thameen-London-product-card-designs.webp",
+   "alt": "Thameen London Shopify product card design showing list view and grid view layouts for Royal Sapphire fragrance"
+  },
+  {
+   "type": "html",
+   "html": "<p>Thameen is a British luxury fragrance house with a focused range of high-end perfumes, stocked in Harrods and boutiques worldwide. The brand sits in the £200 to £400 price bracket, where the buying journey is slower and more considered. The <a href=\"/portfolio/thameen-london-shopify-website-design-case-study/\">Thameen London case study</a> covers the wider project, but the product card design was a critical part of getting the collection experience right.</p>\n<p>Thameen is the standout example in this article of what <a href=\"/shopify-website-design/shopify-theme-customisation/\">Shopify theme customisation</a> can achieve when the right theme is paired with carefully redesigned product cards. The Sleek theme provided strong foundations for an editorial luxury brand, and the budget went into making everything that mattered to Thameen specifically feel completely bespoke. The product card was the most important of those areas.</p>\n<p>The brand has a relatively tight product range, which presented an opportunity. With fewer products to display, I could afford generous spacing and a full-width grid that put each bottle front and centre. The cards lean into the editorial feel of the brand, with considered use of white space and typography that mirrors the print and packaging.</p>\n<p>Two specific decisions matter here. First, I kept the theme’s built-in add to bag functionality on the card itself. For a luxury site, you might assume customers always want to drill into the product detail page first. The data did not support that. Letting customers add directly from the collection page kept the journey smooth, which on a luxury site matters as much as on a fast-moving consumer brand.</p>\n<p>Second, the mobile experience was rebuilt as a list view rather than a downsized grid. Phone screens are tall and narrow. A two-column mobile grid forces small cards that lose the editorial feel. A single-column list view gives each product the breathing room it needs and lets customers scroll comfortably without the cards taking up the whole screen at once.</p>"
+  },
+  {
+   "type": "h3",
+   "text": "2. East at Home. When the customer needs answers before they click"
+  },
+  {
+   "type": "image",
+   "file": "East-at-Home-product-card-designs.webp",
+   "alt": "East at Home Shopify product card design showing list and grid layouts with Great Taste badge, reviews, dietary icons and Quick Shop button"
+  },
+  {
+   "type": "html",
+   "html": "<p>East at Home sells British Indian curry sauces. Where Thameen’s customer is patient and considered, East at Home’s customer is making a quicker, more practical decision. They are deciding what to cook for dinner. The <a href=\"/portfolio/east-at-home-shopify-website-design-case-study/\">East at Home case study</a> goes into the wider project, but the product card had to do a lot of work very quickly.</p>\n<p>The card carries the Great Taste 2025 award badge, the customer review count and star rating, dietary information (vegan), heat level (chilli icons), the price with any discount, and a Quick Shop button alongside a See more button. That is a lot of information, but every element is there because customers actually want it before they click.</p>\n<p>The Quick Shop button matters most for conversion. For a curry sauce, customers do not always need to read the full product detail page before adding to basket. They know what jalfrezi is. They want to know if it is hot, if it is vegan, if other people liked it, and how much it costs. Once those questions are answered on the card, the click into the product page is optional. Removing that friction directly affects conversion rate.</p>\n<p>The mobile version is again a list view, with the product image on the left and all the same information laid out cleanly to the right. Same content, structured for the device the customer is actually using.</p>"
+  },
+  {
+   "type": "h3",
+   "text": "3. Drink Finder. Over 500 wines and a customer who needs to compare"
+  },
+  {
+   "type": "image",
+   "file": "Drink-Finder-product-card-designs.webp",
+   "alt": "Drink Finder Shopify product card design showing four layout variations with wine rating, region, style and add to basket button"
+  },
+  {
+   "type": "html",
+   "html": "<p>Drink Finder stocks over 1,500 wines and 5,000 products in total. When customers browse a collection like white wine, they are not picking by image alone. They want to compare on country, region, vintage, style, and price. The <a href=\"/portfolio/drink-finder-shopify-website-design-case-study/\">Drink Finder case study</a> covers the migration and design strategy. The complexity of what the product card needed to do was one of the reasons a full bespoke build was the right call.</p>\n<p>Each card carries the wine’s rating, country flag, region, vintage year, and style descriptor (Crisp Dry White, for example), along with the price and an add-to-basket button. That is a lot of information, but every element is there because wine buyers compare on those exact attributes.</p>\n<p>The clever decision was a Show extras toggle at the top of the collection page. Power users browsing for a specific occasion can leave it on and see all the comparison data inline. Casual browsers who just want to see bottles and prices can toggle it off and get a cleaner grid. One design, two modes, controlled by the customer rather than the designer.</p>\n<p>This kind of thinking sits squarely in <a href=\"/shopify-website-design/shopify-conversion-rate-optimisation/\">Shopify CRO</a> territory. The card is not just displaying information, it is reducing the number of clicks customers need to make to reach a confident buying decision. On a 1,500-product collection, that compounds quickly. I have written more about this approach in my article on <a href=\"/articles/product-comparisons-for-shopify-stores-how-better-ux-boosts-conversions/\">product comparisons for Shopify stores</a>.</p>"
+  },
+  {
+   "type": "h3",
+   "text": "4. Fuzzball. Gating subscription products on the card itself"
+  },
+  {
+   "type": "image",
+   "file": "Fuzzball-product-card-designs.webp",
+   "alt": "Fuzzball Shopify product card design showing standard and gated subscription-only variants with lock icons"
+  },
+  {
+   "type": "html",
+   "html": "<p>Fuzzball is a premium pet food brand built around subscription. The <a href=\"/portfolio/fuzzball-shopify-website-design-case-study/\">Fuzzball case study</a> covers the wider subscription UX, but one specific product card decision is worth pulling out.</p>\n<p>Some Fuzzball products are only available on subscription rather than as one-off purchases. On a standard product card, that distinction would only become clear once the customer clicked through and tried to add to basket. By the time they discovered it was subscription-only, they would have already invested time, and any friction at that point hurts conversion.</p>\n<p>The solution was to design a gated product card variant. The card visually communicates the subscription-only status before the customer clicks. A lock icon, a clear Only available on subscription label, and a View Product button rather than an Add to Bag. The customer’s expectations are set on the collection page, not after the click.</p>\n<p>This pattern has uses well beyond pet food subscriptions. The same approach works for products only available to logged-in customers, products gated behind newsletter sign-up, or members-only product lines. Once the gating logic is part of the card design, it becomes a reusable tool rather than a one-off.</p>"
+  },
+  {
+   "type": "h3",
+   "text": "5. Whistlefish. When the image is the entire decision"
+  },
+  {
+   "type": "image",
+   "file": "Whistlefish-product-card-designs.webp",
+   "alt": "Whistlefish greeting card Shopify product card design showing two layout variations with multi-buy offer"
+  },
+  {
+   "type": "html",
+   "html": "<p>Whistlefish is a Cornish greeting card publisher with thousands of designs. The <a href=\"/portfolio/whistlefish-2-0-shopify-website-design-case-study/\">Whistlefish 2.0 case study</a> covers the wider redesign, but the product card had to make a particular decision that goes against most general best practice.</p>\n<p>On a greeting card website, customers do not read the product names. Nobody decides to buy a card called Be-Gin Birthday Card based on the name. They decide based on the visual. The image is the whole decision.</p>\n<p>Knowing this, I made the deliberate choice to truncate product names at one line on the card. Most articles would tell you to make sure the full name is visible. On Whistlefish, that would have allowed long names to break the grid for no benefit, because customers were never reading them anyway. A clean visual grid serves the actual buying behaviour better than full-length names ever would.</p>\n<p>The card also houses the multi-buy offer (10 for £12) and an Add button directly on the card. For greeting cards, where customers often buy several at once, that direct-add pattern matters even more than usual. The card is doing the entire job of the product detail page for a category where a product detail page click is often unnecessary.</p>"
+  },
+  {
+   "type": "h3",
+   "text": "6. Wide Fit Shoes. Variant information that has to be on the card"
+  },
+  {
+   "type": "image",
+   "file": "Wide-fit-shoes-product-card-designs.webp",
+   "alt": "Wide Fit Shoes Shopify product card design showing colour swatches and width sizes 2E, 4E, 6E for New Balance trainer"
+  },
+  {
+   "type": "html",
+   "html": "<p>Wide Fit Shoes is a specialist footwear retailer for customers who need wider fit shoes. The <a href=\"/portfolio/wide-fit-shoes-shopify-case-study/\">Wide Fit Shoes case study</a> covers the wider project, but the product card had to communicate something specific that most footwear cards ignore.</p>\n<p>For a regular shoe brand, customers can usually assume their normal size will work and decide based on the image. For a wide-fit specialist, customers cannot. They need to know which width their shoe is available in (2E, 4E, 6E), and they need to know which colours are stocked, before they invest the time to click through to a product they cannot actually buy in their size.</p>\n<p>The card carries the colour swatches as small dots and the available width sizes as labelled buttons. Both are visible at a glance. Both prevent the worst kind of ecommerce frustration, which is investing attention in a product that turns out not to be available. This is a card that respects the customer’s time.</p>\n<p>The same principle applies to any product with significant variants. Apparel with sizes, beauty with shades, electronics with capacities. If the customer’s first decision happens at variant level, the variant information has to be on the card.</p>"
+  },
+  {
+   "type": "h3",
+   "text": "7. Hartnack & Co. Comparison cards for products that look the same"
+  },
+  {
+   "type": "image",
+   "file": "Hartnack-product-card-designs.webp",
+   "alt": "Hartnack and Co Shopify product card design showing comparison data including sizes available, finishes and colour swatches"
+  },
+  {
+   "type": "html",
+   "html": "<p>Hartnack &amp; Co are bespoke bookbinders making library boxes, portfolios, and binders. Their products often look very similar to each other in photographs. A library buckram drop-back box and a leather-covered drop-back box look comparable in an image, but the materials, sizes available, and price all differ significantly. The <a href=\"/portfolio/hartnack-and-co-shopify-website-design-case-study/\">Hartnack &amp; Co case study</a> covers the wider project.</p>\n<p>A standard product card would force customers to click into each product page just to learn what was available, then click back, then click into the next one. For a brand where the considered purchase often involves comparing five or six similar products, that adds up to a lot of friction.</p>\n<p>The solution was a card that displays the key comparison data inline. Sizes available (in both international and American formats), Format (portrait, landscape, both), Cover materials available, and where applicable a small swatch of cover colours. The customer can see at a glance what each product offers and only clicks into the ones that match their requirements.</p>\n<p>This is also why the cards look denser than the others in this article. The customer’s research process is heavier, the price points are higher, and the willingness to read more information per card is genuinely there. A clean image-led card would have been worse design here, not better. The card has to match the customer’s actual buying behaviour, even if that means it looks busier than a typical ecommerce card.</p>"
+  },
+  {
+   "type": "h2",
+   "text": "The pattern across all seven cards",
+   "id": "the-pattern-across-all-seven-cards"
+  },
+  {
+   "type": "html",
+   "html": "<p>Looking across the seven examples, none of them follow the same template. Thameen has minimal information per card and leans into editorial restraint. Hartnack carries dense comparison data and is denser by design. East at Home strips the friction with Quick Shop. Whistlefish truncates information that does not matter to its customers. Drink Finder lets customers toggle complexity on and off.</p>\n<p>What every card has in common is the question it answers before it answers any other. What does this customer, looking at this product, need to know before they decide whether to click? Once that question is answered honestly, the design follows. Put that answer on the card as text, not in the image, and AI shopping assistants can read it too. That’s the thinking behind <a href=\"/shopify-website-design/shopify-ai-search-design/\">AI search visibility design</a>.</p>\n<p>The other thing worth noting across the seven examples is that the choice between bespoke build and theme customisation came down to the brief, not the ambition. Thameen achieved a fully editorial luxury feel through theme customisation because the Sleek theme provided the right foundation and the budget could go into making the components that mattered (the product card most of all) feel completely tailored. The other six benefited from full bespoke builds because their requirements (large product catalogues, gated subscription logic, multi-attribute comparison, complex variants) needed flexibility no theme would offer out of the box. Both approaches are capable of producing exceptional work. The right answer depends on what the project needs.</p>\n<p>This is the work I find most satisfying as a designer. It is also where <a href=\"/shopify-website-design/shopify-design-for-dtc-brands/\">Shopify design for DTC brands</a> earns its keep commercially, regardless of whether the project is a bespoke build or a theme customisation. The product card is one of the highest-traffic, highest-impact components on any ecommerce site. Getting it right pays back across every collection page, every campaign, and every customer who lands on the site.</p>"
+  },
+  {
+   "type": "h2",
+   "text": "How to think about your own product cards",
+   "id": "how-to-think-about-your-own-product-cards"
+  },
+  {
+   "type": "html",
+   "html": "<p>If you are looking at your own collection pages and feeling like the cards are not pulling their weight, three questions are worth working through before redesigning anything.</p>\n<p><strong>What is the first question your customer asks about a product?</strong> If it is not the product name, do not let the product name dominate the card. If it is something specific (heat level, country, width, available materials), that information needs to be on the card itself.</p>\n<p><strong>What level of friction does your customer have for clicking through?</strong> High-frequency low-consideration purchases (curry sauce, greeting cards) want low click friction and Quick Shop buttons. High-consideration luxury purchases want a calmer, more editorial card and a slower journey. Match the card to the buying behaviour, not the other way round.</p>\n<p><strong>Where does the theme stop fitting your products?</strong> Look at the cards now. Are long product names breaking the grid? Is information missing that customers actually need? Are inconsistent product images making the page feel chaotic? Those are the points where the theme is no longer doing its job, and where customisation starts to earn its return on investment.</p>"
+  },
+  {
+   "type": "h2",
+   "text": "Designing your Shopify product cards",
+   "id": "designing-your-shopify-product-cards"
+  },
+  {
+   "type": "html",
+   "html": "<p>If your collection pages are not converting as well as they should, or if you are about to invest in a new Shopify build and want to make sure the product card is doing its job from launch, this is the kind of work I do. The right approach depends on the brief, the budget, and the complexity of what your products and customers need from the experience.</p>\n<p>For brands where a well-chosen premium theme provides the right foundation, <a href=\"/shopify-website-design/shopify-theme-customisation/\">Shopify theme customisation</a> is often the smarter starting point. Thameen is the standout example in this article of what that approach can deliver when the product card and other key components get the design attention they deserve.</p>\n<p>For brands with greater complexity, larger product catalogues, gated subscription logic, multi-attribute comparison, or any specific functionality that no theme will support natively, a <a href=\"/shopify-website-design/bespoke-shopify-store-builds/\">bespoke Shopify store build</a> is the right answer. Drink Finder, Fuzzball, Whistlefish, Wide Fit Shoes, East at Home, and Hartnack &amp; Co all needed that level of flexibility, and the product cards alone show why.</p>\n<p>Either way, the product card is where the most transformative thinking goes. You can find more on my <a href=\"/shopify-website-design/\">Shopify website design services</a> page, or <a href=\"/contact/\">get in touch</a> directly to talk through your collection pages. I am always happy to take a quick look and share thoughts before any commitment.</p>"
+  }
+ ],
+ "faqs": [
+  {
+   "q": "What makes a good Shopify product card?",
+   "html": "<p>A good Shopify product card answers the questions your customer asks before they click. That always includes a clear product image, name, and price, but the rest depends on your products and customers. A wine retailer needs origin and vintage. A food brand needs dietary information and reviews. A bespoke product needs sizes and materials. The best product cards are designed around the actual buying decision, not borrowed from a theme template.</p>"
+  },
+  {
+   "q": "Can you transform a Shopify theme by just customising the product card?",
+   "html": "<p>Yes, the product card is one of the single most transformative components to redesign on a premium Shopify theme. Customers spend more time looking at product cards than any other component on the site, so a redesigned card changes how the whole store feels and performs. Combined with brand-led typography, colour, and spacing, customising the product card alone can make a premium theme feel completely bespoke without the cost of a full custom build.</p>"
+  },
+  {
+   "q": "Should every Shopify store have bespoke product cards?",
+   "html": "<p>Not necessarily, but most stores benefit from at least some product card customisation. Smaller catalogues with very visual products can sometimes work well on premium theme defaults. Customised product cards earn their keep when the theme default is missing information your customers need, when product names break the grid, when variant information matters at the collection-page level, or when the buying journey would benefit from features like quick add, gated subscription products, or comparison views.</p>"
+  },
+  {
+   "q": "Is theme customisation cheaper than a fully bespoke Shopify build?",
+   "html": "<p>Yes, theme customisation is typically more affordable than a fully bespoke build because the structural foundations of the theme do not need to be designed and developed from scratch. The right premium theme provides layout systems, performance, and content architecture, leaving the budget to focus on brand-specific design work and the components that need to be customised. The right approach depends on the brief — theme customisation suits brands where a premium theme provides the right foundation, while bespoke builds suit brands with greater complexity or specific functionality the theme cannot support.</p>"
+  },
+  {
+   "q": "How does the product card affect conversion rate?",
+   "html": "<p>The product card is one of the highest-impact components for conversion rate because every customer browsing a collection sees it, often dozens of times in one visit. Reducing friction (clear pricing, quick add, visible variants), answering buying-decision questions inline, and matching the design to the actual buying behaviour can all improve collection-page conversion. The compounding effect across every collection page on the site makes it one of the highest-ROI areas of design work.</p>"
+  },
+  {
+   "q": "Should the product card design be different on mobile?",
+   "html": "<p>Often yes. Mobile screens are tall and narrow, which suits a list view layout better than a downsized grid in many cases. A list view gives each product more breathing room, makes information easier to read, and reduces the cluttered feel of a two-column grid on a small screen. The exception is highly visual products like greeting cards or art prints, where a grid view still serves the customer better even on mobile.</p>"
+  }
+ ]
+}
