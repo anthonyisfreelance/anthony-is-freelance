@@ -89,8 +89,8 @@ const RECORDS: InnovationRecord[] = [
     problem: "Projektityyny's old store dropped customers into collections and left them to filter.",
     howItWorks:
       'Three image-led routes from the navigation let people shop by product, by room or by print, which is how they think about their homes. The routes were designed for the phone first.',
-    // [CONFIRM] source and date of the mobile share.
-    evidence: "Over 80% of Projektityyny's visitors are on mobile.",
+    // Source: the UX review (Miro board), before design started.
+    evidence: "Over 80% of Projektityyny's visitors are on mobile, from the UX review before design started.",
     caption: 'Shop by product, room or print on Projektityyny.',
     alt: "Projektityyny's navigation on mobile, with routes to shop by product, room or print.",
   },
@@ -248,7 +248,6 @@ const RECORDS: InnovationRecord[] = [
     service: S.branding,
     problem: 'A quiz is a form, and forms feel like a chore.',
     howItWorks: "Fuzzball's cat chases a ball along the quiz progress bar, so finishing the quiz feels like part of the brand.",
-    // [CONFIRM] Fuzzball's approval to publish the figure.
     evidence: 'Project result: conversion rate up 63%, August 2025 to August 2026 against the year before. GA4.',
     caption: "Fuzzball's quiz progress bar.",
     alt: "Fuzzball's quiz on mobile, with the cat chasing a ball along the progress bar.",

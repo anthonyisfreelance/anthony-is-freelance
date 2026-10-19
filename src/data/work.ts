@@ -130,7 +130,7 @@ export const CASE_STUDIES: CaseStudy[] = [
     services: ['theme-customisations'],
   },
   {
-    client: 'Jing Tea', meta: 'Food & drink · [CONFIRM year]',
+    client: 'Jing Tea', meta: 'Food & drink',
     claim: 'A Shopify Plus redesign for a luxury tea brand',
     proof: 'A gold and earth palette widened with neutrals, with gold kept for key actions.',
     href: p('jing-tea-shopify-website-design-case-study'),
