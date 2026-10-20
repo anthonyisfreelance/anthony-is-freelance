@@ -99,8 +99,10 @@ export const BRANDS = {
     'East at Home',
     'Thameen London',
     'Projektityyny',
-    'Sensational Eyes',
     'Fuzzball',
+    'Wide Fit Shoes',
+    'Whistlefish',
+    'Dr Lipp',
   ],
 };
 
