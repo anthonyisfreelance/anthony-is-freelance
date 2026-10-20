@@ -1,7 +1,6 @@
 // Drink Finder case study. Copy from the Figma frame "Work - Drink FInder" (48175:18636),
 // with page-copy/case-study-drink-finder.md filling the gaps where Figma has placeholder text.
 import { URLS } from '../site';
-import { CASE_STUDIES } from '../work';
 import { COMPARE } from '../innovations';
 import { testimonial, creditLine } from '../testimonials';
 import hero from '../../assets/brands/drink-finder/hero.jpg';
@@ -15,16 +14,9 @@ import phoneBrandCollection from '../../assets/brands/drink-finder/phone-brand-c
 import uxHome from '../../assets/brands/drink-finder/ux-home.jpg';
 import cocktail from '../../assets/brands/drink-finder/cocktail.jpg';
 import brandBg from '../../assets/brands/drink-finder/brand-bg.jpg';
-import type { ImageMetadata } from 'astro';
+import { SERVICE, card, MORE_HEADING, type CaseStudyPageData, type Media } from './types';
 
-/** A still image, with an optional screen recording (public path to an MP4) that plays over it. */
-export interface Media {
-  image: ImageMetadata;
-  alt: string;
-  video?: string;
-}
-
-export const META = {
+const META = {
   path: URLS.caseStudies.drinkFinder,
   title: 'Drink Finder Shopify Case Study: 34% More Website Sales',
   description:
@@ -37,14 +29,14 @@ export const META = {
 };
 
 // The store the page is about, for schema.
-export const CLIENT = {
+const CLIENT = {
   name: 'Drink Finder',
   url: 'https://www.drinkfinder.co.uk/',
   display: 'drinkfinder.co.uk',
   parent: 'Constantine Stores Ltd',
 };
 
-export const HERO = {
+const HERO = {
   eyebrow: 'Drink Finder Shopify case study',
   figure: '34%',
   heading: 'more website sales after launch',
@@ -53,7 +45,7 @@ export const HERO = {
   image: { image: hero, alt: '' } as Media,
 };
 
-export const BRIEF = {
+const BRIEF = {
   eyebrow: 'The brief',
   heading: 'Move to Shopify without losing the regulars',
   body: [
@@ -62,28 +54,34 @@ export const BRIEF = {
   ],
 };
 
-export const DETAILS = {
+const DETAILS = {
   sector: 'Food & drink',
   services: [
-    { label: 'Branding', href: URLS.branding },
-    { label: 'Bespoke store design', href: URLS.bespoke },
+    SERVICE.branding,
+    SERVICE.bespoke,
     { label: 'UX Design', href: URLS.ux },
-    { label: 'Migrations', href: URLS.migrations },
+    SERVICE.migrations,
   ],
   live: '19 August 2025',
   liveIso: '2025-08-19',
-  results: '34% more website sales. 32% more customers.',
-  measured:
-    'Comparing the six months since launch, September to February, with the same period the year before. EPoS till data, marketplaces excluded.',
-  recognition:
-    'Winner, UK eCommerce Website of the Year, UK eCommerce Awards 2026. Also shortlisted for Food & Drink eCommerce Website of the Year.',
-  badge,
-  badgeAlt: 'UK eCommerce Awards 2026 winner',
+  rows: [
+    { label: 'Results', value: '34% more website sales. 32% more customers.' },
+    {
+      label: 'Measured',
+      value: 'Comparing the six months since launch, September to February, with the same period the year before. EPoS till data, marketplaces excluded.',
+    },
+  ],
+  recognition: {
+    text: 'Winner, UK eCommerce Website of the Year, UK eCommerce Awards 2026. Also shortlisted for Food & Drink eCommerce Website of the Year.',
+    badge,
+    badgeAlt: 'UK eCommerce Awards 2026 winner',
+  },
 };
 
 // The full-width showcase under the brief: desktop homepage over a vineyard, then four phone screens.
 // [CONFIRM] Figma repeats one product page screen four times; swap in the four final screens.
-export const SHOWCASE = {
+const SHOWCASE = {
+  label: 'Drink Finder screens',
   background: vineyard,
   desktop: { image: stillDesktop, alt: 'The Drink Finder homepage on desktop, with search, the full category menu and the shop’s Cornish address in the header.' } as Media,
   phones: [
@@ -94,7 +92,7 @@ export const SHOWCASE = {
   ] as Media[],
 };
 
-export const WORK_INTRO = {
+const WORK_INTRO = {
   eyebrow: 'The work',
   heading: 'Four decisions behind the redesign',
   body: 'The Drink Finder work started with a UX review of the old site, before any design. The review showed which areas to improve, and that is where the concepts started.',
@@ -104,7 +102,7 @@ export const WORK_INTRO = {
 // [CONFIRM] Figma uses one search screen (nav-search.jpg) in rows one, two and four as a placeholder.
 // It is used here for the nav row it shows; the other rows keep their own screens until final
 // tall phone screens (375 × 820) are ready.
-export const HIGHLIGHTS = [
+const HIGHLIGHTS = [
   {
     eyebrow: 'Shopify collection page design',
     heading: 'Compare bottles without opening every one.',
@@ -134,13 +132,13 @@ export const HIGHLIGHTS = [
     media: { image: uxHome, alt: 'The Drink Finder homepage on mobile, with nothing covering the buttons.' },
     flip: true,
   },
-] as const satisfies readonly {
-  eyebrow?: string; heading: string; body: string; media: Media; flip: boolean; link?: { label: string; href: string };
-}[];
+];
 
 // Scrolling column of screens beside a sticky photo.
 // [CONFIRM] Figma repeats one collection screen five times; swap in the five final screens.
-export const GALLERY = {
+const GALLERY = {
+  label: 'More Drink Finder screens',
+  listLabel: 'Drink Finder brand collection screens',
   screens: Array.from({ length: 5 }, (_, i) => ({
     image: phoneBrandCollection,
     alt: i === 0 ? 'A Drink Finder brand collection page on mobile, with the distillery story above the products.' : '',
@@ -150,7 +148,7 @@ export const GALLERY = {
   caption: 'Drink Finder brand collection pages on mobile, with each distillery’s story above its bottles.',
 };
 
-export const BRAND = {
+const BRAND = {
   background: brandBg,
   eyebrow: 'Brand refinement and design system',
   heading: 'Still Drink Finder, sharper on a phone.',
@@ -158,7 +156,7 @@ export const BRAND = {
   media: { image: phonePdp, alt: 'A Drink Finder product page on mobile in the refined brand.' } as Media,
 };
 
-export const TESTIMONIAL = {
+const TESTIMONIAL = {
   eyebrow: 'Drink Finder testimonial',
   heading: 'In the client’s words.',
   quote:
@@ -167,13 +165,17 @@ export const TESTIMONIAL = {
   cite: creditLine(testimonial('drink-finder')),
 };
 
-const pick = (name: string) => {
-  const s = CASE_STUDIES.find((c) => c.client === name)!;
-  return { client: s.client, meta: s.meta, claim: s.claim, image: s.image!, badge: s.badge, badgeAlt: s.badgeAlt, href: s.href };
-};
-
-export const MORE = {
-  eyebrow: 'More Shopify success stories',
-  heading: 'Other stores, other problems. Solved.',
-  cards: [pick('East at Home'), pick('Fuzzball'), pick('Thameen London')],
+export const DATA: CaseStudyPageData = {
+  meta: META,
+  client: CLIENT,
+  hero: HERO,
+  brief: BRIEF,
+  details: DETAILS,
+  showcase: SHOWCASE,
+  workIntro: WORK_INTRO,
+  highlights: HIGHLIGHTS,
+  gallery: GALLERY,
+  feature: BRAND,
+  testimonial: TESTIMONIAL,
+  more: { ...MORE_HEADING, cards: [card('East at Home'), card('Fuzzball'), card('Thameen London')] },
 };

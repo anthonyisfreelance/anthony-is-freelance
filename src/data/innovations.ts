@@ -8,6 +8,7 @@
 // Until both are there, the entry shows a placeholder tile. Set videoUploaded when a recording goes in.
 import { URLS } from './site';
 import { brandImage, brandVideo } from './media';
+import { CASE_STUDIES } from './work';
 import type { ImageMetadata } from 'astro';
 
 type Group = 'finding' | 'choosing' | 'buying' | 'brand';
@@ -272,8 +273,10 @@ const RECORDS: InnovationRecord[] = [
 ];
 
 // Each record with its screen still and recording, if they've been added.
+// Each links to its client's case study, now every one has a page.
 export const INNOVATIONS_LIST: Innovation[] = RECORDS.map((r) => ({
   ...r,
+  clientHref: r.clientHref ?? CASE_STUDIES.find((c) => c.client === r.client)?.href,
   poster: brandImage(r.brand, `innovations/${r.slug}`),
   video: brandVideo(r.brand, r.slug),
 }));

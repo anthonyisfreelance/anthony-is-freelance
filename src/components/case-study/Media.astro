@@ -1,8 +1,9 @@
 ---
 // A screen or photo. When a screen recording exists it plays over the still, muted and looping,
 // loaded when it scrolls into view (the shared script in Base.astro). Reduced motion keeps the still.
+// No still yet: a grey placeholder naming what goes there.
 import { Image } from 'astro:assets';
-import type { Media } from '../../data/case-studies/drink-finder';
+import type { Media } from '../../data/case-studies/types';
 interface Props {
   media: Media;
   fit?: 'contain' | 'cover';
@@ -12,32 +13,39 @@ interface Props {
   class?: string;
 }
 const { media, fit = 'contain', sizes, widths, eager = false, class: className = '' } = Astro.props;
-const w = widths ?? [320, 480, 640, 960, 1280, 1600, 2400].filter((x) => x <= media.image.width).concat(media.image.width);
+const image = media.image;
+const w = image ? widths ?? [320, 480, 640, 960, 1280, 1600, 2400].filter((x) => x <= image.width).concat(image.width) : [];
 const objectFit = fit === 'contain' ? 'object-contain' : 'object-cover';
 ---
-<div class:list={['relative overflow-hidden', className]}>
-  <Image
-    src={media.image}
-    alt={media.alt}
-    widths={[...new Set(w)]}
-    sizes={sizes}
-    quality={78}
-    loading={eager ? 'eager' : 'lazy'}
-    fetchpriority={eager ? 'high' : undefined}
-    class:list={['absolute inset-0 size-full', objectFit]}
-  />
-  {media.video && (
-    <video
-      src={media.video}
-      data-autoplay
-      data-fade
-      muted
-      loop
-      playsinline
-      preload="none"
-      aria-hidden="true"
-      tabindex="-1"
-      class:list={['absolute inset-0 size-full opacity-0 transition-opacity duration-300', objectFit]}
-    ></video>
-  )}
-</div>
+{image ? (
+  <div class:list={['relative overflow-hidden', className]}>
+    <Image
+      src={image}
+      alt={media.alt}
+      widths={[...new Set(w)]}
+      sizes={sizes}
+      quality={78}
+      loading={eager ? 'eager' : 'lazy'}
+      fetchpriority={eager ? 'high' : undefined}
+      class:list={['absolute inset-0 size-full', objectFit]}
+    />
+    {media.video && (
+      <video
+        src={media.video}
+        data-autoplay
+        data-fade
+        muted
+        loop
+        playsinline
+        preload="none"
+        aria-hidden="true"
+        tabindex="-1"
+        class:list={['absolute inset-0 size-full opacity-0 transition-opacity duration-300', objectFit]}
+      ></video>
+    )}
+  </div>
+) : (
+  <div class:list={['relative overflow-hidden bg-line', className]}>
+    <span class="t-badge absolute inset-0 grid place-items-center p-4 text-center text-muted">[{media.label ?? 'Screen'} to come]</span>
+  </div>
+)}

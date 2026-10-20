@@ -1,0 +1,215 @@
+---
+// One case study page. Every case study renders through this, from its file in src/data/case-studies/.
+// Design: Figma "Work - Drink FInder" (48175:18636), as approved on the test site on 20 October 2026.
+// Order: hero, brief and facts, showcase, sticky gallery, the work (as many rows as the project has),
+// a feature section, the client quote (left out when there isn't one), more success stories, the form.
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import Base from '../../layouts/Base.astro';
+import Schema from '../Schema.astro';
+import Header from '../Header.astro';
+import Heading from '../Heading.astro';
+import TextLink from '../TextLink.astro';
+import CaseStudyCard from '../CaseStudyCard.astro';
+import Media from './Media.astro';
+import Contact from '../home/Contact.astro';
+import { SITE } from '../../data/site';
+import type { CaseStudyPageData } from '../../data/case-studies/types';
+
+interface Props { data: CaseStudyPageData }
+const { meta: META, client: CLIENT, hero: HERO, brief: BRIEF, details: DETAILS, showcase: SHOWCASE, workIntro: WORK_INTRO, highlights: HIGHLIGHTS, gallery: GALLERY, feature: FEATURE, testimonial: TESTIMONIAL, more: MORE } = Astro.props.data;
+
+const url = new URL(META.path, SITE).href;
+const clientId = `${url}#client`;
+const client = {
+  '@type': 'Organization',
+  '@id': clientId,
+  name: CLIENT.name,
+  ...(CLIENT.url && { url: CLIENT.url }),
+  ...(CLIENT.parent && { parentOrganization: { '@type': 'Organization', name: CLIENT.parent } }),
+};
+
+// Background photo widths, never past the photo's own width.
+const bgWidths = (img: ImageMetadata, list: number[]) => [...new Set(list.filter((w) => w < img.width).concat(Math.min(img.width, list[list.length - 1])))];
+
+const meta = 'font-display font-medium text-[14px] leading-[1.3] tracking-[0.02em]';
+const link = 'underline underline-offset-4 hover:decoration-2';
+---
+<Base title={META.title} description={META.description}>
+  <Schema slot="head" title={META.title} description={META.description} path={META.path} breadcrumbs={META.breadcrumbs} about={clientId} extra={[client]} />
+  <Header overlay />
+  <main id="main">
+    <!-- Hero: photo from the left screen edge to the centre line, headline right. The rule sits
+         under the header as on every other page; the copy is centred beside the photo. -->
+    <section class="lg:grid lg:grid-cols-2 lg:gap-gutter">
+      <div data-header-image class="relative">
+        <Media media={HERO.image} fit="cover" sizes="(min-width: 1024px) 50vw, 100vw" eager class="aspect-[700/736] w-full lg:max-h-dvh" />
+        <div class="absolute inset-0 hidden bg-[linear-gradient(to_bottom,rgba(0,0,0,0.35)_0%,rgba(0,0,0,0)_21%)] lg:block" aria-hidden="true"></div>
+      </div>
+      <div class="px-margin pt-large lg:flex lg:flex-col lg:pl-0 lg:pt-[124px]">
+        <div class="border-t border-line pt-large lg:flex lg:flex-1 lg:flex-col lg:justify-center lg:py-section lg:pr-[15px]">
+          <Heading level={1} eyebrow={HERO.eyebrow}>{HERO.figure && <><span class="text-blue">{HERO.figure}</span>{' '}</>}{HERO.heading}</Heading>
+          <p class="t-body mt-loose text-muted">{HERO.standfirst}</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- The brief, and the project facts -->
+    <section class="px-margin pt-section lg:pt-[120px]">
+      <div class="flex flex-col gap-large lg:flex-row lg:gap-gutter">
+        <div class="flex-1">
+          <Heading eyebrow={BRIEF.eyebrow} deco={false}>{BRIEF.heading}</Heading>
+          <div class="t-body mt-loose flex flex-col gap-[10px] text-muted">
+            {BRIEF.body.map((p) => <p>{p}</p>)}
+          </div>
+        </div>
+        <dl class:list={[meta, 'flex flex-col gap-loose border-t border-line pt-large lg:w-[calc(50%+var(--page-gutter)/2)] lg:shrink-0 lg:border-l lg:border-t-0 lg:pl-gutter lg:pt-0']}>
+          <div class="flex gap-2"><dt class="w-[120px] shrink-0 text-[#c4c4c4]">Sector</dt><dd class="flex-1 text-ink">{DETAILS.sector}</dd></div>
+          <div class="flex gap-2">
+            <dt class="w-[120px] shrink-0 text-[#c4c4c4]">Services</dt>
+            <dd class="flex flex-1 flex-wrap gap-x-4 gap-y-2 text-ink">
+              {DETAILS.services.map((s) => <a href={s.href} class={link}>{s.label}</a>)}
+            </dd>
+          </div>
+          <div class="flex gap-2"><dt class="w-[120px] shrink-0 text-[#c4c4c4]">Live</dt><dd class="flex-1 text-ink">{DETAILS.liveIso ? <time datetime={DETAILS.liveIso}>{DETAILS.live}</time> : DETAILS.live}</dd></div>
+          {DETAILS.rows.map((r) => (
+            <div class="flex gap-2"><dt class="w-[120px] shrink-0 text-[#c4c4c4]">{r.label}</dt><dd class="flex-1 text-ink">{r.value}</dd></div>
+          ))}
+          {DETAILS.recognition && (
+            <div class="flex gap-2">
+              <dt class="w-[120px] shrink-0 text-[#c4c4c4]">Recognition</dt>
+              <dd class="flex flex-1 flex-col gap-grid text-ink sm:flex-row">
+                <Image src={DETAILS.recognition.badge} alt={DETAILS.recognition.badgeAlt} height={77} densities={[1, 2]} class="h-[77px] w-[130px] shrink-0 object-cover" />
+                <span class="flex-1">{DETAILS.recognition.text}</span>
+              </dd>
+            </div>
+          )}
+          {CLIENT.url && (
+            <div class="flex gap-2">
+              <dt class="w-[120px] shrink-0 text-[#c4c4c4]">Website</dt>
+              <dd class="flex-1 text-ink"><a href={CLIENT.url} class={link} target="_blank" rel="noopener">{CLIENT.display}</a></dd>
+            </div>
+          )}
+        </dl>
+      </div>
+    </section>
+
+    <!-- Showcase: the desktop homepage and four phone screens over a photo that fills the
+         screen, edge to edge, all the way through the section -->
+    <section class="relative mt-section lg:mt-[120px]" aria-label={SHOWCASE.label}>
+      <div class="absolute inset-0" aria-hidden="true">
+        <div class="sticky top-0 h-dvh w-full overflow-hidden">
+          {SHOWCASE.background
+            ? <Image src={SHOWCASE.background} alt="" widths={bgWidths(SHOWCASE.background, [640, 1024, 1440, 2160, 2879])} sizes="100vw" quality={70} class="size-full object-cover" />
+            : <div class="size-full bg-[#8a8a8a]"><span class="t-badge absolute right-5 top-5 text-white">[Photo to come]</span></div>}
+          <div class="absolute inset-0 bg-black/40"></div>
+        </div>
+      </div>
+      <div class="relative flex flex-col items-center gap-section py-section lg:gap-[200px] lg:pb-[200px] lg:pt-[120px]">
+        <div class="w-full px-margin lg:w-[63.6%] lg:max-w-[1628px] lg:px-0">
+          <Media media={SHOWCASE.desktop} sizes="(min-width: 1024px) 64vw, 100vw" class="aspect-[916/518] w-full" />
+        </div>
+        <ul class="grid w-full grid-cols-2 gap-grid px-margin lg:flex lg:w-auto lg:justify-center">
+          {SHOWCASE.phones.map((m) => (
+            <li><Media media={m} sizes="(min-width: 1024px) 293px, 46vw" class="aspect-[293/567] w-full lg:w-[293px]" /></li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- Scrolling screens beside a sticky photo -->
+    <section class="flex flex-col lg:flex-row" aria-label={GALLERY.label}>
+      <div
+        class="flex gap-4 overflow-x-auto px-margin py-section-sm max-lg:snap-x max-lg:snap-mandatory lg:flex-1 lg:flex-col lg:items-center lg:gap-[80px] lg:overflow-visible lg:pb-[120px] lg:pr-gutter lg:pt-section"
+        tabindex="0"
+        role="region"
+        aria-label={GALLERY.listLabel ?? GALLERY.label}
+      >
+        {GALLERY.screens.map((m) => (
+          <Media media={m} sizes="(min-width: 1024px) 676px, 60vw" class="aspect-[563/1230] w-[60%] shrink-0 snap-start lg:aspect-square lg:w-full lg:max-w-[676px]" />
+        ))}
+      </div>
+      <figure class="relative max-lg:order-first lg:sticky lg:top-0 lg:w-[48.61%] lg:self-start">
+        <Media media={GALLERY.photo} fit="cover" sizes="(min-width: 1024px) 49vw, 100vw" class="aspect-[700/875] w-full lg:aspect-auto lg:h-dvh" />
+        <figcaption class="absolute bottom-0 left-0 max-w-[467px] p-5 font-display text-[14px] font-medium leading-[1.3] tracking-[0.02em] text-white">{GALLERY.caption}</figcaption>
+      </figure>
+    </section>
+
+    <!-- The work -->
+    <section class="px-margin pt-section lg:pt-[120px]">
+      <div class="lg:w-half">
+        <Heading eyebrow={WORK_INTRO.eyebrow} deco={false}>{WORK_INTRO.heading}</Heading>
+        <p class="t-body mt-loose text-muted">{WORK_INTRO.body}</p>
+      </div>
+    </section>
+
+    <!-- Highlights. Desktop: a 320px phone screen and 434px of copy, centred as a pair. Fixed sizes,
+         so the screens never scale up on big monitors. No rules between rows, so the work reads as one run. -->
+    {HIGHLIGHTS.map((h, i) => {
+      const flip = h.flip ?? i % 2 === 1;
+      return (
+        <section class:list={['px-margin pt-section lg:pt-[120px]', i === HIGHLIGHTS.length - 1 && 'pb-section lg:pb-[120px]']}>
+          <div class="grid gap-large lg:flex lg:items-center lg:justify-center lg:gap-[163px]">
+            <div class:list={['flex flex-col lg:w-[434px] lg:shrink-0', flip && 'lg:order-2']}>
+              <h3 class="font-display text-[length:var(--type-h5)] font-medium leading-[1.3] text-ink lg:text-[length:var(--type-h3)]">
+                <span class="eyebrow">{h.eyebrow}<span class="sr-only">.</span></span>
+                {h.heading}
+              </h3>
+              <p class="t-body mt-loose text-muted">{h.body}</p>
+              {h.link && <div class="mt-loose"><TextLink href={h.link.href}>{h.link.label}</TextLink></div>}
+            </div>
+            <Media
+              media={h.media}
+              sizes="(min-width: 1024px) 320px, 100vw"
+              class:list={['aspect-square w-full max-lg:order-first lg:aspect-[375/820] lg:w-[320px] lg:shrink-0', flip && 'lg:order-1']}
+            />
+          </div>
+        </section>
+      );
+    })}
+
+    <!-- Feature section, part of the work, over a full-bleed photo at least a screen tall -->
+    <section class="relative py-section lg:flex lg:min-h-dvh lg:flex-col lg:justify-center">
+      <div class="absolute inset-0" aria-hidden="true">
+        {FEATURE.background
+          ? <Image src={FEATURE.background} alt="" widths={bgWidths(FEATURE.background, [640, 1024, 1440, 1620])} sizes="100vw" quality={70} class="size-full object-cover" />
+          : <div class="size-full bg-[#6b6b6b]"><span class="t-badge absolute left-5 top-5 text-white">[Photo to come]</span></div>}
+        <div class="absolute inset-0 bg-black/20"></div>
+      </div>
+      <div class="relative grid gap-large px-margin lg:grid-cols-2 lg:gap-gutter">
+        <div class="flex flex-col justify-end pb-loose [&_.eyebrow]:text-ink">
+          <Heading level={3} eyebrow={FEATURE.eyebrow} deco={false}>{FEATURE.heading}</Heading>
+          <p class="t-body mt-loose text-ink">{FEATURE.body}</p>
+          {FEATURE.link && <div class="mt-loose"><TextLink href={FEATURE.link.href}>{FEATURE.link.label}</TextLink></div>}
+        </div>
+        <Media media={FEATURE.media} sizes="(min-width: 1024px) 676px, 100vw" class="aspect-square w-full max-lg:order-first lg:max-w-[676px]" />
+      </div>
+    </section>
+
+    <!-- Testimonial -->
+    {TESTIMONIAL && (
+      <section class="px-margin pt-section lg:pt-[120px]">
+        <div class="border-t border-line pt-section">
+          <div class="lg:w-half"><Heading eyebrow={TESTIMONIAL.eyebrow}>{TESTIMONIAL.heading}</Heading></div>
+          <figure class="mt-gutter flex flex-col gap-gutter">
+            <blockquote class="font-display text-[length:var(--type-h5)] font-medium leading-[1.3] text-ink lg:max-w-[30.3em] lg:text-[length:var(--type-h2)]">“{TESTIMONIAL.quote}”</blockquote>
+            <figcaption class="t-label text-muted">{TESTIMONIAL.cite}</figcaption>
+          </figure>
+        </div>
+      </section>
+    )}
+
+    <!-- More success stories -->
+    <section class="px-margin pt-section pb-section lg:pt-[120px]">
+      <div class="border-t border-line pt-section">
+        <div class="lg:w-half"><Heading eyebrow={MORE.eyebrow}>{MORE.heading}</Heading></div>
+        <ul class="mt-gutter grid grid-cols-2 gap-x-grid gap-y-grid-lg lg:grid-cols-3">
+          {MORE.cards.map((c) => <li><CaseStudyCard {...c} stackMeta /></li>)}
+        </ul>
+      </div>
+    </section>
+
+    <Contact />
+  </main>
+
+</Base>

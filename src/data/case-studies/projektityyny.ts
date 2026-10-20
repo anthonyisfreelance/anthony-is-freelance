@@ -1,0 +1,119 @@
+// Projektityyny case study. Copy from the "Case study copy: Projektityyny" doc (20 October 2026).
+// Photos from Drive (site-images/case-studies/projektityyny). Screens drop in by name: see README.
+import { SERVICE, slot, innovationSlot, innovationLink, photo, photoMedia, card, breadcrumbs, MORE_HEADING, type CaseStudyPageData } from './types';
+import shopByRoom from '../../assets/brands/projektityyny/shop-by-room.jpg';
+import quilts from '../../assets/brands/projektityyny/lifestyle-03.jpg';
+import garden from '../../assets/brands/projektityyny/lifestyle-02.jpg';
+import lampshades from '../../assets/brands/projektityyny/lifestyle-04.jpg';
+
+const B = 'projektityyny';
+const PATH = '/portfolio/projektityyny-shopify-website-design-case-study/';
+
+export const DATA: CaseStudyPageData = {
+  meta: {
+    path: PATH,
+    title: 'Projektityyny Shopify Case Study: Shop by Room or Print',
+    description:
+      'How I designed a bespoke Shopify store for Nordic textiles brand Projektityyny, mobile first, with new routes to shop by product, room or print.',
+    breadcrumbs: breadcrumbs('Projektityyny', PATH),
+  },
+  // [CONFIRM] store URL
+  client: { name: 'Projektityyny', url: 'https://projektityyny.com/', display: 'projektityyny.com' },
+  hero: {
+    eyebrow: 'Projektityyny Shopify case study',
+    heading: 'Shop by product, room or print',
+    standfirst:
+      'Projektityyny is a Nordic home textiles brand known for its patchwork quilts, with more than 115,000 followers on Instagram and features in Vogue, Elle Decoration and House & Garden. I designed its bespoke Shopify store mobile first, with the brand’s photography leading every page.',
+    image: photoMedia(B, 'hero'),
+  },
+  brief: {
+    eyebrow: 'The brief',
+    heading: 'A store as considered as the quilts',
+    body: [
+      'The Projektityyny brief was a bespoke Shopify store for a brand that had outgrown its old one. The product and the photography were already beautiful. The store wasn’t keeping up.',
+      'The old site dropped customers into collections and left them to filter. The job was to open up the range, let the photography lead and give the team a system to grow with.',
+    ],
+  },
+  details: {
+    sector: 'Home',
+    services: [SERVICE.bespoke],
+    live: '5 June 2026',
+    liveIso: '2026-06-05',
+    // No Results row until there's a verified figure with a window.
+    rows: [{ label: 'Designed for', value: 'Over 80% of visitors on mobile, from the UX review of the old store.' }],
+  },
+  showcase: {
+    label: 'Projektityyny screens',
+    background: photo(B, 'showcase-photo', lampshades),
+    desktop: slot(B, 'showcase-desktop', 'The Projektityyny store on desktop: the homepage hero and the image-led category blocks.', 'Desktop homepage scroll'),
+    phones: [
+      slot(B, 'showcase-phone-1', 'The Projektityyny homepage on mobile.', 'Homepage'),
+      slot(B, 'showcase-phone-2', 'The Projektityyny all-products collection on mobile.', 'All-products collection'),
+      slot(B, 'showcase-phone-3', 'Projektityyny search on mobile.', 'Search'),
+      slot(B, 'showcase-phone-4', 'The Projektityyny basket on mobile.', 'Basket'),
+    ],
+  },
+  workIntro: {
+    eyebrow: 'The work',
+    heading: 'Five decisions behind the store',
+    body: 'The Projektityyny work started with a UX review of the old store, before any design. The review showed who was shopping and how, and that is where the concepts started.',
+  },
+  highlights: [
+    {
+      eyebrow: 'Shopify UX review',
+      heading: 'Start with where people shop.',
+      body: 'The Shopify UX review mapped the whole purchase journey and the GA4 data. Over 80% of visitors were on a phone, so every screen was designed mobile first, then scaled up to desktop.',
+      media: slot(B, 'work-01', 'The Projektityyny mobile menu, with routes to shop by product, room, print and colour, and search.', 'The main mobile menu'),
+    },
+    {
+      eyebrow: 'Shopify navigation design',
+      heading: 'Shop the way people think about home.',
+      body: 'Shopify navigation design gives Projektityyny three image-led routes in: by product, by room and by print. Each leads to its own page, so the menu becomes the start of shopping, not a list of links.',
+      link: innovationLink('See shop by product, room or print', 'shop-by-product-room-print'),
+      media: (() => {
+        const m = innovationSlot('shop-by-product-room-print', 'Shop by room on the Projektityyny mobile menu: nursery, children’s bedroom, adult bedroom and dining room.', 'The navigation recording');
+        return { ...m, image: m.image ?? shopByRoom };
+      })(),
+    },
+    {
+      eyebrow: 'Shopify homepage design',
+      heading: 'Let the photography lead.',
+      body: 'Shopify homepage design at Projektityyny puts full-bleed photography, considered pacing and generous space first. The design never competes with the prints. It frames them.',
+      media: slot(B, 'work-03', 'Projektityyny’s image-led homepage blocks scrolling on mobile.', 'The image-led recording'),
+    },
+    {
+      eyebrow: 'Shopify lookbook design',
+      heading: 'Keep every collection earning.',
+      body: 'Shopify lookbook pages keep every past Projektityyny collection live and shoppable. The campaign photography stays as a brand archive, and the pages keep bringing in search traffic after the season ends.',
+      link: innovationLink('See a lookbook archive that keeps earning', 'lookbook-archive'),
+      media: innovationSlot('lookbook-archive', 'A Projektityyny lookbook on mobile, with shoppable image tiles and product tags.', 'The lookbook recording'),
+    },
+    {
+      eyebrow: 'Shopify product page design',
+      heading: 'Styling advice, not random picks.',
+      body: 'Shopify product page design at Projektityyny curates what goes with each quilt, and lets customers shop the same colour or print. It reads like styling advice from the brand, not a sales tactic.',
+      media: slot(B, 'work-05', 'A Projektityyny quilt product page on mobile, with the goes well with row.', 'The product page recording'),
+    },
+  ],
+  gallery: {
+    label: 'More Projektityyny screens',
+    screens: [
+      slot(B, 'gallery-1', 'The Projektityyny journal on mobile.', 'Journal'),
+      slot(B, 'gallery-2', 'A Projektityyny journal article on mobile.', 'Journal article'),
+      slot(B, 'gallery-3', 'The Projektityyny shop by room carousel on mobile.', 'Shop by room carousel'),
+      slot(B, 'gallery-4', 'The Projektityyny category blocks on mobile.', 'Category blocks'),
+      slot(B, 'gallery-5', '', 'Fifth screen'), // [CONFIRM] a fifth screen used nowhere else
+    ],
+    photo: { image: photo(B, 'gallery-photo', garden), alt: '' },
+    caption: 'Projektityyny on mobile: the journal, shop by room and the category blocks that open up the range.',
+  },
+  feature: {
+    background: photo(B, 'feature-photo', quilts),
+    eyebrow: 'Shopify design system',
+    heading: 'Restraint that lets the prints lead.',
+    body: 'Projektityyny’s design system pulls back anything that competes with the product: tighter type, deliberate spacing and room to breathe. Colour contrast and type sizes were set for accessibility from the start, and every screen was handed over in Figma.',
+    media: slot(B, 'feature', 'A Projektityyny screen on mobile in the design system.', 'Design system screen'),
+  },
+  // No quote yet: ask Projektityyny, or the agency if the work came through one. The page goes live either way.
+  more: { ...MORE_HEADING, cards: [card('Drink Finder'), card('East at Home'), card('Fuzzball')] },
+};

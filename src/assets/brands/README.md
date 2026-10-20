@@ -30,6 +30,24 @@ Until the still is there, the entry shows an empty phone with "Recording to come
 | fuzzball | subscription-only-cards, trial-subscription-split, progress-bar-with-character |
 | window-fleur | three-pages-one-screen |
 
+## Case study pages: drop in, no code
+
+Every case study page renders from `src/data/case-studies/<client>.ts` through one template (the Drink Finder layout). Until a file is there, its spot shows a grey placeholder naming what goes in it. Drop a file in under these names and the page picks it up on the next build:
+
+| File name | Where it shows |
+| --- | --- |
+| `hero` | The photo beside the headline |
+| `showcase-photo` | The full-bleed photo behind the desktop and phone screens |
+| `showcase-desktop` | The desktop screen (916:518) |
+| `showcase-phone-1` to `-4` | The four phones under it (293:567) |
+| `gallery-photo` | The sticky photo beside the scrolling screens |
+| `gallery-1` to `-5` | The five scrolling screens |
+| `work-01`, `work-02`... | The screen beside each work row, in page order (375:820) |
+| `feature-photo` | The full-bleed photo behind the feature section |
+| `feature` | The screen in the feature section (square) |
+
+Stills go in `src/assets/brands/<brand>/` (.jpg, .png or .webp). A recording with the same name in `public/video/<brand>/` plays over its still. Rows that link to an innovation use that innovation's still and recording instead (see above), so one file fills both pages. The order of the screens and which photo goes where are in each client's case study copy doc.
+
 ## Other images
 
 Elsewhere, pages import an image by its path, so replacing a file with one of the **same name** updates every page that uses it. A new image needs one line in the page's data file, so ask Claude to wire it in.
