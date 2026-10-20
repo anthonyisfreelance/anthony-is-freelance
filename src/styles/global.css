@@ -462,6 +462,38 @@ dialog[data-project-dialog]:not([open])::backdrop {
   from { opacity: 0; translate: 0 12px; }
 }
 
+/* Header that comes back on scroll up (script in Header.astro). It returns fixed to the top,
+   easing in slowly from above the screen, and leaves a little quicker on scroll down. Over a hero
+   photo on desktop only the copy half is solid: the photo half is clear down to the photo's
+   bottom edge (--img-bottom), then solid, so the photo is never cut by a dark bar. */
+[data-header][data-fixed] {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 45;
+  background: var(--c-surface);
+  translate: 0 -100%;
+}
+[data-header][data-fixed][data-shown] {
+  translate: 0 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  [data-header][data-fixed][data-animate] {
+    transition: translate 350ms cubic-bezier(0.55, 0, 1, 0.45);
+  }
+  [data-header][data-fixed][data-animate][data-shown] {
+    transition: translate 800ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+}
+@media (min-width: 1024px) {
+  [data-header][data-fixed][data-half]:not([data-open]) {
+    background:
+      linear-gradient(var(--c-surface), var(--c-surface)) right / calc(50% + var(--page-gutter) / 2) 100% no-repeat,
+      linear-gradient(to bottom, transparent var(--img-bottom, 100%), var(--c-surface) 0) left / calc(50% - var(--page-gutter) / 2) 100% no-repeat;
+  }
+}
+
 /* Big screens. Up to 1920px everything is exactly as designed. From 1920 to 2560 every heading
    size (H1 to H6, card titles and the big numbers) grows with the screen, up to a third bigger at
    2560, so headings keep their weight next to the images. Body copy, buttons and logos stay the

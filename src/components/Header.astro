@@ -4,6 +4,10 @@
 // Nav titles are links to their landing pages; hover opens the mega menu, and a small
 // button after each title (shown on keyboard focus) opens it for keyboard users.
 // Phones get Menu, which opens the full-screen menu in MobileMenu.astro.
+// Scrolling: the header scrolls away with the page and comes back, fixed to the top, once the
+// visitor has scrolled up for a fifth of a second (a nudge doesn't count). Scrolling down sends it
+// away again. Over a hero photo (overlay pages, desktop) only the copy half is solid; the photo
+// half stays clear wherever the photo is beneath it. Styles are in global.css.
 import MegaMenu from './MegaMenu.astro';
 import MobileMenu from './MobileMenu.astro';
 import { MEGA, URLS } from '../data/site';
@@ -19,6 +23,7 @@ const triggers = [
 ---
 <header
   data-header
+  data-overlay={overlay ? '' : undefined}
   class:list={[
     'relative z-20 w-full bg-surface p-margin lg:py-[40px]',
     overlay && 'lg:absolute lg:left-0 lg:right-0 lg:bg-transparent lg:data-[open]:bg-surface',
@@ -145,5 +150,106 @@ const triggers = [
     header.addEventListener('focusout', function (e) {
       if (e.relatedTarget && !header.contains(e.relatedTarget)) close();
     });
+  })();
+</script>
+
+<script is:inline>
+  (function () {
+    var header = document.querySelector('[data-header]');
+    if (!header) return;
+    var image; // the hero photo comes after this script, so it's found on first use
+    var overlay = header.hasAttribute('data-overlay');
+    var desktop = window.matchMedia('(min-width: 1024px)');
+
+    // DELAY: how long the visitor must keep scrolling up before the header returns.
+    // MIN_UP: and how far, so a single small nudge never brings it back.
+    var DELAY = 200, MIN_UP = 40, GAP = 300;
+    var fixed = false, shown = false, spacer = null;
+    var top = 0, bottom = 0, lastY = window.scrollY;
+    var upStart = 0, upFrom = 0, lastUp = 0, timer = null, quietUntil = 0, ticking = false;
+
+    function measure() {
+      var r = header.getBoundingClientRect();
+      top = r.top + window.scrollY;
+      bottom = r.bottom + window.scrollY;
+    }
+    function half() {
+      if (image === undefined) image = document.querySelector('[data-header-image]');
+      var b = fixed && overlay && image && desktop.matches ? image.getBoundingClientRect().bottom : 0;
+      if (b > 0) {
+        header.setAttribute('data-half', '');
+        header.style.setProperty('--img-bottom', Math.ceil(b) + 'px');
+      } else header.removeAttribute('data-half');
+    }
+    function fix() {
+      // In-flow headers leave a spacer behind so the page doesn't jump up.
+      if (getComputedStyle(header).position !== 'absolute') {
+        if (!spacer) { spacer = document.createElement('div'); spacer.setAttribute('aria-hidden', 'true'); header.before(spacer); }
+        spacer.style.height = header.offsetHeight + 'px';
+        spacer.hidden = false;
+      }
+      header.setAttribute('data-fixed', '');
+      fixed = true;
+      half();
+      header.offsetHeight; // start from just above the screen, then animate down
+      header.setAttribute('data-animate', '');
+    }
+    function unfix() {
+      ['data-fixed', 'data-animate', 'data-shown', 'data-half'].forEach(function (a) { header.removeAttribute(a); });
+      if (spacer) spacer.hidden = true;
+      fixed = shown = false;
+    }
+    function show() {
+      if (shown) return;
+      if (!fixed) fix();
+      shown = true;
+      header.setAttribute('data-shown', '');
+    }
+    function hide() {
+      if (!shown) return;
+      shown = false;
+      header.removeAttribute('data-shown');
+    }
+    function resetRun() { upStart = 0; clearTimeout(timer); timer = null; }
+    function tryShow() {
+      if (!upStart || Date.now() < quietUntil) return;
+      if (Date.now() - upStart >= DELAY && upFrom - window.scrollY >= MIN_UP) { resetRun(); show(); }
+    }
+
+    function update() {
+      ticking = false;
+      var y = window.scrollY, dy = y - lastY, now = Date.now();
+      lastY = y;
+      if (!fixed) measure();
+      // Back at the top, or hidden as the header's own place comes into view: hand back to the
+      // header in its normal place (it lines up exactly, so nothing jumps).
+      if (fixed && (y <= top || (!shown && y < bottom))) { unfix(); measure(); }
+      if (fixed) half();
+      if (dy > 0) { resetRun(); hide(); return; }
+      if (dy === 0 || shown || y < bottom) { if (y < bottom) resetRun(); return; }
+      if (!upStart || now - lastUp > GAP) {
+        resetRun();
+        upStart = now;
+        upFrom = y - dy;
+        timer = setTimeout(tryShow, DELAY);
+      }
+      lastUp = now;
+      tryShow();
+    }
+
+    window.addEventListener('scroll', function () {
+      if (!ticking) { ticking = true; requestAnimationFrame(update); }
+    }, { passive: true });
+    window.addEventListener('resize', function () { if (!fixed) measure(); else half(); });
+
+    // Jumping to a heading on the page shouldn't bring the header down over it.
+    document.addEventListener('click', function (e) {
+      var a = e.target.closest && e.target.closest('a[href*="#"]');
+      if (a && a.pathname === location.pathname) { quietUntil = Date.now() + 1000; resetRun(); hide(); }
+    });
+    // Keyboard users tabbing into the hidden header bring it back.
+    header.addEventListener('focusin', function () { if (fixed) show(); });
+
+    measure();
   })();
 </script>
