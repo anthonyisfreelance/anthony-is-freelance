@@ -4,6 +4,7 @@ import AnnouncementBar from '../components/AnnouncementBar.astro';
 import Footer from '../components/Footer.astro';
 import StickyCta from '../components/StickyCta.astro';
 import ProjectDialog from '../components/ProjectDialog.astro';
+import ConsentBanner from '../components/ConsentBanner.astro';
 
 interface Props {
   title: string;
@@ -38,6 +39,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <Footer />
     <StickyCta />
     <ProjectDialog />
+    <ConsentBanner />
     <script is:inline>
       // Screen recordings (video[data-autoplay]) play while on screen and pause off it. Nothing
       // downloads until a video is first in view. Reduced motion and Save-Data keep the still;

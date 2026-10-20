@@ -1,0 +1,81 @@
+---
+// Cookie consent for analytics (GA4, to be loaded through Cloudflare Zaraz).
+// Shown until the visitor chooses. Accept and Reject look the same and sit side by side,
+// because the ICO expects rejecting to be as easy as accepting. Nothing that sets a cookie
+// should load before Accept. The choice is kept in localStorage (no cookie of our own) for
+// six months, then the visitor is asked again. "Cookie settings" in the footer reopens it.
+//
+// For analytics code: read window.aifConsent ('granted', 'denied' or null), and listen for the
+// 'consentchange' event on window. If Zaraz is running, the choice is passed to its consent API.
+//
+// Fixed to the bottom of the screen, so it never shifts the page. It starts hidden and the script
+// below shows it before first paint when no choice has been made.
+const button = 't-button inline-flex h-[34px] flex-1 cursor-pointer items-center justify-center whitespace-nowrap bg-white px-[14px] text-[#111] [text-box:trim-both_cap_alphabetic] hover:opacity-90 sm:flex-none';
+---
+<section
+  id="consent"
+  data-consent
+  hidden
+  aria-labelledby="consent-title"
+  class="fixed inset-x-0 bottom-0 z-50 border-t border-line bg-surface px-margin pb-[max(16px,env(safe-area-inset-bottom))] pt-4 lg:inset-x-auto lg:bottom-margin lg:left-margin lg:w-[440px] lg:border lg:p-large"
+>
+  <h2 id="consent-title" class="t-button-lg text-ink">Cookies</h2>
+  <p class="t-small mt-2 text-muted">
+    I use analytics cookies to see how people find and use this site. Nothing is tracked unless you accept.
+    <!-- [CONFIRM] link to the privacy and cookie notice once that page exists. -->
+  </p>
+  <div class="mt-4 flex gap-3">
+    <button type="button" data-consent-choice="granted" class={button}>Accept</button>
+    <button type="button" data-consent-choice="denied" class={button}>Reject</button>
+  </div>
+</section>
+
+<script is:inline>
+  (function () {
+    var KEY = 'aif-consent', MAX_AGE = 1000 * 60 * 60 * 24 * 182; // six months
+    var banner = document.getElementById('consent');
+    if (!banner) return;
+
+    function read() {
+      try {
+        var v = JSON.parse(localStorage.getItem(KEY));
+        if (v && (v.analytics === 'granted' || v.analytics === 'denied') && Date.now() - v.t < MAX_AGE) return v.analytics;
+      } catch (e) {}
+      return null;
+    }
+    function apply(state) {
+      window.aifConsent = state;
+      // Cloudflare Zaraz consent API, once Zaraz is set up with consent management.
+      var z = window.zaraz && window.zaraz.consent;
+      if (z && state) {
+        try {
+          z.setAll(state === 'granted');
+          if (state === 'granted') z.sendQueuedEvents();
+        } catch (e) {}
+      }
+      window.dispatchEvent(new CustomEvent('consentchange', { detail: { analytics: state } }));
+    }
+    function choose(state) {
+      try { localStorage.setItem(KEY, JSON.stringify({ analytics: state, t: Date.now() })); } catch (e) {}
+      banner.hidden = true;
+      apply(state);
+    }
+
+    banner.querySelectorAll('[data-consent-choice]').forEach(function (b) {
+      b.addEventListener('click', function () { choose(b.getAttribute('data-consent-choice')); });
+    });
+    // Footer "Cookie settings" (or any [data-consent-open]) shows it again.
+    document.addEventListener('click', function (e) {
+      var t = e.target.closest && e.target.closest('[data-consent-open]');
+      if (!t) return;
+      e.preventDefault();
+      banner.hidden = false;
+      banner.querySelector('[data-consent-choice]').focus();
+    });
+
+    var state = read();
+    window.aifConsent = state;
+    if (state) apply(state);
+    else banner.hidden = false;
+  })();
+</script>
