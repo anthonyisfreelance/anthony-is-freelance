@@ -41,6 +41,21 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <ProjectDialog />
     <ConsentBanner />
     <script is:inline>
+      // Test-site comment tool (public/feedback.js). Loads only after ?feedback has been
+      // visited in this browser, never on anthonyis.uk. ?feedback=off switches it off.
+      (function () {
+        try {
+          if (/(^|\.)anthonyis\.uk$/.test(location.hostname)) return;
+          var q = new URLSearchParams(location.search).get('feedback');
+          if (q === 'off') { localStorage.removeItem('aif-fb'); return; }
+          if (q === null && localStorage.getItem('aif-fb') !== '1') return;
+          var s = document.createElement('script');
+          s.src = '/feedback.js';
+          document.head.appendChild(s);
+        } catch (e) {}
+      })();
+    </script>
+    <script is:inline>
       // Screen recordings (video[data-autoplay]) play while on screen and pause off it. Nothing
       // downloads until a video is first in view. Reduced motion and Save-Data keep the still;
       // videos with controls can still be played by hand. data-fade videos fade in over their still.

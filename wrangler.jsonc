@@ -1,9 +1,14 @@
 {
   // Static site served from Cloudflare Workers static assets.
+  // The worker only runs for /api/* (the test-site comment tool); every other
+  // request goes straight to the files in ./dist.
   "name": "anthony-is-freelance",
   "compatibility_date": "2026-10-18",
+  "main": "./worker/index.js",
   "assets": {
     "directory": "./dist",
-    "not_found_handling": "404-page"
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    "run_worker_first": ["/api/*"]
   }
 }
