@@ -63,7 +63,7 @@ export const BRIEF = {
 };
 
 export const DETAILS = {
-  sector: 'Food & Drink',
+  sector: 'Food & drink',
   services: [
     { label: 'Branding', href: URLS.branding },
     { label: 'Bespoke store design', href: URLS.bespoke },
