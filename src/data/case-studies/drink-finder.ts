@@ -3,6 +3,7 @@
 import { URLS } from '../site';
 import { CASE_STUDIES } from '../work';
 import { COMPARE } from '../innovations';
+import { testimonial, creditLine } from '../testimonials';
 import hero from '../../assets/brands/drink-finder/hero.jpg';
 import badge from '../../assets/brands/drink-finder/badge-winner.png';
 import vineyard from '../../assets/brands/drink-finder/vineyard.jpg';
@@ -95,7 +96,7 @@ export const SHOWCASE = {
 
 export const WORK_INTRO = {
   eyebrow: 'The work',
-  heading: 'Four key highlights that helped get the results',
+  heading: 'Four decisions behind the redesign',
   body: 'The Drink Finder work started with a UX review of the old site, before any design. The review showed which areas to improve, and that is where the concepts started.',
 };
 
@@ -113,18 +114,21 @@ export const HIGHLIGHTS = [
     flip: false,
   },
   {
+    eyebrow: 'Shopify product page design',
     heading: 'Make the saving easy to see.',
     body: "Shopify product page design puts grape, region and vintage next to the bottle. Six and twelve bottle offers are buttons you tap, and the basket shows the next saving. A good offer doesn't need pushing.",
     media: { image: stillPdp, alt: 'A Drink Finder product page, with one, six and twelve bottle offers as buttons above the price.' },
     flip: true,
   },
   {
+    eyebrow: 'Shopify navigation design',
     heading: 'The nav is your site.',
     body: 'I designed Drink Finder’s mobile navigation from scratch, so a customer gets from the home screen to a Spanish Rioja or an organic Cornish wine in a few taps. Search suggests popular searches and bottles before you type.',
     media: { image: navSearch, alt: 'Drink Finder search on mobile, with popular searches and popular products showing before you type.' },
     flip: false,
   },
   {
+    eyebrow: 'Shopify UX review',
     heading: 'Design for what shoppers actually saw.',
     body: 'The Shopify UX review mapped every screen at real phone sizes. Sticky sign-up buttons and a chat widget covered the buttons that mattered, so the offer moved into a notifications button in the header.',
     media: { image: uxHome, alt: 'The Drink Finder homepage on mobile, with nothing covering the buttons.' },
@@ -142,8 +146,8 @@ export const GALLERY = {
     alt: i === 0 ? 'A Drink Finder brand collection page on mobile, with the distillery story above the products.' : '',
   })) as Media[],
   photo: { image: cocktail, alt: '' } as Media,
-  caption:
-    "The Drink Finder homepage on mobile, with search, the menu and the notifications button in a header that never covers what you're trying to tap.",
+  // Describes the screens beside it. [CONFIRM] Rewrite when the five final screens are in.
+  caption: 'Drink Finder brand collection pages on mobile, with each distillery’s story above its bottles.',
 };
 
 export const BRAND = {
@@ -156,9 +160,11 @@ export const BRAND = {
 
 export const TESTIMONIAL = {
   eyebrow: 'Drink Finder testimonial',
+  heading: 'In the client’s words.',
   quote:
     'Our site is a beast handling the distinct functional requirements for wine vs. spirits, managing wholesale and retail channels, and juggling complex shipping metrics. Ant was incredibly accommodating, ensuring the site received a modern upgrade without alienating our core customers. He kept the ‘Drink Finder’ soul intact while significantly smoothing out the user journey. … He didn’t just give us a facelift; he built a platform that performs.',
-  cite: 'Jon Wigmore, Marketing & E-Commerce, Constantine Stores Ltd, home of Drink Finder.',
+  // Name, role and year from the testimonials record, as on the homepage.
+  cite: creditLine(testimonial('drink-finder')),
 };
 
 const pick = (name: string) => {

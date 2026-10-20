@@ -169,7 +169,7 @@ const link = 'underline underline-offset-4 hover:decoration-2';
     <!-- Testimonial -->
     <section class="px-margin pt-section lg:pt-[120px]">
       <div class="border-t border-line pt-section">
-        <h2 class="eyebrow !mb-0" data-deco>{TESTIMONIAL.eyebrow}</h2>
+        <div class="lg:w-half"><Heading eyebrow={TESTIMONIAL.eyebrow}>{TESTIMONIAL.heading}</Heading></div>
         <figure class="mt-gutter flex flex-col gap-gutter">
           <blockquote class="font-display text-[length:var(--type-h5)] font-medium leading-[1.3] text-ink lg:max-w-[30.3em] lg:text-[length:var(--type-h2)]">“{TESTIMONIAL.quote}”</blockquote>
           <figcaption class="t-label text-muted">{TESTIMONIAL.cite}</figcaption>
