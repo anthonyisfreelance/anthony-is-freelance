@@ -80,6 +80,11 @@ const a = ARTICLES_PAGE.author;
     extra={[posting]}
     faqs={faqs}
   />
+  <!-- TEMPORARY: colour comparison. ?look=soft (off-white body) or ?look=light (light article).
+       Remove once the article colour is decided. -->
+  <script is:inline slot="head">
+    (() => { const l = new URLSearchParams(location.search).get('look'); if (l) document.documentElement.dataset.look = l; })();
+  </script>
   <Header />
   <main id="main">
     <article>

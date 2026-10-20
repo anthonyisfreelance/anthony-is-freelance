@@ -501,3 +501,19 @@ dialog[data-project-dialog]:not([open])::backdrop {
     --bar-h: 42px;
   }
 }
+
+/* TEMPORARY: article colour comparison (see articles/[slug].astro). Remove once decided.
+   soft: body copy off-white, headings stay white. light: everything under the header goes light. */
+html[data-look='soft'] .prose-article { color: #e0e0e0; }
+html[data-look='light'] main {
+  --c-surface: #ffffff;
+  --c-text: #111111;
+  --c-muted: #393939;
+  --c-border: #d8d8d8;
+  --c-raised: #f7f7f7;
+  background: var(--c-surface);
+  color: var(--c-text);
+}
+html[data-look='light'] main img[src$='.svg'] { filter: invert(1); }
+html[data-look='light'] main .theme-light img[src$='.svg'] { filter: none; }
+
