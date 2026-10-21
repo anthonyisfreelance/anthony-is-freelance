@@ -13,7 +13,7 @@ interface Props {
   href?: string;
   ratio?: 'square' | 'portrait' | 'portrait-square' | 'square-portrait';
   sizes?: string;
-  stackMeta?: boolean; // small cards stack client and sector on mobile
+  stackMeta?: boolean | 'always'; // small cards stack client and sector on mobile; 'always' at every size (four-up grids)
   eager?: boolean;
   proof?: string; // service page proof sections add the proof line under the claim
 }
@@ -37,13 +37,16 @@ const aspect = { square: 'aspect-square', portrait: 'aspect-[4/5]', 'portrait-sq
       </div>
     )}
   </div>
-  <div class:list={['flex flex-col', stackMeta ? 'gap-2 lg:gap-3' : 'gap-3']}>
+  <div class:list={['flex flex-col', stackMeta === 'always' ? 'gap-2' : stackMeta ? 'gap-2 lg:gap-3' : 'gap-3']}>
     <p
-      class:list={['t-badge flex border-b border-line text-muted', stackMeta ? 'flex-col gap-1 py-2 lg:flex-row lg:gap-2 lg:py-3' : 'gap-2 py-3']}
+      class:list={[
+        't-badge flex border-b border-line text-muted',
+        stackMeta === 'always' ? 'flex-col gap-1 py-2' : stackMeta ? 'flex-col gap-1 py-2 lg:flex-row lg:gap-2 lg:py-3' : 'gap-2 py-3',
+      ]}
       aria-hidden="true"
     >
       <span class="flex-1">{client}</span>
-      <span class:list={['flex-1', stackMeta ? 'lg:text-right' : 'text-right']}>{meta}</span>
+      <span class:list={['flex-1', stackMeta === 'always' ? '' : stackMeta ? 'lg:text-right' : 'text-right']}>{meta}</span>
     </p>
     <h3 class="t-h6 text-ink">
       {href ? (

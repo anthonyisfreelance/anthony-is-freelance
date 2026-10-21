@@ -1,18 +1,41 @@
 ---
+// Client logos (Figma "Logo list"): white, no boxes. Five a row on desktop, four on phones (first 8 only).
+// Every logo is sized to the same visual weight: a wide wordmark gets more width and less height than a
+// compact mark, capped to its cell. The ratio comes from each SVG's viewBox.
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import Heading from '../Heading.astro';
 import { BRANDS } from '../../data/home';
+
+const AREA = { mobile: 1500, desktop: 3600 }; // px² of artwork per logo
+const logos = BRANDS.logos.map((l) => {
+  const svg = readFileSync(join(process.cwd(), 'public/logos', `${l.slug}.svg`), 'utf8');
+  const [, , w, h] = svg.match(/viewBox="([^"]+)"/)![1].split(/[\s,]+/).map(Number);
+  const ratio = w / h;
+  const width = (area: number) => Math.round(Math.sqrt(area * ratio));
+  return { ...l, ratio, w: Math.round(w * 10), h: Math.round(h * 10), mobile: width(AREA.mobile), desktop: width(AREA.desktop) };
+});
 ---
 <section class="px-margin pt-section-sm lg:pt-section-pre">
   <div class="gap-gutter border-t border-line pt-section lg:flex lg:pt-section-sm">
     <div class="flex flex-1 flex-col gap-loose">
       <Heading eyebrow={BRANDS.eyebrow}>{BRANDS.heading}</Heading>
-      <!-- Logos are images, so this line is what names the clients for search and AI tools. -->
+      <!-- The logos are images, so this line is what names the clients for search and AI tools. -->
       <p class="t-body text-muted lg:max-w-[560px]">{BRANDS.line}</p>
     </div>
-    <!-- Logo files to come: names stand in for now -->
-    <ul class="mt-large grid flex-1 grid-cols-4 gap-grid lg:mt-0 lg:grid-cols-5">
-      {BRANDS.logos.map((name) => (
-        <li class="flex h-[60px] items-center justify-center border border-dashed border-line px-1 text-center text-[11px] font-display uppercase leading-tight text-muted lg:t-badge lg:h-[100px]">{name}</li>
+    <ul class="mt-large grid flex-1 grid-cols-4 gap-x-grid lg:mt-0 lg:grid-cols-5 lg:content-center">
+      {logos.map((l, i) => (
+        <li class:list={['flex h-[60px] items-center justify-center lg:h-[100px]', i > 7 && 'max-lg:hidden']}>
+          <img
+            src={`/logos/${l.slug}.svg`}
+            alt={l.name}
+            width={l.w}
+            height={l.h}
+            loading="lazy"
+            style={`--wm:${l.mobile}px;--wd:${l.desktop}px`}
+            class="h-auto w-[var(--wm)] max-w-full lg:w-[var(--wd)]"
+          />
+        </li>
       ))}
     </ul>
   </div>

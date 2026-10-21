@@ -1,0 +1,62 @@
+---
+// A muted looping video over its own still, for page heroes (the homepage reel has its own, Showreel.astro).
+// The still paints first and is the LCP image. The video loads only after the page has finished, picks
+// the desktop or phone file and AV1 where the browser plays it, fades in over the still, and is skipped
+// for reduced motion and Save-Data. Files: public/video/<folder>/<name>-{desktop,mobile}{,-av1}.mp4.
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import { versioned } from '../data/media';
+interface Props {
+  poster: ImageMetadata;
+  base: string; // e.g. '/video/services/service-hero'
+  widths?: number[];
+  sizes?: string;
+  class?: string; // on the still and the video, e.g. an object position
+}
+const { poster, base, widths = [480, 960, 1400, 1920], sizes = '100vw', class: className = '' } = Astro.props;
+const src = (size: string, av1: boolean) => versioned(`${base}-${size}${av1 ? '-av1' : ''}.mp4`);
+---
+<Image src={poster} alt="" widths={widths} sizes={sizes} loading="eager" fetchpriority="high" quality={75} class:list={['absolute inset-0 size-full object-cover', className]} />
+<video
+  data-loop-video
+  data-desktop={src('desktop', false)}
+  data-desktop-av1={src('desktop', true)}
+  data-mobile={src('mobile', false)}
+  data-mobile-av1={src('mobile', true)}
+  class:list={['absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-500', className]}
+  muted
+  loop
+  playsinline
+  preload="none"
+  aria-hidden="true"
+  tabindex="-1"
+></video>
+<!-- It loops for longer than five seconds, so it can be paused (WCAG 2.2.2), as on the homepage reel. -->
+<button
+  type="button"
+  data-loop-toggle
+  hidden
+  class="t-button absolute bottom-3 right-3 z-10 bg-[#111]/70 px-2 py-1 text-white hover:bg-[#111]"
+>Pause</button>
+<script is:inline>
+  (function () {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var c = navigator.connection;
+    if (c && (c.saveData || /2g/.test(c.effectiveType || ''))) return;
+    function start() {
+      document.querySelectorAll('video[data-loop-video]:not([src])').forEach(function (v) {
+        var size = window.matchMedia('(min-width: 1024px)').matches ? 'desktop' : 'mobile';
+        var av1 = v.canPlayType('video/mp4; codecs="av01.0.05M.08"');
+        v.src = v.getAttribute('data-' + size + (av1 ? '-av1' : ''));
+        var btn = v.parentElement.querySelector('[data-loop-toggle]');
+        v.addEventListener('playing', function () { v.style.opacity = '1'; if (btn) btn.hidden = false; }, { once: true });
+        if (btn) btn.addEventListener('click', function () {
+          if (v.paused) { v.play(); btn.textContent = 'Pause'; } else { v.pause(); btn.textContent = 'Play'; }
+        });
+        v.play().catch(function () {});
+      });
+    }
+    if (document.readyState === 'complete') setTimeout(start, 200);
+    else window.addEventListener('load', function () { setTimeout(start, 200); });
+  })();
+</script>

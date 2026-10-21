@@ -29,7 +29,7 @@ const odd = items.length % 2 === 1;
       ]}
     >
       {t.google && <img src="/icons/google-g.png" alt="Google" width="25" height="25" class="size-[25px] shrink-0" loading="lazy" />}
-      <span>{t.stars && <span aria-hidden="true">★★★★★ </span>}{t.text}{t.srText && <span class="sr-only">{t.srText}</span>}</span>
+      <span>{t.stars && <span aria-hidden="true" class="font-serif">★★★★★ </span>}{t.text}{t.srText && <span class="sr-only">{t.srText}</span>}</span>
     </li>
   ))}
 </ul>

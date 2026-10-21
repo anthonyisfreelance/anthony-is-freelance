@@ -91,18 +91,19 @@ export const BRANDS = {
   heading: 'Brands that trust me',
   // [DRAFT] reword in your voice, and [CONFIRM] all four are cleared to name.
   line: "I've designed for Dyson, Wrangler, Drink Finder and East at Home, with no set style and no favoured sector.",
-  // Logo files to come. Order from the copy doc.
+  // White logos in public/logos/<slug>.svg (from Drive client-logos). Figma: five a row on desktop (10),
+  // four a row on phones (the first 8). Thameen London and Projektityyny come back when their logos are in.
   logos: [
-    'Dyson',
-    'Wrangler',
-    'Drink Finder',
-    'East at Home',
-    'Thameen London',
-    'Projektityyny',
-    'Fuzzball',
-    'Wide Fit Shoes',
-    'Whistlefish',
-    'Dr Lipp',
+    { name: 'Dyson', slug: 'dyson' },
+    { name: 'Wrangler', slug: 'wrangler' },
+    { name: 'Drink Finder', slug: 'drink-finder' },
+    { name: 'East at Home', slug: 'east-at-home' },
+    { name: 'Fuzzball', slug: 'fuzzball' },
+    { name: 'Wide Fit Shoes', slug: 'wide-fit-shoes' },
+    { name: 'Dr Lipp', slug: 'dr-lipp' },
+    { name: 'Window Fleur', slug: 'window-fleur' },
+    { name: 'Hartnack & Co', slug: 'hartnack-and-co' },
+    { name: 'Whistlefish', slug: 'whistlefish' },
   ],
 };
 
@@ -216,11 +217,11 @@ export const TESTIMONIALS = {
     { label: 'Read my Google reviews', href: ENTITY.googleReviews, external: true },
   ],
   // Excerpts copied word for word from the testimonials record, each linking to its full quote.
-  // Phones show the first two. Logos to come for Drink Finder and Zen Maitri.
+  // Phones show the first two. Logo to come for Zen Maitri.
   quotes: (
     [
-      ['east-at-home', 'He was a joy to work with, a true craftsman who takes pride in his work with expert knowledge and delivers amazing results.', '/icons/logo-east-at-home.svg'],
-      ['drink-finder', "He didn't just give us a facelift; he built a platform that performs.", null],
+      ['east-at-home', 'He was a joy to work with, a true craftsman who takes pride in his work with expert knowledge and delivers amazing results.', '/logos/east-at-home.svg'],
+      ['drink-finder', "He didn't just give us a facelift; he built a platform that performs.", '/logos/drink-finder.svg'],
       ['zen-maitri', 'He has an incredible eye for design and functionality, two skills that you rarely find in the same person.', null],
     ] as const
   ).map(([id, quote, logo]) => ({ quote, cite: creditLine(testimonial(id)), logo, href: `${URLS.testimonials}#${id}` })),

@@ -10,7 +10,7 @@ import SectionIntro from './SectionIntro.astro';
 import TextLink from './TextLink.astro';
 import CaseStudyCard from './CaseStudyCard.astro';
 import ScreenTile from './ScreenTile.astro';
-import { COMPARE } from '../data/innovations';
+import { INNOVATIONS_LIST } from '../data/innovations';
 import TrustTiles from './TrustTiles.astro';
 import ServiceExtra from './ServiceExtra.astro';
 import Faqs from './home/Faqs.astro';
@@ -72,7 +72,7 @@ const cell = 't-label tracking-[0.02em]';
           <p class="t-body mt-loose text-muted lg:max-w-[676px]">{p.hero.intro}</p>
           <div class="mt-large lg:mt-[38px]"><TextLink href={p.hero.cta.href}>{p.hero.cta.label}</TextLink></div>
         </div>
-        <figure class="flex flex-col gap-[10px]">
+        <div>
           {p.hero.image ? (
             <div class="relative aspect-[4/3] overflow-hidden bg-line lg:aspect-auto lg:h-[450px]">
               <Image src={p.hero.image} alt={p.hero.imageAlt ?? ''} widths={[400, 700, 1000, 1400]} sizes="(min-width: 1024px) 48vw, calc(100vw - 32px)" quality={75} loading="eager" fetchpriority="high" class="absolute inset-0 size-full object-cover" />
@@ -80,8 +80,7 @@ const cell = 't-label tracking-[0.02em]';
           ) : (
             <div class="aspect-[4/3] lg:aspect-auto lg:h-[450px] grid place-items-center bg-line"><span class="t-badge text-muted">[Lead work to come]</span></div>
           )}
-          <figcaption class="t-label tracking-[0.02em] text-muted">{p.hero.caption}</figcaption>
-        </figure>
+        </div>
       </div>
     </section>
 
@@ -117,9 +116,9 @@ const cell = 't-label tracking-[0.02em]';
           <h2 class="t-h2 text-ink lg:w-half">{p.proof.heading}</h2>
           {p.proof.link && <TextLink href={p.proof.link.href}>{p.proof.link.label}</TextLink>}
         </div>
-        <ul class="mt-gutter grid gap-x-grid gap-y-gutter lg:grid-cols-2">
+        <ul class="mt-gutter grid grid-cols-2 gap-x-grid gap-y-large lg:grid-cols-4">
           {p.proof.cards.map((c) => (
-            <li><CaseStudyCard {...c} ratio="portrait" sizes="(min-width: 1024px) 48vw, calc(100vw - 32px)" /></li>
+            <li><CaseStudyCard {...c} ratio="portrait" stackMeta="always" sizes="(min-width: 1024px) 23vw, calc(50vw - 24px)" /></li>
           ))}
         </ul>
       </div>
@@ -139,7 +138,7 @@ const cell = 't-label tracking-[0.02em]';
               <h3 class="t-h6 text-ink">{r.situation}</h3>
               <p class="t-body text-muted">{r.body}</p>
               {r.links.length > 0 && (
-                <p class="flex flex-wrap gap-x-grid gap-y-2 border-t border-line pt-4">
+                <p class="flex flex-wrap gap-x-grid gap-y-2">
                   {r.links.map((l) => <TextLink href={l.href}>{l.label}</TextLink>)}
                 </p>
               )}
@@ -158,7 +157,7 @@ const cell = 't-label tracking-[0.02em]';
           <div class="lg:w-half lg:shrink-0"><Heading eyebrow={p.process.eyebrow}>{p.process.heading}</Heading></div>
           <p class="t-body flex-1 text-muted">{p.process.intro}</p>
         </div>
-        <ol class="mt-gutter grid grid-cols-1 gap-x-gutter gap-y-large sm:grid-cols-2 lg:grid-cols-4">
+        <ol class="mt-gutter grid grid-cols-2 gap-x-grid gap-y-large lg:grid-cols-4 lg:gap-large">
           {p.process.steps.map((s, i) => (
             <li class="flex flex-col gap-4 border-t border-line pr-grid pt-loose">
               <span class="t-number" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>
@@ -182,16 +181,25 @@ const cell = 't-label tracking-[0.02em]';
             {p.innovations.intro && <p class="t-body mt-loose text-muted">{p.innovations.intro}</p>}
           </div>
           <ul class="mt-gutter grid gap-x-grid gap-y-gutter sm:grid-cols-3">
-            {p.innovations.items.map((it) => (
-              <li class="flex flex-col">
-                {/* Every tile shows the Drink Finder comparison recording for now; per-item screens to come. */}
-                <ScreenTile screen={COMPARE.poster} video={COMPARE.video} sizes="(min-width: 1024px) 16vw, (min-width: 640px) 16vw, 50vw" />
+            {p.innovations.items.map((it) => {
+              // Matched to its innovation record by name; an item without one shows an empty phone.
+              const rec = INNOVATIONS_LIST.find((r) => r.name === it.title);
+              return (
+              <li class:list={['flex flex-col', rec && 'hover-card relative']}>
+                <ScreenTile screen={rec?.poster ?? it.screen} video={rec?.video ?? it.video} alt={rec?.alt} anchor={rec?.anchor} sizes="(min-width: 640px) 16vw, 50vw" />
                 <div class="flex flex-col gap-3 pt-grid">
-                  <h3 class="t-h6 text-ink"><span class="sr-only">{it.client}. </span>{it.title}</h3>
+                  <h3 class="t-h6 text-ink">
+                    {rec ? (
+                      <a href={`${URLS.innovations}#${rec.slug}`} class="stretched-link link-hover"><span class="sr-only">{it.client}. </span>{it.title}</a>
+                    ) : (
+                      <><span class="sr-only">{it.client}. </span>{it.title}</>
+                    )}
+                  </h3>
                   <p class="t-body text-muted">{it.body}</p>
                 </div>
               </li>
-            ))}
+              );
+            })}
           </ul>
         </div>
       </section>
@@ -326,7 +334,7 @@ const cell = 't-label tracking-[0.02em]';
           <SectionIntro eyebrow={p.articles.eyebrow} heading={p.articles.heading}>
             <TextLink slot="links" href={p.articles.link.href}>{p.articles.link.label}</TextLink>
           </SectionIntro>
-          <ul class="mt-loose grid gap-x-4 gap-y-large sm:grid-cols-2">
+          <ul class="mt-grid-lg grid grid-cols-2 gap-x-grid gap-y-large lg:grid-cols-4">
             {p.articles.items.map((a) => (
               <li>
                 <article class="hover-card relative flex flex-col">

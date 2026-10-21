@@ -3,8 +3,7 @@ import { Image } from 'astro:assets';
 import SectionIntro from '../SectionIntro.astro';
 import TextLink from '../TextLink.astro';
 import { SERVICES } from '../../data/home';
-// Whistlefish (live work only, 18 October 2026). Swap for a final image when ready.
-import image from '../../assets/brands/whistlefish/apron.jpg';
+import image from '../../assets/site/services-section.jpg';
 ---
 <section class="px-margin pt-section-pre lg:px-0">
   <div class="grid gap-gutter lg:grid-cols-2">
@@ -28,8 +27,8 @@ import image from '../../assets/brands/whistlefish/apron.jpg';
         ))}
       </ul>
     </div>
-    <div class="relative order-first mb-[16px] aspect-[3/2] lg:sticky lg:aspect-[4/5] lg:top-0 lg:order-none lg:mb-0 lg:self-start">
-      <Image src={image} alt="" widths={[400, 750, 1000, 1400]} sizes="(min-width: 1024px) 49vw, 100vw" class="absolute inset-0 size-full object-cover" />
+    <div class="relative order-first mb-[16px] aspect-[3/2] overflow-hidden lg:sticky lg:top-0 lg:order-none lg:mb-0 lg:aspect-auto lg:h-dvh lg:self-start">
+      <Image src={image} alt="" widths={[400, 750, 1000, 1154]} sizes="(min-width: 1024px) 50vw, calc(100vw - 32px)" class="absolute inset-0 size-full object-cover object-[50%_30%]" />
     </div>
   </div>
 </section>

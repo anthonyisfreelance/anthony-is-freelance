@@ -2,8 +2,8 @@
 // page-copy/services-hub.md where Figma has placeholders or out-of-date facts.
 import { URLS } from './site';
 
-// Drink Finder (live work only, 18 October 2026). Swap for a final image when ready.
-import hero from '../assets/brands/drink-finder/vineyard.jpg';
+// First frame of the hero video (public/video/services/service-hero-*.mp4), so the switch is seamless.
+import hero from '../assets/site/services/service-hero-poster.jpg';
 import branding from '../assets/site/services/branding.jpg';
 import ux from '../assets/brands/whistlefish/apron.jpg';
 import bespoke from '../assets/brands/hartnack-and-co/box.jpg';
@@ -36,7 +36,7 @@ export const HUB_HERO = {
 };
 
 // Prices as set in the Figma frame. One format everywhere: "From £X + VAT".
-export const SERVICES_LIST = [
+export const ALL_SERVICES = [
   {
     name: 'Branding',
     slug: 'branding',
@@ -65,6 +65,8 @@ export const SERVICES_LIST = [
     serviceType: 'Bespoke Shopify website design',
   },
   {
+    // Off the hub for now (comment, 21 October 2026). Delete `hidden` to bring it back.
+    hidden: true,
     name: 'Shopify Plus design',
     slug: 'shopify-plus-design',
     href: URLS.plus,
@@ -122,6 +124,8 @@ export const SERVICES_LIST = [
     serviceType: 'Shopify AI search visibility design',
   },
 ];
+
+export const SERVICES_LIST = ALL_SERVICES.filter((s) => !('hidden' in s && s.hidden));
 
 export const formatPrice = (n: number) => `From £${n.toLocaleString('en-GB')} + VAT`;
 

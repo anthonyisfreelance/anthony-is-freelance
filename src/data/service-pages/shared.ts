@@ -1,7 +1,7 @@
 // Bits every service page shares, so wording stays identical across all eight.
 import { URLS } from '../site';
 import { CASE_STUDIES } from '../work';
-import { SERVICES_LIST, formatPrice } from '../services';
+import { ALL_SERVICES, formatPrice } from '../services';
 
 /** A proof card, copied from the work page record so the wording matches everywhere. */
 export const card = (client: string) => {
@@ -14,7 +14,7 @@ export const caseStudyHref = (client: string) => card(client).href ?? '';
 
 /** The hub's price sentence for a service, e.g. "From £5,000 + VAT", so all pages agree. */
 export const hubPrice = (name: string) => {
-  const s = SERVICES_LIST.find((x) => x.name === name);
+  const s = ALL_SERVICES.find((x) => x.name === name);
   if (!s) throw new Error(`No hub price for ${name}`);
   return `${formatPrice(s.price)}, design only`;
 };
