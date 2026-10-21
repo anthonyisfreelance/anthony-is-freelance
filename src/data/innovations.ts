@@ -147,6 +147,7 @@ const RECORDS: InnovationRecord[] = [
       'Project result: revenue up 82%, October to June against the year before. GA4, UK sessions. East at Home won UK User Experience of the Year at the UK eCommerce Awards 2026.',
     caption: 'Product cards that answer dinner questions on East at Home.',
     alt: 'East at Home curry sauces as a list on mobile, each with chilli heat icons, dietary labels, reviews and price.',
+    videoUploaded: '2026-10-21',
   },
   {
     slug: 'product-builder',
@@ -163,6 +164,7 @@ const RECORDS: InnovationRecord[] = [
     // No evidence line: GA4 shows conversion down since launch, so the 39% is off (19 October 2026).
     caption: "Hartnack & Co's step-by-step product builder.",
     alt: "A step in Hartnack & Co's product builder on mobile, with a tip and the running cost.",
+    videoUploaded: '2026-10-21',
   },
   {
     slug: 'customer-gallery',
@@ -177,7 +179,8 @@ const RECORDS: InnovationRecord[] = [
     howItWorks:
       'Each past creation in the gallery lists the exact options chosen, so a new customer can copy one they like.',
     caption: "Hartnack & Co's customer gallery.",
-    alt: "A finished box in Hartnack & Co's customer gallery, with the options chosen listed beside it.",
+    alt: "A finished binder in Hartnack & Co's customer gallery, with the options chosen listed beside it.",
+    videoUploaded: '2026-10-21',
   },
   {
     slug: 'subscription-only-cards',
@@ -209,6 +212,7 @@ const RECORDS: InnovationRecord[] = [
     evidence: 'Found in the UX review, before any design started.',
     caption: "The offers button in Drink Finder's navigation.",
     alt: "Drink Finder's header on mobile, with the offers button in the navigation.",
+    videoUploaded: '2026-10-21',
   },
   {
     slug: 'trial-subscription-split',
@@ -225,6 +229,7 @@ const RECORDS: InnovationRecord[] = [
     // No evidence line until the 86% (quiz summary to checkout) has a window and source.
     caption: "Fuzzball's quiz cart, with the trial and subscription split.",
     alt: "Fuzzball's quiz cart on mobile, with the trial and the repeating order shown separately.",
+    videoUploaded: '2026-10-21',
   },
   {
     slug: 'three-pages-one-screen',
@@ -241,6 +246,7 @@ const RECORDS: InnovationRecord[] = [
     evidence: 'The project led to Window Fleur commissioning a full store redesign.',
     caption: "Window Fleur's subscription journey on one screen.",
     alt: "Window Fleur's subscription product page on mobile, with a slide-up open for the detail.",
+    videoUploaded: '2026-10-21',
   },
   // ---- Brand
   {
@@ -257,6 +263,7 @@ const RECORDS: InnovationRecord[] = [
     evidence: 'Project result: conversion rate up 63%, August 2025 to August 2026 against the year before. GA4.',
     caption: "Fuzzball's quiz progress bar.",
     alt: "Fuzzball's quiz on mobile, with the cat chasing a ball along the progress bar.",
+    videoUploaded: '2026-10-21',
   },
   {
     slug: 'design-system-team-runs',
@@ -273,7 +280,8 @@ const RECORDS: InnovationRecord[] = [
     // [CONFIRM] Will Manders' role and the date of the quote.
     evidence: '"We\'ve since been able to carry that framework into our own design team." Will Manders, Whistlefish',
     caption: "Whistlefish's design system in Figma.",
-    alt: "Pages from Whistlefish's design system in Figma, showing the type rules.",
+    alt: "Whistlefish's store on mobile, moving between pages built from the design system.",
+    videoUploaded: '2026-10-21',
   },
 ];
 

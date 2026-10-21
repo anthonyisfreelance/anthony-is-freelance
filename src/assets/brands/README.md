@@ -22,13 +22,13 @@ Until the still is there, the entry shows an empty phone with "Recording to come
 
 | Brand folder | Slug |
 | --- | --- |
-| drink-finder | comparison-toggle (done), offers-button |
+| drink-finder | comparison-toggle (done), offers-button (done) |
 | projektityyny | shop-by-product-room-print (done), lookbook-archive (done) |
-| whistlefish | image-first-product-cards (done), design-system-team-runs |
-| east-at-home | dinner-question-cards |
-| hartnack-and-co | product-builder, customer-gallery |
-| fuzzball | subscription-only-cards, trial-subscription-split, progress-bar-with-character |
-| window-fleur | three-pages-one-screen |
+| whistlefish | image-first-product-cards (done), design-system-team-runs (done) |
+| east-at-home | dinner-question-cards (done) |
+| hartnack-and-co | product-builder (done), customer-gallery (done) |
+| fuzzball | subscription-only-cards (still only), trial-subscription-split (done), progress-bar-with-character (done) |
+| window-fleur | three-pages-one-screen (done) |
 
 ## Case study pages: drop in, no code
 
