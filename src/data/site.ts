@@ -78,12 +78,12 @@ export const FOOTER_COLUMNS = [
     links: [
       { label: 'Branding', href: URLS.branding },
       { label: 'UX design', href: URLS.ux },
-      { label: 'Shopify Plus design', href: URLS.plus },
       { label: 'Bespoke store design', href: URLS.bespoke },
       { label: 'Shopify CRO', href: URLS.cro },
       { label: 'Migrations', href: URLS.migrations },
       { label: 'Subscriptions', href: URLS.subscriptions },
       { label: 'Theme customisations', href: URLS.theme },
+      { label: 'AI search visibility', href: URLS.aiSearch },
     ],
   },
   {
@@ -129,16 +129,16 @@ export const MEGA = {
     viewAll: { label: 'View all services', href: URLS.services },
     columns: [
       [
+        // Shopify Plus off for now (comment, 21 October 2026). Four and four.
         { label: 'Branding', href: URLS.branding },
         { label: 'UX design', href: URLS.ux },
         { label: 'Bespoke store design', href: URLS.bespoke },
-        { label: 'Shopify Plus design', href: URLS.plus },
+        { label: 'Theme customisations', href: URLS.theme },
       ],
       [
         { label: 'Shopify CRO', href: URLS.cro },
         { label: 'Migrations', href: URLS.migrations },
         { label: 'Subscriptions', href: URLS.subscriptions },
-        { label: 'Theme customisations', href: URLS.theme },
         { label: 'AI search visibility', href: URLS.aiSearch },
       ],
     ],

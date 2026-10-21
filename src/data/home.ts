@@ -9,8 +9,8 @@ import eastAtHome from '../assets/brands/east-at-home/card.jpg';
 import fuzzball from '../assets/brands/fuzzball/card.jpg';
 import projektityyny from '../assets/brands/projektityyny/card.jpg';
 import thameen from '../assets/brands/thameen/bottles.jpg';
-import badgeDrinkFinder from '../assets/brands/drink-finder/badge-award.png';
-import badgeEastAtHome from '../assets/brands/east-at-home/badge-award.png';
+import badgeDrinkFinder from '../assets/site/badge-winner-2026.png';
+import badgeEastAtHome from '../assets/site/badge-winner-2026.png';
 import { INNOVATIONS_LIST } from './innovations';
 import { testimonial, creditLine } from './testimonials';
 
@@ -107,14 +107,13 @@ export const BRANDS = {
 
 export const SERVICES = {
   eyebrow: 'Shopify website design services',
-  heading: 'One designer, nine ways to help your store.',
+  heading: 'One designer, eight ways to help your store.',
   link: { label: 'View all Shopify design services', href: URLS.services },
   // One line each, so it sits on one line at 375px.
   items: [
     { name: 'Branding', line: 'Identity for new and relaunched brands.', href: URLS.branding },
     { name: 'UX design', line: 'Research, flows and wireframes first.', href: URLS.ux },
     { name: 'Bespoke store design', line: 'Every template designed from scratch.', href: URLS.bespoke },
-    { name: 'Shopify Plus design', line: 'Stores for high-volume brands.', href: URLS.plus },
     { name: 'Migrations', line: 'Moving from Magento, WooCommerce or Wix.', href: URLS.migrations },
     { name: 'Theme customisations', line: 'Premium themes, made to look bespoke.', href: URLS.theme },
     { name: 'Shopify CRO', line: 'Find why customers leave, then fix it.', href: URLS.cro },

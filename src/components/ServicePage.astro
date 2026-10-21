@@ -58,6 +58,31 @@ const faqSchema = [
   ...(p.extras ?? []).flatMap((x) => (x.kind === 'text' && x.faq ? [{ q: x.heading, a: x.paragraphs ?? [] }] : [])),
   ...(p.faqs?.items ?? []),
 ];
+// Proof: two cards, two columns. Three: three across on desktop; on phones one large, then two smaller
+// (as the homepage). Four: two by two everywhere.
+const proofCount = p.proof?.cards.length ?? 0;
+const proofCols = proofCount === 3 ? 'lg:grid-cols-3' : 'lg:grid-cols-2';
+const proofSizes = proofCount === 3 ? '(min-width: 1024px) 31vw' : '(min-width: 1024px) 48vw';
+const bigFirst = proofCount % 2 === 1; // odd counts: the first card spans both columns on phones
+// Articles: one column per article on desktop (up to four), two on phones; a single article isn't a section.
+const articleCount = p.articles?.items.length ?? 0;
+const articleCols = ({ 2: 'lg:grid-cols-2', 3: 'lg:grid-cols-3', 4: 'lg:grid-cols-4' } as Record<number, string>)[Math.min(articleCount, 4)] ?? 'lg:grid-cols-2';
+// Comparison: this page's service is always the first column.
+const cmpOrder = p.comparison ? p.comparison.columns.map((c, i) => ({ c, i })).sort((a, b) => Number(!!b.c.current) - Number(!!a.c.current)).map((x) => x.i) : [];
+const cmp = p.comparison
+  ? {
+      ...p.comparison,
+      columns: cmpOrder.map((i) => p.comparison!.columns[i]),
+      rows: p.comparison.rows.map(([label, ...v]) => [label, ...cmpOrder.map((i) => v[i])] as [string, string, string]),
+      examples: p.comparison.examples && cmpOrder.map((i) => p.comparison!.examples![i]),
+    }
+  : undefined;
+// Testimonial logo: the client's logo, found from the company named in the credit.
+const TESTIMONIAL_LOGOS: [string, string][] = [
+  ['Whistlefish', 'whistlefish'], ['Hartnack', 'hartnack-and-co'], ['East West Apparel', 'east-west-apparel'],
+  ['Window Fleur', 'window-fleur'], ['Drink Finder', 'drink-finder'], ['East at Home', 'east-at-home'], ['Fuzzball', 'fuzzball'],
+];
+const testimonialLogo = p.testimonial && TESTIMONIAL_LOGOS.find(([name]) => p.testimonial!.cite.includes(name))?.[1];
 const h3caps = 'font-display text-[length:var(--type-h5)] font-medium uppercase leading-[1.1] text-ink lg:text-[length:var(--type-h3)]';
 const cell = 't-label tracking-[0.02em]';
 ---
@@ -118,10 +143,15 @@ const cell = 't-label tracking-[0.02em]';
           <h2 class="t-h2 text-ink lg:w-half">{p.proof.heading}</h2>
           {p.proof.link && <TextLink href={p.proof.link.href}>{p.proof.link.label}</TextLink>}
         </div>
-        <ul class="mt-gutter grid grid-cols-2 gap-x-grid gap-y-large lg:grid-cols-4">
-          {p.proof.cards.map((c) => (
-            <li><CaseStudyCard {...c} ratio="portrait" stackMeta="always" sizes="(min-width: 1024px) 23vw, calc(50vw - 24px)" /></li>
-          ))}
+        <ul class:list={['mt-gutter grid grid-cols-2 gap-x-grid gap-y-large', proofCols]}>
+          {p.proof.cards.map((c, i) => {
+            const big = bigFirst && i === 0;
+            return (
+              <li class:list={[big && 'col-span-2 lg:col-span-1']}>
+                <CaseStudyCard {...c} ratio={big ? 'square-portrait' : 'portrait'} stackMeta={proofCount === 3 ? 'always' : !big} sizes={`${proofSizes}, ${big ? 'calc(100vw - 32px)' : 'calc(50vw - 24px)'}`} />
+              </li>
+            );
+          })}
         </ul>
       </div>
     </section>
@@ -213,10 +243,13 @@ const cell = 't-label tracking-[0.02em]';
     {p.testimonial && (
     <section class="px-margin pt-section">
       <div class="flex flex-col gap-gutter border-t border-line pt-section lg:flex-row">
-        <h2 class="t-h2 flex-1 text-ink">{p.testimonial.heading}</h2>
+        <h2 class="t-h2 flex-1 text-ink lg:sticky lg:top-loose lg:self-start">{p.testimonial.heading}</h2>
         <figure class="flex flex-col gap-gutter lg:w-half lg:shrink-0">
           <blockquote class="font-display text-[length:var(--type-h5)] font-medium leading-[1.3] text-ink lg:text-[length:var(--type-h2)]">“{p.testimonial.quote}”</blockquote>
-          <figcaption class="t-label text-muted">{p.testimonial.cite}</figcaption>
+          <figcaption class="t-label flex items-start gap-grid text-muted">
+            {testimonialLogo ? <img src={`/logos/${testimonialLogo}.svg`} alt="" width="110" height="37" class="h-[37px] w-[110px] shrink-0 object-contain object-left" loading="lazy" /> : null}
+            <span>{p.testimonial.cite}</span>
+          </figcaption>
         </figure>
       </div>
     </section>
@@ -256,20 +289,20 @@ const cell = 't-label tracking-[0.02em]';
     {after('price').map((x) => <ServiceExtra item={x} />)}
 
     <!-- Comparison -->
-    {p.comparison && (
+    {cmp && (
       <section class="px-margin pt-section">
         <div class="border-t border-line pt-section">
           <div class="lg:w-half">
-            <Heading eyebrow={p.comparison.eyebrow} deco={false}>{p.comparison.heading}</Heading>
-            <p class="t-body mt-loose text-muted" aria-hidden="true">{p.comparison.caption}</p>
+            <Heading eyebrow={cmp.eyebrow} deco={false}>{cmp.heading}</Heading>
+            <p class="t-body mt-loose text-muted" aria-hidden="true">{cmp.caption}</p>
           </div>
           <div class="mt-gutter">
             <table class="cmp w-full border-collapse text-left">
-              <caption class="sr-only">{p.comparison.caption}</caption>
+              <caption class="sr-only">{cmp.caption}</caption>
               <thead>
                 <tr>
                   <td class="w-[220px]"></td>
-                  {p.comparison.columns.map((c) => (
+                  {cmp.columns.map((c) => (
                     <th scope="col" class:list={['t-button-lg px-grid py-loose font-medium text-ink', c.current && 'bg-raised']}>
                       {c.label}{c.current && <span class="sr-only"> (this page)</span>}
                     </th>
@@ -277,19 +310,19 @@ const cell = 't-label tracking-[0.02em]';
                 </tr>
               </thead>
               <tbody>
-                {p.comparison.rows.map(([label, ...values]) => (
+                {cmp.rows.map(([label, ...values]) => (
                   <tr>
                     <th scope="row" class={`${cell} border-t border-line py-loose pr-4 align-middle font-medium text-muted`}>{label}</th>
                     {values.map((v, i) => (
-                      <td class:list={[cell, 'border-t border-line px-grid py-loose align-middle text-ink', p.comparison!.columns[i].current && 'bg-raised']}>{v}</td>
+                      <td class:list={[cell, 'border-t border-line px-grid py-loose align-middle text-ink', cmp!.columns[i].current && 'bg-raised']}>{v}</td>
                     ))}
                   </tr>
                 ))}
-                {p.comparison.examples && (
+                {cmp.examples && (
                   <tr>
                     <th scope="row" class={`${cell} border-t border-line py-loose pr-4 align-middle font-medium text-muted`}>Example</th>
-                    {p.comparison.examples.map((e, i) => (
-                      <td class:list={['border-t border-line px-grid py-loose align-top', p.comparison!.columns[i].current && 'bg-raised']}>
+                    {cmp.examples.map((e, i) => (
+                      <td class:list={['border-t border-line px-grid py-loose align-top', cmp!.columns[i].current && 'bg-raised']}>
                         <a href={e.href} class="hover-card flex flex-col gap-3 lg:flex-row lg:items-end lg:gap-grid">
                           {e.screen ? <ScreenTile screen={e.screen} alt={e.alt} sizes="(min-width: 1024px) 300px, 40vw" class="lg:w-[300px] lg:shrink-0" /> : <div class="aspect-square grid place-items-center bg-line lg:w-[300px] lg:shrink-0"><span class="t-badge text-muted">[Image to come]</span></div>}
                           <span class="font-display text-[12px] font-medium leading-[1.3] tracking-[0.02em] text-ink underline underline-offset-4 hover:decoration-2">{e.client}</span>
@@ -301,7 +334,7 @@ const cell = 't-label tracking-[0.02em]';
                 <!-- Last row (no rule above it): get a quote for this service, or go to the other one -->
                 <tr>
                   <td class="max-lg:hidden"></td>
-                  {p.comparison.columns.map((c) => (
+                  {cmp.columns.map((c) => (
                     <td class:list={['px-grid py-loose align-middle', c.current && 'bg-raised']}>
                       {c.current ? (
                         <a href={p.price.cta.href} data-project-open class="t-button inline-flex items-center gap-1 bg-white px-[14px] py-2 text-[#111] hover:opacity-90">
@@ -319,7 +352,7 @@ const cell = 't-label tracking-[0.02em]';
                 </tr>
               </tbody>
             </table>
-            {p.comparison.notes && <div class="t-small mt-large flex flex-col gap-[10px] text-muted">{p.comparison.notes.map((n) => <p>{n}</p>)}</div>}
+            {cmp.notes && <div class="t-small mt-large flex flex-col gap-[10px] text-muted">{cmp.notes.map((n) => <p>{n}</p>)}</div>}
           </div>
         </div>
       </section>
@@ -331,15 +364,15 @@ const cell = 't-label tracking-[0.02em]';
     {after('faqs').map((x) => <ServiceExtra item={x} />)}
 
     <!-- Articles -->
-    {p.articles && (
+    {p.articles && articleCount > 1 && (
       <section class="px-margin pb-section">
         <div class="border-t border-line pt-section">
           <SectionIntro eyebrow={p.articles.eyebrow} heading={p.articles.heading}>
             <TextLink slot="links" href={p.articles.link.href}>{p.articles.link.label}</TextLink>
           </SectionIntro>
-          <ul class="mt-grid-lg grid grid-cols-2 gap-x-grid gap-y-large lg:grid-cols-4">
-            {p.articles.items.map((a) => (
-              <li>
+          <ul class:list={['mt-grid-lg grid grid-cols-2 gap-x-grid gap-y-large', articleCols]}>
+            {p.articles.items.slice(0, 4).map((a, i) => (
+              <li class:list={[i > 1 && 'max-lg:hidden']}>
                 <article class="hover-card relative flex flex-col">
                   <div class="aspect-video bg-line" aria-hidden="true"></div>
                   <div class="flex flex-col gap-2 pt-2">

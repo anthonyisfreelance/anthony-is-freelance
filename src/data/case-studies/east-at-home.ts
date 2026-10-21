@@ -5,7 +5,7 @@ import { testimonial, creditLine } from '../testimonials';
 import { SERVICE, slot, innovationSlot, innovationLink, photo, photoMedia, card, breadcrumbs, MORE_HEADING, type CaseStudyPageData } from './types';
 import cardPhoto from '../../assets/brands/east-at-home/card.jpg';
 import curry from '../../assets/brands/east-at-home/curry.jpg';
-import badge from '../../assets/brands/east-at-home/badge-award.png';
+import badge from '../../assets/site/badge-winner-2026.png';
 
 const B = 'east-at-home';
 const PATH = URLS.caseStudies.eastAtHome;

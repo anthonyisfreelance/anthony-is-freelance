@@ -33,7 +33,7 @@ const aspect = { square: 'aspect-square', portrait: 'aspect-[4/5]', 'portrait-sq
     /> : <span class="t-badge absolute inset-0 grid place-items-center text-muted">[Image to come]</span>}
     {badge && (
       <div class="absolute left-0 top-0 h-20 bg-surface p-3">
-        <Image src={badge} alt={badgeAlt} height={56} class="h-full w-auto" />
+        <Image src={badge} alt={badgeAlt} height={56} densities={[1, 2, 3]} format="png" class="h-full w-auto" />
       </div>
     )}
   </div>

@@ -6,12 +6,14 @@ import CaseStudyCard from './CaseStudyCard.astro';
 import ScreenTile from './ScreenTile.astro';
 import { MEGA } from '../data/site';
 import { STORIES } from '../data/home';
+import { CASE_STUDIES } from '../data/work';
 import { ARTICLES_LIST } from '../data/articles';
 import ArticleCard from './ArticleCard.astro';
-import screen from '../assets/brands/drink-finder/screen-home.png';
+// Services panel: Projektityyny, so it doesn't repeat Drink Finder from the success stories panel.
+import screen from '../assets/brands/projektityyny/innovations/lookbook-archive.jpg';
 
 const link = 't-button-lg text-ink link-hover';
-const featured = STORIES.featured;
+const featured = CASE_STUDIES.find((c) => c.client === 'Projektityyny')!;
 const workCards = [STORIES.featured, ...STORIES.cards.filter((c) => c.href)].slice(0, 3);
 ---
 <div class="absolute left-0 right-0 top-full z-30 hidden lg:block">
@@ -30,7 +32,7 @@ const workCards = [STORIES.featured, ...STORIES.cards.filter((c) => c.href)].sli
       <article class="hover-card relative flex w-[555px] max-w-[40%] flex-col">
         <div class="grid grid-cols-2 gap-[2px]">
           <div class="relative aspect-[4/5] overflow-hidden">
-            <Image src={featured.image} alt="" widths={[280, 560]} sizes="280px" class="zoom-img absolute inset-0 size-full object-cover" />
+            <Image src={featured.image!} alt="" widths={[280, 560]} sizes="280px" class="zoom-img absolute inset-0 size-full object-cover" />
           </div>
           <ScreenTile screen={screen} ratio="portrait" sizes="180px" />
         </div>

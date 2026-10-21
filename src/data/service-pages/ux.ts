@@ -3,6 +3,8 @@
 // /shopify-website-design/shopify-ux-design/ with a 301).
 import { URLS } from '../site';
 import type { ServicePage } from './types';
+// Lifestyle hero from Drive services/<service>/hero-lifestyle.jpg
+import heroPhoto from '../../assets/site/services/hero-ux.jpg';
 import { card, hubPrice, ROUTING_EYEBROW, PRICE_NOTE, PROCESS_INTRO, QUOTE, ALL_ARTICLES, ARTICLE, CRO_VS_UX } from './shared';
 
 export const UX: ServicePage = {
@@ -20,6 +22,7 @@ export const UX: ServicePage = {
     intro:
       'Shopify UX design decides how customers find, compare and buy your products, before anything is styled. I start with a UX review of your live store: your analytics, your navigation and your reviews. Then I design the flows and wireframes that fix what the review finds. Shopify UX design is quoted on the call, based on the size of the store. East at Home won UK User Experience of the Year 2026.',
     cta: { label: 'Book a UX review', href: '#start-a-project' },
+    image: heroPhoto,
     caption: 'Whistlefish. The collection drill-down on mobile.',
   },
   trust: ['UK User Experience of the Year 2026', 'Navigation first', 'Your real data, not personas'],
@@ -74,6 +77,7 @@ export const UX: ServicePage = {
     items: [
       { client: 'Whistlefish', title: 'Image-first product cards', body: 'Product names truncated on purpose, because nobody buys a greeting card for its name.' },
       { client: 'East at Home', title: 'Product cards that answer dinner questions', body: 'Every card shows spice level, dietary needs and flavour, in a list built for comparing on mobile.' },
+      { client: 'Projektityyny', title: 'Shop by product, room or print', body: 'Three image-led routes in from the navigation match how people think about their homes.' },
     ],
   },
   testimonial: {

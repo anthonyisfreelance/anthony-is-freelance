@@ -28,8 +28,8 @@ const odd = items.length % 2 === 1;
         !stack && odd && i === items.length - 1 && 'col-span-2',
       ]}
     >
-      {t.google && <img src="/icons/google-g.png" alt="Google" width="25" height="25" class="size-[25px] shrink-0" loading="lazy" />}
-      <span>{t.stars && <span aria-hidden="true" class="font-serif">★★★★★ </span>}{t.text}{t.srText && <span class="sr-only">{t.srText}</span>}</span>
+      {t.google && <img src="/icons/google-g.png" alt="Google" width="25" height="25" class:list={['size-[25px] shrink-0', equal && 'lg:self-start']} loading="lazy" />}
+      <span>{t.stars && <span aria-hidden="true" class="font-serif text-[0.85em]">★★★★★ </span>}{t.text}{t.srText && <span class="sr-only">{t.srText}</span>}</span>
     </li>
   ))}
 </ul>

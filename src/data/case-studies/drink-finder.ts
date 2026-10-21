@@ -4,7 +4,7 @@ import { URLS } from '../site';
 import { COMPARE } from '../innovations';
 import { testimonial, creditLine } from '../testimonials';
 import hero from '../../assets/brands/drink-finder/hero.jpg';
-import badge from '../../assets/brands/drink-finder/badge-winner.png';
+import badge from '../../assets/site/badge-winner-2026.png';
 import vineyard from '../../assets/brands/drink-finder/vineyard.jpg';
 import stillDesktop from '../../assets/brands/drink-finder/still-desktop.jpg';
 import stillPdp from '../../assets/brands/drink-finder/still-pdp.jpg';

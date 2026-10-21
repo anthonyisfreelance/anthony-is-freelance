@@ -15,7 +15,7 @@ import Rich from '../../components/Rich.astro';
 import Contact from '../../components/home/Contact.astro';
 import { URLS, ENTITY } from '../../data/site';
 import { AWARDS_PAGE as P, AWARD_SECTIONS, RECORD, JUDGING, COVERAGE, AWARDS_CTA, AWARDS_SCHEMA, UPDATED } from '../../data/awards';
-import badge from '../../assets/brands/drink-finder/badge-award.png';
+import badge from '../../assets/site/badge-winner-2026.png';
 
 const [secondBefore, secondAfter] = P.second.split('{date}');
 const cell = 'border-t border-line py-3 pr-grid text-left align-top';
@@ -39,7 +39,7 @@ const cell = 'border-t border-line py-3 pr-grid text-left align-top';
           <p class="t-label tracking-[0.02em] text-muted">Updated <time datetime={UPDATED.iso}>{UPDATED.label}</time></p>
         </div>
         <!-- The claim is always text; the badge sits beside it, never instead of it. -->
-        <Image src={badge} alt={P.badgeAlt} widths={[240, 480]} sizes="240px" class="h-auto w-[180px] lg:w-[240px]" />
+        <Image src={badge} alt={P.badgeAlt} widths={[240, 480, 720]} sizes="240px" format="png" class="h-auto w-[180px] lg:w-[240px]" />
       </div>
     </PageHero>
 

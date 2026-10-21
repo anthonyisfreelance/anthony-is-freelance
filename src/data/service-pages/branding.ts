@@ -1,6 +1,8 @@
 // Branding. Copy: page-copy/service-pages.md, Page 8. Keeps /freelance-brand-designer/.
 import { URLS } from '../site';
 import type { ServicePage } from './types';
+// Lifestyle hero from Drive services/<service>/hero-lifestyle.jpg
+import heroPhoto from '../../assets/site/services/hero-branding.jpg';
 import { hubPrice, ROUTING_EYEBROW, PRICE_NOTE, PROCESS_INTRO, QUOTE } from './shared';
 
 export const BRANDING: ServicePage = {
@@ -18,9 +20,10 @@ export const BRANDING: ServicePage = {
     intro:
       "I'm a brand designer first. I spent my first decade in brand identity at agencies in Bath and Bristol before moving into Shopify, so I can refine your brand and design the store it lives in. Most of my branding work refines rather than replaces: logo, palette, typeface and how the brand behaves on screen. Branding is quoted on scope, from a refinement to a full identity. [CONFIRM] For Drink Finder, a merchant trading for over 65 years, I refined the logo, palette and typeface alongside the new store.",
     cta: { label: 'Start a brand project', href: '#start-a-project' },
+    image: heroPhoto,
     caption: 'Window Fleur. The rebrand carried across the store.',
   },
-  trust: ['Brand design since 2002', 'Designed with the store', 'UK eCommerce Website of the Year 2026'],
+  trust: ['Brand design since 2002', 'Designed for humans', 'UK eCommerce Website of the Year 2026'],
   included: {
     heading: 'What brand design includes',
     items: [

@@ -57,7 +57,7 @@ Common names, where they exist:
 - `card.jpg`: the case study card (homepage, work page, menus). 4:5 or square, at least 1200px wide.
 - `hero.jpg`: the case study header image.
 - `menu.jpg`: the photo in the mega menu feature.
-- `badge-award.png`: the award badge.
+- The award badge is one file for every page: `src/assets/site/badge-winner-2026.png`.
 
 ## Article images
 
