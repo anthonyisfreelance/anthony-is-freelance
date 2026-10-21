@@ -6,6 +6,7 @@ import Header from '../../components/Header.astro';
 import PageHero from '../../components/PageHero.astro';
 import WorkCard from '../../components/WorkCard.astro';
 import Filters from '../../components/Filters.astro';
+import TrustTiles from '../../components/TrustTiles.astro';
 import { SITE } from '../../data/site';
 import { CASE_STUDIES, FILTERS, WORK_META, WORK_HERO, WORK_TRUST } from '../../data/work';
 
@@ -34,23 +35,19 @@ const trustAfter = 6;
   />
   <Header />
   <main id="main">
-    <PageHero eyebrow={WORK_HERO.eyebrow} heading={WORK_HERO.heading} intro={WORK_HERO.intro} />
+    <PageHero eyebrow={WORK_HERO.eyebrow} heading={WORK_HERO.heading} />
 
-    <section id="case-studies" aria-label="Case studies" class="px-margin pb-section pt-large">
+    <section id="case-studies" aria-label="Case studies" class="px-margin pb-section pt-section-sm">
       <Filters label="Filter by service" filters={filters} />
 
-      <ul class="mt-gutter grid gap-x-gutter gap-y-[64px] lg:grid-cols-2" data-grid>
+      <ul class="mt-section-sm grid gap-x-gutter gap-y-[64px] lg:grid-cols-2" data-grid>
         {CASE_STUDIES.map((s, i) => (
           <>
             {i === trustAfter && (
               <li data-filter-all class="lg:col-span-2">
-                <ul class="t-label flex flex-col items-start gap-3 tracking-[0.02em] text-ink sm:flex-row sm:items-center sm:justify-center sm:gap-0">
-                  <li class="flex items-center gap-2 sm:px-grid">
-                    <img src="/icons/google-g.png" alt="Google" width="25" height="25" class="size-[25px]" loading="lazy" />
-                    <span><span aria-hidden="true">★★★★★</span> 5/5<span class="sr-only"> on Google reviews</span></span>
-                  </li>
-                  {WORK_TRUST.map((t) => <li class="sm:border-l sm:border-line sm:px-grid">{t}</li>)}
-                </ul>
+                <TrustTiles
+                  items={[{ google: true, stars: true, text: '5/5', srText: ' on Google reviews' }, ...WORK_TRUST.map((text) => ({ text }))]}
+                />
               </li>
             )}
             <li data-tags={s.services.join(' ')}><WorkCard study={s} eager={i < 2} level={2} /></li>

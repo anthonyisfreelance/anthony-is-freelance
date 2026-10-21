@@ -147,9 +147,7 @@ export const WORK_META = {
 
 export const WORK_HERO = {
   eyebrow: 'Shopify case studies',
-  // Brand count always matches the grid.
-  heading: `${CASE_STUDIES.length} brands, 2 UK eCommerce Awards, 1 designer`,
-  intro: 'My Shopify case studies since I went independent in 2023. Each card shows the job each store needed, and the key win.',
+  heading: 'Two UK eCommerce Awards 2026, one designer.',
 };
 
-export const WORK_TRUST = ['20+ years ecommerce and brand experience', '4× shortlisted, UK eCommerce Awards 2026'];
+export const WORK_TRUST = ['20+ years ecommerce and brand experience', '4× shortlisted, UK eCommerce Awards 2026', 'All independent work, since 2023'];
