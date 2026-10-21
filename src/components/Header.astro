@@ -250,6 +250,7 @@ const triggers = [
     // Keyboard users tabbing into the hidden header bring it back.
     header.addEventListener('focusin', function () { if (fixed) show(); });
 
-    measure();
+    // Measuring now, while the page is still being parsed, forces an early layout.
+    requestAnimationFrame(measure);
   })();
 </script>

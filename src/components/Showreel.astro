@@ -3,6 +3,8 @@
 // finished, fades in over the still, and is skipped for reduced motion or Save-Data.
 import { Image } from 'astro:assets';
 import poster from '../assets/site/showreel-poster.jpg';
+import { versioned } from '../data/media';
+const src = (size: string, av1: boolean) => versioned(`/video/showreel-${size}${av1 ? '-av1' : ''}.mp4`);
 ---
 <Image
   src={poster}
@@ -16,6 +18,10 @@ import poster from '../assets/site/showreel-poster.jpg';
 />
 <video
   data-showreel
+  data-desktop={src('desktop', false)}
+  data-desktop-av1={src('desktop', true)}
+  data-mobile={src('mobile', false)}
+  data-mobile-av1={src('mobile', true)}
   class="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-500"
   muted
   loop
@@ -47,7 +53,7 @@ import poster from '../assets/site/showreel-poster.jpg';
     function start() {
       var size = window.matchMedia('(min-width: 1024px)').matches ? 'desktop' : 'mobile';
       var av1 = v.canPlayType('video/mp4; codecs="av01.0.05M.08"');
-      v.src = '/video/showreel-' + size + (av1 ? '-av1' : '') + '.mp4';
+      v.src = v.getAttribute('data-' + size + (av1 ? '-av1' : ''));
       v.addEventListener('playing', function () {
         v.style.opacity = '1';
         btn.hidden = false;

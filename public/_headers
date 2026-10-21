@@ -1,3 +1,11 @@
 # Keep workers.dev preview addresses out of Google. Never matches anthonyis.uk.
 https://:prefix.:subdomain.workers.dev/*
   X-Robots-Tag: noindex
+
+# Built files carry a content hash in their name, so they never change.
+/_astro/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Videos are linked with ?v=<content hash> (src/data/media.ts), so a replaced file gets a new URL.
+/video/*
+  Cache-Control: public, max-age=31536000, immutable

@@ -141,7 +141,7 @@ const catalog = {
       <ul class="mt-gutter grid grid-cols-2 gap-x-grid gap-y-grid-lg px-margin lg:grid-cols-3">
         {RECENT_WORK.cards.map((c, i) => (
           <li class:list={[i === 0 && 'col-span-2 lg:col-span-1']}>
-            <CaseStudyCard {...c} ratio={i === 0 ? 'square-portrait' : 'portrait'} sizes={i === 0 ? '(min-width: 1024px) 31vw, 100vw' : '(min-width: 1024px) 31vw, 50vw'} />
+            <CaseStudyCard {...c} ratio={i === 0 ? 'square-portrait' : 'portrait'} sizes={i === 0 ? '(min-width: 1024px) 31vw, calc(100vw - 32px)' : '(min-width: 1024px) 31vw, calc(50vw - 24px)'} />
           </li>
         ))}
       </ul>

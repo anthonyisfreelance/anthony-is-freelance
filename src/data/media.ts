@@ -3,7 +3,8 @@
 //   videos  public/video/<brand>/<name>.mp4         (served as they are)
 //   article images  src/assets/articles/<article slug>/<file name from WordPress>
 // See src/assets/brands/README.md for the folders and file names.
-import { existsSync } from 'node:fs';
+import { existsSync, readFileSync } from 'node:fs';
+import { createHash } from 'node:crypto';
 import { join } from 'node:path';
 import type { ImageMetadata } from 'astro';
 
@@ -22,8 +23,17 @@ export function brandImage(brand: string, name: string): ImageMetadata | undefin
   return key ? IMAGES[key].default : undefined;
 }
 
+/**
+ * A file in public/ with ?v=<content hash> on the end. Videos are cached for a year
+ * (public/_headers), so the hash is what makes a replaced file show up straight away.
+ */
+export function versioned(path: string): string {
+  const hash = createHash('sha1').update(readFileSync(join(process.cwd(), 'public', path))).digest('hex').slice(0, 8);
+  return `${path}?v=${hash}`;
+}
+
 /** The public URL of public/video/<brand>/<name>.mp4, if it has been added. */
 export function brandVideo(brand: string, name: string): string | undefined {
   const path = `/video/${brand}/${name}.mp4`;
-  return existsSync(join(process.cwd(), 'public', path)) ? path : undefined;
+  return existsSync(join(process.cwd(), 'public', path)) ? versioned(path) : undefined;
 }

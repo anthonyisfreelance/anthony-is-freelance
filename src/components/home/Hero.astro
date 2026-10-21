@@ -40,7 +40,7 @@ import TrustTiles from '../TrustTiles.astro';
           <SectionIntro eyebrow={STORIES.eyebrow} heading={STORIES.heading} split={false}>
             <TextLink slot="links" href={STORIES.link.href}>{STORIES.link.label}</TextLink>
           </SectionIntro>
-          <CaseStudyCard {...STORIES.featured} ratio="portrait-square" sizes="(min-width: 1024px) 47vw, 100vw" />
+          <CaseStudyCard {...STORIES.featured} ratio="portrait-square" sizes="(min-width: 1024px) 47vw, calc(100vw - 32px)" />
         </div>
       </section>
     </div>

@@ -17,7 +17,7 @@ interface Props {
   eager?: boolean;
   proof?: string; // service page proof sections add the proof line under the claim
 }
-const { client, meta, claim, image, badge, badgeAlt = '', href, ratio = 'portrait', sizes = '(min-width: 1024px) 31vw, 50vw', stackMeta = false, eager = false, proof } = Astro.props;
+const { client, meta, claim, image, badge, badgeAlt = '', href, ratio = 'portrait', sizes = '(min-width: 1024px) 31vw, calc(50vw - 24px)', stackMeta = false, eager = false, proof } = Astro.props;
 const aspect = { square: 'aspect-square', portrait: 'aspect-[4/5]', 'portrait-square': 'aspect-[4/5] lg:aspect-square', 'square-portrait': 'aspect-square lg:aspect-[4/5]' }[ratio];
 ---
 <article class="hover-card relative flex flex-col">

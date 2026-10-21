@@ -11,7 +11,7 @@ const H = `h${level}`;
 const ratio = 5 / 4;
 const w = s.image ? Math.min(1400, s.image.width, Math.round(s.image.height / ratio)) : 0;
 const widths = [360, 560, 720, 1000, 1400].filter((x) => x < w).concat(w);
-const sizes = '(min-width: 1024px) 24vw, 50vw';
+const sizes = '(min-width: 1024px) 24vw, calc(50vw - 16px)';
 ---
 <article class="hover-card relative flex flex-col">
   <div class="grid grid-cols-2 gap-[2px]">
