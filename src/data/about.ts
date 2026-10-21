@@ -12,7 +12,7 @@ export const ABOUT_PAGE = {
   heading: 'Twenty years in and still in the pixels.',
   // The page's main extraction target: every entity fact once.
   intro:
-    "I'm Anthony Bliss, a freelance Shopify designer based in Falmouth, Cornwall. I design Shopify and Shopify Plus stores for UK DTC brands, trading as Anthony is Freelance through Anthonyis Limited, company number 10575474. I've worked in design for over 20 years, and I've been independent since August 2023.",
+    "I'm Anthony Bliss, a freelance Shopify designer based in Falmouth, Cornwall. I design Shopify and Shopify Plus stores for UK DTC brands, trading as Anthony is Freelance. I've worked in design for over 20 years, and I've been independent since August 2023.",
   // [CONFIRM] month and year the photo was taken, and alt text against the photo.
   photoAlt: 'Anthony Bliss, freelance Shopify designer, in Falmouth, Cornwall',
   photoCaption: 'Anthony Bliss in Falmouth, Cornwall.',
@@ -35,27 +35,6 @@ export const CAREER = {
   },
 };
 
-export const MILESTONES = {
-  eyebrow: 'Freelance Shopify designer since 2023',
-  heading: 'The milestones so far.',
-  // [CONFIRM] launch count, matching the homepage trust row.
-  intro: "I've designed 13 Shopify launches since going independent in August 2023. These are the dates that matter.",
-  items: [
-    { iso: '2023-08', label: 'August 2023', text: 'Went independent.' },
-    { iso: '2025-08-19', label: 'August 2025', text: 'Drink Finder relaunched on Shopify.' },
-    { iso: '2025-10-16', label: 'October 2025', text: "East at Home's redesigned store went live." },
-    { iso: '2026-06-05', label: 'June 2026', text: 'Projektityyny launched.' },
-    // [CONFIRM] Sensational Eyes' launch month.
-    { iso: '2026', label: '[CONFIRM month] 2026', text: 'Sensational Eyes went live on Shopify.' },
-    {
-      iso: '2026-09-30',
-      label: '30 September 2026',
-      text: 'Two wins at the {link}, from four shortlistings: UK eCommerce Website of the Year with Drink Finder, and UK User Experience of the Year with East at Home. The only independent designer on the 2026 shortlist.',
-      link: { label: 'UK eCommerce Awards 2026', href: AWARD_LINKS.winners },
-    },
-  ],
-  link: { label: 'The full award record', href: URLS.awards },
-};
 
 export const PRINCIPLES = {
   eyebrow: 'How I work',

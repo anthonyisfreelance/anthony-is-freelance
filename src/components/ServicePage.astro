@@ -52,7 +52,8 @@ const breadcrumbs = [
   { name: 'Shopify website design services', path: URLS.services },
   { name: p.meta.name, path: p.meta.path },
 ];
-const after = (slot: Slot) => (p.extras ?? []).filter((x) => x.after === slot);
+// "To come" notes stay in the data files and never show: a section with nothing in it is left out.
+const after = (slot: Slot) => (p.extras ?? []).filter((x) => x.after === slot && x.kind !== 'todo');
 const faqSchema = [
   ...(p.extras ?? []).flatMap((x) => (x.kind === 'text' && x.faq ? [{ q: x.heading, a: x.paragraphs ?? [] }] : [])),
   ...(p.faqs?.items ?? []),
@@ -110,6 +111,7 @@ const cell = 't-label tracking-[0.02em]';
     {after('included').map((x) => <ServiceExtra item={x} />)}
 
     <!-- Proof -->
+    {p.proof && (
     <section id="proof" class="px-margin pt-section">
       <div class="border-t border-line pt-section">
         <div class="flex flex-col gap-loose lg:flex-row lg:items-end lg:justify-between lg:gap-gutter">
@@ -123,6 +125,7 @@ const cell = 't-label tracking-[0.02em]';
         </ul>
       </div>
     </section>
+    )}
     {after('proof').map((x) => <ServiceExtra item={x} />)}
 
     <!-- Routing: when this isn't the right call -->

@@ -9,12 +9,12 @@ import PageHero from '../../components/PageHero.astro';
 import Heading from '../../components/Heading.astro';
 import SectionIntro from '../../components/SectionIntro.astro';
 import TextLink from '../../components/TextLink.astro';
-import Rich from '../../components/Rich.astro';
 import Faqs from '../../components/home/Faqs.astro';
 import Contact from '../../components/home/Contact.astro';
 import { URLS, ENTITY } from '../../data/site';
-import { ABOUT_PAGE as P, CAREER, MILESTONES, PRINCIPLES, INDEPENDENT, FIT, ABOUT_FAQS, ABOUT_CTA } from '../../data/about';
-import photo from '../../assets/site/anthony.jpg';
+import { ABOUT_PAGE as P, CAREER, PRINCIPLES, INDEPENDENT, FIT, ABOUT_FAQS, ABOUT_CTA } from '../../data/about';
+// Drive: about/hero-top middle.jpg, so the crop keeps the top centre.
+import photo from '../../assets/site/anthony-about-hero.jpg';
 ---
 <Base title={P.title} description={P.description}>
   <Schema
@@ -33,7 +33,7 @@ import photo from '../../assets/site/anthony.jpg';
     <PageHero eyebrow={P.eyebrow} heading={P.heading} intro={P.intro}>
       <figure class="flex flex-col gap-3">
         <div class="relative aspect-[3/2] overflow-hidden lg:aspect-[21/9]">
-          <Image src={photo} alt={P.photoAlt} widths={[480, 750, 1200, 1800, 2400]} sizes="(min-width: 2560px) 2512px, 100vw" loading="eager" class="absolute inset-0 size-full object-cover" />
+          <Image src={photo} alt={P.photoAlt} widths={[480, 750, 1200, 1800, 2400]} sizes="(min-width: 2560px) 2512px, 100vw" loading="eager" class="absolute inset-0 size-full object-cover object-top" />
         </div>
         <figcaption class="t-label tracking-[0.02em] text-muted">{P.photoCaption}</figcaption>
       </figure>
@@ -47,24 +47,6 @@ import photo from '../../assets/site/anthony.jpg';
           {CAREER.paragraphs.map((p) => <p>{p}</p>)}
           <p>{CAREER.degree.before}<cite class="italic">{CAREER.degree.book}</cite>{CAREER.degree.after}</p>
         </div>
-      </div>
-    </section>
-
-    <!-- Since 2023 -->
-    <section id="since-2023" class="px-margin pt-section">
-      <div class="border-t border-line pt-section">
-        <SectionIntro eyebrow={MILESTONES.eyebrow} heading={MILESTONES.heading}>
-          <p slot="intro">{MILESTONES.intro}</p>
-          <TextLink slot="links" href={MILESTONES.link.href}>{MILESTONES.link.label}</TextLink>
-        </SectionIntro>
-        <ol class="mt-large flex flex-col">
-          {MILESTONES.items.map((m) => (
-            <li class="grid gap-2 border-t border-line py-loose lg:grid-cols-2 lg:gap-gutter">
-              <p class="t-h7 text-ink"><time datetime={m.iso}>{m.label}</time></p>
-              <p class="t-body text-muted"><Rich text={m.text} link={'link' in m ? m.link : undefined} /></p>
-            </li>
-          ))}
-        </ol>
       </div>
     </section>
 

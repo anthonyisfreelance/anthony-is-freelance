@@ -1,5 +1,5 @@
 ---
-// Client logos (Figma "Logo list"): white, no boxes. Five a row on desktop, four on phones (first 8 only).
+// Client logos (Figma "Logo list"): white, no boxes. Four a row at every size.
 // Every logo is sized to the same visual weight: a wide wordmark gets more width and less height than a
 // compact mark, capped to its cell. The ratio comes from each SVG's viewBox.
 import { readFileSync } from 'node:fs';
@@ -23,9 +23,9 @@ const logos = BRANDS.logos.map((l) => {
       <!-- The logos are images, so this line is what names the clients for search and AI tools. -->
       <p class="t-body text-muted lg:max-w-[560px]">{BRANDS.line}</p>
     </div>
-    <ul class="mt-large grid flex-1 grid-cols-4 gap-x-grid lg:mt-0 lg:grid-cols-5 lg:content-center">
-      {logos.map((l, i) => (
-        <li class:list={['flex h-[60px] items-center justify-center lg:h-[100px]', i > 7 && 'max-lg:hidden']}>
+    <ul class="mt-large grid flex-1 grid-cols-4 gap-x-grid lg:mt-0 lg:content-center">
+      {logos.map((l) => (
+        <li class="flex h-[60px] items-center justify-center lg:h-[100px]">
           <img
             src={`/logos/${l.slug}.svg`}
             alt={l.name}

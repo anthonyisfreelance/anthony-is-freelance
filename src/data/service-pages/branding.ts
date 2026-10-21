@@ -1,7 +1,7 @@
 // Branding. Copy: page-copy/service-pages.md, Page 8. Keeps /freelance-brand-designer/.
 import { URLS } from '../site';
 import type { ServicePage } from './types';
-import { card, hubPrice, ROUTING_EYEBROW, PRICE_NOTE, PROCESS_INTRO, QUOTE } from './shared';
+import { hubPrice, ROUTING_EYEBROW, PRICE_NOTE, PROCESS_INTRO, QUOTE } from './shared';
 
 export const BRANDING: ServicePage = {
   meta: {
@@ -38,11 +38,6 @@ export const BRANDING: ServicePage = {
       "You're redesigning the store and want the brand refined at the same time.",
       'Your brand looks different on the site, in social posts and on the packaging.',
     ],
-  },
-  proof: {
-    heading: 'Brand work',
-    link: { label: 'View all Shopify success stories', href: URLS.work },
-    cards: [card('Drink Finder'), card('Window Fleur')],
   },
   routing: {
     eyebrow: ROUTING_EYEBROW,
@@ -100,14 +95,22 @@ export const BRANDING: ServicePage = {
       ],
     },
     {
-      kind: 'text',
-      after: 'proof',
+      // Logos from Drive services/branding, made white for the dark page. Four then three on desktop, two a row on phones.
+      kind: 'logos',
+      after: 'included',
       id: 'identity-work',
       eyebrow: 'Brand identity',
       heading: 'Identity work',
-      paragraphs: ['Norton Radstock College, Electronic Sound Magazine, Chop Chop, Milsom Place and Spicy Guru.'],
+      logos: [
+        { name: 'Norton Radstock College', src: '/logos/identity/norton-radstock-college.svg' },
+        { name: 'Electronic Sound Magazine', src: '/logos/identity/electronic-sound.svg' },
+        { name: 'Chop Chop', src: '/logos/identity/chop-chop.svg' },
+        { name: 'Milsom Place', src: '/logos/identity/milsom-place.svg' },
+        { name: 'Spicy Guru', src: '/logos/identity/spicy-guru.svg' },
+        { name: 'Drink Finder', src: '/logos/identity/drink-finder.svg' },
+        { name: 'Seatool', src: '/logos/identity/seatool.svg' },
+      ],
     },
-    { kind: 'todo', after: 'proof', title: 'Identity work grid', note: 'The existing grid of identity projects from the live page, with images.' },
     { kind: 'todo', after: 'innovations', title: 'Testimonial', note: 'A verbatim quote from Jon Wigmore about the Drink Finder brand refinement, with permission, plus a heading line from it.' },
     { kind: 'todo', after: 'price', title: 'Questions and articles', note: 'No FAQ block and no branding articles yet, by design. Add when questions come up on calls.' },
   ],

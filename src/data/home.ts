@@ -91,8 +91,8 @@ export const BRANDS = {
   heading: 'Brands that trust me',
   // [DRAFT] reword in your voice, and [CONFIRM] all four are cleared to name.
   line: "I've designed for Dyson, Wrangler, Drink Finder and East at Home, with no set style and no favoured sector.",
-  // White logos in public/logos/<slug>.svg (from Drive client-logos). Figma: five a row on desktop (10),
-  // four a row on phones (the first 8). Thameen London and Projektityyny come back when their logos are in.
+  // White logos in public/logos/<slug>.svg (from Drive client-logos). Four a row, two rows, at every size.
+  // Thameen London and Projektityyny come back when their logos are in.
   logos: [
     { name: 'Dyson', slug: 'dyson' },
     { name: 'Wrangler', slug: 'wrangler' },
@@ -101,8 +101,6 @@ export const BRANDS = {
     { name: 'Fuzzball', slug: 'fuzzball' },
     { name: 'Wide Fit Shoes', slug: 'wide-fit-shoes' },
     { name: 'Dr Lipp', slug: 'dr-lipp' },
-    { name: 'Window Fleur', slug: 'window-fleur' },
-    { name: 'Hartnack & Co', slug: 'hartnack-and-co' },
     { name: 'Whistlefish', slug: 'whistlefish' },
   ],
 };

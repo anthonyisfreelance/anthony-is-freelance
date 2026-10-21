@@ -1,11 +1,46 @@
 ---
-import { Image } from 'astro:assets';
+// Services list beside a sticky photo. On desktop, hovering (or tabbing to) a service swaps the photo for
+// that service's own image, and leaving the list brings the default back. Phones only ever see the default.
+// The hover images don't load with the page: they're fetched the first time the pointer reaches the list,
+// so they cost nothing on load or in Lighthouse.
+import { Image, getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
 import SectionIntro from '../SectionIntro.astro';
 import TextLink from '../TextLink.astro';
 import { SERVICES } from '../../data/home';
+import { URLS } from '../../data/site';
 import image from '../../assets/site/services-section.jpg';
+import branding from '../../assets/site/services-hover/branding.jpg';
+import ux from '../../assets/site/services-hover/ux.jpg';
+import bespoke from '../../assets/site/services-hover/bespoke.jpg';
+import migrations from '../../assets/site/services-hover/migrations.jpg';
+import theme from '../../assets/site/services-hover/theme.jpg';
+import cro from '../../assets/site/services-hover/cro.jpg';
+import subscriptions from '../../assets/site/services-hover/subscriptions.jpg';
+import aiSearch from '../../assets/site/services-hover/ai-search.jpg';
+
+// Shopify Plus has no image yet, so hovering it keeps the default.
+const HOVER: Record<string, ImageMetadata> = {
+  [URLS.branding]: branding,
+  [URLS.ux]: ux,
+  [URLS.bespoke]: bespoke,
+  [URLS.migrations]: migrations,
+  [URLS.theme]: theme,
+  [URLS.cro]: cro,
+  [URLS.subscriptions]: subscriptions,
+  [URLS.aiSearch]: aiSearch,
+};
+const sizes = '50vw';
+const hovers = await Promise.all(
+  SERVICES.items.map(async (s, i) => {
+    const src = HOVER[s.href];
+    if (!src) return null;
+    const img = await getImage({ src, widths: [...new Set([720, 1080, 1440].map((w) => Math.min(w, src.width)))], format: 'webp', quality: 75 });
+    return { i, srcset: img.srcSet.attribute };
+  }),
+);
 ---
-<section class="px-margin pt-section-pre lg:px-0">
+<section class="px-margin pt-section-pre lg:px-0" data-services>
   <div class="grid gap-gutter lg:grid-cols-2">
     <div class="flex flex-col gap-large lg:pl-margin">
       <div class="lg:border-t lg:border-line lg:pt-section">
@@ -13,9 +48,9 @@ import image from '../../assets/site/services-section.jpg';
           <TextLink slot="links" href={SERVICES.link.href}>{SERVICES.link.label}</TextLink>
         </SectionIntro>
       </div>
-      <ul class="flex flex-col gap-loose lg:gap-large">
-        {SERVICES.items.map((s) => (
-          <li class="hover-card relative flex items-start gap-grid border-t border-line pt-loose lg:pt-large">
+      <ul class="flex flex-col gap-loose lg:gap-large" data-services-list>
+        {SERVICES.items.map((s, i) => (
+          <li class="hover-card relative flex items-start gap-grid border-t border-line pt-loose lg:pt-large" data-service={i}>
             <div class="grid flex-1 grid-cols-1 gap-x-grid gap-y-2 lg:grid-cols-[minmax(0,0.75fr)_minmax(0,1fr)]">
               <h3 class="t-h5 uppercase text-ink">
                 <a href={s.href} class="stretched-link link-hover">{s.name}</a>
@@ -28,7 +63,40 @@ import image from '../../assets/site/services-section.jpg';
       </ul>
     </div>
     <div class="relative order-first mb-[16px] aspect-[3/2] overflow-hidden lg:sticky lg:top-0 lg:order-none lg:mb-0 lg:aspect-auto lg:h-dvh lg:self-start">
-      <Image src={image} alt="" widths={[400, 750, 1000, 1154]} sizes="(min-width: 1024px) 50vw, calc(100vw - 32px)" class="absolute inset-0 size-full object-cover object-[50%_30%]" />
+      <Image src={image} alt="" widths={[400, 750, 1000, 1400]} sizes="(min-width: 1024px) 50vw, calc(100vw - 32px)" class="absolute inset-0 size-full object-cover" />
+      {hovers.map((h) => h && (
+        <img data-hover={h.i} data-srcset={h.srcset} sizes={sizes} alt="" decoding="async" class="absolute inset-0 hidden size-full object-cover opacity-0 transition-opacity duration-300 lg:block" />
+      ))}
     </div>
   </div>
 </section>
+
+<script is:inline>
+  (function () {
+    var root = document.querySelector('[data-services]');
+    if (!root || !window.matchMedia('(min-width: 1024px) and (hover: hover)').matches) return;
+    var list = root.querySelector('[data-services-list]');
+    var imgs = root.querySelectorAll('img[data-hover]');
+    var loaded = false;
+    function load() {
+      if (loaded) return;
+      loaded = true;
+      imgs.forEach(function (img) { img.srcset = img.getAttribute('data-srcset'); });
+    }
+    function show(i) {
+      imgs.forEach(function (img) { img.style.opacity = img.getAttribute('data-hover') === String(i) ? '1' : '0'; });
+    }
+    list.addEventListener('pointerover', function (e) {
+      load();
+      var li = e.target.closest('[data-service]');
+      if (li) show(li.getAttribute('data-service'));
+    });
+    list.addEventListener('focusin', function (e) {
+      load();
+      var li = e.target.closest('[data-service]');
+      if (li) show(li.getAttribute('data-service'));
+    });
+    list.addEventListener('pointerleave', function () { show(-1); });
+    list.addEventListener('focusout', function (e) { if (!list.contains(e.relatedTarget)) show(-1); });
+  })();
+</script>

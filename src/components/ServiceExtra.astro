@@ -1,11 +1,21 @@
 ---
-// A service page section outside the standard set (who does what, rankings, which theme...),
+// A service page section outside the standard set (who does what, rankings, which theme, a logo grid...),
 // or a dashed "to come" marker for a section that still needs content.
+import { readFileSync } from 'node:fs';
+import { join } from 'node:path';
 import Heading from './Heading.astro';
 import type { Extra } from '../data/service-pages/types';
 interface Props { item: Extra }
 const { item: x } = Astro.props;
 const cell = 't-label tracking-[0.02em]';
+// Logos are sized to the same visual weight: wide wordmarks get width, tall marks get height.
+const logos = x.kind === 'logos'
+  ? x.logos.map((l) => {
+      const [, , w, h] = readFileSync(join(process.cwd(), 'public', l.src), 'utf8').match(/viewBox="([^"]+)"/)![1].split(/[\s,]+/).map(Number);
+      const ratio = w / h;
+      return { ...l, w: Math.round(w), h: Math.round(h), mobile: Math.round(Math.sqrt(2600 * ratio)), desktop: Math.round(Math.sqrt(7000 * ratio)) };
+    })
+  : [];
 ---
 {x.kind === 'todo' ? (
   <section class="px-margin pt-section">
@@ -38,6 +48,15 @@ const cell = 't-label tracking-[0.02em]';
           )}
           {x.note && <p class="t-small border-t border-line pt-loose text-muted">{x.note}</p>}
         </div>
+      )}
+      {x.kind === 'logos' && (
+        <ul class="mt-gutter grid grid-cols-2 gap-grid lg:grid-cols-4">
+          {logos.map((l) => (
+            <li class="flex aspect-[3/2] items-center justify-center bg-raised p-6 lg:p-10">
+              <img src={l.src} alt={l.name} width={l.w} height={l.h} loading="lazy" style={`--wm:${l.mobile}px;--wd:${l.desktop}px`} class="h-auto max-h-full w-[var(--wm)] max-w-full object-contain lg:w-[var(--wd)]" />
+            </li>
+          ))}
+        </ul>
       )}
       {x.kind === 'table' && (
         <table class="mt-gutter w-full border-collapse text-left lg:w-[1035px] lg:max-w-full">
