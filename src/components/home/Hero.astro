@@ -30,12 +30,13 @@ import TrustTiles from '../TrustTiles.astro';
       </div>
 
       <TrustTiles
+        equal
         class="mt-12 lg:mt-20"
         items={[{ google: true, stars: true, text: HERO.rating }, ...HERO.trust.map((text) => ({ text }))]}
       />
 
-      <section aria-label="Success stories" class="pt-large lg:pt-section">
-        <div class="flex flex-col gap-grid-lg border-t border-line pt-section">
+      <section aria-label="Success stories" class="pt-12 lg:pt-20">
+        <div class="flex flex-col gap-grid-lg">
           <SectionIntro eyebrow={STORIES.eyebrow} heading={STORIES.heading} split={false}>
             <TextLink slot="links" href={STORIES.link.href}>{STORIES.link.label}</TextLink>
           </SectionIntro>

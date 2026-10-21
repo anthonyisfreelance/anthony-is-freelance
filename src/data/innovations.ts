@@ -94,6 +94,7 @@ const RECORDS: InnovationRecord[] = [
     evidence: "Over 80% of Projektityyny's visitors are on mobile, from the UX review before design started.",
     caption: 'Shop by product, room or print on Projektityyny.',
     alt: "Projektityyny's navigation on mobile, with routes to shop by product, room or print.",
+    videoUploaded: '2026-10-21',
   },
   {
     slug: 'lookbook-archive',
@@ -109,6 +110,7 @@ const RECORDS: InnovationRecord[] = [
     // No evidence line: PageSpeed is dropped (19 October 2026), as speed is development work.
     caption: "Projektityyny's lookbook archive.",
     alt: "A past collection in Projektityyny's lookbook archive on mobile.",
+    videoUploaded: '2026-10-21',
   },
   {
     slug: 'image-first-product-cards',
@@ -124,6 +126,7 @@ const RECORDS: InnovationRecord[] = [
       'I cut product names to one line, so the picture leads. The multi-buy offer and an Add button sit on the card, because people often buy several cards at once.',
     caption: 'Image-first product cards on Whistlefish.',
     alt: 'Whistlefish greeting cards on mobile, with one-line names, the multi-buy offer and Add buttons.',
+    videoUploaded: '2026-10-21',
   },
   // ---- Choosing
   {

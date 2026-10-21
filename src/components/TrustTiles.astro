@@ -4,9 +4,11 @@
 // Phones: a two-column grid, 8px gaps. From 1024px: one row, 12px gaps, the Google tile
 // sized to its content and the rest sharing the width.
 // stack: one tile under another at every size, 8px apart (the footer).
+// equal: from 1024px every tile shares the width, the Google tile included, with its G above the text
+// so it fits a narrow column (the homepage hero).
 interface Tile { text: string; google?: boolean; stars?: boolean; srText?: string }
-interface Props { items: Tile[]; class?: string; label?: string; row?: boolean; stack?: boolean }
-const { items, class: className = '', label, row = true, stack = false } = Astro.props;
+interface Props { items: Tile[]; class?: string; label?: string; row?: boolean; stack?: boolean; equal?: boolean }
+const { items, class: className = '', label, row = true, stack = false, equal = false } = Astro.props;
 const odd = items.length % 2 === 1;
 ---
 <ul
@@ -21,7 +23,8 @@ const odd = items.length % 2 === 1;
     <li
       class:list={[
         'flex items-center justify-center gap-2 bg-raised px-4 py-3 text-center',
-        !stack && (t.google ? 'lg:shrink-0' : 'lg:flex-1'),
+        !stack && (t.google && !equal ? 'lg:shrink-0' : 'lg:min-w-0 lg:flex-1 lg:basis-0'),
+        equal && t.google && 'lg:flex-col',
         !stack && odd && i === items.length - 1 && 'col-span-2',
       ]}
     >

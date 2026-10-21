@@ -23,8 +23,8 @@ Until the still is there, the entry shows an empty phone with "Recording to come
 | Brand folder | Slug |
 | --- | --- |
 | drink-finder | comparison-toggle (done), offers-button |
-| projektityyny | shop-by-product-room-print, lookbook-archive |
-| whistlefish | image-first-product-cards, design-system-team-runs |
+| projektityyny | shop-by-product-room-print (done), lookbook-archive (done) |
+| whistlefish | image-first-product-cards (done), design-system-team-runs |
 | east-at-home | dinner-question-cards |
 | hartnack-and-co | product-builder, customer-gallery |
 | fuzzball | subscription-only-cards, trial-subscription-split, progress-bar-with-character |
