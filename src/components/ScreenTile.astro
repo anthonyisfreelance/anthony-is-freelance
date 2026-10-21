@@ -4,6 +4,8 @@
 // backgrounds. A screen recording (public path to an MP4) can play over the still: it starts
 // when the tile scrolls into view (the shared script in Base.astro) and is skipped for reduced
 // motion. With `controls`, the video shows its own controls and poster instead.
+// With anchor="top" the phone hangs from the top of the tile and the recording keeps its bottom edge,
+// for an innovation that lives at the bottom of the screen (a sticky bar).
 // On hover (inside a .hover-card) the whole tile zooms, backdrop and phone together.
 // Without a screen (an innovation whose still hasn't been added yet) it shows an empty phone.
 import { Image, getImage } from 'astro:assets';
@@ -17,15 +19,18 @@ interface Props {
   ratio?: 'square' | 'portrait';
   inset?: string; // horizontal inset of the phone, as a percentage of the tile
   sizes?: string;
+  anchor?: 'bottom' | 'top'; // where the phone sits in the tile; 'top' keeps the bottom of the screen in view
   class?: string;
 }
-const { screen, video, controls = false, alt = '', label, ratio = 'square', inset, sizes = '(min-width: 1024px) 15vw, 40vw', class: className = '' } = Astro.props;
+const { screen, video, controls = false, alt = '', label, ratio = 'square', inset, sizes = '(min-width: 1024px) 15vw, 40vw', anchor = 'bottom', class: className = '' } = Astro.props;
+const pin = anchor === 'top' ? 'top-0' : 'bottom-0';
+const crop = anchor === 'top' ? 'object-bottom' : 'object-top';
 const side = inset ?? (ratio === 'portrait' ? '17.63%' : '24.5%');
 const poster = screen && video && controls ? (await getImage({ src: screen, width: 660 })).src : undefined;
 ---
 {!screen ? (
   <div class:list={['relative overflow-hidden bg-raised', ratio === 'portrait' ? 'aspect-[4/5]' : 'aspect-square', className]} aria-hidden="true">
-    <div class="absolute bottom-0 flex aspect-[216/376] items-center justify-center border border-b-0 border-line" style={`left:${side};right:${side}`}>
+    <div class:list={['absolute flex aspect-[216/376] items-center justify-center border border-line', pin, anchor === 'top' ? 'border-t-0' : 'border-b-0']} style={`left:${side};right:${side}`}>
       <span class="t-badge px-2 text-center text-muted">Recording to come</span>
     </div>
   </div>
@@ -36,8 +41,8 @@ const poster = screen && video && controls ? (await getImage({ src: screen, widt
       <Image src={screen} alt="" width={200} class="absolute inset-0 size-full object-cover" />
     </div>
     <div class="absolute inset-0 bg-white/20"></div>
-    <div class="absolute bottom-0 aspect-[216/376] overflow-hidden" style={`left:${side};right:${side}`}>
-      <Image src={screen} alt={alt} widths={[220, 440, 660]} sizes={sizes} class="size-full object-cover object-top" />
+    <div class:list={['absolute aspect-[216/376] overflow-hidden', pin]} style={`left:${side};right:${side}`}>
+      <Image src={screen} alt={alt} widths={[220, 440, 660]} sizes={sizes} class:list={['size-full object-cover', crop]} />
       {video && (controls ? (
         <video
           src={video}
@@ -49,7 +54,7 @@ const poster = screen && video && controls ? (await getImage({ src: screen, widt
           playsinline
           preload="none"
           aria-label={label}
-          class="absolute inset-0 size-full object-cover object-top"
+          class:list={['absolute inset-0 size-full object-cover', crop]}
         ></video>
       ) : (
         <video
@@ -62,7 +67,7 @@ const poster = screen && video && controls ? (await getImage({ src: screen, widt
           preload="none"
           aria-hidden="true"
           tabindex="-1"
-          class="absolute inset-0 size-full object-cover object-top opacity-0 transition-opacity duration-300"
+          class:list={['absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-300', crop]}
         ></video>
       ))}
     </div>

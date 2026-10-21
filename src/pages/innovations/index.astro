@@ -80,7 +80,7 @@ const list = { '@type': 'ItemList', '@id': `${url}#innovations`, name: 'Shopify 
             {g.items.map((it) => (
               <li id={it.slug} class="flex scroll-mt-6 flex-col gap-loose">
                 <figure>
-                  <ScreenTile screen={it.poster} video={it.video} alt={it.alt} sizes="(min-width: 1024px) 24vw, (min-width: 640px) 48vw, 100vw" />
+                  <ScreenTile screen={it.poster} video={it.video} alt={it.alt} anchor={it.anchor} sizes="(min-width: 1024px) 24vw, (min-width: 640px) 48vw, 100vw" />
                   <figcaption class="sr-only">{it.caption}</figcaption>
                 </figure>
                 <div class="flex flex-col gap-2">

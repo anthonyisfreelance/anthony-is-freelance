@@ -12,7 +12,7 @@ import { INNOVATIONS } from '../../data/home';
     <ul class="mt-large grid grid-cols-2 gap-x-grid gap-y-large lg:grid-cols-3">
       {INNOVATIONS.items.map((item, i) => (
         <li class:list={['hover-card relative flex flex-col', i > 1 && 'max-lg:hidden']}>
-          <ScreenTile screen={item.image} video={item.video} sizes="(min-width: 1024px) 16vw, 25vw" />
+          <ScreenTile screen={item.image} video={item.video} anchor={item.anchor} sizes="(min-width: 1024px) 16vw, 25vw" />
           <div class="flex flex-col gap-3 pt-grid">
             <h3 class="t-h6 text-ink">
               <a href={item.href} class="stretched-link link-hover"><span class="sr-only">{item.client}. </span>{item.title}</a>

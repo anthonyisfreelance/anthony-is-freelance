@@ -177,7 +177,7 @@ export const INNOVATIONS = {
     ] as const
   ).map(([slug, body]) => {
     const it = INNOVATIONS_LIST.find((i) => i.slug === slug)!;
-    return { client: it.client, title: it.name, body, href: `${URLS.innovations}#${slug}`, image: it.poster, video: it.video, alt: it.alt };
+    return { client: it.client, title: it.name, body, href: `${URLS.innovations}#${slug}`, image: it.poster, video: it.video, alt: it.alt, anchor: it.anchor };
   }),
 };
 

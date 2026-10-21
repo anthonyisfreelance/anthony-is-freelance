@@ -29,6 +29,7 @@ interface InnovationRecord {
   caption: string;
   alt: string;
   videoUploaded?: string; // ISO date the recording went up, for the VideoObject schema
+  anchor?: 'top'; // hang the phone from the top of the tile, for an innovation at the bottom of the screen
 }
 
 export interface Innovation extends InnovationRecord {
@@ -250,6 +251,7 @@ const RECORDS: InnovationRecord[] = [
     client: 'Fuzzball',
     year: '2025',
     service: S.branding,
+    anchor: 'top', // the progress bar sits at the bottom of the screen
     problem: 'A quiz is a form, and forms feel like a chore.',
     howItWorks: "Fuzzball's cat chases a ball along the quiz progress bar, so finishing the quiz feels like part of the brand.",
     evidence: 'Project result: conversion rate up 63%, August 2025 to August 2026 against the year before. GA4.',
