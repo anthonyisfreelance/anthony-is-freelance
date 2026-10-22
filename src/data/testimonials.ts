@@ -129,7 +129,7 @@ export const TESTIMONIALS_PAGE = {
   intro:
     'Eight brands, including Drink Finder, East at Home and Thameen London, on working with Anthony Bliss, a freelance Shopify designer in Cornwall. Each quote is as the client wrote it, with their name, role, company and the year they gave it.',
   // Only platforms with reviews on them. [CONFIRM] Clutch rating and LinkedIn recommendations.
-  trust: [{ text: '5.0 from 6 Google reviews', href: ENTITY.googleReviews }],
+  trust: [{ text: '5.0 (6 reviews)', href: ENTITY.googleReviews }],
   list: { eyebrow: 'Shopify client testimonials', heading: 'Named, dated and linked.' },
   cta: {
     eyebrow: 'Start a Shopify project',

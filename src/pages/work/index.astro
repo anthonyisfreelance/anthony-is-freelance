@@ -7,7 +7,7 @@ import PageHero from '../../components/PageHero.astro';
 import WorkCard from '../../components/WorkCard.astro';
 import Filters from '../../components/Filters.astro';
 import TrustTiles from '../../components/TrustTiles.astro';
-import { SITE } from '../../data/site';
+import { SITE, GOOGLE_RATING } from '../../data/site';
 import { CASE_STUDIES, FILTERS, WORK_META, WORK_HERO, WORK_TRUST } from '../../data/work';
 
 const url = new URL(WORK_META.path, SITE).href;
@@ -43,11 +43,10 @@ const trustAfter = 6;
       <ul class="mt-section-sm grid gap-x-gutter gap-y-[64px] lg:grid-cols-2" data-grid>
         {CASE_STUDIES.map((s, i) => (
           <>
+            {/* Trust row: twice the grid gap above and below, so it stands apart from the cards. */}
             {i === trustAfter && (
-              <li data-filter-all class="lg:col-span-2">
-                <TrustTiles
-                  items={[{ google: true, stars: true, text: '5/5', srText: ' on Google reviews' }, ...WORK_TRUST.map((text) => ({ text }))]}
-                />
+              <li data-filter-all class="my-[64px] lg:col-span-2">
+                <TrustTiles equal items={[GOOGLE_RATING, ...WORK_TRUST.map((text) => ({ text }))]} />
               </li>
             )}
             <li data-tags={s.services.join(' ')}><WorkCard study={s} eager={i < 2} level={2} /></li>

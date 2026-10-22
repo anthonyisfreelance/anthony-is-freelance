@@ -2,7 +2,7 @@
 // Desktop: columns. Mobile: the same columns as an accordion.
 // Columns start open (the no-JS fallback); a few lines close them on phones.
 import TrustTiles from './TrustTiles.astro';
-import { FOOTER_COLUMNS, SOCIAL, URLS, ENTITY } from '../data/site';
+import { FOOTER_COLUMNS, SOCIAL, URLS, ENTITY, GOOGLE_RATING } from '../data/site';
 const year = new Date().getFullYear();
 const columns = [
   ...FOOTER_COLUMNS,
@@ -28,7 +28,7 @@ const columns = [
             stack
             label="Reviews and awards"
             class="order-2 lg:order-none lg:w-[197px] lg:self-start"
-            items={[{ google: true, stars: true, text: '5/5', srText: ' from Google reviews' }, { text: '2× winner, UK eCommerce Awards 2026' }]}
+            items={[GOOGLE_RATING, { text: '2× winner, UK eCommerce Awards 2026' }]}
           />
           <div class="order-1 flex flex-col lg:order-none lg:contents">
             {columns.map((col, i) => (

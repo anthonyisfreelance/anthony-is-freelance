@@ -13,7 +13,7 @@ import LoopVideo from '../../components/LoopVideo.astro';
 import CaseStudyCard from '../../components/CaseStudyCard.astro';
 import Faqs from '../../components/home/Faqs.astro';
 import Contact from '../../components/home/Contact.astro';
-import { SITE, ENTITY } from '../../data/site';
+import { SITE, ENTITY, GOOGLE_RATING } from '../../data/site';
 import {
   HUB_META, HUB_HERO, SERVICES_LIST, SERVICES_GRID, SITUATIONS, RECENT_WORK, HUB_TESTIMONIAL, HUB_FAQS, formatPrice,
 } from '../../data/services';
@@ -75,7 +75,7 @@ const catalog = {
     <!-- Trust row (Figma "Icon and text Section"): Google first, every fact on a raised tile -->
     <TrustTiles
       class="px-margin pt-12 lg:pt-large"
-      items={[...HUB_HERO.trust.filter((t) => t.google), ...HUB_HERO.trust.filter((t) => !t.google)].map((t) => ({ text: t.text, google: t.google }))}
+      items={[...HUB_HERO.trust.filter((t) => t.google), ...HUB_HERO.trust.filter((t) => !t.google)].map((t) => (t.google ? GOOGLE_RATING : { text: t.text }))}
     />
 
     <!-- Eight services -->

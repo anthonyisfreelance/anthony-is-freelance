@@ -29,7 +29,6 @@ export const HERO = {
     { label: 'Start a project', href: URLS.contact },
     { label: 'View my success stories', href: URLS.work },
   ],
-  rating: '5.0 from 6 Google reviews',
   trust: [
     '20+ years of brand and ecommerce experience',
     'UK eCommerce Website of the Year 2026',

@@ -118,18 +118,12 @@ const RECORDS: Omit<CaseStudy, 'image' | 'screen' | 'screenVideo'>[] = [
     href: p('east-west-apparel-shopify-website-design-case-study'),
     services: ['migrations'],
   },
-  {
-    // Newest launch (brief, 18 October 2026). No case study page yet, so no link.
-    client: 'Sensational Eyes', brand: 'sensational-eyes', meta: 'Beauty · 2026',
-    claim: '[CONFIRM: a theme customisation for a relaunched under-eye treatment, and what it changed]',
-    proof: '[CONFIRM: one design decision]',
-    services: ['theme-customisations'],
-  },
+  // Sensational Eyes joins once the store is stocking products (22 October 2026).
   {
     client: 'Jing Tea', brand: 'jing-tea', meta: 'Food & drink',
     claim: 'A Shopify Plus redesign for a luxury tea brand',
     proof: 'A gold and earth palette widened with neutrals, with gold kept for key actions.',
-    href: p('jing-tea-shopify-website-design-case-study'),
+    // No case study page yet, so the card doesn't link (22 October 2026).
     services: ['theme-customisations'],
   },
 ];

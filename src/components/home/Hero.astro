@@ -7,7 +7,7 @@ import TextLink from '../TextLink.astro';
 import SectionIntro from '../SectionIntro.astro';
 import CaseStudyCard from '../CaseStudyCard.astro';
 import { HERO, STORIES } from '../../data/home';
-import { URLS } from '../../data/site';
+import { URLS, GOOGLE_RATING } from '../../data/site';
 import Showreel from '../Showreel.astro';
 import TrustTiles from '../TrustTiles.astro';
 ---
@@ -32,7 +32,7 @@ import TrustTiles from '../TrustTiles.astro';
       <TrustTiles
         equal
         class="mt-12 lg:mt-20"
-        items={[{ google: true, stars: true, text: HERO.rating }, ...HERO.trust.map((text) => ({ text }))]}
+        items={[GOOGLE_RATING, ...HERO.trust.map((text) => ({ text }))]}
       />
 
       <section aria-label="Success stories" class="pt-12 lg:pt-20">

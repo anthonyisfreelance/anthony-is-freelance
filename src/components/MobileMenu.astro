@@ -5,7 +5,7 @@
 import { Image } from 'astro:assets';
 import ScreenTile from './ScreenTile.astro';
 import TrustTiles from './TrustTiles.astro';
-import { MEGA, URLS } from '../data/site';
+import { MEGA, URLS, GOOGLE_RATING } from '../data/site';
 import { STORIES } from '../data/home';
 import photo from '../assets/brands/drink-finder/menu.jpg';
 import screen from '../assets/brands/drink-finder/screen-home.png';
@@ -45,7 +45,7 @@ const link = 't-button-lg text-ink link-hover';
         <TrustTiles
           row={false}
           items={[
-            { google: true, stars: true, text: '5/5', srText: ' from Google reviews' },
+            GOOGLE_RATING,
             { text: '2× winner, UK eCommerce Awards 2026' },
           ]}
         />

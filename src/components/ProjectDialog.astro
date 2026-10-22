@@ -8,6 +8,7 @@
 import ProjectForm from './ProjectForm.astro';
 import TrustTiles from './TrustTiles.astro';
 import { CONTACT, PROJECT_DIALOG } from '../data/home';
+import { GOOGLE_RATING } from '../data/site';
 const { aside } = PROJECT_DIALOG;
 ---
 <dialog
@@ -30,7 +31,7 @@ const { aside } = PROJECT_DIALOG;
       </div>
       <TrustTiles
         class="px-margin py-[40px] [--c-raised:#fff] [--c-text:#111]"
-        items={[{ google: true, stars: true, text: '5/5', srText: ' from Google reviews' }, ...PROJECT_DIALOG.trust.map((text) => ({ text }))]}
+        items={[GOOGLE_RATING, ...PROJECT_DIALOG.trust.map((text) => ({ text }))]}
       />
     </aside>
 
