@@ -22,7 +22,7 @@ export const DATA: CaseStudyPageData = {
     heading: 'Bespoke binders, built step by step',
     standfirst:
       'Hartnack & Co makes bespoke binders, boxes and log books to order, for businesses, pilots and weddings. I redesigned its Shopify store around a product builder that turns thousands of options into a few calm steps.',
-    image: photoMedia(B, 'hero', box),
+    image: photoMedia(B, 'hero'),
   },
   brief: {
     eyebrow: 'The brief',

@@ -108,10 +108,11 @@ export const breadcrumbs = (name: string, path: string) => [
 
 /**
  * A photo slot (hero, showcase-photo, gallery-photo, feature-photo). A file dropped in under that
- * name wins; otherwise the fallback the client file names; otherwise a placeholder.
+ * name wins; otherwise the fallback the client file names; a hero then falls back to the card photo;
+ * otherwise a placeholder.
  */
 export const photo = (brand: string, name: string, fallback?: ImageMetadata): ImageMetadata | undefined =>
-  brandImage(brand, name) ?? fallback;
+  brandImage(brand, name) ?? fallback ?? (name === 'hero' ? brandImage(brand, 'card') : undefined);
 
 export const photoMedia = (brand: string, name: string, fallback?: ImageMetadata): Media => ({
   image: photo(brand, name, fallback),

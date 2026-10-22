@@ -24,7 +24,7 @@ export const DATA: CaseStudyPageData = {
     // [CONFIRM] the first sentence: what Whistlefish is and sells, in their words.
     standfirst:
       'Whistlefish is a Cornish greeting card and gift brand, with thousands of designs sold online and in its own shops. I redesigned its Shopify store mobile first as part of its move to Shopify 2.0, with a design system its own team now builds on.',
-    image: photoMedia(B, 'hero', apron),
+    image: photoMedia(B, 'hero'),
   },
   brief: {
     eyebrow: 'The brief',

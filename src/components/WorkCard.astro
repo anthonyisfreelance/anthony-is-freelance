@@ -28,7 +28,7 @@ const sizes = '(min-width: 1024px) 24vw, calc(50vw - 16px)';
       )}
     </div>
     {s.screen ? (
-      <div aria-hidden="true"><ScreenTile screen={s.screen} ratio="portrait" sizes="(min-width: 1024px) 15vw, 30vw" /></div>
+      <div aria-hidden="true"><ScreenTile screen={s.screen} video={s.screenVideo} backdrop={s.image} ratio="portrait" sizes="(min-width: 1024px) 15vw, 30vw" /></div>
     ) : (
       <div class="relative aspect-[4/5] bg-line" aria-hidden="true">
         <span class="t-badge absolute inset-0 grid place-items-center text-muted">[Screen to come]</span>

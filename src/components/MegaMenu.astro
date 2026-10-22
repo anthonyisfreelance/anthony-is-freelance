@@ -34,7 +34,7 @@ const workCards = [STORIES.featured, ...STORIES.cards.filter((c) => c.href)].sli
           <div class="relative aspect-[4/5] overflow-hidden">
             <Image src={featured.image!} alt="" widths={[280, 560]} sizes="280px" class="zoom-img absolute inset-0 size-full object-cover" />
           </div>
-          <ScreenTile screen={screen} ratio="portrait" sizes="180px" />
+          <ScreenTile screen={featured.screen ?? screen} video={featured.screenVideo} backdrop={featured.image} ratio="portrait" sizes="180px" />
         </div>
         <p class="t-badge flex gap-2 border-b border-line py-3 text-muted" aria-hidden="true">
           <span class="flex-1">{featured.client}</span><span class="flex-1 text-right">{featured.meta}</span>

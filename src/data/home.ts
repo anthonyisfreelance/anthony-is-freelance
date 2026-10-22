@@ -8,7 +8,7 @@ import drinkFinder from '../assets/brands/drink-finder/card.jpg';
 import eastAtHome from '../assets/brands/east-at-home/card.jpg';
 import fuzzball from '../assets/brands/fuzzball/card.jpg';
 import projektityyny from '../assets/brands/projektityyny/card.jpg';
-import thameen from '../assets/brands/thameen/bottles.jpg';
+import thameen from '../assets/brands/thameen/card.jpg';
 import badgeDrinkFinder from '../assets/site/badge-winner-2026.png';
 import badgeEastAtHome from '../assets/site/badge-winner-2026.png';
 import { INNOVATIONS_LIST } from './innovations';

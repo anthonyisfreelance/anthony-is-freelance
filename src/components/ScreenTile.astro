@@ -12,6 +12,7 @@ import { Image, getImage } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 interface Props {
   screen?: ImageMetadata;
+  backdrop?: ImageMetadata; // blurred behind the phone; the screen itself when not given
   video?: string;
   controls?: boolean;
   alt?: string;
@@ -22,7 +23,7 @@ interface Props {
   anchor?: 'bottom' | 'top'; // where the phone sits in the tile; 'top' keeps the bottom of the screen in view
   class?: string;
 }
-const { screen, video, controls = false, alt = '', label, ratio = 'square', inset, sizes = '(min-width: 1024px) 15vw, 40vw', anchor = 'bottom', class: className = '' } = Astro.props;
+const { screen, backdrop, video, controls = false, alt = '', label, ratio = 'square', inset, sizes = '(min-width: 1024px) 15vw, 40vw', anchor = 'bottom', class: className = '' } = Astro.props;
 const pin = anchor === 'top' ? 'top-0' : 'bottom-0';
 const crop = anchor === 'top' ? 'object-bottom' : 'object-top';
 const side = inset ?? (ratio === 'portrait' ? '17.63%' : '24.5%');
@@ -38,7 +39,7 @@ const poster = screen && video && controls ? (await getImage({ src: screen, widt
 <div class:list={['relative overflow-hidden bg-white', ratio === 'portrait' ? 'aspect-[4/5]' : 'aspect-square', className]}>
   <div class="zoom-img absolute inset-0">
     <div class="absolute inset-0 scale-125 blur-[60px]" aria-hidden="true">
-      <Image src={screen} alt="" width={200} class="absolute inset-0 size-full object-cover" />
+      <Image src={backdrop ?? screen} alt="" width={200} class="absolute inset-0 size-full object-cover" />
     </div>
     <div class="absolute inset-0 bg-white/20"></div>
     <div class:list={['absolute aspect-[216/376] overflow-hidden', pin]} style={`left:${side};right:${side}`}>

@@ -23,7 +23,7 @@ export const DATA: CaseStudyPageData = {
     heading: 'Off headless, onto a premium theme',
     standfirst:
       'Thameen London is a niche luxury fragrance house, stocked in Harrods and boutiques worldwide. I moved its store off a headless set-up onto a premium Shopify theme, then customised it until it looked bespoke.',
-    image: photoMedia(B, 'hero', bottles),
+    image: photoMedia(B, 'hero'),
   },
   brief: {
     eyebrow: 'The brief',
