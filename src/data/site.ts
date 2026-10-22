@@ -158,12 +158,8 @@ export const MEGA = {
   articles: {
     label: 'Articles',
     viewAll: { label: 'View all articles', href: URLS.articles },
-    sideHeading: 'More proof.',
-    sideLinks: [
-      { label: 'View all success stories', href: URLS.work, arrow: true },
-      { label: 'Shopify innovations', href: URLS.innovations },
-      { label: 'Awards', href: URLS.awards },
-      { label: 'Client testimonials', href: URLS.testimonials },
-    ],
+    topicsLabel: 'Browse by topic',
+    latestLabel: 'Latest',
+    recentLabel: 'Recent articles',
   },
 } as const;

@@ -133,6 +133,29 @@
   text-transform: uppercase;
 }
 
+/* Figma Heading/H3: 22px phones, 26px from 1024px, caps. Index rows and article H3s. */
+@utility t-h3 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 1.1;
+  text-transform: uppercase;
+  @media (width >= 1024px) {
+    font-size: var(--type-h3);
+  }
+}
+
+/* Figma Heading/H4 (lc): the H3 size in sentence case. FAQ questions, menu article titles. */
+@utility t-h4 {
+  font-family: var(--font-display);
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 1.3;
+  @media (width >= 1024px) {
+    font-size: var(--type-h3);
+  }
+}
+
 @utility t-h5 {
   font-family: var(--font-display);
   font-weight: 500;
@@ -310,10 +333,11 @@
   }
 }
 
-/* Article body: long-form reading on black. Body copy is white and one step up from the rest of
-   the site (18px phones, 20px from 1024px) with extra line height, because light text on black
-   reads smaller than it is. Grey is kept for the secondary layer: byline, tables, captions and
-   inactive contents links. Display headings; tables scroll sideways on phones. */
+/* Article body: long-form reading on black (Figma "Article template", 22 October 2026). Body copy is
+   white Body/Article (18px, 1.65 line height), because light text on black reads smaller than it is.
+   Grey is kept for the secondary layer: byline, tables, captions and inactive contents links.
+   Blocks sit Stack/Large apart (40px desktop, 24px phones); an H2 adds the same again above it,
+   an H3 adds Stack/Loose. Tables scroll sideways on phones. */
 @layer components {
   .prose-article {
     font-family: var(--font-serif);
@@ -321,37 +345,39 @@
     line-height: 1.65;
     color: var(--c-text);
   }
-  @media (min-width: 1024px) {
-    .prose-article { font-size: 20px; }
-  }
   .prose-article td, .prose-article figcaption { color: var(--c-muted); }
-  .prose-article > * + * { margin-top: 1.1em; }
+  .prose-article > * + * { margin-top: var(--stack-large); }
   .prose-article h2 {
     font-family: var(--font-display);
     font-weight: 500;
-    font-size: var(--type-h5);
-    line-height: 1.3;
+    font-size: var(--type-h2);
+    line-height: 1.1;
     text-transform: uppercase;
     color: var(--c-text);
-    margin-top: 2.4em;
+    margin-top: calc(var(--stack-large) * 2);
     scroll-margin-top: 32px;
   }
   .prose-article h3 {
     font-family: var(--font-display);
     font-weight: 500;
-    font-size: var(--type-h6);
-    line-height: 1.4;
+    font-size: 22px;
+    line-height: 1.1;
+    text-transform: uppercase;
     color: var(--c-text);
-    margin-top: 1.8em;
+    margin-top: calc(var(--stack-large) + var(--stack-loose));
   }
-  .prose-article h2 + *, .prose-article h3 + * { margin-top: 0.6em; }
+  @media (min-width: 1024px) {
+    .prose-article h3 { font-size: var(--type-h3); }
+  }
+  .prose-article > :first-child { margin-top: 0; }
+  .prose-article h2 + *, .prose-article h3 + * { margin-top: var(--stack-large); }
   .prose-article strong { color: var(--c-text); font-weight: 600; }
   .prose-article a, .prose-faq a { color: var(--c-text); text-decoration: underline; text-underline-offset: 4px; }
   .prose-article a:hover, .prose-faq a:hover { text-decoration-thickness: 2px; }
   .prose-article ul, .prose-article ol { padding-left: 1.25em; }
   .prose-article ul { list-style: disc; }
   .prose-article ol { list-style: decimal; }
-  .prose-article li + li { margin-top: 0.4em; }
+  .prose-article li + li { margin-top: 12px; }
   .prose-article .table-wrap { overflow-x: auto; }
   .prose-article table {
     width: 100%;
@@ -388,6 +414,15 @@
     border-left: 2px solid var(--c-text);
     padding-left: 13px;
   }
+}
+
+/* Article cover marks (ArticleCover.astro): the line stays a fixed weight however big the cover. */
+.cover-mark * {
+  stroke-width: 2px;
+  vector-effect: non-scaling-stroke;
+}
+@media (min-width: 1024px) {
+  .cover-mark * { stroke-width: 3px; }
 }
 
 /* Lock the page behind the open phone menu and the Start a project overlay. */

@@ -1,0 +1,13 @@
+---
+// Articles landing page 2 onwards (/articles/page/2/). Only built once there are more than
+// ARTICLES_PER_PAGE articles, so none exist until then.
+import ArticlesLanding from '../../../components/ArticlesLanding.astro';
+import { ARTICLES_LIST, ARTICLES_PER_PAGE } from '../../../data/articles';
+
+export function getStaticPaths() {
+  const pages = Math.ceil(ARTICLES_LIST.length / ARTICLES_PER_PAGE);
+  return Array.from({ length: Math.max(0, pages - 1) }, (_, i) => ({ params: { page: String(i + 2) } }));
+}
+const page = Number(Astro.params.page);
+---
+<ArticlesLanding page={page} />

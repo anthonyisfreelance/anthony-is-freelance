@@ -18,11 +18,14 @@ export interface Article {
   date: string; // ISO publish date
   category: ArticleCategory;
   excerpt: string;
+  /** The article's real headline number, for the on-site featured cover (Figma Article/Cover, Figure=True).
+   *  Leave it off when the article has no single figure; the cover falls back to the category mark. */
+  figure?: { value: string; label: string };
 }
 
 // Newest first.
 export const ARTICLES_LIST: Article[] = [
-  { title: 'What Is a Good Conversion Rate on Shopify?', href: '/articles/good-conversion-rate-shopify/', date: '2026-09-20', category: 'shopify-cro', excerpt: 'A good Shopify conversion rate is above 3.2%, which puts a store in the top 20%.' },
+  { title: 'What Is a Good Conversion Rate on Shopify?', href: '/articles/good-conversion-rate-shopify/', date: '2026-09-20', category: 'shopify-cro', excerpt: 'A good Shopify conversion rate is above 3.2%, which puts a store in the top 20%.', figure: { value: '3.2%', label: 'puts a store in the top 20%' } },
   { title: 'Two Wins from Four Shortlistings at the UK eCommerce Awards 2026', href: '/articles/shortlisted-uk-ecommerce-awards-2026/', date: '2026-08-30', category: 'news', excerpt: 'I won two categories at the UK eCommerce Awards 2026 from four shortlistings, for my work with Drink Finder and East at Home.' },
   { title: "What Is a Shopify UX Review (And Why It's Where Every Project Should Start)", href: '/articles/shopify-ux-review/', date: '2026-05-13', category: 'design-and-ux', excerpt: 'A Shopify UX review is where every project should start, and yet most agencies skip it in favour of made-up personas and assumptions.' },
   { title: 'Shopify Product Card Design: The Art of Cards That Convert', href: '/articles/shopify-product-card-design/', date: '2026-05-05', category: 'design-and-ux', excerpt: 'Product cards are the most fundamental component of any ecommerce site, and the place where premium Shopify themes quietly underperform.' },
@@ -50,6 +53,15 @@ export const ARTICLES_LIST: Article[] = [
 
 export const categoryLabel = (id: ArticleCategory) => ARTICLE_CATEGORIES.find((c) => c.id === id)!.label;
 
+/** "20 September 2026" */
+export const formatDate = (iso: string) => new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
+
+/** The slug in /articles/<slug>/ */
+export const articleSlug = (a: Article) => a.href.split('/').filter(Boolean).pop()!;
+
+/** The landing page lists this many per page (the latest article counts as one). */
+export const ARTICLES_PER_PAGE = 24;
+
 
 export const ARTICLES_PAGE = {
   path: URLS.articles,
@@ -68,15 +80,14 @@ export const ARTICLES_PAGE = {
       'Anthony Bliss, a freelance Shopify designer in Cornwall, won two UK eCommerce Awards in 2026: UK eCommerce Website of the Year for Drink Finder and UK User Experience of the Year for East at Home.',
     experience:
       "I've worked in design for over 20 years: brand identity in Bath and Bristol, three and a half years at Dyson, then Shopify. I've been independent since August 2023. Every article here is held to the same rules:",
+    // Figma (Articles landing, 22 October 2026): two callouts.
     rules: [
-      'Each article answers one question, and answers it in the first sentence.',
-      'Every figure carries its source and the month it was checked. Where sources disagree, the article says so.',
-      "Client results only appear with the client's sign-off, the measurement window and the data source, worded exactly as on the case study.",
-      'When an article is updated with new data, the date at the top changes and a line says what changed.',
+      'I believe in transparency. Every figure carries its source and the month it was checked.',
+      'When an article is updated with new data, the date changes and a line says what changed.',
     ],
     links: [
       { label: 'LinkedIn', href: 'https://www.linkedin.com/in/anthony-is-freelance/', external: true },
-      { label: 'About', href: URLS.about },
+      { label: 'About Anthony', href: URLS.about },
       { label: 'Shopify success stories', href: URLS.work },
     ],
   },

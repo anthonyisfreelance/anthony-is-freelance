@@ -1,20 +1,23 @@
 ---
-// Article template. One page per file in src/data/article-content/ (the article's blocks and FAQs,
-// converted from WordPress); title, date and category come from the article list in
-// src/data/articles.ts, so the cards and the page can't disagree.
-// Desktop: contents down the left, the article in a reading column. Phones: contents fold away.
-// Images drop in by file name (src/assets/articles/<slug>/), placeholders until then.
+// Article template (Figma "Article", 22 October 2026). One page per file in src/data/article-content/
+// (the article's blocks and FAQs); title, date and category come from the article list in
+// src/data/articles.ts, so the index and the page can't disagree.
+// Head: breadcrumb, category, title, byline, then the update note and standfirst when the article
+// has them. Cover across the page, then contents down the left (desktop) and the article in a
+// centred reading column. FAQs all open, the author, related articles.
+// Body images drop in by file name (src/assets/articles/<slug>/), placeholders until then.
 import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import Schema from '../../components/Schema.astro';
 import Header from '../../components/Header.astro';
 import Heading from '../../components/Heading.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
 import TextLink from '../../components/TextLink.astro';
-import ArticleCard from '../../components/ArticleCard.astro';
-import Faqs from '../../components/home/Faqs.astro';
+import ArticleCover from '../../components/ArticleCover.astro';
+import ArticleIndexRow from '../../components/ArticleIndexRow.astro';
 import Contact from '../../components/home/Contact.astro';
 import { SITE, ENTITY, URLS } from '../../data/site';
-import { ARTICLES_LIST, ARTICLES_PAGE, categoryLabel, type Article } from '../../data/articles';
+import { ARTICLES_LIST, ARTICLES_PAGE, categoryLabel, formatDate, type Article } from '../../data/articles';
 import { articleImage } from '../../data/media';
 import photo from '../../assets/site/anthony.jpg';
 
@@ -24,6 +27,10 @@ interface Content {
   description: string;
   published: string;
   modified: string;
+  /** One or two sentences under the title. Shown only when written. */
+  standfirst?: string;
+  /** What changed in the last update, e.g. "Updated with the 2026 benchmarks". Shown only when written. */
+  updateNote?: string;
   hero: { file: string; alt: string };
   faqHeading: string;
   blocks: Block[];
@@ -43,14 +50,14 @@ const { slug, article, content: c } = Astro.props as { slug: string; article: Ar
 const url = new URL(article.href, SITE).href;
 const toc = c.blocks.filter((b) => b.type === 'h2');
 const words = c.blocks.reduce((n, b) => n + (b.html ?? b.text ?? '').replace(/<[^>]+>/g, ' ').split(/\s+/).filter(Boolean).length, 0);
-const minutes = Math.max(1, Math.round(words / 220));
-const fmt = (iso: string) => new Date(iso).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' });
-const hero = articleImage(slug, c.hero.file);
 const faqs = c.faqs.map((f) => ({ q: f.q, html: f.html, a: [f.html.replace(/<[^>]+>/g, '').replace(/\s+/g, ' ').trim()] }));
 const related = [
   ...ARTICLES_LIST.filter((a) => a.href !== article.href && a.category === article.category),
   ...ARTICLES_LIST.filter((a) => a.href !== article.href && a.category !== article.category),
 ].slice(0, 3);
+const category = categoryLabel(article.category);
+const ogImage = `/og/${slug}.png`;
+const crumbs = [{ name: 'Home', path: URLS.home }, { name: 'Articles', path: URLS.articles }, { name: article.title, path: article.href }];
 
 const posting = {
   '@type': 'BlogPosting',
@@ -62,13 +69,15 @@ const posting = {
   author: { '@id': ENTITY.person.id },
   publisher: { '@id': ENTITY.business.id },
   mainEntityOfPage: { '@id': `${url}#webpage` },
-  articleSection: categoryLabel(article.category),
+  image: { '@type': 'ImageObject', url: new URL(ogImage, SITE).href, width: 1200, height: 675 },
+  articleSection: category,
   wordCount: words,
   inLanguage: 'en-GB',
 };
 const a = ARTICLES_PAGE.author;
+const experience = 'He has worked in design for over 20 years, from brand identity to three and a half years at Dyson, and has been independent since August 2023.';
 ---
-<Base title={`${c.seoTitle} | Anthony is Freelance`} description={c.description}>
+<Base title={`${c.seoTitle} | Anthony is Freelance`} description={c.description} image={ogImage} ogType="article">
   <Schema
     slot="head"
     title={c.seoTitle}
@@ -76,7 +85,7 @@ const a = ARTICLES_PAGE.author;
     path={article.href}
     about={ENTITY.person.id}
     mainEntity={`${url}#article`}
-    breadcrumbs={[{ name: 'Home', path: URLS.home }, { name: 'Articles', path: URLS.articles }, { name: article.title, path: article.href }]}
+    breadcrumbs={crumbs}
     extra={[posting]}
     faqs={faqs}
   />
@@ -88,37 +97,39 @@ const a = ARTICLES_PAGE.author;
   <Header />
   <main id="main">
     <article>
-      <!-- Head: category, title, byline. Text only, so the title runs to 70% like other text headers. -->
       <header class="px-margin">
-        <div class="flex flex-col gap-large border-t border-line pt-large lg:pt-[40px]">
-          <Heading level={1} eyebrow={categoryLabel(article.category)} class="lg:w-[70%]">{article.title}</Heading>
-          <div class="flex items-center gap-3">
-            <Image src={photo} alt="" widths={[48, 96]} sizes="48px" class="size-12 shrink-0 rounded-full object-cover" />
-            <p class="t-label flex flex-wrap gap-x-3 gap-y-1 tracking-[0.02em] text-muted">
-              <span>By <a href={URLS.about} rel="author" class="text-ink underline underline-offset-4 hover:decoration-2">Anthony Bliss</a></span>
-              <span aria-hidden="true">·</span>
-              <span>Published <time datetime={c.published}>{fmt(c.published)}</time></span>
-              {c.modified !== c.published && <><span aria-hidden="true">·</span><span>Updated <time datetime={c.modified}>{fmt(c.modified)}</time></span></>}
-              <span aria-hidden="true">·</span>
-              <span>{minutes} min read</span>
-            </p>
+        <div class="flex flex-col gap-large border-t border-line pt-6 lg:pt-[40px]">
+          <div class="flex flex-col gap-loose">
+            <Breadcrumb items={crumbs} />
+            <Heading level={1} eyebrow={category} class="lg:w-[70%]">{article.title}</Heading>
+          </div>
+          <div class="flex flex-col gap-6 lg:gap-[40px]">
+            <div class="flex items-center gap-3">
+              <Image src={photo} alt="" widths={[44, 88]} sizes="44px" class="size-11 shrink-0 rounded-full object-cover" />
+              <div class="t-label flex flex-col gap-1">
+                <p class="text-ink">By <a href={URLS.about} rel="author" class="underline underline-offset-4 hover:decoration-2">Anthony Bliss</a>, freelance Shopify designer</p>
+                <p class="text-muted">
+                  Published <time datetime={c.published}>{formatDate(c.published)}</time>
+                  {c.modified !== c.published && <><span aria-hidden="true">&nbsp; · &nbsp;</span>Updated <time datetime={c.modified}>{formatDate(c.modified)}</time></>}
+                </p>
+              </div>
+            </div>
+            {c.updateNote && <p class="t-tile border-l-2 border-line pl-4 text-muted">{c.updateNote}</p>}
+            {c.standfirst && <p class="font-serif text-[20px] leading-[1.6] text-ink lg:w-[66%]">{c.standfirst}</p>}
           </div>
         </div>
       </header>
 
+      <!-- Cover: drawn from the category, the same picture as the share image -->
       <figure class="mt-large px-margin">
-        {hero ? (
-          <Image src={hero} alt={c.hero.alt} widths={[480, 750, 1200, 1800, 2400]} sizes="(min-width: 2560px) 2512px, 100vw" loading="eager" class="aspect-[2/1] w-full object-cover" />
-        ) : (
-          <div class="flex aspect-[2/1] w-full items-center justify-center bg-raised p-6"><p class="t-badge max-w-[40ch] text-center text-muted">Image to come: {c.hero.alt}</p></div>
-        )}
+        <ArticleCover article={article} kind="mark" class="w-full" />
       </figure>
 
-      <!-- Body: contents on the left (desktop), the article in a reading column -->
+      <!-- Body: contents on the left (desktop), the article in a centred reading column -->
       <div class="px-margin pt-section lg:grid lg:grid-cols-12 lg:gap-x-gutter">
         <nav aria-label="Contents" class="mb-large lg:col-span-3 lg:mb-0">
           <details class="group border-y border-line lg:sticky lg:top-loose lg:border-0" open>
-            <summary class="t-badge flex cursor-pointer items-center justify-between py-3 text-ink lg:pointer-events-none lg:py-0 lg:pb-loose">
+            <summary class="t-badge flex cursor-pointer items-center justify-between py-3 text-muted lg:pointer-events-none lg:py-0 lg:pb-loose">
               Contents
               <img src="/icons/plus.svg" alt="" width="18" height="18" class="size-[18px] group-open:rotate-45 lg:hidden" />
             </summary>
@@ -148,43 +159,56 @@ const a = ARTICLES_PAGE.author;
         </div>
       </div>
 
+      <!-- FAQs: every answer open, so they read as part of the article -->
       {faqs.length > 0 && (
-        <div id="questions" class="scroll-mt-8">
-          <Faqs data={{ eyebrow: 'Frequently asked questions', heading: c.faqHeading, items: faqs }} />
-        </div>
+        <section id="questions" aria-labelledby="questions-heading" class="scroll-mt-8 px-margin pt-section">
+          <div class="flex flex-col gap-large border-t border-line pt-section lg:flex-row lg:gap-gutter">
+            <div class="lg:w-half lg:shrink-0">
+              <Heading eyebrow="Frequently asked questions" id="questions-heading">{c.faqHeading}</Heading>
+            </div>
+            <div class="flex flex-col gap-large lg:flex-1">
+              {faqs.map((f) => (
+                <div class="flex flex-col gap-3 border-t border-line pt-loose">
+                  <h3 class="t-h4 text-ink">{f.q}</h3>
+                  <div class="prose-faq flex flex-col gap-3 font-serif text-[18px] leading-[1.65] text-ink" set:html={f.html} />
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
       )}
     </article>
 
     <!-- About the author -->
-    <section class="px-margin pt-section-sm">
-      <div class="grid gap-gutter border-t border-line pt-section lg:grid-cols-2">
+    <section class="px-margin pt-section">
+      <div class="grid gap-large border-t border-line pt-section lg:grid-cols-2 lg:gap-gutter">
         <Heading eyebrow="About the author">Anthony Bliss.</Heading>
         <div class="flex flex-col gap-loose sm:flex-row sm:items-start sm:gap-grid">
-          <div class="relative aspect-[4/5] w-[140px] shrink-0 overflow-hidden lg:w-[180px]">
+          <div class="relative aspect-[4/5] w-[160px] shrink-0 overflow-hidden lg:w-[180px]">
             <Image src={photo} alt="Anthony Bliss" widths={[180, 360]} sizes="180px" class="absolute inset-0 size-full object-cover" />
           </div>
-          <div class="t-body flex flex-col gap-loose text-muted">
-            <p class="t-h7 text-ink">{a.award}</p>
-            <p>{a.experience.replace(/ Every article here is held to the same rules:$/, '')}</p>
+          <div class="flex flex-col gap-loose">
+            <p class="t-h6 text-ink">{a.award}</p>
+            <p class="t-body text-muted">{experience}</p>
             <div class="flex flex-wrap gap-x-grid gap-y-4">
-              <TextLink href={URLS.about}>More about how I work</TextLink>
-              <TextLink href={`${URLS.articles}#standards`}>How articles are written</TextLink>
+              {a.links.map((l) => <TextLink href={l.href} external={'external' in l && l.external}>{l.label}</TextLink>)}
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- More articles -->
+    <!-- Related articles: same topic first -->
     <section class="px-margin pb-section pt-section">
       <div class="border-t border-line pt-section">
         <div class="lg:flex lg:items-end lg:justify-between lg:gap-gutter">
-          <Heading eyebrow="Shopify design articles" class="lg:w-half">Keep reading.</Heading>
-          <div class="mt-loose lg:mt-0"><TextLink href={URLS.articles}>View all articles</TextLink></div>
+          <div class="lg:w-half lg:shrink-0"><Heading eyebrow="Shopify design articles">{`Related ${category} articles.`}</Heading></div>
+          <div class="hidden lg:block"><TextLink href={URLS.articles}>View all articles</TextLink></div>
         </div>
-        <ul class="mt-large grid grid-cols-2 gap-x-grid gap-y-large lg:grid-cols-3">
-          {related.map((r, i) => <li class:list={[i > 1 && 'max-lg:hidden']}><ArticleCard article={r} titleTag="h3" /></li>)}
+        <ul class="mt-large">
+          {related.map((r) => <li><ArticleIndexRow article={r} /></li>)}
         </ul>
+        <div class="border-t border-line pt-large lg:hidden"><TextLink href={URLS.articles}>View all articles</TextLink></div>
       </div>
     </section>
 

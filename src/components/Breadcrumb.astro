@@ -1,0 +1,18 @@
+---
+// Visible breadcrumb (Figma "Article/Breadcrumb"). Matches the BreadcrumbList in the page schema.
+// The last item is the current page: plain text, not a link.
+interface Props { items: { name: string; path: string }[] }
+const { items } = Astro.props;
+---
+<nav aria-label="Breadcrumb">
+  <ol class="t-label flex flex-wrap gap-x-2 gap-y-1 text-muted">
+    {items.map((it, i) => (
+      <li class="flex gap-2">
+        {i > 0 && <span aria-hidden="true">/</span>}
+        {i === items.length - 1
+          ? <span aria-current="page" class="text-ink">{it.name}</span>
+          : <a href={it.path} class="link-hover">{it.name}</a>}
+      </li>
+    ))}
+  </ol>
+</nav>

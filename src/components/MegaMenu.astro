@@ -4,16 +4,20 @@
 import { Image } from 'astro:assets';
 import CaseStudyCard from './CaseStudyCard.astro';
 import ScreenTile from './ScreenTile.astro';
-import { MEGA } from '../data/site';
+import { MEGA, URLS } from '../data/site';
 import { STORIES } from '../data/home';
 import { CASE_STUDIES } from '../data/work';
 import { ARTICLES_LIST } from '../data/articles';
-import ArticleCard from './ArticleCard.astro';
+import ArticleCover from './ArticleCover.astro';
+import ArticleIndexRow from './ArticleIndexRow.astro';
+import { ARTICLE_CATEGORIES, categoryLabel, formatDate } from '../data/articles';
 // Services panel: Projektityyny, so it doesn't repeat Drink Finder from the success stories panel.
 import screen from '../assets/brands/projektityyny/innovations/lookbook-archive.jpg';
 
 const link = 't-button-lg text-ink link-hover';
 const featured = CASE_STUDIES.find((c) => c.client === 'Projektityyny')!;
+const [latest, ...recent] = ARTICLES_LIST;
+const topics = ARTICLE_CATEGORIES.filter((c) => ARTICLES_LIST.some((a) => a.category === c.id));
 const workCards = [STORIES.featured, ...STORIES.cards.filter((c) => c.href)].slice(0, 3);
 ---
 <div class="absolute left-0 right-0 top-full z-30 hidden lg:block">
@@ -66,20 +70,30 @@ const workCards = [STORIES.featured, ...STORIES.cards.filter((c) => c.href)].sli
     </div>
   </div>
 
-  <!-- Articles -->
+  <!-- Articles (Figma "Mega menu", Articles): topics, the latest article, the next three as lines -->
   <div id="mega-articles" data-mega-panel hidden class="border-b border-line bg-surface px-margin pb-large pt-4">
-    <div class="grid grid-cols-4 gap-gutter">
-      {ARTICLES_LIST.slice(0, 3).map((a) => <ArticleCard article={a} titleTag="p" ratio="square" />)}
-      <div class="flex flex-col gap-gutter">
-        <p class="t-h6 text-ink">{MEGA.articles.sideHeading}</p>
-        <ul class="flex flex-col gap-gutter">
-          <li>
-            <a href={MEGA.articles.viewAll.href} class={`${link} inline-flex items-center gap-2`}>
-              {MEGA.articles.viewAll.label}
-              <img src="/icons/arrow-up-right.svg" alt="" width="18" height="18" class="size-[18px]" />
-            </a>
-          </li>
-          {MEGA.articles.sideLinks.map((l) => <li><a href={l.href} class={link}>{l.label}</a></li>)}
+    <div class="flex items-start gap-gutter">
+      <ul class="flex w-[318px] shrink-0 flex-col gap-loose">
+        <li>
+          <a href={MEGA.articles.viewAll.href} class={`${link} inline-flex items-center gap-2`}>
+            {MEGA.articles.viewAll.label}
+            <img src="/icons/arrow-up-right.svg" alt="" width="18" height="18" class="size-[18px]" />
+          </a>
+        </li>
+        <li class="t-label pt-2 text-muted">{MEGA.articles.topicsLabel}</li>
+        {topics.map((t) => <li><a href={`${URLS.articles}#${t.id}`} class={link}>{t.label}</a></li>)}
+      </ul>
+      <article class="hover-card relative flex w-[318px] shrink-0 flex-col gap-2">
+        <ArticleCover article={latest} kind="figure" class="w-full" />
+        <p class="t-label pt-2 text-muted">
+          {MEGA.articles.latestLabel}<span aria-hidden="true">&nbsp; · &nbsp;</span>{categoryLabel(latest.category)}<span aria-hidden="true">&nbsp; · &nbsp;</span><time datetime={latest.date}>{formatDate(latest.date)}</time>
+        </p>
+        <p class="t-h4 text-ink"><a href={latest.href} class="stretched-link link-hover">{latest.title}</a></p>
+      </article>
+      <div class="flex min-w-0 flex-1 flex-col gap-3">
+        <p class="t-label text-muted">{MEGA.articles.recentLabel}</p>
+        <ul>
+          {recent.slice(0, 3).map((a) => <li><ArticleIndexRow article={a} titleTag="p" stacked /></li>)}
         </ul>
       </div>
     </div>

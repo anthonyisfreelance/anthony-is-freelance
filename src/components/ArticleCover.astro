@@ -1,0 +1,30 @@
+---
+// Article cover (Figma "Article/Cover"), 16:9. Two kinds:
+// - mark: the category's line mark, no text. Used on the article itself, and the same artwork is the
+//   og:image, so the page and the search thumbnail match.
+// - figure: the article's real headline number in blue, for on-site featured slots only. Falls back
+//   to the mark when the article has no figure.
+// Sizes scale with the cover's width (container units), so one component works from menu to hero.
+import { COVER_MARKS, MARK_POSITION } from '../data/article-covers';
+import type { Article } from '../data/articles';
+interface Props { article: Article; kind?: 'mark' | 'figure'; class?: string }
+const { article, kind = 'mark', class: className = '' } = Astro.props;
+const figure = kind === 'figure' ? article.figure : undefined;
+---
+<div class:list={['@container relative aspect-video overflow-hidden bg-raised', className]} aria-hidden="true">
+  {figure ? (
+    <>
+      <p class="absolute left-[2.2cqw] top-[1.3cqw] font-display text-[34.9cqw] font-medium leading-none text-blue">{figure.value}</p>
+      <p class="absolute bottom-[3.4cqw] left-[3.4cqw] font-display text-[max(11px,3.85cqw)] font-medium leading-[1.3] text-ink">{figure.label}</p>
+    </>
+  ) : (
+    <svg
+      viewBox="0 0 200 200"
+      fill="none"
+      stroke="currentColor"
+      class="cover-mark absolute text-ink"
+      style={`left:${MARK_POSITION.left}%;top:${MARK_POSITION.top}%;width:${MARK_POSITION.width}%`}
+      set:html={COVER_MARKS[article.category]}
+    />
+  )}
+</div>

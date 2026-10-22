@@ -1,18 +1,24 @@
 ---
 // Phone menu (Figma "Menu - Mobile": Services and Variant3). A full-screen <dialog>, so focus
-// stays inside it, Escape closes it and the page behind is inert. Two levels: the main list,
-// and Shopify Services with its links and the featured case study. Every link is in the HTML.
+// stays inside it, Escape closes it and the page behind is inert. Two levels: the main list, then
+// Shopify Services (links and a featured case study) or Articles (topics and the latest article).
+// Every link is in the HTML.
 import { Image } from 'astro:assets';
 import ScreenTile from './ScreenTile.astro';
 import TrustTiles from './TrustTiles.astro';
 import { MEGA, URLS, GOOGLE_RATING } from '../data/site';
 import { STORIES } from '../data/home';
+import ArticleCover from './ArticleCover.astro';
+import { ARTICLES_LIST, ARTICLE_CATEGORIES, categoryLabel, formatDate } from '../data/articles';
 import photo from '../assets/brands/drink-finder/menu.jpg';
 import screen from '../assets/brands/drink-finder/screen-home.png';
 
 const featured = STORIES.featured;
 const services = MEGA.services.columns.flat();
 const link = 't-button-lg text-ink link-hover';
+const latest = ARTICLES_LIST[0];
+const topics = ARTICLE_CATEGORIES.filter((c) => ARTICLES_LIST.some((a) => a.category === c.id));
+const back = 'flex size-[18px] cursor-pointer items-center';
 ---
 <dialog
   id="mobile-menu"
@@ -38,7 +44,11 @@ const link = 't-button-lg text-ink link-hover';
             </button>
           </li>
           <li><a href={MEGA.work.viewAll.href}>{MEGA.work.label}</a></li>
-          <li><a href={MEGA.articles.viewAll.href}>{MEGA.articles.label}</a></li>
+          <li>
+            <button type="button" data-menu-to="articles" aria-controls="menu-articles" aria-expanded="false" class="cursor-pointer text-left uppercase">
+              {MEGA.articles.label}
+            </button>
+          </li>
         </ul>
       </nav>
       <div class="mt-auto flex flex-col gap-loose">
@@ -59,7 +69,7 @@ const link = 't-button-lg text-ink link-hover';
     <!-- Level two: Shopify Services -->
     <div id="menu-services" data-menu-panel="services" hidden class="flex flex-col gap-[40px]">
       <div class="flex flex-col gap-large">
-        <button type="button" data-menu-back class="flex size-[18px] cursor-pointer items-center" aria-label="Back to the menu">
+        <button type="button" data-menu-back class={back} aria-label="Back to the menu">
           <img src="/icons/arrow-left.svg" alt="" width="18" height="18" class="size-[18px]" />
         </button>
         <a href={MEGA.services.viewAll.href} class={`${link} inline-flex items-center gap-2 self-start`}>
@@ -86,6 +96,33 @@ const link = 't-button-lg text-ink link-hover';
         </p>
       </article>
     </div>
+
+    <!-- Level two: Articles -->
+    <div id="menu-articles" data-menu-panel="articles" hidden class="flex flex-col gap-[40px]">
+      <div class="flex flex-col gap-large">
+        <button type="button" data-menu-back class={back} aria-label="Back to the menu">
+          <img src="/icons/arrow-left.svg" alt="" width="18" height="18" class="size-[18px]" />
+        </button>
+        <a href={MEGA.articles.viewAll.href} class={`${link} inline-flex items-center gap-2 self-start`}>
+          {MEGA.articles.viewAll.label}
+          <img src="/icons/arrow-up-right.svg" alt="" width="18" height="18" class="size-[18px]" />
+        </a>
+        <div class="flex flex-col gap-loose">
+          <p class="t-label text-muted" id="menu-topics">{MEGA.articles.topicsLabel}</p>
+          <ul class="flex flex-col gap-loose leading-none" aria-labelledby="menu-topics">
+            {topics.map((t) => <li><a href={`${URLS.articles}#${t.id}`} data-menu-close-link class={`${link} inline-block`}>{t.label}</a></li>)}
+          </ul>
+        </div>
+      </div>
+
+      <article class="hover-card relative flex flex-col gap-2">
+        <ArticleCover article={latest} kind="figure" class="w-full" />
+        <p class="t-label pt-2 text-muted">
+          {MEGA.articles.latestLabel}<span aria-hidden="true">&nbsp; · &nbsp;</span>{categoryLabel(latest.category)}<span aria-hidden="true">&nbsp; · &nbsp;</span><time datetime={latest.date}>{formatDate(latest.date)}</time>
+        </p>
+        <p class="t-h4 text-ink"><a href={latest.href} class="stretched-link link-hover">{latest.title}</a></p>
+      </article>
+    </div>
   </div>
 </dialog>
 
@@ -95,11 +132,12 @@ const link = 't-button-lg text-ink link-hover';
     var openBtn = document.querySelector('[data-menu-open]');
     if (!menu || !openBtn) return;
     var panels = menu.querySelectorAll('[data-menu-panel]');
-    var toServices = menu.querySelector('[data-menu-to]');
+    var openers = menu.querySelectorAll('[data-menu-to]');
+    var last = null;
 
     function show(name, focus) {
       panels.forEach(function (p) { p.hidden = p.getAttribute('data-menu-panel') !== name; });
-      toServices.setAttribute('aria-expanded', String(name === 'services'));
+      openers.forEach(function (b) { b.setAttribute('aria-expanded', String(b.getAttribute('data-menu-to') === name)); });
       menu.scrollTop = 0;
       if (focus) focus.focus();
     }
@@ -110,8 +148,20 @@ const link = 't-button-lg text-ink link-hover';
     });
     menu.addEventListener('close', function () { openBtn.setAttribute('aria-expanded', 'false'); show('main'); });
     menu.querySelector('[data-menu-close]').addEventListener('click', function () { menu.close(); });
-    toServices.addEventListener('click', function () { show('services', menu.querySelector('[data-menu-back]')); });
-    menu.querySelector('[data-menu-back]').addEventListener('click', function () { show('main', toServices); });
+    openers.forEach(function (b) {
+      b.addEventListener('click', function () {
+        var name = b.getAttribute('data-menu-to');
+        last = b;
+        show(name, menu.querySelector('[data-menu-panel="' + name + '"] [data-menu-back]'));
+      });
+    });
+    menu.querySelectorAll('[data-menu-back]').forEach(function (b) {
+      b.addEventListener('click', function () { show('main', last); });
+    });
+    // A topic link on the articles page only changes the hash, so close the menu to show the list.
+    menu.querySelectorAll('[data-menu-close-link]').forEach(function (a) {
+      a.addEventListener('click', function () { menu.close(); });
+    });
     // The menu is phones only: close it if the screen grows to the desktop layout.
     window.matchMedia('(min-width: 1024px)').addEventListener('change', function (e) { if (e.matches && menu.open) menu.close(); });
   })();

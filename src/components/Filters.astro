@@ -3,13 +3,26 @@
 // only show and hide them, so there are no filtered URLs to index. A card lists the filters it
 // belongs to in data-tags; anything marked data-filter-all only shows under All.
 // The chosen filter is kept in the URL hash, so a filtered view can be linked to.
-interface Props { label: string; filters: readonly { id: string; label: string }[] }
-const { label, filters } = Astro.props;
+// `line` (articles, Figma "Article/Category filters"): the current filter is underlined, the row is
+// spaced wider and scrolls sideways in one line on phones instead of wrapping.
+interface Props { label: string; filters: readonly { id: string; label: string }[]; line?: boolean }
+const { label, filters, line = false } = Astro.props;
+const btn = [
+  't-button text-muted hover:text-ink aria-pressed:text-ink',
+  line && 'shrink-0 whitespace-nowrap underline-offset-4 aria-pressed:underline',
+];
 ---
-<div role="group" aria-label={label} class="flex flex-wrap gap-x-grid gap-y-3" data-filters>
-  <button type="button" data-filter="all" aria-pressed="true" class="t-button text-muted hover:text-ink aria-pressed:text-ink">All</button>
+<div
+  role="group"
+  aria-label={label}
+  class:list={[
+    line ? 'flex gap-x-6 overflow-x-auto [scrollbar-width:none] lg:flex-wrap lg:gap-x-8 lg:gap-y-3 lg:overflow-visible' : 'flex flex-wrap gap-x-grid gap-y-3',
+  ]}
+  data-filters
+>
+  <button type="button" data-filter="all" aria-pressed="true" class:list={btn}>All</button>
   {filters.map((f) => (
-    <button type="button" data-filter={f.id} aria-pressed="false" class="t-button text-muted hover:text-ink aria-pressed:text-ink">{f.label}</button>
+    <button type="button" data-filter={f.id} aria-pressed="false" class:list={btn}>{f.label}</button>
   ))}
 </div>
 
@@ -35,5 +48,7 @@ const { label, filters } = Astro.props;
       });
     });
     if (location.hash) document.addEventListener('DOMContentLoaded', function () { apply(location.hash.slice(1)); });
+    // A topic link in the menu while already on the page only changes the hash.
+    addEventListener('hashchange', function () { apply(location.hash.slice(1) || 'all'); });
   })();
 </script>

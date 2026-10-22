@@ -1,0 +1,139 @@
+---
+// Articles landing page (Figma "Articles landing", 22 October 2026). The latest article leads, then
+// every other article is one line (date, category, title). 24 per page, the latest counting as one;
+// page 1 is /articles/, later pages /articles/page/2/ and on, each self-canonical with real links.
+// Every article on the page is in the HTML; the topic filters only show and hide them.
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Schema from './Schema.astro';
+import Header from './Header.astro';
+import Heading from './Heading.astro';
+import Breadcrumb from './Breadcrumb.astro';
+import Filters from './Filters.astro';
+import TextLink from './TextLink.astro';
+import ArticleFeatured from './ArticleFeatured.astro';
+import ArticleIndexRow from './ArticleIndexRow.astro';
+import Contact from './home/Contact.astro';
+import { SITE, ENTITY, URLS } from '../data/site';
+import { ARTICLES_LIST, ARTICLE_CATEGORIES, ARTICLES_PAGE as P, ARTICLES_PER_PAGE, categoryLabel } from '../data/articles';
+import photo from '../assets/site/anthony.jpg';
+
+interface Props { page?: number }
+const { page = 1 } = Astro.props;
+const pages = Math.max(1, Math.ceil(ARTICLES_LIST.length / ARTICLES_PER_PAGE));
+const items = ARTICLES_LIST.slice((page - 1) * ARTICLES_PER_PAGE, page * ARTICLES_PER_PAGE);
+const latest = page === 1 ? items[0] : undefined;
+const rows = page === 1 ? items.slice(1) : items;
+const pageHref = (n: number) => (n === 1 ? P.path : `${P.path}page/${n}/`);
+const path = pageHref(page);
+
+const url = new URL(path, SITE).href;
+const blogUrl = new URL(P.path, SITE).href;
+const blog = {
+  '@type': 'Blog',
+  '@id': `${blogUrl}#blog`,
+  name: 'Shopify Design and CRO Articles',
+  url: blogUrl,
+  inLanguage: 'en-GB',
+  author: { '@id': ENTITY.person.id },
+  publisher: { '@id': ENTITY.business.id },
+  blogPost: items.map((a) => ({
+    '@type': 'BlogPosting',
+    headline: a.title,
+    url: new URL(a.href, SITE).href,
+    datePublished: a.date,
+    description: a.excerpt,
+    articleSection: categoryLabel(a.category),
+  })),
+};
+// Only show a filter once it has an article.
+const filters = ARTICLE_CATEGORIES.filter((c) => ARTICLES_LIST.some((a) => a.category === c.id));
+const title = page === 1 ? P.title : `${P.title.replace(' | ', ` (page ${page}) | `)}`;
+const crumbs = page === 1
+  ? [{ name: 'Home', path: URLS.home }, { name: 'Articles', path: P.path }]
+  : [{ name: 'Home', path: URLS.home }, { name: 'Articles', path: P.path }, { name: `Page ${page}`, path }];
+const btn = 't-button inline-flex items-center px-[14px] py-[10px]';
+---
+<Base title={title} description={P.description}>
+  <Schema
+    slot="head"
+    type="CollectionPage"
+    title={title}
+    description={P.description}
+    path={path}
+    breadcrumbs={crumbs}
+    mainEntity={`${blogUrl}#blog`}
+    extra={[blog]}
+  />
+  <Header />
+  <main id="main">
+    <!-- Head: breadcrumb, H1. The intro shows on phones only (Figma). -->
+    <section class="px-margin">
+      <div class="flex flex-col gap-large border-t border-line pb-large pt-large lg:gap-loose lg:pb-loose">
+        <div class="flex flex-col gap-loose">
+          <Breadcrumb items={crumbs} />
+          <Heading level={1} eyebrow={P.eyebrow} class="lg:w-[79%]">{P.heading}</Heading>
+        </div>
+        <p class="font-serif text-[18px] leading-[1.65] text-ink lg:hidden">{P.intro}</p>
+      </div>
+    </section>
+
+    <section id="articles" aria-labelledby="articles-heading" class="px-margin pb-section">
+      <h2 id="articles-heading" class="sr-only">All Shopify articles, newest first</h2>
+      <div class="py-6"><Filters label="Filter by topic" filters={filters} line /></div>
+
+      {latest && (
+        <div data-tags={latest.category} class="pt-large">
+          <ArticleFeatured article={latest} />
+        </div>
+      )}
+
+      <ul>
+        {rows.map((a) => <li data-tags={a.category}><ArticleIndexRow article={a} /></li>)}
+      </ul>
+
+      {pages > 1 && (
+        <nav aria-label="Pagination" class="flex items-center justify-center gap-grid-lg border-t border-line pb-large pt-section">
+          {page > 1
+            ? <a href={pageHref(page - 1)} class={`${btn} bg-white text-[#111]`}>Page {page - 1}</a>
+            : <span aria-disabled="true" class={`${btn} bg-line text-muted`}>Page 1</span>}
+          <p class="t-label text-muted">Page {page} of {pages}</p>
+          {page < pages
+            ? <a href={pageHref(page + 1)} class={`${btn} bg-white text-[#111]`}>Page {page + 1}</a>
+            : <span aria-disabled="true" class={`${btn} bg-line text-muted`}>Page {pages}</span>}
+        </nav>
+      )}
+    </section>
+
+    <!-- Author and standards -->
+    <section id="standards" class="scroll-mt-6 px-margin pb-section">
+      <div class="flex flex-col gap-grid-lg border-t border-line pt-section lg:flex-row lg:gap-[11.5%]">
+        <Heading eyebrow={P.author.eyebrow} class="lg:w-[31.6%] lg:shrink-0">{P.author.heading}</Heading>
+        <div class="flex flex-col gap-loose lg:flex-1 lg:flex-row lg:items-start lg:gap-gutter">
+          <div class="relative hidden aspect-[4/5] w-[195px] shrink-0 overflow-hidden lg:block">
+            <Image src={photo} alt="Anthony Bliss" widths={[195, 390]} sizes="195px" class="absolute inset-0 size-full object-cover" />
+          </div>
+          <div class="flex flex-col gap-loose lg:flex-1 lg:gap-large">
+            <div class="flex flex-col gap-loose">
+              <div class="flex items-start gap-4">
+                <div class="relative aspect-[4/5] w-[111px] shrink-0 overflow-hidden lg:hidden">
+                  <Image src={photo} alt="" widths={[111, 222]} sizes="111px" class="absolute inset-0 size-full object-cover" />
+                </div>
+                <p class="t-h6 text-ink">{P.author.award}</p>
+              </div>
+              <p class="t-body text-muted">{P.author.experience}</p>
+              <ul class="flex flex-col gap-3">
+                {P.author.rules.map((r) => <li class="t-body bg-raised p-loose text-ink">{r}</li>)}
+              </ul>
+            </div>
+            <div class="flex flex-wrap gap-x-grid gap-y-4 pt-2 lg:pt-0">
+              {P.author.links.map((l) => <TextLink href={l.href} external={'external' in l && l.external}>{l.label}</TextLink>)}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <Contact />
+  </main>
+</Base>

@@ -6,12 +6,13 @@ interface Props {
   eyebrow?: string;
   deco?: boolean;
   class?: string;
+  id?: string;
 }
-const { level = 2, eyebrow, deco = true, class: className = '' } = Astro.props;
+const { level = 2, eyebrow, deco = true, class: className = '', id } = Astro.props;
 const Tag = `h${level}` as 'h1' | 'h2' | 'h3';
 const size = level === 1 ? 't-h1' : 't-h2';
 ---
-<Tag class:list={[size, 'text-ink', className]}>
+<Tag id={id} class:list={[size, 'text-ink', className]}>
   {eyebrow && (
     <span class="eyebrow" data-deco={deco ? '' : undefined}>{eyebrow}<span class="sr-only">.</span></span>
   )}

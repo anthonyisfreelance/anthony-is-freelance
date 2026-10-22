@@ -1,0 +1,20 @@
+---
+// The latest article, leading the list (Figma "Article/Featured"): cover, meta line, title and the
+// excerpt. The only place an excerpt shows. Cover shows the article's figure when it has a real one.
+import ArticleCover from './ArticleCover.astro';
+import { type Article, categoryLabel, formatDate } from '../data/articles';
+interface Props { article: Article; titleTag?: 'h2' | 'h3' }
+const { article: a, titleTag: Title = 'h3' } = Astro.props;
+---
+<article class="hover-card relative flex flex-col gap-large border-t border-line pb-large pt-loose lg:flex-row lg:gap-grid-lg">
+  <ArticleCover article={a} kind="figure" class="w-full lg:w-half lg:shrink-0" />
+  <div class="flex flex-col gap-large lg:flex-1 lg:gap-loose">
+    <div class="flex flex-col gap-loose">
+      <p class="t-label text-muted">
+        Latest<span aria-hidden="true">&nbsp; · &nbsp;</span>{categoryLabel(a.category)}<span aria-hidden="true">&nbsp; · &nbsp;</span><time datetime={a.date}>{formatDate(a.date)}</time>
+      </p>
+      <Title class="t-h2 text-ink"><a href={a.href} class="stretched-link link-hover">{a.title}</a></Title>
+    </div>
+    <p class="font-serif text-[18px] leading-[1.65] text-muted">{a.excerpt}</p>
+  </div>
+</article>
