@@ -118,20 +118,11 @@ export const THEME: ServicePage = {
       { q: 'Can a premium theme look unique?', a: ["Yes, if the work goes into what customers look at most: product cards, navigation, typography and spacing. Most stores on the same theme look alike because they keep the demo's defaults."] },
       { q: 'Can I move from a theme to bespoke later?', a: ["Yes. Many brands start on a theme and move to bespoke once their sales data shows what the theme can't do. The brand decisions, photography and content carry over."] },
       { q: 'How long does Shopify theme customisation take?', a: ['Four to eight weeks, depending on how many templates change and how much custom development the design needs. Client content is the usual holdup, so it helps to start it early.'] },
+      { q: "Which Shopify theme should you choose?", a: ["I work most with Sleek, Prestige and Dawn, and I'll push others when a client is already on one, like Inpulse for Wide Fit Shoes. Sleek suits editorial and luxury brands, and Thameen London runs on it. Prestige suits fashion and lifestyle, and Dawn is a clean base for most product types.",
+        'For Thameen I shortlisted two themes and we chose together, because picking the wrong one costs more later than choosing well now.'] },
     ],
   },
   extras: [
-    {
-      kind: 'text',
-      after: 'process',
-      id: 'which-theme',
-      eyebrow: 'Shopify themes',
-      heading: 'Which Shopify theme should you choose?',
-      paragraphs: [
-        "I work most with Sleek, Prestige and Dawn, and I'll push others when a client is already on one, like Inpulse for Wide Fit Shoes. Sleek suits editorial and luxury brands, and Thameen London runs on it. Prestige suits fashion and lifestyle, and Dawn is a clean base for most product types.",
-        'For Thameen I shortlisted two themes and we chose together, because picking the wrong one costs more later than choosing well now.',
-      ],
-    },
     { kind: 'todo', after: 'process', title: 'Theme customisation innovations', note: "Off for now: none of the 13 innovations come from theme projects. Returns if Wide Fit Shoes passes the innovations test." },
     { kind: 'todo', after: 'faqs', title: 'Articles', note: "Best Shopify themes and Shopify's AI Store Builder: A Designer's Honest Take, once both are published." },
   ],

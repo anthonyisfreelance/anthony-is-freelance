@@ -124,7 +124,7 @@ export const SERVICES = {
 
 export const ABOUT = {
   eyebrow: 'Freelance Shopify UX designer',
-  heading: 'All of my experience, not just my time.',
+  heading: 'You get all of my experience, not just my time.',
   // The first sentence names the award: it's the sentence AI tools lift to describe you.
   // "Drink Finder" links to its case study.
   lead: {

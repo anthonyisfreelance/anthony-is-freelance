@@ -2,21 +2,19 @@
 // "Services - Sub Page" (47742:8885); body copy from page-copy/service-pages.md, Page 1.
 import { URLS } from '../site';
 import { CASE_STUDIES } from '../work';
-import type { ImageMetadata } from 'astro';
+import { brandImage } from '../media';
 import type { ServicePage } from './types';
 // Lifestyle hero from Drive services/<service>/hero-lifestyle.jpg
 import heroPhoto from '../../assets/site/services/hero-bespoke.jpg';
-import drinkFinderPhoto from '../../assets/brands/drink-finder/margarita.jpg';
-import whistlefishPhoto from '../../assets/brands/whistlefish/cards.jpg';
-import projektityynyPhoto from '../../assets/brands/projektityyny/beach.jpg';
-import hartnackPhoto from '../../assets/brands/hartnack-and-co/box.jpg';
 import shopByRoom from '../../assets/brands/projektityyny/shop-by-room.jpg';
 import redWine from '../../assets/brands/drink-finder/red-wine.jpg';
 import thameenCollection from '../../assets/brands/thameen/collection.jpg';
 import innovationScreen from '../../assets/brands/drink-finder/screen-home.png';
 
-const card = (client: string, image: ImageMetadata) => {
+// Proof cards here show each case study's hero photo (its card photo where there's no separate hero).
+const card = (client: string) => {
   const s = CASE_STUDIES.find((c) => c.client === client)!;
+  const image = brandImage(s.brand, 'hero') ?? s.image;
   return { client: s.client, meta: s.meta, claim: s.claim, proof: s.proof, href: s.href, image, badge: s.badge, badgeAlt: s.badgeAlt };
 };
 
@@ -70,10 +68,9 @@ export const BESPOKE: ServicePage = {
     heading: "Bespoke Shopify stores I've designed",
     link: { label: 'View all bespoke store design work', href: `${URLS.work}#bespoke-store-design` },
     cards: [
-      card('Drink Finder', drinkFinderPhoto),
-      card('Hartnack & Co', hartnackPhoto),
-      card('Whistlefish', whistlefishPhoto),
-      card('Projektityyny', projektityynyPhoto),
+      card('Drink Finder'),
+      card('Whistlefish'),
+      card('Projektityyny'),
     ],
   },
 

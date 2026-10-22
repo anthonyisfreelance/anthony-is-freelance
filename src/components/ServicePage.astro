@@ -117,16 +117,14 @@ const cell = 't-label tracking-[0.02em]';
     {after('trust').map((x) => <ServiceExtra item={x} />)}
 
     <!-- What's included, and who it's for -->
-    <section id="whats-included" class="px-margin pt-section lg:pt-[120px]">
+    <section id="whats-included" class="px-margin pt-section">
       <div class="grid gap-section-sm lg:grid-cols-2 lg:gap-gutter">
         {[p.included, p.fit].map((block, b) => (
           <div id={b === 1 ? 'right-fit' : undefined}>
-            <h2 class={h3caps}>{block.heading}</h2>
-            <ul class="mt-large flex flex-col gap-4">
-              {block.items.map((item, i) => (
-                <li class:list={['t-body flex gap-[10px] pl-[8px] text-ink', i > 0 && 'border-t border-line pt-4']}>
-                  <span aria-hidden="true">•</span><span>{item}</span>
-                </li>
+            <h2 class:list={[h3caps, 'border-t border-line pt-section']}>{block.heading}</h2>
+            <ul class="mt-large flex flex-col gap-4 lg:mt-10">
+              {block.items.map((item) => (
+                <li class="t-body bg-raised px-4 py-4 text-ink lg:px-6 lg:py-6">{item}</li>
               ))}
             </ul>
           </div>

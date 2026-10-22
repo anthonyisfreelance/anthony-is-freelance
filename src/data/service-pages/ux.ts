@@ -116,6 +116,7 @@ export const UX: ServicePage = {
     items: [
       { q: "What's the difference between UX and CRO?", a: ["CRO is about conversion: lifting conversion rate and order value at the steps that lose sales. UX is the whole experience: finding products, joining the email list, coming back later. A customer who doesn't buy today but remembers you is a UX win, which is why I avoid stressful, time-pressured tactics."] },
       { q: 'Do you use personas?', a: ['I start from your real data instead: analytics, reviews and how customers actually move through the store. Invented personas are guesses, and a review built on guesses tends to confirm them.'] },
+      { q: "Do the small details really matter?", a: ['The small things carry the store. I iterate a single button many times before it goes into the design system, and product cards get more time than any hero. For a timber merchant, I swapped the shopping basket icon for a flatbed trolley, because nobody puts a length of oak in a basket. [CONFIRM this is from before you went freelance]'] },
     ],
   },
   articles: {
@@ -133,16 +134,6 @@ export const UX: ServicePage = {
       heading: 'Shopify UX starts with your navigation',
       paragraphs: [
         "Years of watching session recordings taught me that customers go straight to the navigation. The navigation is your store. If customers can't find the right product, the product page doesn't matter, however good it is. So the navigation is the first thing I review, and the part I most enjoy getting right.",
-      ],
-    },
-    {
-      kind: 'text',
-      after: 'process',
-      id: 'details',
-      eyebrow: 'Shopify UX details',
-      heading: 'The details customers never notice.',
-      paragraphs: [
-        'The small things carry the store. I iterate a single button many times before it goes into the design system, and product cards get more time than any hero. For a timber merchant, I swapped the shopping basket icon for a flatbed trolley, because nobody puts a length of oak in a basket. [CONFIRM this is from before you went freelance]',
       ],
     },
   ],

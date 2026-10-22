@@ -97,23 +97,15 @@ export const SUBSCRIPTIONS: ServicePage = {
       ['Who builds it', 'A developer I introduce, or your own team or agency, quoted separately, including the app setup'],
     ],
   },
+  faqs: {
+    eyebrow: 'Before you get in touch',
+    heading: 'Shopify subscription design FAQs',
+    items: [
+      { q: "Should I use a quiz?", a: ["Use one when customers need help choosing, like Fuzzball's meal plans built around each cat. If people already know what they want, a quiz only slows them down."] },
+      { q: "Which subscription apps do you design for?", a: ['Recharge, which Window Fleur runs on. [CONFIRM any others you’ve designed for, and which app Fuzzball uses] I design within what your app allows, so the brief to the developer holds no surprises.'] },
+    ],
+  },
   extras: [
-    {
-      kind: 'text',
-      after: 'process',
-      id: 'quiz',
-      eyebrow: 'Subscription quizzes',
-      heading: 'Should I use a quiz?',
-      paragraphs: ["Use one when customers need help choosing, like Fuzzball's meal plans built around each cat. If people already know what they want, a quiz only slows them down."],
-    },
-    {
-      kind: 'text',
-      after: 'process',
-      id: 'apps',
-      eyebrow: 'Subscription apps',
-      heading: 'Which subscription apps do you design for?',
-      paragraphs: ['Recharge, which Window Fleur runs on. [CONFIRM any others you’ve designed for, and which app Fuzzball uses] I design within what your app allows, so the brief to the developer holds no surprises.'],
-    },
     { kind: 'todo', after: 'price', title: 'Articles', note: 'None yet about subscriptions. The section stays off until one is published.' },
   ],
 };

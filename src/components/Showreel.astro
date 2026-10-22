@@ -39,7 +39,7 @@ const src = (size: string, av1: boolean) => versioned(`/video/showreel-${size}${
   type="button"
   data-showreel-toggle
   hidden
-  class="t-button absolute bottom-3 right-3 z-10 lg:bottom-[calc(12px+var(--bar-h,0px))] bg-[#111]/70 px-2 py-1 text-white hover:bg-[#111]"
+  class="t-button absolute bottom-3 right-3 z-10 bg-[#111]/70 px-2 py-1 text-white hover:bg-[#111]"
 >Pause</button>
 <script is:inline>
   (function () {
@@ -60,6 +60,21 @@ const src = (size: string, av1: boolean) => versioned(`/video/showreel-${size}${
       }, { once: true });
       v.play().catch(function () {});
     }
+
+    // Keep the button 12px above the bottom of the screen while the reel runs past it (the reel is a
+    // full-height panel pushed down by the announcement bar until it sticks).
+    // Desktop only: on phones the reel is a square in the page flow, so the button stays in its corner.
+    var frame = btn.parentElement, ticking = false, desk = window.matchMedia('(min-width: 1024px)');
+    function place() {
+      ticking = false;
+      var r = frame.getBoundingClientRect();
+      var hidden = desk.matches ? Math.min(Math.max(0, r.bottom - window.innerHeight), r.height - 60) : 0;
+      btn.style.bottom = (12 + Math.max(0, hidden)) + 'px';
+    }
+    function queue() { if (!ticking) { ticking = true; requestAnimationFrame(place); } }
+    window.addEventListener('scroll', queue, { passive: true });
+    window.addEventListener('resize', queue);
+    queue();
 
     btn.addEventListener('click', function () {
       if (v.paused) { v.play(); btn.textContent = 'Pause'; }

@@ -39,7 +39,7 @@ Every case study page renders from `src/data/case-studies/<client>.ts` through o
 | `hero` | The photo beside the headline |
 | `showcase-photo` | The full-bleed photo behind the desktop and phone screens |
 | `showcase-desktop` | The desktop screen (916:518) |
-| `showcase-phone-1` to `-4` | The four phones under it (293:567) |
+| `showcase-phone-1` to `-4` | The four phones under it (375:820, the same as the work rows) |
 | `gallery-photo` | The sticky photo beside the scrolling screens |
 | `gallery-1` to `-5` | The five scrolling screens |
 | `work-01`, `work-02`... | The screen beside each work row, in page order (375:820) |

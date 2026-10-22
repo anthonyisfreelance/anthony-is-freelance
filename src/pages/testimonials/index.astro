@@ -44,7 +44,7 @@ const isYear = (y: string) => /^\d{4}$/.test(y);
         <SectionIntro eyebrow={P.list.eyebrow} heading={P.list.heading} />
         <ul class="mt-large flex flex-col">
           {TESTIMONIALS_LIST.map((t) => (
-            <li id={t.id} class="grid scroll-mt-6 gap-loose border-t border-line py-large lg:grid-cols-2 lg:gap-gutter">
+            <li id={t.id} class="grid scroll-mt-6 gap-loose border-t border-line py-large lg:grid-cols-[3fr_7fr] lg:gap-gutter">
               <h3 class="t-h5 uppercase text-ink">{t.client}</h3>
               <figure class="flex flex-col gap-loose">
                 <blockquote cite={t.google?.href} class="font-display flex flex-col gap-4 text-[length:var(--type-h5)] font-medium leading-[1.4] text-ink">

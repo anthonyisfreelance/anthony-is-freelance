@@ -103,6 +103,7 @@ export const MIGRATIONS: ServicePage = {
       { q: 'Should I redesign when I migrate, or move first?', a: ['Redesign on the way. Moving like-for-like and redesigning later means two launches, two rounds of risk to your rankings, and paying twice for the same templates.'] },
       { q: 'Will my store go offline during the move?', a: ['No. Your current store keeps trading until the new one is ready, and the switch happens on launch day when your domain is pointed at Shopify.'] },
       { q: 'Will my customers need new passwords?', a: ["Passwords can't be moved between platforms, so customers set up access again on Shopify. With Shopify's newer customer accounts, they sign in with a one-time code sent by email, so there's no password to reset. [CONFIRM with Tom]"] },
+      { q: "Will I lose my Google rankings when I move to Shopify?", a: ['Not if the redirects are done properly. Shopify uses its own URL formats, such as /products/ and /collections/, so every old URL needs a 301 redirect to its new home. I plan the new structure with that map in mind, the developer sets the redirects up, and an SEO specialist can check it where organic traffic matters. Expect some movement for a few weeks after launch.'] },
     ],
   },
   extras: [
@@ -122,17 +123,6 @@ export const MIGRATIONS: ServicePage = {
         ['SEO checks before and after launch', 'An SEO specialist I can introduce, where the site relies on organic traffic'],
         ['QA before launch', 'Me and the developer'],
       ],
-    },
-    {
-      kind: 'text',
-      after: 'process',
-      id: 'rankings',
-      eyebrow: 'Shopify migration and SEO',
-      heading: 'Will I lose my Google rankings when I move to Shopify?',
-      paragraphs: [
-        'Not if the redirects are done properly. Shopify uses its own URL formats, such as /products/ and /collections/, so every old URL needs a 301 redirect to its new home. I plan the new structure with that map in mind, the developer sets the redirects up, and an SEO specialist can check it where organic traffic matters. Expect some movement for a few weeks after launch.',
-      ],
-      faq: true,
     },
     {
       kind: 'table',

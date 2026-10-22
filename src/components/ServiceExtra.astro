@@ -28,7 +28,7 @@ const logos = x.kind === 'logos'
   </section>
 ) : (
   <section id={x.id} class="px-margin pt-section">
-    <div class:list={['border-t border-line pt-section', x.kind === 'text' && 'grid gap-gutter lg:grid-cols-2']}>
+    <div class:list={['border-t border-line pt-section', x.kind === 'text' && 'flex flex-col gap-loose lg:w-half']}>
       <div class:list={[x.kind === 'table' && 'lg:w-[676px]']}>
         <Heading eyebrow={x.eyebrow}>{x.heading}</Heading>
       </div>

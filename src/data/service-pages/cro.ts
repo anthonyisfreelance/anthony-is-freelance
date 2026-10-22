@@ -105,6 +105,8 @@ export const CRO: ServicePage = {
       { q: 'How long does CRO take to show results?', a: ["Early signs show within weeks, but I judge results over months against the same period the year before, so a good week or a sale doesn't flatter them. [CONFIRM]"] },
       { q: 'Can you work with my existing developer?', a: ['Yes. I design the changes in Figma and brief your developer, then QA what they build before it goes live.'] },
       { q: 'Do I need CRO help if I already use an analytics app?', a: ["An analytics app shows you what happened and where. It can't design the change that fixes it, or judge whether that change suits your brand. I start from what your app already shows, so if it has found the drop-off, we go straight to the fix."] },
+      { q: "Which conversion tactics won't you use?", a: ["No countdown timers, fake scarcity or upsells crammed into the cart drawer, unless we've agreed they're right for your brand. I'll bring ideas like these to the table and we decide together. I'll always flag anything that risks what's already working, even if it would lift the number this month."] },
+      { q: "How do you measure Shopify CRO results?", a: ["I compare the months since launch with the same months the year before, so seasonality doesn't flatter the result. I use the cleanest data source available and say which: GA4 where it's reliable, and till or EPoS data where it isn't. Where traffic allows, we A/B test. [CONFIRM]"] },
     ],
   },
   articles: {
@@ -114,26 +116,6 @@ export const CRO: ServicePage = {
     items: [ARTICLE.goodConversion, ARTICLE.increaseConversion],
   },
   extras: [
-    {
-      kind: 'text',
-      after: 'included',
-      id: 'tactics',
-      eyebrow: 'Shopify CRO without pressure',
-      heading: "Conversion rate tactics I won't use",
-      paragraphs: [
-        "No countdown timers, fake scarcity or upsells crammed into the cart drawer, unless we've agreed they're right for your brand. I'll bring ideas like these to the table and we decide together. I'll always flag anything that risks what's already working, even if it would lift the number this month.",
-      ],
-    },
-    {
-      kind: 'text',
-      after: 'process',
-      id: 'how-results-are-measured',
-      eyebrow: 'Shopify CRO results',
-      heading: 'Conversion rate results: how I measure them',
-      paragraphs: [
-        "I compare the months since launch with the same months the year before, so seasonality doesn't flatter the result. I use the cleanest data source available and say which: GA4 where it's reliable, and till or EPoS data where it isn't. Where traffic allows, we A/B test. [CONFIRM]",
-      ],
-    },
     { kind: 'todo', after: 'process', title: 'Selling more without pushing', note: 'Innovations section, off for now. Multi-buy buttons, quantity savings and the other selling features were judged design details, not innovations. Waiting on your yes to show them unlabelled.' },
   ],
 };
