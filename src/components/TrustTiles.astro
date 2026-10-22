@@ -6,7 +6,7 @@
 // stack: one tile under another at every size, 8px apart (the footer).
 // equal: from 1024px every tile shares the width, the Google tile included.
 // The Google tile keeps its G, stars and rating on one line everywhere.
-interface Tile { text: string; google?: boolean; stars?: boolean; srText?: string }
+interface Tile { text: string; note?: string; google?: boolean; stars?: boolean; srText?: string }
 interface Props { items: Tile[]; class?: string; label?: string; row?: boolean; stack?: boolean; equal?: boolean }
 const { items, class: className = '', label, row = true, stack = false, equal = false } = Astro.props;
 const odd = items.length % 2 === 1;
@@ -28,7 +28,7 @@ const odd = items.length % 2 === 1;
       ]}
     >
       {t.google && <img src="/icons/google-g.png" alt="Google" width="25" height="25" class="size-[25px] shrink-0" loading="lazy" />}
-      <span>{t.stars && <span aria-hidden="true" class="font-serif text-[0.85em]">★★★★★ </span>}{t.text}{t.srText && <span class="sr-only">{t.srText}</span>}</span>
+      <span>{t.stars && <span aria-hidden="true" class="font-serif text-[0.85em]">★★★★★ </span>}{t.text}{t.note && <span class="whitespace-nowrap text-[0.65em] text-muted"> {t.note}</span>}{t.srText && <span class="sr-only">{t.srText}</span>}</span>
     </li>
   ))}
 </ul>

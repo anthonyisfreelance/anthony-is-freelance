@@ -62,7 +62,7 @@ export const URLS = {
 };
 
 // The Google rating, worded once for every tile on the site. The G, stars and text sit on one line.
-export const GOOGLE_RATING = { google: true, stars: true, text: '5.0 (6 reviews)', srText: ' on Google' } as const;
+export const GOOGLE_RATING = { google: true, stars: true, text: '5.0', note: '(6 reviews)', srText: ' on Google' } as const;
 
 export const ANNOUNCEMENT = {
   text: 'Winner, UK eCommerce Website of the Year, UK eCommerce Awards 2026',
