@@ -31,7 +31,7 @@ const isYear = (y: string) => /^\d{4}$/.test(y);
           <li>
             <a href={t.href} class="t-tile inline-flex items-center gap-2 bg-raised px-4 py-3 text-ink hover:underline">
               <img src="/icons/google-g.png" alt="Google" width="25" height="25" class="size-[25px]" loading="lazy" />
-              <span><span aria-hidden="true" class="font-serif text-[0.85em]">★★★★★ </span>{t.text}{t.note && <span class="whitespace-nowrap text-[0.65em] text-muted"> {t.note}</span>}</span>
+              <span><span aria-hidden="true" class="font-serif text-[0.85em]">★★★★★ </span>{t.text}{t.note && <span class="block whitespace-nowrap text-[0.65em] text-muted">{t.note}</span>}</span>
               <img src="/icons/arrow-up-right.svg" alt="" width="18" height="18" class="size-[18px]" />
             </a>
           </li>
