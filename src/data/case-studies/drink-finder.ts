@@ -6,7 +6,6 @@ import { testimonial, creditLine } from '../testimonials';
 import hero from '../../assets/brands/drink-finder/hero.jpg';
 import badge from '../../assets/site/badge-winner-2026.png';
 import vineyard from '../../assets/brands/drink-finder/vineyard.jpg';
-import stillDesktop from '../../assets/brands/drink-finder/still-desktop.jpg';
 import stillPdp from '../../assets/brands/drink-finder/still-pdp.jpg';
 import navSearch from '../../assets/brands/drink-finder/nav-search.jpg';
 import phonePdp from '../../assets/brands/drink-finder/phone-pdp.jpg';
@@ -14,7 +13,9 @@ import phoneBrandCollection from '../../assets/brands/drink-finder/phone-brand-c
 import uxHome from '../../assets/brands/drink-finder/ux-home.jpg';
 import cocktail from '../../assets/brands/drink-finder/cocktail.jpg';
 import brandBg from '../../assets/brands/drink-finder/brand-bg.jpg';
-import { SERVICE, card, MORE_HEADING, type CaseStudyPageData, type Media } from './types';
+import { SERVICE, slot, card, MORE_HEADING, type CaseStudyPageData, type Media } from './types';
+
+const B = 'drink-finder';
 
 const META = {
   path: URLS.caseStudies.drinkFinder,
@@ -78,17 +79,18 @@ const DETAILS = {
   },
 };
 
-// The full-width showcase under the brief: desktop homepage over a vineyard, then four phone screens.
-// [CONFIRM] Figma repeats one product page screen four times; swap in the four final screens.
+// The full-width showcase under the brief: a scroll through the desktop site over a vineyard, then
+// four phone screens. Files in src/assets/brands/drink-finder (stills) and public/video/drink-finder
+// (recordings), found by name.
 const SHOWCASE = {
   label: 'Drink Finder screens',
   background: vineyard,
-  desktop: { image: stillDesktop, alt: 'The Drink Finder homepage on desktop, with search, the full category menu and the shop’s Cornish address in the header.' } as Media,
+  desktop: slot(B, 'work-website-scroll-desktop', 'A scroll down the Drink Finder homepage on desktop, from search and the category menu to the collections below.', 'Desktop'),
   phones: [
-    { image: phonePdp, alt: 'A Drink Finder product page on mobile, with one, six and twelve bottle offers.' },
-    { image: phonePdp, alt: '' },
-    { image: phonePdp, alt: '' },
-    { image: phonePdp, alt: '' },
+    slot(B, 'work-homepage', 'The Drink Finder homepage on mobile.', 'Homepage'),
+    slot(B, 'work-whiskey-mobile', 'Browsing the Drink Finder whisky collection on mobile.', 'Whisky'),
+    slot(B, 'work-brand-page', 'A Drink Finder brand page on mobile, with the distillery’s story above its bottles.', 'Brand page'),
+    slot(B, 'work-wine-pdp-mobile', 'A Drink Finder wine product page on mobile, with one, six and twelve bottle offers.', 'Wine product page'),
   ] as Media[],
 };
 
