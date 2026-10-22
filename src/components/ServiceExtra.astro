@@ -8,7 +8,7 @@ import type { Extra } from '../data/service-pages/types';
 interface Props { item: Extra }
 const { item: x } = Astro.props;
 const cell = 't-label tracking-[0.02em]';
-// Each logo fills its tile, 32px in from whichever edge it reaches first. Width and height come from the viewBox.
+// Each logo fills its tile, 48px in (32px on phones) from whichever edge it reaches first. Width and height come from the viewBox.
 const logos = x.kind === 'logos'
   ? x.logos.map((l) => {
       const [, , w, h] = readFileSync(join(process.cwd(), 'public', l.src), 'utf8').match(/viewBox="([^"]+)"/)![1].split(/[\s,]+/).map(Number);
@@ -52,7 +52,7 @@ const logos = x.kind === 'logos'
         <ul class="mt-gutter grid grid-cols-2 gap-grid lg:grid-cols-4">
           {logos.map((l) => (
             <li class="relative aspect-[3/2] bg-raised">
-              <img src={l.src} alt={l.name} width={l.w} height={l.h} loading="lazy" class="absolute inset-8 size-[calc(100%-64px)] object-contain" />
+              <img src={l.src} alt={l.name} width={l.w} height={l.h} loading="lazy" class="absolute inset-8 size-[calc(100%-64px)] object-contain lg:inset-12 lg:size-[calc(100%-96px)]" />
             </li>
           ))}
         </ul>

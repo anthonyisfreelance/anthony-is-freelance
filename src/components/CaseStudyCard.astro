@@ -45,8 +45,8 @@ const aspect = { square: 'aspect-square', portrait: 'aspect-[4/5]', 'portrait-sq
       ]}
       aria-hidden="true"
     >
-      <span class="flex-1">{client}</span>
-      <span class:list={['flex-1', stackMeta === 'always' ? '' : stackMeta ? 'lg:text-right' : 'text-right']}>{meta}</span>
+      <span class="shrink-0">{client}</span>
+      <span class:list={['min-w-0 flex-1', stackMeta === 'always' ? '' : stackMeta ? 'lg:text-right' : 'text-right']}>{meta}</span>
     </p>
     <h3 class="t-h6 text-ink">
       {href ? (
