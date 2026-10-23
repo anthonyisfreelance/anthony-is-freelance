@@ -6,11 +6,6 @@ import { testimonial, creditLine } from '../testimonials';
 import hero from '../../assets/brands/drink-finder/hero.jpg';
 import badge from '../../assets/site/badge-winner-2026.png';
 import vineyard from '../../assets/brands/drink-finder/vineyard.jpg';
-import stillPdp from '../../assets/brands/drink-finder/still-pdp.jpg';
-import navSearch from '../../assets/brands/drink-finder/nav-search.jpg';
-import phonePdp from '../../assets/brands/drink-finder/phone-pdp.jpg';
-import phoneBrandCollection from '../../assets/brands/drink-finder/phone-brand-collection.jpg';
-import uxHome from '../../assets/brands/drink-finder/ux-home.jpg';
 import cocktail from '../../assets/brands/drink-finder/cocktail.jpg';
 import brandBg from '../../assets/brands/drink-finder/brand-bg.jpg';
 import { SERVICE, slot, card, MORE_HEADING, type CaseStudyPageData, type Media } from './types';
@@ -100,10 +95,8 @@ const WORK_INTRO = {
   body: 'The Drink Finder work started with a UX review of the old site, before any design. The review showed which areas to improve, and that is where the concepts started.',
 };
 
-// Image and text rows, in Figma order. `flip` puts the media on the left.
-// [CONFIRM] Figma uses one search screen (nav-search.jpg) in rows one, two and four as a placeholder.
-// It is used here for the nav row it shows; the other rows keep their own screens until final
-// tall phone screens (375 × 820) are ready.
+// Image and text rows, in Figma order. `flip` puts the media on the left. Each row's recording is
+// named for the row: work-savings, work-search and work-notifications.
 const HIGHLIGHTS = [
   {
     eyebrow: 'Shopify collection page design',
@@ -117,37 +110,39 @@ const HIGHLIGHTS = [
     eyebrow: 'Shopify product page design',
     heading: 'Make the saving easy to see.',
     body: "Shopify product page design puts grape, region and vintage next to the bottle. Six and twelve bottle offers are buttons you tap, and the basket shows the next saving. A good offer doesn't need pushing.",
-    media: { image: stillPdp, alt: 'A Drink Finder product page, with one, six and twelve bottle offers as buttons above the price.' },
+    media: slot(B, 'work-savings-mobile', 'A Drink Finder product page on mobile, with one, six and twelve bottle offers as buttons above the price.', 'Savings'),
     flip: true,
   },
   {
     eyebrow: 'Shopify navigation design',
     heading: 'The nav is your site.',
     body: 'I designed Drink Finder’s mobile navigation from scratch, so a customer gets from the home screen to a Spanish Rioja or an organic Cornish wine in a few taps. Search suggests popular searches and bottles before you type.',
-    media: { image: navSearch, alt: 'Drink Finder search on mobile, with popular searches and popular products showing before you type.' },
+    media: slot(B, 'work-search-mobile', 'Drink Finder search on mobile, with popular searches and popular products showing before you type.', 'Search'),
     flip: false,
   },
   {
     eyebrow: 'Shopify UX review',
     heading: 'Design for what shoppers actually saw.',
     body: 'The Shopify UX review mapped every screen at real phone sizes. Sticky sign-up buttons and a chat widget covered the buttons that mattered, so the offer moved into a notifications button in the header.',
-    media: { image: uxHome, alt: 'The Drink Finder homepage on mobile, with nothing covering the buttons.' },
+    media: slot(B, 'work-notifications-mobile', 'Drink Finder on mobile, with the offers in a notifications button in the header and nothing covering the buttons.', 'Notifications'),
     flip: true,
   },
 ];
 
-// Scrolling column of screens beside a sticky photo.
-// [CONFIRM] Figma repeats one collection screen five times; swap in the five final screens.
+// Scrolling column of screens beside a sticky photo. Recordings and stills take turns.
 const GALLERY = {
   label: 'More Drink Finder screens',
-  listLabel: 'Drink Finder brand collection screens',
-  screens: Array.from({ length: 5 }, (_, i) => ({
-    image: phoneBrandCollection,
-    alt: i === 0 ? 'A Drink Finder brand collection page on mobile, with the distillery story above the products.' : '',
-  })) as Media[],
+  listLabel: 'Drink Finder screens on mobile',
+  screens: [
+    slot(B, 'work-homepage-collection-mobile', 'The Drink Finder homepage on mobile, scrolling through the wine and whisky collections.', 'Homepage collections'),
+    slot(B, 'work-blog-landing', 'The Drink Finder blog on mobile.', 'Blog'),
+    slot(B, 'work-wine-top10-mobile', 'The Drink Finder top 10 wines on mobile, with each bottle ranked.', 'Top 10 wines'),
+    slot(B, 'work-blog-article', 'A Drink Finder blog article on mobile.', 'Blog article'),
+    slot(B, 'work-menu-mobile', 'The Drink Finder menu on mobile.', 'Menu'),
+  ] as Media[],
   photo: { image: cocktail, alt: '' } as Media,
-  // Describes the screens beside it. [CONFIRM] Rewrite when the five final screens are in.
-  caption: 'Drink Finder brand collection pages on mobile, with each distillery’s story above its bottles.',
+  // Describes the screens beside it.
+  caption: 'Drink Finder on mobile: the homepage collections, the blog, the top 10 wines and the menu.',
 };
 
 const BRAND = {
@@ -155,7 +150,7 @@ const BRAND = {
   eyebrow: 'Brand refinement and design system',
   heading: 'Still Drink Finder, sharper on a phone.',
   body: 'A brand refinement, not a rebrand: a tighter logomark for small screens, type for reading on a phone and colours that work the same on every page. Every screen was designed mobile first in Figma and handed over as a design system.',
-  media: { image: phonePdp, alt: 'A Drink Finder product page on mobile in the refined brand.' } as Media,
+  media: slot(B, 'work-design-system-mobile', 'Drink Finder on mobile in the refined brand, built from the design system.', 'Design system'),
 };
 
 const TESTIMONIAL = {

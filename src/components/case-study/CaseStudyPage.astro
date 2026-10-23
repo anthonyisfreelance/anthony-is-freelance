@@ -109,9 +109,10 @@ const link = 'underline underline-offset-4 hover:decoration-2';
         <div class="w-full px-margin lg:w-[63.6%] lg:max-w-[1628px] lg:px-0">
           <Media media={SHOWCASE.desktop} sizes="(min-width: 1024px) 64vw, 100vw" class="aspect-[916/518] w-full" />
         </div>
+        <!-- Phones scale with the screen like the gallery's, and stop at the gallery's size (309px at 1440). -->
         <ul class="grid w-full grid-cols-2 gap-grid px-margin lg:flex lg:w-auto lg:justify-center">
           {SHOWCASE.phones.map((m) => (
-            <li><Media media={m} sizes="(min-width: 1024px) 320px, 46vw" class="aspect-[375/820] w-full lg:w-[320px]" /></li>
+            <li><Media media={m} sizes="(min-width: 1024px) 309px, 46vw" class="aspect-[375/820] w-full lg:w-[min(calc((51.39vw-64px)*0.4573),309px)]" /></li>
           ))}
         </ul>
       </div>
@@ -126,7 +127,7 @@ const link = 'underline underline-offset-4 hover:decoration-2';
         aria-label={GALLERY.listLabel ?? GALLERY.label}
       >
         {GALLERY.screens.map((m) => (
-          <Media media={m} sizes="(min-width: 1024px) 676px, 60vw" class="aspect-[563/1230] w-[60%] shrink-0 snap-start lg:aspect-square lg:w-full lg:max-w-[676px]" />
+          <Media media={m} sizes="(min-width: 1024px) 309px, 60vw" class="aspect-[563/1230] w-[60%] shrink-0 snap-start lg:aspect-square lg:w-full lg:max-w-[676px]" />
         ))}
       </div>
       <figure class="relative max-lg:order-first lg:sticky lg:top-0 lg:w-[48.61%] lg:self-start">
