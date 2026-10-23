@@ -24,6 +24,10 @@ export function articleImage(slug: string, file: string): ImageMetadata | undefi
 export function articleTile(slug: string): ImageMetadata | undefined {
   return ARTICLE_IMAGES[`../assets/articles/${slug}/tile.png`]?.default;
 }
+/** TRIAL: the blue version of the tile (Figma "Articles landing - Desktop (image tiles)"), tile-blue.png. */
+export function articleBlueTile(slug: string): ImageMetadata | undefined {
+  return ARTICLE_IMAGES[`../assets/articles/${slug}/tile-blue.png`]?.default;
+}
 /** The article's featured image from the live WordPress site (hero.file in its content file), if any. */
 const ARTICLE_CONTENT = import.meta.glob<{ hero?: { file: string; alt: string } }>('./article-content/*.json', { eager: true, import: 'default' });
 export function articleLiveImage(slug: string): { image: ImageMetadata; alt: string } | undefined {

@@ -1,8 +1,10 @@
 ---
 // Article image, 16:9.
-// TRIAL (23 October): wherever an article has its featured image from the live site, that bright
-// image shows first; ?hero=tile on any page swaps every one back to the new dark tile (Base.astro
-// remembers it for the visit, ?hero=live undoes it). Remove whichever loses.
+// TRIAL (23 October): three looks side by side, chosen with the switcher in Base.astro
+// (?hero=live, ?hero=tile or ?hero=blue, remembered for the visit). Remove the two that lose.
+// - live (default): the article's featured image from the live site.
+// - tile: the dark tile on the sunken surface.
+// - blue: the tile on brand blue (tile-blue.png); articles without one get the mark on blue.
 // Three kinds:
 // - tile (default): the article's tile from Figma ("Article tile/<slug>"), found by slug in
 //   src/assets/articles/<slug>/tile.png. Falls back to the mark until the article has one.
@@ -12,7 +14,7 @@
 import { Image } from 'astro:assets';
 import { COVER_MARKS, MARK_POSITION } from '../data/article-covers';
 import { articleSlug, type Article } from '../data/articles';
-import { articleTile, articleLiveImage } from '../data/media';
+import { articleTile, articleLiveImage, articleBlueTile } from '../data/media';
 interface Props {
   article: Article;
   /** Alt text for the live image (the article hero). Cards leave it empty: the title says it all. */
@@ -23,9 +25,13 @@ interface Props {
   class?: string;
 }
 const { article, alt = '', kind = 'tile', sizes = '(min-width: 1024px) 33vw, 50vw', loading = 'lazy', class: className = '' } = Astro.props;
-const tile = kind === 'tile' ? articleTile(articleSlug(article)) : undefined;
+const slug = articleSlug(article);
+const tile = kind === 'tile' ? articleTile(slug) : undefined;
 const figure = kind === 'figure' ? article.figure : undefined;
-const live = kind === 'tile' ? articleLiveImage(articleSlug(article)) : undefined;
+const trial = kind === 'tile';
+const live = trial ? articleLiveImage(slug) : undefined;
+const blue = trial ? articleBlueTile(slug) : undefined;
+const markStyle = `left:${MARK_POSITION.left}%;top:${MARK_POSITION.top}%;width:${MARK_POSITION.width}%`;
 ---
 {live && (
   <div class:list={['cover-live relative aspect-video overflow-hidden bg-raised', className]}>
@@ -40,7 +46,20 @@ const live = kind === 'tile' ? articleLiveImage(articleSlug(article)) : undefine
     />
   </div>
 )}
-<div class={live ? 'cover-tile hidden' : 'contents'}>
+{trial && (
+  <div class="cover-blue hidden">
+    {blue ? (
+      <div class:list={['relative aspect-video overflow-hidden bg-blue', className]}>
+        <Image src={blue} alt="" widths={[400, 640, 960, 1400, 2000, 2400]} sizes={sizes} loading={loading} class="zoom-img absolute inset-0 size-full object-cover" />
+      </div>
+    ) : (
+      <div class:list={['relative aspect-video overflow-hidden bg-blue', className]} aria-hidden="true">
+        <svg viewBox="0 0 200 200" fill="none" stroke="currentColor" class="cover-mark absolute text-[#fff]" style={markStyle} set:html={COVER_MARKS[article.category]} />
+      </div>
+    )}
+  </div>
+)}
+<div class={live ? 'cover-tile hidden' : 'cover-tile contents'}>
 {tile ? (
   <div class:list={['relative aspect-video overflow-hidden bg-sunken', className]}>
     <Image
@@ -60,14 +79,7 @@ const live = kind === 'tile' ? articleLiveImage(articleSlug(article)) : undefine
         <p class="absolute bottom-[3.4cqw] left-[3.4cqw] font-display text-[max(11px,3.85cqw)] font-medium leading-[1.3] text-ink">{figure.label}</p>
       </>
     ) : (
-      <svg
-        viewBox="0 0 200 200"
-        fill="none"
-        stroke="currentColor"
-        class="cover-mark absolute text-ink"
-        style={`left:${MARK_POSITION.left}%;top:${MARK_POSITION.top}%;width:${MARK_POSITION.width}%`}
-        set:html={COVER_MARKS[article.category]}
-      />
+      <svg viewBox="0 0 200 200" fill="none" stroke="currentColor" class="cover-mark absolute text-ink" style={markStyle} set:html={COVER_MARKS[article.category]} />
     )}
   </div>
 )}

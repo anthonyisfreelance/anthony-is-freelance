@@ -602,9 +602,16 @@ dialog[data-project-dialog]:not([open])::backdrop {
   }
 }
 
-/* TEMPORARY: article image trial. ?hero=tile swaps every live-site image for the new tile. */
-html[data-hero='tile'] .cover-live { display: none; }
-html[data-hero='tile'] .cover-tile { display: contents; }
+/* TEMPORARY: article image trial (ArticleCover, the switcher in Base.astro). Live images by default,
+   ?hero=tile the dark tiles, ?hero=blue the blue tiles. */
+html[data-hero='tile'] .cover-live,
+html[data-hero='blue'] .cover-live,
+html[data-hero='blue'] .cover-tile { display: none; }
+html[data-hero='tile'] .cover-tile,
+html[data-hero='blue'] .cover-blue { display: contents; }
+html:not([data-hero]) .hero-switch a[data-h='live'],
+html[data-hero='tile'] .hero-switch a[data-h='tile'],
+html[data-hero='blue'] .hero-switch a[data-h='blue'] { background: #fff; color: #111; }
 
 /* TEMPORARY: article colour comparison (see articles/[slug].astro). Remove once decided.
    soft: body copy off-white, headings stay white. light: everything under the header goes light. */

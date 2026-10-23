@@ -22,12 +22,14 @@ const imageUrl = image ? new URL(image, Astro.site).href : undefined;
 <html lang="en-GB" class="theme-dark">
   <head>
     <script is:inline>
-      // TEMPORARY: article image trial. ?hero=tile shows the new tiles, ?hero=live the live site's images.
+      // TEMPORARY: article image trial. ?hero=live (live site's images), ?hero=tile (dark tiles) or
+      // ?hero=blue (blue tiles), remembered for the visit. The switcher below sets it.
       (function () {
         try {
           var q = new URLSearchParams(location.search).get('hero');
           if (q) sessionStorage.setItem('aif-hero', q);
-          if ((q || sessionStorage.getItem('aif-hero')) === 'tile') document.documentElement.dataset.hero = 'tile';
+          var h = q || sessionStorage.getItem('aif-hero');
+          if (h === 'tile' || h === 'blue') document.documentElement.dataset.hero = h;
         } catch (e) {}
       })();
     </script>
@@ -64,6 +66,12 @@ const imageUrl = image ? new URL(image, Astro.site).href : undefined;
     <StickyCta />
     <ProjectDialog />
     <ConsentBanner />
+    <!-- TEMPORARY: article image trial switcher. Plain links, no script. Remove once decided. -->
+    <nav class="hero-switch t-label fixed bottom-[88px] right-3 z-40 flex border border-line bg-surface p-1 text-ink lg:bottom-6 lg:right-6" aria-label="Article image trial">
+      <a href="?hero=live" data-h="live" class="px-3 py-2">Live</a>
+      <a href="?hero=tile" data-h="tile" class="px-3 py-2">Dark</a>
+      <a href="?hero=blue" data-h="blue" class="px-3 py-2">Blue</a>
+    </nav>
     <script is:inline>
       // Test-site comment tool (public/feedback.js). Loads only after ?feedback has been
       // visited in this browser, never on anthonyis.uk. ?feedback=off switches it off.
