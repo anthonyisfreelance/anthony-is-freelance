@@ -69,7 +69,7 @@ const btn = 't-button inline-flex items-center px-[14px] py-[10px]';
   <main id="main">
     <!-- Head: breadcrumb, H1. The intro shows on phones only (Figma). -->
     <section class="px-margin">
-      <div class="flex flex-col gap-large border-t border-line pb-large pt-large lg:gap-loose lg:pb-loose">
+      <div class="flex flex-col gap-large border-t border-line pt-large lg:gap-loose">
         <div class="flex flex-col gap-loose">
           <Breadcrumb items={crumbs} />
           <Heading level={1} eyebrow={P.eyebrow} class="lg:w-[79%]">{P.heading}</Heading>
@@ -80,10 +80,11 @@ const btn = 't-button inline-flex items-center px-[14px] py-[10px]';
 
     <section id="articles" aria-labelledby="articles-heading" class="px-margin pb-section">
       <h2 id="articles-heading" class="sr-only">All Shopify articles, newest first</h2>
-      <div class="py-6"><Filters label="Filter by topic" filters={filters} line /></div>
+      <!-- Space above and below the filters matches the success stories page. -->
+      <div class="py-section-sm"><Filters label="Filter by topic" filters={filters} line /></div>
 
       {latest && (
-        <div data-tags={latest.category} class="pt-large">
+        <div data-tags={latest.category}>
           <ArticleFeatured article={latest} />
         </div>
       )}

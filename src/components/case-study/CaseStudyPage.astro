@@ -39,11 +39,11 @@ const link = 'underline underline-offset-4 hover:decoration-2';
   <Schema slot="head" title={META.title} description={META.description} path={META.path} breadcrumbs={META.breadcrumbs} about={clientId} extra={[client]} />
   <Header overlay />
   <main id="main">
-    <!-- Hero: photo from the left screen edge to the centre line, headline right. The rule sits
+    <!-- Hero: photo from the left screen edge to the centre line, a full screen tall on desktop, headline right. The rule sits
          under the header as on every other page; the copy is centred beside the photo. -->
-    <section class="lg:grid lg:grid-cols-2 lg:gap-gutter">
-      <div data-header-image class="relative">
-        <Media media={HERO.image} fit="cover" sizes="(min-width: 1024px) 50vw, 100vw" eager class="aspect-[700/736] w-full lg:max-h-dvh" />
+    <section class="lg:grid lg:min-h-dvh lg:grid-cols-2 lg:gap-gutter">
+      <div data-header-image class="relative lg:h-full lg:min-h-dvh">
+        <Media media={HERO.image} fit="cover" sizes="(min-width: 1024px) 50vw, 100vw" eager class="aspect-[700/736] w-full lg:absolute lg:inset-0 lg:aspect-auto lg:h-full" />
         <div class="absolute inset-0 hidden bg-[linear-gradient(to_bottom,rgba(0,0,0,0.35)_0%,rgba(0,0,0,0)_21%)] lg:block" aria-hidden="true"></div>
       </div>
       <div class="px-margin pt-large lg:flex lg:flex-col lg:pl-0 lg:pt-[124px]">

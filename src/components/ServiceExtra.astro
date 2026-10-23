@@ -49,10 +49,10 @@ const logos = x.kind === 'logos'
         </div>
       )}
       {x.kind === 'logos' && (
-        <ul class="mt-gutter grid grid-cols-2 gap-grid lg:grid-cols-4">
+        <ul class="mt-gutter grid grid-cols-2 gap-grid md:grid-cols-4">
           {logos.map((l) => (
             <li class="relative aspect-[3/2] bg-raised">
-              <img src={l.src} alt={l.name} width={l.w} height={l.h} loading="lazy" class="absolute inset-8 size-[calc(100%-64px)] object-contain lg:inset-12 lg:size-[calc(100%-96px)]" />
+              <img src={l.src} alt={l.name} width={l.w} height={l.h} loading="lazy" class="absolute left-1/2 top-1/2 h-[min(56%,108px)] w-[min(70%,208px)] -translate-x-1/2 -translate-y-1/2 object-contain" />
             </li>
           ))}
         </ul>

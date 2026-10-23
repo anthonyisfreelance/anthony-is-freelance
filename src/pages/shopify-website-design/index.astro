@@ -112,9 +112,9 @@ const catalog = {
           <Heading eyebrow={SITUATIONS.eyebrow}>{SITUATIONS.heading}</Heading>
           <p class="t-body mt-loose text-muted">{SITUATIONS.intro}</p>
         </div>
-        <ul class="flex flex-col gap-large pt-large lg:pt-section">
+        <ul class="flex flex-col gap-section-sm pt-large lg:gap-large lg:pt-section">
           {SITUATIONS.items.map((it, i) => (
-            <li id={'id' in it ? it.id : undefined} class:list={['flex scroll-mt-6 items-start gap-grid', i > 0 && 'border-t border-line pt-large']}>
+            <li id={'id' in it ? it.id : undefined} class:list={['flex scroll-mt-6 items-start gap-grid', i > 0 && 'border-t border-line pt-section-sm lg:pt-large']}>
               <div class="grid flex-1 gap-x-grid gap-y-3 sm:grid-cols-[minmax(0,0.75fr)_minmax(0,1fr)]">
                 <h3 class="t-h5 uppercase text-ink">“{it.quote}”</h3>
                 <p class="t-body text-muted">
