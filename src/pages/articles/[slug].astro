@@ -163,7 +163,8 @@ const experience = 'He has worked in design for over 20 years, from brand identi
       {faqs.length > 0 && (
         <section id="questions" aria-labelledby="questions-heading" class="scroll-mt-8 px-margin pt-section">
           <div class="flex flex-col gap-large border-t border-line pt-section lg:flex-row lg:gap-gutter">
-            <div class="lg:w-half lg:shrink-0">
+            <!-- The heading stays in view while the questions scroll past (desktop). -->
+            <div class="lg:sticky lg:top-loose lg:w-half lg:shrink-0 lg:self-start">
               <Heading eyebrow="Frequently asked questions" id="questions-heading">{c.faqHeading}</Heading>
             </div>
             <div class="flex flex-col gap-large lg:flex-1">

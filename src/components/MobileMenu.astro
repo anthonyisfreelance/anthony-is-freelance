@@ -9,6 +9,7 @@ import TrustTiles from './TrustTiles.astro';
 import { MEGA, URLS, GOOGLE_RATING } from '../data/site';
 import { STORIES } from '../data/home';
 import ArticleCard from './ArticleCard.astro';
+import CaseStudyCard from './CaseStudyCard.astro';
 import { ARTICLES_LIST, mostRead } from '../data/articles';
 import photo from '../assets/brands/drink-finder/menu.jpg';
 import screen from '../assets/brands/drink-finder/screen-home.png';
@@ -16,6 +17,8 @@ import screen from '../assets/brands/drink-finder/screen-home.png';
 const featured = STORIES.featured;
 const services = MEGA.services.columns.flat();
 const link = 't-button-lg text-ink link-hover';
+// Success stories: the featured story and the next one with a page, side by side.
+const workCards = [STORIES.featured, ...STORIES.cards.filter((c) => c.href)].slice(0, 2);
 // Two newest and the two most read, two to a row (a phone fits two cards across).
 const latestArticles = ARTICLES_LIST.slice(0, 2);
 const best = mostRead().filter((a) => !latestArticles.includes(a)).slice(0, 2);
@@ -44,7 +47,11 @@ const back = 'flex size-[18px] cursor-pointer items-center';
               {MEGA.services.label}
             </button>
           </li>
-          <li><a href={MEGA.work.viewAll.href}>{MEGA.work.label}</a></li>
+          <li>
+            <button type="button" data-menu-to="work" aria-controls="menu-work" aria-expanded="false" class="cursor-pointer text-left uppercase">
+              {MEGA.work.label}
+            </button>
+          </li>
           <li>
             <button type="button" data-menu-to="articles" aria-controls="menu-articles" aria-expanded="false" class="cursor-pointer text-left uppercase">
               {MEGA.articles.label}
@@ -96,6 +103,27 @@ const back = 'flex size-[18px] cursor-pointer items-center';
           <a href={featured.href} class="stretched-link link-hover"><span class="sr-only">{featured.client}. </span>{featured.claim}</a>
         </p>
       </article>
+    </div>
+
+    <!-- Level two: Shopify Success Stories (the desktop panel, two cards to a row) -->
+    <div id="menu-work" data-menu-panel="work" hidden class="flex flex-col gap-[40px]">
+      <div class="flex flex-col gap-large">
+        <button type="button" data-menu-back class={back} aria-label="Back to the menu">
+          <img src="/icons/arrow-left.svg" alt="" width="18" height="18" class="size-[18px]" />
+        </button>
+        <a href={MEGA.work.viewAll.href} class={`${link} inline-flex items-center gap-2 self-start`}>
+          {MEGA.work.viewAll.label}
+          <img src="/icons/arrow-up-right.svg" alt="" width="18" height="18" class="size-[18px]" />
+        </a>
+        <ul class="flex flex-col gap-loose py-2 leading-none" aria-label="More success stories">
+          {MEGA.work.links.map((l) => <li><a href={l.href} class={`${link} inline-block`}>{l.label}</a></li>)}
+        </ul>
+      </div>
+      <ul class="grid grid-cols-2 gap-x-grid gap-y-large">
+        {workCards.map((c) => (
+          <li><CaseStudyCard client={c.client} meta={c.meta} claim={c.claim} image={c.image} href={c.href} ratio="square" sizes="45vw" stackMeta /></li>
+        ))}
+      </ul>
     </div>
 
     <!-- Level two: Articles -->
