@@ -1,0 +1,40 @@
+---
+// Shared articles section (Figma "Blog posts", 23 October 2026), used on the homepage and under
+// each article. Desktop: 2 to 4 cards in one row, the row split evenly. Phones: always the first
+// two, side by side. With fewer than two articles the section doesn't show at all.
+import SectionIntro from './SectionIntro.astro';
+import TextLink from './TextLink.astro';
+import ArticleCard from './ArticleCard.astro';
+import { URLS } from '../data/site';
+import type { Article } from '../data/articles';
+interface Props {
+  articles: Article[];
+  eyebrow: string;
+  heading: string;
+  link?: { label: string; href: string };
+  class?: string;
+}
+const {
+  articles,
+  eyebrow,
+  heading,
+  link = { label: 'View all articles', href: URLS.articles },
+  class: className = 'px-margin pt-section',
+} = Astro.props;
+const list = articles.slice(0, 4);
+// Whole class names, so Tailwind finds them.
+const cols = ({ 2: 'lg:grid-cols-2', 3: 'lg:grid-cols-3', 4: 'lg:grid-cols-4' } as Record<number, string>)[list.length];
+const sizes = list.length === 4 ? '(min-width: 1024px) 25vw, 50vw' : list.length === 3 ? '(min-width: 1024px) 33vw, 50vw' : '50vw';
+---
+{list.length >= 2 && (
+  <section class={className}>
+    <div class="border-t border-line pt-section">
+      <SectionIntro eyebrow={eyebrow} heading={heading}>
+        <TextLink slot="links" href={link.href}>{link.label}</TextLink>
+      </SectionIntro>
+      <ul class:list={['mt-grid-lg grid grid-cols-2 gap-x-grid gap-y-large lg:gap-x-grid-lg', cols]}>
+        {list.map((a, i) => <li class:list={[i > 1 && 'max-lg:hidden']}><ArticleCard article={a} sizes={sizes} /></li>)}
+      </ul>
+    </div>
+  </section>
+)}

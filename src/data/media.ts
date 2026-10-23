@@ -16,6 +16,16 @@ export function articleImage(slug: string, file: string): ImageMetadata | undefi
   return ARTICLE_IMAGES[`../assets/articles/${slug}/${file}`]?.default;
 }
 
+/**
+ * An article's tile (Figma "Article tile/<slug>", 16:9, exported at 2400 x 1349) at
+ * src/assets/articles/<slug>/tile.png. It is the card image, the hero and the share image.
+ * Articles without one fall back to their category mark.
+ */
+export function articleTile(slug: string): ImageMetadata | undefined {
+  return ARTICLE_IMAGES[`../assets/articles/${slug}/tile.png`]?.default;
+}
+export const articleTilePath = (slug: string) => join(process.cwd(), 'src/assets/articles', slug, 'tile.png');
+
 /** The image at src/assets/brands/<brand>/<name>.<any image type>, if it has been added. */
 export function brandImage(brand: string, name: string): ImageMetadata | undefined {
   const prefix = `../assets/brands/${brand}/${name}.`;

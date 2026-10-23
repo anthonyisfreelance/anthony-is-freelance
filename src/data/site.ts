@@ -158,8 +158,7 @@ export const MEGA = {
   articles: {
     label: 'Articles',
     viewAll: { label: 'View all articles', href: URLS.articles },
-    topicsLabel: 'Browse by topic',
-    latestLabel: 'Latest',
-    recentLabel: 'Recent articles',
+    latestLabel: 'Latest articles',
+    mostReadLabel: 'Most read',
   },
 } as const;

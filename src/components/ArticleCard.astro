@@ -1,0 +1,21 @@
+---
+// One article as a card (Figma "Article card", 23 October 2026): the tile, a line with the topic and
+// date (the date drops below the topic when the card is narrow), then the title. Same build as the
+// case study cards. The title is the only link, stretched over the card.
+import ArticleCover from './ArticleCover.astro';
+import { type Article, categoryLabel, formatDate } from '../data/articles';
+interface Props {
+  article: Article;
+  titleTag?: 'h2' | 'h3' | 'p'; // 'p' in menus, so they add no headings to the page
+  sizes?: string;
+}
+const { article: a, titleTag: Title = 'h3', sizes } = Astro.props;
+---
+<article class="hover-card relative flex flex-col">
+  <ArticleCover article={a} sizes={sizes} class="w-full" />
+  <p class="t-label flex flex-wrap justify-between gap-x-4 gap-y-1 border-b border-line py-3 text-muted">
+    <span>{categoryLabel(a.category)}</span>
+    <time datetime={a.date}>{formatDate(a.date)}</time>
+  </p>
+  <Title class="t-h6 mt-3 text-ink"><a href={a.href} class="stretched-link link-hover">{a.title}</a></Title>
+</article>

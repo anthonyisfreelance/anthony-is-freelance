@@ -1,30 +1,52 @@
 ---
-// Article cover (Figma "Article/Cover"), 16:9. Two kinds:
-// - mark: the category's line mark, no text. Used on the article itself, and the same artwork is the
-//   og:image, so the page and the search thumbnail match.
-// - figure: the article's real headline number in blue, for on-site featured slots only. Falls back
-//   to the mark when the article has no figure.
-// Sizes scale with the cover's width (container units), so one component works from menu to hero.
+// Article image, 16:9. Three kinds:
+// - tile (default): the article's tile from Figma ("Article tile/<slug>"), found by slug in
+//   src/assets/articles/<slug>/tile.png. Falls back to the mark until the article has one.
+// - mark: the category's line mark on the raised surface, no text.
+// - figure: the article's headline number in blue. Falls back to the mark.
+// Mark and figure sizes scale with the cover's width (container units).
+import { Image } from 'astro:assets';
 import { COVER_MARKS, MARK_POSITION } from '../data/article-covers';
-import type { Article } from '../data/articles';
-interface Props { article: Article; kind?: 'mark' | 'figure'; class?: string }
-const { article, kind = 'mark', class: className = '' } = Astro.props;
+import { articleSlug, type Article } from '../data/articles';
+import { articleTile } from '../data/media';
+interface Props {
+  article: Article;
+  kind?: 'tile' | 'mark' | 'figure';
+  sizes?: string;
+  loading?: 'eager' | 'lazy';
+  class?: string;
+}
+const { article, kind = 'tile', sizes = '(min-width: 1024px) 33vw, 50vw', loading = 'lazy', class: className = '' } = Astro.props;
+const tile = kind === 'tile' ? articleTile(articleSlug(article)) : undefined;
 const figure = kind === 'figure' ? article.figure : undefined;
 ---
-<div class:list={['@container relative aspect-video overflow-hidden bg-raised', className]} aria-hidden="true">
-  {figure ? (
-    <>
-      <p class="absolute left-[2.2cqw] top-[1.3cqw] font-display text-[34.9cqw] font-medium leading-none text-blue">{figure.value}</p>
-      <p class="absolute bottom-[3.4cqw] left-[3.4cqw] font-display text-[max(11px,3.85cqw)] font-medium leading-[1.3] text-ink">{figure.label}</p>
-    </>
-  ) : (
-    <svg
-      viewBox="0 0 200 200"
-      fill="none"
-      stroke="currentColor"
-      class="cover-mark absolute text-ink"
-      style={`left:${MARK_POSITION.left}%;top:${MARK_POSITION.top}%;width:${MARK_POSITION.width}%`}
-      set:html={COVER_MARKS[article.category]}
+{tile ? (
+  <div class:list={['relative aspect-video overflow-hidden bg-raised', className]}>
+    <Image
+      src={tile}
+      alt=""
+      widths={[400, 640, 960, 1400, 2000, 2400]}
+      sizes={sizes}
+      loading={loading}
+      class="zoom-img absolute inset-0 size-full object-cover"
     />
-  )}
-</div>
+  </div>
+) : (
+  <div class:list={['@container relative aspect-video overflow-hidden bg-raised', className]} aria-hidden="true">
+    {figure ? (
+      <>
+        <p class="absolute left-[2.2cqw] top-[1.3cqw] font-display text-[34.9cqw] font-medium leading-none text-blue">{figure.value}</p>
+        <p class="absolute bottom-[3.4cqw] left-[3.4cqw] font-display text-[max(11px,3.85cqw)] font-medium leading-[1.3] text-ink">{figure.label}</p>
+      </>
+    ) : (
+      <svg
+        viewBox="0 0 200 200"
+        fill="none"
+        stroke="currentColor"
+        class="cover-mark absolute text-ink"
+        style={`left:${MARK_POSITION.left}%;top:${MARK_POSITION.top}%;width:${MARK_POSITION.width}%`}
+        set:html={COVER_MARKS[article.category]}
+      />
+    )}
+  </div>
+)}

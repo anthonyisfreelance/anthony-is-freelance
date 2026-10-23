@@ -1,24 +1,13 @@
 ---
-// Homepage articles (Figma "Articles section", 22 October 2026): the latest article leads, then the
-// next three as one line each.
-import SectionIntro from '../SectionIntro.astro';
-import TextLink from '../TextLink.astro';
-import ArticleFeatured from '../ArticleFeatured.astro';
-import ArticleIndexRow from '../ArticleIndexRow.astro';
+// Homepage articles: the four newest in the shared articles section (two on phones).
+import ArticlesSection from '../ArticlesSection.astro';
 import { ARTICLES } from '../../data/home';
 import { ARTICLES_LIST } from '../../data/articles';
-const [latest, ...rest] = ARTICLES_LIST;
 ---
-<section class="px-margin pt-section-sm lg:pt-section-pre">
-  <div class="border-t border-line pt-section">
-    <SectionIntro eyebrow={ARTICLES.eyebrow} heading={ARTICLES.heading}>
-      <TextLink slot="links" href={ARTICLES.link.href}>{ARTICLES.link.label}</TextLink>
-    </SectionIntro>
-    <div class="mt-large">
-      <ArticleFeatured article={latest} />
-      <ul>
-        {rest.slice(0, 3).map((a) => <li><ArticleIndexRow article={a} /></li>)}
-      </ul>
-    </div>
-  </div>
-</section>
+<ArticlesSection
+  articles={ARTICLES_LIST.slice(0, 4)}
+  eyebrow={ARTICLES.eyebrow}
+  heading={ARTICLES.heading}
+  link={ARTICLES.link}
+  class="px-margin pt-section-sm lg:pt-section-pre"
+/>

@@ -1,6 +1,7 @@
 ---
-// Articles landing page (Figma "Articles landing", 22 October 2026). The latest article leads, then
-// every other article is one line (date, category, title). 24 per page, the latest counting as one;
+// Articles landing page (Figma "Articles landing (image tiles)", 23 October 2026). The latest article
+// leads, then every other article as a card with its tile: three across on desktop, two on phones.
+// 24 per page, the latest counting as one;
 // page 1 is /articles/, later pages /articles/page/2/ and on, each self-canonical with real links.
 // Every article on the page is in the HTML; the topic filters only show and hide them.
 import { Image } from 'astro:assets';
@@ -12,7 +13,7 @@ import Breadcrumb from './Breadcrumb.astro';
 import Filters from './Filters.astro';
 import TextLink from './TextLink.astro';
 import ArticleFeatured from './ArticleFeatured.astro';
-import ArticleIndexRow from './ArticleIndexRow.astro';
+import ArticleCard from './ArticleCard.astro';
 import Contact from './home/Contact.astro';
 import { SITE, ENTITY, URLS } from '../data/site';
 import { ARTICLES_LIST, ARTICLE_CATEGORIES, ARTICLES_PAGE as P, ARTICLES_PER_PAGE, categoryLabel } from '../data/articles';
@@ -89,12 +90,12 @@ const btn = 't-button inline-flex items-center px-[14px] py-[10px]';
         </div>
       )}
 
-      <ul>
-        {rows.map((a) => <li data-tags={a.category}><ArticleIndexRow article={a} /></li>)}
+      <ul class="grid grid-cols-2 gap-x-grid gap-y-large pt-large lg:grid-cols-3 lg:gap-x-grid-lg lg:gap-y-16">
+        {rows.map((a) => <li data-tags={a.category}><ArticleCard article={a} sizes="(min-width: 1024px) 33vw, 50vw" /></li>)}
       </ul>
 
       {pages > 1 && (
-        <nav aria-label="Pagination" class="flex items-center justify-center gap-grid-lg border-t border-line pb-large pt-section">
+        <nav aria-label="Pagination" class="mt-section flex items-center justify-center gap-grid-lg border-t border-line pb-large pt-section">
           {page > 1
             ? <a href={pageHref(page - 1)} class={`${btn} bg-white text-[#111]`}>Page {page - 1}</a>
             : <span aria-disabled="true" class={`${btn} bg-line text-muted`}>Page 1</span>}

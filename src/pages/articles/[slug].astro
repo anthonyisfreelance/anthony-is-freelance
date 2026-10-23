@@ -14,7 +14,7 @@ import Heading from '../../components/Heading.astro';
 import Breadcrumb from '../../components/Breadcrumb.astro';
 import TextLink from '../../components/TextLink.astro';
 import ArticleCover from '../../components/ArticleCover.astro';
-import ArticleIndexRow from '../../components/ArticleIndexRow.astro';
+import ArticlesSection from '../../components/ArticlesSection.astro';
 import Contact from '../../components/home/Contact.astro';
 import { SITE, ENTITY, URLS } from '../../data/site';
 import { ARTICLES_LIST, ARTICLES_PAGE, categoryLabel, formatDate, type Article } from '../../data/articles';
@@ -120,9 +120,9 @@ const experience = 'He has worked in design for over 20 years, from brand identi
         </div>
       </header>
 
-      <!-- Cover: drawn from the category, the same picture as the share image -->
+      <!-- Cover: the article's tile, the same picture as the share image -->
       <figure class="mt-large px-margin">
-        <ArticleCover article={article} kind="mark" class="w-full" />
+        <ArticleCover article={article} sizes="(min-width: 2560px) 2512px, 100vw" loading="eager" class="w-full" />
       </figure>
 
       <!-- Body: contents on the left (desktop), the article in a centred reading column -->
@@ -198,19 +198,13 @@ const experience = 'He has worked in design for over 20 years, from brand identi
       </div>
     </section>
 
-    <!-- Related articles: same topic first -->
-    <section class="px-margin pb-section pt-section">
-      <div class="border-t border-line pt-section">
-        <div class="lg:flex lg:items-end lg:justify-between lg:gap-gutter">
-          <div class="lg:w-half lg:shrink-0"><Heading eyebrow="Shopify design articles">{`Related ${category} articles.`}</Heading></div>
-          <div class="hidden lg:block"><TextLink href={URLS.articles}>View all articles</TextLink></div>
-        </div>
-        <ul class="mt-large">
-          {related.map((r) => <li><ArticleIndexRow article={r} /></li>)}
-        </ul>
-        <div class="border-t border-line pt-large lg:hidden"><TextLink href={URLS.articles}>View all articles</TextLink></div>
-      </div>
-    </section>
+    <!-- Related articles: same topic first. Three on desktop, two on phones. -->
+    <ArticlesSection
+      articles={related}
+      eyebrow="Shopify design articles"
+      heading={`Related ${category} articles.`}
+      class="px-margin pb-section pt-section"
+    />
 
     <Contact />
   </main>

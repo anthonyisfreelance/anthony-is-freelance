@@ -59,6 +59,13 @@ export const formatDate = (iso: string) => new Date(iso).toLocaleDateString('en-
 /** The slug in /articles/<slug>/ */
 export const articleSlug = (a: Article) => a.href.split('/').filter(Boolean).pop()!;
 
+/**
+ * The two most read articles, shown in the Articles menu beside the three newest. From Google Search
+ * Console clicks, 25 July to 23 October 2026. Swap a slug here to change them.
+ */
+export const MOST_READ = ['shopify-product-card-design', '25-biggest-brands-using-shopify-in-2025'];
+export const mostRead = () => MOST_READ.map((slug) => ARTICLES_LIST.find((a) => articleSlug(a) === slug)!).filter(Boolean);
+
 /** The landing page lists this many per page (the latest article counts as one). */
 export const ARTICLES_PER_PAGE = 24;
 
