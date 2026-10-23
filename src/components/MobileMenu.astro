@@ -37,7 +37,11 @@ const back = 'flex size-[18px] cursor-pointer items-center';
       <button type="button" data-menu-close class="t-button cursor-pointer text-ink">Close</button>
     </div>
 
-    <div data-menu-sheet class="flex flex-1 flex-col bg-surface px-margin pb-margin pt-[calc(40px-var(--page-margin))]">
+    <!-- The black sheet slides down inside a clip while its contents slide up by the same amount,
+         so the contents stay put and only the black edge moves (transforms only, so it stays smooth). -->
+    <div class="flex flex-1 flex-col overflow-clip">
+    <div data-menu-sheet class="flex flex-1 flex-col overflow-clip bg-surface">
+    <div data-menu-inner class="flex flex-1 flex-col px-margin pb-margin pt-[calc(40px-var(--page-margin))]">
 
     <!-- Level one -->
     <div data-menu-panel="main" class="flex flex-1 flex-col gap-[40px]">
@@ -137,6 +141,8 @@ const back = 'flex size-[18px] cursor-pointer items-center';
       ))}
     </div>
     </div>
+    </div>
+    </div>
   </div>
 </dialog>
 
@@ -170,7 +176,7 @@ const back = 'flex size-[18px] cursor-pointer items-center';
       menu.removeAttribute('data-closing');
       menu.close();
     }
-    function onEnd(e) { if (e.target === sheet && e.propertyName === 'clip-path') finish(); }
+    function onEnd(e) { if (e.target === sheet && e.propertyName === 'transform') finish(); }
     // Wipe the black back up under the logo row, then close.
     function shut() {
       if (!menu.open || closing) return;

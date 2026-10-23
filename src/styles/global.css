@@ -511,20 +511,26 @@ dialog[data-project-dialog]:not([open])::backdrop {
    After Effects default), and everything in it rises in one after another, as in the desktop mega
    menu, starting once the black is under way. Moving between levels rises the new level in again.
    Closing wipes the black back up under the row. No motion for reduced-motion users. */
-[data-mobile-menu] [data-menu-sheet] {
-  clip-path: inset(0 0 0 0);
-}
 @media (prefers-reduced-motion: no-preference) {
-  [data-mobile-menu] [data-menu-sheet] {
-    transition: clip-path 800ms cubic-bezier(0.33, 0, 0.67, 1);
+  [data-mobile-menu] [data-menu-sheet],
+  [data-mobile-menu] [data-menu-inner] {
+    transition: transform 800ms cubic-bezier(0.33, 0, 0.67, 1);
+    will-change: transform;
   }
   @starting-style {
     [data-mobile-menu][open] [data-menu-sheet] {
-      clip-path: inset(0 0 100% 0);
+      transform: translateY(-100%);
+    }
+    [data-mobile-menu][open] [data-menu-inner] {
+      transform: translateY(100%);
     }
   }
   [data-mobile-menu][data-closing] [data-menu-sheet] {
-    clip-path: inset(0 0 100% 0);
+    transform: translateY(-100%);
+    transition-duration: 600ms;
+  }
+  [data-mobile-menu][data-closing] [data-menu-inner] {
+    transform: translateY(100%);
     transition-duration: 600ms;
   }
   [data-mobile-menu][open] [data-menu-panel]:not([hidden]) [data-rise] {
