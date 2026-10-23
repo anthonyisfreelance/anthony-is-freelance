@@ -64,7 +64,7 @@ export const DATA: CaseStudyPageData = {
     {
       eyebrow: 'Purchase journey review',
       heading: 'Start with where people shop.',
-      body: 'The purchase journey review mapped the whole purchase journey and the GA4 data. Over 80% of visitors were on a phone, so every screen was designed mobile first, then scaled up to desktop.',
+      body: 'The purchase journey review mapped the whole journey and the GA4 data. Over 80% of visitors were on a phone, so every screen was designed mobile first, then scaled up to desktop.',
       media: slot(B, 'work-01', 'The Projektityyny mobile menu, with routes to shop by product, room, print and colour, and search.', 'The main mobile menu'),
     },
     {
