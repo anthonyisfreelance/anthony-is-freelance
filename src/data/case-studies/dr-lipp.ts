@@ -25,8 +25,8 @@ export const DATA: CaseStudyPageData = {
     image: photoMedia(B, 'hero'),
   },
   brief: {
-    eyebrow: 'The brief',
-    heading: 'A cult brand on a store that held it back',
+    eyebrow: "Dr Lipp Shopify brief",
+    heading: "A cult brand held back by its store",
     body: [
       // [CONFIRM] what wasn't working on the old store.
       'The Dr Lipp brief was a new Shopify theme with a design that matched the brand. The team needed sections they could use for every page and campaign.',
@@ -56,21 +56,21 @@ export const DATA: CaseStudyPageData = {
     ],
   },
   workIntro: {
-    eyebrow: 'The work',
-    heading: 'Three decisions behind the re-theme',
+    eyebrow: "Dr Lipp Shopify 2.0 design",
+    heading: "Built to keep growing",
     body: 'The Dr Lipp work started with a refined design system and ended with every Shopify 2.0 section designed and prototyped in Figma, tested on a real phone before the build.',
   },
   highlights: [
     {
-      eyebrow: 'Shopify navigation design',
+      eyebrow: 'Skincare navigation design',
       heading: '[CONFIRM: what it does for shoppers]',
-      body: 'Shopify navigation design for Dr Lipp [CONFIRM: one design decision, for example routes by product or by concern].',
+      body: 'Skincare navigation design for Dr Lipp [CONFIRM: one design decision, for example routes by product or by concern].',
       media: slot(B, 'work-01', 'The Dr Lipp navigation on mobile.', 'The navigation recording'),
     },
     {
-      eyebrow: 'Shopify product page design',
+      eyebrow: 'Multi-use product page design',
       heading: 'Usage, ingredients, how to use.',
-      body: 'Shopify product page design for a multi-use product means answering how to use it. Each Dr Lipp product page sets out usage, ingredients and how to use in its own section.',
+      body: 'Multi-use product page design means answering how to use it. Each Dr Lipp product page sets out usage, ingredients and how to use in its own section.',
       media: slot(B, 'work-02', 'A Dr Lipp product page on mobile, with the usage section open.', 'The product page recording'),
     },
     {
@@ -80,23 +80,22 @@ export const DATA: CaseStudyPageData = {
       media: slot(B, 'work-03', 'The full library of Dr Lipp Shopify 2.0 sections.', 'The all-sections recording'),
     },
   ],
-  gallery: {
-    label: 'More Dr Lipp screens',
-    screens: [
-      slot(B, 'gallery-1', 'The Dr Lipp ingredients section on mobile.', 'Ingredients section'),
-      slot(B, 'gallery-2', 'The Dr Lipp how to use section on mobile.', 'How to use'),
-      slot(B, 'gallery-3', 'The Dr Lipp blog on mobile.', 'Blog'),
-      slot(B, 'gallery-4', 'The Dr Lipp contact page on mobile.', 'Contact page'),
-      slot(B, 'gallery-5', '', 'Fifth screen'), // [CONFIRM] a fifth screen
-    ],
-    photo: photoMedia(B, 'gallery-photo'),
-    caption: 'Dr Lipp on mobile: ingredients, how to use and the blog, all built from the same Shopify 2.0 sections.',
-  },
+  // 50/50 blocks between the work rows, in place of the sticky gallery (23 October 2026).
+  splits: [
+    {
+      after: 2,
+      label: "The Dr Lipp ingredients section",
+      photo: photoMedia(B, 'split-1-photo'),
+      screen: slot(B, 'split-1-screen', "The Dr Lipp ingredients section on mobile.", "Ingredients section"),
+      tint: '#C9C6C2',
+      caption: "The ingredients section on mobile, built from the same Shopify 2.0 sections as every other page.",
+    },
+  ],
   feature: {
     background: photo(B, 'feature-photo'),
-    eyebrow: 'Shopify design system',
+    eyebrow: 'Accessible design system',
     heading: 'Refined, accessible and ready to grow.',
-    body: 'Dr Lipp’s design system refines the brand into a modern, accessible set of elements, states and components. Every page was built from it and prototyped in Figma, so the purchase journey was tested on a real phone before the build.',
+    body: 'Dr Lipp’s accessible design system refines the brand into a modern, accessible set of elements, states and components. Every page was built from it and prototyped in Figma, so the purchase journey was tested on a real phone before the build.',
     media: slot(B, 'feature', 'A Dr Lipp screen on mobile in the design system.', 'Design system screen'),
   },
   // No quote yet: ask Dr Lipp, or the agency if the work came through one. The page goes live either way.

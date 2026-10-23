@@ -26,8 +26,8 @@ export const DATA: CaseStudyPageData = {
     image: photoMedia(B, 'hero'),
   },
   brief: {
-    eyebrow: 'The brief',
-    heading: 'Take back control without losing the luxury',
+    eyebrow: "Thameen London Shopify brief",
+    heading: "Take back control without losing the luxury",
     body: [
       'The Thameen London brief started with a headless Shopify store the team found hard to manage and update. They wanted Shopify 2.0, so they could run their own content.',
       'A well-chosen premium theme was the right first step: a flexible platform now, with a bespoke build to revisit once they had more data and content. The challenge was making a theme feel like Extraits de Parfum priced from £200.',
@@ -59,8 +59,8 @@ export const DATA: CaseStudyPageData = {
     ],
   },
   workIntro: {
-    eyebrow: 'The work',
-    heading: 'Four decisions behind the theme build',
+    eyebrow: "Thameen London Shopify theme build",
+    heading: "Calm from header to checkout",
     body: 'The Thameen London work started with choosing the theme, before any design. Getting that right saves time and money later, and every decision after it built on that choice.',
   },
   highlights: [
@@ -77,9 +77,9 @@ export const DATA: CaseStudyPageData = {
       media: slot(B, 'work-02', 'The Thameen London footer on mobile, with its refined spacing and structure.', 'The header and footer'),
     },
     {
-      eyebrow: 'Shopify product card design',
+      eyebrow: 'Editorial product card design',
       heading: 'Add to bag from the collection.',
-      body: 'Shopify product card design for a tight range meant a full-width, editorial grid with the bottles front and centre. Customers add straight from the collection, without opening every product page.',
+      body: 'Editorial product card design for a tight range meant a full-width, editorial grid with the bottles front and centre. Customers add straight from the collection, without opening every product page.',
       media: (() => {
         const m = slot(B, 'work-03', 'Thameen London product cards on mobile, with add to bag on each bottle.', 'The collection recording');
         return { ...m, image: m.image ?? collection };
@@ -92,13 +92,26 @@ export const DATA: CaseStudyPageData = {
       media: slot(B, 'work-04', 'The Thameen London cart and search on mobile, styled to match the store.', 'The cart and search recording'),
     },
   ],
-  gallery: {
-    label: 'More Thameen London screens',
-    // [CONFIRM] five screens used nowhere else, for example the brand story, a fragrance family, gifting, the journal and account.
-    screens: [1, 2, 3, 4, 5].map((n) => slot(B, `gallery-${n}`, '', `Screen ${n}`)),
-    photo: photoMedia(B, 'gallery-photo'),
-    caption: '[CONFIRM: describe the five screens once chosen]',
-  },
+  // 50/50 blocks between the work rows, in place of the sticky gallery (23 October 2026).
+  splits: [
+    {
+      after: 1,
+      label: "A Thameen London screen",
+      photo: photoMedia(B, 'split-1-photo', bottles),
+      screen: slot(B, 'split-1-screen', "", "Screen to choose"),
+      tint: '#E5E6E8',
+      photoSide: 'right',
+      caption: "[CONFIRM: describe the screen once chosen]",
+    },
+    {
+      after: 3,
+      label: "A Thameen London screen",
+      photo: photoMedia(B, 'split-2-photo', collection),
+      screen: slot(B, 'split-2-screen', "", "Screen to choose"),
+      tint: '#E5E6E8',
+      caption: "[CONFIRM: describe the screen once chosen]",
+    },
+  ],
   feature: {
     background: photo(B, 'feature-photo'),
     eyebrow: 'Shopify theme styling',

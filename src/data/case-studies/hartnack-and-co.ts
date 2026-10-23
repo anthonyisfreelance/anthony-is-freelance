@@ -25,8 +25,8 @@ export const DATA: CaseStudyPageData = {
     image: photoMedia(B, 'hero'),
   },
   brief: {
-    eyebrow: 'The brief',
-    heading: 'Help people make a product, not just buy one',
+    eyebrow: "Hartnack & Co Shopify brief",
+    heading: "Make a binder, not just buy one",
     body: [
       'The Hartnack & Co brief started with a UX review of the old store. Customers loved the products, but many dropped out of the customisation journey, overwhelmed by hundreds of possible variations.',
       'The job was to simplify, structure and guide that choice so it felt reassuring, and to give the brand a more refined, premium look.',
@@ -52,34 +52,34 @@ export const DATA: CaseStudyPageData = {
     ],
   },
   workIntro: {
-    eyebrow: 'The work',
-    heading: 'Five decisions behind the redesign',
+    eyebrow: "Hartnack & Co product builder design",
+    heading: "Thousands of options, made simple",
     body: 'The Hartnack & Co work started with a UX review of the customisation journey, before any design. The review showed where customers gave up, and that is where the concepts started.',
   },
   // [CONFIRM] rows 2 to 5 are desktop recordings: keep the phone frame, or a wider desktop frame?
   highlights: [
     {
-      eyebrow: 'Shopify UX review',
+      eyebrow: 'Customisation UX review',
       heading: 'Simplify thousands of options.',
-      body: 'The Shopify UX review showed customers loved the products but dropped out of customisation, overwhelmed by hundreds of variations. The design had to guide the choice, not just list it.',
+      body: 'The customisation UX review showed customers loved the products but dropped out of customisation, overwhelmed by hundreds of variations. The design had to guide the choice, not just list it.',
       media: slot(B, 'work-01', 'The Hartnack & Co homepage on mobile, with routes into binders, boxes and bespoke pieces.', 'The mobile homepage'),
     },
     {
-      eyebrow: 'Shopify product card design',
+      eyebrow: 'Comparison product card design',
       heading: 'Compare without clicking through.',
-      body: 'Shopify product card design for similar products means showing what differs. Each card adds sizes, formats and materials, so decisive shoppers compare quickly and browsers find ideas.',
+      body: 'Comparison product card design for similar products means showing what differs. Each card adds sizes, formats and materials, so decisive shoppers compare quickly and browsers find ideas.',
       media: slot(B, 'work-02', 'Hartnack & Co product cards showing sizes, formats and materials.', 'The desktop collection recording'),
     },
     {
-      eyebrow: 'Shopify landing page design',
+      eyebrow: 'Shop by use landing pages',
       heading: 'Shop by what it’s for.',
       body: 'Shopify landing pages by use help customers who don’t yet know what they want. From business binders to pilot log books, each page shows the product in real life.',
       media: slot(B, 'work-03', 'The Hartnack & Co shop by use page, from business binders to pilot log books.', 'The shop by use recording'),
     },
     {
-      eyebrow: 'Shopify product page design',
+      eyebrow: 'Product builder design',
       heading: 'Thousands of variations, one step at a time.',
-      body: 'Shopify product page design here is a builder. The choice is split into guided steps, with slide-up tips, bespoke icons and a cost tracker that stays on screen.',
+      body: 'Product builder design turns the product page into a builder. The choice is split into guided steps, with slide-up tips, bespoke icons and a cost tracker that stays on screen.',
       link: innovationLink('See the step-by-step product builder', 'product-builder'),
       media: innovationSlot('product-builder', 'Building a bespoke binder on the Hartnack & Co product page, with the cost tracker on screen.', 'The product page recording'),
     },
@@ -91,18 +91,26 @@ export const DATA: CaseStudyPageData = {
       media: innovationSlot('customer-gallery', 'The Hartnack & Co customer gallery, with the options chosen listed under each piece.', 'The customer gallery recording'),
     },
   ],
-  gallery: {
-    label: 'More Hartnack & Co screens',
-    screens: [
-      slot(B, 'gallery-1', 'The Hartnack & Co weddings page on mobile.', 'Weddings'),
-      slot(B, 'gallery-2', 'The Hartnack & Co journal on mobile.', 'Journal'),
-      slot(B, 'gallery-3', 'The Hartnack & Co gallery on mobile.', 'Gallery'),
-      slot(B, 'gallery-4', 'A Hartnack & Co product page on mobile.', 'Product page'),
-      slot(B, 'gallery-5', 'The Hartnack & Co order summary on mobile.', 'Order summary'),
-    ],
-    photo: photoMedia(B, 'gallery-photo'),
-    caption: 'Hartnack & Co on mobile: weddings, the journal and the order summary, scaled down from the same design system.',
-  },
+  // 50/50 blocks between the work rows, in place of the sticky gallery (23 October 2026).
+  splits: [
+    {
+      after: 3,
+      label: "The Hartnack & Co weddings page",
+      photo: photoMedia(B, 'split-1-photo', box),
+      screen: slot(B, 'split-1-screen', "The Hartnack & Co weddings page on mobile.", "Weddings"),
+      tint: '#ADA093',
+      caption: "The weddings page on mobile, one of the pages that shop by what a binder is for.",
+    },
+    {
+      after: 4,
+      label: "The Hartnack & Co order summary",
+      photo: photoMedia(B, 'split-2-photo'),
+      screen: slot(B, 'split-2-screen', "The Hartnack & Co order summary on mobile.", "Order summary"),
+      tint: '#ADA093',
+      photoSide: 'right',
+      caption: "The order summary on mobile, the last step of the product builder.",
+    },
+  ],
   feature: {
     background: photo(B, 'feature-photo'),
     eyebrow: 'Shopify brand refinement',

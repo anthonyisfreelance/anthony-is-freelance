@@ -25,8 +25,8 @@ export const DATA: CaseStudyPageData = {
     image: photoMedia(B, 'hero'),
   },
   brief: {
-    eyebrow: 'The brief',
-    heading: 'A store that looked nice but didn’t convert',
+    eyebrow: "Window Fleur Shopify brief",
+    heading: "A store that looked nice but didn’t convert",
     body: [
       'The Window Fleur store looked good, but it was passive. Buying took three pages, conversion was poor, and a closer look showed it didn’t meet modern accessibility standards.',
       'The job was to keep the brand’s character and make the store work: a shorter journey, clearer type and buttons that stand out.',
@@ -51,8 +51,8 @@ export const DATA: CaseStudyPageData = {
     ],
   },
   workIntro: {
-    eyebrow: 'The work',
-    heading: 'Three decisions behind the redesign',
+    eyebrow: "Window Fleur Shopify subscription design",
+    heading: "Built around one product page",
     body: 'The Window Fleur work started with a single product page prototype, before the rest of the store. It turned a three-page journey into one screen, and the full redesign grew from there.',
   },
   highlights: [
@@ -76,22 +76,21 @@ export const DATA: CaseStudyPageData = {
       media: slot(B, 'work-03', 'The Window Fleur filters panel on mobile.', 'The filters panel'),
     },
   ],
-  gallery: {
-    label: 'More Window Fleur screens',
-    screens: [
-      slot(B, 'gallery-1', 'The Window Fleur flowers slide-up on mobile.', 'Flowers slide-up'),
-      slot(B, 'gallery-2', 'The Window Fleur variant slide-up on mobile.', 'Variant slide-up'),
-      // [CONFIRM] three more screens used nowhere else
-      slot(B, 'gallery-3', '', 'Screen 3'),
-      slot(B, 'gallery-4', '', 'Screen 4'),
-      slot(B, 'gallery-5', '', 'Screen 5'),
-    ],
-    photo: photoMedia(B, 'gallery-photo'),
-    caption: 'Window Fleur on mobile: flowers and sizes chosen in slide-ups, so the product page stays short.',
-  },
+  // 50/50 blocks between the work rows, in place of the sticky gallery (23 October 2026).
+  splits: [
+    {
+      after: 1,
+      label: "The Window Fleur flowers slide-up",
+      photo: photoMedia(B, 'split-1-photo'),
+      screen: slot(B, 'split-1-screen', "The Window Fleur flowers slide-up on mobile.", "Flowers slide-up"),
+      tint: '#C4C4BB',
+      photoSide: 'right',
+      caption: "Flowers chosen in a slide-up on mobile, so the product page stays short.",
+    },
+  ],
   feature: {
     background: photo(B, 'feature-photo'),
-    eyebrow: 'Shopify brand design',
+    eyebrow: 'Pattern-led brand design',
     heading: 'Patterns that carry the selling messages.',
     body: 'Window Fleur’s brand patterns run through the store and carry its key shopping messages, so the reasons to buy feel fun and memorable rather than pushy. I checked the finished build against the designs before launch.',
     media: slot(B, 'feature', 'A Window Fleur screen on mobile with the brand patterns.', 'Brand patterns screen'),

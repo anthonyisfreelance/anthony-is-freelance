@@ -24,8 +24,8 @@ export const DATA: CaseStudyPageData = {
     image: photoMedia(B, 'hero', trainers),
   },
   brief: {
-    eyebrow: 'The brief',
-    heading: 'Modernise both stores without changing theme',
+    eyebrow: "Wide Fit Shoes Shopify brief",
+    heading: "Modernise both stores without changing theme",
     body: [
       'The Wide Fit Shoes brief was a modern design for the UK and US stores, built on the Shopify theme both already used. Navigation and search needed the most work.',
       'GA4 showed customers across a wide range of ages, so the design had to feel right to all of them: not too young, not too old, and easy to read.',
@@ -54,8 +54,8 @@ export const DATA: CaseStudyPageData = {
     ],
   },
   workIntro: {
-    eyebrow: 'The work',
-    heading: 'Four decisions behind the redesign',
+    eyebrow: "Wide Fit Shoes Shopify UX design",
+    heading: "Two stores, one set of decisions",
     body: 'The Wide Fit Shoes work started with the GA4 data, before any design. The data showed who was shopping, and that is where the concepts started.',
   },
   highlights: [
@@ -66,39 +66,47 @@ export const DATA: CaseStudyPageData = {
       media: slot(B, 'work-01', 'The Wide Fit Shoes mobile navigation, with clear routes into each collection.', 'The second-level navigation'),
     },
     {
-      eyebrow: 'Shopify product card design',
+      eyebrow: 'Wide fit product card design',
       heading: 'Width and colour before the click.',
       body: 'Shopify product card design usually means an image. Wide Fit Shoes customers also need the fit and the colours, so every card shows the width fitting and the colour options up front.',
       media: slot(B, 'work-02', 'Wide Fit Shoes product cards showing the width fitting and colour options.', 'The product cards'),
     },
     {
-      eyebrow: 'Shopify product page design',
+      eyebrow: 'Variant image design',
       heading: 'Colours shown as shoes.',
-      body: 'Shopify product page design at Wide Fit Shoes shows variants as images of the shoe, not plain swatches. The page was reordered into a clear hierarchy, with every button state mapped for the build.',
+      body: 'Variant image design on Wide Fit Shoes product pages shows variants as images of the shoe, not plain swatches. The page was reordered into a clear hierarchy, with every button state mapped for the build.',
       media: slot(B, 'work-03', 'A Wide Fit Shoes product page, with colour variants shown as images of the shoe.', 'The product page recording'),
     },
     {
-      eyebrow: 'Shopify landing page design',
+      eyebrow: 'Gift landing page design',
       heading: 'Send people somewhere useful.',
       body: 'Shopify landing pages work when they send people on. Collections by gift price, and one for the party season, gave the Christmas page somewhere useful to go next.',
       media: slot(B, 'work-04', 'The Wide Fit Shoes Christmas landing page, with signposts to gift price collections.', 'The landing pages recording'),
     },
   ],
-  gallery: {
-    label: 'More Wide Fit Shoes screens',
-    screens: [
-      slot(B, 'gallery-1', 'Wide Fit Shoes filters on mobile.', 'Filters'),
-      slot(B, 'gallery-2', 'Wide Fit Shoes search on mobile.', 'Search'),
-      slot(B, 'gallery-3', 'A Wide Fit Shoes collection with an image background on mobile.', 'Collection with image background'),
-      slot(B, 'gallery-4', 'Wide Fit Shoes product page information on mobile.', 'Product page information'),
-      slot(B, 'gallery-5', 'The Wide Fit Shoes product page buttons on mobile.', 'Product page buttons'),
-    ],
-    photo: photoMedia(B, 'gallery-photo'),
-    caption: 'Wide Fit Shoes on mobile: filters, search and product details on a neutral palette built for easy reading.',
-  },
+  // 50/50 blocks between the work rows, in place of the sticky gallery (23 October 2026).
+  splits: [
+    {
+      after: 2,
+      label: "Wide Fit Shoes filters",
+      photo: photoMedia(B, 'split-1-photo'),
+      screen: slot(B, 'split-1-screen', "Wide Fit Shoes filters on mobile.", "Filters"),
+      tint: '#B4C0D0',
+      caption: "Filters on mobile, on the neutral palette built for easy reading.",
+    },
+    {
+      after: 3,
+      label: "Wide Fit Shoes product details",
+      photo: photoMedia(B, 'split-2-photo'),
+      screen: slot(B, 'split-2-screen', "Wide Fit Shoes product page information on mobile.", "Product page information"),
+      tint: '#B4C0D0',
+      photoSide: 'right',
+      caption: "Product details on mobile, on the same palette, built for WCAG AAA contrast.",
+    },
+  ],
   feature: {
     background: photo(B, 'feature-photo'),
-    eyebrow: 'Shopify design system',
+    eyebrow: 'Two-store design system',
     heading: 'One file for the UK and US.',
     body: 'Both Wide Fit Shoes stores run on one design system in Figma, with every Shopify 2.0 section mapped and styled. A neutral palette keeps it legible and lets the shoes do the talking, and new pages start from the file, not from scratch.',
     media: slot(B, 'feature', 'A Wide Fit Shoes screen on mobile in the design system.', 'Design system screen'),

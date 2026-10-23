@@ -26,8 +26,8 @@ export const DATA: CaseStudyPageData = {
     image: photoMedia(B, 'hero', pack),
   },
   brief: {
-    eyebrow: 'The brief',
-    heading: 'Fix the quiz and the bag, where people left',
+    eyebrow: "Fuzzball Shopify subscription brief",
+    heading: "Fix the quiz and bag, where people left",
     body: [
       'The Fuzzball brief came from a UX review of the old journey. Customers were dropping off at two points: the quiz that builds their plan, and the bag where trial and subscription met.',
       'The job was to simplify both, show the value at every step and keep the brand’s playful character without slowing anyone down.',
@@ -56,15 +56,15 @@ export const DATA: CaseStudyPageData = {
     ],
   },
   workIntro: {
-    eyebrow: 'The work',
-    heading: 'Five decisions behind the redesign',
+    eyebrow: "Fuzzball Shopify subscription design",
+    heading: "From quiz to repeat order",
     body: 'The Fuzzball work started with a UX review of the subscription journey, before any design. The review showed where customers dropped off, and that is where the concepts started.',
   },
   highlights: [
     {
-      eyebrow: 'Shopify navigation design',
+      eyebrow: 'Subscription menu design',
       heading: 'Explain the subscription before the click.',
-      body: 'Shopify navigation design at Fuzzball does more than list products. The menu carries quality, delivery and how-it-works messages, so people trust the subscription before they start the quiz.',
+      body: 'Subscription menu design at Fuzzball does more than list products. The menu carries quality, delivery and how-it-works messages, so people trust the subscription before they start the quiz.',
       media: slot(B, 'work-01', 'The Fuzzball mobile menu, with quality, delivery and how-it-works messages beside the collections.', 'The navigation recording'),
     },
     {
@@ -81,34 +81,42 @@ export const DATA: CaseStudyPageData = {
       media: innovationSlot('trial-subscription-split', 'The Fuzzball quiz cart on mobile, with the trial box above the repeating order.', 'The quiz cart'),
     },
     {
-      eyebrow: 'Shopify product card design',
+      eyebrow: 'Subscription-only product cards',
       heading: 'Set expectations before the click.',
-      body: 'Shopify product card design for subscription-only products shows a lock icon, an “Only available on subscription” label and View Product instead of Add to Bag. Nobody finds out at the last step.',
+      body: 'Subscription-only product cards show a lock icon, an “Only available on subscription” label and View Product instead of Add to Bag. Nobody finds out at the last step.',
       link: innovationLink('See subscription-only product cards', 'subscription-only-cards'),
       media: innovationSlot('subscription-only-cards', 'A Fuzzball product card on mobile, locked with an Only available on subscription label.', 'A subscription-only card'),
     },
     {
-      eyebrow: 'Shopify product page design',
+      eyebrow: 'Pet food product page design',
       heading: 'Ingredients and benefits at a glance.',
-      body: 'Shopify product page design for Fuzzball sets out ingredients and benefits with icons and short callouts for scan readers, plus quick links to build a subscription box, including for quiz-only products.',
+      body: 'Pet food product page design at Fuzzball sets out ingredients and benefits with icons and short callouts for scan readers, plus quick links to build a subscription box, including for quiz-only products.',
       media: slot(B, 'work-05', 'A Fuzzball product page on mobile, with ingredient icons and a link to build a box.', 'The product page recording'),
     },
   ],
-  gallery: {
-    label: 'More Fuzzball screens',
-    screens: [
-      slot(B, 'gallery-1', 'The Fuzzball quiz summary on mobile.', 'Quiz summary'),
-      slot(B, 'gallery-2', 'The Fuzzball add to cart overlay on mobile.', 'Add to cart overlay'),
-      slot(B, 'gallery-3', 'The Fuzzball bag on mobile.', 'Bag'),
-      slot(B, 'gallery-4', 'The Fuzzball blog on mobile.', 'Blog'),
-      slot(B, 'gallery-5', 'A Fuzzball blog article on mobile.', 'Blog article'),
-    ],
-    photo: photoMedia(B, 'gallery-photo'),
-    caption: 'Fuzzball on mobile: the quiz summary, the bag and the blog, in the same playful system.',
-  },
+  // 50/50 blocks between the work rows, in place of the sticky gallery (23 October 2026).
+  splits: [
+    {
+      after: 2,
+      label: "The Fuzzball quiz summary",
+      photo: photoMedia(B, 'split-1-photo'),
+      screen: slot(B, 'split-1-screen', "The Fuzzball quiz summary on mobile.", "Quiz summary"),
+      tint: '#E9C7BF',
+      caption: "The quiz summary on mobile, in the same playful system as the rest of the store.",
+    },
+    {
+      after: 4,
+      label: "The Fuzzball bag",
+      photo: photoMedia(B, 'split-2-photo'),
+      screen: slot(B, 'split-2-screen', "The Fuzzball bag on mobile.", "Bag"),
+      tint: '#E9C7BF',
+      photoSide: 'right',
+      caption: "The Fuzzball bag on mobile, with the same rounded, app-like feel as the quiz.",
+    },
+  ],
   feature: {
     background: photo(B, 'feature-photo'),
-    eyebrow: 'Shopify brand design',
+    eyebrow: 'App-like brand design',
     heading: 'A quiz that feels like Fuzzball.',
     body: 'Fuzzball’s interface feels more like an app than a shop: rounded corners, bold hover states and animated icons. On the quiz, the cat chases a ball along the progress bar, so finishing it feels like part of the brand, not a form.',
     link: innovationLink('See a progress bar with character', 'progress-bar-with-character'),
