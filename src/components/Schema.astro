@@ -1,6 +1,6 @@
 ---
 // Builds one @graph per page from the shared entity data. Pages pass their own bits.
-import { ENTITY, SITE } from '../data/site';
+import { ENTITY, SITE, URLS } from '../data/site';
 
 interface Props {
   type?: 'WebPage' | 'CollectionPage' | 'AboutPage' | 'ContactPage';
@@ -26,7 +26,8 @@ const person = {
   '@id': ENTITY.person.id,
   name: ENTITY.person.name,
   jobTitle: ENTITY.person.jobTitle,
-  url: SITE + '/',
+  // The About page is his profile page; the same on every page that carries this @id.
+  url: new URL(URLS.about, SITE).href,
   worksFor: { '@id': b.id },
   sameAs: ENTITY.sameAs,
 };
@@ -73,8 +74,15 @@ if (breadcrumbs) {
 }
 graph.push(...extra);
 
-// Full entity definitions live on the homepage; other pages reference them by @id.
+// Full entity definitions live on the homepage. Every other page carries a short version under the
+// same @id (who they are, not everything about them): Google doesn't follow an @id to another page,
+// so an article's author needs a name on the article itself.
 if (isHome) graph.push(person, business);
+else
+  graph.push(
+    { '@type': 'Person', '@id': person['@id'], name: person.name, jobTitle: person.jobTitle, url: person.url, sameAs: person.sameAs },
+    { '@type': 'ProfessionalService', '@id': business['@id'], name: business.name, url: business.url },
+  );
 
 if (faqs?.length) {
   graph.push({

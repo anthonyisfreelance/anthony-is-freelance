@@ -3,18 +3,14 @@
 // stays inside it, Escape closes it and the page behind is inert. Two levels: the main list, then
 // Shopify Services (links and a featured case study) or Articles (newest and most read).
 // Every link is in the HTML.
-import { Image } from 'astro:assets';
-import ScreenTile from './ScreenTile.astro';
+import MenuServicesStory from './MenuServicesStory.astro';
 import TrustTiles from './TrustTiles.astro';
 import { MEGA, URLS, GOOGLE_RATING } from '../data/site';
 import { STORIES } from '../data/home';
 import ArticleCard from './ArticleCard.astro';
 import CaseStudyCard from './CaseStudyCard.astro';
 import { ARTICLES_LIST, mostRead } from '../data/articles';
-import photo from '../assets/brands/drink-finder/menu.jpg';
-import screen from '../assets/brands/drink-finder/screen-home.png';
 
-const featured = STORIES.featured;
 const services = MEGA.services.columns.flat();
 const link = 't-button-lg text-ink link-hover';
 // Success stories: the featured story and the next one with a page, side by side.
@@ -89,20 +85,7 @@ const back = 'flex size-[18px] cursor-pointer items-center';
         </ul>
       </div>
 
-      <article class="hover-card relative flex flex-col">
-        <div class="grid grid-cols-2 gap-[2px]">
-          <div class="relative aspect-[4/5] overflow-hidden">
-            <Image src={photo} alt="" widths={[200, 400, 560]} sizes="50vw" loading="lazy" class="zoom-img absolute inset-0 size-full object-cover" />
-          </div>
-          <div aria-hidden="true"><ScreenTile screen={screen} ratio="portrait" sizes="30vw" /></div>
-        </div>
-        <p class="t-badge flex gap-2 border-b border-line py-3 text-muted" aria-hidden="true">
-          <span class="flex-1">{featured.client}</span><span class="flex-1 text-right">{featured.meta}</span>
-        </p>
-        <p class="t-h6 mt-3 text-ink">
-          <a href={featured.href} class="stretched-link link-hover"><span class="sr-only">{featured.client}. </span>{featured.claim}</a>
-        </p>
-      </article>
+      <MenuServicesStory photoSizes="50vw" screenSizes="30vw" />
     </div>
 
     <!-- Level two: Shopify Success Stories (the desktop panel, two cards to a row) -->

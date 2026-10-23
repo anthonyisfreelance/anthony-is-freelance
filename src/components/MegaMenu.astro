@@ -1,21 +1,16 @@
 ---
 // Desktop mega menu panels. All links are in the HTML (crawlable); panels are
 // shown and hidden by the small script in Header.astro.
-import { Image } from 'astro:assets';
 import CaseStudyCard from './CaseStudyCard.astro';
-import ScreenTile from './ScreenTile.astro';
+import MenuServicesStory from './MenuServicesStory.astro';
 import { MEGA, URLS } from '../data/site';
 import { STORIES } from '../data/home';
-import { CASE_STUDIES } from '../data/work';
 import { ARTICLES_LIST } from '../data/articles';
 import ArticleCard from './ArticleCard.astro';
 import { mostRead } from '../data/articles';
-// Services panel: Projektityyny, so it doesn't repeat Drink Finder from the success stories panel.
-import screen from '../assets/brands/projektityyny/innovations/lookbook-archive.jpg';
 
 const link = 't-button-lg text-ink link-hover';
-const featured = CASE_STUDIES.find((c) => c.client === 'Projektityyny')!;
-const latestArticles = ARTICLES_LIST.slice(0, 3);
+const latestArticles = ARTICLES_LIST.slice(0, 2);
 const best = mostRead().filter((a) => !latestArticles.includes(a)).slice(0, 2);
 const workCards = [STORIES.featured, ...STORIES.cards.filter((c) => c.href)].slice(0, 3);
 ---
@@ -32,20 +27,7 @@ const workCards = [STORIES.featured, ...STORIES.cards.filter((c) => c.href)].sli
           {col.map((l) => <li><a href={l.href} class={link}>{l.label}</a></li>)}
         </ul>
       ))}
-      <article class="hover-card relative flex w-[555px] max-w-[40%] flex-col">
-        <div class="grid grid-cols-2 gap-[2px]">
-          <div class="relative aspect-[4/5] overflow-hidden">
-            <Image src={featured.image!} alt="" widths={[280, 560]} sizes="280px" class="zoom-img absolute inset-0 size-full object-cover" />
-          </div>
-          <ScreenTile screen={featured.screen ?? screen} video={featured.screenVideo} backdrop={featured.image} ratio="portrait" sizes="180px" />
-        </div>
-        <p class="t-badge flex gap-2 border-b border-line py-3 text-muted" aria-hidden="true">
-          <span class="flex-1">{featured.client}</span><span class="flex-1 text-right">{featured.meta}</span>
-        </p>
-        <p class="t-h6 mt-3 text-ink">
-          <a href={featured.href} class="stretched-link link-hover"><span class="sr-only">{featured.client}. </span>{featured.claim}</a>
-        </p>
-      </article>
+      <MenuServicesStory class="w-[555px] max-w-[40%]" />
     </div>
   </div>
 
@@ -70,18 +52,18 @@ const workCards = [STORIES.featured, ...STORIES.cards.filter((c) => c.href)].sli
   </div>
 
   <!-- Articles (Figma "Menu - Desktop", Articles, 23 October 2026): the link to all articles, then the
-       three newest and the two most read as cards, five equal columns. -->
+       two newest and the two most read as cards, four equal columns (the same four as the phone menu). -->
   <div id="mega-articles" data-mega-panel hidden class="border-b border-line bg-surface px-margin pb-large pt-4">
-    <div class="grid grid-cols-[auto_repeat(5,minmax(0,1fr))] items-start gap-x-gutter gap-y-3">
+    <div class="grid grid-cols-[auto_repeat(4,minmax(0,1fr))] items-start gap-x-gutter gap-y-3">
       <a href={MEGA.articles.viewAll.href} class={`${link} inline-flex items-center gap-2`}>
         {MEGA.articles.viewAll.label}
         <img src="/icons/arrow-up-right.svg" alt="" width="18" height="18" class="size-[18px]" />
       </a>
-      <p class="t-label col-span-3 text-muted">{MEGA.articles.latestLabel}</p>
+      <p class="t-label col-span-2 text-muted">{MEGA.articles.latestLabel}</p>
       {best.length > 0 && <p class="t-label col-span-2 text-muted">{MEGA.articles.mostReadLabel}</p>}
       <ul class="contents">
         {[...latestArticles, ...best].map((a, i) => (
-          <li class:list={[i === 0 && 'col-start-2']}><ArticleCard article={a} titleTag="p" sizes="220px" /></li>
+          <li class:list={[i === 0 && 'col-start-2']}><ArticleCard article={a} titleTag="p" sizes="280px" /></li>
         ))}
       </ul>
     </div>

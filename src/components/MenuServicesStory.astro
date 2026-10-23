@@ -1,0 +1,30 @@
+---
+// The success story in the Shopify Services menu. One component for the desktop panel and the phone
+// menu, so the two always show the same story. Projektityyny, so it doesn't repeat Drink Finder from
+// the success stories menu.
+import { Image } from 'astro:assets';
+import ScreenTile from './ScreenTile.astro';
+import { CASE_STUDIES } from '../data/work';
+import fallbackScreen from '../assets/brands/projektityyny/innovations/lookbook-archive.jpg';
+interface Props {
+  class?: string;
+  photoSizes?: string;
+  screenSizes?: string;
+}
+const { class: className = '', photoSizes = '280px', screenSizes = '180px' } = Astro.props;
+const story = CASE_STUDIES.find((c) => c.client === 'Projektityyny')!;
+---
+<article class:list={['hover-card relative flex flex-col', className]}>
+  <div class="grid grid-cols-2 gap-[2px]">
+    <div class="relative aspect-[4/5] overflow-hidden">
+      <Image src={story.image!} alt="" widths={[200, 280, 400, 560]} sizes={photoSizes} loading="lazy" class="zoom-img absolute inset-0 size-full object-cover" />
+    </div>
+    <ScreenTile screen={story.screen ?? fallbackScreen} video={story.screenVideo} backdrop={story.image} ratio="portrait" sizes={screenSizes} />
+  </div>
+  <p class="t-badge flex gap-2 border-b border-line py-3 text-muted" aria-hidden="true">
+    <span class="flex-1">{story.client}</span><span class="flex-1 text-right">{story.meta}</span>
+  </p>
+  <p class="t-h6 mt-3 text-ink">
+    <a href={story.href} class="stretched-link link-hover"><span class="sr-only">{story.client}. </span>{story.claim}</a>
+  </p>
+</article>
