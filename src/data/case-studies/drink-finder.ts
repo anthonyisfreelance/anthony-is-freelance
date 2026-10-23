@@ -96,7 +96,7 @@ const WORK_INTRO = {
 };
 
 // Image and text rows, in Figma order. `flip` puts the media on the left. Each row's recording is
-// named for the row: work-savings, work-search and work-notifications.
+// named for the row: work-savings, work-menu and work-notifications.
 const HIGHLIGHTS = [
   {
     eyebrow: 'Shopify collection page design',
@@ -117,7 +117,7 @@ const HIGHLIGHTS = [
     eyebrow: 'Shopify navigation design',
     heading: 'The nav is your site.',
     body: 'I designed Drink Finder’s mobile navigation from scratch, so a customer gets from the home screen to a Spanish Rioja or an organic Cornish wine in a few taps. Search suggests popular searches and bottles before you type.',
-    media: slot(B, 'work-search-mobile', 'Drink Finder search on mobile, with popular searches and popular products showing before you type.', 'Search'),
+    media: slot(B, 'work-menu-mobile', 'The Drink Finder menu on mobile, from the home screen to a wine region in a few taps.', 'Menu'),
     flip: false,
   },
   {
@@ -138,11 +138,11 @@ const GALLERY = {
     slot(B, 'work-blog-landing', 'The Drink Finder blog on mobile.', 'Blog'),
     slot(B, 'work-wine-top10-mobile', 'The Drink Finder top 10 wines on mobile, with each bottle ranked.', 'Top 10 wines'),
     slot(B, 'work-blog-article', 'A Drink Finder blog article on mobile.', 'Blog article'),
-    slot(B, 'work-menu-mobile', 'The Drink Finder menu on mobile.', 'Menu'),
+    slot(B, 'work-search-mobile', 'Drink Finder search on mobile, with popular searches and popular products showing before you type.', 'Search'),
   ] as Media[],
   photo: { image: cocktail, alt: '' } as Media,
   // Describes the screens beside it.
-  caption: 'Drink Finder on mobile: the homepage collections, the blog, the top 10 wines and the menu.',
+  caption: 'Drink Finder on mobile: the homepage collections, the blog, the top 10 wines and search.',
 };
 
 const BRAND = {
