@@ -602,6 +602,10 @@ dialog[data-project-dialog]:not([open])::backdrop {
   }
 }
 
+/* TEMPORARY: article hero trial. ?hero=tile swaps the live site's image for the new tile. */
+html[data-hero='tile'] .hero-live { display: none; }
+html[data-hero='tile'] .hero-tile { display: block; }
+
 /* TEMPORARY: article colour comparison (see articles/[slug].astro). Remove once decided.
    soft: body copy off-white, headings stay white. light: everything under the header goes light. */
 html[data-look='soft'] .prose-article { color: #e0e0e0; }
