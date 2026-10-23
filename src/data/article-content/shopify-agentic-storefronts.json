@@ -1,0 +1,180 @@
+{
+  "seoTitle": "Shopify Agentic Commerce: What UK Brands Need to Know",
+  "description": "Shopify Agentic Storefronts let your products be discovered and purchased directly inside AI chats like ChatGPT and Gemini.",
+  "published": "2026-03-18",
+  "modified": "2026-03-18",
+  "hero": {
+    "file": "Agentic-Commerce-hero.webp",
+    "alt": "Agentic search product logos to visualise agentic store on Shopify"
+  },
+  "faqHeading": "Frequently Asked Questions About Shopify Agentic Storefronts",
+  "blocks": [
+    {
+      "type": "h2",
+      "text": "Introduction",
+      "id": "introduction"
+    },
+    {
+      "type": "html",
+      "html": "<p>A year ago, almost every ecommerce purchase started with a Google search. You typed in what you wanted, clicked through to a store, browsed, and bought. That path still exists, but a growing number of shoppers are skipping it entirely. They are opening ChatGPT, Claude, Google Gemini, or Microsoft Copilot, describing what they need, and buying directly from the AI’s response.</p>\n<p>And it is not just product purchases. This shift is happening across service industries too. I receive a meaningful and growing number of enquiries through AI channels, people who have asked an AI assistant to find them a Shopify designer, and my name has come up across ChatGPT, Claude, and others. That is not something I would have said twelve months ago. For any business with an online presence, AI is increasingly part of how new clients and customers find you, regardless of what you sell.</p>\n<p>As a <a href=\"/\">Shopify Expert</a> working with brands on design, UX, and conversion, I have been watching this closely. Orders attributed to AI platforms on Shopify grew 15 times over the course of 2025. That is not a rounding error. It is a behaviour change, and Shopify has responded with one of the most significant new features it has launched in years.</p>\n<p>This article explains what Shopify Agentic Storefronts actually are, how the technology works, what it means practically for your store, and what you can do right now to prepare — including if you are in the UK, where the full feature is not yet available.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "1. What Is Agentic Commerce?",
+      "id": "1-what-is-agentic-commerce"
+    },
+    {
+      "type": "html",
+      "html": "<p>Before getting into Shopify’s specific feature, it is worth understanding what agentic commerce actually means, because the term gets used loosely.</p>\n<p>Agentic commerce is what happens when an AI assistant moves beyond giving advice and starts taking action. Earlier AI tools would tell you the best running shoes for wide feet. An AI agent will find them, compare prices across stores, check your size is in stock, and complete the checkout — all within the same conversation.</p>\n<p>The key difference is this: conversational commerce helps you decide. Agentic commerce helps you buy. The AI is not just a smarter search engine. It is acting as a personal shopper that can execute transactions on your behalf.</p>\n<p>For Shopify merchants, this represents a fundamental shift in how the purchase journey works. Your website is no longer the only entry point into your store. It is one of many. Customers can now discover and buy your products without ever seeing your homepage, your navigation, your product photography, or your carefully designed checkout flow.</p>\n<p>It is worth noting that not all AI assistants are equal in this context. ChatGPT, Google Gemini, Microsoft Copilot, and Perplexity are the platforms currently integrated with Shopify’s Agentic Storefronts feature. Claude, Anthropic’s AI assistant, is widely used and increasingly influential in how people discover products and services — including this site — but is not currently one of Shopify’s formally integrated channels. That may change. In the meantime, the trust and brand signals that make you visible in Claude’s responses are the same ones that matter across all AI platforms: reviews, credible backlinks, consistent brand presence, and well-structured content.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "2. What Are Shopify Agentic Storefronts?",
+      "id": "2-what-are-shopify-agentic-storefronts"
+    },
+    {
+      "type": "html",
+      "html": "<p>Shopify Agentic Storefronts is the feature Shopify launched in its Winter ’26 Edition in January 2026. It connects your Shopify store directly to the major AI platforms — currently ChatGPT, Microsoft Copilot, Google AI Mode, Google Gemini, and Perplexity — so that your products can be discovered and purchased inside AI conversations.</p>\n<p>The setup is straightforward on paper. You enable it once in your Shopify admin, choose which AI platforms you want to sell through, and Shopify handles the distribution. There are no separate integrations to build for each platform.</p>\n<p>When a customer asks an AI assistant for product recommendations, the AI can pull from Shopify’s catalog, surface your products with accurate pricing and availability, and offer a direct checkout experience inside the conversation. The customer never needs to visit your store. The order appears in your Shopify admin with full channel attribution, just like any other order.</p>\n<p>You remain the merchant of record throughout. You control pricing, policies, and the post-purchase experience. You can toggle individual platforms on or off. And you can hide specific products from AI channels if you do not want them included.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "3. The Technology Behind It",
+      "id": "3-the-technology-behind-it"
+    },
+    {
+      "type": "html",
+      "html": "<p>Understanding how this works under the hood is useful, because it explains why product data quality matters so much.</p>\n<p><strong>Shopify Catalog</strong> is the central layer. It is a global, structured database of products from millions of Shopify merchants. When you enable Agentic Storefronts, your products are syndicated through Shopify Catalog to AI platforms via direct API. Shopify automatically infers categories, extracts attributes, consolidates variants, and ensures prices and inventory stay current. This is what makes the one-setup-for-all-platforms model possible.</p>\n<p><strong>Universal Commerce Protocol (UCP)</strong> is an open standard co-developed by Shopify and Google, launched in January 2026. It is essentially a shared language that allows AI agents to interact with any merchant’s checkout reliably and consistently, regardless of platform. Think of it as the technical foundation that makes buying inside an AI conversation work properly rather than redirecting you elsewhere.</p>\n<p><strong>The Knowledge Base App</strong> is a Shopify app that sits separately from your store’s front end. It lets you provide AI agents with structured information about your brand — FAQs, return policies, shipping details, brand voice guidelines. This is only visible to AI agents, not to customers on your website. It is how you influence the way AI platforms talk about your brand in conversations.</p>\n<p>The distinction between discovery and selling is worth being clear on. Your products can already show up in AI recommendations through web scraping and product feeds, whether you have done anything or not. What Agentic Storefronts adds is the ability for customers to complete checkout inside the AI channel itself. Without it enabled, a customer who finds your product through an AI will be redirected to your store. With it enabled, they can buy without leaving the conversation. That friction difference matters.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "4. The UK Situation",
+      "id": "4-the-uk-situation"
+    },
+    {
+      "type": "html",
+      "html": "<p>This section matters if you are a UK merchant, which most readers here will be.</p>\n<p>At the time of writing in March 2026, Shopify Agentic Storefronts is in early access and limited to stores based in the United States, selling to US customers. UK merchants cannot currently enable the full feature. You will receive a notification in your Shopify admin when it becomes available to you.</p>\n<p>This does not mean you should ignore it. The rollout is active and expanding, and the preparatory work you do now will put you in a much stronger position when it arrives. Several of the most important steps — improving your product data, auditing your descriptions, setting up the Knowledge Base app, and making sure your store policies are complete — are things you can and should be doing regardless.</p>\n<p>UK brands that are ready when the feature rolls out here will have a meaningful head start over those who wait until it lands and then start scrambling.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "5. What This Means for How You Present Your Products",
+      "id": "5-what-this-means-for-how-you-present-your-products"
+    },
+    {
+      "type": "html",
+      "html": "<p>This is the part I find most interesting from a design and brand perspective, and the part most articles on this topic skip over.</p>\n<p>When a customer visits your Shopify store, they experience everything you have designed: the photography, the layout, the hierarchy, the copy, the trust signals, the product page structure. All of that work goes into shaping how they feel about your brand and whether they convert.</p>\n<p>When an AI agent queries your catalog, it does almost the opposite. It does not see your design at all. It parses structured data fields. It reads your product title, your description, your attributes, your variant information, your pricing. If that information is vague, incomplete, or written purely for visual presentation on a product page, the AI has much less to work with — and a much smaller chance of recommending your product accurately.</p>\n<p>This is a meaningful shift for brands that have invested heavily in the visual experience of their store but less carefully in the underlying product data.</p>\n<p>A product title that says “Classic Tote — Tan” is harder for an AI to match to a query than “Leather Tote Bag in Tan — Structured, A4 capacity, magnetic clasp, 100% full-grain leather”. A product description that leads with lifestyle copy about the feeling of summer mornings gives an AI agent very little to work with when someone asks for a bag that fits a 13-inch laptop and a water bottle.</p>\n<p>This does not mean abandoning good copy. It means making sure the functional, descriptive information is present alongside it. The two can coexist.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "6. Getting Your Product Data Ready",
+      "id": "6-getting-your-product-data-ready"
+    },
+    {
+      "type": "html",
+      "html": "<p>If you want your products to show up accurately in AI recommendations and convert when they do, the quality of your underlying catalog data is the foundation. Here is what to focus on.</p>\n<p><strong>Product titles</strong> need to be descriptive and literal. Include the product type, key material or format, and the attributes that differentiate it. Keep them under 150 characters. An AI agent comparing multiple products needs to parse the title, not decode a brand name or a creative flourish.</p>\n<p><strong>Product descriptions</strong> need to answer the questions a buyer would have. What is it made of? What size or dimensions? What is it suitable for? What are the relevant specifications? These are the facts an AI agent needs to make an accurate recommendation. If your description is entirely lifestyle-focused, the agent is working blind on the functional details.</p>\n<p><strong>Variants</strong> should be structured clearly. If you sell in multiple colours, sizes, or configurations, the variant data needs to be clean and consistent. Fragmented or inconsistently named variants are one of the most common reasons products are poorly represented in AI recommendations.</p>\n<p><strong>Store policies</strong> — shipping, returns, terms of service — need to be complete and in place. These are a requirement for enabling Agentic Storefronts and they also feed directly into how AI agents answer customer questions about your brand.</p>\n<p>Shopify’s Catalog Mapping feature is worth using if you have custom data structures, metafields, or unconventional product groupings. It lets you map your specific data to the standard fields AI channels expect, so your products are interpreted correctly.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "7. Your Brand Voice in AI Conversations",
+      "id": "7-your-brand-voice-in-ai-conversations"
+    },
+    {
+      "type": "html",
+      "html": "<p>One of the less obvious concerns about agentic commerce is brand control. When someone buys from your website, you have designed every touchpoint. When they discover and buy through an AI conversation, the AI is speaking on your behalf — and it will say whatever it can infer from the data available.</p>\n<p>The Knowledge Base app is how you take some control back. It is a dedicated space to provide AI agents with structured information they should use when discussing your brand. Your return policy, your shipping terms, your size guides, your most common customer questions and accurate answers to them, and your brand voice guidelines.</p>\n<p>Think of it as a briefing document for the AI. The more complete and accurate it is, the more accurately the AI will represent your brand in conversations. A customer asking “does this brand offer free returns?” deserves a correct answer, not an inferred one.</p>\n<p>This is particularly important for brands in premium or considered-purchase categories, where trust and accuracy matter enormously at the point of decision. If an AI gives a customer wrong information about your returns policy and they buy based on that, you have a problem regardless of whose fault it technically was.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "8. The Design Implications",
+      "id": "8-the-design-implications"
+    },
+    {
+      "type": "html",
+      "html": "<p>The emergence of agentic commerce does not make your website irrelevant. Far from it. For most UK brands, the purchase journey through a traditional store will remain dominant for years. But it does add a new layer of thinking to how stores should be designed and how products should be presented. That thinking is now part of every store I design, through <a href=\"/shopify-website-design/shopify-ai-search-design/\">AI search visibility design</a>.</p>\n<p>Customers who discover your products through AI and click through to complete a purchase on your store still land on your product page. That experience still needs to convert them. The difference is that they will arrive with different expectations — they have already been told what the product is, they may already have decided to buy, and they are coming to your store to complete the transaction rather than to be convinced.</p>\n<p>That changes the job of your product page slightly. Trust signals and a frictionless checkout become even more important. The customer has done their research in the AI conversation. Your store needs to confirm, reassure, and close — not start the selling process from scratch.</p>\n<p>There are also upsell and cross-sell implications worth thinking about. When a customer buys directly inside an AI conversation, they bypass the upsell and cross-sell logic you have designed into your store. Post-purchase email flows become more important than ever in this scenario, as the AI channel checkout removes the in-store moments where you would typically surface related products.</p>\n<p>For <a href=\"/shopify-website-design/shopify-design-for-dtc-brands/\">DTC brands</a> especially, where retention and lifetime value are central to the business model, the post-purchase relationship matters as much as the sale itself.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "9. What To Do Right Now",
+      "id": "9-what-to-do-right-now"
+    },
+    {
+      "type": "html",
+      "html": "<p>Whether or not Agentic Storefronts is available on your plan yet, here are the steps that make sense to take now.</p>\n<p>Start by auditing your product descriptions against the standards above. Pick your twenty top-selling products and ask honestly: could an AI agent accurately describe what this is, who it is for, and what makes it different, based only on the title and description? If the answer is no, rewrite them. This improves your standard product pages too, so it is never wasted work.</p>\n<p>Make sure your store policies — shipping, returns, terms of service — are in place and complete. These are a prerequisite for Agentic Storefronts and they are good practice regardless.</p>\n<p>Install the Knowledge Base app if you are eligible. Even if the selling feature is not live in the UK yet, having your brand information structured and ready means you are not starting from zero when it arrives.</p>\n<p>Review your variant structure and product groupings. If you have complex products with many variants, use Shopify’s Combined Listings tool or Catalog Mapping to ensure the groupings make sense to an AI parsing your catalog.</p>\n<p>Finally, start testing what AI platforms say about your products right now. Open ChatGPT or Gemini and search for the kind of products you sell. See what comes up. See what information is present or missing. That tells you exactly what the AI is currently working with, and where the gaps are in your data.</p>\n<p>The stores that take this seriously now will have an advantage when the full feature lands in the UK. It is the same principle as SEO — the brands that prepare before the competition does are the ones that benefit most when the channel matures.</p>\n<p>If you want to think through how any of this intersects with your store’s design and product presentation, take a look at my <a href=\"/shopify-website-design/\">Shopify web design services</a> or get in touch directly.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "10. How AI Decides Who to Recommend",
+      "id": "10-how-ai-decides-who-to-recommend"
+    },
+    {
+      "type": "html",
+      "html": "<p>Understanding how AI platforms choose which brands and products to surface is worth thinking about separately from the technical setup, because it has implications beyond Shopify’s specific feature.</p>\n<p>AI overview summaries and product recommendations are not just pulling from structured catalog data. They are drawing on signals very similar to the ones that have always mattered in SEO — trust, authority, and reputation. Reviews matter. Backlinks from credible sources matter. Consistent brand presence across platforms matters. A brand that is well-represented across its website, Google Business Profile, third-party directories, press mentions, and review platforms is giving AI more to work with and more reason to recommend it over a competitor with thinner online presence.</p>\n<p>This applies across all AI assistants, not just the ones formally integrated with Shopify. Claude, Anthropic’s widely used AI assistant, surfaces brands and services based on the same credibility signals — and is not part of Shopify’s agentic storefront programme at all. When someone asks Claude to recommend a product, a designer, or a service, it is drawing on everything it has indexed: your content, your reviews, your reputation. The same is true of ChatGPT when used outside of the Shopify integration, and of any other AI that a potential customer might be using.</p>\n<p>This is particularly relevant for service businesses. When someone asks an AI assistant to recommend a Shopify designer in the UK, the AI is drawing on everything available about the options. A designer with detailed case studies, genuine client reviews, articles that demonstrate expertise, and consistent information across the web is far more likely to appear than someone with a portfolio site and little else.</p>\n<p>The practical implication is that the work you may already be doing for SEO — building backlinks, generating reviews, publishing consistent and credible content — is also building your visibility in AI recommendations. Keep your brand voice consistent across every platform you appear on, make sure your Google Business Profile and directory listings are accurate and complete, and keep building genuine social proof. All of that feeds into how AI systems assess your credibility and trustworthiness, regardless of which AI platform a customer happens to be using.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "11. The Ads Question and What Comes Next",
+      "id": "11-the-ads-question-and-what-comes-next"
+    },
+    {
+      "type": "html",
+      "html": "<p>One thing worth watching closely: advertising in AI channels.</p>\n<p>ChatGPT has already begun testing sponsored placements in the US, appearing at the bottom of responses for relevant queries. This is early-stage, limited in scope, and US-only at the moment — but it signals a direction of travel. If AI platforms follow the same commercial path as search engines, paid placements inside AI responses are a matter of when, not if.</p>\n<p>If and when that happens, it changes the game considerably. Right now, appearing in AI recommendations is largely earned through data quality, trust signals, and brand credibility. Introduce paid placement and you have a new paid channel to think about alongside Google Ads, Meta, and everything else. The brands that have built strong organic visibility in AI channels early will have a baseline advantage, but the competitive dynamic will shift.</p>\n<p>The honest advice for now is to prepare and watch. Get your product data clean, get your brand voice consistent, earn the reviews, and make sure your store is technically ready. Those are the right things to do regardless of what the commercial model looks like in twelve months. This landscape has changed dramatically in a very short space of time and it shows no sign of slowing down. The fundamentals of trust, quality, and consistency are the things most likely to hold their value across whatever comes next.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "Conclusion",
+      "id": "conclusion"
+    },
+    {
+      "type": "html",
+      "html": "<p>Shopify Agentic Storefronts is not a gimmick or an experiment. It is Shopify’s response to a real and measurable shift in how people shop. AI-driven commerce orders grew 15 times in 2025. The platforms are live. The infrastructure is built. For US merchants it is already active. For UK brands it is coming.</p>\n<p>The good news is that the preparation work is largely the same work that improves your store regardless. Clean product data, accurate descriptions, complete policies, clear brand voice guidelines, genuine reviews, and consistent brand presence across the web — all of these make your store better for human customers too. Agentic commerce just makes them non-negotiable rather than merely advisable.</p>\n<p>This has all moved remarkably fast, and it will keep moving. The right response is not to chase every development, but to build on fundamentals that hold their value across whatever comes next — trust, quality, consistency, and a store that represents your brand well everywhere it appears.</p>\n<p>Your website remains central. But for the first time, it is no longer the only place commerce can happen for your brand.</p>"
+    }
+  ],
+  "faqs": [
+    {
+      "q": "What are Shopify Agentic Storefronts?",
+      "html": "<p>Shopify Agentic Storefronts is a feature launched in Shopify’s Winter ’26 Edition that connects your store to AI platforms including ChatGPT, Microsoft Copilot, Google AI Mode, Gemini, and Perplexity. It allows your products to be discovered and purchased directly inside AI conversations, without the customer needing to visit your store. Orders appear in your Shopify admin with full channel attribution.</p>"
+    },
+    {
+      "q": "Is Shopify Agentic Storefronts available in the UK?",
+      "html": "<p>Not yet at the time of writing in March 2026. The feature is currently in early access limited to stores based in the United States, selling to US customers. UK merchants will receive a notification in their Shopify admin when it becomes available. The preparatory steps — improving product data, installing the Knowledge Base app, completing store policies — can be taken now.</p>"
+    },
+    {
+      "q": "Do I have to enable it or does it switch on automatically?",
+      "html": "<p>Agentic Storefronts is active by default for eligible merchants, but you control which AI platforms you sell through. You can toggle individual platforms on or off from your Shopify admin settings. You can also remove specific products from AI channels or opt out entirely if you prefer customers to purchase on your store rather than in-chat.</p>"
+    },
+    {
+      "q": "Will customers still come to my website?",
+      "html": "<p>Yes. Even with Agentic Storefronts enabled, many customers will still click through to your store, particularly for more considered purchases. If you do not enable the native checkout feature, AI channels will redirect customers to your product page. Agentic Storefronts adds a new path to purchase — it does not replace the existing one.</p>"
+    },
+    {
+      "q": "What is the Universal Commerce Protocol?",
+      "html": "<p>The Universal Commerce Protocol (UCP) is an open standard co-developed by Shopify and Google, launched in January 2026. It creates a shared technical language that allows AI agents to interact with any merchant’s checkout reliably and consistently. For Shopify merchants, much of this is handled automatically.</p>"
+    },
+    {
+      "q": "What is the Shopify Knowledge Base app?",
+      "html": "<p>The Knowledge Base app is a Shopify app that lets you provide AI agents with structured information about your brand — FAQs, return policies, shipping details, and brand voice guidelines. It is only visible to AI agents, not to customers on your store. It is how you influence the way AI platforms represent your brand in conversations.</p>"
+    },
+    {
+      "q": "Will AI channels take a commission on sales?",
+      "html": "<p>Shopify has indicated that some channels may include a fee after an initial trial period. The exact commercial terms are evolving and will vary by platform. Check Shopify’s current terms and the terms of each individual AI channel for the latest information.</p>"
+    },
+    {
+      "q": "What if my products have custom data or unusual variant structures?",
+      "html": "<p>Shopify’s Catalog Mapping feature lets you map custom fields, metafields, and non-standard product groupings to the standard data structure that AI channels expect. If you have complex products with many variants, the Combined Listings tool helps ensure AI agents see a coherent product rather than fragmented listings.</p>"
+    },
+    {
+      "q": "Does this make my website less important?",
+      "html": "<p>Not in the near term, particularly for UK brands. The traditional purchase journey through your store remains dominant and will continue to be so for the foreseeable future. What agentic commerce changes is the importance of product data quality and brand voice — the underlying substance that AI agents work from. A well-designed store still matters enormously for the customers who arrive via any channel.</p>"
+    },
+    {
+      "q": "How is agentic commerce different from voice search?",
+      "html": "<p>Voice search optimises for being discovered when people use voice assistants to ask questions. Agentic commerce goes further — the AI does not just surface your products, it can complete the purchase. The two share a common thread though: both reward stores that have structured, accurate, descriptive product information rather than relying purely on visual presentation. If you have already worked on <a href=\"/articles/voice-search-optimisation-for-shopify-stores-a-complete-2025-guide/\">voice search optimisation for your Shopify store</a>, you are already thinking in the right direction.</p>"
+    },
+    {
+      "q": "How do AI platforms decide which brands to recommend?",
+      "html": "<p>AI recommendations are influenced by many of the same signals as traditional SEO — trust, authority, and reputation. Reviews, backlinks from credible sources, consistent brand presence across the web, and well-structured content all feed into how AI systems assess which brands to surface. A strong Google Business Profile, accurate directory listings, genuine client reviews, and published content that demonstrates expertise all contribute. The work you do for SEO and brand credibility is also building your visibility in AI recommendations.</p>"
+    },
+    {
+      "q": "Will AI platforms start showing ads in recommendations?",
+      "html": "<p>Possibly. ChatGPT has already begun testing sponsored placements in the US, which signals a direction of travel. If AI platforms follow the same commercial model as search engines, paid placement inside AI responses will become a new channel to consider. The timing and scope are unclear. For now, the best approach is to build strong organic visibility through data quality, brand credibility, and genuine reviews — these are the right foundations regardless of how the commercial model develops.</p>"
+    }
+  ]
+}

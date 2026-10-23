@@ -18,11 +18,26 @@ import ArticlesSection from '../../components/ArticlesSection.astro';
 import Contact from '../../components/home/Contact.astro';
 import { SITE, ENTITY, URLS } from '../../data/site';
 import { ARTICLES_LIST, ARTICLES_PAGE, categoryLabel, formatDate, type Article } from '../../data/articles';
-import { articleImage } from '../../data/media';
+import { articleImage, versioned } from '../../data/media';
 import photo from '../../assets/site/anthony.jpg';
 
-interface Block { type: 'h2' | 'h3' | 'html' | 'image'; text?: string; id?: string; html?: string; file?: string; alt?: string }
+interface Block {
+  type: 'h2' | 'h3' | 'html' | 'image' | 'video';
+  text?: string;
+  id?: string;
+  html?: string;
+  /** image: file name in src/assets/articles/<slug>/. video: path under public/ (/video/articles/<slug>/…). */
+  file?: string;
+  alt?: string;
+  /** Shown under the image or video when the live article showed it. */
+  caption?: string;
+  /** video: the still in src/assets/articles/<slug>/, and the video's size. */
+  poster?: string;
+  width?: number;
+  height?: number;
+}
 interface Content {
+  /** The full title tag, exactly as on WordPress (AIOSEO), so it doesn't change at launch. */
   seoTitle: string;
   description: string;
   published: string;
@@ -77,7 +92,7 @@ const posting = {
 const a = ARTICLES_PAGE.author;
 const experience = 'He has worked in design for over 20 years, from brand identity to three and a half years at Dyson, and has been independent since August 2023.';
 ---
-<Base title={`${c.seoTitle} | Anthony is Freelance`} description={c.description} image={ogImage} ogType="article">
+<Base title={c.seoTitle} description={c.description} image={ogImage} ogType="article">
   <Schema
     slot="head"
     title={c.seoTitle}
@@ -149,8 +164,34 @@ const experience = 'He has worked in design for over 20 years, from brand identi
                 return (
                   <figure>
                     {img
-                      ? <Image src={img} alt={b.alt!} widths={[480, 750, 1100, 1400]} sizes="(min-width: 1024px) 50vw, 100vw" class="h-auto w-full" />
+                      ? <Image src={img} alt={b.caption && b.alt === b.caption ? '' : b.alt!} widths={[480, 750, 1100, 1400]} sizes="(min-width: 1024px) 50vw, 100vw" class="h-auto w-full" />
                       : <div class="flex aspect-[3/2] w-full items-center justify-center bg-raised p-6"><p class="t-badge max-w-[40ch] text-center text-muted">Image to come: {b.alt}</p></div>}
+                    {b.caption && <figcaption class="t-small mt-3">{b.caption}</figcaption>}
+                  </figure>
+                );
+              })()
+            : b.type === 'video' ? (() => {
+                // Screen recording: the still shows first (and stays for reduced motion), the video
+                // fades in over it once it's on screen. Nothing downloads until then.
+                const poster = articleImage(slug, b.poster!);
+                return (
+                  <figure>
+                    <div class="relative overflow-hidden bg-raised" style={`aspect-ratio:${b.width}/${b.height}`}>
+                      {poster && <Image src={poster} alt={b.caption && b.alt === b.caption ? '' : (b.alt ?? '')} widths={[480, 750, 1100, 1280]} sizes="(min-width: 1024px) 50vw, 100vw" class="absolute inset-0 size-full object-cover" />}
+                      <video
+                        src={versioned(b.file!)}
+                        data-autoplay
+                        data-fade
+                        muted
+                        loop
+                        playsinline
+                        preload="none"
+                        aria-hidden="true"
+                        tabindex="-1"
+                        class="absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-300"
+                      ></video>
+                    </div>
+                    {b.caption && <figcaption class="t-small mt-3">{b.caption}</figcaption>}
                   </figure>
                 );
               })()

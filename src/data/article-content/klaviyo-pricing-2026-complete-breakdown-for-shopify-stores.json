@@ -1,0 +1,204 @@
+{
+  "seoTitle": "Klaviyo Pricing 2026: Complete Guide for Shopify Stores",
+  "description": "Complete breakdown of Klaviyo pricing for Shopify stores in 2026. UK pricing, real examples, and how to keep costs down while maximising ROI.",
+  "published": "2026-02-14",
+  "modified": "2026-02-14",
+  "hero": {
+    "file": "Klaviyo-Hero.webp",
+    "alt": "Klaviyo Pricing 2026: Complete Breakdown for Shopify Stores visual by Anthony is Freelance"
+  },
+  "faqHeading": "Frequently Asked Questions About Klaviyo Pricing",
+  "blocks": [
+    {
+      "type": "h2",
+      "text": "Introduction",
+      "id": "introduction"
+    },
+    {
+      "type": "html",
+      "html": "<p>I’ve designed and integrated Klaviyo into dozens of Shopify stores, from back in stock notifications to newsletter signups. I’ve seen brands get caught off guard by unexpected costs, and I’ve also seen stores get incredible ROI when they use Klaviyo properly. Here’s everything you need to know about Klaviyo pricing in 2026.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "How Klaviyo Pricing Works",
+      "id": "how-klaviyo-pricing-works"
+    },
+    {
+      "type": "html",
+      "html": "<p>Klaviyo charges based on the number of contacts in your account, not how many emails you send. This is different from platforms like Mailchimp that charge per email or per send.</p>\n<p>A contact is anyone on your email or SMS list. This includes subscribers, customers, and anyone who’s given you their contact information. Even if they’re not actively engaged, they count toward your total.</p>\n<p>The key thing to understand is that as your list grows, your costs increase. This makes sense because the value you’re getting increases too, but it’s important to plan for this growth in your budget. Klaviyo publishes their official pricing calculator which updates in real-time based on your contact count.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "Klaviyo Pricing Tiers 2026",
+      "id": "klaviyo-pricing-tiers-2026"
+    },
+    {
+      "type": "h3",
+      "text": "Free Plan (Up to 250 Contacts)"
+    },
+    {
+      "type": "html",
+      "html": "<p>Klaviyo offers a free plan up to 250 contacts. This is perfect for:</p>\n<ul>\n<li>Brand new Shopify stores just starting out</li>\n<li>Testing Klaviyo before committing</li>\n<li>Learning the platform and building your first flows</li>\n</ul>\n<p>The free plan includes email campaigns, basic automation flows (like abandoned cart and welcome series), and full Shopify integration. You can send up to 500 emails per month. It’s limited, but it’s enough to see if Klaviyo works for your store and start collecting subscribers.</p>"
+    },
+    {
+      "type": "h3",
+      "text": "Email Plans (Starting at 251 Contacts)"
+    },
+    {
+      "type": "html",
+      "html": "<p>Once you go over 250 contacts, you’ll need a paid plan. Pricing scales with your list size:</p>"
+    },
+    {
+      "type": "html",
+      "html": "<h4>Approximate pricing breakdown (UK pricing in £):</h4>"
+    },
+    {
+      "type": "html",
+      "html": "<ul>\n<li>251-500 contacts: Around £20-30/month</li>\n<li>501-1,000 contacts: Around £35-45/month</li>\n<li>1,001-2,500 contacts: Around £55-75/month</li>\n<li>2,501-5,000 contacts: Around £100-140/month</li>\n<li>5,001-10,000 contacts: Around £170-230/month</li>\n<li>10,000+ contacts: Custom pricing based on your list size</li>\n</ul>\n<p><strong>Note:</strong> Klaviyo pricing changes regularly based on features and market conditions. These are approximate ranges based on February 2026 data. For exact current pricing, always use <a href=\"https://www.klaviyo.com/pricing\">Klaviyo’s pricing calculator</a> to get a quote specific to your needs.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "SMS Pricing (Separate from Email)",
+      "id": "sms-pricing-separate-from-email"
+    },
+    {
+      "type": "html",
+      "html": "<p>SMS is charged separately and works differently. You pay for SMS credits, with pricing based on:</p>\n<ul>\n<li>Number of SMS segments sent (a segment is roughly 160 characters)</li>\n<li>Which country you’re sending to</li>\n<li>Whether it’s a US, UK, or international number</li>\n</ul>\n<p>In the UK, expect to pay around £0.03-0.05 per SMS segment. For most Shopify stores starting with SMS, budget £50-100/month for testing, then scale based on what works. SMS has higher engagement rates than email but also higher costs per message, so test carefully. Klaviyo’s SMS pricing documentation breaks down the costs by country.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "What You Actually Get With Klaviyo",
+      "id": "what-you-actually-get-with-klaviyo"
+    },
+    {
+      "type": "html",
+      "html": "<p>All paid plans include:</p>\n<ul>\n<li>Unlimited email sends (no per-email charges)</li>\n<li>Advanced segmentation and targeting based on behavior</li>\n<li>Pre-built automation flows (abandoned cart, welcome series, post-purchase, browse abandonment)</li>\n<li>A/B testing for subject lines, content, and send times</li>\n<li>Deep Shopify integration (syncs orders, products, customer data in real-time)</li>\n<li>Predictive analytics (lifetime value, churn risk, next order date)</li>\n<li>Email and chat support</li>\n<li>Detailed analytics and revenue attribution</li>\n</ul>"
+    },
+    {
+      "type": "h2",
+      "text": "Real Klaviyo Integrations: Examples from Shopify Stores",
+      "id": "real-klaviyo-integrations-examples-from-shopify-stores"
+    },
+    {
+      "type": "html",
+      "html": "<p>Understanding pricing is one thing, but seeing how Klaviyo actually works on Shopify stores makes the value clearer. Here are two examples from stores I’ve worked on.</p>"
+    },
+    {
+      "type": "h3",
+      "text": "Back in Stock Notifications: Drink Finder"
+    },
+    {
+      "type": "video",
+      "file": "/video/articles/klaviyo-pricing-2026-complete-breakdown-for-shopify-stores/drinkfinder-backinstock.mp4",
+      "poster": "drinkfinder-backinstock-poster.jpg",
+      "width": 542,
+      "height": 1080,
+      "alt": "Drinkfinder Shopify website design back in stock notification and email sign up form"
+    },
+    {
+      "type": "html",
+      "html": "<p>For <a href=\"/portfolio/drink-finder-shopify-website-design-case-study/\">Drink Finder</a>, a premium drinks retailer, I designed a custom back in stock notification system integrated with Klaviyo. When products sell out (which happens frequently with limited-edition spirits), customers can sign up to be notified when items return to stock.</p>\n<h4>How it works:</h4>\n<ul>\n<li>Customer clicks ‘Notify Me’ on an out-of-stock product</li>\n<li>Klaviyo captures their email and the specific product they want</li>\n<li>When inventory is restocked, Klaviyo automatically sends a targeted email</li>\n<li>The email includes product details and a direct link to purchase</li>\n</ul>\n<p>This single automation captures lost sales and converts interested browsers into buyers. The UI design focused on making the signup process seamless. No popup forms or multiple steps. Just a clean button that works. Klaviyo’s <a href=\"https://help.klaviyo.com/hc/en-us/articles/115005251808\">back in stock flow</a> handles the automation, but the UX design determines whether people actually sign up.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "Newsletter Signups: Converting Browsers to Subscribers",
+      "id": "newsletter-signups-converting-browsers-to-subscribers"
+    },
+    {
+      "type": "image",
+      "file": "EastAtHome-Hero_signup.webp",
+      "alt": "East At Home Shopify Website Design of their newsletter sign up form by Anthony is Freelance"
+    },
+    {
+      "type": "html",
+      "html": "<p>For <a href=\"/portfolio/east-at-home-shopify-website-design-case-study/\">Eat at Home</a>, a British Indian restaurant meal kit brand, I designed a newsletter signup that makes the value crystal clear. Instead of a generic “sign up for updates” form, the design leads with benefits that matter to their customers.\n</p><h4>The three-benefit approach:</h4>\n<ul>\n<li>10% off your first order (immediate value)</li>\n<li>Free BIR Recipe eBook worth £9.99 (tangible incentive)</li>\n<li>Latest news (ongoing value)</li>\n</ul>\n<p>Each benefit has a checkmark, making it scannable in seconds. The recipe book mockup provides visual proof of what subscribers get. The form itself is dead simple: just an email field and a “Join for free now” button. No unnecessary fields asking for phone numbers, birthdays, or preferences that create friction.</p>\n<h3>Why this design works for Shopify stores:</h3>\n<ul>\n<li>Clear value exchange – People know exactly what they’re getting before they type their email</li>\n<li>Visual proof – The recipe book image makes the offer tangible, not just a promise</li>\n<li>Minimal friction – One field, one click. That’s it.</li>\n<li>Strategic placement – This sits in the footer and at key conversion points throughout the site</li>\n<li>Klaviyo integration – New subscribers automatically enter a welcome flow that delivers the ebook and first-purchase discount code</li>\n</ul>\n<p>The key lesson here is that newsletter signups shouldn’t feel like you’re asking for a favour. Make the benefits obvious, remove unnecessary form fields, and design it to look like value, not a popup interruption. Klaviyo’s form builder makes this easy to implement, but the UX strategy determines whether people actually sign up.<br/>\nEvery newsletter subscriber is a potential customer you can reach without paying for ads. Design the signup experience to reflect that value.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "When Should You Upgrade Your Plan?",
+      "id": "when-should-you-upgrade-your-plan"
+    },
+    {
+      "type": "html",
+      "html": "<p>Your plan automatically adjusts as your contact list grows. Klaviyo will move you to the next pricing tier when you exceed your current limit. You’ll get an email warning before this happens, so there are no surprises.</p>\n<h4>Signs you should embrace the upgrade:</h4>\n<p>Your revenue from email is increasing faster than your Klaviyo costs<br/>\nYou’re hitting your contact limit and need to add more subscribers<br/>\nYour email channel is profitable (generating more revenue than it costs)<br/>\nYou’re seeing strong engagement rates (opens above 30%, clicks above 3%)<br/>\nMost successful Shopify stores see email contribute 20-30% of total revenue. If you’re hitting those numbers, the cost of upgrading is easily justified. Growing your email list means growing your owned audience, which makes you less dependent on paid ads.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "How to Keep Klaviyo Costs Under Control",
+      "id": "how-to-keep-klaviyo-costs-under-control"
+    },
+    {
+      "type": "html",
+      "html": "<p>Growing your email list is good, but you don’t want to pay for contacts who never engage. Here’s how to manage costs without sacrificing list quality:</p>\n<h4>1. Clean your list regularly</h4>\n<p>Remove or suppress contacts who haven’t engaged in 6-12 months. They’re costing you money and potentially hurting your deliverability. Klaviyo makes this easy with suppression lists. Create a segment of unengaged contacts and suppress them. You can always reactivate them later if they start engaging again.</p>\n<h4>2. Use confirmed opt-in strategically</h4>\n<p>Double opt-in (where subscribers confirm their email address) reduces your list size, but it means higher quality contacts who actually want to hear from you. Quality beats quantity for most Shopify stores. Klaviyo supports both single and double opt-in, so you can choose what works best for your brand.</p>\n<h4>3. Segment intelligently</h4>\n<p>Don’t just collect contacts. Use Klaviyo’s segmentation to send relevant emails to people who are likely to buy. Better targeting means better results per contact. Create segments based on purchase behavior, engagement level, and browsing history. This keeps your contacts engaged and reduces unsubscribes.</p>\n<h4>4. Archive strategically</h4>\n<p>Klaviyo lets you archive contacts who haven’t engaged. They don’t count toward your pricing, but you can still see their history if they re-engage later. This is perfect for seasonal businesses or stores with longer buying cycles. Your archived profiles remain in your account but don’t affect your billing.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "Klaviyo vs Other Email Platforms for Shopify",
+      "id": "klaviyo-vs-other-email-platforms-for-shopify"
+    },
+    {
+      "type": "html",
+      "html": "<p>Klaviyo isn’t the cheapest email platform, but for Shopify stores, it’s often the best value. Here’s how it compares:</p>\n<h4>Vs Mailchimp:</h4>\n<p>Mailchimp might be cheaper at smaller list sizes, but Klaviyo’s ecommerce features are far superior. The Shopify integration alone justifies the price difference for most stores. Mailchimp’s abandoned cart emails require paid add-ons; Klaviyo includes them. Revenue attribution in Klaviyo is also more accurate.</p>\n<h4>Vs Omnisend:</h4>\n<p>Omnisend offers similar ecommerce features at competitive pricing. It’s a solid alternative if you’re budget-conscious. The main trade-off is slightly less sophisticated segmentation and fewer integration options. Omnisend is better suited for smaller stores with annual revenues under £50k/year; Klaviyo scales better for those with higher annual revenues.</p>\n<h4>Vs Shopify Email:</h4>\n<p>Shopify Email is cheaper (or free for small sends), but it’s much more basic. If you’re doing any serious email marketing, you’ll outgrow it quickly. Think of Shopify Email as training wheels; Klaviyo is the real bike. Shopify Email is fine for basic newsletters but lacks automation depth, advanced segmentation, and predictive analytics.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "Is Klaviyo Worth the Cost?",
+      "id": "is-klaviyo-worth-the-cost"
+    },
+    {
+      "type": "html",
+      "html": "<p>For most Shopify stores doing more than £10k/month in revenue, yes. The ROI from email marketing typically outweighs the cost by a significant margin.</p>\n<p>A well-configured Klaviyo account should generate at least 10-20 times its monthly cost in additional revenue. If yours isn’t, either your setup needs work or your email strategy needs refining. Look at your Klaviyo dashboard and check your attributed revenue to see exactly what email is generating.</p>\n<p>The key is using Klaviyo properly. Too many Shopify stores pay for Klaviyo but only use 20% of its features. That’s where working with someone who understands both the platform and Shopify design makes a difference. The UI matters just as much as the automation setup.</p>\n<p>It’s also where <a href=\"/articles/why-conversion-rate-optimisation-is-still-a-human-skill/\">conversion rate optimisation</a> matters just as much as the email setup, the on-site experience and the email experience need to work together.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "Conclusion: The Bottom Line on Klaviyo Pricing",
+      "id": "conclusion-the-bottom-line-on-klaviyo-pricing"
+    },
+    {
+      "type": "html",
+      "html": "<p>Klaviyo pricing is straightforward once you understand the model. You pay for contacts, not sends. As your list grows, your costs increase predictably. For a 2,000-contact list, expect to pay around £60-75/month. For 5,000 contacts, around £120-140/month.</p>\n<p>For Shopify stores serious about email marketing, Klaviyo delivers value that justifies the cost. The platform’s ecommerce focus and deep Shopify integration mean less time fighting with your email tool and more time actually selling.</p>\n<p>Start with the free plan if you’re testing. Upgrade when you hit 250 contacts or when you need automation beyond the basics. And remember that growing your Klaviyo bill usually means growing your revenue even faster. If email isn’t generating 15-20x your Klaviyo costs, focus on improving your flows and segmentation before worrying about the price.</p>\n<p>When choosing someone to set up Klaviyo for your store, working with a <a href=\"/articles/what-is-a-shopify-partner/\">Shopify Partner</a> ensures they have a deep understanding of both platforms.</p>\n<h4>Need help designing a Shopify store that integrates seamlessly with Klaviyo?</h4>\n<p>See how a <a href=\"/\">Shopify Expert </a>can help design conversion-focused stores that make email signups, back-in-stock notifications, and checkout flows feel effortless.</p>"
+    }
+  ],
+  "faqs": [
+    {
+      "q": "How much does Klaviyo cost per month?",
+      "html": "<p>Klaviyo offers a free plan up to 250 contacts. Paid plans start at around £20-30/month for 251-500 contacts. For 1,000 contacts, expect to pay £35-45/month. For 5,000 contacts, around £120-140/month. Pricing scales based on your total contact count, not how many emails you send.</p>"
+    },
+    {
+      "q": "Does Klaviyo charge per email sent?",
+      "html": "<p>No. Klaviyo charges based on the number of contacts in your account, not per email sent. All paid plans include unlimited email sends. This makes it cost-effective for stores that email frequently, as you can send as many campaigns and automations as needed without additional charges.</p>"
+    },
+    {
+      "q": "Is Klaviyo free for Shopify?",
+      "html": "<p>Klaviyo offers a free plan for up to 250 contacts and 500 email sends per month. This works with Shopify and includes basic automation flows like abandoned cart emails. Once you exceed 250 contacts or need more advanced features, you’ll need to upgrade to a paid plan. The free plan is enough for new Shopify stores to test the platform.</p>"
+    },
+    {
+      "q": "What counts as a contact in Klaviyo?",
+      "html": "<p>A contact is any email address or phone number in your Klaviyo account. This includes subscribers, customers, and anyone on your email or SMS lists. Even if someone hasn’t engaged with your emails in months, they still count toward your total. You can suppress or archive inactive contacts to reduce costs without losing their data.</p>"
+    },
+    {
+      "q": "How does Klaviyo pricing compare to Mailchimp?",
+      "html": "<p>Klaviyo is typically more expensive than Mailchimp for the same number of contacts, but offers far superior ecommerce features for Shopify stores. Klaviyo includes advanced automation, revenue attribution, predictive analytics, and deeper Shopify integration. For stores focused on email revenue rather than just newsletters, Klaviyo usually provides better ROI despite the higher cost.</p>"
+    },
+    {
+      "q": "Can I reduce my Klaviyo costs?",
+      "html": "<p>Yes. Regularly clean your list by suppressing or archiving contacts who haven’t engaged in 6-12 months. Use double opt-in to ensure higher quality subscribers. Segment your audience to send targeted emails only to engaged contacts. Archive seasonal customers when they’re not active. These strategies reduce your contact count without losing valuable data.</p>"
+    },
+    {
+      "q": "Does Klaviyo pricing include SMS?",
+      "html": "<p>No. SMS is charged separately from email in Klaviyo. You purchase SMS credits based on the number of message segments you send (roughly 160 characters per segment). UK SMS costs around £0.03-0.05 per segment. Your email plan price only covers email marketing. Budget separately for SMS if you plan to use text messaging.</p>"
+    },
+    {
+      "q": "When should I upgrade from the free Klaviyo plan?",
+      "html": "<p>Upgrade when you exceed 250 contacts, need more than 500 email sends per month, or require advanced features like A/B testing and detailed analytics. Most Shopify stores outgrow the free plan within 3-6 months of launching. If email is generating revenue for your store, the paid plan pays for itself quickly through increased sales.</p>"
+    },
+    {
+      "q": "Is Klaviyo worth it for small Shopify stores?",
+      "html": "<p>For stores doing more than £10k/month in revenue, yes. Klaviyo should generate 10-20x its monthly cost in additional revenue through automated flows and targeted campaigns. For brand new stores under £5k/month, start with the free plan. Once you see consistent sales, upgrade to access automation that recovers abandoned carts and drives repeat purchases.</p>"
+    },
+    {
+      "q": "What happens if I go over my contact limit?",
+      "html": "<p>Klaviyo automatically upgrades you to the next pricing tier when you exceed your contact limit. You’ll receive an email notification before this happens. Your account continues working without interruption. Review your billing section regularly to monitor your contact count and anticipate pricing changes as your list grows.</p>"
+    }
+  ]
+}

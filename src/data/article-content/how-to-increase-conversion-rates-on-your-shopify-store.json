@@ -1,0 +1,275 @@
+{
+  "seoTitle": "Boost Your Sales with Shopify Conversion Rate Optimisation",
+  "description": "Learn key Shopify conversion rate optimisation strategies and see how Zen Maitri achieved higher conversions and engagement and grew their sales.",
+  "published": "2025-03-03",
+  "modified": "2025-03-03",
+  "hero": {
+    "file": "zenmaitri-conversion-rate-optimisation-graphic.webp",
+    "alt": "Zen Maitri conversion rate optimisation graphic"
+  },
+  "faqHeading": "Frequently Asked Questions",
+  "blocks": [
+    {
+      "type": "h2",
+      "text": "Introduction",
+      "id": "introduction"
+    },
+    {
+      "type": "html",
+      "html": "<p>A good conversion rate leads to increased revenue without the need for additional traffic. The average Shopify store converts at 1.4%, and anything above 3.2% puts you in the top 20%. If you want the benchmarks first, here is <a href=\"/articles/good-conversion-rate-shopify/\">what counts as a good conversion rate on Shopify</a>. This guide is about the strategies that move your own number.\n</p><p>In this guide, we will explore actionable strategies to improve conversions and maximise your store’s success. I’m a <a href=\"/\">Shopify Expert</a> specialising in UX and conversion design, and below I’ll walk through the exact areas I focus on when auditing a store. I will highlight a recent success story of Shopify conversion rate optimisation (CRO) for Zen Maitri, where not only did the conversion rate increase, but customer engagement and page scrolling percentages improved as well.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "1. Improve Your Website Speed",
+      "id": "1-improve-your-website-speed"
+    },
+    {
+      "type": "html",
+      "html": "<p>Slow-loading websites drive visitors away. For Shopify stores, it’s important to load within 3 seconds to achieve the best results.</p>"
+    },
+    {
+      "type": "h3",
+      "text": "Why Speed Matters"
+    },
+    {
+      "type": "html",
+      "html": "<p>- 53% of users abandon websites that take longer than 3 seconds to load.\n</p><p>– Faster websites rank better on Google, which improves organic traffic.</p>"
+    },
+    {
+      "type": "h3",
+      "text": "Quick Fixes"
+    },
+    {
+      "type": "html",
+      "html": "<p>- Use Shopify’s free <a href=\"https://help.shopify.com/en/manual/online-store/store-speed\">Online Store Speed Report </a></p>\n<p>– Compress your images with free tools like <a href=\"https://tinypng.com/\">TinyPNG</a> or <a href=\"https://apps.shopify.com/crush-pics\">Crush.pics</a>.</p>\n<p>– Reduce the number of apps your site has running in the background.</p>\n<p>– Choose a lightweight, optimised Shopify theme like <a href=\"https://themes.shopify.com/themes/dawn\">Dawn</a>.</p>"
+    },
+    {
+      "type": "h3",
+      "text": "Example"
+    },
+    {
+      "type": "html",
+      "html": "<p>When I redesign websites, I always use Dawn as a starting point. It’s lightweight, fast, and built with Shopify’s best practices in mind.</p>\n<p>Many themes come with excessive functionality and sections that don’t suit every niche or sector. For example, a fashion-focused theme might include a “Shop the Look” section, which would be irrelevant for a grocery store.</p>\n<p>Creating bespoke sections tailored to your business will enhance the user experience while keeping the theme lean and efficient—resulting in a faster, more optimised site.</p>\n<p><a href=\"/portfolio/window-fleur-shopify-case-study/\">Check out the Window Fleur Case Study</a> which was built using Dawn as a starting point.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "2. Optimise Product Pages",
+      "id": "2-optimise-product-pages"
+    },
+    {
+      "type": "html",
+      "html": "<p>Your product pages should be clear, engaging, and persuasive to convert visitors into buyers.</p>"
+    },
+    {
+      "type": "h3",
+      "text": "Key Enhancements"
+    },
+    {
+      "type": "html",
+      "html": "<p>- High-quality product images and videos. Use multiple angles and lifestyle shots.\n</p><p>– Detailed, benefit-driven product descriptions. Highlight what makes your product unique.</p>\n<p>– Clear pricing, shipping, and return information. No hidden costs!</p>\n<p>– Customer reviews and testimonials. Social proof boosts trust and conversions.</p>\n<p>One often-overlooked element on product pages is helping customers compare options. Here’s how <a href=\"/articles/product-comparisons-for-shopify-stores-how-better-ux-boosts-conversions/\">product comparison UX</a> can reduce choice overload and lift conversions.</p>\n<p>For a deep dive into creating high-converting product pages, check out <a href=\"https://help.shopify.com/en/manual/products\">Shopify’s guide to product pages</a>.</p>"
+    },
+    {
+      "type": "h3",
+      "text": "Example"
+    },
+    {
+      "type": "image",
+      "file": "zenmaitri-old.webp",
+      "alt": "Zen Maitri Old website before Shopify CRO work"
+    },
+    {
+      "type": "html",
+      "html": "<p>Before</p>"
+    },
+    {
+      "type": "image",
+      "file": "Mobile-V1.webp",
+      "alt": "Zen Maitri New website after Shopify CRO work"
+    },
+    {
+      "type": "html",
+      "html": "<p>After custom CRO work</p>"
+    },
+    {
+      "type": "html",
+      "html": "<p>The product page required some enhancements, including a design tweak for improved visual calmness, as there were too many styles and backgrounds competing for attention.\n</p><p>It was essential to establish a clear hierarchy instead of overwhelming the user with too much information above the fold.</p>\n<p>I decided to place the Trustpilot rating at the very top to build trust from the outset. Following that, I included the key elements—product image, title, price, and review rating—on the initial screen, along with a sticky “Add to Cart” button.</p>\n<p>This layout provides users with all the essential information they need before they scroll down. The rest of the page features a clear content hierarchy, utilising bullet points and call-outs to assist readers in scanning the information. Additionally, more detailed information is housed in accordions for easy access.</p>\n<p>Take a look at the final product page for <a href=\"https://zenmaitri.com/products/nerve-oil\">Zen Maitri Nerve Oil</a>.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "3. Simplify the Checkout Process",
+      "id": "3-simplify-the-checkout-process"
+    },
+    {
+      "type": "html",
+      "html": "<p>A complicated checkout is one of the biggest conversion killers. Reducing friction can lead to more completed purchases.</p>"
+    },
+    {
+      "type": "h3",
+      "text": "How can you simplify the checkout process?"
+    },
+    {
+      "type": "html",
+      "html": "<p>- Enable<a href=\"https://help.shopify.com/en/manual/checkout-settings/one-page-checkout\"> Shopify’s one-page checkout</a> for faster purchases.\n</p><p>– Offer guest checkout to avoid unnecessary sign-ups.</p>\n<p>– Display multiple payment options, including Apple Pay, Google Pay, and Klarna.</p>\n<p>– Reduce checkout fields to the essentials.</p>\n<p>For best practices, check out <a href=\"https://baymard.com/research/checkout-usability\">Baymard Institute’s research on checkout optimisation</a>.</p>"
+    },
+    {
+      "type": "h3",
+      "text": "Example"
+    },
+    {
+      "type": "image",
+      "file": "ZenMaitriCheckkout-.webp",
+      "alt": "Zen Maitri Shopify 1 page checkout example"
+    },
+    {
+      "type": "html",
+      "html": "<p>The Zen Maitri checkout has the 1 page checkout enabled. Allowing the user to scroll through the entire checkout in one go. Even easier if you are like me and have the autofill set up on your device.\n</p><p><a href=\"https://www.shopify.com/uk/enterprise/blog/one-page-checkout\">Find out more about the Shopify 1 page checkout</a></p>"
+    },
+    {
+      "type": "h2",
+      "text": "4. Build Trust with Social Proof",
+      "id": "4-build-trust-with-social-proof"
+    },
+    {
+      "type": "html",
+      "html": "<p>People trust real experiences from other buyers. 79% of consumers trust online reviews as much as personal recommendations.</p>"
+    },
+    {
+      "type": "h3",
+      "text": "Ways to add trust"
+    },
+    {
+      "type": "html",
+      "html": "<p>- Display customer reviews using apps like <a href=\"https://judge.me/\">Judge.me</a> or <a href=\"https://loox.app/\">Loox</a>.\n</p><p>– Showcase trust badges (secure checkout, money-back guarantee, etc.).</p>\n<p>– Add an “As Seen In” section featuring press mentions or influencer partnerships.</p>\n<p>– Offer a solid money-back guarantee to reduce purchase hesitation.</p>\n<p>The small design details that reinforce trust, like cart animations, sticky add-to-cart buttons, and progress indicators, fall under the broader topic of <a href=\"/articles/microinteractions-in-shopify-website-design/\">microinteractions</a>. Read more about how they improve the Shopify purchase journey.</p>"
+    },
+    {
+      "type": "h3",
+      "text": "Example"
+    },
+    {
+      "type": "video",
+      "file": "/video/articles/how-to-increase-conversion-rates-on-your-shopify-store/zenmaitri-reviews.mp4",
+      "poster": "zenmaitri-reviews-poster.jpg",
+      "width": 374,
+      "height": 816,
+      "alt": "Video of the Loox review app on the Zen Maitri Shopify Store"
+    },
+    {
+      "type": "html",
+      "html": "<p>Zen Maitri use the Loox platform which utilises video reviews.\n</p><p>Some key takeaways for having video reviews</p>\n<p>– Testimonial videos on sales pages increase conversions by 80%.</p>\n<p>– Around 72% of customers trust a brand more with positive video testimonials and reviews.</p>\n<p>– Research shows that company websites with video content are 53 times more likely to appear on Google’s first page.</p>\n<p><a href=\"https://wisernotify.com/blog/video-testimonial-stats/#:~:text=Testimonial%20videos%20on%20sales%20pages,appear%20on%20Google's%20first%20page.\">Read 15 Shocking Video Testimonial Statistics (New Data)</a></p>"
+    },
+    {
+      "type": "h2",
+      "text": "5. Offer Free Shipping & Clear Return Policies",
+      "id": "5-offer-free-shipping-clear-return-policies"
+    },
+    {
+      "type": "html",
+      "html": "<p>Many customers abandon their cart when they see unexpected shipping costs. 48% of shoppers say free shipping influences their buying decisions.</p>"
+    },
+    {
+      "type": "h3",
+      "text": "What You Can Do"
+    },
+    {
+      "type": "html",
+      "html": "<p>- Offer free shipping (either sitewide or above a certain amount).\n</p><p>– Clearly state your return and refund policy on product pages.</p>\n<p>– Use urgency tactics like “Limited stock” or “Only 2 left in stock.”</p>\n<p>– Offer a simple return process—<a href=\"https://help.shopify.com/en/manual/fulfillment/managing-orders/returns/return-rules\">Shopify’s guide to return policies</a> provides best practices.</p>"
+    },
+    {
+      "type": "h3",
+      "text": "Example"
+    },
+    {
+      "type": "video",
+      "file": "/video/articles/how-to-increase-conversion-rates-on-your-shopify-store/zenmaitri-free-shipping.mp4",
+      "poster": "zenmaitri-free-shipping-poster.jpg",
+      "width": 370,
+      "height": 788,
+      "alt": "Video showing the Rebuy Shopify app on the Zen Maitri Store"
+    },
+    {
+      "type": "html",
+      "html": "<p>For the Zen Maitri Store I brought in the Free shipping threshold right next to the add to cart button. Then the more in-depth shipping information is in the accordion so the user doesn’t have to go off the page to find out more.\n</p><p>The <a href=\"https://www.rebuyengine.com/\">Rebuy App</a> has also been utilised in the cart so there is a clear message if you have hit the free shipping threshold. The bonus with this app is that you can have different levels to hit. First level is free shipping, second level is for a free gift. This is a great way to boos the average order value.</p>\n<p><a href=\"https://delli.market/\">Check out the Delli website</a> for a great example of well placed delivery messaging and the upsells in the cart.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "6. Leverage Email & SMS Remarketing",
+      "id": "6-leverage-email-sms-remarketing"
+    },
+    {
+      "type": "html",
+      "html": "<p>Not all customers buy on their first visit. Retarget them effectively to bring them back.</p>"
+    },
+    {
+      "type": "h3",
+      "text": "Tactics to try"
+    },
+    {
+      "type": "html",
+      "html": "<p>- Send abandoned cart emails using <a href=\"https://www.shopify.com/uk/email-marketing\">Shopify Email</a> or <a href=\"https://www.klaviyo.com/uk/solutions/marketing-automation?utm_source=google-brand&amp;utm_medium=paid-search&amp;utm_campaign=7013o000002L2z9AAC&amp;utm_term=klaviyo&amp;utm_content=143932594256&amp;gad_source=1&amp;gclid=CjwKCAiAn9a9BhBtEiwAbKg6fncJ_OHoiLhCdRHGQk3c6-IRKAXhohQOLEqrCjIvmhV5MVXnlkO9uRoC6UcQAvD_BwE&amp;gclsrc=aw.ds\">Klaviyo</a>.\n</p><p>– Use SMS marketing tools like <a href=\"https://postscript.io/\">Postscript</a> to send reminders and exclusive discounts.</p>\n<p>– Offer first-time buyer discounts through pop-ups.</p>\n<p>– For more on abandoned cart recovery, read <a href=\"https://www.shopify.com/uk/blog/shopping-cart-abandonment\">Shopify’s blog on abandoned carts</a>.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "7. Personalise the Shopping Experience",
+      "id": "7-personalise-the-shopping-experience"
+    },
+    {
+      "type": "html",
+      "html": "<p>Personalisation makes customers feel valued and can increase conversion rates significantly.</p>"
+    },
+    {
+      "type": "h3",
+      "text": "Ways to do this"
+    },
+    {
+      "type": "html",
+      "html": "<p>- Use product recommendation apps like <a href=\"https://limespot.com/\">LimeSpot</a> to show “Recommended for You” products.\n</p><p>– <a href=\"https://www.shopbox.ai/\">Shopbox</a> takes AI to the next level, integrating personalisation at every touchpoint—from a dedicated Shopify section to a chatbot-style button and even fully tailored emails.</p>\n<p>– Enable personalised discount pop-ups based on user behaviour.</p>\n<p>– Implement a chatbot (like <a href=\"https://www.tidio.com/integrations/shopify/\">Tidio</a>) to offer real-time support.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "Want expert help optimising your Shopify store?",
+      "id": "want-expert-help-optimising-your-shopify-store"
+    },
+    {
+      "type": "html",
+      "html": "<p>A high conversion rate isn’t just about having great products—it’s about optimising every step of the customer journey. From site speed and product pages to checkout flow, trust signals, and retargeting efforts, each element plays a role in turning visitors into loyal customers.</p>\n<p>If you’re ready to grow your Shopify store, a UX audit is a great place to start. I begin by analysing your Google GA4 data, then walk through the entire purchasing journey with real user behaviour in mind. Using a Miro board, I annotate screenshots with insights on what’s working, what’s not, and actionable ideas to improve conversions. Read more about my process and how you could work with a <a href=\"/shopify-website-design/shopify-conversion-rate-optimisation/\">Shopify conversion rate optimisation expert</a>. For a deeper read on why conversion optimisation is still fundamentally a human discipline, read this article on <a href=\"/articles/why-conversion-rate-optimisation-is-still-a-human-skill/\">why CRO can’t be automated.</a></p>\n<p>Would you like a UX &amp; Heuristic Review of your site? Then <a href=\"/contact/\">Let’s chat!</a></p>"
+    },
+    {
+      "type": "h3",
+      "text": "What the client said"
+    },
+    {
+      "type": "html",
+      "html": "<blockquote><p>It has been such a pleasure to work with Anthony. We are a premium health and wellness brand and we were looking to do a revamp of our website to make it more user friendly, cleaner and sleeker. We were introduced to Anthony through a colleague. Anthony is a careful listener and he immediately grasped what we were trying to do. He has an incredible eye for design and functionality, two skills that you rarely find in the same person. We were also impressed by how data driven Anthony was: the first thing he did was do an analysis of our website to identify click rates and where page views were dropping off. This analysis allowed us to figure out where exactly our priorities need to be. We were extremely pleased with the end result and we would not hesitate to recommend Anthony. He has become our go to for all things UX related. Thank you Anthony!</p><cite>Jaideep Shah  |  Zen Maitri Director</cite></blockquote>"
+    }
+  ],
+  "faqs": [
+    {
+      "q": "What is a good conversion rate for a Shopify store?",
+      "html": "<p>The average Shopify store converts at around 1.4%, but the top 20% of stores convert at 3.2% or above. A “good” conversion rate varies by industry — fashion and apparel often sits lower (around 1–2%) while subscription or consumable products can reach 4–5%. Rather than benchmarking against a single number, the goal is consistent improvement on your own baseline.</p>"
+    },
+    {
+      "q": "What are the most common reasons Shopify stores have low conversion rates?",
+      "html": "<p>The most frequent culprits are slow page speed (especially on mobile), unclear product pages that don’t answer buyer objections, a complicated or untrustworthy checkout experience, and weak or absent social proof. In most stores I audit, the biggest issue isn’t any single thing — it’s several small friction points adding up throughout the customer journey.</p>"
+    },
+    {
+      "q": "How much can CRO realistically improve my revenue?",
+      "html": "<p>Even a 0.5% improvement in conversion rate can make a significant difference to revenue. If your store does £50,000 a month in revenue at a 1.5% conversion rate, getting to 2% would increase revenue by roughly £16,700 a month without changing your traffic at all. This is why CRO often has a better ROI than increasing ad spend.</p>"
+    },
+    {
+      "q": "Does site speed really affect conversion rates?",
+      "html": "<p>Yes, significantly. Research consistently shows that a one-second delay in page load time can reduce conversions by up to 20%. On mobile, where the majority of Shopify traffic now comes from, this effect is even more pronounced. Slow themes, unoptimised images, and too many installed apps are the most common causes on Shopify stores.</p>"
+    },
+    {
+      "q": "Should I run A/B tests on my Shopify store?",
+      "html": "<p>A/B testing is valuable, but only once you have enough traffic to generate statistically significant results — typically at least a few thousand sessions per month per test. For smaller stores, making informed design and copy improvements based on user behaviour data (heatmaps, session recordings) is usually more effective than trying to run formal tests with insufficient traffic.</p>"
+    },
+    {
+      "q": "What’s the difference between UX design and CRO?",
+      "html": "<p>UX (user experience) design focuses on making your store intuitive and enjoyable to use. CRO (conversion rate optimisation) focuses specifically on removing barriers to purchase. In practice, they overlap significantly — good UX tends to improve conversion, and CRO work often identifies UX problems. The distinction matters more in theory than in practice for most Shopify stores.</p>"
+    },
+    {
+      "q": "How long does it take to see results from CRO work?",
+      "html": "<p>Quick wins — like improving product page copy, adding trust signals, or fixing mobile layout issues — can show measurable results within 2–4 weeks. Structural changes like redesigning the checkout flow or rebuilding navigation take longer to implement and test. Most stores see meaningful improvement within 60–90 days of a focused CRO engagement.</p>"
+    }
+  ]
+}

@@ -1,0 +1,118 @@
+{
+  "seoTitle": "Shopify Pricing 2026: What Does Shopify Actually Cost?",
+  "description": "A plain-English breakdown of Shopify plans, transaction fees, and hidden costs, from a freelance Shopify expert who builds stores every day. No fluff, just facts.",
+  "published": "2026-03-04",
+  "modified": "2026-03-04",
+  "hero": {
+    "file": "Shopify-pricing-2026.webp",
+    "alt": "Shopify pricing visual for Shopify website design"
+  },
+  "faqHeading": "Frequently Asked Questions About Shopify Pricing",
+  "blocks": [
+    {
+      "type": "h2",
+      "text": "Introduction",
+      "id": "introduction"
+    },
+    {
+      "type": "html",
+      "html": "<p>In this guide I’m going to walk you through every cost involved in running a Shopify store in 2026. Not just the headline figures, but the transaction fees, the apps, the themes, and the things that tend to catch people out. By the end, you’ll have a realistic picture of what you’ll actually be paying, and how to keep costs down without compromising on your store.</p>\n<p>I’m Anthony, a <a href=\"/\">Freelance Shopify Designer </a>based in Falmouth, Cornwall. Everything in this guide comes from real experience designing and optimising stores for UK brands, not just reading Shopify’s website.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "The Shopify Plans: What You Get and What It Costs",
+      "id": "the-shopify-plans-what-you-get-and-what-it-costs"
+    },
+    {
+      "type": "html",
+      "html": "<p>Shopify currently offers five main plans. Here’s a clear breakdown of what each costs and who it’s designed for.</p>"
+    },
+    {
+      "type": "html",
+      "html": "<div class=\"table-wrap\"><table>\n<thead>\n<tr>\n<th><strong>Plan</strong></th>\n<th><strong>Monthly</strong></th>\n<th><strong>Annual (pm)</strong></th>\n<th><strong>Trans. Fee*</strong></th>\n<th><strong>Best For</strong></th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>Starter</td>\n<td>£5/mo</td>\n<td>£5/mo</td>\n<td>5%</td>\n<td>Social selling only, no full storefront</td>\n</tr>\n<tr>\n<td>Basic</td>\n<td>£25/mo</td>\n<td>£19/mo</td>\n<td>2%</td>\n<td>New stores and small businesses</td>\n</tr>\n<tr>\n<td><strong>Shopify</strong></td>\n<td><strong>£65/mo</strong></td>\n<td><strong>£49/mo</strong></td>\n<td><strong>1%</strong></td>\n<td><strong>Growing stores (most popular)</strong></td>\n</tr>\n<tr>\n<td>Advanced</td>\n<td>£344/mo</td>\n<td>£259/mo</td>\n<td>0.6%</td>\n<td>Scaling stores needing advanced reporting</td>\n</tr>\n<tr>\n<td>Plus</td>\n<td>From £2,000/mo</td>\n<td>From £2,000/mo</td>\n<td>0.2%</td>\n<td>High-volume enterprise brands</td>\n</tr>\n</tbody>\n</table></div>\n<p>*Transaction fees only apply if you use a third-party payment gateway instead of Shopify Payments. More on that below.</p>"
+    },
+    {
+      "type": "html",
+      "html": "<p>You’ll save around 25% by paying annually rather than month-to-month, which is worth doing if you’re committed to the platform. For most small-to-medium UK stores, the <strong>Basic or Shopify plan</strong> is the right starting point. Don’t over-invest in a higher plan before your store needs it.</p>\n<h3>Which Plan Should You Actually Start On?</h3>\n<p>This is the question most guides avoid answering directly. Here’s my honest take based on what I see with clients:</p>\n<ul>\n<li><strong>Just starting out: </strong>Begin on Basic. You get everything you need to launch and run a proper store. The reporting is limited but that’s fine when you’re still finding your feet. Upgrade when the revenue justifies it.</li>\n<li><strong>Turning over £5,000 to £50,000 per month: </strong>The Shopify plan is worth it here. The lower transaction fees start to pay for the plan cost difference, and the professional reports become genuinely useful.</li>\n<li><strong>Scaling fast or running multiple locations: </strong>Advanced is worth considering if you need detailed reporting, calculated shipping rates, or you’re managing a more complex operation.</li>\n<li><strong>Enterprise level: </strong>Shopify Plus makes sense once you’re turning over £1 million or more annually, need custom checkout flows, or want B2B functionality built in. <a href=\"/articles/shopify-vs-shopify-plus/\">Read my full breakdown of Shopify vs Shopify Plus</a> before making that call.</li>\n</ul>\n<p>One thing I tell every client: don’t choose a plan based on features you might use one day. Start lean and upgrade when your store actually needs it.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "Does Shopify Take a Cut of Your Sales?",
+      "id": "does-shopify-take-a-cut-of-your-sales"
+    },
+    {
+      "type": "html",
+      "html": "<p>This is one of the most searched questions about Shopify, and the answer is: it depends on how you take payments.</p>\n<p>Shopify has its own payment processing system called <a href=\"https://www.shopify.com/payments\">Shopify Payments</a>. If you use it, Shopify does not charge a transaction fee on top of your plan. You’ll pay a standard card processing rate, typically 1.5% to 2.2% plus 25p per transaction in the UK depending on your plan, but that’s just what payment processing costs. Every provider charges something similar.</p>\n<p>If you prefer a third-party gateway such as Stripe, PayPal, or a <a href=\"https://www.shopify.com/blog/buy-now-pay-later\">buy now pay later provider</a>, Shopify charges an additional transaction fee on top of whatever that gateway charges. That extra fee ranges from 0.6% to 2% depending on your plan.</p>\n<p><strong>The short answer: use Shopify Payments if you can.</strong> It simplifies your setup and eliminates the extra fee. For the vast majority of UK stores, it works perfectly well.</p>\n<h3>Shopify Payments vs Third-Party Gateways</h3>\n<p>Here’s a real-world example. On the Basic plan, turning over £20,000 a month:</p>\n<ul>\n<li><strong>With Shopify Payments: </strong>you pay Shopify’s card rate (around 1.7% plus 25p per transaction). No additional Shopify fee on top.</li>\n<li><strong>With Stripe: </strong>you pay Stripe’s rate (around 1.4% plus 20p for UK cards) plus Shopify’s 2% transaction fee. That’s roughly £400 extra per month.</li>\n<li><strong>With PayPal: </strong>similar, PayPal’s processing fees plus Shopify’s transaction fee on top.</li>\n</ul>\n<p>That £400 per month difference is significant. The main reason to choose a third-party gateway is if you need specific functionality, such as a particular BNPL provider, or a gateway Shopify Payments doesn’t support in your region. Otherwise, stick with <a href=\"https://www.shopify.com/payments\">Shopify Payments</a>.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "The Hidden Costs: What Shopify Doesn’t Lead With",
+      "id": "the-hidden-costs-what-shopify-doesnt-lead-with"
+    },
+    {
+      "type": "html",
+      "html": "<p>The plan fee is the easy part. Here’s where the real budgeting conversation starts.</p>\n<h3>Shopify Themes</h3>\n<p>Shopify has a handful of free themes that are perfectly functional for getting started. Most growing brands eventually move to a paid theme for more design flexibility, which typically costs <strong>£150 to £350 as a one-off purchase</strong>.</p>\n<p>That said, it’s worth thinking carefully about whether a premium theme genuinely solves your problem. Off-the-shelf themes have real limits, which I’ve written about in detail in <a href=\"/articles/why-off-the-shelf-shopify-themes-hold-stores-back-in-2025/\">Why Off-the-Shelf Shopify Themes Hold Stores Back</a>. For many brands, a <a href=\"/shopify-website-design/bespoke-shopify-store-builds/\">bespoke Shopify build</a> is a far better long-term investment.</p>\n<h3>Apps</h3>\n<p>This is where Shopify store costs can creep up. Shopify’s strength is its app ecosystem, but apps add up quickly. Here’s what to budget for a typical growing store:</p>\n<ul>\n<li><strong>Email marketing (Klaviyo): </strong>free up to 250 contacts, then from around £20 per month scaling with your list. <a href=\"/articles/klaviyo-pricing-2026-complete-breakdown-for-shopify-stores/\">See my full Klaviyo pricing breakdown</a>.</li>\n<li><strong>Reviews (Judge.me or Okendo): </strong>Judge.me has a solid free plan. Okendo starts from around £19 per month for more advanced features.</li>\n<li><strong>Subscriptions (Recharge or Seal Subscriptions): </strong>from £0 to £20 per month depending on volume. If subscriptions are central to your model, <a href=\"/shopify-website-design/shopify-subscriptions/\">it’s worth getting the setup right from day one</a>.</li>\n<li><strong>Upsells and bundles: </strong>from £0 to £30 per month depending on the app.</li>\n<li><strong>Loyalty programmes: </strong>Smile.io and similar, from £0 to £50 per month.</li>\n</ul>\n<p><strong>A lean but effective app stack for a growing store typically adds £40 to £100 per month</strong> on top of your plan. Don’t install apps you don’t need. They slow your store down and the costs stack up quickly.</p>\n<h3>Your Domain</h3>\n<p>If you buy your domain through Shopify, expect to pay around <strong>£10 to £20 per year</strong> for a .co.uk. You can also connect an existing domain from another registrar, which Shopify makes easy. Check <a href=\"https://www.shopify.com/domains\">Shopify’s domain search</a> if you’re still deciding on a name.</p>\n<h3>Design and Development</h3>\n<p>If you’re building the store yourself, this cost is your time. If you’re working with a specialist, it’s a one-off project fee. As a <a href=\"/\">Shopify Expert </a>with 20 years of design experience, my <a href=\"/shopify-website-design/bespoke-shopify-store-builds/\">bespoke store builds</a> start from a fixed project fee. You get a store designed specifically for your brand and customers, not a template everyone else is using.</p>\n<p>The upfront cost of a well-designed store pays for itself quickly. A 1% improvement in conversion rate on a £20,000 per month store is an extra £200 per month. <a href=\"/shopify-website-design/shopify-conversion-rate-optimisation/\">Conversion rate optimisation</a> is always worth the investment.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "What Does a Shopify Store Actually Cost Per Month?",
+      "id": "what-does-a-shopify-store-actually-cost-per-month"
+    },
+    {
+      "type": "html",
+      "html": "<p>Here’s a realistic monthly cost breakdown for a growing UK DTC brand doing £20,000 per month in revenue, comparing the Basic and Shopify plans.</p>\n<div class=\"table-wrap\"><table>\n<thead>\n<tr>\n<th><strong>Cost Item</strong></th>\n<th><strong>Basic Plan</strong></th>\n<th><strong>Shopify Plan</strong></th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>Monthly plan fee</td>\n<td>£25</td>\n<td>£65</td>\n</tr>\n<tr>\n<td>Transaction fees (Shopify Payments)</td>\n<td>£0</td>\n<td>£0</td>\n</tr>\n<tr>\n<td>Transaction fees (Stripe, on £20k/mo revenue)</td>\n<td>~£400</td>\n<td>~£200</td>\n</tr>\n<tr>\n<td>Email marketing (Klaviyo, ~1,000 contacts)</td>\n<td>~£20</td>\n<td>~£20</td>\n</tr>\n<tr>\n<td>Reviews app</td>\n<td>£0 to £30</td>\n<td>£0 to £30</td>\n</tr>\n<tr>\n<td>Theme (amortised over 2 years)</td>\n<td>~£10</td>\n<td>~£10</td>\n</tr>\n<tr>\n<td>Domain</td>\n<td>~£1</td>\n<td>~£1</td>\n</tr>\n<tr>\n<td><strong>Total with Shopify Payments</strong></td>\n<td><strong>~£56/mo</strong></td>\n<td><strong>~£96/mo</strong></td>\n</tr>\n<tr>\n<td><strong>Total with Stripe</strong></td>\n<td><strong>~£456/mo</strong></td>\n<td><strong>~£296/mo</strong></td>\n</tr>\n</tbody>\n</table></div>\n<p>The single biggest lever here is payment gateway choice. Using Shopify Payments instead of Stripe on the Basic plan saves around £400 per month at this revenue level, more than enough to cover a solid email marketing setup and still come out ahead.</p>\n<p>On the Shopify plan with Shopify Payments, you get better reporting, lower card fees, and a platform that scales properly, for around £96 per month all-in. That’s genuinely good value.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "Shopify vs Shopify Plus: When Does the Jump Make Sense?",
+      "id": "shopify-vs-shopify-plus-when-does-the-jump-make-sense"
+    },
+    {
+      "type": "html",
+      "html": "<p>Shopify Plus starts from around £2,000 per month and is built for high-volume enterprise stores. For most UK businesses, the standard Advanced plan is more than enough. The Plus jump is rarely worth it until you’re turning over £1 million or more annually and genuinely need custom checkout logic, B2B functionality, or a dedicated account manager.</p>\n<p>I’ve covered this in detail in <a href=\"/articles/shopify-vs-shopify-plus/\">Shopify vs Shopify Plus: Which Is Right for Your Business?</a></p>"
+    },
+    {
+      "type": "h2",
+      "text": "Is Shopify Worth It? My Honest Take",
+      "id": "is-shopify-worth-it-my-honest-take"
+    },
+    {
+      "type": "html",
+      "html": "<p>After designing stores for clients ranging from independent Cornish brands to fast-growing DTC operations, my answer is consistently yes, but only if you approach it with a clear strategy.</p>\n<p>Shopify’s real value isn’t in the pricing. It’s in the reliability, the ecosystem, the conversion-optimised checkout, and the speed at which you can build something genuinely world-class. <a href=\"/articles/25-biggest-brands-using-shopify-in-2025/\">Some of the biggest brands on the planet run on Shopify</a> for good reason.</p>\n<p>That said, the platform is only as good as the store built on it. I’ve seen businesses paying £65 per month and losing thousands every month to poor UX, slow page speeds, or a checkout that’s quietly losing customers. The monthly plan cost is almost irrelevant compared to what a well-built store can earn you.</p>\n<p><strong>Don’t just think about what Shopify costs. Think about what a well-built Shopify store can earn you.</strong> Getting it right from the start is almost always worth the investment.</p>\n<p><strong>Looking for a Shopify expert who knows the platform inside out and has happy clients to prove it?</strong> <a href=\"/shopify-website-design/\">See how I design Shopify stores that convert</a>.</p>"
+    }
+  ],
+  "faqs": [
+    {
+      "q": "Does Shopify take a percentage of sales?",
+      "html": "<p>Only if you use a third-party payment gateway. Use <a href=\"https://www.shopify.com/payments\">Shopify Payments</a> and there’s no additional Shopify transaction fee. You just pay the standard card processing rate.</p>"
+    },
+    {
+      "q": "Can I change my Shopify plan later?",
+      "html": "<p>Yes, you can upgrade or downgrade at any time from your Shopify admin. Shopify adjusts billing pro-rata, so if you upgrade mid-cycle you only pay the difference for the remaining days. Most stores start on Basic and upgrade naturally as revenue grows.</p>"
+    },
+    {
+      "q": "Can I cancel Shopify at any time?",
+      "html": "<p>Yes. There is no long-term contract on monthly plans. You can cancel from your store settings at any time and you will not be charged again after that billing period. If you are on an annual plan, Shopify does not offer refunds for unused months, so it is worth being confident in the platform before committing to a year upfront. Most people are.</p>"
+    },
+    {
+      "q": "Is there a free trial?",
+      "html": "<p>Yes. Shopify currently offers a 3-day free trial, followed by a heavily discounted starter period. Check <a href=\"https://www.shopify.com/pricing\">Shopify’s pricing page</a> for the latest offer, as these change regularly.</p>"
+    },
+    {
+      "q": "What’s the cheapest way to run a Shopify store?",
+      "html": "<p>Start on the Basic plan, use <a href=\"https://www.shopify.com/payments\">Shopify Payments</a>, keep apps to the essentials, and register your domain externally. You can be live for under £30 per month in platform costs.</p>"
+    },
+    {
+      "q": "How much does it cost to build a Shopify store?",
+      "html": "<p>That depends on whether you’re building it yourself or working with a specialist. A bespoke store built by a <a href=\"/\">Shopify Expert </a>typically starts from a few thousand pounds as a one-off project fee. If you’d like to talk through your project, <a href=\"/contact/\">get in touch</a>.</p>"
+    },
+    {
+      "q": "How much is Shopify per month in the UK?",
+      "html": "<p>Plans range from £5 per month on the Starter plan to £344 per month on Advanced, when paying monthly. Annual billing brings those costs down by around 25%. <a href=\"https://www.shopify.com/plus\">Shopify Plus</a> starts from around £2,000 per month for enterprise stores. Most UK small businesses start on the Basic plan at £25 per month.</p>"
+    },
+    {
+      "q": "Which Shopify plan is right for me?",
+      "html": "<p>For most new stores, start on Basic. If you’re turning over more than £50,000 per month or need professional reports and better shipping rates, move to the Shopify plan. The Advanced plan suits stores scaling fast and needing detailed analytics. If you’re unsure, <a href=\"/contact/\">get in touch and I’ll point you in the right direction</a>.</p>"
+    }
+  ]
+}

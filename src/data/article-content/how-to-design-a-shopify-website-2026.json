@@ -1,0 +1,178 @@
+{
+  "seoTitle": "How to Design a Shopify Website: 2026 Guide",
+  "description": "Learn how to design a Shopify website in 2026, from choosing the right theme to product page UX and mobile-first design. Plus, when it pays to hire a specialist.",
+  "published": "2026-03-16",
+  "modified": "2026-03-16",
+  "hero": {
+    "file": "How-to-Design-a-Shopify-Store.webp",
+    "alt": "Mobile-first Shopify website design for Drink Finder by Anthony is Freelance"
+  },
+  "faqHeading": "Frequently Asked Questions About Designing a Shopify Website",
+  "blocks": [
+    {
+      "type": "h2",
+      "text": "Introduction",
+      "id": "introduction"
+    },
+    {
+      "type": "html",
+      "html": "<p>I have been designing Shopify stores as a <a href=\"/\">Shopify Expert</a> for over six years. Before that, I spent 20 years in design across agencies and direct client work, including brands like Dyson and Wrangler. Over time, I have seen the same pattern repeat: brands invest in building a store but underinvest in designing it. They end up with something that looks reasonable but does not perform.</p>\n<p>Good Shopify design is not about aesthetics. It is about clarity, trust, and reducing the friction between someone landing on your store and completing a purchase. This guide will walk you through the key stages of designing a Shopify store in 2026, from strategy to launch.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "1. Start With Strategy, Not a Theme",
+      "id": "1-start-with-strategy-not-a-theme"
+    },
+    {
+      "type": "html",
+      "html": "<p>Most people start designing a Shopify store by picking a theme. That is the wrong place to start.</p>\n<p>Before you open the theme store, you need to understand three things: who your customer is, what they need to feel confident enough to buy, and where your current store (if you have one) is losing them.</p>\n<p>This is the foundation of everything else. If you do not know whether your customers are primarily mobile shoppers who buy quickly on impulse, or desktop researchers who compare products for days, you cannot make sensible decisions about navigation, product page structure, or checkout flow.</p>\n<p>For new stores, this means doing the thinking upfront. Who are your competitors? What do their stores do well? Where is the gap? For existing stores, Google Analytics and tools like Hotjar will show you where people are dropping off. That data is worth far more than any aesthetic inspiration board.</p>\n<p>I spend time on this before every project. The UX review I do at the start of a project is what makes the rest of the design process purposeful rather than decorative. If you want to see how this approach plays out in practice, take a look at some of my <a href=\"/work/\">Shopify case studies</a>.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "2. Theme or Bespoke? How to Make the Right Call",
+      "id": "2-theme-or-bespoke-how-to-make-the-right-call"
+    },
+    {
+      "type": "html",
+      "html": "<p>Shopify’s theme store has improved significantly. There are now well-built themes at various price points, and Shopify’s own free theme, Dawn, is a solid starting point. Premium paid themes like Impulse, Motion, and Prestige can look excellent with a good eye and thoughtful setup.</p>\n<p>The honest answer is that themes are brilliant for the right situation, and a real constraint in others. The decision should be based on where you are in your business, not just budget.</p>"
+    },
+    {
+      "type": "html",
+      "html": "<h3>When a theme is the right choice</h3>\n<p>If you are launching a new store or testing a new concept, a premium theme is often exactly the right call. You do not yet have the data to justify the investment in bespoke design, and a well-chosen theme with strong visual instincts can look and perform well. Get the store live, start collecting data on how your customers actually behave, and build from there. Spending significant money on a bespoke build before you understand your customers’ purchase journey is putting the cart before the horse.</p>\n<p>Themes also work well when your product range is focused, your brand is relatively straightforward to express within standard Shopify sections, or budget is a genuine constraint right now.</p>"
+    },
+    {
+      "type": "image",
+      "file": "How-to-Design-a-Shopify-Store-1.webp",
+      "alt": "Shopify Premium themes",
+      "caption": "Premium Shopify themes from Shopifys theme store. These all look great with the dummy content, but will they hold up for the unique products?"
+    },
+    {
+      "type": "html",
+      "html": "<h3>When bespoke design is worth the investment</h3>\n<p>The point at which bespoke design pays for itself is when you have real data to work with. Once you know whether customers are using search, which collections they navigate to, where they drop off, and how they move through the purchase journey, you can make genuinely informed design decisions rather than educated guesses.</p>\n<p>That data changes everything. If your analytics show that a significant portion of customers use the search bar, a bespoke build lets you design the entire search experience properly — how results are displayed, how products are grouped, how suggested searches are served. A theme gives you a search bar. A bespoke build lets you design a search journey.</p>\n<p>The same applies to the purchase journey as a whole. How a customer adds a product to basket, how related products are surfaced, how upsells are introduced — all of this varies enormously depending on your product type and your customers’ needs. A theme applies one generic logic to all of it. Bespoke design maps it to your specific situation.</p>\n<p>A <a href=\"/shopify-website-design/bespoke-shopify-store-builds/\">bespoke Shopify design</a> also makes clear sense when you are in a competitive market where differentiation matters, when you have DTC ambitions requiring subscription flows or quiz-based personalisation, or when your conversion rate is stuck despite good traffic and you need a proper diagnosis rather than cosmetic changes.</p>\n<p>For a deeper look at where themes start to hold stores back, see my article on <a href=\"/articles/why-off-the-shelf-shopify-themes-hold-stores-back-in-2025/\">why off-the-shelf Shopify themes hold stores back</a>.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "3. Navigation and Information Architecture",
+      "id": "3-navigation-and-information-architecture"
+    },
+    {
+      "type": "image",
+      "file": "How-to-Design-a-Shopify-Store-2.webp",
+      "alt": "Bespoke Mobile navigations for Shopify stores by Anthony is Freelance",
+      "caption": "Whistlefish and Drink Finder have bespoke mobile-first menus. Both are tailored for their product offerings and their users’ needs. Allowing the client flexibility to upsell offers and create new collections."
+    },
+    {
+      "type": "html",
+      "html": "<p>Navigation is one of the most important design decisions on a Shopify store, and one of the areas where themes most consistently let brands down.</p>\n<p>Most premium themes look fine in the demo, with clean placeholder content and a handful of tidy category labels. Add real store content — longer collection names, multiple sub-categories, a mix of product types — and many theme navigation systems completely fall apart. The layouts break, the hierarchy becomes unclear, and the mobile experience in particular deteriorates quickly. This is one of the most common things I see when I start working with a store that has outgrown its theme.</p>\n<p>The question to ask is simple: can someone who has never visited your store before find what they are looking for in two clicks? For most stores, the answer is no.</p>\n<p>Good Shopify navigation in 2026 means thinking about multiple entry points. Some customers will land on your homepage and browse. Others will arrive on a product page from a Google search. Others will come from a paid social ad to a specific collection. Every one of those journeys needs to make sense independently.</p>\n<p>A few principles that hold up consistently:</p>\n<p>Bring your most important collections out of the burger menu and into the navigation bar. A hidden menu adds friction for customers who know what they want. On mobile especially, expanding a menu to find a category is a barrier that costs clicks.</p>\n<p>Use your navigation hierarchy to guide rather than overwhelm. Three to five top-level items with clear sub-pages is almost always better than a flat list of twelve collections.</p>\n<p>Search is often neglected but is one of the highest-intent actions a customer can take on your store. If you have more than 50 products, a well-designed search experience with intelligent results and suggested products will meaningfully improve conversion. Themes give you a functional search box. Bespoke design lets you think properly about what happens when a customer uses it.</p>\n<p>For homeware and lifestyle stores, alternative navigation routes — shopping by room, by trend, by occasion — serve browsers rather than just researchers. More on how this affects collection and landing pages is in my article on <a href=\"/articles/what-makes-a-good-landing-page/\">what makes a good landing page</a>.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "4. Homepage Design",
+      "id": "4-homepage-design"
+    },
+    {
+      "type": "image",
+      "file": "Product-page-section-1.webp",
+      "alt": "Drink Finder and Whilstlefish Shopify store homepage designs by Anthony is Freelance",
+      "caption": "Whistlefish and Drink Finder homepages are fundamentally a series of collections. But the art is to bring in sub collections, trust drivers and brand messaging throughout. That is where hiring Shopify Expert pay comes into play."
+    },
+    {
+      "type": "html",
+      "html": "<p>Your homepage is not a sales page. It is a trust-builder and a navigation tool.</p>\n<p>That distinction matters. Too many Shopify homepages try to do everything at once: announce a sale, feature every collection, showcase press mentions, display reviews, and tell the brand story, all above the fold. The result is noise, and noise increases bounce rate.</p>\n<p>The homepage has one job: give visitors enough to feel confident, then point them in the right direction.</p>\n<p>In practice, that usually means a clear hero section with a single message and a single action, followed by your main navigation into collections, followed by social proof at the right point in the journey. It does not mean cramming every trust signal and product category onto the page before the customer has had a chance to decide if they are in the right place.</p>\n<p>One thing I flag consistently when reviewing stores: the homepage is not the place for long service descriptions or detailed product copy. Those belong on collection and product pages. The homepage should function as an entry point that earns trust and creates momentum.</p>\n<p>This is also relevant from an SEO perspective. If your homepage and your collection or service pages are competing for the same keywords and content territory, they will work against each other. Your homepage should be differentiated by intent, not just topic.</p>"
+    },
+    {
+      "type": "image",
+      "file": "Product-page-section.webp",
+      "alt": "East at Home and Fuzball product page Shopify store design by Anthony is Freelance",
+      "caption": "East at Home and Fuzzball product page. These bespoke product pages give the user key bits of information in the right place. Fuzzball example has key product USP’s high above the fold by creating a grid layout on mobile."
+    },
+    {
+      "type": "h2",
+      "text": "5. Product Page Design",
+      "id": "5-product-page-design"
+    },
+    {
+      "type": "html",
+      "html": "<p>Product pages are where conversion happens. If your homepage earns trust and your navigation creates momentum, your product pages need to close.</p>\n<p>The fundamentals that consistently make a difference:</p>\n<p><strong>Hierarchy above the fold.</strong> On mobile, a customer should see the product image, product title, price, and a review score without needing to scroll. The add-to-cart button should be visible, ideally sticky on scroll. Everything else — the description, the specs, the shipping information — belongs below.</p>\n<p><strong>Benefits over features.</strong> Most product descriptions list what a product is rather than why someone should buy it. The difference matters. “100% merino wool” is a feature. “Stays warm without overheating, so you can wear it from morning to evening” is a benefit. For premium and lifestyle products, benefits-led copy commands higher prices and reduces hesitation.</p>\n<p><strong>Trust signals in the right places.</strong> Reviews, delivery information, and returns policies should appear close to the add-to-cart button. Not decoratively in the footer, not buried in an accordion. Customers have specific questions at the point of purchase and your page needs to answer them without making them go looking.</p>\n<p><strong>Thoughtful upselling.</strong> How related products are surfaced and how upsells are introduced depends entirely on your product type and how your customers think. A customer buying a consumable product thinks differently to someone buying a considered furniture purchase. A theme applies generic upsell logic regardless. Bespoke design maps this to your specific purchase journey, which is where the real gains in average order value come from.</p>\n<p><strong>Product details in text.</strong> More shoppers now ask ChatGPT or Google’s AI Mode before they visit a store. Sizes, materials, delivery and returns written as text, not baked into images, can be read by those tools as well as by your customers. I cover this in more detail in <a href=\"/shopify-website-design/shopify-ai-search-design/\">Shopify AI search visibility design</a>.</p>\n<p>The work I did on Zen Maitri’s product pages shows how hierarchy and trust signal placement translate directly into better performance. More detail on that, along with before and after screenshots, is in my <a href=\"/articles/how-to-increase-conversion-rates-on-your-shopify-store/\">conversion rate optimisation article</a>.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "6. Mobile-First Design",
+      "id": "6-mobile-first-design"
+    },
+    {
+      "type": "html",
+      "html": "<p>In 2026, designing for desktop first is not a mistake, it is a category error. More than 70% of Shopify traffic is mobile. Your store needs to be designed for a phone screen before anything else.</p>\n<p>Mobile-first design is not the same as responsive design. Responsive design means a desktop layout that adapts to smaller screens. Mobile-first means starting with the constraints of a phone and working outward. The difference shows up in how navigation behaves, how product images scale, how much text appears before a scroll is required, and how buttons are sized and positioned.</p>\n<p>A few things that separate genuinely mobile-first Shopify design from a desktop site that has been squeezed: sticky headers and add-to-cart buttons that do not obscure content; navigation that works with a thumb, not a cursor; images that load fast on mobile networks; collection pages where filtering does not require a full-screen takeover on every use.</p>\n<p>I design in Figma at mobile size first, then scale up to desktop. This forces decisions that improve the experience across all devices rather than creating a desktop design and hoping it translates.</p>\n<p>For more on how small design details affect the overall experience, my article on <a href=\"/articles/microinteractions-in-shopify-website-design/\">microinteractions in Shopify design</a> covers the specific mechanics of why these details matter more than most people expect.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "7. Editorial Sections and Landing Page Flexibility",
+      "id": "7-editorial-sections-and-landing-page-flexibility"
+    },
+    {
+      "type": "html",
+      "html": "<p>This is an area that catches a lot of store owners off guard, and it is one of the places themes fall down most noticeably.</p>\n<p>Most themes have limited editorial section templates, and many do not allow proper semantic heading structure — meaning you cannot control whether a section title renders as an H2, H3, or H4. That matters both for SEO and for building out the kind of content-rich landing pages that rank well and convert.</p>\n<p>If you want to create campaign pages, seasonal landing pages, editorial content, or category pages that do more than list products, you quickly hit the ceiling of what most themes can do. The sections look fine in the demo but do not give you the flexibility to map out real content in a meaningful way.</p>\n<p>In a bespoke build, every editorial component is designed intentionally. You know exactly what each section can contain, how headings are structured, and how content will render before a single line of code is written. This makes building out new landing pages straightforward rather than a workaround exercise.</p>\n<p>For more on what goes into a well-structured Shopify landing page, see my article on <a href=\"/articles/what-makes-a-good-landing-page/\">what makes a good landing page</a>.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "8. Speed and Performance",
+      "id": "8-speed-and-performance"
+    },
+    {
+      "type": "html",
+      "html": "<p>A well-designed Shopify store that loads slowly will still underperform. A one-second delay in load time can reduce conversions by up to 20%.</p>\n<p>Shopify handles a lot of performance optimisation at the platform level, but there are still decisions in the design and build process that affect speed significantly.</p>\n<p>App overload is the most common culprit. Every app installed on a Shopify store adds code. Review your app list and remove anything you are not actively using. If you have three apps each doing a version of the same job, consolidate.</p>\n<p>Image optimisation matters more than most people realise. Uncompressed images on product pages are one of the main reasons for slow load times on otherwise well-built stores. Use WebP format where possible and keep product images under 200KB without visible quality loss.</p>\n<p>Theme code quality varies enormously. Run your store through <a href=\"https://pagespeed.web.dev/\">Google’s PageSpeed Insights</a> and Shopify’s own speed report regularly. If performance is consistently low despite clean images and a lean app stack, the theme code itself may be the issue.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "9. When to Hire Someone Instead",
+      "id": "9-when-to-hire-someone-instead"
+    },
+    {
+      "type": "html",
+      "html": "<p>A lot of store owners start designing their Shopify store themselves. That is completely reasonable, especially in the early stages. The problems usually start when they hit a wall — the theme will not do what they need, the navigation has broken under the weight of real content, the conversion rate is not improving despite changes, or they simply cannot get the store to look and feel the way they have in their head.</p>\n<p>At that point, continuing to iterate without specialist help often costs more time and money than bringing someone in from the start would have.</p>\n<p>There are a few specific situations where hiring a <a href=\"/shopify-website-design/\">Shopify web designer</a> is clearly the right call:</p>\n<p><strong>When you have outgrown your theme.</strong> If you are spending more time fighting the theme than building your store, it is time to think about a bespoke build. The signs are usually obvious: navigation that breaks with real content, editorial sections that will not do what you need, upsell and purchase journey logic that does not fit your product.</p>\n<p><strong>When you are in a competitive market.</strong> If your competitors have invested in good design and you have not, you are at a disadvantage that compounds over time. Customers make snap judgements. A store that looks generic next to a store that looks considered will almost always convert at a lower rate, regardless of product quality.</p>\n<p><strong>When your current store is not converting.</strong> If you are getting traffic but not sales, the answer is not more traffic, it is fixing the store. A designer with CRO experience will diagnose where people are dropping off and why, then make targeted changes rather than rebuilding things that are already working. My <a href=\"/shopify-website-design/shopify-conversion-rate-optimisation/\">Shopify CRO service</a> starts with an analytics review before touching anything.</p>\n<p><strong>When your brand needs to carry weight.</strong> For premium products, the store design is part of the product experience. If your price point requires trust and your store does not communicate that trust, you will underperform. This is particularly true for <a href=\"/shopify-website-design/shopify-design-for-dtc-brands/\">DTC brands</a> where the store is the entire customer relationship.</p>\n<p><strong>When you have specific requirements.</strong> Subscription products, quiz flows, complex product variants, or custom purchase journeys require design thinking and platform knowledge that goes beyond what any theme can handle cleanly.</p>\n<p>I work with brands across all of these situations. If you want to understand what that looks like in practice, my <a href=\"/shopify-website-design/\">Shopify design services page</a> covers how I approach projects, or you can browse the <a href=\"/work/\">case studies</a> directly.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "Conclusion: What Good Shopify Design Actually Looks Like",
+      "id": "conclusion-what-good-shopify-design-actually-looks-like"
+    },
+    {
+      "type": "html",
+      "html": "<p>Designing a Shopify website in 2026 means thinking clearly about strategy before touching a single section. It means making an honest decision about whether a theme or a bespoke build is right for where you are right now — and knowing that answer will likely change as your store grows. It means designing for mobile first, building product pages around the questions customers have at the point of purchase, and keeping performance front of mind throughout.</p>\n<p>Good Shopify design should be invisible. When it works, customers do not notice the design. They just find what they need, feel confident, and buy. That is the goal.</p>\n<p>If you have questions about your specific store or you are weighing up whether to design it yourself or bring someone in, take a look at my <a href=\"/shopify-website-design/\">Shopify website design services</a> or get in touch directly.</p>"
+    }
+  ],
+  "faqs": [
+    {
+      "q": "How long does it take to design a Shopify website?",
+      "html": "<p>A DIY Shopify store using a theme can be set up in a few days, but designing it properly, with considered navigation, product pages, and mobile experience, typically takes several weeks. A professionally designed and built Shopify store from a specialist usually takes 6 to 12 weeks from kickoff to launch. Rushing the process almost always results in a store that needs expensive fixes post-launch.</p>"
+    },
+    {
+      "q": "Do I need to know how to code to design a Shopify website?",
+      "html": "<p>No. Shopify’s theme editor and Shopify 2.0 sections mean you can do a great deal without touching code. More complex customisations, bespoke sections, or specific functionality will require a developer. If you are working with a designer who is not a developer, they will typically collaborate with a developer to handle the build side. I take this approach on all my projects, treating design and development as two distinct skills.</p>"
+    },
+    {
+      "q": "What is the difference between Shopify theme design and bespoke Shopify design?",
+      "html": "<p>A theme is a pre-built template you customise to fit your brand. Bespoke design starts from scratch with your specific products, customers, and goals in mind. Themes are a smart choice when you are launching or testing — they are cheaper, faster, and can look excellent. The case for going bespoke comes when you have real data about your customers and their purchase journey, and you need the design to reflect that rather than work around a generic framework. My article on <a href=\"/articles/why-off-the-shelf-shopify-themes-hold-stores-back-in-2025/\">why off-the-shelf Shopify themes hold stores back</a> covers where that line usually falls.</p>"
+    },
+    {
+      "q": "What makes a Shopify product page convert well?",
+      "html": "<p>Clear hierarchy above the fold on mobile, benefits-led copy rather than feature lists, trust signals close to the add-to-cart button, fast load times, and upsells that are mapped to how your specific customers make decisions. The goal is to answer the questions a customer has at the point of purchase without making them go looking for the answers.</p>"
+    },
+    {
+      "q": "Should I design my Shopify store for mobile or desktop first?",
+      "html": "<p>Mobile first, always. Over 70% of Shopify traffic is mobile. Designing for desktop and adapting to mobile typically produces an inferior mobile experience because you are working backwards from the wrong starting point. Start with the constraints of a phone screen and work outward from there.</p>"
+    },
+    {
+      "q": "How do I improve the design of an existing Shopify store?",
+      "html": "<p>Start with data rather than opinion. Use Google Analytics to see where people are dropping off. Use a tool like Hotjar to see how people are actually moving around your store. Then prioritise changes based on the biggest drop-off points. Often the biggest gains come from small, targeted improvements to product pages and checkout flow rather than a full redesign. My <a href=\"/shopify-website-design/shopify-conversion-rate-optimisation/\">Shopify conversion rate optimisation service</a> starts exactly this way.</p>"
+    },
+    {
+      "q": "What Shopify theme should I use in 2026?",
+      "html": "<p>Dawn, Shopify’s free theme, is a strong starting point for most stores. It is lightweight, fast, and built to Shopify’s current technical standards. Paid themes like Impulse, Motion, and Prestige suit specific aesthetics but each comes with trade-offs in code weight and flexibility — and all of them will show their limitations once real store content goes in. The best theme is the one that fits your product range and customer journey, not the one that looks most impressive with demo content.</p>"
+    },
+    {
+      "q": "What is the best way to design a Shopify store without a designer?",
+      "html": "<p>Focus on simplicity and clarity. Use Dawn as your starting point. Keep your navigation to three to five top-level items. Design your product pages around the specific questions your customers have. Test your store on a real mobile device, not just a resized browser window. Use Shopify’s free analytics to monitor where people are dropping off. Most store owners manage well on a theme in the early stages — the wall usually appears when the store starts growing and the theme cannot flex to meet the real requirements of the business.</p>"
+    }
+  ]
+}

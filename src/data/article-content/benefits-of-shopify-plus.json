@@ -1,0 +1,124 @@
+{
+  "seoTitle": "Benefits of Shopify Plus: Should You Upgrade in 2026?",
+  "description": "The real benefits of Shopify Plus, what it costs, and the maths to know if it's worth upgrading. Honest take from a UK Shopify designer.",
+  "published": "2026-04-30",
+  "modified": "2026-04-30",
+  "hero": {
+    "file": "shopify-plus-logo.webp",
+    "alt": "Shopify Plus logo on a grey background"
+  },
+  "faqHeading": "Frequently Asked Questions About Shopify Plus",
+  "blocks": [
+    {
+      "type": "h2",
+      "text": "Introduction",
+      "id": "introduction"
+    },
+    {
+      "type": "html",
+      "html": "<p>Most guides on Shopify Plus are written by agencies that need to sell the platform, so they list every feature and skip the harder question: is the upgrade actually worth it for your brand right now? I am going to walk through what Plus genuinely offers in 2026, what it costs, the real maths of the upgrade decision, and what brands actually use day-to-day once they make the move.</p>\n<p>I am Anthony, a UK <a href=\"/\">Shopify expert</a> specialising in design and CRO for ambitious DTC brands. I have worked on Plus stores throughout my career, both inside a leading Shopify agency in Cornwall and now as a freelance designer working directly with brands. The view here is shaped by what brands actually use Plus for, not a generic features list.</p>\n<p>If you want a plain feature-by-feature comparison instead, my <a href=\"/articles/shopify-vs-shopify-plus/\">Shopify vs Shopify Plus comparison</a> article covers that side. This one is the decision-and-maths piece.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "What is Shopify Plus?",
+      "id": "what-is-shopify-plus"
+    },
+    {
+      "type": "html",
+      "html": "<p><a href=\"https://www.shopify.com/plus\">Shopify Plus</a> is the same platform you already know, with extra capabilities unlocked. The biggest of those are full checkout customisation, native B2B selling, up to nine expansion stores for international markets, and Shopify Flow for automation. Most brands move at around £1.5 to £2 million in annual revenue, although fast-growing brands sometimes adopt it earlier.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "What does Shopify Plus actually cost in 2026?",
+      "id": "what-does-shopify-plus-actually-cost-in-2026"
+    },
+    {
+      "type": "html",
+      "html": "<p>Shopify Plus works out at approximately £1,700 per month on a three-year term, or £1,850 per month on a one-year term. The platform is quoted by Shopify in US dollars ($2,300 and $2,500 respectively), so the exact sterling figure varies with the exchange rate.</p>\n<p>Once monthly sales exceed around £600,000, the pricing model switches from a flat fee to a variable rate of 0.35 percent of revenue on a three-year term. The fee is capped at approximately £30,000 per month regardless of sales volume.</p>\n<p>If you are reading anywhere that Plus starts at $2,000 per month, that figure is out of date and the rest of the information probably is too. For the full pricing picture across all Shopify plans, see my <a href=\"/articles/shopify-pricing-2026/\">Shopify Pricing 2026 guide</a>.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "The real cost-benefit maths of moving to Plus",
+      "id": "the-real-cost-benefit-maths-of-moving-to-plus"
+    },
+    {
+      "type": "html",
+      "html": "<p>The £1,700 vs £344 monthly comparison most articles lead with is misleading. The actual delta between Advanced and Plus is much smaller once you factor in two things: apps you no longer need on Plus, and the lower transaction fees Plus pays.</p>\n<h3>Step 1: Apps you can drop on Plus</h3>\n<p>Plus replaces a stack of apps that brands typically pay for on Advanced. The exact stack depends on your operation, but commonly:</p>\n<ul>\n<li>B2B and wholesale apps: £200 to £400 per month</li>\n<li>Advanced checkout customisation apps: £80 to £150 per month</li>\n<li>Automation tools that Flow replaces: £50 to £150 per month</li>\n<li>Quantity rules and customer segmentation apps: £30 to £80 per month</li>\n</ul>\n<p>For a brand with even a moderately complex operation, the app stack you are no longer paying for can easily total £400 to £600 per month.</p>\n<h3>Step 2: Transaction fee savings</h3>\n<p>If you are not using Shopify Payments, the third-party gateway fee on Advanced is around 0.5 percent. On Plus, it drops to around 0.15 percent. The saving is 0.35 percent of revenue. On £100,000 monthly revenue, that is £350 per month saved on transaction fees alone. On £200,000 monthly revenue, it is £700.</p>\n<p>If you are on Shopify Payments, this saving does not apply, but the lower app costs still do.</p>\n<h3>Step 3: A worked example</h3>\n<p>Take a brand on Advanced doing £150,000 per month, using Stripe rather than Shopify Payments, with a moderate app stack:</p>\n<ul>\n<li><strong>Current Advanced cost</strong>: £344 plan + £450 in apps Plus would replace = £794 per month</li>\n<li><strong>Plus cost</strong>: £1,700 plan + £0 in those replaced apps = £1,700 per month</li>\n<li><strong>Headline difference</strong>: £906 per month</li>\n<li><strong>Less transaction fee saving on £150k</strong> (0.35 percent): £525 per month</li>\n<li><strong>Real net cost of upgrade</strong>: ~£381 per month</li>\n</ul>\n<p>That is the meaningful number. £381 per month for full checkout customisation, native B2B if you want it, expansion stores, automation, dedicated support, and the higher infrastructure tier. Whether that is worth it depends on what you would actually do with those capabilities, which is the next question.</p>\n<h3>When the maths actually justifies the move</h3>\n<p>Run the same exercise with your numbers. The move tends to genuinely pay for itself when one of the following is true:</p>\n<ul>\n<li>You can identify a measurable conversion rate uplift from custom checkout work that pays back the £381 (or your equivalent figure) easily</li>\n<li>You are paying for apps that Plus replaces and the saving alone closes most of the gap</li>\n<li>You sell B2B or want to, and a separate B2B platform or app stack would cost more than the Plus delta</li>\n<li>You are running multiple regional stores or want to, and expansion stores remove duplicate infrastructure costs</li>\n</ul>"
+    },
+    {
+      "type": "h2",
+      "text": "The benefits of Shopify Plus that actually matter",
+      "id": "the-benefits-of-shopify-plus-that-actually-matter"
+    },
+    {
+      "type": "html",
+      "html": "<p>The Plus features list is long. Here are the four that genuinely change what your brand can do, in the order I see them used most.</p>\n<h3>1. Checkout customisation through Checkout Extensibility</h3>\n<p>This is the single biggest reason most DTC brands move to Plus. The standard plans lock the checkout — you cannot modify the layout, add custom fields, change the flow, or insert content. With Plus you can fully customise the checkout through Checkout Extensibility, the framework based on UI Extensions, Shopify Functions, and the Branding API.</p>\n<p>This matters because the checkout is where conversion is won or lost. Designing custom upsells, changing the visual treatment, adding reassurance content, or restructuring how delivery and payment options are presented can make a measurable difference to conversion rate. If you are reading older articles that mention checkout.liquid, that approach was retired in August 2025 — anyone telling you otherwise is working from outdated information.</p>\n<h3>2. Native B2B selling on the same platform</h3>\n<p>Shopify Plus now includes a fully native B2B feature set: Companies, Catalogs, Price Lists, Payment Terms, Quantity Rules, and buyer role management. If you sell to wholesale customers as well as DTC, you can run both from the same admin without paying for an additional B2B platform or stitching apps together. The Winter 2026 Edition added store credit at the company level and B2B in-store pickup, with the platform continuing to develop in this area faster than its competitors.</p>\n<h3>3. Up to nine expansion stores for international growth</h3>\n<p>If you are expanding into multiple regions, Plus lets you run up to nine separate stores under one organisation. Each can have its own domain, currency, language, and content, while all being managed from the same admin. This pairs naturally with <a href=\"/shopify-website-design/shopify-migration/\">Shopify migration</a> work, where international expansion is often part of the strategy from day one.</p>\n<h3>4. Shopify Flow for automation</h3>\n<p>Flow lets you build workflows that trigger based on events — tagging customers who have placed three orders, alerting your team when inventory drops below a threshold, sending a Slack notification when a high-value order comes through. It is one of those tools brands underuse for the first six months and then quietly become reliant on. The operational time it saves is rarely calculated upfront but tends to be one of the things teams cite when asked what changed for the better after moving to Plus.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "What Plus brands actually use day-to-day",
+      "id": "what-plus-brands-actually-use-day-to-day"
+    },
+    {
+      "type": "html",
+      "html": "<p>Plus has dozens of features. Most articles list them all. Here is the honest pattern of what brands actually use, based on what I see across projects.</p>\n<h3>Constantly used</h3>\n<ul>\n<li>Checkout customisation — the headline reason brands move, and the area most actively iterated on after launch</li>\n<li>Shopify Flow — automation that earns its keep</li>\n<li>Higher API limits — silently essential, never thought about until someone tries to integrate something complex</li>\n<li>Expansion stores, if international</li>\n<li>Native B2B, if applicable to your business model</li>\n</ul>\n<h3>Used occasionally</h3>\n<ul>\n<li>Launchpad — mainly during BFCM, product drops, or scheduled flash sales</li>\n<li>Shopify Functions — for specific bespoke logic that apps cannot deliver</li>\n<li>Customer segmentation tools — useful but often duplicated by what your email platform already does</li>\n</ul>\n<h3>Marketed heavily but rarely used in practice</h3>\n<ul>\n<li>Shopify POS Pro — only relevant if you have physical retail</li>\n<li>Some of the advanced analytics tools — most brands stay in GA4 and Klaviyo</li>\n<li>Wholesale Channel — superseded by native B2B and worth ignoring as a Plus benefit</li>\n<li>Certain Edition features — Shopify announces a lot at every Edition; only a small fraction matter to most brands</li>\n</ul>\n<p>This is not a criticism of the platform. Plus is genuinely loaded. But if you are making the upgrade decision based on a feature list, you are likely overpaying attention to features you will never use and underpaying it to the few that will actually transform your operation.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "Where Plus genuinely changes what a designer can do",
+      "id": "where-plus-genuinely-changes-what-a-designer-can-do"
+    },
+    {
+      "type": "html",
+      "html": "<p>From a design and <a href=\"/shopify-website-design/shopify-conversion-rate-optimisation/\">CRO</a> perspective, Plus opens up two areas that are simply unavailable on the standard plans.</p>\n<p>The first is the checkout itself. Designing and refining the checkout experience properly means making conversion-focused changes that would be impossible on Basic, Grow, or Advanced — visual treatment, structure of the flow, upsell logic, trust signals at the most fragile point in the customer journey.</p>\n<p>The second is the freedom to design without constraints. Higher API limits and the ability to integrate Functions and custom apps mean we can design experiences that do exactly what your brand needs them to do. For <a href=\"/shopify-website-design/bespoke-shopify-store-builds/\">bespoke Shopify store builds</a>, Plus removes most of the technical guardrails that hold back ambitious designs on lower tiers.</p>\n<p>This is also why Plus tends to be the right home for bespoke design rather than premium theme work. Theme builds work brilliantly for newer brands or those who want to launch quickly with a smaller budget. Once a brand has the data and the commercial case for full bespoke work, Plus is usually the platform that makes the most of that investment.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "When Shopify Plus is and isn’t the right move",
+      "id": "when-shopify-plus-is-and-isnt-the-right-move"
+    },
+    {
+      "type": "html",
+      "html": "<p>I would always rather a client stays on a lower tier and saves the money than upgrades because they think they should. Plus genuinely earns its keep when one or more of the following is true:</p>\n<ul>\n<li>The cost-benefit maths above produces a net delta that you can comfortably justify with conversion uplift, app savings, or both</li>\n<li>You have outgrown the standard checkout and need real customisation to improve conversion rate</li>\n<li>You sell B2B as well as DTC and want both running from the same place</li>\n<li>You are expanding into multiple regions and need separate stores per market</li>\n<li>You are running events that produce significant traffic spikes and need the higher infrastructure tier</li>\n</ul>\n<p>Plus is the wrong move when:</p>\n<ul>\n<li>You are upgrading because you think Plus will improve your conversion rate by itself. The platform unlocks possibilities, but you still need good design, sound UX, and CRO discipline to actually move the needle.</li>\n<li>Your operations are simple and the standard plans, supplemented with a small app stack, would do the job for far less</li>\n<li>The maths produces a net delta that your current revenue cannot comfortably absorb</li>\n</ul>"
+    },
+    {
+      "type": "h2",
+      "text": "My experience designing for Shopify Plus brands",
+      "id": "my-experience-designing-for-shopify-plus-brands"
+    },
+    {
+      "type": "html",
+      "html": "<p>I have worked with brands of every size on Shopify, from small independents to enterprise. Plus stores have been part of my work since my agency years before going freelance, and they remain part of what I do now. The pattern I see most often is that brands moving to Plus benefit most when they treat the upgrade as a chance to rethink the customer experience, not just to lift and shift what they had before. The platform is too capable to use as a more expensive version of what you already had.</p>\n<p>If you are weighing up the move and want a designer who can think through what the upgrade should mean for your customers, your conversion rate, and your brand, that is the kind of work I do. Drop me a line and we can talk through whether the move makes sense for where your brand is heading.</p>"
+    }
+  ],
+  "faqs": [
+    {
+      "q": "Is Shopify Plus worth it?",
+      "html": "<p>Shopify Plus is worth it for brands processing roughly £1.5 to £2 million in annual revenue who would use checkout customisation, native B2B, or expansion stores. The real cost is much lower than the headline £1,700 per month once you factor in app savings and lower transaction fees, but the move only makes sense if you genuinely use the capabilities Plus unlocks.</p>"
+    },
+    {
+      "q": "How much does Shopify Plus cost in 2026?",
+      "html": "<p>Shopify Plus costs approximately £1,700 per month on a three-year term, or £1,850 per month on a one-year term. Pricing is quoted by Shopify in US dollars ($2,300 and $2,500 respectively). Once monthly revenue exceeds approximately £600,000, the pricing switches to 0.35 percent of revenue, capped at around £30,000 per month.</p>"
+    },
+    {
+      "q": "At what revenue should I upgrade to Shopify Plus?",
+      "html": "<p>Most brands upgrade to Shopify Plus at around £1.5 to £2 million in annual revenue. Brands sometimes move sooner if checkout customisation, B2B functionality, or international expansion are their primary drivers. If your operations are straightforward, staying on Advanced for longer often makes more sense.</p>"
+    },
+    {
+      "q": "What are the main benefits of Shopify Plus over standard Shopify?",
+      "html": "<p>The main benefits of Shopify Plus are full checkout customisation through Checkout Extensibility, native B2B selling capabilities, up to nine expansion stores for international markets, Shopify Flow for automation, ten times higher API limits, and dedicated 24/7 support. Standard Shopify plans lock the checkout and do not include native B2B or advanced automation tools.</p>"
+    },
+    {
+      "q": "Do I need a Shopify Plus Partner to design a Plus store?",
+      "html": "<p>You do not need to work with an officially listed Shopify Plus Partner to design or develop a Plus store. The Partner programme is a designation, not a requirement. What matters is finding a designer who understands Plus, the checkout customisation framework, and how to make commercial decisions that justify the investment in the platform.</p>"
+    },
+    {
+      "q": "Can I migrate directly to Shopify Plus from another platform?",
+      "html": "<p>Yes, brands frequently migrate directly to Shopify Plus from WooCommerce, Magento, BigCommerce, or other platforms. The migration process is similar to a standard Shopify migration but leverages Plus features from launch. <a href=\"/shopify-website-design/shopify-migration/\">My Shopify migration page</a> covers the design side of replatforming work in more detail.</p>"
+    },
+    {
+      "q": "Is Shopify Plus worth it for a UK brand?",
+      "html": "<p>Shopify Plus is the same product worldwide and the case for upgrading is largely the same regardless of country. UK brands sometimes find the dollar pricing a friction, but the platform is well suited to UK merchants expanding into Europe or the US, and the native B2B features compete strongly with European B2B platforms.</p>"
+    }
+  ]
+}

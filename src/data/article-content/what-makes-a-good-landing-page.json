@@ -1,0 +1,168 @@
+{
+  "seoTitle": "What Makes a Good Landing Page?",
+  "description": "Discover what makes a good landing page for Shopify. Tips on headlines, CTAs, trust signals & CRO from a Shopify web designer in the UK.",
+  "published": "2025-11-10",
+  "modified": "2025-11-10",
+  "hero": {
+    "file": "Landing-pages-hero.webp",
+    "alt": "Shopify landing page design examples"
+  },
+  "faqHeading": "FAQs: What Makes a Good Landing Page?",
+  "blocks": [
+    {
+      "type": "h2",
+      "text": "Introduction",
+      "id": "introduction"
+    },
+    {
+      "type": "html",
+      "html": "<p>As a <a href=\"/\">Shopify Expert</a>, I’ve designed landing pages for brands like <a href=\"/portfolio/whistlefish-2-0-shopify-website-design-case-study/\">Whistlefish </a>and <a href=\"/portfolio/wide-fit-shoes-shopify-case-study/\">Wide Fit Shoes</a>, and I’ve seen first-hand what separates a page that converts from one that underperforms.</p>\n<p>This guide will break down the core elements of a high-performing landing page, show how scalable design systems make Shopify sites more flexible, and share practical examples you can apply to your own store. You can always view more of my <a href=\"/shopify-website-design/\">Shopify website design services.</a></p>"
+    },
+    {
+      "type": "h2",
+      "text": "Why Landing Pages Matter in Ecommerce",
+      "id": "why-landing-pages-matter-in-ecommerce"
+    },
+    {
+      "type": "html",
+      "html": "<p>Unlike a homepage, which is largely a navigation tool with trust converters, a landing page has a single focus: convert visitors. This could mean signing up for a newsletter, claiming a discount, or buying a featured product.</p>\n<p>Landing pages aren’t just important for conversions, they’re also a powerful tool for SEO. A well-optimised landing page can rank for specific keywords, attract targeted traffic, and provide a clear entry point for new visitors. When structured properly, landing pages act as signposts that guide customers deeper into your site, helping them drill down into categories, collections, or products in a logical way.</p>\n<p>They’re also perfect for seasonal campaigns. For example, a retailer might create a Christmas landing page, a summer sale page, or a Mother’s Day promotion. Each can be optimised for search, linked from paid ads, and slotted neatly into your navigation without disrupting your core site structure.</p>\n<p>For Shopify store owners, this means landing pages are one of the smartest investments you can make, they boost conversions, support your SEO, and make your site more adaptable to customer journeys.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "The Key Ingredients of a Good Landing Page",
+      "id": "the-key-ingredients-of-a-good-landing-page"
+    },
+    {
+      "type": "h3",
+      "text": "1. A Clear, Compelling Headline"
+    },
+    {
+      "type": "html",
+      "html": "<p>Your headline needs to immediately explain the value proposition. For Wide Fit Shoes, the headline highlighted comfort and fit — instantly addressing customer pain points.</p>\n<p>Top Tip: Keep headlines short and impactful. Test variations to see which resonates most.</p>"
+    },
+    {
+      "type": "video",
+      "file": "/video/articles/what-makes-a-good-landing-page/wfs-landing-pages.mp4",
+      "poster": "wfs-landing-pages-poster.jpg",
+      "width": 1280,
+      "height": 680,
+      "alt": "Wide Fit Shoes Christmas landing page"
+    },
+    {
+      "type": "html",
+      "html": "<p>Example: Wide Fit Shoes Christmas landing page.</p>"
+    },
+    {
+      "type": "h3",
+      "text": "2. Strong Visual Hierarchy"
+    },
+    {
+      "type": "html",
+      "html": "<p>For the <a href=\"/shopify-website-design/bespoke-shopify-store-builds/\">bespoke store design</a> of the new Whistlefish website, bold typography, product imagery, and whitespace kept the focus on the art prints rather than clutter.</p>\n<p>I designed a modular Shopify design system that ensured each block works in harmony. This means sections can be rearranged without breaking the flow, ideal for seasonal campaigns or A/B testing.</p>"
+    },
+    {
+      "type": "video",
+      "file": "/video/articles/what-makes-a-good-landing-page/whistlefish-desktop-clickaround.mp4",
+      "poster": "whistlefish-desktop-clickaround-poster.jpg",
+      "width": 1280,
+      "height": 720,
+      "alt": "Whisltish Shopify website Christmas 2025 landing page"
+    },
+    {
+      "type": "html",
+      "html": "<p>Example: The 2024 Christmas landing page showcases how the sections in Shopify 2.0 would work.</p>"
+    },
+    {
+      "type": "h3",
+      "text": "3. Trust Signals"
+    },
+    {
+      "type": "html",
+      "html": "<p>People buy from brands they trust. Customer reviews and editorial mentions can give immediate credibility. Adding trust badges (secure checkout, delivery info, etc.) further reduced hesitation. This connects closely to <a href=\"/articles/why-conversion-rate-optimisation-is-still-a-human-skill/\">conversion rate optimisation, </a>landing pages that convert aren’t just well-designed, they reduce uncertainty at every step.</p>\n<p>Read more about <a href=\"https://www.trustsignals.com/blog/chapter-8-trust-signals-conversions-and-growth\">Trust Signals</a> and how they help eccomerce stores and boost conversion rates.</p>"
+    },
+    {
+      "type": "h3",
+      "text": "4. Mobile-First Design"
+    },
+    {
+      "type": "html",
+      "html": "<p>With more than <a href=\"https://www.statista.com/statistics/249863/us-mobile-commerce-as-percentage-of-total-retail-sales/\">70% of ecommerce traffic now mobile</a> (<a href=\"\">Statista</a>), responsive design is non-negotiable. On Shopify 2.0, flexible sections ensure CTAs, headlines, and product images render correctly across devices.</p>\n<p>See my guide on <a href=\"/articles/how-to-increase-conversion-rates-on-your-shopify-store/\">Conversion Rate Optimisation</a> to learn why mobile-first design is essential.</p>"
+    },
+    {
+      "type": "h3",
+      "text": "5. A Single Call-to-Action (CTA)"
+    },
+    {
+      "type": "html",
+      "html": "<p>The best landing pages avoid distraction. One clear CTA, repeated in the right places, ensures the user journey stays focused. For Wide Fit Shoes, the CTA was consistent: “Shop the Collection.”</p>\n<p>Placement tips:</p>\n<ul>\n<li>The first CTA should appear “above the fold.”</li>\n<li>Repeat it after major sections like testimonials or product grids.</li>\n<li>Avoid giving visitors more than one competing choice.</li>\n</ul>"
+    },
+    {
+      "type": "h3",
+      "text": "6. Fast Loading Speed"
+    },
+    {
+      "type": "html",
+      "html": "<p>Slow pages kill conversions. Optimised imagery, efficient video hosting, and Shopify’s built-in performance tools keep landing pages lightweight.</p>"
+    },
+    {
+      "type": "h3",
+      "text": "7. Scalable Design Systems"
+    },
+    {
+      "type": "html",
+      "html": "<p>Instead of building one-off pages, I create modular systems. Each section (hero banner, testimonials, product grid, CTA) can be reused, reordered, or replaced without breaking the brand aesthetic.</p>\n<p>This gives clients complete flexibility so they can launch new campaigns in minutes without calling in a developer.</p>"
+    },
+    {
+      "type": "h3",
+      "text": "8. Colour Psychology & Emotional Triggers"
+    },
+    {
+      "type": "html",
+      "html": "<p>The colours you choose have a huge impact on conversions. Blue signals trust, red creates urgency, and green reassures users. For Hartnack &amp; Co, muted heritage tones reinforced their credibility and connection to history.</p>\n<p>Top Tip: Test CTA button colours. Sometimes a small contrast (like a warm tone against a cool background) can improve click-through rates by double digits.</p>\n<p>More in my article on <a href=\"/articles/how-to-increase-conversion-rates-on-your-shopify-store/\">how to raise conversion rates</a>.</p>"
+    },
+    {
+      "type": "h3",
+      "text": "9. Common Mistakes to Avoid"
+    },
+    {
+      "type": "html",
+      "html": "<p>Some of the most common pitfalls I see on Shopify landing pages:</p>\n<ul>\n<li>\n<p>Too many CTAs make the experience confusing and lower conversions.</p>\n</li>\n<li>\n<p>Cluttered layouts that overwhelm the user.</p>\n</li>\n<li>\n<p>Unclear value proposition, visitors don’t know why they should care.</p>\n</li>\n<li>\n<p>Ignoring mobile,  broken layouts and lost sales.</p>\n</li>\n</ul>\n<p>A professional <a href=\"/shopify-website-design/\">Shopify web designer</a> can help avoid these traps.</p>"
+    },
+    {
+      "type": "h2",
+      "text": "Examples in Action",
+      "id": "examples-in-action"
+    },
+    {
+      "type": "html",
+      "html": "<ul>\n<li>\n<p>Whistlefish: Seasonal landing pages that showcased collections with strong headlines and visually dominant artwork <a href=\"/portfolio/whistlefish-2-0-shopify-website-design-case-study/\">See Case Study</a></p>\n</li>\n<li>\n<p>Wide Fit Shoes: Clear CTAs and product-focused design that catered to customer needs around comfort and sizing. <a href=\"/portfolio/wide-fit-shoes-shopify-case-study/\">See Case Study</a></p>\n</li>\n</ul>"
+    },
+    {
+      "type": "h2",
+      "text": "Final Thoughts",
+      "id": "final-thoughts"
+    },
+    {
+      "type": "html",
+      "html": "<p>A good landing page isn’t just about aesthetics; it’s about clarity, focus, trust, and scalability. By combining strong headlines, trust signals, mobile-first design, and modular systems, you give your Shopify landing pages the best chance to convert.</p>\n<p>If you’re ready to improve your landing pages, I’d love to help. Work with an experienced <a href=\"/\">Shopify designer</a> to save time, improve results, and grow your store. Not sure what to look for in a designer? Read the guide on <a href=\"/articles/what-to-look-for-hiring-shopify-designer/\">hiring a Shopify designer in 2026</a>.</p>\n<p><a href=\"/contact/\">Get in touch today.</a></p>"
+    }
+  ],
+  "faqs": [
+    {
+      "q": "How long should a landing page be?",
+      "html": "<p>There’s no fixed length — it depends on your product and audience. Some perform best with just a headline, image, and CTA. Others need testimonials, detailed benefits, and FAQs. The key is clarity.</p>"
+    },
+    {
+      "q": "Should my landing page replace my homepage?",
+      "html": "<p>No. Your homepage is a broad entry point, while a landing page is campaign-specific. Think of it as a focused tool to convert targeted traffic.</p>"
+    },
+    {
+      "q": "How do I improve conversions on my landing page?",
+      "html": "<p>Start with small tweaks: refine headlines, test CTA colours, add trust signals, and ensure your mobile experience is flawless. For bigger gains, work with a <a href=\"/shopify-website-design/\">Shopify expert UK</a> who understands conversion rate optimisation.</p>"
+    },
+    {
+      "q": "Can I A/B test landing pages in Shopify?",
+      "html": "<p>Yes. You can duplicate templates and run tests using Shopify apps or external testing tools. This is one of the best ways to find out what truly resonates with your audience.</p>"
+    }
+  ]
+}
