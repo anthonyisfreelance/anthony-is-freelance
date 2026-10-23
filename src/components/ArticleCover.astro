@@ -1,5 +1,9 @@
 ---
-// Article image, 16:9. Three kinds:
+// Article image, 16:9.
+// TRIAL (23 October): wherever an article has its featured image from the live site, that bright
+// image shows first; ?hero=tile on any page swaps every one back to the new dark tile (Base.astro
+// remembers it for the visit, ?hero=live undoes it). Remove whichever loses.
+// Three kinds:
 // - tile (default): the article's tile from Figma ("Article tile/<slug>"), found by slug in
 //   src/assets/articles/<slug>/tile.png. Falls back to the mark until the article has one.
 // - mark: the category's line mark on the raised surface, no text.
@@ -8,18 +12,35 @@
 import { Image } from 'astro:assets';
 import { COVER_MARKS, MARK_POSITION } from '../data/article-covers';
 import { articleSlug, type Article } from '../data/articles';
-import { articleTile } from '../data/media';
+import { articleTile, articleLiveImage } from '../data/media';
 interface Props {
   article: Article;
+  /** Alt text for the live image (the article hero). Cards leave it empty: the title says it all. */
+  alt?: string;
   kind?: 'tile' | 'mark' | 'figure';
   sizes?: string;
   loading?: 'eager' | 'lazy';
   class?: string;
 }
-const { article, kind = 'tile', sizes = '(min-width: 1024px) 33vw, 50vw', loading = 'lazy', class: className = '' } = Astro.props;
+const { article, alt = '', kind = 'tile', sizes = '(min-width: 1024px) 33vw, 50vw', loading = 'lazy', class: className = '' } = Astro.props;
 const tile = kind === 'tile' ? articleTile(articleSlug(article)) : undefined;
 const figure = kind === 'figure' ? article.figure : undefined;
+const live = kind === 'tile' ? articleLiveImage(articleSlug(article)) : undefined;
 ---
+{live && (
+  <div class:list={['cover-live relative aspect-video overflow-hidden bg-raised', className]}>
+    <Image
+      src={live.image}
+      alt={alt}
+      widths={[400, 640, 1000, 1500, 2000]}
+      sizes={sizes}
+      loading={loading}
+      fetchpriority={loading === 'eager' ? 'high' : undefined}
+      class="zoom-img absolute inset-0 size-full object-cover"
+    />
+  </div>
+)}
+<div class={live ? 'cover-tile hidden' : 'contents'}>
 {tile ? (
   <div class:list={['relative aspect-video overflow-hidden bg-sunken', className]}>
     <Image
@@ -50,3 +71,4 @@ const figure = kind === 'figure' ? article.figure : undefined;
     )}
   </div>
 )}
+</div>

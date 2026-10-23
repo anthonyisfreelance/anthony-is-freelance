@@ -21,6 +21,16 @@ const imageUrl = image ? new URL(image, Astro.site).href : undefined;
 <!doctype html>
 <html lang="en-GB" class="theme-dark">
   <head>
+    <script is:inline>
+      // TEMPORARY: article image trial. ?hero=tile shows the new tiles, ?hero=live the live site's images.
+      (function () {
+        try {
+          var q = new URLSearchParams(location.search).get('hero');
+          if (q) sessionStorage.setItem('aif-hero', q);
+          if ((q || sessionStorage.getItem('aif-hero')) === 'tile') document.documentElement.dataset.hero = 'tile';
+        } catch (e) {}
+      })();
+    </script>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>

@@ -90,7 +90,6 @@ const posting = {
   inLanguage: 'en-GB',
 };
 const a = ARTICLES_PAGE.author;
-const liveHero = c.hero?.file ? articleImage(slug, c.hero.file) : undefined;
 const experience = 'He has worked in design for over 20 years, from brand identity to three and a half years at Dyson, and has been independent since August 2023.';
 ---
 <Base title={c.seoTitle} description={c.description} image={ogImage} ogType="article">
@@ -111,7 +110,6 @@ const experience = 'He has worked in design for over 20 years, from brand identi
     (() => {
       const q = new URLSearchParams(location.search);
       if (q.get('look')) document.documentElement.dataset.look = q.get('look');
-      if (q.get('hero')) document.documentElement.dataset.hero = q.get('hero');
     })();
   </script>
   <Header />
@@ -140,16 +138,9 @@ const experience = 'He has worked in design for over 20 years, from brand identi
         </div>
       </header>
 
-      <!-- Hero. TRIAL (23 October): the live site's featured image, bright on light grey, in place of
-           the new dark tile. Add ?hero=tile to the address to see the tile instead. Cards, menus and
-           the share image keep the tile. Remove whichever loses. -->
+      <!-- Hero: the article's image (see ArticleCover for the live image / tile trial) -->
       <figure class="mt-large px-margin">
-        {liveHero && (
-          <div class="hero-live relative aspect-video overflow-hidden bg-raised">
-            <Image src={liveHero} alt={c.hero.alt} widths={[640, 1000, 1500, 2000]} sizes="(min-width: 2560px) 2512px, 100vw" loading="eager" fetchpriority="high" class="absolute inset-0 size-full object-cover" />
-          </div>
-        )}
-        <ArticleCover article={article} sizes="(min-width: 2560px) 2512px, 100vw" loading={liveHero ? 'lazy' : 'eager'} class={liveHero ? 'w-full hero-tile hidden' : 'w-full'} />
+        <ArticleCover article={article} alt={c.hero?.alt ?? ''} sizes="(min-width: 2560px) 2512px, 100vw" loading="eager" class="w-full" />
       </figure>
 
       <!-- Body: contents on the left (desktop), the article in a centred reading column -->

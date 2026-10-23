@@ -24,6 +24,13 @@ export function articleImage(slug: string, file: string): ImageMetadata | undefi
 export function articleTile(slug: string): ImageMetadata | undefined {
   return ARTICLE_IMAGES[`../assets/articles/${slug}/tile.png`]?.default;
 }
+/** The article's featured image from the live WordPress site (hero.file in its content file), if any. */
+const ARTICLE_CONTENT = import.meta.glob<{ hero?: { file: string; alt: string } }>('./article-content/*.json', { eager: true, import: 'default' });
+export function articleLiveImage(slug: string): { image: ImageMetadata; alt: string } | undefined {
+  const hero = ARTICLE_CONTENT[`./article-content/${slug}.json`]?.hero;
+  const image = hero?.file ? articleImage(slug, hero.file) : undefined;
+  return image ? { image, alt: hero!.alt } : undefined;
+}
 export const articleTilePath = (slug: string) => join(process.cwd(), 'src/assets/articles', slug, 'tile.png');
 
 /** The image at src/assets/brands/<brand>/<name>.<any image type>, if it has been added. */
