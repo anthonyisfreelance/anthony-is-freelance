@@ -506,6 +506,36 @@ dialog[data-project-dialog]:not([open])::backdrop {
   }
 }
 
+/* Phone menu (script in MobileMenu.astro). The logo and Close row sits where the header is and
+   doesn't move. Below it the black wipes down to the bottom of the screen on a slow easy ease (the
+   After Effects default), and everything in it rises in one after another, as in the desktop mega
+   menu, starting once the black is under way. Moving between levels rises the new level in again.
+   Closing wipes the black back up under the row. No motion for reduced-motion users. */
+[data-mobile-menu] [data-menu-sheet] {
+  clip-path: inset(0 0 0 0);
+}
+@media (prefers-reduced-motion: no-preference) {
+  [data-mobile-menu] [data-menu-sheet] {
+    transition: clip-path 800ms cubic-bezier(0.33, 0, 0.67, 1);
+  }
+  @starting-style {
+    [data-mobile-menu][open] [data-menu-sheet] {
+      clip-path: inset(0 0 100% 0);
+    }
+  }
+  [data-mobile-menu][data-closing] [data-menu-sheet] {
+    clip-path: inset(0 0 100% 0);
+    transition-duration: 600ms;
+  }
+  [data-mobile-menu][open] [data-menu-panel]:not([hidden]) [data-rise] {
+    animation: mega-rise 560ms cubic-bezier(0.33, 0, 0.67, 1) both;
+    animation-delay: calc(var(--lead, 0ms) + var(--i, 0) * 40ms);
+  }
+  [data-mobile-menu][data-opening] {
+    --lead: 300ms;
+  }
+}
+
 /* Mega menu (desktop). The bar and the panel appear instantly, together. Only what is inside the
    panel moves: each column, then each item down the column, fades and rises into place with an
    easy ease (the After Effects default). Same again when moving across to another menu.

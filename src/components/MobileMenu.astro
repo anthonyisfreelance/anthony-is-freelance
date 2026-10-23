@@ -3,6 +3,9 @@
 // stays inside it, Escape closes it and the page behind is inert. Two levels: the main list, then
 // Shopify Services (links and a featured case study) or Articles (newest and most read).
 // Every link is in the HTML.
+// Opening: the logo and Close row sits exactly where the header is, then the black wipes down
+// from under it to the bottom of the screen on a slow easy ease, and the contents rise in one
+// after another like the desktop mega menu. Closing wipes it back up. Styles are in global.css.
 import MenuServicesStory from './MenuServicesStory.astro';
 import TrustTiles from './TrustTiles.astro';
 import { MEGA, URLS, GOOGLE_RATING } from '../data/site';
@@ -24,31 +27,33 @@ const back = 'flex size-[18px] cursor-pointer items-center';
   id="mobile-menu"
   data-mobile-menu
   aria-label="Menu"
-  class="m-0 h-dvh max-h-none w-full max-w-none overflow-y-auto bg-surface p-0 text-ink backdrop:bg-transparent lg:hidden"
+  class="m-0 h-dvh max-h-none w-full max-w-none overflow-y-auto bg-transparent p-0 pt-[var(--menu-top,0px)] text-ink backdrop:bg-transparent lg:hidden"
 >
-  <div class="flex min-h-full flex-col gap-[40px] p-margin">
-    <div class="flex items-center justify-between gap-gutter">
+  <div class="flex min-h-full flex-col">
+    <div class="flex items-center justify-between gap-gutter bg-surface p-margin">
       <a href={URLS.home} aria-label="Anthony is Freelance, home" class="flex h-12 items-center">
         <img src="/icons/logo.svg" alt="Anthony is Freelance" width="172" height="44" class="h-[38px] w-auto" />
       </a>
       <button type="button" data-menu-close class="t-button cursor-pointer text-ink">Close</button>
     </div>
 
+    <div data-menu-sheet class="flex flex-1 flex-col bg-surface px-margin pb-margin pt-[calc(40px-var(--page-margin))]">
+
     <!-- Level one -->
     <div data-menu-panel="main" class="flex flex-1 flex-col gap-[40px]">
       <nav aria-label="Main">
         <ul class="t-h2 flex flex-col gap-loose">
-          <li>
+          <li data-rise>
             <button type="button" data-menu-to="services" aria-controls="menu-services" aria-expanded="false" class="cursor-pointer text-left uppercase">
               {MEGA.services.label}
             </button>
           </li>
-          <li>
+          <li data-rise>
             <button type="button" data-menu-to="work" aria-controls="menu-work" aria-expanded="false" class="cursor-pointer text-left uppercase">
               {MEGA.work.label}
             </button>
           </li>
-          <li>
+          <li data-rise>
             <button type="button" data-menu-to="articles" aria-controls="menu-articles" aria-expanded="false" class="cursor-pointer text-left uppercase">
               {MEGA.articles.label}
             </button>
@@ -56,14 +61,16 @@ const back = 'flex size-[18px] cursor-pointer items-center';
         </ul>
       </nav>
       <div class="mt-auto flex flex-col gap-loose">
-        <TrustTiles
-          row={false}
-          items={[
-            GOOGLE_RATING,
-            { text: '2× winner, UK eCommerce Awards 2026' },
-          ]}
-        />
-        <a href={URLS.contact} data-project-open class="t-button flex items-center justify-between gap-1 bg-white px-[14px] py-2 text-[#111]">
+        <div data-rise>
+          <TrustTiles
+            row={false}
+            items={[
+              GOOGLE_RATING,
+              { text: '2× winner, UK eCommerce Awards 2026' },
+            ]}
+          />
+        </div>
+        <a href={URLS.contact} data-project-open data-rise class="t-button flex items-center justify-between gap-1 bg-white px-[14px] py-2 text-[#111]">
           Start a project
           <img src="/icons/plus-dark.svg" alt="" width="18" height="18" class="size-[18px]" />
         </a>
@@ -73,38 +80,38 @@ const back = 'flex size-[18px] cursor-pointer items-center';
     <!-- Level two: Shopify Services -->
     <div id="menu-services" data-menu-panel="services" hidden class="flex flex-col gap-[40px]">
       <div class="flex flex-col gap-large">
-        <button type="button" data-menu-back class={back} aria-label="Back to the menu">
+        <button type="button" data-menu-back data-rise class={back} aria-label="Back to the menu">
           <img src="/icons/arrow-left.svg" alt="" width="18" height="18" class="size-[18px]" />
         </button>
-        <a href={MEGA.services.viewAll.href} class={`${link} inline-flex items-center gap-2 self-start`}>
+        <a href={MEGA.services.viewAll.href} data-rise class={`${link} inline-flex items-center gap-2 self-start`}>
           {MEGA.services.viewAll.label}
           <img src="/icons/arrow-up-right.svg" alt="" width="18" height="18" class="size-[18px]" />
         </a>
         <ul class="flex flex-col gap-loose py-2 leading-none" aria-label="Shopify services">
-          {services.map((l) => <li><a href={l.href} class={`${link} inline-block`}>{l.label}</a></li>)}
+          {services.map((l) => <li data-rise><a href={l.href} class={`${link} inline-block`}>{l.label}</a></li>)}
         </ul>
       </div>
 
-      <MenuServicesStory photoSizes="50vw" screenSizes="30vw" />
+      <div data-rise><MenuServicesStory photoSizes="50vw" screenSizes="30vw" /></div>
     </div>
 
     <!-- Level two: Shopify Success Stories (the desktop panel, two cards to a row) -->
     <div id="menu-work" data-menu-panel="work" hidden class="flex flex-col gap-[40px]">
       <div class="flex flex-col gap-large">
-        <button type="button" data-menu-back class={back} aria-label="Back to the menu">
+        <button type="button" data-menu-back data-rise class={back} aria-label="Back to the menu">
           <img src="/icons/arrow-left.svg" alt="" width="18" height="18" class="size-[18px]" />
         </button>
-        <a href={MEGA.work.viewAll.href} class={`${link} inline-flex items-center gap-2 self-start`}>
+        <a href={MEGA.work.viewAll.href} data-rise class={`${link} inline-flex items-center gap-2 self-start`}>
           {MEGA.work.viewAll.label}
           <img src="/icons/arrow-up-right.svg" alt="" width="18" height="18" class="size-[18px]" />
         </a>
         <ul class="flex flex-col gap-loose py-2 leading-none" aria-label="More success stories">
-          {MEGA.work.links.map((l) => <li><a href={l.href} class={`${link} inline-block`}>{l.label}</a></li>)}
+          {MEGA.work.links.map((l) => <li data-rise><a href={l.href} class={`${link} inline-block`}>{l.label}</a></li>)}
         </ul>
       </div>
       <ul class="grid grid-cols-2 gap-x-grid gap-y-large">
         {workCards.map((c) => (
-          <li><CaseStudyCard client={c.client} meta={c.meta} claim={c.claim} image={c.image} href={c.href} ratio="square" sizes="45vw" stackMeta /></li>
+          <li data-rise><CaseStudyCard client={c.client} meta={c.meta} claim={c.claim} image={c.image} href={c.href} ratio="square" sizes="45vw" stackMeta /></li>
         ))}
       </ul>
     </div>
@@ -112,22 +119,23 @@ const back = 'flex size-[18px] cursor-pointer items-center';
     <!-- Level two: Articles -->
     <div id="menu-articles" data-menu-panel="articles" hidden class="flex flex-col gap-[40px]">
       <div class="flex flex-col gap-large">
-        <button type="button" data-menu-back class={back} aria-label="Back to the menu">
+        <button type="button" data-menu-back data-rise class={back} aria-label="Back to the menu">
           <img src="/icons/arrow-left.svg" alt="" width="18" height="18" class="size-[18px]" />
         </button>
-        <a href={MEGA.articles.viewAll.href} class={`${link} inline-flex items-center gap-2 self-start`}>
+        <a href={MEGA.articles.viewAll.href} data-rise class={`${link} inline-flex items-center gap-2 self-start`}>
           {MEGA.articles.viewAll.label}
           <img src="/icons/arrow-up-right.svg" alt="" width="18" height="18" class="size-[18px]" />
         </a>
       </div>
       {[[MEGA.articles.latestLabel, latestArticles], [MEGA.articles.mostReadLabel, best]].map(([label, list]) => (list as typeof best).length > 0 && (
         <div class="flex flex-col gap-3">
-          <p class="t-label text-muted">{label as string}</p>
+          <p data-rise class="t-label text-muted">{label as string}</p>
           <ul class="grid grid-cols-2 gap-x-grid gap-y-large">
-            {(list as typeof best).map((a) => <li><ArticleCard article={a} titleTag="p" sizes="45vw" /></li>)}
+            {(list as typeof best).map((a) => <li data-rise><ArticleCard article={a} titleTag="p" sizes="45vw" /></li>)}
           </ul>
         </div>
       ))}
+    </div>
     </div>
   </div>
 </dialog>
@@ -139,7 +147,15 @@ const back = 'flex size-[18px] cursor-pointer items-center';
     if (!menu || !openBtn) return;
     var panels = menu.querySelectorAll('[data-menu-panel]');
     var openers = menu.querySelectorAll('[data-menu-to]');
-    var last = null;
+    var sheet = menu.querySelector('[data-menu-sheet]');
+    var header = document.querySelector('[data-header]');
+    var still = window.matchMedia('(prefers-reduced-motion: reduce)');
+    var last = null, settle = null, closing = false;
+
+    // Each panel's items rise one after another, in page order.
+    panels.forEach(function (p) {
+      p.querySelectorAll('[data-rise]').forEach(function (el, i) { el.style.setProperty('--i', i); });
+    });
 
     function show(name, focus) {
       panels.forEach(function (p) { p.hidden = p.getAttribute('data-menu-panel') !== name; });
@@ -147,13 +163,38 @@ const back = 'flex size-[18px] cursor-pointer items-center';
       menu.scrollTop = 0;
       if (focus) focus.focus();
     }
+    function finish() {
+      clearTimeout(settle);
+      sheet.removeEventListener('transitionend', onEnd);
+      closing = false;
+      menu.removeAttribute('data-closing');
+      menu.close();
+    }
+    function onEnd(e) { if (e.target === sheet && e.propertyName === 'clip-path') finish(); }
+    // Wipe the black back up under the logo row, then close.
+    function shut() {
+      if (!menu.open || closing) return;
+      if (still.matches) { menu.close(); return; }
+      closing = true;
+      menu.setAttribute('data-closing', '');
+      sheet.addEventListener('transitionend', onEnd);
+      settle = setTimeout(finish, 900);
+    }
+
     openBtn.addEventListener('click', function () {
+      // Line the logo row up with the header wherever it sits (under the announcement bar on first load).
+      var top = header ? Math.max(0, header.getBoundingClientRect().top) : 0;
+      menu.style.setProperty('--menu-top', top + 'px');
       show('main');
+      // The first items wait for the black to get going; moving between levels later doesn't.
+      menu.setAttribute('data-opening', '');
       menu.showModal();
       openBtn.setAttribute('aria-expanded', 'true');
+      setTimeout(function () { menu.removeAttribute('data-opening'); }, 1600);
     });
     menu.addEventListener('close', function () { openBtn.setAttribute('aria-expanded', 'false'); show('main'); });
-    menu.querySelector('[data-menu-close]').addEventListener('click', function () { menu.close(); });
+    menu.addEventListener('cancel', function (e) { e.preventDefault(); shut(); });
+    menu.querySelector('[data-menu-close]').addEventListener('click', shut);
     openers.forEach(function (b) {
       b.addEventListener('click', function () {
         var name = b.getAttribute('data-menu-to');
