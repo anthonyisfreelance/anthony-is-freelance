@@ -1,4 +1,5 @@
 # Permanent redirects. One rule per line: old-path  new-path  301
-# Full map lives in the redirect spreadsheet; rows are added here once decided.
+# Full map: migration/redirect-map.xlsx (every old URL, the proposal and Anthony's decision).
+# Rows are added here once decided, and any new URL change gets a row in the map first.
 
 /shopify-expert-uk/  /  301
