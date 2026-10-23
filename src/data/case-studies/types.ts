@@ -69,8 +69,8 @@ export interface CaseStudyPageData {
   workIntro: { eyebrow: string; heading: string; body: string };
   highlights: Highlight[];
   /**
-   * Two layouts. Product-led (Drink Finder): the sticky gallery after the showcase. Lifestyle-led:
-   * no gallery, and `splits` break up the work rows instead. A page can also have both.
+   * Optional sticky gallery after the showcase. Since 23 October 2026 the pages use `splits` between
+   * the work rows instead, each after the row it backs up; a page can still have both.
    */
   gallery?: { label: string; listLabel?: string; screens: Media[]; photo: Media; caption: string };
   splits?: Split[];

@@ -48,7 +48,7 @@ Every case study page renders from `src/data/case-studies/<client>.ts` through o
 | `split-1-photo`, `split-2-photo` | Lifestyle-led pages: the photo in each 50/50 block between the work rows (700:875) |
 | `split-1-screen`, `split-2-screen` | The phone screen beside it, on a tint picked from the photo (375:820) |
 
-Two layouts share the template. Product-led pages (Drink Finder) have the sticky gallery after the showcase. Lifestyle-led pages (Projektityyny, East at Home) leave the gallery out and put the 50/50 blocks between the work rows instead. Which rows they follow, and the tint, are set in the client's data file.
+Drink Finder, East at Home and Projektityyny put two 50/50 blocks between the work rows (23 October 2026). Each block follows the row it backs up, and each page runs its own rhythm: which rows the blocks follow, which side the photo sits on and the tint are set in the client's data file. The sticky gallery is still in the template for any page that wants it, but no page uses it now.
 
 Stills go in `src/assets/brands/<brand>/` (.jpg, .png or .webp). A recording with the same name in `public/video/<brand>/` plays over its still. Rows that link to an innovation use that innovation's still and recording instead (see above), so one file fills both pages. The order of the screens and which photo goes where are in each client's case study copy doc.
 

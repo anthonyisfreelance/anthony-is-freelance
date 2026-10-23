@@ -30,8 +30,8 @@ export const DATA: CaseStudyPageData = {
     image: photoMedia(B, 'hero', cardPhoto),
   },
   brief: {
-    eyebrow: 'The brief',
-    heading: 'Protect a healthy conversion rate, then grow the basket',
+    eyebrow: 'East at Home Shopify brief',
+    heading: 'Protect conversion, then grow the basket',
     body: [
       'The East at Home brief was a redesign for a brand with bold new packaging and a conversion rate already worth protecting. The store had to match that confidence and work harder commercially.',
       'The job was to improve the shopping experience without breaking what worked, then lift average order value. Over half the traffic was on mobile, so the phone came first.',
@@ -64,15 +64,15 @@ export const DATA: CaseStudyPageData = {
     ],
   },
   workIntro: {
-    eyebrow: 'The work',
+    eyebrow: 'East at Home Shopify UX design',
     heading: 'Five decisions behind the redesign',
     body: 'The East at Home work started with a UX review of the old store, before any design. The review showed where shoppers hesitated, and that is where the concepts started.',
   },
   highlights: [
     {
-      eyebrow: 'Shopify UX review',
+      eyebrow: 'Mobile UX review',
       heading: 'Find where shoppers hesitate.',
-      body: 'The Shopify UX review paired GA4 data with the whole purchase journey at common phone sizes. It showed which details shoppers needed sooner to tell one sauce from another.',
+      body: 'The mobile UX review paired GA4 data with the whole purchase journey at common phone sizes. It showed which details shoppers needed sooner to tell one sauce from another.',
       media: slot(B, 'work-01', 'The East at Home UX review on mobile.', 'The UX review recording'),
     },
     {
@@ -83,9 +83,9 @@ export const DATA: CaseStudyPageData = {
       media: innovationSlot('dinner-question-cards', 'East at Home product cards on mobile, showing heat, dietary information, reviews and price.', 'The collection recording'),
     },
     {
-      eyebrow: 'Shopify product page design',
+      eyebrow: 'Quantity discount design',
       heading: 'Make the saving obvious.',
-      body: 'Shopify product page design at East at Home shows the saving as the quantity rises, 8% off three and 17% off ten. Ingredients, dietary information and reviews sit beside the jar, and cooking animations carry the key messages.',
+      body: 'Quantity discount design on East at Home’s product pages shows the saving as the quantity rises, 8% off three and 17% off ten. Ingredients, dietary information and reviews sit beside the jar, and cooking animations carry the key messages.',
       media: slot(B, 'work-03', 'An East at Home product page on mobile, with quantity savings above the add button.', 'A product page'),
     },
     {
