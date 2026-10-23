@@ -80,6 +80,8 @@
   --c-muted: #c9c9c9;
   --c-border: #393939;
   --c-raised: #1b1b1b;
+  /* Third surface (Figma Surface/Sunken), a step lighter than raised: article tiles and covers. */
+  --c-sunken: #262626;
 }
 
 .theme-light {
@@ -88,6 +90,7 @@
   --c-muted: #393939;
   --c-border: #d8d8d8;
   --c-raised: #f7f7f7;
+  --c-sunken: #d8d8d8;
 }
 
 @theme inline {
@@ -96,6 +99,7 @@
   --color-muted: var(--c-muted);
   --color-line: var(--c-border);
   --color-raised: var(--c-raised);
+  --color-sunken: var(--c-sunken);
   --color-blue: #0059ff;
 
   --font-display: "Mint Grotesk Display", ui-sans-serif, system-ui, sans-serif;

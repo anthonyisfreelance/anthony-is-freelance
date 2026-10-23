@@ -21,7 +21,7 @@ const tile = kind === 'tile' ? articleTile(articleSlug(article)) : undefined;
 const figure = kind === 'figure' ? article.figure : undefined;
 ---
 {tile ? (
-  <div class:list={['relative aspect-video overflow-hidden bg-raised', className]}>
+  <div class:list={['relative aspect-video overflow-hidden bg-sunken', className]}>
     <Image
       src={tile}
       alt=""
@@ -32,7 +32,7 @@ const figure = kind === 'figure' ? article.figure : undefined;
     />
   </div>
 ) : (
-  <div class:list={['@container relative aspect-video overflow-hidden bg-raised', className]} aria-hidden="true">
+  <div class:list={['@container relative aspect-video overflow-hidden bg-sunken', className]} aria-hidden="true">
     {figure ? (
       <>
         <p class="absolute left-[2.2cqw] top-[1.3cqw] font-display text-[34.9cqw] font-medium leading-none text-blue">{figure.value}</p>

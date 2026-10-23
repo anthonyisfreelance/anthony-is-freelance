@@ -27,7 +27,7 @@ export const GET: APIRoute = async ({ props }) => {
   const y = (MARK_POSITION.top / 100) * H;
   const scale = size / 200;
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">
-  <rect width="${W}" height="${H}" fill="#1b1b1b"/>
+  <rect width="${W}" height="${H}" fill="#262626"/>
   <g transform="translate(${x} ${y}) scale(${scale})" fill="none" stroke="#ffffff" stroke-width="${(3 / scale).toFixed(3)}" color="#ffffff">
     ${COVER_MARKS[article.category]}
   </g>
