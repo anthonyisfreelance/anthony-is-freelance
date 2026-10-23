@@ -3,8 +3,8 @@
 import { SERVICE, slot, innovationSlot, innovationLink, photo, photoMedia, card, breadcrumbs, MORE_HEADING, type CaseStudyPageData } from './types';
 import shopByRoom from '../../assets/brands/projektityyny/shop-by-room.jpg';
 import quilts from '../../assets/brands/projektityyny/lifestyle-03.jpg';
-import garden from '../../assets/brands/projektityyny/lifestyle-02.jpg';
 import lampshades from '../../assets/brands/projektityyny/lifestyle-04.jpg';
+import cushions from '../../assets/brands/projektityyny/lifestyle-05.webp';
 
 const B = 'projektityyny';
 const PATH = '/portfolio/projektityyny-shopify-website-design-case-study/';
@@ -95,18 +95,27 @@ export const DATA: CaseStudyPageData = {
       media: slot(B, 'work-05', 'A Projektityyny quilt product page on mobile, with the goes well with row.', 'The product page recording'),
     },
   ],
-  gallery: {
-    label: 'More Projektityyny screens',
-    screens: [
-      slot(B, 'gallery-1', 'The Projektityyny journal on mobile.', 'Journal'),
-      slot(B, 'gallery-2', 'A Projektityyny journal article on mobile.', 'Journal article'),
-      slot(B, 'gallery-3', 'The Projektityyny shop by room carousel on mobile.', 'Shop by room carousel'),
-      slot(B, 'gallery-4', 'The Projektityyny category blocks on mobile.', 'Category blocks'),
-      slot(B, 'gallery-5', '', 'Fifth screen'), // [CONFIRM] a fifth screen used nowhere else
-    ],
-    photo: { image: photo(B, 'gallery-photo', garden), alt: '' },
-    caption: 'Projektityyny on mobile: the journal, shop by room and the category blocks that open up the range.',
-  },
+  // Lifestyle-led layout: no sticky gallery. Two 50/50 splits break up the work rows instead
+  // (Figma 48323:17501 and 48323:17511), each with a tint picked from its photo.
+  splits: [
+    {
+      after: 2,
+      label: 'The Projektityyny collection page',
+      photo: { image: photo(B, 'split-1-photo', cushions), alt: '' },
+      screen: slot(B, 'split-1-screen', 'The Projektityyny all home textiles page on mobile, with quilts, baby quilts, bags, cushions and bedding to pick from above the products.', 'Collection page'),
+      tint: '#E7D7BB',
+      caption: 'The all home textiles page on mobile, with quilts, cushions, bedding and bags to choose from before the first product.',
+    },
+    {
+      after: 3,
+      label: 'The Projektityyny category tiles',
+      photo: photoMedia(B, 'split-2-photo'),
+      screen: slot(B, 'split-2-screen', 'Image-led category tiles on the Projektityyny homepage on mobile: quilts, baby quilts, cushions, canopies and bows.', 'Category tiles'),
+      tint: '#B6BCB5',
+      photoSide: 'right',
+      caption: 'Category tiles on the Projektityyny homepage. Over 80% of visitors shop on a phone, so each part of the range is one tap away.',
+    },
+  ],
   feature: {
     background: photo(B, 'feature-photo', quilts),
     eyebrow: 'Shopify design system',

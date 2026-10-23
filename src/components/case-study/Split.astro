@@ -1,0 +1,24 @@
+---
+// A 50/50 block between work rows: a lifestyle photo to one screen edge, and a phone screen on a
+// flat tint picked from the photo on the other. Design: Figma "Property 1=50/50" (48323:17501) and
+// its mirror (48323:17511). Photo 700:875 at 1440, the screen 309 wide, 64 above and 80 below.
+import Media from './Media.astro';
+import type { Split } from '../../data/case-studies/types';
+interface Props { split: Split; class?: string }
+const { split, class: className = '' } = Astro.props;
+const left = (split.photoSide ?? 'left') === 'left';
+---
+<section class:list={['flex flex-col lg:flex-row', className]} aria-label={split.label}>
+  <figure class:list={['relative lg:w-[48.61%] lg:shrink-0', !left && 'lg:order-2']}>
+    <Media media={split.photo} fit="cover" sizes="(min-width: 1024px) 49vw, 100vw" class="aspect-[700/875] w-full" />
+    {split.caption && (
+      <figcaption class="t-tile absolute bottom-0 left-0 max-w-[467px] p-5 text-white">{split.caption}</figcaption>
+    )}
+  </figure>
+  <div
+    class:list={['flex flex-1 items-center justify-center px-gutter pb-[80px] pt-section lg:pt-[64px]', !left && 'lg:order-1']}
+    style={`background-color: ${split.tint}`}
+  >
+    <Media media={split.screen} sizes="(min-width: 1024px) 309px, 60vw" class="aspect-[375/820] w-[60%] max-w-[309px] lg:w-[min(calc((51.39vw-64px)*0.4573),309px)]" />
+  </div>
+</section>

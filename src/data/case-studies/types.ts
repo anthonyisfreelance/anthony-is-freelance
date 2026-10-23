@@ -29,6 +29,22 @@ export interface Highlight {
   flip?: boolean;
 }
 
+/**
+ * A 50/50 block that sits between work rows: a lifestyle photo and a phone screen on a tint picked
+ * from the photo. `after` is how many work rows come before it (2 = after the second row).
+ */
+export interface Split {
+  after: number;
+  label: string;
+  photo: Media;
+  screen: Media;
+  /** The flat colour behind the screen, taken from the photo (Figma: a 60% tint over white). */
+  tint: string;
+  caption?: string;
+  /** Which side the photo sits on, desktop. Left out: left. */
+  photoSide?: 'left' | 'right';
+}
+
 export interface Card {
   client: string; meta: string; claim: string;
   image?: ImageMetadata; badge?: ImageMetadata; badgeAlt?: string; href?: string;
@@ -52,7 +68,12 @@ export interface CaseStudyPageData {
   showcase: { label: string; background?: ImageMetadata; desktop: Media; phones: Media[] };
   workIntro: { eyebrow: string; heading: string; body: string };
   highlights: Highlight[];
-  gallery: { label: string; listLabel?: string; screens: Media[]; photo: Media; caption: string };
+  /**
+   * Two layouts. Product-led (Drink Finder): the sticky gallery after the showcase. Lifestyle-led:
+   * no gallery, and `splits` break up the work rows instead. A page can also have both.
+   */
+  gallery?: { label: string; listLabel?: string; screens: Media[]; photo: Media; caption: string };
+  splits?: Split[];
   feature: { background?: ImageMetadata; eyebrow: string; heading: string; body: string; media: Media; link?: Link };
   /** Left out when neither the client nor an agency can give a quote. The page still goes live. */
   testimonial?: { eyebrow: string; heading: string; quote: string; cite: string };
