@@ -3,7 +3,9 @@
 import { URLS } from '../site';
 import { testimonial, creditLine } from '../testimonials';
 import { SERVICE, slot, innovationSlot, innovationLink, photo, photoMedia, card, breadcrumbs, MORE_HEADING, type CaseStudyPageData } from './types';
+import { brandVideo } from '../media';
 import cardPhoto from '../../assets/brands/east-at-home/card.jpg';
+import cardScreen from '../../assets/brands/east-at-home/card-screen.jpg';
 import curry from '../../assets/brands/east-at-home/curry.jpg';
 import badge from '../../assets/site/badge-winner-2026.png';
 
@@ -71,7 +73,7 @@ export const DATA: CaseStudyPageData = {
       eyebrow: 'Shopify UX review',
       heading: 'Find where shoppers hesitate.',
       body: 'The Shopify UX review paired GA4 data with the whole purchase journey at common phone sizes. It showed which details shoppers needed sooner to tell one sauce from another.',
-      media: slot(B, 'work-01', 'The East at Home Heat & Eat collection on mobile, in list view with heat and dietary icons on every card.', 'The mobile collection in list view'),
+      media: slot(B, 'work-01', 'The East at Home UX review on mobile.', 'The UX review recording'),
     },
     {
       eyebrow: 'Shopify product card design',
@@ -99,18 +101,30 @@ export const DATA: CaseStudyPageData = {
       media: slot(B, 'work-05', 'Building a mix and match bundle of East at Home sauces on mobile.', 'The mix and match recording'),
     },
   ],
-  gallery: {
-    label: 'More East at Home screens',
-    screens: [
-      slot(B, 'gallery-1', 'An East at Home recipe page on mobile.', 'Recipe page'),
-      slot(B, 'gallery-2', 'The East at Home rewards page on mobile.', 'Rewards page'),
-      slot(B, 'gallery-3', 'East at Home filters on mobile.', 'Filters'),
-      slot(B, 'gallery-4', 'The East at Home quick add overlay on mobile.', 'Quick add overlay'),
-      slot(B, 'gallery-5', 'East at Home back-in-stock alerts on mobile.', 'Back-in-stock alerts'),
-    ],
-    photo: photoMedia(B, 'gallery-photo'),
-    caption: 'East at Home on mobile: recipes, rewards, filters and back-in-stock alerts, all from one design system.',
-  },
+  // Lifestyle-led layout, with a different rhythm from Projektityyny: a split after the first row
+  // (photo right), another after the third (photo left). One tint for both, from the sauce tones.
+  splits: [
+    {
+      after: 1,
+      label: 'The East at Home homepage',
+      photo: photoMedia(B, 'split-1-photo'),
+      screen: (() => {
+        const m = slot(B, 'split-1-screen', 'The East at Home homepage on mobile.', 'Homepage');
+        return m.image ? m : { ...m, image: cardScreen, video: brandVideo(B, 'card-screen') };
+      })(),
+      tint: '#B8A794',
+      photoSide: 'right',
+      caption: 'The East at Home homepage on mobile. Over half the traffic was on a phone, so the phone came first.',
+    },
+    {
+      after: 3,
+      label: 'An East at Home collection',
+      photo: photoMedia(B, 'split-2-photo'),
+      screen: slot(B, 'split-2-screen', 'An East at Home collection on mobile.', 'Collection page'),
+      tint: '#B8A794',
+      caption: 'Sauces, kits and bundles, each card answering what’s for dinner before the click.',
+    },
+  ],
   feature: {
     background: photo(B, 'feature-photo'),
     eyebrow: 'Shopify design system',
