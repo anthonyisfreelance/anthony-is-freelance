@@ -147,4 +147,40 @@ export const WORK_HERO = {
   heading: 'Two UK eCommerce Awards 2026, one designer.',
 };
 
-export const WORK_TRUST = ['20+ years ecommerce and brand experience', '4× shortlisted, UK eCommerce Awards 2026', 'All independent work, since 2023'];
+// Back on the page 24 October 2026, from page-copy/work-page.md. In the FAQPage schema word for word.
+export const WORK_FAQS = {
+  eyebrow: 'Shopify case study questions',
+  heading: 'What people ask about the results.',
+  items: [
+    {
+      q: 'What results have your Shopify clients seen?',
+      a: [
+        "East at Home's revenue rose 82% and its conversion rate 14%, comparing the eight months since launch, October to June, with the same period the year before (GA4, UK sessions). Drink Finder's website sales rose 34% and its customers 32% after moving to Shopify, from September to February against the year before, measured on EPoS till data with marketplace orders left out. Fuzzball's conversion rate rose 63%, August 2025 to August 2026 against the year before (GA4). Drink Finder won UK eCommerce Website of the Year and East at Home won UK User Experience of the Year at the UK eCommerce Awards 2026.",
+      ],
+    },
+    {
+      q: 'How do you measure the results in your case studies?',
+      a: [
+        "I compare the months since launch with the same months the year before, and show the change as a percentage with its window and source. The source is GA4 where the data is clean, or the client's till data where that's the more reliable record. The client approves every figure before it's published, and the same number appears everywhere it's used. No designer can promise a number, so I also check conversion rate and average order value at one, three and seven days after launch.",
+      ],
+    },
+    {
+      q: "Why don't all your Shopify case studies show numbers?",
+      a: [
+        "Some case studies don't show numbers because the client hasn't approved one yet, or the project is too recent to compare a full period fairly. Rather than publish a figure without its window, I show what changed for customers.",
+      ],
+    },
+    {
+      q: 'Do you have Shopify case studies in my sector?',
+      a: [
+        'My Shopify case studies cover food and drink, wine and spirits, fashion, footwear, skincare, fragrance, homeware and textiles, pet food subscriptions, bespoke bookbinding, greeting cards and tea. [CONFIRM the list] I group them by service rather than sector, because a migration or a theme customisation raises the same questions whatever you sell.',
+      ],
+    },
+    {
+      q: 'Are the stores in your case studies still live?',
+      a: ["Yes. Every store on this page is live. Clients keep developing their stores after launch, so today's store may have moved on from the design in the case study."],
+    },
+  ],
+};
+
+export const WORK_TRUST = ['20+ years of brand and ecommerce experience', '4× shortlisted, UK eCommerce Awards 2026', 'All independent work, since 2023'];

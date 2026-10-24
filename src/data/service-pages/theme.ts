@@ -1,7 +1,7 @@
 // Theme customisations. Copy: page-copy/service-pages.md, Page 2.
 import { URLS } from '../site';
 import type { ServicePage } from './types';
-import { card, caseStudyHref, hubPrice, ROUTING_EYEBROW, PRICE_NOTE, PROCESS_INTRO, TRUST_COMMON, QUOTE, THEME_VS_BESPOKE_ROWS } from './shared';
+import { card, caseStudyHref, hubPrice, ROUTING_EYEBROW, PRICE_NOTE, PROCESS_INTRO, TRUST_COMMON, QUOTE, THEME_VS_BESPOKE, THEME_VS_BESPOKE_ROWS } from './shared';
 
 export const THEME: ServicePage = {
   meta: {
@@ -17,7 +17,7 @@ export const THEME: ServicePage = {
     eyebrow: 'Shopify theme customisation',
     heading: "A premium theme that doesn't look like one.",
     intro:
-      'Shopify theme customisation means taking a premium theme and redesigning it around your brand, products and customers, so it stops looking like the demo. I design straight into the theme and deliver a live store. Theme customisations start from £5,000 + VAT, design only, and take four to eight weeks. Thameen London, a fragrance house stocked in Harrods, runs on one.',
+      'Shopify theme customisation means taking a premium theme and redesigning it around your brand, products and customers, so it stops looking like the demo. I design the key templates, like the header and product page, in Figma, and the rest straight into the theme, then deliver a live store. Theme customisations start from £5,000 + VAT, design only, and take four to eight weeks. Thameen London, a fragrance house stocked in Harrods, runs on one.',
     cta: { label: 'Start a theme project', href: '#start-a-project' },
     caption: 'Thameen London. The desktop journey on the Sleek theme.',
   },
@@ -27,7 +27,7 @@ export const THEME: ServicePage = {
     items: [
       'A UX review of your current store before design starts',
       'A theme recommendation with the reasons, before you buy anything',
-      'Every template styled in the theme: home, collection, product, cart and search',
+      'The key templates, like the header and product page, designed in Figma, and the rest styled straight into the theme: home, collection, product, cart and search',
       'Product cards, navigation, header and footer redesigned around your brand',
       "A short, clear brief for any custom sections the theme can't do",
       'Help with the content upload, so it goes live looking as designed [CONFIRM still offered]',
@@ -35,7 +35,7 @@ export const THEME: ServicePage = {
     ],
   },
   fit: {
-    heading: 'Right for you if',
+    heading: 'Who a theme customisation is right for',
     items: [
       "You're a start-up, and you want real sales data before a bigger investment.",
       'You need to launch or relaunch quickly.',
@@ -69,7 +69,7 @@ export const THEME: ServicePage = {
     intro: PROCESS_INTRO,
     steps: [
       { title: 'Understand', body: 'A 30-minute call, a fixed-price proposal, a UX review where it helps, and a theme shortlist with reasons before anything is bought.' },
-      { title: 'Design', body: 'Every template styled in the theme, with a weekly call and two rounds of feedback.' },
+      { title: 'Design', body: 'The key templates designed in Figma and the rest styled in the theme, with a weekly call and two rounds of feedback.' },
       { title: 'Launch', body: 'Where the theme runs out, I brief the developer on custom sections. Every screen checked on real devices.' },
       { title: 'Measure and improve', body: 'I check conversion rate and average order value at one, three and seven days after launch.' },
     ],
@@ -90,13 +90,12 @@ export const THEME: ServicePage = {
       ['Starting price', hubPrice('Theme customisations')],
       ['Design time', 'Four to eight weeks'],
       ['Build time', 'Included in the four to eight weeks [CONFIRM]'],
-      ['What you get', 'Designed straight into the theme and delivered as a live store'],
+      ['What you get', 'Key templates designed in Figma, the rest straight into the theme, delivered as a live store'],
       ['Who builds it', 'A developer I introduce, or your own team or agency, quoted separately, for any custom sections'],
     ],
   },
   comparison: {
-    eyebrow: 'Comparison',
-    heading: 'Shopify theme vs bespoke. Which suits your store?',
+    ...THEME_VS_BESPOKE,
     caption: 'Bespoke store design and theme customisation compared, design only, checked September 2026',
     columns: [
       { label: 'Bespoke store design', href: URLS.bespoke },
@@ -110,8 +109,8 @@ export const THEME: ServicePage = {
     notes: ['Bespoke store design starts from £10,000 + VAT, design only, with six to eight weeks of design and about the same again for the build.'],
   },
   faqs: {
-    eyebrow: 'Before you get in touch',
-    heading: 'Shopify theme customisation FAQs',
+    eyebrow: 'Shopify theme customisation FAQs',
+    heading: 'Before you get in touch.',
     items: [
       { q: 'Can I start with the AI store builder and customise it later?', a: ["Yes. Plenty of brands start on a generated or free theme and bring in a designer once sales show what it can't do. Your products, content and orders carry over, because it's all still Shopify."] },
       { q: 'What is Shopify theme customisation?', a: ['Shopify theme customisation is taking a premium pre-built theme and redesigning it through its settings, custom CSS and new sections, so it fits your brand and products and converts better than the default. Done well, it looks nothing like the theme it started as.'] },
@@ -126,4 +125,5 @@ export const THEME: ServicePage = {
     { kind: 'todo', after: 'process', title: 'Theme customisation innovations', note: "Off for now: none of the 13 innovations come from theme projects. Returns if Wide Fit Shoes passes the innovations test." },
     { kind: 'todo', after: 'faqs', title: 'Articles', note: "Best Shopify themes and Shopify's AI Store Builder: A Designer's Honest Take, once both are published." },
   ],
+  cta: { eyebrow: 'Start a Shopify theme customisation', heading: "Tell me which theme you're on." },
 };

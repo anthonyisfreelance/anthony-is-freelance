@@ -21,7 +21,7 @@ export const SUBSCRIPTIONS: ServicePage = {
     cta: { label: 'Start a subscription project', href: '#start-a-project' },
     caption: "Fuzzball. The cat food quiz on mobile.",
   },
-  trust: ['Priced with your theme or bespoke project', 'Designed around Recharge and other apps', '20+ years ecommerce and brand experience'],
+  trust: ['Priced with your theme or bespoke project', 'Designed around Recharge and other apps', '20+ years of brand and ecommerce experience'],
   included: {
     heading: 'What subscription design includes',
     items: [
@@ -34,7 +34,7 @@ export const SUBSCRIPTIONS: ServicePage = {
     ],
   },
   fit: {
-    heading: 'Right for you if',
+    heading: 'Who subscription design is right for',
     items: [
       'Repeat purchase is your business model.',
       'Customers find your subscription options confusing, especially on mobile.',
@@ -98,8 +98,8 @@ export const SUBSCRIPTIONS: ServicePage = {
     ],
   },
   faqs: {
-    eyebrow: 'Before you get in touch',
-    heading: 'Shopify subscription design FAQs',
+    eyebrow: 'Shopify subscription design FAQs',
+    heading: 'Before you get in touch.',
     items: [
       { q: "Should I use a quiz?", a: ["Use one when customers need help choosing, like Fuzzball's meal plans built around each cat. If people already know what they want, a quiz only slows them down."] },
       { q: "Which subscription apps do you design for?", a: ['Recharge, which Window Fleur runs on. [CONFIRM any others you’ve designed for, and which app Fuzzball uses] I design within what your app allows, so the brief to the developer holds no surprises.'] },
@@ -108,4 +108,5 @@ export const SUBSCRIPTIONS: ServicePage = {
   extras: [
     { kind: 'todo', after: 'price', title: 'Articles', note: 'None yet about subscriptions. The section stays off until one is published.' },
   ],
+  cta: { eyebrow: 'Start a subscription design project', heading: 'Tell me how customers subscribe now.' },
 };

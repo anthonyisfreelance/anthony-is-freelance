@@ -38,7 +38,7 @@ export const UX: ServicePage = {
     ],
   },
   fit: {
-    heading: 'Right for you if',
+    heading: "Shopify UX design: who it's for",
     items: [
       'Your range is big, and customers struggle to find the right product.',
       'Your products are complex, and choosing is the hard part.',
@@ -111,8 +111,8 @@ export const UX: ServicePage = {
     rows: CRO_VS_UX.rows,
   },
   faqs: {
-    eyebrow: 'Before you get in touch',
-    heading: 'Shopify UX design questions',
+    eyebrow: 'Shopify UX design questions',
+    heading: 'Before you get in touch.',
     items: [
       { q: "What's the difference between UX and CRO?", a: ["CRO is about conversion: lifting conversion rate and order value at the steps that lose sales. UX is the whole experience: finding products, joining the email list, coming back later. A customer who doesn't buy today but remembers you is a UX win, which is why I avoid stressful, time-pressured tactics."] },
       { q: 'Do you use personas?', a: ['I start from your real data instead: analytics, reviews and how customers actually move through the store. Invented personas are guesses, and a review built on guesses tends to confirm them.'] },
@@ -121,7 +121,7 @@ export const UX: ServicePage = {
   },
   articles: {
     eyebrow: 'Shopify UX articles',
-    heading: 'Articles',
+    heading: 'Where to read more.',
     link: ALL_ARTICLES,
     items: [ARTICLE.uxReview, ARTICLE.productComparisons],
   },
@@ -137,4 +137,5 @@ export const UX: ServicePage = {
       ],
     },
   ],
+  cta: { eyebrow: 'Book a Shopify UX review', heading: 'Send me your store URL.' },
 };

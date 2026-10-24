@@ -7,8 +7,9 @@ import PageHero from '../../components/PageHero.astro';
 import WorkCard from '../../components/WorkCard.astro';
 import Filters from '../../components/Filters.astro';
 import TrustTiles from '../../components/TrustTiles.astro';
+import Faqs from '../../components/home/Faqs.astro';
 import { SITE, GOOGLE_RATING } from '../../data/site';
-import { CASE_STUDIES, FILTERS, WORK_META, WORK_HERO, WORK_TRUST } from '../../data/work';
+import { CASE_STUDIES, FILTERS, WORK_META, WORK_HERO, WORK_TRUST, WORK_FAQS } from '../../data/work';
 
 const url = new URL(WORK_META.path, SITE).href;
 const list = {
@@ -32,6 +33,7 @@ const trustAfter = 6;
     breadcrumbs={[{ name: 'Home', path: '/' }, { name: 'Shopify success stories', path: WORK_META.path }]}
     mainEntity={`${url}#case-studies`}
     extra={[list]}
+    faqs={WORK_FAQS.items}
   />
   <Header />
   <main id="main">
@@ -54,6 +56,8 @@ const trustAfter = 6;
         ))}
       </ul>
     </section>
+
+    <div id="questions"><Faqs data={WORK_FAQS} /></div>
   </main>
 </Base>
 

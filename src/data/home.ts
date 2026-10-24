@@ -152,7 +152,7 @@ export const PROCESS = {
     },
     {
       title: 'Design',
-      body: 'Options first, then the details, mobile first. Bespoke stores are designed in Figma. Theme customisations are designed straight into the theme.',
+      body: 'Options first, then the details, mobile first. Bespoke stores are designed in Figma. Theme customisations mix both: the key templates, like the header and product page, in Figma, and the rest straight into the theme.',
     },
     { title: 'Launch', body: 'Every screen checked on real devices before it goes live, with one question: would I buy this?' },
     {
@@ -287,6 +287,11 @@ export const CONTACT = {
   eyebrow: 'Start a Shopify project',
   heading: 'Tell me where your store is now.',
   budgets: ['Under £5,000', '£5,000 – £10,000', '£10,000 – £20,000', '£20,000+', 'Not sure yet'],
+  // Optional, last, one dropdown: the only clean way to count AI and awards referrals.
+  found: {
+    label: 'How did you find me? (optional)',
+    options: ['Google search', 'ChatGPT, Gemini or another AI tool', 'UK eCommerce Awards', 'A recommendation', 'LinkedIn', 'An article on this site', 'A directory or list', 'Other'],
+  },
   reply: 'I reply within two working days.',
   legal: 'Anthony Bliss · Falmouth, Cornwall · Anthonyis Limited, company number 10575474',
 };
@@ -300,5 +305,5 @@ export const PROJECT_DIALOG = {
     quote: 'He was a joy to work with, a true craftsman who takes pride in his work with expert knowledge and delivers amazing results.',
     cite: creditLine(testimonial('east-at-home')),
   },
-  trust: ['20+ years ecommerce and brand experience', 'UK eCommerce Website of the Year 2026'],
+  trust: ['20+ years of brand and ecommerce experience', 'UK eCommerce Website of the Year 2026'],
 };

@@ -29,7 +29,7 @@ export const HUB_HERO = {
   image: hero,
   trust: [
     { text: 'UK eCommerce Website of the Year 2026', raised: true },
-    { text: '20+ years ecommerce and brand experience' },
+    { text: '20+ years of brand and ecommerce experience' },
     { text: '4× shortlisted, UK eCommerce Awards 2026' },
     { text: '5.0 (6 reviews)', raised: true, google: true },
   ],

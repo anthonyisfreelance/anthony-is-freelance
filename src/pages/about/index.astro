@@ -12,7 +12,7 @@ import TextLink from '../../components/TextLink.astro';
 import Faqs from '../../components/home/Faqs.astro';
 import Contact from '../../components/home/Contact.astro';
 import { URLS, ENTITY } from '../../data/site';
-import { ABOUT_PAGE as P, CAREER, PRINCIPLES, INDEPENDENT, FIT, ABOUT_FAQS, ABOUT_CTA } from '../../data/about';
+import { ABOUT_PAGE as P, CAREER, CAREER_TABLE, PRINCIPLES, INDEPENDENT, FIT, ABOUT_FAQS, ABOUT_CTA } from '../../data/about';
 // Drive: about/hero-top middle.jpg, so the crop keeps the top centre.
 import photo from '../../assets/site/anthony-about-hero.jpg';
 ---
@@ -47,6 +47,30 @@ import photo from '../../assets/site/anthony-about-hero.jpg';
           {CAREER.paragraphs.map((p) => <p>{p}</p>)}
           <p>{CAREER.degree.before}<cite class="italic">{CAREER.degree.book}</cite>{CAREER.degree.after}</p>
         </div>
+      </div>
+    </section>
+
+    <!-- Career as dated rows: on phones each row stacks, the date on top -->
+    <section id="career-table" class="px-margin pt-section">
+      <div class="border-t border-line pt-section">
+        <div class="lg:w-half"><Heading eyebrow={CAREER_TABLE.eyebrow}>{CAREER_TABLE.heading}</Heading></div>
+        <table class="mt-gutter w-full border-collapse text-left">
+          <caption class="sr-only">{CAREER_TABLE.caption}</caption>
+          <thead class="max-lg:sr-only">
+            <tr>{CAREER_TABLE.head.map((h) => <th scope="col" class="t-button-lg pb-loose pr-grid font-medium text-ink">{h}</th>)}</tr>
+          </thead>
+          <tbody>
+            {CAREER_TABLE.rows.map((r) => (
+              <tr class="flex flex-col gap-2 border-t border-line py-loose lg:table-row lg:py-0">
+                <th scope="row" class="t-label align-top font-medium tracking-[0.02em] text-muted lg:w-[220px] lg:py-loose lg:pr-grid">
+                  {r.datetime ? <time datetime={r.datetime}>{r.when}</time> : r.when}
+                </th>
+                <td class="t-body align-top text-ink lg:w-[45%] lg:py-loose lg:pr-grid">{r.role}</td>
+                <td class="t-body align-top text-muted lg:py-loose">{r.taught}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </section>
 

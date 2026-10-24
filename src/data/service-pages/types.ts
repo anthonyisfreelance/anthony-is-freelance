@@ -1,4 +1,4 @@
-// One shape for every service page, so all eight run in the same order
+// One shape for every service page, so all nine run in the same order
 // (page-copy/service-pages.md, "The page model"). Any image can be left out:
 // the page then shows a blank block until the real one is added.
 import type { ImageMetadata } from 'astro';
@@ -52,5 +52,7 @@ export interface ServicePage {
   };
   faqs?: { eyebrow: string; heading: string; items: { q: string; a: string[] }[] };
   articles?: { eyebrow: string; heading: string; link: Link; items: { category: string; title: string; href: string }[] };
+  /** The start-a-project section at the foot of the page, with a heading for this service. */
+  cta?: { eyebrow: string; heading: string };
   extras?: Extra[];
 }

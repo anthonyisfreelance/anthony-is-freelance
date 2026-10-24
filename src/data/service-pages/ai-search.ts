@@ -25,7 +25,7 @@ export const AI_SEARCH: ServicePage = {
     imageAlt: 'The Drink Finder homepage on desktop, with search, the full category menu and the shop’s Cornish address written in the header.',
     caption: 'Drink Finder. What it sells and where, written on the page rather than baked into images.',
   },
-  trust: ['Built into every store I design', 'UK eCommerce Website of the Year 2026', '20+ years ecommerce and brand experience'],
+  trust: ['Built into every store I design', 'UK eCommerce Website of the Year 2026', '20+ years of brand and ecommerce experience'],
   included: {
     heading: 'What AI search visibility design covers',
     items: [
@@ -40,7 +40,7 @@ export const AI_SEARCH: ServicePage = {
     ],
   },
   fit: {
-    heading: 'Right for you if',
+    heading: 'Who AI search visibility design is right for',
     items: [
       "Shoppers ask ChatGPT about your category, and you don't come up, even where your products are the better fit.",
       "Your product facts sit where AI tools can't read them: sizes in images, specs in PDFs, delivery details in banners.",
@@ -120,8 +120,8 @@ export const AI_SEARCH: ServicePage = {
     ],
   },
   comparison: {
-    eyebrow: 'AI search design vs GEO',
-    heading: 'AI search visibility design vs GEO. Which does your store need?',
+    eyebrow: 'AI search visibility design vs GEO',
+    heading: 'Which does your store need?',
     caption: 'AI search visibility design and GEO compared, October 2026',
     columns: [
       { label: 'AI search visibility design', href: URLS.aiSearch, current: true },

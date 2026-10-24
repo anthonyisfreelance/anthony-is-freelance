@@ -12,7 +12,7 @@ export const ABOUT_PAGE = {
   heading: 'Twenty years in and still in the pixels.',
   // The page's main extraction target: every entity fact once.
   intro:
-    "I'm Anthony Bliss, a freelance Shopify designer based in Falmouth, Cornwall. I design Shopify and Shopify Plus stores for UK DTC brands, trading as Anthony is Freelance. I've worked in design for over 20 years, and I've been independent since August 2023.",
+    "I'm Anthony Bliss, a freelance Shopify designer based in Falmouth, Cornwall. I design Shopify and Shopify Plus stores for UK DTC brands, trading as Anthony is Freelance through Anthonyis Limited, company number 10575474. I've worked in design for over 20 years, and I've been independent since August 2023.",
   // [CONFIRM] month and year the photo was taken, and alt text against the photo.
   photoAlt: 'Anthony Bliss, freelance Shopify designer, in Falmouth, Cornwall',
   photoCaption: 'Anthony Bliss in Falmouth, Cornwall.',
@@ -35,6 +35,22 @@ export const CAREER = {
   },
 };
 
+// The whole career as dated facts, one row each. Replaces the "since 2023" milestones (24 October 2026).
+// The agency is never named. `datetime` feeds the <time> element where the date is known.
+export const CAREER_TABLE = {
+  eyebrow: 'Shopify designer career',
+  heading: 'Twenty years, from brand identity to Shopify.',
+  caption: "Anthony Bliss's design career",
+  head: ['When', 'Role', 'What it taught me'],
+  rows: [
+    { when: '2002 to [CONFIRM year]', datetime: '2002', role: 'Brand identity designer at agencies in Bath and Bristol', taught: "How to tell a brand's story" },
+    { when: '[CONFIRM years], three and a half years', role: 'Senior freelance designer at Dyson, new product launches', taught: 'How a launch at global scale comes together' },
+    { when: 'March 2018 to August 2023', datetime: '2018-03', role: 'A Shopify agency in Falmouth, rising to Creative Director', taught: 'Restraint: a store has to sell, so every idea earns its place' },
+    { when: 'Since 2020', datetime: '2020', role: 'Shopify only', taught: '[CONFIRM a line, or leave blank]' },
+    { when: 'August 2023', datetime: '2023-08', role: 'Went independent as Anthony is Freelance', taught: '[CONFIRM a line]' },
+    { when: '30 September 2026', datetime: '2026-09-30', role: 'UK eCommerce Website of the Year (Drink Finder) and UK User Experience of the Year (East at Home), from four shortlistings', taught: '[CONFIRM a line]' },
+  ],
+};
 
 export const PRINCIPLES = {
   eyebrow: 'How I work',

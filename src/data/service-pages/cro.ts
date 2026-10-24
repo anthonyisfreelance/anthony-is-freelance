@@ -32,7 +32,7 @@ export const CRO: ServicePage = {
     ],
   },
   fit: {
-    heading: 'Right for you if',
+    heading: "Shopify CRO: who it's for",
     items: [
       'Your traffic is steady, but sales haven’t kept up.',
       'Your conversion rate has stalled, or dropped after a change.',
@@ -97,8 +97,8 @@ export const CRO: ServicePage = {
     rows: CRO_VS_UX.rows,
   },
   faqs: {
-    eyebrow: 'Before you get in touch',
-    heading: 'Shopify conversion rate optimisation FAQs',
+    eyebrow: 'Shopify conversion rate optimisation FAQs',
+    heading: 'Before you get in touch.',
     items: [
       { q: 'What is Shopify CRO?', a: ["Shopify CRO, or conversion rate optimisation, is improving your store so more visitors buy. It means finding where customers leave, redesigning those steps and measuring the result. A store is never finished, so it's ongoing work, not a one-off."] },
       { q: 'What is a good conversion rate on Shopify?', a: ['Above 3.2% puts a Shopify store in the top 20%, and the average is 1.4%. Your sector matters more than the average, so compare yourself with similar stores.'] },
@@ -111,11 +111,12 @@ export const CRO: ServicePage = {
   },
   articles: {
     eyebrow: 'Shopify conversion rate articles',
-    heading: 'Articles',
+    heading: 'Where to read more.',
     link: ALL_ARTICLES,
     items: [ARTICLE.goodConversion, ARTICLE.increaseConversion],
   },
   extras: [
     { kind: 'todo', after: 'process', title: 'Selling more without pushing', note: 'Innovations section, off for now. Multi-buy buttons, quantity savings and the other selling features were judged design details, not innovations. Waiting on your yes to show them unlabelled.' },
   ],
+  cta: { eyebrow: 'Start a Shopify CRO project', heading: 'Tell me where customers leave.' },
 };

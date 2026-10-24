@@ -31,7 +31,7 @@ export const PLUS: ServicePage = {
     ],
   },
   fit: {
-    heading: 'Right for you if',
+    heading: 'Who Shopify Plus design is right for',
     items: [
       "You're already on Plus, or your developer has recommended moving.",
       'You sell to trade customers or in more than one country.',
@@ -79,8 +79,8 @@ export const PLUS: ServicePage = {
     ],
   },
   faqs: {
-    eyebrow: 'Before you get in touch',
-    heading: 'Shopify Plus design questions',
+    eyebrow: 'Shopify Plus design questions',
+    heading: 'Before you get in touch.',
     items: [
       { q: 'Do I need Shopify Plus?', a: ["Usually not until volume, wholesale or selling in several countries makes Plus's features pay for themselves. Standard Shopify runs most DTC brands well. My Shopify vs Shopify Plus article explains where the line sits."] },
       { q: 'Can you work with our in-house developers or agency?', a: ['Yes. On Plus projects I often work alongside an in-house team or agency as design lead. I hand over a Figma design system they build from, and QA what they build.'] },
@@ -93,4 +93,5 @@ export const PLUS: ServicePage = {
     { kind: 'todo', after: 'process', title: 'Testimonial', note: 'A verbatim quote from Jing Tea, with name, role and permission, plus a heading line from it.' },
     { kind: 'todo', after: 'faqs', title: 'Articles', note: 'Shopify vs Shopify Plus, and Benefits of Shopify Plus: Should You Upgrade in 2026? Need their links.' },
   ],
+  cta: { eyebrow: 'Start a Shopify Plus project', heading: 'Tell me what Plus must do.' },
 };

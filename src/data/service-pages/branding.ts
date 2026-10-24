@@ -35,7 +35,7 @@ export const BRANDING: ServicePage = {
     ],
   },
   fit: {
-    heading: 'Right for you if',
+    heading: 'Who brand design is right for',
     items: [
       'You got the product out with a basic brand, and now the brand needs to catch up.',
       "You're redesigning the store and want the brand refined at the same time.",
@@ -85,6 +85,21 @@ export const BRANDING: ServicePage = {
       ['Who builds it', 'On a store project, a developer I introduce, or your own team or agency, quoted separately'],
     ],
   },
+  testimonial: {
+    heading: 'Drink Finder on their brand refinement. The soul kept, the journey smoothed.',
+    quote:
+      "Ant was incredibly accommodating, ensuring the site received a modern upgrade without alienating our core customers. He kept the 'Drink Finder' soul intact while significantly smoothing out the user journey.",
+    cite: 'Jon Wigmore, Marketing & E-Commerce, Constantine Stores Ltd, home of Drink Finder',
+  },
+  faqs: {
+    eyebrow: 'Shopify brand design FAQs',
+    heading: 'Before you get in touch.',
+    items: [
+      { q: 'Will we have to change our brand?', a: ['No. Most projects refine rather than replace: typography, colour and how the brand shows up on screen.'] },
+      { q: 'Can you do a full rebrand?', a: ["Yes, for the identity itself: logo, palette, typefaces and guidelines. If you need naming or brand strategy too, a brand agency with a strategy team is the better fit, and I'll say so on the call."] },
+      { q: 'Can you design the brand and the store together?', a: ['Yes, and it works best that way. The brand gets tested where customers actually see it, on product cards, buttons and the navigation, before anything is built.'] },
+    ],
+  },
   extras: [
     {
       kind: 'text',
@@ -114,7 +129,7 @@ export const BRANDING: ServicePage = {
         { name: 'Seatool', src: '/logos/identity/seatool.svg' },
       ],
     },
-    { kind: 'todo', after: 'innovations', title: 'Testimonial', note: 'A verbatim quote from Jon Wigmore about the Drink Finder brand refinement, with permission, plus a heading line from it.' },
-    { kind: 'todo', after: 'price', title: 'Questions and articles', note: 'No FAQ block and no branding articles yet, by design. Add when questions come up on calls.' },
+    { kind: 'todo', after: 'faqs', title: 'Articles', note: 'No branding articles yet. Add when one is published.' },
   ],
+  cta: { eyebrow: 'Start a brand design project', heading: 'Tell me where the brand feels behind.' },
 };

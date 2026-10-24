@@ -4,6 +4,7 @@ import { URLS } from '../site';
 import { CASE_STUDIES } from '../work';
 import { brandImage } from '../media';
 import type { ServicePage } from './types';
+import { THEME_VS_BESPOKE, THEME_VS_BESPOKE_ROWS } from './shared';
 // Lifestyle hero from Drive services/<service>/hero-lifestyle.jpg
 import heroPhoto from '../../assets/site/services/hero-bespoke.jpg';
 import shopByRoom from '../../assets/brands/projektityyny/shop-by-room.jpg';
@@ -39,7 +40,7 @@ export const BESPOKE: ServicePage = {
     caption: 'Hartnack & Co. The step-by-step product builder.',
   },
 
-  trust: ['UK eCommerce Website of the Year 2026', '20+ years ecommerce and brand experience', '4× shortlisted, UK eCommerce Awards 2026'],
+  trust: ['UK eCommerce Website of the Year 2026', '20+ years of brand and ecommerce experience', '4× shortlisted, UK eCommerce Awards 2026'],
 
   included: {
     heading: 'What a bespoke store design includes',
@@ -54,7 +55,7 @@ export const BESPOKE: ServicePage = {
   },
 
   fit: {
-    heading: 'Right for you if',
+    heading: 'Who bespoke is right for',
     items: [
       'The store is the brand, and a theme would make you look like everyone else in your category.',
       "Your products have become square pegs in your theme's round holes.",
@@ -160,25 +161,16 @@ export const BESPOKE: ServicePage = {
   },
 
   comparison: {
-    eyebrow: 'Comparison',
-    heading: 'Shopify theme vs bespoke. Which suits your store?',
+    ...THEME_VS_BESPOKE,
     caption: 'Bespoke store design and theme customisation compared, design only, checked September 2026',
     columns: [
       { label: 'Bespoke store design', href: URLS.bespoke, current: true },
       { label: 'Theme customisations', href: URLS.theme },
     ],
-    rows: [
-      ['How it’s designed', 'Every template from scratch in Figma', 'A premium theme redesigned, with a mix of Figma and in the theme'],
-      ['Navigation', 'Designed around your range', 'What the theme supports, plus custom sections'],
-      ['Best for', 'Brands where the store is the brand, and big or complex ranges', 'Moving quickly, or testing before bespoke'],
-    ],
+    rows: THEME_VS_BESPOKE_ROWS,
     examples: [
       { client: 'Drink Finder', href: URLS.caseStudies.drinkFinder, screen: redWine, alt: 'The Drink Finder red wine collection on mobile.' },
       { client: 'Thameen London', href: CASE_STUDIES.find((c) => c.client === 'Thameen London')!.href, screen: thameenCollection, alt: 'A Thameen London collection on mobile.' },
-    ],
-    notes: [
-      'Prices checked September 2026. Every project is quoted individually once the brief is defined.',
-      'The price moves with how many templates you need, how complex the products are (configurators, bundles, subscriptions), and whether the brand needs refining first.',
     ],
   },
 
@@ -190,8 +182,8 @@ export const BESPOKE: ServicePage = {
   },
 
   faqs: {
-    eyebrow: 'Before you get in touch',
-    heading: 'Bespoke Shopify store design FAQs',
+    eyebrow: 'Bespoke Shopify store design FAQs',
+    heading: 'Before you get in touch.',
     items: [
       {
         q: "What's the difference between an AI-generated store and a designed one?",
@@ -217,12 +209,13 @@ export const BESPOKE: ServicePage = {
   },
 
   articles: {
-    eyebrow: 'Bespoke Shopify design',
-    heading: 'Articles',
+    eyebrow: 'Bespoke Shopify design articles',
+    heading: 'Where to read more.',
     link: { label: 'View all articles', href: URLS.articles },
     items: [
       { category: 'Design and UX', title: 'Shopify Product Card Design: The Art of Cards That Convert', href: '/articles/shopify-product-card-design/' },
       { category: 'Shopify CRO', title: 'What Is a Good Conversion Rate on Shopify?', href: '/articles/good-conversion-rate-shopify/' },
     ],
   },
+  cta: { eyebrow: 'Start a bespoke Shopify project', heading: 'Tell me about your range.' },
 };

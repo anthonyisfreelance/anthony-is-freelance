@@ -302,7 +302,7 @@ const cell = 't-label tracking-[0.02em]';
                   <td class="w-[220px]"></td>
                   {cmp.columns.map((c) => (
                     <th scope="col" class:list={['t-button-lg px-grid py-loose font-medium text-ink', c.current && 'bg-raised']}>
-                      {c.label}{c.current && <span class="sr-only"> (this page)</span>}
+                      {c.label}{c.current && <span class="sr-only"> (you're here)</span>}
                     </th>
                   ))}
                 </tr>
@@ -385,7 +385,7 @@ const cell = 't-label tracking-[0.02em]';
       </section>
     )}
 
-    <Contact />
+    <Contact eyebrow={p.cta?.eyebrow} heading={p.cta?.heading} />
   </main>
 </Base>
 

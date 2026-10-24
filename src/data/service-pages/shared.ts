@@ -1,4 +1,4 @@
-// Bits every service page shares, so wording stays identical across all eight.
+// Bits every service page shares, so wording stays identical across all nine.
 import { URLS } from '../site';
 import { CASE_STUDIES } from '../work';
 import { ALL_SERVICES, formatPrice } from '../services';
@@ -23,7 +23,7 @@ export const ROUTING_EYEBROW = 'Honest Shopify advice';
 export const PRICE_NOTE = 'Prices checked September 2026. Every project is quoted individually once the brief is defined.';
 export const PROCESS_INTRO =
   'Every project starts with a UX review of your live store, and the navigation is where I look first, because it shows how a store really sells. Then your reviews, your data and your customers. And one question I ask on every project: would I buy this?';
-export const TRUST_COMMON = ['20+ years ecommerce and brand experience', '4× shortlisted, UK eCommerce Awards 2026'];
+export const TRUST_COMMON = ['20+ years of brand and ecommerce experience', '4× shortlisted, UK eCommerce Awards 2026'];
 export const QUOTE = { label: 'Get a quote', href: '#start-a-project' };
 export const ALL_ARTICLES = { label: 'View all articles', href: URLS.articles };
 
@@ -45,8 +45,8 @@ export const ARTICLE = {
 
 /** The CRO vs UX design table appears on both pages, word for word. */
 export const CRO_VS_UX = {
-  eyebrow: 'Comparison',
-  heading: 'Shopify CRO vs UX design. Which does your store need?',
+  eyebrow: 'Shopify CRO vs UX design',
+  heading: 'Which does your store need?',
   caption: 'Shopify CRO and Shopify UX design compared',
   rows: [
     ['The question', 'Why aren’t enough visitors buying?', 'How do customers find, compare and choose?'],
@@ -58,8 +58,10 @@ export const CRO_VS_UX = {
 };
 
 /** The theme vs bespoke table, shared by the bespoke and theme pages. */
+export const THEME_VS_BESPOKE = { eyebrow: 'Shopify theme vs bespoke', heading: 'Which suits your store?' };
 export const THEME_VS_BESPOKE_ROWS: [string, string, string][] = [
-  ['How it’s designed', 'Every template from scratch in Figma', 'A premium theme redesigned, with a mix of Figma and in the theme'],
+  ['How it’s designed', 'Every template from scratch in Figma', 'A premium theme redesigned: the key templates, like the header and product page, in Figma, and the rest straight into the theme'],
+  ['How it fits your products', 'Every element shaped around your brand and products', 'Your products fitted to a theme made for thousands of stores'],
   ['Navigation', 'Designed around your range', 'What the theme supports, plus custom sections'],
   ['Best for', 'Brands where the store is the brand, and big or complex ranges', 'Moving quickly, or testing before bespoke'],
 ];
