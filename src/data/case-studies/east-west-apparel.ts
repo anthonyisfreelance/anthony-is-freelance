@@ -1,7 +1,7 @@
 // East West Apparel case study. Copy from the "Case study copy: East West Apparel" doc (20 October 2026).
 // No photos or screens in the repo yet: everything drops in by name, see src/assets/brands/README.md.
 import { testimonial, creditLine } from '../testimonials';
-import { SERVICE, slot, photo, photoMedia, card, breadcrumbs, MORE_HEADING, type CaseStudyPageData } from './types';
+import { SERVICE, slot, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData } from './types';
 
 const B = 'east-west-apparel';
 const PATH = '/portfolio/east-west-apparel-shopify-website-design-case-study/';
@@ -119,5 +119,5 @@ export const DATA: CaseStudyPageData = {
       'Ant was great to work with, personable, very professional, accommodating, punctual, creative and intune. I am very pleased with the outcome of our website and the increase in sales because of it.',
     cite: creditLine(testimonial('east-west-apparel')),
   },
-  more: { ...MORE_HEADING, cards: [card('Drink Finder'), card('Thameen London'), card('Wide Fit Shoes')] },
+  more: { ...MORE_HEADING, cards: moreFor('East West Apparel') },
 };

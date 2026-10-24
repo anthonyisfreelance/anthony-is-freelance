@@ -9,7 +9,7 @@ import vineyard from '../../assets/brands/drink-finder/vineyard.jpg';
 import cocktail from '../../assets/brands/drink-finder/cocktail.jpg';
 import margarita from '../../assets/brands/drink-finder/margarita.jpg';
 import brandBg from '../../assets/brands/drink-finder/brand-bg.jpg';
-import { SERVICE, slot, card, MORE_HEADING, type CaseStudyPageData, type Media, type Split } from './types';
+import { SERVICE, slot, moreFor, MORE_HEADING, type CaseStudyPageData, type Media, type Split } from './types';
 
 const B = 'drink-finder';
 
@@ -182,5 +182,5 @@ export const DATA: CaseStudyPageData = {
   splits: SPLITS,
   feature: BRAND,
   testimonial: TESTIMONIAL,
-  more: { ...MORE_HEADING, cards: [card('East at Home'), card('Fuzzball'), card('Thameen London')] },
+  more: { ...MORE_HEADING, cards: moreFor('Drink Finder') },
 };

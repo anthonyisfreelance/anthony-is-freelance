@@ -113,7 +113,7 @@ const back = 'flex size-[18px] cursor-pointer items-center';
           {MEGA.work.links.map((l) => <li data-rise><a href={l.href} class={`${link} inline-block`}>{l.label}</a></li>)}
         </ul>
       </div>
-      <ul class="grid grid-cols-2 gap-x-grid gap-y-large">
+      <ul class="cards-align grid grid-cols-2 gap-x-grid gap-y-large">
         {workCards.map((c) => (
           <li data-rise><CaseStudyCard client={c.client} meta={c.meta} claim={c.claim} image={c.image} href={c.href} ratio="square" sizes="45vw" stackMeta /></li>
         ))}

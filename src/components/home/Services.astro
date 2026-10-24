@@ -62,11 +62,15 @@ const hovers = await Promise.all(
         ))}
       </ul>
     </div>
-    <div class="sticky top-0 z-10 order-first mb-[16px] aspect-[3/2] self-start overflow-hidden lg:order-none lg:mb-0 lg:aspect-auto lg:h-dvh">
-      <Image src={image} alt="" widths={[400, 750, 1000, 1400]} sizes="(min-width: 1024px) 50vw, calc(100vw - 32px)" class="absolute inset-0 size-full object-cover" />
+    <!-- Phones: the photo runs edge to edge and sticks at the top while the list scrolls under it. A band of
+         page background under it hides the list as it passes, so no text shows between photo and list. -->
+    <div class="sticky top-0 z-10 order-first self-start bg-surface pb-4 max-lg:-mx-margin lg:order-none lg:pb-0">
+    <div class="relative aspect-[3/2] overflow-hidden lg:aspect-auto lg:h-dvh">
+      <Image src={image} alt="" widths={[400, 750, 1000, 1400]} sizes="(min-width: 1024px) 50vw, 100vw" class="absolute inset-0 size-full object-cover" />
       {hovers.map((h) => h && (
         <img data-hover={h.i} data-srcset={h.srcset} sizes={sizes} alt="" decoding="async" class="absolute inset-0 hidden size-full object-cover opacity-0 transition-opacity duration-300 lg:block" />
       ))}
+    </div>
     </div>
   </div>
 </section>

@@ -1,7 +1,7 @@
 // Whistlefish case study. Copy from the "Case study copy: Whistlefish" doc (20 October 2026).
 // Screens drop in by name: see src/assets/brands/README.md.
 import { testimonial, creditLine } from '../testimonials';
-import { SERVICE, slot, innovationSlot, innovationLink, photo, photoMedia, card, breadcrumbs, MORE_HEADING, type CaseStudyPageData } from './types';
+import { SERVICE, slot, innovationSlot, innovationLink, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData } from './types';
 import apron from '../../assets/brands/whistlefish/apron.jpg';
 import cards from '../../assets/brands/whistlefish/cards.jpg';
 
@@ -128,5 +128,5 @@ export const DATA: CaseStudyPageData = {
       'The design process and finalised site helped our brand leap into its next phase with a fresh, clean look that our customers immediately loved. … Using Figma as a templating system meant all of our building blocks worked seamlessly together, and we’ve since been able to carry that framework into our own design team, making adjustments easily while staying true to the original vision.',
     cite: creditLine(testimonial('whistlefish')),
   },
-  more: { ...MORE_HEADING, cards: [card('Hartnack & Co'), card('East at Home'), card('Fuzzball')] },
+  more: { ...MORE_HEADING, cards: moreFor('Whistlefish') },
 };

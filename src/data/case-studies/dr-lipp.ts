@@ -1,6 +1,6 @@
 // Dr Lipp case study. Copy from the "Case study copy: Dr Lipp" doc (20 October 2026).
 // No photos or screens in the repo yet: everything drops in by name, see src/assets/brands/README.md.
-import { SERVICE, slot, photo, photoMedia, card, breadcrumbs, MORE_HEADING, type CaseStudyPageData } from './types';
+import { SERVICE, slot, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData } from './types';
 
 const B = 'dr-lipp';
 const PATH = '/portfolio/dr-lipp-shopify-website-case-study/';
@@ -99,5 +99,5 @@ export const DATA: CaseStudyPageData = {
     media: slot(B, 'feature', 'A Dr Lipp screen on mobile in the design system.', 'Design system screen'),
   },
   // No quote yet: ask Dr Lipp, or the agency if the work came through one. The page goes live either way.
-  more: { ...MORE_HEADING, cards: [card('Thameen London'), card('Wide Fit Shoes'), card('East at Home')] },
+  more: { ...MORE_HEADING, cards: moreFor('Dr Lipp') },
 };

@@ -1,6 +1,6 @@
 // Projektityyny case study. Copy from the "Case study copy: Projektityyny" doc (20 October 2026).
 // Photos from Drive (site-images/case-studies/projektityyny). Screens drop in by name: see README.
-import { SERVICE, slot, innovationSlot, innovationLink, photo, photoMedia, card, breadcrumbs, MORE_HEADING, type CaseStudyPageData } from './types';
+import { SERVICE, slot, innovationSlot, innovationLink, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData } from './types';
 import shopByRoom from '../../assets/brands/projektityyny/shop-by-room.jpg';
 import quilts from '../../assets/brands/projektityyny/lifestyle-03.jpg';
 import lampshades from '../../assets/brands/projektityyny/lifestyle-04.jpg';
@@ -126,5 +126,5 @@ export const DATA: CaseStudyPageData = {
     media: slot(B, 'feature', 'A Projektityyny screen on mobile in the design system.', 'Design system screen'),
   },
   // No quote yet: ask Projektityyny, or the agency if the work came through one. The page goes live either way.
-  more: { ...MORE_HEADING, cards: [card('Drink Finder'), card('East at Home'), card('Fuzzball')] },
+  more: { ...MORE_HEADING, cards: moreFor('Projektityyny') },
 };

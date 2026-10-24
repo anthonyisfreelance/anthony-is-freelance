@@ -1,7 +1,7 @@
 // Hartnack & Co case study. Copy from the "Case study copy: Hartnack & Co" doc (20 October 2026).
 // Screens drop in by name: see src/assets/brands/README.md.
 import { testimonial, creditLine } from '../testimonials';
-import { SERVICE, slot, innovationSlot, innovationLink, photo, photoMedia, card, breadcrumbs, MORE_HEADING, type CaseStudyPageData } from './types';
+import { SERVICE, slot, innovationSlot, innovationLink, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData } from './types';
 import box from '../../assets/brands/hartnack-and-co/box.jpg';
 
 const B = 'hartnack-and-co';
@@ -126,5 +126,5 @@ export const DATA: CaseStudyPageData = {
       'After many failed attempts to find a Shopify designer and developer anywhere in the world who could understand how our markets worked, but more importantly could design a website that could “make” a product, we discovered Anthony, just down the road in Cornwall. … he delivered a website that looks amazing but also works perfectly and we only wish we had found him earlier.',
     cite: creditLine(testimonial('hartnack-and-co')),
   },
-  more: { ...MORE_HEADING, cards: [card('Whistlefish'), card('Drink Finder'), card('Projektityyny')] },
+  more: { ...MORE_HEADING, cards: moreFor('Hartnack & Co') },
 };

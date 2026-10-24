@@ -1,0 +1,30 @@
+---
+// Client quote section, the same on the services hub and every service page (approved on the hub,
+// 24 October 2026): a rule over the section, the heading sticky on the left on desktop, and the quote
+// under its own rule on the right, with the client's logo above the credit.
+// A heading written "Client on the work. Line." splits at the first full stop into eyebrow and line.
+import Heading from './Heading.astro';
+interface Props { eyebrow?: string; heading: string; quote: string; cite: string; logo?: string }
+const { heading, quote, cite, logo } = Astro.props;
+let { eyebrow } = Astro.props;
+let line = heading;
+if (!eyebrow) {
+  const stop = heading.indexOf('. ');
+  if (stop > 0) {
+    eyebrow = heading.slice(0, stop);
+    line = heading.slice(stop + 2);
+  }
+}
+---
+<section class="px-margin pt-section">
+  <div class="flex flex-col gap-gutter border-t border-line pt-section lg:flex-row">
+    <div class="flex-1 lg:sticky lg:top-loose lg:self-start"><Heading eyebrow={eyebrow}>{line}</Heading></div>
+    <figure class="flex flex-col gap-grid-lg border-t border-line pt-large lg:w-half lg:shrink-0">
+      <blockquote class="font-display text-[length:var(--type-h2)] font-medium leading-[1.3] text-ink">“{quote}”</blockquote>
+      <figcaption class="t-label flex flex-col items-start gap-stack text-muted sm:flex-row sm:items-center sm:gap-grid">
+        {logo && <img src={`/logos/${logo}.svg`} alt="" width="220" height="74" class="h-[74px] w-[220px] shrink-0 object-contain object-left" loading="lazy" />}
+        <span>{cite}</span>
+      </figcaption>
+    </figure>
+  </div>
+</section>

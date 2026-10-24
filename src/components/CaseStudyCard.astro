@@ -18,6 +18,9 @@ interface Props {
   proof?: string; // service page proof sections add the proof line under the claim
 }
 const { client, meta, claim, image, badge, badgeAlt = '', href, ratio = 'portrait', sizes = '(min-width: 1024px) 31vw, calc(50vw - 24px)', stackMeta = false, eager = false, proof } = Astro.props;
+// Space between the rows under the photo (margins, not gap, so the rows can join a parent grid's
+// tracks: in a .cards-align grid every card's lines sit level with the cards beside it).
+const space = stackMeta === 'always' ? 'mt-2' : stackMeta ? 'mt-2 lg:mt-3' : 'mt-3';
 const aspect = { square: 'aspect-square', portrait: 'aspect-[4/5]', 'portrait-square': 'aspect-[4/5] lg:aspect-square', 'square-portrait': 'aspect-square lg:aspect-[4/5]' }[ratio];
 ---
 <article class="hover-card relative flex flex-col">
@@ -37,7 +40,7 @@ const aspect = { square: 'aspect-square', portrait: 'aspect-[4/5]', 'portrait-sq
       </div>
     )}
   </div>
-  <div class:list={['flex flex-col', stackMeta === 'always' ? 'gap-2' : stackMeta ? 'gap-2 lg:gap-3' : 'gap-3']}>
+  <div class="card-body flex flex-col">
     <p
       class:list={[
         't-badge flex border-b border-line text-muted',
@@ -48,7 +51,7 @@ const aspect = { square: 'aspect-square', portrait: 'aspect-[4/5]', 'portrait-sq
       <span class="shrink-0">{client}</span>
       <span class:list={['min-w-0 flex-1', stackMeta === 'always' ? '' : stackMeta ? 'lg:text-right' : 'text-right']}>{meta}</span>
     </p>
-    <h3 class="t-h6 text-ink">
+    <h3 class:list={['t-h6 text-ink', space]}>
       {href ? (
         <a href={href} class="stretched-link link-hover"><span class="sr-only">{client}. </span>{claim}</a>
       ) : (
@@ -56,6 +59,6 @@ const aspect = { square: 'aspect-square', portrait: 'aspect-[4/5]', 'portrait-sq
       )}
     </h3>
     <p class="sr-only">{meta}</p>
-    {proof && <p class="t-label border-t border-line pt-2 tracking-[0.02em] text-muted">{proof}</p>}
+    {proof && <p class:list={['t-label border-t border-line pt-2 tracking-[0.02em] text-muted', space]}>{proof}</p>}
   </div>
 </article>

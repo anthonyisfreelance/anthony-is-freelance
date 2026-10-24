@@ -1,7 +1,7 @@
 // Wide Fit Shoes case study. Copy from the "Case study copy: Wide Fit Shoes" doc (20 October 2026).
 // Screens drop in by name: see src/assets/brands/README.md.
 import { URLS } from '../site';
-import { SERVICE, slot, photo, photoMedia, card, breadcrumbs, MORE_HEADING, type CaseStudyPageData } from './types';
+import { SERVICE, slot, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData } from './types';
 import trainers from '../../assets/brands/wide-fit-shoes/card.jpg';
 
 const B = 'wide-fit-shoes';
@@ -112,5 +112,5 @@ export const DATA: CaseStudyPageData = {
     media: slot(B, 'feature', 'A Wide Fit Shoes screen on mobile in the design system.', 'Design system screen'),
   },
   // No quote yet: ask Wide Fit Shoes, or the agency if the work came through one. The page goes live either way.
-  more: { ...MORE_HEADING, cards: [card('Thameen London'), card('East West Apparel'), card('Dr Lipp')] },
+  more: { ...MORE_HEADING, cards: moreFor('Wide Fit Shoes') },
 };

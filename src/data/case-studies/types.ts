@@ -121,6 +121,38 @@ export const card = (name: string): Card => {
 
 export const MORE_HEADING = { eyebrow: 'More Shopify success stories', heading: 'Other stores, other problems. Solved.' };
 
+/**
+ * The three "More success stories" cards for a case study, picked by rule rather than by hand, so
+ * every page shows a different set and every case study gets linked to:
+ * 1. the closest match: most services in common, then the same sector, then work page order;
+ * 2 and 3. the next two case studies after this one in the work page order (wrapping round),
+ *    skipping the first pick and, where possible, the sector already shown.
+ * Only case studies with a page, a card photo and a finished claim are picked (never a [CONFIRM] one).
+ */
+export const moreFor = (name: string): Card[] => {
+  const pool = CASE_STUDIES.filter((c) => c.href && c.image && !c.claim.includes('[CONFIRM'));
+  if (!pool.some((c) => c.client === name)) pool.push(CASE_STUDIES.find((c) => c.client === name)!);
+  const self = pool.find((c) => c.client === name)!;
+  const sector = (c: { meta: string }) => c.meta.split(' · ')[0];
+  const others = pool.filter((c) => c !== self);
+  const shared = (c: (typeof pool)[number]) => c.services.filter((s) => self.services.includes(s)).length;
+  const first = [...others].sort(
+    (a, b) => shared(b) - shared(a) || Number(sector(b) === sector(self)) - Number(sector(a) === sector(self)) || pool.indexOf(a) - pool.indexOf(b),
+  )[0];
+  const start = pool.indexOf(self);
+  const ring = pool.slice(start + 1).concat(pool.slice(0, start)).filter((c) => c !== first);
+  const picks = [first];
+  for (const pass of [true, false]) {
+    for (const c of ring) {
+      if (picks.length === 3) break;
+      if (picks.includes(c)) continue;
+      if (pass && picks.some((p) => sector(p) === sector(c))) continue;
+      picks.push(c);
+    }
+  }
+  return picks.map((c) => card(c.client));
+};
+
 export const breadcrumbs = (name: string, path: string) => [
   { name: 'Home', path: URLS.home },
   { name: 'Success stories', path: URLS.work },

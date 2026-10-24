@@ -664,3 +664,24 @@ html[data-look='light'] main {
 html[data-look='light'] main img[src$='.svg'] { filter: invert(1); }
 html[data-look='light'] main .theme-light img[src$='.svg'] { filter: none; }
 
+
+/* Card grids where the lines line up across a row (QA, 24 October 2026). Each card's rows (photo,
+   client and sector, claim, proof line) join the grid's own rows, so the rule under the client row
+   and the rule over the proof line sit level with the cards beside them, whatever the copy length. */
+@layer components {
+  .cards-align > li:has(> article) {
+    display: grid;
+    grid-template-rows: subgrid;
+    grid-row: span 4;
+    row-gap: 0;
+  }
+}
+/* Outside the layers, so they win over the card's own flex utilities. (The list item stays in the
+   layer, so a hidden utility on it still hides it.) */
+.cards-align > li > article {
+  display: grid;
+  grid-template-rows: subgrid;
+  grid-row: span 4;
+  row-gap: 0;
+}
+.cards-align > li > article > .card-body { display: contents; }

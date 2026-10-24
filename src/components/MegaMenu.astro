@@ -43,7 +43,7 @@ const workCards = [STORIES.featured, ...STORIES.cards.filter((c) => c.href)].sli
         </li>
         {MEGA.work.links.map((l) => <li><a href={l.href} class={link}>{l.label}</a></li>)}
       </ul>
-      <ul class="grid flex-1 grid-cols-3 gap-gutter">
+      <ul class="cards-align grid flex-1 grid-cols-3 gap-gutter">
         {workCards.map((c) => (
           <li><CaseStudyCard client={c.client} meta={c.meta} claim={c.claim} image={c.image} href={c.href} ratio="square" sizes="320px" /></li>
         ))}

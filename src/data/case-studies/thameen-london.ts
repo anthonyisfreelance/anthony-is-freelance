@@ -1,7 +1,7 @@
 // Thameen London case study. Copy from the "Case study copy: Thameen London" doc (20 October 2026).
 // Screens drop in by name: see src/assets/brands/README.md.
 import { testimonial, creditLine } from '../testimonials';
-import { SERVICE, slot, photo, photoMedia, card, breadcrumbs, MORE_HEADING, type CaseStudyPageData } from './types';
+import { SERVICE, slot, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData } from './types';
 import bottles from '../../assets/brands/thameen/bottles.jpg';
 import collection from '../../assets/brands/thameen/collection.jpg';
 
@@ -126,5 +126,5 @@ export const DATA: CaseStudyPageData = {
       'Most importantly, he completely transformed the way the brand comes to life digitally. The new UX elevated the website into a much more modern, intuitive and premium experience, creating a journey that feels both effortless for the customer and truly reflective of Thameen’s luxury positioning.',
     cite: creditLine(testimonial('thameen-london')),
   },
-  more: { ...MORE_HEADING, cards: [card('Wide Fit Shoes'), card('Dr Lipp'), card('Drink Finder')] },
+  more: { ...MORE_HEADING, cards: moreFor('Thameen London') },
 };

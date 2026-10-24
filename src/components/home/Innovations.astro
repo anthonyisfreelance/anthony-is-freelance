@@ -9,7 +9,7 @@ import { INNOVATIONS } from '../../data/home';
     <SectionIntro eyebrow={INNOVATIONS.eyebrow} heading={INNOVATIONS.heading}>
       <TextLink slot="links" href={INNOVATIONS.link.href}>{INNOVATIONS.link.label}</TextLink>
     </SectionIntro>
-    <ul class="mt-large grid grid-cols-2 gap-x-grid gap-y-large lg:grid-cols-3">
+    <ul class="mt-large grid grid-cols-2 gap-x-grid gap-y-section-sm lg:grid-cols-3 lg:gap-y-large">
       {INNOVATIONS.items.map((item, i) => (
         <li class:list={['hover-card relative flex flex-col', i > 1 && 'max-lg:hidden']}>
           <ScreenTile screen={item.image} video={item.video} anchor={item.anchor} sizes="(min-width: 1024px) 16vw, 25vw" />

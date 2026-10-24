@@ -2,7 +2,7 @@
 // Screens drop in by name: see src/assets/brands/README.md.
 import { URLS } from '../site';
 import { testimonial, creditLine } from '../testimonials';
-import { SERVICE, slot, innovationSlot, innovationLink, photo, photoMedia, card, breadcrumbs, MORE_HEADING, type CaseStudyPageData } from './types';
+import { SERVICE, slot, innovationSlot, innovationLink, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData } from './types';
 import { brandVideo } from '../media';
 import cardPhoto from '../../assets/brands/east-at-home/card.jpg';
 import cardScreen from '../../assets/brands/east-at-home/card-screen.jpg';
@@ -140,5 +140,5 @@ export const DATA: CaseStudyPageData = {
       'When I first saw Anthony’s work I knew that he was the right person for us, my initial hunch turned out to be correct. He was a joy to work with, a true craftsman who takes pride in his work with expert knowledge and delivers amazing results.',
     cite: creditLine(testimonial('east-at-home')),
   },
-  more: { ...MORE_HEADING, cards: [card('Drink Finder'), card('Fuzzball'), card('Projektityyny')] },
+  more: { ...MORE_HEADING, cards: moreFor('East at Home') },
 };

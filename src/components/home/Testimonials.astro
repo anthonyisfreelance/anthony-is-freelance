@@ -8,7 +8,7 @@ import { TESTIMONIALS } from '../../data/home';
     <SectionIntro eyebrow={TESTIMONIALS.eyebrow} heading={TESTIMONIALS.heading}>
       {TESTIMONIALS.links.map((l) => <TextLink slot="links" href={l.href} external={l.external}>{l.label}</TextLink>)}
     </SectionIntro>
-    <ul class="mt-large grid gap-large lg:grid-cols-3">
+    <ul class="mt-section-sm grid gap-section-sm lg:mt-large lg:grid-cols-3 lg:gap-large">
       {TESTIMONIALS.quotes.map((t, i) => (
         <li class:list={[i > 1 && 'max-lg:hidden']}>
           <figure class="flex h-full flex-col justify-between gap-large border-t border-line pt-large">

@@ -214,12 +214,12 @@ export const TESTIMONIALS = {
     { label: 'Read my Google reviews', href: ENTITY.googleReviews, external: true },
   ],
   // Excerpts copied word for word from the testimonials record, each linking to its full quote.
-  // Phones show the first two. Logo to come for Zen Maitri.
+  // Phones show the first two.
   quotes: (
     [
       ['east-at-home', 'He was a joy to work with, a true craftsman who takes pride in his work with expert knowledge and delivers amazing results.', '/logos/east-at-home.svg'],
       ['drink-finder', "He didn't just give us a facelift; he built a platform that performs.", '/logos/drink-finder.svg'],
-      ['zen-maitri', 'He has an incredible eye for design and functionality, two skills that you rarely find in the same person.', null],
+      ['zen-maitri', 'He has an incredible eye for design and functionality, two skills that you rarely find in the same person.', '/logos/zen-maitri.svg'],
     ] as const
   ).map(([id, quote, logo]) => ({ quote, cite: creditLine(testimonial(id)), logo, href: `${URLS.testimonials}#${id}` })),
 };

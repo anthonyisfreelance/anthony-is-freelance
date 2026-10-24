@@ -1,7 +1,7 @@
 // Window Fleur case study. Copy from the "Case study copy: Window Fleur" doc (20 October 2026).
 // No photos or screens in the repo yet: everything drops in by name, see src/assets/brands/README.md.
 import { testimonial, creditLine } from '../testimonials';
-import { SERVICE, slot, innovationSlot, innovationLink, photo, photoMedia, card, breadcrumbs, MORE_HEADING, type CaseStudyPageData } from './types';
+import { SERVICE, slot, innovationSlot, innovationLink, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData } from './types';
 
 const B = 'window-fleur';
 const PATH = '/portfolio/window-fleur-shopify-case-study/';
@@ -103,5 +103,5 @@ export const DATA: CaseStudyPageData = {
       'Ant was fantastic to work with, professional, efficient, and made the whole process seamless. Our website saw huge improvements, and we’ll definitely be working with him again for future projects.',
     cite: creditLine(testimonial('window-fleur')),
   },
-  more: { ...MORE_HEADING, cards: [card('Fuzzball'), card('Projektityyny'), card('Wide Fit Shoes')] },
+  more: { ...MORE_HEADING, cards: moreFor('Window Fleur') },
 };

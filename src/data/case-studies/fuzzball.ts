@@ -1,6 +1,6 @@
 // Fuzzball case study. Copy from the "Case study copy: Fuzzball" doc (20 October 2026).
 // Screens drop in by name: see src/assets/brands/README.md.
-import { SERVICE, slot, innovationSlot, innovationLink, photo, photoMedia, card, breadcrumbs, MORE_HEADING, type CaseStudyPageData } from './types';
+import { SERVICE, slot, innovationSlot, innovationLink, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData } from './types';
 import pack from '../../assets/brands/fuzzball/card.jpg';
 import treats from '../../assets/brands/fuzzball/treats.jpg';
 
@@ -123,5 +123,5 @@ export const DATA: CaseStudyPageData = {
     media: innovationSlot('progress-bar-with-character', 'The Fuzzball quiz progress bar on mobile, with the cat chasing a ball.', 'The progress bar recording'),
   },
   // No quote yet: ask Fuzzball, or the agency if the work came through one. The page goes live either way.
-  more: { ...MORE_HEADING, cards: [card('Drink Finder'), card('East at Home'), card('Whistlefish')] },
+  more: { ...MORE_HEADING, cards: moreFor('Fuzzball') },
 };
