@@ -24,12 +24,16 @@ export const ENTITY = {
     id: `${SITE}/#website`,
     name: 'Anthony is Freelance',
   },
-  // [CONFIRM] Clutch profile URL. Keep only profiles that are active.
+  // Profiles that describe this same business, for Google and AI search to join up (24 October 2026).
+  // Keep only profiles that are active and match the site's name, address and phone.
   sameAs: [
     'https://www.linkedin.com/in/anthony-is-freelance/',
     'https://g.page/anthonyis-freelance',
+    'https://clutch.co/profile/anthony-freelance',
+    'https://www.designrush.com/agency/profile/anthony-is-freelance',
     'https://find-and-update.company-information.service.gov.uk/company/10575474',
   ],
+  companiesHouse: 'https://find-and-update.company-information.service.gov.uk/company/10575474',
   googleReviews: 'https://g.page/anthonyis-freelance',
 };
 
@@ -119,10 +123,14 @@ export const FOOTER_COLUMNS = [
 ];
 
 // [CONFIRM] which profiles are active. The design shows Facebook twice.
+// Footer profile links (24 October 2026). Named text links, not icons, so each one tells people and
+// crawlers what it is. Only profiles that back up who I am: the person, reviews, and the directories
+// AI answers cite for Shopify designers. Social channels come back only once they're active.
 export const SOCIAL = [
-  { label: 'Facebook', icon: '/icons/facebook.svg', href: '#' },
-  { label: 'TikTok', icon: '/icons/tiktok.svg', href: '#' },
-  { label: 'YouTube', icon: '/icons/youtube.svg', href: '#' },
+  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/anthony-is-freelance/' },
+  { label: 'Google reviews', href: 'https://g.page/anthonyis-freelance' },
+  { label: 'Clutch', href: 'https://clutch.co/profile/anthony-freelance' },
+  { label: 'DesignRush', href: 'https://www.designrush.com/agency/profile/anthony-is-freelance' },
 ];
 
 // Mega menu. Same data drives the desktop panels and the compact/mobile menu.

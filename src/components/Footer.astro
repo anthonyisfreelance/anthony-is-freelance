@@ -49,13 +49,18 @@ const columns = [
       </div>
 
       <div class="flex flex-col gap-grid-lg lg:items-center lg:gap-large lg:px-margin">
-        <ul class="flex items-center gap-3 lg:gap-4">
+        <ul class="flex flex-wrap items-center gap-x-grid gap-y-3" aria-label="Find me elsewhere">
           {SOCIAL.map((s) => (
-            <li><a href={s.href} aria-label={s.label}><img src={s.icon} alt="" width="24" height="24" class="size-6" loading="lazy" /></a></li>
+            <li>
+              <a href={s.href} target="_blank" rel="noopener me" class="t-label inline-flex items-center gap-1 text-ink link-hover">
+                {s.label}
+                <img src="/icons/arrow-up-right.svg" alt="" width="14" height="14" class="size-[14px]" loading="lazy" />
+              </a>
+            </li>
           ))}
         </ul>
         <p class="t-label flex flex-col gap-[10px] tracking-[0.02em] text-muted lg:flex-row lg:items-center lg:gap-10">
-          <span class="lg:order-1">Registered in England &amp; Wales No. {ENTITY.business.companyNumber}</span>
+          <span class="lg:order-1">Registered in England &amp; Wales No. <a href={ENTITY.companiesHouse} target="_blank" rel="noopener" class="underline underline-offset-4 hover:decoration-2">{ENTITY.business.companyNumber}</a></span>
           <span class="lg:order-2">VAT number 530 0230 61</span>
           <span class="lg:order-3">Based in Falmouth, Cornwall, UK.</span>
           <button type="button" data-consent-open class="cursor-pointer self-start link-hover lg:order-4">Cookie settings</button>
