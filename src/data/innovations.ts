@@ -127,7 +127,7 @@ const RECORDS: InnovationRecord[] = [
       'I cut product names to one line, so the picture leads. The multi-buy offer and an Add button sit on the card, because people often buy several cards at once.',
     caption: 'Image-first product cards on Whistlefish.',
     alt: 'Whistlefish greeting cards on mobile, with one-line names, the multi-buy offer and Add buttons.',
-    videoUploaded: '2026-10-21',
+    videoUploaded: '2026-10-25',
   },
   // ---- Choosing
   {
@@ -246,7 +246,7 @@ const RECORDS: InnovationRecord[] = [
     evidence: 'The project led to Window Fleur commissioning a full store redesign.',
     caption: "Window Fleur's subscription journey on one screen.",
     alt: "Window Fleur's subscription product page on mobile, with a slide-up open for the detail.",
-    videoUploaded: '2026-10-21',
+    videoUploaded: '2026-10-25',
   },
   // ---- Brand
   {
@@ -263,7 +263,7 @@ const RECORDS: InnovationRecord[] = [
     evidence: 'Project result: conversion rate up 63%, August 2025 to August 2026 against the year before. GA4.',
     caption: "Fuzzball's quiz progress bar.",
     alt: "Fuzzball's quiz on mobile, with the cat chasing a ball along the progress bar.",
-    videoUploaded: '2026-10-21',
+    videoUploaded: '2026-10-25',
   },
   {
     slug: 'design-system-team-runs',
@@ -281,7 +281,7 @@ const RECORDS: InnovationRecord[] = [
     evidence: '"We\'ve since been able to carry that framework into our own design team." Will Manders, Whistlefish',
     caption: "Whistlefish's design system in Figma.",
     alt: "Whistlefish's store on mobile, moving between pages built from the design system.",
-    videoUploaded: '2026-10-21',
+    videoUploaded: '2026-10-25',
   },
 ];
 
