@@ -78,7 +78,7 @@ const RECORDS: InnovationRecord[] = [
       'Project result: website sales up 34%, September to February against the year before. EPoS till data, marketplaces excluded. Drink Finder won UK eCommerce Website of the Year at the UK eCommerce Awards 2026.',
     caption: "A comparison toggle on Drink Finder's collection page.",
     alt: "Drink Finder's collection page on mobile, with the Show extras toggle above the wines.",
-    videoUploaded: '2026-10-19',
+    videoUploaded: '2026-10-25',
   },
   {
     slug: 'shop-by-product-room-print',
@@ -95,7 +95,7 @@ const RECORDS: InnovationRecord[] = [
     evidence: "Over 80% of Projektityyny's visitors are on mobile, from the UX review before design started.",
     caption: 'Shop by product, room or print on Projektityyny.',
     alt: "Projektityyny's navigation on mobile, with routes to shop by product, room or print.",
-    videoUploaded: '2026-10-21',
+    videoUploaded: '2026-10-25',
   },
   {
     slug: 'lookbook-archive',
@@ -111,7 +111,7 @@ const RECORDS: InnovationRecord[] = [
     // No evidence line: PageSpeed is dropped (19 October 2026), as speed is development work.
     caption: "Projektityyny's lookbook archive.",
     alt: "A past collection in Projektityyny's lookbook archive on mobile.",
-    videoUploaded: '2026-10-21',
+    videoUploaded: '2026-10-25',
   },
   {
     slug: 'image-first-product-cards',
@@ -147,7 +147,7 @@ const RECORDS: InnovationRecord[] = [
       'Project result: revenue up 82%, October to June against the year before. GA4, UK sessions. East at Home won UK User Experience of the Year at the UK eCommerce Awards 2026.',
     caption: 'Product cards that answer dinner questions on East at Home.',
     alt: 'East at Home curry sauces as a list on mobile, each with chilli heat icons, dietary labels, reviews and price.',
-    videoUploaded: '2026-10-21',
+    videoUploaded: '2026-10-25',
   },
   {
     slug: 'product-builder',
@@ -164,7 +164,7 @@ const RECORDS: InnovationRecord[] = [
     // No evidence line: GA4 shows conversion down since launch, so the 39% is off (19 October 2026).
     caption: "Hartnack & Co's step-by-step product builder.",
     alt: "A step in Hartnack & Co's product builder on mobile, with a tip and the running cost.",
-    videoUploaded: '2026-10-21',
+    videoUploaded: '2026-10-25',
   },
   {
     slug: 'customer-gallery',
@@ -180,7 +180,7 @@ const RECORDS: InnovationRecord[] = [
       'Each past creation in the gallery lists the exact options chosen, so a new customer can copy one they like.',
     caption: "Hartnack & Co's customer gallery.",
     alt: "A finished binder in Hartnack & Co's customer gallery, with the options chosen listed beside it.",
-    videoUploaded: '2026-10-21',
+    videoUploaded: '2026-10-25',
   },
   {
     slug: 'subscription-only-cards',
@@ -212,7 +212,7 @@ const RECORDS: InnovationRecord[] = [
     evidence: 'Found in the UX review, before any design started.',
     caption: "The offers button in Drink Finder's navigation.",
     alt: "Drink Finder's header on mobile, with the offers button in the navigation.",
-    videoUploaded: '2026-10-21',
+    videoUploaded: '2026-10-25',
   },
   {
     slug: 'trial-subscription-split',

@@ -50,7 +50,7 @@ export const DATA: CaseStudyPageData = {
     desktop: slot(B, 'showcase-desktop', 'The Projektityyny store on desktop: the homepage hero and the image-led category blocks.', 'Desktop homepage scroll'),
     phones: [
       slot(B, 'showcase-phone-1', 'The Projektityyny homepage on mobile.', 'Homepage'),
-      slot(B, 'showcase-phone-2', 'The Projektityyny all-products collection on mobile.', 'All-products collection'),
+      slot(B, 'showcase-phone-2', 'The Projektityyny patchwork quilts collection on mobile.', 'Quilts collection'),
       slot(B, 'showcase-phone-3', 'Projektityyny search on mobile.', 'Search'),
       slot(B, 'showcase-phone-4', 'The Projektityyny basket on mobile.', 'Basket'),
     ],
