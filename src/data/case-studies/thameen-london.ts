@@ -16,8 +16,8 @@ export const DATA: CaseStudyPageData = {
       'How I moved luxury fragrance house Thameen London off headless Shopify onto a premium theme, customised until it looks bespoke.',
     breadcrumbs: breadcrumbs('Thameen London', PATH),
   },
-  // [CONFIRM] store URL
-  client: { name: 'Thameen London', url: 'https://thameenlondon.com/', display: 'thameenlondon.com' },
+  // thameenlondon.com redirects here (checked 25 October 2026)
+  client: { name: 'Thameen London', url: 'https://thameenfragrance.com/', display: 'thameenfragrance.com' },
   hero: {
     eyebrow: 'Thameen London Shopify case study',
     heading: 'Off headless, onto a premium theme',
@@ -89,27 +89,27 @@ export const DATA: CaseStudyPageData = {
       eyebrow: 'Shopify cart and search design',
       heading: 'Unhurried to the end.',
       body: 'Shopify cart and search design carries the same calm through to checkout. The cart, search and overlays are styled like the rest of the store, so nothing drops back to the theme default.',
-      media: slot(B, 'work-04', 'The Thameen London cart and search on mobile, styled to match the store.', 'The cart and search recording'),
+      media: slot(B, 'work-04', 'Thameen London search and the bag on mobile, styled to match the store.', 'The cart and search recording'),
     },
   ],
   // 50/50 blocks between the work rows, in place of the sticky gallery (23 October 2026).
   splits: [
     {
       after: 1,
-      label: "A Thameen London screen",
+      label: 'The Thameen London discovery set',
       photo: photoMedia(B, 'split-1-photo', bottles),
-      screen: slot(B, 'split-1-screen', "", "Screen to choose"),
+      screen: slot(B, 'split-1-screen', 'The Thameen London discovery set on mobile: six bestselling fragrances in 2ml miniatures.', 'Discovery set'),
       tint: '#E5E6E8',
       photoSide: 'right',
-      caption: "[CONFIRM: describe the screen once chosen]",
+      caption: 'The discovery set on mobile: six bestselling fragrances in 2ml miniatures, a first step before a full bottle.',
     },
     {
       after: 3,
-      label: "A Thameen London screen",
+      label: 'The Thameen London Treasure Collection',
       photo: photoMedia(B, 'split-2-photo', collection),
-      screen: slot(B, 'split-2-screen', "", "Screen to choose"),
+      screen: slot(B, 'split-2-screen', 'The Thameen London Treasure Collection on mobile.', 'Treasure Collection'),
       tint: '#E5E6E8',
-      caption: "[CONFIRM: describe the screen once chosen]",
+      caption: 'The Treasure Collection on mobile, with the bottles given room on an editorial grid.',
     },
   ],
   feature: {
