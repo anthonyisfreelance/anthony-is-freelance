@@ -16,12 +16,17 @@ import Media from './Media.astro';
 import SplitBlock from './Split.astro';
 import Contact from '../home/Contact.astro';
 import { SITE } from '../../data/site';
-import type { CaseStudyPageData } from '../../data/case-studies/types';
+import type { CaseStudyPageData, Highlight } from '../../data/case-studies/types';
 
 interface Props { data: CaseStudyPageData }
 const { meta: META, client: CLIENT, hero: HERO, brief: BRIEF, details: DETAILS, showcase: SHOWCASE, workIntro: WORK_INTRO, highlights: HIGHLIGHTS, gallery: GALLERY, splits: SPLITS = [], feature: FEATURE, testimonial: TESTIMONIAL, more: MORE } = Astro.props.data;
 // The splits that follow work row n (counting from 1).
-const splitsAfter = (n: number) => SPLITS.filter((s) => s.after === n);
+// The work rows. The design system or brand section closes them as a plain row (27 October 2026):
+// no full-bleed photo, so no text ever sits on an image.
+const ROWS: Highlight[] = FEATURE ? [...HIGHLIGHTS, { eyebrow: FEATURE.eyebrow, heading: FEATURE.heading, body: FEATURE.body, media: FEATURE.media, link: FEATURE.link }] : HIGHLIGHTS;
+// A 50/50 with no `after` goes halfway: after row 2 of 4 or 5, row 3 of 6.
+const HALFWAY = ROWS.length >= 4 ? Math.floor(ROWS.length / 2) : ROWS.length;
+const splitsAfter = (n: number) => SPLITS.filter((s) => (s.after ?? HALFWAY) === n);
 
 const url = new URL(META.path, SITE).href;
 const clientId = `${url}#client`;
@@ -153,12 +158,12 @@ const link = 'underline underline-offset-4 hover:decoration-2';
 
     <!-- Highlights. Desktop: a 320px phone screen and 434px of copy, centred as a pair. Fixed sizes,
          so the screens never scale up on big monitors. No rules between rows, so the work reads as one run. -->
-    {HIGHLIGHTS.map((h, i) => {
+    {ROWS.map((h, i) => {
       const flip = h.flip ?? i % 2 === 1;
       const after = splitsAfter(i + 1);
       return (
         <>
-        <section class:list={['px-margin pt-section lg:pt-[120px]', i === HIGHLIGHTS.length - 1 && !after.length && 'pb-section lg:pb-[120px]']}>
+        <section class:list={['px-margin pt-section lg:pt-[120px]', i === ROWS.length - 1 && !after.length && 'pb-section lg:pb-[120px]']}>
           <div class="grid gap-large lg:flex lg:items-center lg:justify-center lg:gap-[163px]">
             <div class:list={['flex flex-col lg:w-[434px] lg:shrink-0', flip && 'lg:order-2']}>
               <h3 class="font-display text-[length:var(--type-h5)] font-medium leading-[1.3] text-ink lg:text-[length:var(--type-h3)]">
@@ -179,26 +184,6 @@ const link = 'underline underline-offset-4 hover:decoration-2';
         </>
       );
     })}
-
-    <!-- Feature section, part of the work, over a full-bleed photo at least a screen tall -->
-    {FEATURE && (
-    <section class="relative py-section lg:flex lg:min-h-dvh lg:flex-col lg:justify-center">
-      <div class="absolute inset-0" aria-hidden="true">
-        {FEATURE.background
-          ? <Image src={FEATURE.background} alt="" widths={bgWidths(FEATURE.background, [640, 1024, 1440, 1620])} sizes="100vw" quality={70} class="size-full object-cover" />
-          : <div class="size-full bg-[#6b6b6b]"><span class="t-badge absolute left-5 top-5 text-white">[Photo to come]</span></div>}
-        <div class="absolute inset-0 bg-black/20"></div>
-      </div>
-      <div class="relative grid gap-large px-margin lg:grid-cols-2 lg:gap-gutter">
-        <div class="flex flex-col justify-end pb-loose [&_.eyebrow]:text-ink">
-          <Heading level={3} eyebrow={FEATURE.eyebrow} deco={false}>{FEATURE.heading}</Heading>
-          <p class="t-body mt-loose text-ink">{FEATURE.body}</p>
-          {FEATURE.link && <div class="mt-loose"><TextLink href={FEATURE.link.href}>{FEATURE.link.label}</TextLink></div>}
-        </div>
-        <Media media={FEATURE.media} sizes="(min-width: 1024px) 676px, 100vw" class="aspect-square w-full max-lg:order-first lg:max-w-[676px]" />
-      </div>
-    </section>
-    )}
 
     <!-- Testimonial -->
     {TESTIMONIAL && (

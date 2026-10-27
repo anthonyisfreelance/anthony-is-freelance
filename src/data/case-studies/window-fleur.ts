@@ -1,7 +1,7 @@
 // Window Fleur case study. Copy from the "Case study copy: Window Fleur" doc (20 October 2026).
 // No photos or screens in the repo yet: everything drops in by name, see src/assets/brands/README.md.
 import { testimonial, creditLine } from '../testimonials';
-import { SERVICE, slot, innovationSlot, innovationLink, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData } from './types';
+import { SERVICE, slot, innovationSlot, innovationLink, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData, desktopSplit } from './types';
 
 const B = 'window-fleur';
 const PATH = '/portfolio/window-fleur-shopify-case-study/';
@@ -76,18 +76,9 @@ export const DATA: CaseStudyPageData = {
       media: slot(B, 'work-03', 'The Window Fleur filters panel on mobile.', 'The filters panel'),
     },
   ],
-  // 50/50 blocks between the work rows, in place of the sticky gallery (23 October 2026).
-  splits: [
-    {
-      after: 1,
-      label: "The Window Fleur flowers slide-up",
-      photo: photoMedia(B, 'split-1-photo'),
-      screen: slot(B, 'split-1-screen', "The Window Fleur flowers slide-up on mobile.", "Flowers slide-up"),
-      tint: '#C4C4BB',
-      photoSide: 'right',
-      caption: "Flowers chosen in a slide-up on mobile, so the product page stays short.",
-    },
-  ],
+  // One 50/50 halfway through the work (27 October 2026): this photo sticks at full height while
+  // desktop screens scroll past on the tint. Drop in split-desktop-1 to -3.
+  splits: [desktopSplit(B, 'Window Fleur', photoMedia(B, 'split-1-photo'), '#C4C4BB')],
   feature: {
     background: photo(B, 'feature-photo'),
     eyebrow: 'Pattern-led brand design',

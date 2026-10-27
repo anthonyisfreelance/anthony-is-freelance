@@ -1,6 +1,6 @@
 // Dr Lipp case study. Copy from the "Case study copy: Dr Lipp" doc (20 October 2026).
 // No photos or screens in the repo yet: everything drops in by name, see src/assets/brands/README.md.
-import { SERVICE, slot, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData } from './types';
+import { SERVICE, slot, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData, desktopSplit } from './types';
 
 const B = 'dr-lipp';
 const PATH = '/portfolio/dr-lipp-shopify-website-case-study/';
@@ -80,17 +80,9 @@ export const DATA: CaseStudyPageData = {
       media: slot(B, 'work-03', 'The full library of Dr Lipp Shopify 2.0 sections.', 'The all-sections recording'),
     },
   ],
-  // 50/50 blocks between the work rows, in place of the sticky gallery (23 October 2026).
-  splits: [
-    {
-      after: 2,
-      label: "The Dr Lipp ingredients section",
-      photo: photoMedia(B, 'split-1-photo'),
-      screen: slot(B, 'split-1-screen', "The Dr Lipp ingredients section on mobile.", "Ingredients section"),
-      tint: '#C9C6C2',
-      caption: "The ingredients section on mobile, built from the same Shopify 2.0 sections as every other page.",
-    },
-  ],
+  // One 50/50 halfway through the work (27 October 2026): this photo sticks at full height while
+  // desktop screens scroll past on the tint. Drop in split-desktop-1 to -3.
+  splits: [desktopSplit(B, 'Dr Lipp', photoMedia(B, 'split-1-photo'), '#C9C6C2')],
   feature: {
     background: photo(B, 'feature-photo'),
     eyebrow: 'Accessible design system',

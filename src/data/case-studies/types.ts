@@ -36,7 +36,8 @@ export interface Highlight {
 export interface SplitScreen { media: Media; device: 'phone' | 'desktop' }
 
 export interface Split {
-  after: number;
+  /** How many work rows come before it. Left out: halfway (after row 2 of 4 or 5, row 3 of 6). */
+  after?: number;
   label: string;
   photo: Media;
   /** One phone beside the photo. */
@@ -180,4 +181,20 @@ export const photoMedia = (brand: string, name: string, fallback?: ImageMetadata
   image: photo(brand, name, fallback),
   alt: '',
   label: 'Photo',
+});
+
+/**
+ * The one 50/50 per page (27 October 2026, Figma 48323:17501): a lifestyle photo the full height of
+ * the screen sticks while desktop screens scroll past on a tint picked from it, halfway through the
+ * work. Drop in split-desktop-1 to -3 (stills or recordings). Until split-desktop-1 is there it falls
+ * back to the showcase desktop still; the others show a placeholder.
+ */
+export const desktopSplit = (brand: string, client: string, photo: Media, tint: string, count = 3): Split => ({
+  label: `${client} on desktop`,
+  photo,
+  screens: Array.from({ length: count }, (_, i) => {
+    const m = slot(brand, `split-desktop-${i + 1}`, `The ${client} store on desktop.`, `Desktop screen ${i + 1}`);
+    return { device: 'desktop' as const, media: i === 0 && !m.image ? { ...m, image: brandImage(brand, 'showcase-desktop') } : m };
+  }),
+  tint,
 });

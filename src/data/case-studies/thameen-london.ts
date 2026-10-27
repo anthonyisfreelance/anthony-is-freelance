@@ -1,7 +1,7 @@
 // Thameen London case study. Copy from the "Case study copy: Thameen London" doc (20 October 2026).
 // Screens drop in by name: see src/assets/brands/README.md.
 import { testimonial, creditLine } from '../testimonials';
-import { SERVICE, slot, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData } from './types';
+import { SERVICE, slot, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData, desktopSplit } from './types';
 import bottles from '../../assets/brands/thameen/bottles.jpg';
 import collection from '../../assets/brands/thameen/collection.jpg';
 
@@ -92,26 +92,9 @@ export const DATA: CaseStudyPageData = {
       media: slot(B, 'work-04', 'Thameen London search and the bag on mobile, styled to match the store.', 'The cart and search recording'),
     },
   ],
-  // 50/50 blocks between the work rows, in place of the sticky gallery (23 October 2026).
-  splits: [
-    {
-      after: 1,
-      label: 'The Thameen London discovery set',
-      photo: photoMedia(B, 'split-1-photo', bottles),
-      screen: slot(B, 'split-1-screen', 'The Thameen London discovery set on mobile: six bestselling fragrances in 2ml miniatures.', 'Discovery set'),
-      tint: '#E5E6E8',
-      photoSide: 'right',
-      caption: 'The discovery set on mobile: six bestselling fragrances in 2ml miniatures, a first step before a full bottle.',
-    },
-    {
-      after: 3,
-      label: 'The Thameen London Treasure Collection',
-      photo: photoMedia(B, 'split-2-photo', collection),
-      screen: slot(B, 'split-2-screen', 'The Thameen London Treasure Collection on mobile.', 'Treasure Collection'),
-      tint: '#E5E6E8',
-      caption: 'The Treasure Collection on mobile, with the bottles given room on an editorial grid.',
-    },
-  ],
+  // One 50/50 halfway through the work (27 October 2026): this photo sticks at full height while
+  // desktop screens scroll past on the tint. Drop in split-desktop-1 to -3.
+  splits: [desktopSplit(B, 'Thameen London', photoMedia(B, 'split-1-photo', bottles), '#E5E6E8')],
   feature: {
     background: photo(B, 'feature-photo'),
     eyebrow: 'Shopify theme styling',

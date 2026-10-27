@@ -109,7 +109,6 @@ export const DATA: CaseStudyPageData = {
   // tint from it. Drop in split-desktop-1 to -3; the first falls back to the showcase desktop.
   splits: [
     {
-      after: 3,
       label: 'Projektityyny on desktop',
       photo: { image: photo(B, 'split-1-photo', cushions), alt: '' },
       screens: [

@@ -1,7 +1,7 @@
 // East West Apparel case study. Copy from the "Case study copy: East West Apparel" doc (20 October 2026).
 // No photos or screens in the repo yet: everything drops in by name, see src/assets/brands/README.md.
 import { testimonial, creditLine } from '../testimonials';
-import { SERVICE, slot, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData } from './types';
+import { SERVICE, slot, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData, desktopSplit } from './types';
 
 const B = 'east-west-apparel';
 const PATH = '/portfolio/east-west-apparel-shopify-website-design-case-study/';
@@ -84,26 +84,9 @@ export const DATA: CaseStudyPageData = {
       media: slot(B, 'work-04', 'East West Apparel’s hand-drawn icon set.', 'The icon set'),
     },
   ],
-  // 50/50 blocks between the work rows, in place of the sticky gallery (23 October 2026).
-  splits: [
-    {
-      after: 1,
-      label: "The East West Apparel USP badges",
-      photo: photoMedia(B, 'split-1-photo'),
-      screen: slot(B, 'split-1-screen', "The East West Apparel USP badges on mobile.", "USP badges"),
-      tint: '#B0B4B9',
-      photoSide: 'right',
-      caption: "Hand-drawn USP badges on mobile, with torn edges on a grid that still lines up.",
-    },
-    {
-      after: 3,
-      label: "The East West Apparel icon block",
-      photo: photoMedia(B, 'split-2-photo'),
-      screen: slot(B, 'split-2-screen', "The East West Apparel hand-drawn icon block on mobile.", "Hand-drawn icon block"),
-      tint: '#B0B4B9',
-      caption: "The hand-drawn icon block on mobile, drawn to match the brands East West Apparel sells.",
-    },
-  ],
+  // One 50/50 halfway through the work (27 October 2026): this photo sticks at full height while
+  // desktop screens scroll past on the tint. Drop in split-desktop-1 to -3.
+  splits: [desktopSplit(B, 'East West Apparel', photoMedia(B, 'split-1-photo'), '#B0B4B9')],
   feature: {
     background: photo(B, 'feature-photo'),
     eyebrow: 'Streetwear design system',

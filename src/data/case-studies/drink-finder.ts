@@ -137,7 +137,6 @@ const HIGHLIGHTS = [
 // the homepage still, the others show a placeholder.
 const SPLITS: Split[] = [
   {
-    after: 2,
     label: 'Drink Finder on desktop',
     photo: { image: aperol, alt: '' },
     screens: [

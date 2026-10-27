@@ -1,7 +1,7 @@
 // Wide Fit Shoes case study. Copy from the "Case study copy: Wide Fit Shoes" doc (20 October 2026).
 // Screens drop in by name: see src/assets/brands/README.md.
 import { URLS } from '../site';
-import { SERVICE, slot, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData } from './types';
+import { SERVICE, slot, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData, desktopSplit } from './types';
 import trainers from '../../assets/brands/wide-fit-shoes/card.jpg';
 
 const B = 'wide-fit-shoes';
@@ -84,26 +84,9 @@ export const DATA: CaseStudyPageData = {
       media: slot(B, 'work-04', 'The Wide Fit Shoes Christmas landing page, with signposts to gift price collections.', 'The landing pages recording'),
     },
   ],
-  // 50/50 blocks between the work rows, in place of the sticky gallery (23 October 2026).
-  splits: [
-    {
-      after: 2,
-      label: "Wide Fit Shoes filters",
-      photo: photoMedia(B, 'split-1-photo'),
-      screen: slot(B, 'split-1-screen', "Wide Fit Shoes filters on mobile.", "Filters"),
-      tint: '#B4C0D0',
-      caption: "Filters on mobile, on the neutral palette built for easy reading.",
-    },
-    {
-      after: 3,
-      label: "Wide Fit Shoes product details",
-      photo: photoMedia(B, 'split-2-photo'),
-      screen: slot(B, 'split-2-screen', "Wide Fit Shoes product page information on mobile.", "Product page information"),
-      tint: '#B4C0D0',
-      photoSide: 'right',
-      caption: "Product details on mobile, on the same palette, built for WCAG AAA contrast.",
-    },
-  ],
+  // One 50/50 halfway through the work (27 October 2026): this photo sticks at full height while
+  // desktop screens scroll past on the tint. Drop in split-desktop-1 to -3.
+  splits: [desktopSplit(B, 'Wide Fit Shoes', photoMedia(B, 'split-1-photo'), '#B4C0D0')],
   feature: {
     background: photo(B, 'feature-photo'),
     eyebrow: 'Two-store design system',

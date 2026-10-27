@@ -2,7 +2,7 @@
 // Screens drop in by name: see src/assets/brands/README.md.
 import { URLS } from '../site';
 import { testimonial, creditLine } from '../testimonials';
-import { SERVICE, slot, innovationSlot, innovationLink, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData } from './types';
+import { SERVICE, slot, innovationSlot, innovationLink, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData, desktopSplit } from './types';
 import { brandVideo } from '../media';
 import cardPhoto from '../../assets/brands/east-at-home/card.jpg';
 import cardScreen from '../../assets/brands/east-at-home/card-screen.jpg';
@@ -101,30 +101,9 @@ export const DATA: CaseStudyPageData = {
       media: slot(B, 'work-05', 'Building a mix and match bundle of East at Home sauces on mobile.', 'The mix and match recording'),
     },
   ],
-  // Lifestyle-led layout, with a different rhythm from Projektityyny: a split after the first row
-  // (photo right), another after the third (photo left). One tint for both, from the sauce tones.
-  splits: [
-    {
-      after: 1,
-      label: 'The East at Home homepage',
-      photo: photoMedia(B, 'split-1-photo'),
-      screen: (() => {
-        const m = slot(B, 'split-1-screen', 'The East at Home homepage on mobile.', 'Homepage');
-        return m.image ? m : { ...m, image: cardScreen, video: brandVideo(B, 'card-screen') };
-      })(),
-      tint: '#B8A794',
-      photoSide: 'right',
-      caption: 'The East at Home homepage on mobile. Over half the traffic was on a phone, so the phone came first.',
-    },
-    {
-      after: 3,
-      label: 'An East at Home collection',
-      photo: photoMedia(B, 'split-2-photo'),
-      screen: slot(B, 'split-2-screen', 'An East at Home collection on mobile.', 'Collection page'),
-      tint: '#B8A794',
-      caption: 'Sauces, kits and bundles, each card answering what’s for dinner before the click.',
-    },
-  ],
+  // One 50/50 halfway through the work (27 October 2026): this photo sticks at full height while
+  // desktop screens scroll past on the tint. Drop in split-desktop-1 to -3.
+  splits: [desktopSplit(B, 'East at Home', photoMedia(B, 'split-1-photo'), '#B8A794')],
   feature: {
     background: photo(B, 'feature-photo'),
     eyebrow: 'Shopify design system',

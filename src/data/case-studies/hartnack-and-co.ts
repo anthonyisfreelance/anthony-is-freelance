@@ -1,7 +1,7 @@
 // Hartnack & Co case study. Copy from the "Case study copy: Hartnack & Co" doc (20 October 2026).
 // Screens drop in by name: see src/assets/brands/README.md.
 import { testimonial, creditLine } from '../testimonials';
-import { SERVICE, slot, innovationSlot, innovationLink, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData } from './types';
+import { SERVICE, slot, innovationSlot, innovationLink, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData, desktopSplit } from './types';
 import box from '../../assets/brands/hartnack-and-co/box.jpg';
 
 const B = 'hartnack-and-co';
@@ -91,26 +91,9 @@ export const DATA: CaseStudyPageData = {
       media: innovationSlot('customer-gallery', 'The Hartnack & Co customer gallery, with the options chosen listed under each piece.', 'The customer gallery recording'),
     },
   ],
-  // 50/50 blocks between the work rows, in place of the sticky gallery (23 October 2026).
-  splits: [
-    {
-      after: 3,
-      label: "The Hartnack & Co weddings page",
-      photo: photoMedia(B, 'split-1-photo', box),
-      screen: slot(B, 'split-1-screen', "The Hartnack & Co weddings page on mobile.", "Weddings"),
-      tint: '#ADA093',
-      caption: "The weddings page on mobile, one of the pages that shop by what a binder is for.",
-    },
-    {
-      after: 4,
-      label: "The Hartnack & Co order summary",
-      photo: photoMedia(B, 'split-2-photo'),
-      screen: slot(B, 'split-2-screen', "The Hartnack & Co order summary on mobile.", "Order summary"),
-      tint: '#ADA093',
-      photoSide: 'right',
-      caption: "The order summary on mobile, the last step of the product builder.",
-    },
-  ],
+  // One 50/50 halfway through the work (27 October 2026): this photo sticks at full height while
+  // desktop screens scroll past on the tint. Drop in split-desktop-1 to -3.
+  splits: [desktopSplit(B, 'Hartnack & Co', photoMedia(B, 'split-1-photo', box), '#ADA093')],
   feature: {
     background: photo(B, 'feature-photo'),
     eyebrow: 'Shopify brand refinement',

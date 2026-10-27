@@ -1,6 +1,6 @@
 // Fuzzball case study. Copy from the "Case study copy: Fuzzball" doc (20 October 2026).
 // Screens drop in by name: see src/assets/brands/README.md.
-import { SERVICE, slot, innovationSlot, innovationLink, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData } from './types';
+import { SERVICE, slot, innovationSlot, innovationLink, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData, desktopSplit } from './types';
 import pack from '../../assets/brands/fuzzball/card.jpg';
 import treats from '../../assets/brands/fuzzball/treats.jpg';
 
@@ -94,26 +94,9 @@ export const DATA: CaseStudyPageData = {
       media: slot(B, 'work-05', 'A Fuzzball product page on mobile, with ingredient icons and a link to build a box.', 'The product page recording'),
     },
   ],
-  // 50/50 blocks between the work rows, in place of the sticky gallery (23 October 2026).
-  splits: [
-    {
-      after: 2,
-      label: "The Fuzzball quiz summary",
-      photo: photoMedia(B, 'split-1-photo'),
-      screen: slot(B, 'split-1-screen', "The Fuzzball quiz summary on mobile.", "Quiz summary"),
-      tint: '#E9C7BF',
-      caption: "The quiz summary on mobile, in the same playful system as the rest of the store.",
-    },
-    {
-      after: 4,
-      label: "The Fuzzball bag",
-      photo: photoMedia(B, 'split-2-photo'),
-      screen: slot(B, 'split-2-screen', "The Fuzzball bag on mobile.", "Bag"),
-      tint: '#E9C7BF',
-      photoSide: 'right',
-      caption: "The Fuzzball bag on mobile, with the same rounded, app-like feel as the quiz.",
-    },
-  ],
+  // One 50/50 halfway through the work (27 October 2026): this photo sticks at full height while
+  // desktop screens scroll past on the tint. Drop in split-desktop-1 to -3.
+  splits: [desktopSplit(B, 'Fuzzball', photoMedia(B, 'split-1-photo'), '#E9C7BF')],
   feature: {
     background: photo(B, 'feature-photo'),
     eyebrow: 'App-like brand design',

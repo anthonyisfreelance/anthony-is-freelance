@@ -1,7 +1,7 @@
 // Whistlefish case study. Copy from the "Case study copy: Whistlefish" doc (20 October 2026).
 // Screens drop in by name: see src/assets/brands/README.md.
 import { testimonial, creditLine } from '../testimonials';
-import { SERVICE, slot, innovationSlot, innovationLink, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData } from './types';
+import { SERVICE, slot, innovationSlot, innovationLink, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData, desktopSplit } from './types';
 import apron from '../../assets/brands/whistlefish/apron.jpg';
 import cards from '../../assets/brands/whistlefish/cards.jpg';
 
@@ -92,26 +92,9 @@ export const DATA: CaseStudyPageData = {
       media: slot(B, 'work-05', 'The Whistlefish cart on mobile, showing how many more cards unlock an offer.', 'The cart recording'),
     },
   ],
-  // 50/50 blocks between the work rows, in place of the sticky gallery (23 October 2026).
-  splits: [
-    {
-      after: 3,
-      label: "The Whistlefish gift wrap menu",
-      photo: photoMedia(B, 'split-1-photo', photo(B, 'gallery-photo')),
-      screen: slot(B, 'split-1-screen', "The Whistlefish gift wrap menu on mobile.", "Gift wrap menu"),
-      tint: '#D6D6C9',
-      photoSide: 'right',
-      caption: "The gift wrap menu on mobile, built from the same Shopify 2.0 sections as the rest of the store.",
-    },
-    {
-      after: 4,
-      label: "The Whistlefish journal",
-      photo: photoMedia(B, 'split-2-photo', apron),
-      screen: slot(B, 'split-2-screen', "The Whistlefish journal on mobile.", "Journal"),
-      tint: '#D6D6C9',
-      caption: "The Whistlefish journal on mobile, in the same system as the shop.",
-    },
-  ],
+  // One 50/50 halfway through the work (27 October 2026): this photo sticks at full height while
+  // desktop screens scroll past on the tint. Drop in split-desktop-1 to -3.
+  splits: [desktopSplit(B, 'Whistlefish', photoMedia(B, 'split-1-photo', photo(B, 'gallery-photo')), '#D6D6C9')],
   feature: {
     background: photo(B, 'feature-photo'),
     eyebrow: 'Team-run design system',
