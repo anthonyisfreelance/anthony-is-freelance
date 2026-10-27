@@ -3,9 +3,9 @@
 // picked from the photo on the other. No text on the photo.
 //
 // Two forms:
-//  - `screens` (Figma "Property 1=50/50", 48323:17501, 27 October 2026): a square photo that sticks
-//    while a phone, a desktop and a phone scroll past it. At 1440: two 720 columns, the panel 80 above
-//    and below, 64 each side, 120 between screens, phones 317 wide, the desktop 592 by 333.
+//  - `screens` (Figma "Property 1=50/50", 48323:17501, 27 October 2026): a photo the full height of
+//    the screen that sticks while the screens scroll past it. At 1440: two 720 columns, the panel 80
+//    above and below, 64 each side, 120 between screens, a desktop 592 by 333, a phone 317 wide.
 //  - `screen`: one phone beside a 700:875 photo, the screen 309 wide, 64 above and 80 below.
 import Media from './Media.astro';
 import type { Split } from '../../data/case-studies/types';
@@ -17,10 +17,10 @@ const screens = split.screens ?? [];
 {screens.length ? (
   <section class:list={['flex flex-col lg:flex-row lg:items-start', className]} aria-label={split.label}>
     <figure class:list={['lg:sticky lg:top-0 lg:w-1/2 lg:shrink-0', !left && 'lg:order-2']}>
-      <Media media={split.photo} fit="cover" sizes="(min-width: 1024px) 50vw, 100vw" class="aspect-square w-full lg:aspect-auto lg:h-[min(50vw,100dvh)]" />
+      <Media media={split.photo} fit="cover" sizes="(min-width: 1024px) 50vw, 100vw" class="aspect-[700/875] w-full lg:aspect-auto lg:h-dvh" />
     </figure>
     <div
-      class:list={['flex flex-1 flex-col items-center gap-large px-margin py-section lg:gap-[120px] lg:px-[64px] lg:py-[80px]', !left && 'lg:order-1']}
+      class:list={['flex flex-1 flex-col items-center gap-large px-margin py-section lg:min-h-dvh lg:justify-center lg:gap-[120px] lg:px-[64px] lg:py-[80px]', !left && 'lg:order-1']}
       style={`background-color: ${split.tint}`}
     >
       {screens.map((s) => s.device === 'desktop' ? (

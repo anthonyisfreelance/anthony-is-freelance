@@ -82,7 +82,8 @@ export interface CaseStudyPageData {
    */
   gallery?: { label: string; listLabel?: string; screens: Media[]; photo: Media; caption: string };
   splits?: Split[];
-  feature: { background?: ImageMetadata; eyebrow: string; heading: string; body: string; media: Media; link?: Link };
+  /** Full-bleed photo with a screen over it. Left out on pages that end the work on a plain row. */
+  feature?: { background?: ImageMetadata; eyebrow: string; heading: string; body: string; media: Media; link?: Link };
   /** Left out when neither the client nor an agency can give a quote. The page still goes live. */
   testimonial?: { eyebrow: string; heading: string; quote: string; cite: string };
   more: { eyebrow: string; heading: string; cards: Card[] };

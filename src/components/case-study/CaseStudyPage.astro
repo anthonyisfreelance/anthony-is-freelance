@@ -158,7 +158,7 @@ const link = 'underline underline-offset-4 hover:decoration-2';
       const after = splitsAfter(i + 1);
       return (
         <>
-        <section class:list={['px-margin pt-section lg:pt-[120px]', i === HIGHLIGHTS.length - 1 && 'pb-section lg:pb-[120px]']}>
+        <section class:list={['px-margin pt-section lg:pt-[120px]', i === HIGHLIGHTS.length - 1 && !after.length && 'pb-section lg:pb-[120px]']}>
           <div class="grid gap-large lg:flex lg:items-center lg:justify-center lg:gap-[163px]">
             <div class:list={['flex flex-col lg:w-[434px] lg:shrink-0', flip && 'lg:order-2']}>
               <h3 class="font-display text-[length:var(--type-h5)] font-medium leading-[1.3] text-ink lg:text-[length:var(--type-h3)]">
@@ -181,6 +181,7 @@ const link = 'underline underline-offset-4 hover:decoration-2';
     })}
 
     <!-- Feature section, part of the work, over a full-bleed photo at least a screen tall -->
+    {FEATURE && (
     <section class="relative py-section lg:flex lg:min-h-dvh lg:flex-col lg:justify-center">
       <div class="absolute inset-0" aria-hidden="true">
         {FEATURE.background
@@ -197,6 +198,7 @@ const link = 'underline underline-offset-4 hover:decoration-2';
         <Media media={FEATURE.media} sizes="(min-width: 1024px) 676px, 100vw" class="aspect-square w-full max-lg:order-first lg:max-w-[676px]" />
       </div>
     </section>
+    )}
 
     <!-- Testimonial -->
     {TESTIMONIAL && (

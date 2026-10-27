@@ -9,7 +9,6 @@ import vineyard from '../../assets/brands/drink-finder/vineyard.jpg';
 import aperol from '../../assets/brands/drink-finder/split-photo.jpg';
 import stillDesktop from '../../assets/brands/drink-finder/still-desktop.jpg';
 import { brandImage } from '../media';
-import brandBg from '../../assets/brands/drink-finder/brand-bg.jpg';
 import { SERVICE, slot, moreFor, MORE_HEADING, type CaseStudyPageData, type Media, type Split } from './types';
 
 const B = 'drink-finder';
@@ -131,29 +130,33 @@ const HIGHLIGHTS = [
   },
 ];
 
-// One 50/50 halfway through the work (trial, 27 October 2026): the Aperol photo sticks while a phone,
-// a desktop and a phone scroll past on a tint from it (Figma 48371:4927: #F6A553 at 50% over white).
-// The desktop is the homepage still until a `split-desktop` still or recording is dropped in.
+// One 50/50 to close the work, straight before the testimonial (trial, 27 October 2026): the
+// Aperol photo sticks at full height while desktop screens scroll past on a tint from it (Figma
+// 48371:4927: #F6A553 at 50% over white). Desktop only, the one place the page shows it off
+// after the hero. Drop in split-desktop-1 to -3 (stills or recordings); the first falls back to
+// the homepage still, the others show a placeholder.
 const SPLITS: Split[] = [
   {
-    after: 2,
-    label: 'Drink Finder on mobile and desktop',
+    after: HIGHLIGHTS.length + 1,
+    label: 'Drink Finder on desktop',
     photo: { image: aperol, alt: '' },
     screens: [
-      { device: 'phone', media: slot(B, 'work-wine-top10-mobile', 'The Drink Finder top 10 wines on mobile, ranked by what is selling.', 'Top 10 wines') },
-      { device: 'desktop', media: { ...slot(B, 'split-desktop', 'The Drink Finder homepage on desktop, with search and the category menu above the hero.', 'Desktop'), image: brandImage(B, 'split-desktop') ?? stillDesktop } },
-      { device: 'phone', media: slot(B, 'work-search-mobile', 'Drink Finder search on mobile, with popular searches and popular products showing before you type.', 'Search') },
+      { device: 'desktop', media: { ...slot(B, 'split-desktop-1', 'The Drink Finder homepage on desktop, with search and the category menu above the hero.', 'Desktop homepage'), image: brandImage(B, 'split-desktop-1') ?? stillDesktop } },
+      { device: 'desktop', media: slot(B, 'split-desktop-2', 'A Drink Finder collection on desktop.', 'Desktop collection') },
+      { device: 'desktop', media: slot(B, 'split-desktop-3', 'A Drink Finder product page on desktop.', 'Desktop product page') },
     ],
     tint: '#FBD2A9',
   },
 ];
 
+// The last work row: the design system, on the plain background (27 October 2026, was the
+// full-bleed feature section).
 const BRAND = {
-  background: brandBg,
   eyebrow: 'Brand refinement and design system',
   heading: 'Still Drink Finder, sharper on a phone.',
   body: 'A brand refinement, not a rebrand: a tighter logomark for small screens, type for reading on a phone and colours that work the same on every page. Every screen was designed mobile first in Figma and handed over as a design system.',
   media: slot(B, 'work-design-system-mobile', 'Drink Finder on mobile in the refined brand, built from the design system.', 'Design system'),
+  flip: false,
 };
 
 const TESTIMONIAL = {
@@ -173,9 +176,8 @@ export const DATA: CaseStudyPageData = {
   details: DETAILS,
   showcase: SHOWCASE,
   workIntro: WORK_INTRO,
-  highlights: HIGHLIGHTS,
+  highlights: [...HIGHLIGHTS, BRAND],
   splits: SPLITS,
-  feature: BRAND,
   testimonial: TESTIMONIAL,
   more: { ...MORE_HEADING, cards: moreFor('Drink Finder') },
 };

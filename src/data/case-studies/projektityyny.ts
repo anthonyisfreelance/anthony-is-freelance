@@ -97,30 +97,28 @@ export const DATA: CaseStudyPageData = {
       body: 'Shopify cross-sell design at Projektityyny curates what goes with each quilt, and lets customers shop the same colour or print. It reads like styling advice from the brand, not a sales tactic.',
       media: slot(B, 'work-05', 'A Projektityyny quilt product page on mobile, with the goes well with row.', 'The product page recording'),
     },
+    {
+      eyebrow: 'Figma design system',
+      heading: 'Restraint that lets the prints lead.',
+      body: 'Projektityyny’s Figma design system pulls back anything that competes with the product: tighter type, deliberate spacing and room to breathe. Colour contrast and type sizes were set for accessibility from the start, and every screen was handed over in Figma.',
+      media: slot(B, 'feature', 'A Projektityyny screen on mobile in the design system.', 'Design system screen'),
+    },
   ],
-  // One 50/50 halfway through the work (trial, 27 October 2026, Figma 48323:17501): the cushions photo
-  // sticks while a phone, a desktop and a phone scroll past on a tint from it. The desktop is the
-  // showcase still until a `split-desktop` still or recording is dropped in.
+  // One 50/50 to close the work, straight before the testimonial (trial, 27 October 2026, Figma
+  // 48323:17501): the cushions photo sticks at full height while desktop screens scroll past on a
+  // tint from it. Drop in split-desktop-1 to -3; the first falls back to the showcase desktop.
   splits: [
     {
-      after: 3,
-      label: 'Projektityyny on mobile and desktop',
+      after: 6,
+      label: 'Projektityyny on desktop',
       photo: { image: photo(B, 'split-1-photo', cushions), alt: '' },
       screens: [
-        { device: 'phone', media: slot(B, 'split-1-screen', 'The Projektityyny all home textiles page on mobile, with quilts, baby quilts, bags, cushions and bedding to pick from above the products.', 'Collection page') },
-        { device: 'desktop', media: { ...slot(B, 'split-desktop', 'The Projektityyny store on desktop.', 'Desktop'), image: brandImage(B, 'split-desktop') ?? brandImage(B, 'showcase-desktop') } },
-        { device: 'phone', media: slot(B, 'split-2-screen', 'Image-led category tiles on the Projektityyny homepage on mobile: quilts, baby quilts, cushions, canopies and bows.', 'Category tiles') },
+        { device: 'desktop', media: { ...slot(B, 'split-desktop-1', 'The Projektityyny store on desktop.', 'Desktop homepage'), image: brandImage(B, 'split-desktop-1') ?? brandImage(B, 'showcase-desktop') } },
+        { device: 'desktop', media: slot(B, 'split-desktop-2', 'A Projektityyny collection on desktop.', 'Desktop collection') },
+        { device: 'desktop', media: slot(B, 'split-desktop-3', 'A Projektityyny product page on desktop.', 'Desktop product page') },
       ],
       tint: '#E7D7BB',
     },
   ],
-  feature: {
-    background: photo(B, 'feature-photo', quilts),
-    eyebrow: 'Figma design system',
-    heading: 'Restraint that lets the prints lead.',
-    body: 'Projektityyny’s Figma design system pulls back anything that competes with the product: tighter type, deliberate spacing and room to breathe. Colour contrast and type sizes were set for accessibility from the start, and every screen was handed over in Figma.',
-    media: slot(B, 'feature', 'A Projektityyny screen on mobile in the design system.', 'Design system screen'),
-  },
-  // No quote yet: ask Projektityyny, or the agency if the work came through one. The page goes live either way.
   more: { ...MORE_HEADING, cards: moreFor('Projektityyny') },
 };
