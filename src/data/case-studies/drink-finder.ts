@@ -130,14 +130,14 @@ const HIGHLIGHTS = [
   },
 ];
 
-// One 50/50 to close the work, straight before the testimonial (trial, 27 October 2026): the
+// One 50/50 halfway through the work, after row 2 of 5 (trial, 27 October 2026): the
 // Aperol photo sticks at full height while desktop screens scroll past on a tint from it (Figma
 // 48371:4927: #F6A553 at 50% over white). Desktop only, the one place the page shows it off
 // after the hero. Drop in split-desktop-1 to -3 (stills or recordings); the first falls back to
 // the homepage still, the others show a placeholder.
 const SPLITS: Split[] = [
   {
-    after: HIGHLIGHTS.length + 1,
+    after: 2,
     label: 'Drink Finder on desktop',
     photo: { image: aperol, alt: '' },
     screens: [

@@ -104,12 +104,12 @@ export const DATA: CaseStudyPageData = {
       media: slot(B, 'feature', 'A Projektityyny screen on mobile in the design system.', 'Design system screen'),
     },
   ],
-  // One 50/50 to close the work, straight before the testimonial (trial, 27 October 2026, Figma
+  // One 50/50 halfway through the work, after row 3 of 6 (trial, 27 October 2026, Figma
   // 48323:17501): the cushions photo sticks at full height while desktop screens scroll past on a
   // tint from it. Drop in split-desktop-1 to -3; the first falls back to the showcase desktop.
   splits: [
     {
-      after: 6,
+      after: 3,
       label: 'Projektityyny on desktop',
       photo: { image: photo(B, 'split-1-photo', cushions), alt: '' },
       screens: [
