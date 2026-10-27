@@ -81,7 +81,7 @@ const DETAILS = {
 const SHOWCASE = {
   label: 'Drink Finder screens',
   background: vineyard,
-  desktop: slot(B, 'work-website-scroll-desktop', 'A scroll down the Drink Finder homepage on desktop, from search and the category menu to the collections below.', 'Desktop'),
+  desktop: slot(B, 'work-website-scroll-desktop', 'Drink Finder on desktop, from the homepage to the red wine collection and a product page.', 'Desktop'),
   phones: [
     slot(B, 'work-homepage', 'The Drink Finder homepage on mobile.', 'Homepage'),
     slot(B, 'work-whiskey-mobile', 'Browsing the Drink Finder whisky collection on mobile.', 'Whisky'),
@@ -141,8 +141,8 @@ const SPLITS: Split[] = [
     photo: { image: aperol, alt: '' },
     screens: [
       { device: 'desktop', media: { ...slot(B, 'split-desktop-1', 'The Drink Finder homepage on desktop, with search and the category menu above the hero.', 'Desktop homepage'), image: brandImage(B, 'split-desktop-1') ?? stillDesktop } },
-      { device: 'desktop', media: slot(B, 'split-desktop-2', 'A Drink Finder collection on desktop.', 'Desktop collection') },
-      { device: 'desktop', media: slot(B, 'split-desktop-3', 'A Drink Finder product page on desktop.', 'Desktop product page') },
+      { device: 'desktop', media: slot(B, 'split-desktop-2', 'The Drink Finder whisky collection on desktop.', 'Desktop collection') },
+      { device: 'desktop', media: slot(B, 'split-desktop-3', 'A Drink Finder wine product page on desktop, with one, six and twelve bottle offers.', 'Desktop product page') },
     ],
     tint: '#FBD2A9',
   },

@@ -78,7 +78,7 @@ const RECORDS: InnovationRecord[] = [
       'Project result: website sales up 34%, September to February against the year before. EPoS till data, marketplaces excluded. Drink Finder won UK eCommerce Website of the Year at the UK eCommerce Awards 2026.',
     caption: "A comparison toggle on Drink Finder's collection page.",
     alt: "Drink Finder's collection page on mobile, with the Show extras toggle above the wines.",
-    videoUploaded: '2026-10-25',
+    videoUploaded: '2026-10-27',
   },
   {
     slug: 'shop-by-product-room-print',
@@ -212,7 +212,7 @@ const RECORDS: InnovationRecord[] = [
     evidence: 'Found in the UX review, before any design started.',
     caption: "The offers button in Drink Finder's navigation.",
     alt: "Drink Finder's header on mobile, with the offers button in the navigation.",
-    videoUploaded: '2026-10-25',
+    videoUploaded: '2026-10-27',
   },
   {
     slug: 'trial-subscription-split',
