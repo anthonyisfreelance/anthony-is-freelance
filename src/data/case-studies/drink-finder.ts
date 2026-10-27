@@ -6,8 +6,9 @@ import { testimonial, creditLine } from '../testimonials';
 import hero from '../../assets/brands/drink-finder/hero.jpg';
 import badge from '../../assets/site/badge-winner-2026.png';
 import vineyard from '../../assets/brands/drink-finder/vineyard.jpg';
-import cocktail from '../../assets/brands/drink-finder/cocktail.jpg';
-import margarita from '../../assets/brands/drink-finder/margarita.jpg';
+import aperol from '../../assets/brands/drink-finder/split-photo.jpg';
+import stillDesktop from '../../assets/brands/drink-finder/still-desktop.jpg';
+import { brandImage } from '../media';
 import brandBg from '../../assets/brands/drink-finder/brand-bg.jpg';
 import { SERVICE, slot, moreFor, MORE_HEADING, type CaseStudyPageData, type Media, type Split } from './types';
 
@@ -130,26 +131,20 @@ const HIGHLIGHTS = [
   },
 ];
 
-// Two 50/50 blocks between the work rows, in place of the sticky gallery (23 October 2026). Each
-// follows the row it backs up: the top 10 after the collection row, search after navigation.
-// One tint for both, from the warm tones in the cocktail and margarita photos.
+// One 50/50 halfway through the work (trial, 27 October 2026): the Aperol photo sticks while a phone,
+// a desktop and a phone scroll past on a tint from it (Figma 48371:4927: #F6A553 at 50% over white).
+// The desktop is the homepage still until a `split-desktop` still or recording is dropped in.
 const SPLITS: Split[] = [
   {
-    after: 1,
-    label: 'The Drink Finder top 10 wines',
-    photo: { image: cocktail, alt: '' },
-    screen: slot(B, 'work-wine-top10-mobile', 'The Drink Finder top 10 wines on mobile, with each bottle ranked.', 'Top 10 wines'),
-    tint: '#A89C90',
-    caption: 'The top 10 wines on mobile, ranked by what is selling, so a shopper can start from a shortlist.',
-  },
-  {
-    after: 3,
-    label: 'Drink Finder search',
-    photo: { image: margarita, alt: '' },
-    screen: slot(B, 'work-search-mobile', 'Drink Finder search on mobile, with popular searches and popular products showing before you type.', 'Search'),
-    tint: '#A89C90',
-    photoSide: 'right',
-    caption: 'Search on mobile suggests popular searches and bottles before a shopper types a word.',
+    after: 2,
+    label: 'Drink Finder on mobile and desktop',
+    photo: { image: aperol, alt: '' },
+    screens: [
+      { device: 'phone', media: slot(B, 'work-wine-top10-mobile', 'The Drink Finder top 10 wines on mobile, ranked by what is selling.', 'Top 10 wines') },
+      { device: 'desktop', media: { ...slot(B, 'split-desktop', 'The Drink Finder homepage on desktop, with search and the category menu above the hero.', 'Desktop'), image: brandImage(B, 'split-desktop') ?? stillDesktop } },
+      { device: 'phone', media: slot(B, 'work-search-mobile', 'Drink Finder search on mobile, with popular searches and popular products showing before you type.', 'Search') },
+    ],
+    tint: '#FBD2A9',
   },
 ];
 

@@ -5,6 +5,7 @@ import shopByRoom from '../../assets/brands/projektityyny/shop-by-room.jpg';
 import quilts from '../../assets/brands/projektityyny/lifestyle-03.jpg';
 import lampshades from '../../assets/brands/projektityyny/lifestyle-04.jpg';
 import cushions from '../../assets/brands/projektityyny/lifestyle-05.webp';
+import { brandImage } from '../media';
 
 const B = 'projektityyny';
 const PATH = '/portfolio/projektityyny-shopify-website-design-case-study/';
@@ -97,25 +98,20 @@ export const DATA: CaseStudyPageData = {
       media: slot(B, 'work-05', 'A Projektityyny quilt product page on mobile, with the goes well with row.', 'The product page recording'),
     },
   ],
-  // Lifestyle-led layout: no sticky gallery. Two 50/50 splits break up the work rows instead
-  // (Figma 48323:17501 and 48323:17511), each with a tint picked from its photo.
+  // One 50/50 halfway through the work (trial, 27 October 2026, Figma 48323:17501): the cushions photo
+  // sticks while a phone, a desktop and a phone scroll past on a tint from it. The desktop is the
+  // showcase still until a `split-desktop` still or recording is dropped in.
   splits: [
     {
-      after: 2,
-      label: 'The Projektityyny collection page',
-      photo: { image: photo(B, 'split-1-photo', cushions), alt: '' },
-      screen: slot(B, 'split-1-screen', 'The Projektityyny all home textiles page on mobile, with quilts, baby quilts, bags, cushions and bedding to pick from above the products.', 'Collection page'),
-      tint: '#E7D7BB',
-      caption: 'The all home textiles page on mobile, with quilts, cushions, bedding and bags to choose from before the first product.',
-    },
-    {
       after: 3,
-      label: 'The Projektityyny category tiles',
-      photo: photoMedia(B, 'split-2-photo'),
-      screen: slot(B, 'split-2-screen', 'Image-led category tiles on the Projektityyny homepage on mobile: quilts, baby quilts, cushions, canopies and bows.', 'Category tiles'),
-      tint: '#B6BCB5',
-      photoSide: 'right',
-      caption: 'Category tiles on the Projektityyny homepage. Over 80% of visitors shop on a phone, so each part of the range is one tap away.',
+      label: 'Projektityyny on mobile and desktop',
+      photo: { image: photo(B, 'split-1-photo', cushions), alt: '' },
+      screens: [
+        { device: 'phone', media: slot(B, 'split-1-screen', 'The Projektityyny all home textiles page on mobile, with quilts, baby quilts, bags, cushions and bedding to pick from above the products.', 'Collection page') },
+        { device: 'desktop', media: { ...slot(B, 'split-desktop', 'The Projektityyny store on desktop.', 'Desktop'), image: brandImage(B, 'split-desktop') ?? brandImage(B, 'showcase-desktop') } },
+        { device: 'phone', media: slot(B, 'split-2-screen', 'Image-led category tiles on the Projektityyny homepage on mobile: quilts, baby quilts, cushions, canopies and bows.', 'Category tiles') },
+      ],
+      tint: '#E7D7BB',
     },
   ],
   feature: {

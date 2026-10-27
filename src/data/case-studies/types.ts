@@ -33,11 +33,19 @@ export interface Highlight {
  * A 50/50 block that sits between work rows: a lifestyle photo and a phone screen on a tint picked
  * from the photo. `after` is how many work rows come before it (2 = after the second row).
  */
+export interface SplitScreen { media: Media; device: 'phone' | 'desktop' }
+
 export interface Split {
   after: number;
   label: string;
   photo: Media;
-  screen: Media;
+  /** One phone beside the photo. */
+  screen?: Media;
+  /**
+   * Several screens that scroll past a sticky square photo, for example phone, desktop, phone
+   * (Figma "Property 1=50/50" 48323:17501, 27 October 2026). Used instead of `screen`.
+   */
+  screens?: SplitScreen[];
   /** The flat colour behind the screen, taken from the photo (Figma: a 60% tint over white). */
   tint: string;
   caption?: string;
