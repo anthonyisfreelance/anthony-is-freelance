@@ -119,10 +119,12 @@ const link = 'underline underline-offset-4 hover:decoration-2';
         <div class="w-full px-margin lg:w-[63.6%] lg:max-w-[1628px] lg:px-0">
           <Media media={SHOWCASE.desktop} sizes="(min-width: 1024px) 64vw, 100vw" class="aspect-[916/518] w-full" />
         </div>
-        <!-- Phones scale with the screen like the gallery's, and stop at the gallery's size (309px at 1440). -->
-        <ul class="grid w-full grid-cols-2 gap-grid px-margin lg:flex lg:w-auto lg:justify-center">
+        <!-- Phones: two columns, the right one dropped half a screen so no two sit side by side, with the
+             same space between rows as above the phones (feedback #106 and #108, 28 October 2026).
+             Desktop: one row, 64 apart (#105), scaling to fit and stopping at the gallery's size (309px). -->
+        <ul class="showcase-phones grid w-full grid-cols-2 gap-x-grid gap-y-section px-margin lg:flex lg:w-auto lg:justify-center lg:gap-[64px] lg:pb-0">
           {SHOWCASE.phones.map((m) => (
-            <li><Media media={m} sizes="(min-width: 1024px) 309px, 46vw" class="aspect-[375/820] w-full lg:w-[min(calc((51.39vw-64px)*0.4573),309px)]" /></li>
+            <li class="max-lg:even:translate-y-[calc(50%+var(--section)/2)]"><Media media={m} sizes="(min-width: 1024px) 309px, 46vw" class="aspect-[375/820] w-full lg:w-[min(calc((100vw-2*var(--page-margin)-192px)/4),309px)]" /></li>
           ))}
         </ul>
       </div>
@@ -214,5 +216,11 @@ const link = 'underline underline-offset-4 hover:decoration-2';
 
     <Contact />
   </main>
+  <style>
+    /* Room under the phones for the dropped right-hand column: half a phone and half a row gap. */
+    @media (max-width: 1023.98px) {
+      .showcase-phones { padding-bottom: calc((100vw - 2 * var(--page-margin) - var(--grid-loose)) * 41 / 75 + var(--section) / 2); }
+    }
+  </style>
 
 </Base>

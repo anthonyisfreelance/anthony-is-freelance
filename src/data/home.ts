@@ -91,12 +91,12 @@ export const BRANDS = {
   // [DRAFT] reword in your voice, and [CONFIRM] all four are cleared to name.
   line: "I've designed for Dyson, Wrangler, Drink Finder and East at Home, with no set style and no favoured sector.",
   // White logos in public/logos/<slug>.svg (from Drive client-logos). Four a row on desktop, three on phones.
-  // Thameen London and Projektityyny come back when their logos are in.
+  // Projektityyny comes back when its logo is in.
   logos: [
     // Phones show three a row with Whistlefish third (mobile: true moves it up); desktop keeps this order.
     { name: 'Dyson', slug: 'dyson' },
     { name: 'Wrangler', slug: 'wrangler' },
-    { name: 'Fuzzball', slug: 'fuzzball' },
+    { name: 'Thameen London', slug: 'thameen' }, // in place of Fuzzball (feedback #101, 28 October 2026)
     { name: 'Whistlefish', slug: 'whistlefish', mobileThird: true },
     { name: 'Drink Finder', slug: 'drink-finder' },
     { name: 'Wide Fit Shoes', slug: 'wide-fit-shoes' },
@@ -167,10 +167,11 @@ export const INNOVATIONS = {
   heading: 'The small details that make the difference',
   link: { label: 'See all Shopify innovations', href: URLS.innovations },
   // From the innovation records, each with its own line. Phones show the first two.
+  // The comparison toggle sits in the middle, between the two busier recordings (feedback #103).
   items: (
     [
-      ['comparison-toggle', 'Expand origin, region and vintage to compare bottles side by side, without leaving the listing.'],
       ['dinner-question-cards', 'Every card shows spice level, dietary needs and flavour, in a list built for comparing on mobile.'],
+      ['comparison-toggle', 'Expand origin, region and vintage to compare bottles side by side, without leaving the listing.'],
       ['image-first-product-cards', 'Product names truncated on purpose, because nobody buys a greeting card for its name.'],
     ] as const
   ).map(([slug, body]) => {
