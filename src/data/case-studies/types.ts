@@ -189,9 +189,9 @@ export const photoMedia = (brand: string, name: string, fallback?: ImageMetadata
  * work. Drop in split-desktop-1 to -3 (stills or recordings). Until split-desktop-1 is there it falls
  * back to the showcase desktop still; the others show a placeholder.
  */
-export const desktopSplit = (brand: string, client: string, photo: Media, tint: string, count = 3, extra: ExtraScreen[] = []): Split => {
+export const desktopSplit = (brand: string, client: string, photo: Media, tint: string, count = 3, extra: ExtraScreen[] = [], alts: string[] = []): Split => {
   const screens: SplitScreen[] = Array.from({ length: count }, (_, i) => {
-    const m = slot(brand, `split-desktop-${i + 1}`, `The ${client} store on desktop.`, `Desktop screen ${i + 1}`);
+    const m = slot(brand, `split-desktop-${i + 1}`, alts[i] ?? `The ${client} store on desktop.`, `Desktop screen ${i + 1}`);
     return { device: 'desktop' as const, media: i === 0 && !m.image ? { ...m, image: brandImage(brand, 'showcase-desktop') } : m };
   });
   // Extra screens (28 October 2026), each slotted in after `after` screens, or at the end. Left out until

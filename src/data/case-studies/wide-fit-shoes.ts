@@ -40,17 +40,20 @@ export const DATA: CaseStudyPageData = {
       // [CONFIRM] colour contrast only, or wider AAA
       { label: 'Designed for', value: 'Customers of every age, on a palette built for WCAG AAA contrast.' },
       { label: 'Theme', value: 'Impulse' }, // [CONFIRM] the live page says "Inpulse"
+      // #214 (28 October 2026): the live stores have moved on since, so the screens come from the Figma file.
+      { label: 'Screens', value: 'Shown as designed in Figma. The live stores have changed since.' },
     ],
   },
   showcase: {
     label: 'Wide Fit Shoes screens',
     background: photo(B, 'showcase-photo'),
-    desktop: slot(B, 'showcase-desktop', 'The Wide Fit Shoes store on desktop: the homepage, a women’s collection and a product page.', 'Desktop design recording'),
+    // Built from the Figma file (#214, 28 October 2026), placeholder copy replaced on copies of the frames.
+    desktop: slot(B, 'showcase-desktop', 'The Wide Fit Shoes design on desktop: the homepage, then a men’s collection and a product page.', 'Desktop design'),
     phones: [
-      slot(B, 'showcase-phone-1', 'The Wide Fit Shoes homepage on mobile.', 'Homepage'),
-      slot(B, 'showcase-phone-2', 'The Wide Fit Shoes navigation on mobile.', 'Navigation'),
-      slot(B, 'showcase-phone-3', 'A Wide Fit Shoes collection on mobile.', 'Collection'),
-      slot(B, 'showcase-phone-4', 'The Wide Fit Shoes bag on mobile.', 'Bag'),
+      slot(B, 'showcase-phone-1', 'The Wide Fit Shoes homepage on mobile, scrolling from the hero to the newsletter sign-up.', 'Homepage'),
+      slot(B, 'showcase-phone-2', 'Wide Fit Shoes search on mobile, with suggested searches, quick links and visual search.', 'Search'),
+      slot(B, 'showcase-phone-3', 'A Wide Fit Shoes men’s collection on mobile, opening the colour and size filters.', 'Collection'),
+      slot(B, 'showcase-phone-4', 'A Wide Fit Shoes product page on mobile, with the shopping bag sliding in.', 'Bag'),
     ],
   },
   workIntro: {
@@ -63,36 +66,40 @@ export const DATA: CaseStudyPageData = {
       eyebrow: 'Shopify UX design',
       heading: 'Inclusive for every age.',
       body: 'Shopify UX design for Wide Fit Shoes started with personas built from GA4. Customers ranged widely in age, so inclusivity guided every decision: clear type, calm layouts and no hover tricks.',
-      media: slot(B, 'work-01', 'The Wide Fit Shoes mobile navigation, with clear routes into each collection.', 'The second-level navigation'),
+      media: slot(B, 'work-01', 'The Wide Fit Shoes mobile menu, opening Mens and then Shoes to show each collection.', 'The second-level navigation'),
     },
     {
       eyebrow: 'Wide fit product card design',
       heading: 'Width and colour before the click.',
       body: 'Shopify product card design usually means an image. Wide Fit Shoes customers also need the fit and the colours, so every card shows the width fitting and the colour options up front.',
-      media: slot(B, 'work-02', 'Wide Fit Shoes product cards showing the width fitting and colour options.', 'The product cards'),
+      media: slot(B, 'work-02', 'A Wide Fit Shoes collection on mobile, with every product card showing the width fittings and colour options.', 'The product cards'),
     },
     {
       eyebrow: 'Variant image design',
       heading: 'Colours shown as shoes.',
       body: 'Variant image design on Wide Fit Shoes product pages shows variants as images of the shoe, not plain swatches. The page was reordered into a clear hierarchy, with every button state mapped for the build.',
-      media: slot(B, 'work-03', 'A Wide Fit Shoes product page, with colour variants shown as images of the shoe.', 'The product page recording'),
+      media: slot(B, 'work-03', 'A Wide Fit Shoes product page on mobile, from the colour and width options down to reviews and similar items.', 'The product page'),
     },
     {
       eyebrow: 'Gift landing page design',
       heading: 'Send people somewhere useful.',
       body: 'Shopify landing pages work when they send people on. Collections by gift price, and one for the party season, gave the Christmas page somewhere useful to go next.',
-      media: slot(B, 'work-04', 'The Wide Fit Shoes Christmas page on mobile.', 'The landing pages recording'),
+      media: slot(B, 'work-04', 'The Wide Fit Shoes Christmas landing page on mobile, with gifts by recipient and by budget.', 'The Christmas landing page'),
     },
   ],
   // One 50/50 halfway through the work (27 October 2026): this photo sticks at full height while
-  // desktop screens scroll past on the tint. Drop in split-desktop-1 to -3.
-  splits: [desktopSplit(B, 'Wide Fit Shoes', photoMedia(B, 'split-1-photo'), '#B7CC97')],
+  // desktop screens scroll past on the tint. The three landing pages from the Figma file (#214).
+  splits: [desktopSplit(B, 'Wide Fit Shoes', photoMedia(B, 'split-1-photo'), '#B7CC97', 3, [], [
+    'The Wide Fit Shoes men’s landing page on desktop, with a row of categories and links by width.',
+    'The Wide Fit Shoes women’s landing page on desktop, with a grid of fifteen categories.',
+    'The Wide Fit Shoes Christmas landing page on desktop, with gifts by recipient, budget and brand.',
+  ])],
   feature: {
     background: photo(B, 'feature-photo'),
     eyebrow: 'Two-store design system',
     heading: 'One file for the UK and US.',
     body: 'Both Wide Fit Shoes stores run on one design system in Figma, with every Shopify 2.0 section mapped and styled. A neutral palette keeps it legible and lets the shoes do the talking, and new pages start from the file, not from scratch.',
-    media: slot(B, 'feature', 'A Wide Fit Shoes screen on mobile in the design system.', 'Design system screen'),
+    media: slot(B, 'feature', 'The Wide Fit Shoes men’s landing page on mobile, built from the design system’s sections.', 'Men’s landing page'),
   },
   // No quote yet: ask Wide Fit Shoes, or the agency if the work came through one. The page goes live either way.
   more: { ...MORE_HEADING, cards: moreFor('Wide Fit Shoes') },
