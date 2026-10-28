@@ -28,6 +28,18 @@ const ROWS: Highlight[] = FEATURE ? [...HIGHLIGHTS, { eyebrow: FEATURE.eyebrow, 
 const HALFWAY = ROWS.length >= 4 ? Math.floor(ROWS.length / 2) : ROWS.length;
 const splitsAfter = (n: number) => SPLITS.filter((s) => (s.after ?? HALFWAY) === n);
 
+// Mobile order for the showcase phones: with exactly two recordings among four, stills at 1 and 4 and the
+// recordings at 2 and 3, so the two videos sit next to each other (feedback #133, 28 October 2026).
+const videoIdx = SHOWCASE.phones.flatMap((m, i) => (m.video ? [i] : []));
+const stillIdx = SHOWCASE.phones.flatMap((m, i) => (m.video ? [] : [i]));
+const mobilePos: number[] = SHOWCASE.phones.map((_, i) => i);
+if (SHOWCASE.phones.length === 4 && videoIdx.length === 2) {
+  [stillIdx[0], videoIdx[0], videoIdx[1], stillIdx[1]].forEach((idx, pos) => { mobilePos[idx] = pos; });
+}
+// The right-hand column (2nd and 4th on screen) drops half a phone.
+const ORDER = ['max-lg:order-1', 'max-lg:order-2', 'max-lg:order-3', 'max-lg:order-4', 'max-lg:order-5', 'max-lg:order-6'];
+const phoneClass = (i: number) => [ORDER[mobilePos[i]], mobilePos[i] % 2 === 1 && 'max-lg:translate-y-[calc(50%+var(--section)/2)]'];
+
 const url = new URL(META.path, SITE).href;
 const clientId = `${url}#client`;
 const client = {
@@ -115,16 +127,19 @@ const link = 'underline underline-offset-4 hover:decoration-2';
           <div class="absolute inset-0 bg-black/40"></div>
         </div>
       </div>
-      <div class="relative flex flex-col items-center gap-section py-section lg:gap-[200px] lg:pb-[200px] lg:pt-[120px]">
+      <!-- Desktop: half a screen of photo before the desktop screen comes in (feedback #129, #136). -->
+      <div class="relative flex flex-col items-center gap-section py-section lg:gap-[200px] lg:pb-[200px] lg:pt-[50dvh]">
         <div class="w-full px-margin lg:w-[63.6%] lg:max-w-[1628px] lg:px-0">
           <Media media={SHOWCASE.desktop} sizes="(min-width: 1024px) 64vw, 100vw" class="aspect-[916/518] w-full" />
         </div>
-        <!-- Phones: two columns, the right one dropped half a screen so no two sit side by side, with the
+        <!-- Phones (mobile): when two of the four are recordings they go in the middle, so they sit side by side,
+             stills first and last (feedback #133). Desktop keeps the data order.
+             Phones: two columns, the right one dropped half a screen so no two sit side by side, with the
              same space between rows as above the phones (feedback #106 and #108, 28 October 2026).
              Desktop: one row, 64 apart (#105), scaling to fit and stopping at the gallery's size (309px). -->
         <ul class="showcase-phones grid w-full grid-cols-2 gap-x-grid gap-y-section px-margin lg:flex lg:w-auto lg:justify-center lg:gap-[64px] lg:pb-0">
-          {SHOWCASE.phones.map((m) => (
-            <li class="max-lg:even:translate-y-[calc(50%+var(--section)/2)]"><Media media={m} sizes="(min-width: 1024px) 309px, 46vw" class="aspect-[375/820] w-full lg:w-[min(calc((100vw-2*var(--page-margin)-192px)/4),309px)]" /></li>
+          {SHOWCASE.phones.map((m, i) => (
+            <li class:list={phoneClass(i)}><Media media={m} sizes="(min-width: 1024px) 309px, 46vw" class="aspect-[375/820] w-full lg:w-[min(calc((100vw-2*var(--page-margin)-192px)/4),309px)]" /></li>
           ))}
         </ul>
       </div>

@@ -16,11 +16,15 @@ const screens = split.screens ?? [];
 // Desktop: the panel's top and bottom padding put the first screen in the middle of the screen as the
 // section arrives, and the last in the same place as it leaves, so the photo stays stuck for the whole run
 // (feedback #128, 28 October 2026). Heights follow the screen widths below.
+// Screen widths (feedback #130, 28 October 2026): the Figma sizes at 1440 (592 desktop, 317 phone), growing in
+// step with the screen above that, up to their size at 2560, and never taller than the screen less 80 each end.
+const DESKTOP_W = 'min(50vw - 128px, 41.111vw, 1052px, (100dvh - 160px) * 592 / 333)';
+const PHONE_W = 'min((50vw - 128px) * 0.5355, 22.014vw, 564px, (100dvh - 160px) * 375 / 820)';
 const height = (s: { device?: string }) => s.device === 'desktop'
-  ? 'min(50vw - 128px, 592px) * 333 / 592'
-  : 'min((50vw - 128px) * 0.5355, 317px) * 820 / 375';
+  ? `${DESKTOP_W} * 333 / 592`
+  : `${PHONE_W} * 820 / 375`;
 const centre = (s?: { device?: string }) => (s ? `max(80px, calc((100dvh - ${height(s)}) / 2))` : '80px');
-const pad = `--pt: ${centre(screens[0])}; --pb: ${centre(screens[screens.length - 1])};`;
+const pad = `--pt: ${centre(screens[0])}; --pb: ${centre(screens[screens.length - 1])}; --dw: ${DESKTOP_W}; --pw: ${PHONE_W};`;
 ---
 {screens.length ? (
   <section class:list={['flex flex-col lg:flex-row lg:items-start', className]} aria-label={split.label}>
@@ -32,9 +36,9 @@ const pad = `--pt: ${centre(screens[0])}; --pb: ${centre(screens[screens.length 
       style={`background-color: ${split.tint}; ${pad}`}
     >
       {screens.map((s) => s.device === 'desktop' ? (
-        <Media media={s.media} fit="cover" sizes="(min-width: 1024px) 592px, 100vw" class="aspect-[592/333] w-full lg:w-[min(calc(50vw-128px),592px)]" />
+        <Media media={s.media} fit="cover" sizes="(min-width: 1024px) 42vw, 100vw" class="aspect-[592/333] w-full lg:w-[calc(var(--dw))]" />
       ) : (
-        <Media media={s.media} sizes="(min-width: 1024px) 317px, 60vw" class="aspect-[375/820] w-[60%] lg:w-[min(calc((50vw-128px)*0.5355),317px)]" />
+        <Media media={s.media} sizes="(min-width: 1024px) 22vw, 60vw" class="aspect-[375/820] w-[60%] lg:w-[calc(var(--pw))]" />
       ))}
     </div>
   </section>
