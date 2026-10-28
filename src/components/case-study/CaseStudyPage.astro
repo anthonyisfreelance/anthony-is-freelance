@@ -68,8 +68,9 @@ const link = 'underline underline-offset-4 hover:decoration-2';
     <!-- Hero: photo from the left screen edge to the centre line, a full screen tall on desktop, headline right. The rule sits
          under the header as on every other page; the copy is centred beside the photo. Phones: a 4:3 photo so the
          H1 shows on the first screen, then the copy a page margin below it, with no rule. -->
-    <section class="lg:grid lg:min-h-dvh lg:grid-cols-2 lg:gap-gutter">
-      <div data-header-image class="relative lg:h-full lg:min-h-dvh">
+    <!-- A screen tall less the announcement bar, so the copy sits dead centre between the rule and the bottom of the screen (feedback #213) -->
+    <section class="lg:grid lg:min-h-[calc(100dvh-var(--bar-h,0px))] lg:grid-cols-2 lg:gap-gutter">
+      <div data-header-image class="relative lg:h-full lg:min-h-[calc(100dvh-var(--bar-h,0px))]">
         <Media media={HERO.image} fit="cover" sizes={heroSizes} eager class="aspect-[4/3] w-full lg:absolute lg:inset-0 lg:aspect-auto lg:h-full" />
         <div class="absolute inset-0 hidden bg-[linear-gradient(to_bottom,rgba(0,0,0,0.35)_0%,rgba(0,0,0,0)_21%)] lg:block" aria-hidden="true"></div>
       </div>
@@ -125,7 +126,8 @@ const link = 'underline underline-offset-4 hover:decoration-2';
          screen, edge to edge, all the way through the section -->
     <section class="relative mt-section lg:mt-[120px]" aria-label={SHOWCASE.label}>
       <div class="absolute inset-0" aria-hidden="true">
-        <div class="sticky top-0 h-dvh w-full overflow-hidden">
+        <!-- h-lvh, not dvh: on phones the photo stays one size as the address bar hides (feedback #208) -->
+        <div class="sticky top-0 h-lvh w-full overflow-hidden">
           {SHOWCASE.background
             ? <Image src={SHOWCASE.background} alt="" widths={bgWidths(SHOWCASE.background, [640, 1024, 1440, 2160, 2879])} sizes="100vw" quality={70} class="size-full object-cover" />
             : <div class="size-full bg-[#8a8a8a]"><span class="t-badge absolute right-5 top-5 text-white">[Photo to come]</span></div>}
@@ -134,7 +136,7 @@ const link = 'underline underline-offset-4 hover:decoration-2';
       </div>
       <!-- Half a screen of photo before the desktop screen comes in (feedback #129, #136), and on phones
            40% of a screen above and below (#147). -->
-      <div class="relative flex flex-col items-center gap-section py-[40dvh] lg:gap-[200px] lg:pb-[200px] lg:pt-[50dvh]">
+      <div class="relative flex flex-col items-center gap-section py-[40svh] lg:gap-[200px] lg:pb-[200px] lg:pt-[50dvh]">
         <div class="w-full px-margin lg:w-[63.6%] lg:max-w-[1628px] lg:px-0">
           <Media media={SHOWCASE.desktop} sizes="(min-width: 1024px) 64vw, 100vw" class="aspect-[916/518] w-full" />
         </div>

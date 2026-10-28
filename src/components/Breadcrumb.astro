@@ -5,9 +5,10 @@ interface Props { items: { name: string; path: string }[] }
 const { items } = Astro.props;
 ---
 <nav aria-label="Breadcrumb">
-  <ol class="t-label flex flex-wrap gap-x-2 gap-y-1 text-muted">
+  <!-- One line that scrolls sideways when it runs out of room (feedback #210) -->
+  <ol class="t-label flex gap-x-2 overflow-x-auto whitespace-nowrap text-muted [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
     {items.map((it, i) => (
-      <li class="flex gap-2">
+      <li class="flex shrink-0 gap-2">
         {i > 0 && <span aria-hidden="true">/</span>}
         {i === items.length - 1
           ? <span aria-current="page" class="text-ink">{it.name}</span>
