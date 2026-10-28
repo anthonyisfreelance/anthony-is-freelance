@@ -64,7 +64,7 @@ export const DATA: CaseStudyPageData = {
       eyebrow: 'Drill-down navigation design',
       heading: 'Drill down without losing your place.',
       body: 'Drill-down navigation design for a big range on a small screen. One block lets shoppers drill down through collections and sub-collections, with Whistlefish’s artwork kept front and centre.',
-      media: slot(B, 'work-01', 'The Whistlefish homepage on mobile, opening more card occasions from one block.', 'The collection drill-down recording'),
+      media: slot(B, 'work-01', 'The You can also include a gift row on the Whistlefish homepage on mobile, swiping through gift occasions and back.', 'The gift row recording'),
     },
     {
       eyebrow: 'Image-first product card design',

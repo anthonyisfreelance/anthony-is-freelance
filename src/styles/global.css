@@ -638,8 +638,9 @@ dialog[data-project-dialog]:not([open])::backdrop {
   }
 }
 
-/* Article tiles: an inset outline in the border colour, drawn over the image so it reads on any tile. */
-.cover-outline { outline: 1px solid var(--c-border); outline-offset: -1px; }
+/* Article tiles: a 1px white inset outline, drawn over the image so it reads on any tile (28 October
+   2026; the design system's border colour, #393939, didn't show against the dark tiles). */
+.cover-outline { outline: 1px solid #fff; outline-offset: -1px; }
 
 /* TEMPORARY: article colour comparison (see articles/[slug].astro). Remove once decided.
    soft: body copy off-white, headings stay white. light: everything under the header goes light. */
