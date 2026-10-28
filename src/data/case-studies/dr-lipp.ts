@@ -100,7 +100,7 @@ export const DATA: CaseStudyPageData = {
     eyebrow: 'Accessible design system',
     heading: 'Refined, accessible and ready to grow.',
     body: 'Dr Lipp’s accessible design system refines the brand into a modern, accessible set of elements, states and components. Every page was built from it and prototyped in Figma, so the purchase journey was tested on a real phone before the build.',
-    media: slot(B, 'feature', 'A Dr Lipp screen on mobile in the design system.', 'Design system screen'),
+    media: slot(B, 'feature', 'The Dr Lipp Clean Beauty Charter page on mobile, built from the design system.', 'Design system screen'),
   },
   // No quote yet: ask Dr Lipp, or the agency if the work came through one. The page goes live either way.
   more: { ...MORE_HEADING, cards: moreFor('Dr Lipp') },

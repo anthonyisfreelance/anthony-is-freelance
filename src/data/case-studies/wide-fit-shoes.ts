@@ -45,7 +45,7 @@ export const DATA: CaseStudyPageData = {
   showcase: {
     label: 'Wide Fit Shoes screens',
     background: photo(B, 'showcase-photo'),
-    desktop: slot(B, 'showcase-desktop', 'The Wide Fit Shoes store on desktop: the homepage, a collection and its sub-collection routes.', 'Desktop design recording'),
+    desktop: slot(B, 'showcase-desktop', 'The Wide Fit Shoes store on desktop: the homepage, a women’s collection and a product page.', 'Desktop design recording'),
     phones: [
       slot(B, 'showcase-phone-1', 'The Wide Fit Shoes homepage on mobile.', 'Homepage'),
       slot(B, 'showcase-phone-2', 'The Wide Fit Shoes navigation on mobile.', 'Navigation'),
@@ -81,7 +81,7 @@ export const DATA: CaseStudyPageData = {
       eyebrow: 'Gift landing page design',
       heading: 'Send people somewhere useful.',
       body: 'Shopify landing pages work when they send people on. Collections by gift price, and one for the party season, gave the Christmas page somewhere useful to go next.',
-      media: slot(B, 'work-04', 'The Wide Fit Shoes Christmas landing page, with signposts to gift price collections.', 'The landing pages recording'),
+      media: slot(B, 'work-04', 'The Wide Fit Shoes Christmas page on mobile.', 'The landing pages recording'),
     },
   ],
   // One 50/50 halfway through the work (27 October 2026): this photo sticks at full height while
