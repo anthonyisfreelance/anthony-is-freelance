@@ -133,7 +133,7 @@ const HIGHLIGHTS = [
 // One 50/50 halfway through the work, after row 2 of 5 (trial, 27 October 2026): the
 // Aperol photo sticks at full height while desktop screens scroll past on a tint from it (Figma
 // 48371:4927: #F6A553 at 50% over white). Desktop only, the one place the page shows it off
-// after the hero. Drop in split-desktop-1 to -3 (stills or recordings); the first falls back to
+// after the hero. Drop in split-desktop-1 to -5 (stills or recordings); the first falls back to
 // the homepage still, the others show a placeholder.
 const SPLITS: Split[] = [
   {
@@ -143,6 +143,9 @@ const SPLITS: Split[] = [
       { device: 'desktop', media: { ...slot(B, 'split-desktop-1', 'The Drink Finder homepage on desktop, from the wine and whisky categories to the top 10.', 'Desktop homepage'), image: brandImage(B, 'split-desktop-1') ?? stillDesktop } },
       { device: 'desktop', media: slot(B, 'split-desktop-2', 'The Drink Finder whisky collection on desktop.', 'Desktop collection') },
       { device: 'desktop', media: slot(B, 'split-desktop-3', 'A Drink Finder gin product page on desktop, with the details sticking beside the photos.', 'Desktop product page') },
+      // The top 10 and the articles (feedback #135, 28 October 2026)
+      { device: 'desktop', media: slot(B, 'split-desktop-4', 'The Drink Finder top 10 wines on desktop, each bottle ranked with a numbered badge.', 'Desktop top 10') },
+      { device: 'desktop', media: slot(B, 'split-desktop-5', 'The Drink Finder blog on desktop, with articles filtered by events, news, recipes and visits.', 'Desktop articles') },
     ],
     tint: '#FAD1A9',
   },
