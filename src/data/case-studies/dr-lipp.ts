@@ -50,10 +50,12 @@ export const DATA: CaseStudyPageData = {
     background: photo(B, 'showcase-photo'),
     desktop: slot(B, 'showcase-desktop', 'A scroll down the Dr Lipp homepage on desktop.', 'Desktop store recording'),
     phones: [
-      slot(B, 'showcase-phone-1', 'The Dr Lipp homepage on mobile.', 'Homepage'),
+      // Phone screens from the Drive designs (feedback #195): the top of the All Ways product page, the shop-all
+      // collection, the bag and search. The store has no products live to record.
+      slot(B, 'showcase-phone-1', 'The Dr Lipp All Ways product page on mobile.', 'Product page'),
       slot(B, 'showcase-phone-2', 'A Dr Lipp collection on mobile.', 'Collection'),
-      slot(B, 'showcase-phone-3', 'The Dr Lipp cart on mobile.', 'Cart'),
-      slot(B, 'showcase-phone-4', 'Dr Lipp search on mobile.', 'Search'),
+      slot(B, 'showcase-phone-3', 'The Dr Lipp shopping bag on mobile, with a free shipping bar and suggestions.', 'Cart'),
+      slot(B, 'showcase-phone-4', 'Dr Lipp search on mobile, with related products and articles.', 'Search'),
     ],
   },
   workIntro: {
@@ -72,7 +74,7 @@ export const DATA: CaseStudyPageData = {
       eyebrow: 'Multi-use product page design',
       heading: 'Usage, ingredients, how to use.',
       body: 'Multi-use product page design means answering how to use it. Each Dr Lipp product page sets out usage, ingredients and how to use in its own section.',
-      media: slot(B, 'work-02', 'A Dr Lipp product page on mobile, with the usage section open.', 'The product page recording'),
+      media: slot(B, 'work-02', 'The 5 in 1 section of the Dr Lipp All Ways product page on mobile: make-up remover, face cleanser, body wash, shampoo and shaving foam.', 'The product page usage section'),
     },
     {
       eyebrow: 'Shopify 2.0 sections',

@@ -50,6 +50,11 @@ const client = {
   ...(CLIENT.parent && { parentOrganization: { '@type': 'Organization', name: CLIENT.parent } }),
 };
 
+// Hero photo sizes (feedback #179): the photo covers half the screen at full height, so a landscape photo is
+// cropped at the sides and needs about a full screen's width of pixels, not half, or it is stretched and soft.
+const heroImg = HERO.image.image;
+const heroSizes = heroImg && heroImg.width > heroImg.height ? '100vw' : '(min-width: 1024px) 50vw, 100vw';
+
 // Background photo widths, never past the photo's own width.
 const bgWidths = (img: ImageMetadata, list: number[]) => [...new Set(list.filter((w) => w < img.width).concat(Math.min(img.width, list[list.length - 1])))];
 
@@ -65,7 +70,7 @@ const link = 'underline underline-offset-4 hover:decoration-2';
          H1 shows on the first screen, then the copy a page margin below it, with no rule. -->
     <section class="lg:grid lg:min-h-dvh lg:grid-cols-2 lg:gap-gutter">
       <div data-header-image class="relative lg:h-full lg:min-h-dvh">
-        <Media media={HERO.image} fit="cover" sizes="(min-width: 1024px) 50vw, 100vw" eager class="aspect-[4/3] w-full lg:absolute lg:inset-0 lg:aspect-auto lg:h-full" />
+        <Media media={HERO.image} fit="cover" sizes={heroSizes} eager class="aspect-[4/3] w-full lg:absolute lg:inset-0 lg:aspect-auto lg:h-full" />
         <div class="absolute inset-0 hidden bg-[linear-gradient(to_bottom,rgba(0,0,0,0.35)_0%,rgba(0,0,0,0)_21%)] lg:block" aria-hidden="true"></div>
       </div>
       <div class="px-margin pt-margin lg:flex lg:flex-col lg:pl-0 lg:pt-[124px]">
@@ -127,19 +132,21 @@ const link = 'underline underline-offset-4 hover:decoration-2';
           <div class="absolute inset-0 bg-black/40"></div>
         </div>
       </div>
-      <!-- Desktop: half a screen of photo before the desktop screen comes in (feedback #129, #136). -->
-      <div class="relative flex flex-col items-center gap-section py-section lg:gap-[200px] lg:pb-[200px] lg:pt-[50dvh]">
+      <!-- Half a screen of photo before the desktop screen comes in (feedback #129, #136), and on phones
+           40% of a screen above and below (#147). -->
+      <div class="relative flex flex-col items-center gap-section py-[40dvh] lg:gap-[200px] lg:pb-[200px] lg:pt-[50dvh]">
         <div class="w-full px-margin lg:w-[63.6%] lg:max-w-[1628px] lg:px-0">
           <Media media={SHOWCASE.desktop} sizes="(min-width: 1024px) 64vw, 100vw" class="aspect-[916/518] w-full" />
         </div>
-        <!-- Phones (mobile): when two of the four are recordings they go in the middle, so they sit side by side,
+        <!-- Phone stills are served at twice their shown width so the UI text stays sharp (#139-141, #162, #183).
+             Phones (mobile): when two of the four are recordings they go in the middle, so they sit side by side,
              stills first and last (feedback #133). Desktop keeps the data order.
              Phones: two columns, the right one dropped half a screen so no two sit side by side, with the
              same space between rows as above the phones (feedback #106 and #108, 28 October 2026).
              Desktop: one row, 64 apart (#105), scaling to fit and stopping at the gallery's size (309px). -->
         <ul class="showcase-phones grid w-full grid-cols-2 gap-x-grid gap-y-section px-margin lg:flex lg:w-auto lg:justify-center lg:gap-[64px] lg:pb-0">
           {SHOWCASE.phones.map((m, i) => (
-            <li class:list={phoneClass(i)}><Media media={m} sizes="(min-width: 1024px) 309px, 46vw" class="aspect-[375/820] w-full lg:w-[min(calc((100vw-2*var(--page-margin)-192px)/4),309px)]" /></li>
+            <li class:list={phoneClass(i)}><Media media={m} sizes="(min-width: 1024px) 618px, 92vw" class="aspect-[375/820] w-full lg:w-[min(calc((100vw-2*var(--page-margin)-192px)/4),309px)]" /></li>
           ))}
         </ul>
       </div>
@@ -155,7 +162,7 @@ const link = 'underline underline-offset-4 hover:decoration-2';
         aria-label={GALLERY.listLabel ?? GALLERY.label}
       >
         {GALLERY.screens.map((m) => (
-          <Media media={m} sizes="(min-width: 1024px) 309px, 60vw" class="aspect-[563/1230] w-[60%] shrink-0 snap-start lg:aspect-square lg:w-full lg:max-w-[676px]" />
+          <Media media={m} sizes="(min-width: 1024px) 618px, 120vw" class="aspect-[563/1230] w-[60%] shrink-0 snap-start lg:aspect-square lg:w-full lg:max-w-[676px]" />
         ))}
       </div>
       <figure class="relative max-lg:order-first lg:sticky lg:top-0 lg:w-[48.61%] lg:self-start">
@@ -192,7 +199,7 @@ const link = 'underline underline-offset-4 hover:decoration-2';
             </div>
             <Media
               media={h.media}
-              sizes="(min-width: 1024px) 320px, 100vw"
+              sizes="(min-width: 1024px) 640px, 100vw"
               class:list={['aspect-square w-full max-lg:order-first lg:aspect-[375/820] lg:w-[320px] lg:shrink-0', flip && 'lg:order-1']}
             />
           </div>
@@ -219,7 +226,7 @@ const link = 'underline underline-offset-4 hover:decoration-2';
     <section class="px-margin pt-section pb-section lg:pt-[120px]">
       <div class="border-t border-line pt-section">
         <div class="lg:w-half"><Heading eyebrow={MORE.eyebrow}>{MORE.heading}</Heading></div>
-        <ul class="cards-align mt-gutter grid grid-cols-2 gap-x-grid gap-y-grid-lg lg:grid-cols-3">
+        <ul class="cards-align mt-gutter grid grid-cols-2 gap-x-grid [--cards-gap:var(--spacing-grid-lg)] lg:grid-cols-3">
           {MORE.cards.map((c, i) => (
             <li class:list={[i === 0 && 'col-span-2 lg:col-span-1']}>
               <CaseStudyCard {...c} ratio={i === 0 ? 'square-portrait' : 'portrait'} stackMeta={i > 0} sizes={i === 0 ? '(min-width: 1024px) 31vw, calc(100vw - 32px)' : '(min-width: 1024px) 31vw, calc(50vw - 24px)'} />

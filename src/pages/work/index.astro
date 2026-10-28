@@ -8,6 +8,7 @@ import WorkCard from '../../components/WorkCard.astro';
 import Filters from '../../components/Filters.astro';
 import TrustTiles from '../../components/TrustTiles.astro';
 import Faqs from '../../components/home/Faqs.astro';
+import Contact from '../../components/home/Contact.astro';
 import { SITE, GOOGLE_RATING } from '../../data/site';
 import { CASE_STUDIES, FILTERS, WORK_META, WORK_HERO, WORK_TRUST, WORK_FAQS } from '../../data/work';
 
@@ -42,7 +43,7 @@ const trustAfter = 6;
     <section id="case-studies" aria-label="Case studies" class="px-margin pb-section pt-section-sm">
       <Filters label="Filter by service" filters={filters} />
 
-      <ul class="cards-align mt-section-sm grid gap-x-gutter gap-y-[64px] lg:grid-cols-2" data-grid>
+      <ul class="cards-align mt-section-sm grid gap-x-gutter [--cards-gap:64px] lg:grid-cols-2" data-grid>
         {CASE_STUDIES.map((s, i) => (
           <>
             {/* Trust row: twice the grid gap above and below, so it stands apart from the cards. */}
@@ -58,6 +59,9 @@ const trustAfter = 6;
     </section>
 
     <div id="questions"><Faqs data={WORK_FAQS} /></div>
+
+    <!-- The project form above the footer, as on every other page (feedback #145) -->
+    <Contact />
   </main>
 </Base>
 

@@ -142,7 +142,7 @@ const cell = 't-label tracking-[0.02em]';
           <h2 class="t-h2 text-ink lg:w-half">{p.proof.heading}</h2>
           {p.proof.link && <TextLink href={p.proof.link.href}>{p.proof.link.label}</TextLink>}
         </div>
-        <ul class:list={['cards-align mt-gutter grid grid-cols-2 gap-x-grid gap-y-large', proofCols]}>
+        <ul class:list={['cards-align mt-gutter grid grid-cols-2 gap-x-grid [--cards-gap:var(--spacing-large)]', proofCols]}>
           {p.proof.cards.map((c, i) => {
             const big = bigFirst && i === 0;
             return (

@@ -32,13 +32,13 @@ const pad = `--pt: ${centre(screens[0])}; --pb: ${centre(screens[screens.length 
       <Media media={split.photo} fit="cover" sizes="(min-width: 1024px) 50vw, 100vw" class="aspect-[700/875] w-full lg:aspect-auto lg:h-dvh" />
     </figure>
     <div
-      class:list={['flex flex-1 flex-col items-center gap-large px-margin py-section lg:min-h-dvh lg:justify-center lg:gap-[120px] lg:px-[64px] lg:pb-[var(--pb)] lg:pt-[var(--pt)]', !left && 'lg:order-1']}
+      class:list={['flex flex-1 flex-col items-center gap-section px-margin py-section lg:min-h-dvh lg:justify-center lg:gap-[120px] lg:px-[64px] lg:pb-[var(--pb)] lg:pt-[var(--pt)]', !left && 'lg:order-1']}
       style={`background-color: ${split.tint}; ${pad}`}
     >
       {screens.map((s) => s.device === 'desktop' ? (
         <Media media={s.media} fit="cover" sizes="(min-width: 1024px) 42vw, 100vw" class="aspect-[592/333] w-full lg:w-[calc(var(--dw))]" />
       ) : (
-        <Media media={s.media} sizes="(min-width: 1024px) 22vw, 60vw" class="aspect-[375/820] w-[60%] lg:w-[calc(var(--pw))]" />
+        <Media media={s.media} sizes="(min-width: 1024px) 44vw, 120vw" class="aspect-[375/820] w-[60%] lg:w-[calc(var(--pw))]" />
       ))}
     </div>
   </section>
@@ -51,7 +51,7 @@ const pad = `--pt: ${centre(screens[0])}; --pb: ${centre(screens[screens.length 
       class:list={['flex flex-1 items-center justify-center px-gutter pb-[80px] pt-section lg:pt-[64px]', !left && 'lg:order-1']}
       style={`background-color: ${split.tint}`}
     >
-      {split.screen && <Media media={split.screen} sizes="(min-width: 1024px) 309px, 60vw" class="aspect-[375/820] w-[60%] max-w-[309px] lg:w-[min(calc((51.39vw-64px)*0.4573),309px)]" />}
+      {split.screen && <Media media={split.screen} sizes="(min-width: 1024px) 618px, 120vw" class="aspect-[375/820] w-[60%] max-w-[309px] lg:w-[min(calc((51.39vw-64px)*0.4573),309px)]" />}
     </div>
   </section>
 )}

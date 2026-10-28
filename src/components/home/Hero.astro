@@ -46,7 +46,7 @@ import TrustTiles from '../TrustTiles.astro';
     </div>
   </div>
 
-  <ul class="cards-align grid grid-cols-2 gap-x-grid gap-y-grid-lg px-margin pt-grid-lg lg:grid-cols-3 lg:pt-large">
+  <ul class="cards-align grid grid-cols-2 gap-x-grid [--cards-gap:var(--spacing-grid-lg)] px-margin pt-grid-lg lg:grid-cols-3 lg:pt-large">
     {STORIES.cards.map(({ mobileOnly, ...card }) => <li class:list={[mobileOnly && 'lg:hidden']}><CaseStudyCard {...card} stackMeta /></li>)}
   </ul>
 </div>

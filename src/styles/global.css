@@ -676,6 +676,12 @@ html[data-look='light'] main .theme-light img[src$='.svg'] { filter: none; }
     row-gap: 0;
   }
 }
+/* The space between card rows (feedback #144, 28 October 2026). A row gap on the grid would also land
+   between every line inside each card, since the cards share its rows, so the grid has none: each card
+   carries the gap as bottom padding instead (set per grid with --cards-gap), and the grid pulls the
+   last row's padding back. */
+.cards-align { row-gap: 0; margin-bottom: calc(-1 * var(--cards-gap, 0px)); }
+.cards-align > li { padding-bottom: var(--cards-gap, 0px); }
 /* Outside the layers, so they win over the card's own flex utilities. (The list item stays in the
    layer, so a hidden utility on it still hides it.) */
 .cards-align > li > article {
