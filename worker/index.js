@@ -113,7 +113,7 @@ async function create(gh, request) {
     `**Element:** \`<${meta.tag}>\`${d.classes ? ` \`.${clean(d.classes, 200).split(/\s+/).join('.')}\`` : ''}`,
     meta.text ? `**Element text:** “${meta.text}”` : null,
     d.href ? `**Link:** ${clean(d.href, 300)}` : null,
-    d.img ? `**Image:** ${clean(d.img, 300)}` : null,
+    d.img ? `**${/\.mp4/i.test(d.img) ? 'Video' : 'Image'}:** ${clean(d.img, 300)}` : null,
     `**Selector:** \`${meta.selector}\``,
     `**Browser:** ${clean(d.ua, 300)}`,
     '',

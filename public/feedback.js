@@ -364,7 +364,8 @@
           classes: typeof target.className === 'string' ? target.className : '',
           section: sectionOf(target),
           href: target.closest('a') ? target.closest('a').href : '',
-          img: target.localName === 'img' ? (target.currentSrc || target.src) : '',
+          // The image or screen recording the comment is on (a recording sits over its still)
+          img: (() => { const m = /^(img|video)$/.test(target.localName) ? target : target.querySelector?.('video, img'); const v = m && m.localName === 'img' ? m.parentElement?.querySelector('video') : null; const f = v || m; return f ? (f.currentSrc || f.getAttribute('src') || '') : ''; })(),
           ox: r.width ? clamp((point.x - scrollX - r.left) / r.width) : 0,
           oy: r.height ? clamp((point.y - scrollY - r.top) / r.height) : 0,
           vw: innerWidth,
