@@ -52,7 +52,7 @@ export const DATA: CaseStudyPageData = {
     phones: [
       slot(B, 'showcase-phone-1', 'The Projektityyny homepage on mobile.', 'Homepage'),
       slot(B, 'showcase-phone-2', 'The Projektityyny patchwork quilts collection on mobile.', 'Quilts collection'),
-      slot(B, 'showcase-phone-3', 'Projektityyny search on mobile.', 'Search'),
+      slot(B, 'showcase-phone-3', 'The Projektityyny lookbooks page on mobile.', 'Lookbooks'),
       slot(B, 'showcase-phone-4', 'The Projektityyny basket on mobile.', 'Basket'),
     ],
   },
@@ -66,7 +66,7 @@ export const DATA: CaseStudyPageData = {
       eyebrow: 'Purchase journey review',
       heading: 'Start with where people shop.',
       body: 'The purchase journey review mapped the whole journey and the GA4 data. Over 80% of visitors were on a phone, so every screen was designed mobile first, then scaled up to desktop.',
-      media: slot(B, 'work-01', 'The Projektityyny mobile menu, with routes to shop by product, room, print and colour, and search.', 'The main mobile menu'),
+      media: slot(B, 'work-01', 'The Projektityyny homepage on mobile, from the Made with video down to the footer.', 'The homepage recording'),
     },
     {
       eyebrow: 'Image-led navigation design',
@@ -74,7 +74,7 @@ export const DATA: CaseStudyPageData = {
       body: 'Image-led navigation design gives Projektityyny three routes in: by product, by room and by print. Each leads to its own page, so the menu becomes the start of shopping, not a list of links.',
       link: innovationLink('See shop by product, room or print', 'shop-by-product-room-print'),
       media: (() => {
-        const m = innovationSlot('shop-by-product-room-print', 'Shop by room on the Projektityyny mobile menu: nursery, children’s bedroom, adult bedroom and dining room.', 'The navigation recording');
+        const m = innovationSlot('shop-by-product-room-print', 'The Projektityyny mobile menu, into shop by product, print and room, each with picture routes.', 'The navigation recording');
         return { ...m, image: m.image ?? shopByRoom };
       })(),
     },
@@ -82,7 +82,7 @@ export const DATA: CaseStudyPageData = {
       eyebrow: 'Shopify homepage design',
       heading: 'Let the photography lead.',
       body: 'Shopify homepage design at Projektityyny puts full-bleed photography, considered pacing and generous space first. The design never competes with the prints. It frames them.',
-      media: slot(B, 'work-03', 'Projektityyny’s image-led homepage blocks scrolling on mobile.', 'The image-led recording'),
+      media: slot(B, 'work-03', 'The Projektityyny homepage on mobile, from the full-bleed Christmas section past the collection grid.', 'The image-led recording'),
     },
     {
       eyebrow: 'Shopify lookbook design',
@@ -95,7 +95,7 @@ export const DATA: CaseStudyPageData = {
       eyebrow: 'Shopify cross-sell design',
       heading: 'Styling advice, not random picks.',
       body: 'Shopify cross-sell design at Projektityyny curates what goes with each quilt, and lets customers shop the same colour or print. It reads like styling advice from the brand, not a sales tactic.',
-      media: slot(B, 'work-05', 'A Projektityyny quilt product page on mobile, with the goes well with row.', 'The product page recording'),
+      media: slot(B, 'work-05', 'The Projektityyny basket on mobile, with a quilt in it and what others added with it.', 'The basket recording'),
     },
     {
       eyebrow: 'Figma design system',
@@ -113,8 +113,11 @@ export const DATA: CaseStudyPageData = {
       photo: { image: photo(B, 'split-1-photo', cushions), alt: '' },
       screens: [
         { device: 'desktop', media: { ...slot(B, 'split-desktop-1', 'The Projektityyny store on desktop.', 'Desktop homepage'), image: brandImage(B, 'split-desktop-1') ?? brandImage(B, 'showcase-desktop') } },
+        // Navigation second, lookbooks last (feedback #174)
+        { device: 'desktop', media: slot(B, 'split-desktop-4', 'The Projektityyny menu on desktop, into shop by product, print and room.', 'Desktop navigation') },
         { device: 'desktop', media: slot(B, 'split-desktop-2', 'A Projektityyny collection on desktop.', 'Desktop collection') },
         { device: 'desktop', media: slot(B, 'split-desktop-3', 'A Projektityyny product page on desktop.', 'Desktop product page') },
+        { device: 'desktop', media: slot(B, 'split-desktop-5', 'Projektityyny lookbooks on desktop: the archive, Christmas 2025 and the Final Chapter.', 'Desktop lookbooks') },
       ],
       tint: '#C5CDC9',
     },

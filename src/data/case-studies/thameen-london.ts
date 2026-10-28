@@ -94,7 +94,10 @@ export const DATA: CaseStudyPageData = {
   ],
   // One 50/50 halfway through the work (27 October 2026): this photo sticks at full height while
   // desktop screens scroll past on the tint. Drop in split-desktop-1 to -3.
-  splits: [desktopSplit(B, 'Thameen London', photoMedia(B, 'split-1-photo', bottles), '#81ABFB')],
+  splits: [desktopSplit(B, 'Thameen London', photoMedia(B, 'split-1-photo', bottles), '#81ABFB', 3, [
+    { name: 'split-desktop-4', alt: 'The Thameen London bag opening on desktop, with one fragrance in it.', label: 'Desktop bag' },
+    { name: 'split-desktop-5', alt: 'The Thameen London homepage on desktop, from Our olfactory treasures down to the footer.', label: 'Desktop homepage' },
+  ])],
   feature: {
     background: photo(B, 'feature-photo'),
     eyebrow: 'Shopify theme styling',

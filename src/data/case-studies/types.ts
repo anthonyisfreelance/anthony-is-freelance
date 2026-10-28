@@ -189,12 +189,20 @@ export const photoMedia = (brand: string, name: string, fallback?: ImageMetadata
  * work. Drop in split-desktop-1 to -3 (stills or recordings). Until split-desktop-1 is there it falls
  * back to the showcase desktop still; the others show a placeholder.
  */
-export const desktopSplit = (brand: string, client: string, photo: Media, tint: string, count = 3): Split => ({
-  label: `${client} on desktop`,
-  photo,
-  screens: Array.from({ length: count }, (_, i) => {
+export const desktopSplit = (brand: string, client: string, photo: Media, tint: string, count = 3, extra: ExtraScreen[] = []): Split => {
+  const screens: SplitScreen[] = Array.from({ length: count }, (_, i) => {
     const m = slot(brand, `split-desktop-${i + 1}`, `The ${client} store on desktop.`, `Desktop screen ${i + 1}`);
     return { device: 'desktop' as const, media: i === 0 && !m.image ? { ...m, image: brandImage(brand, 'showcase-desktop') } : m };
-  }),
-  tint,
-});
+  });
+  // Extra screens (28 October 2026), each slotted in after `after` screens, or at the end. Left out until
+  // its still or recording is there, so a missing one never shows a placeholder.
+  for (const x of extra) {
+    const m = slot(brand, x.name, x.alt, x.label);
+    if (!m.image && !m.video) continue;
+    screens.splice(x.after ?? screens.length, 0, { device: 'desktop', media: m });
+  }
+  return { label: `${client} on desktop`, photo, screens, tint };
+};
+
+/** An extra 50/50 desktop screen: file name (split-desktop-4 etc), alt text, label, and where it goes. */
+export interface ExtraScreen { name: string; alt: string; label: string; after?: number }

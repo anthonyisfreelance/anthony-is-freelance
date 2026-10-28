@@ -51,7 +51,7 @@ export const DATA: CaseStudyPageData = {
     phones: [
       slot(B, 'showcase-phone-1', 'The Fuzzball homepage on mobile.', 'Homepage'),
       slot(B, 'showcase-phone-2', 'The Fuzzball collection on mobile.', 'Collection'),
-      slot(B, 'showcase-phone-3', 'The first Fuzzball quiz step on mobile.', 'First quiz step'),
+      slot(B, 'showcase-phone-3', 'The Fuzzball salmon treats product page on mobile.', 'Product page'),
       slot(B, 'showcase-phone-4', 'The Fuzzball quiz completion screen on mobile.', 'Quiz completion'),
     ],
   },
@@ -65,13 +65,13 @@ export const DATA: CaseStudyPageData = {
       eyebrow: 'Subscription menu design',
       heading: 'Explain the subscription before the click.',
       body: 'Subscription menu design at Fuzzball does more than list products. The menu carries quality, delivery and how-it-works messages, so people trust the subscription before they start the quiz.',
-      media: slot(B, 'work-01', 'The Fuzzball mobile menu, with quality, delivery and how-it-works messages beside the collections.', 'The navigation recording'),
+      media: slot(B, 'work-01', 'The Fuzzball mobile menu on mobile, opening Build Your Box to explain the quiz before the click.', 'The navigation recording'),
     },
     {
       eyebrow: 'Shopify quiz design',
       heading: 'Fewer steps, every answer obvious.',
       body: 'Shopify quiz design balances what Fuzzball needs to know with what a customer will put up with. Fewer steps and clicks, clearer button states, and slide-up panels for anyone who wants more detail.',
-      media: slot(B, 'work-02', 'A Fuzzball quiz step on mobile, with a slide-up panel explaining the question.', 'The quiz recording'),
+      media: slot(B, 'work-02', 'The Fuzzball quiz on mobile: the cat’s name, then what and how much it eats, one tap per answer.', 'The quiz recording'),
     },
     {
       eyebrow: 'Shopify subscription cart design',
@@ -91,12 +91,15 @@ export const DATA: CaseStudyPageData = {
       eyebrow: 'Pet food product page design',
       heading: 'Ingredients and benefits at a glance.',
       body: 'Pet food product page design at Fuzzball sets out ingredients and benefits with icons and short callouts for scan readers, plus quick links to build a subscription box, including for quiz-only products.',
-      media: slot(B, 'work-05', 'A Fuzzball product page on mobile, with ingredient icons and a link to build a box.', 'The product page recording'),
+      media: slot(B, 'work-05', 'The Fuzzball chicken treats product page on mobile, with all natural, protein and grain free icons beside the pack.', 'The product page recording'),
     },
   ],
   // One 50/50 halfway through the work (27 October 2026): this photo sticks at full height while
   // desktop screens scroll past on the tint. Drop in split-desktop-1 to -3.
-  splits: [desktopSplit(B, 'Fuzzball', photoMedia(B, 'split-1-photo'), '#DDF7F5')],
+  splits: [desktopSplit(B, 'Fuzzball', photoMedia(B, 'split-1-photo'), '#DDF7F5', 3, [
+    { name: 'split-desktop-4', alt: 'The Fuzzball navigation on desktop, opening Build Your Box, Our Products and About Fuzzball in turn.', label: 'Desktop navigation', after: 1 },
+    { name: 'split-desktop-5', alt: 'The Fuzzball quiz on desktop, answering what the cat eats and how much.', label: 'Desktop quiz' },
+  ])],
   feature: {
     background: photo(B, 'feature-photo'),
     eyebrow: 'App-like brand design',

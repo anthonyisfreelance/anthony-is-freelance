@@ -73,7 +73,7 @@ export const DATA: CaseStudyPageData = {
       eyebrow: 'Mobile UX review',
       heading: 'Find where shoppers hesitate.',
       body: 'The mobile UX review paired GA4 data with the whole purchase journey at common phone sizes. It showed which details shoppers needed sooner to tell one sauce from another.',
-      media: slot(B, 'work-01', 'A scroll down the East at Home heat and eat sauces collection on mobile.', 'The collection recording'),
+      media: slot(B, 'work-01', 'The East at Home heat and eat sauces row on mobile, swiping through the bestsellers.', 'The sauces recording'),
     },
     {
       eyebrow: 'Shopify product card design',
@@ -111,7 +111,7 @@ export const DATA: CaseStudyPageData = {
     heading: 'One system for every page and campaign.',
     // The brand itself was another agency's, so the copy credits the system, not the brand.
     body: 'East at Home’s design system balances a bold, playful brand with clean, scannable layouts. Every page was built from it as a clickable Figma prototype, so the team can make new landing pages and campaigns without the design drifting.',
-    media: slot(B, 'feature', 'An East at Home screen on mobile in the design system.', 'Design system screen'),
+    media: slot(B, 'feature', 'East at Home on mobile in the design system: the masala sauce page and its customer videos, the homepage, spice kits and recipes.', 'Design system screen'),
   },
   testimonial: {
     eyebrow: 'East at Home testimonial',

@@ -51,7 +51,7 @@ export const DATA: CaseStudyPageData = {
       slot(B, 'showcase-phone-1', 'The Whistlefish homepage on mobile.', 'Homepage'),
       slot(B, 'showcase-phone-2', 'A Whistlefish card collection on mobile.', 'Card collection'),
       slot(B, 'showcase-phone-3', 'The Whistlefish greeting cards menu on mobile.', 'Greeting cards menu'),
-      slot(B, 'showcase-phone-4', 'The Whistlefish gallery on mobile.', 'Gallery'),
+      slot(B, 'showcase-phone-4', 'The Whistlefish Falmouth shop page on mobile.', 'Falmouth shop'),
     ],
   },
   workIntro: {
@@ -94,7 +94,9 @@ export const DATA: CaseStudyPageData = {
   ],
   // One 50/50 halfway through the work (27 October 2026): this photo sticks at full height while
   // desktop screens scroll past on the tint. Drop in split-desktop-1 to -3.
-  splits: [desktopSplit(B, 'Whistlefish', photoMedia(B, 'split-1-photo', photo(B, 'gallery-photo')), '#C7D8E0')],
+  splits: [desktopSplit(B, 'Whistlefish', photoMedia(B, 'split-1-photo', photo(B, 'gallery-photo')), '#C7D8E0', 3, [
+    { name: 'split-desktop-4', alt: 'The Whistlefish Christmas landing page on desktop, down to the red stamp tiles.', label: 'Desktop Christmas page' },
+  ])],
   feature: {
     background: photo(B, 'feature-photo'),
     eyebrow: 'Team-run design system',
