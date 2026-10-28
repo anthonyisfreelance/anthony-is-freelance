@@ -55,11 +55,11 @@ export const DATA: CaseStudyPageData = {
   showcase: {
     label: 'East at Home screens',
     background: photo(B, 'showcase-photo', curry),
-    desktop: slot(B, 'showcase-desktop', 'The East at Home store on desktop: the homepage, a sauces collection, a product page and the bag.', 'Desktop journey recording'),
+    desktop: slot(B, 'showcase-desktop', 'The East at Home store on desktop: the homepage, a sauces collection and a product page.', 'Desktop journey recording'),
     phones: [
       slot(B, 'showcase-phone-1', 'The East at Home homepage on mobile.', 'Homepage'),
-      slot(B, 'showcase-phone-2', 'The East at Home navigation on mobile.', 'Navigation'),
-      slot(B, 'showcase-phone-3', 'East at Home search on mobile.', 'Search'),
+      slot(B, 'showcase-phone-2', 'The East at Home menu opening on a curry sauce product page on mobile.', 'Navigation'),
+      slot(B, 'showcase-phone-3', 'The East at Home heat and eat sauces collection on mobile.', 'Collection'),
       slot(B, 'showcase-phone-4', 'The East at Home recipes page on mobile.', 'Recipes page'),
     ],
   },
@@ -73,7 +73,7 @@ export const DATA: CaseStudyPageData = {
       eyebrow: 'Mobile UX review',
       heading: 'Find where shoppers hesitate.',
       body: 'The mobile UX review paired GA4 data with the whole purchase journey at common phone sizes. It showed which details shoppers needed sooner to tell one sauce from another.',
-      media: slot(B, 'work-01', 'The East at Home UX review on mobile.', 'The UX review recording'),
+      media: slot(B, 'work-01', 'A scroll down the East at Home heat and eat sauces collection on mobile.', 'The collection recording'),
     },
     {
       eyebrow: 'Shopify product card design',

@@ -140,9 +140,9 @@ const SPLITS: Split[] = [
     label: 'Drink Finder on desktop',
     photo: { image: aperol, alt: '' },
     screens: [
-      { device: 'desktop', media: { ...slot(B, 'split-desktop-1', 'The Drink Finder homepage on desktop, with search and the category menu above the hero.', 'Desktop homepage'), image: brandImage(B, 'split-desktop-1') ?? stillDesktop } },
+      { device: 'desktop', media: { ...slot(B, 'split-desktop-1', 'The Drink Finder homepage on desktop, from the wine and whisky categories to the top 10.', 'Desktop homepage'), image: brandImage(B, 'split-desktop-1') ?? stillDesktop } },
       { device: 'desktop', media: slot(B, 'split-desktop-2', 'The Drink Finder whisky collection on desktop.', 'Desktop collection') },
-      { device: 'desktop', media: slot(B, 'split-desktop-3', 'A Drink Finder wine product page on desktop, with one, six and twelve bottle offers.', 'Desktop product page') },
+      { device: 'desktop', media: slot(B, 'split-desktop-3', 'A Drink Finder gin product page on desktop, with the details sticking beside the photos.', 'Desktop product page') },
     ],
     tint: '#FAD1A9',
   },
