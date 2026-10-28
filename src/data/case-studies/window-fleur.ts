@@ -78,7 +78,9 @@ export const DATA: CaseStudyPageData = {
   ],
   // One 50/50 halfway through the work (27 October 2026): this photo sticks at full height while
   // desktop screens scroll past on the tint. Drop in split-desktop-1 to -3.
-  splits: [desktopSplit(B, 'Window Fleur', photoMedia(B, 'split-1-photo'), '#DAC5C9')],
+  splits: [desktopSplit(B, 'Window Fleur', photoMedia(B, 'split-1-photo'), '#DAC5C9', 3, [
+    { name: 'split-desktop-4', alt: 'A Window Fleur product page on desktop, from We’re green, inside and out down to the footer.', label: 'Desktop product page' },
+  ])],
   feature: {
     background: photo(B, 'feature-photo'),
     eyebrow: 'Pattern-led brand design',

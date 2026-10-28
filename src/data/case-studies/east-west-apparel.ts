@@ -48,8 +48,9 @@ export const DATA: CaseStudyPageData = {
     desktop: slot(B, 'showcase-desktop', 'The East West Apparel store on desktop: the homepage with its torn-edge textures, a collection and a product page.', 'Desktop UI recording'),
     phones: [
       slot(B, 'showcase-phone-1', 'The East West Apparel homepage on mobile.', 'Homepage'),
-      slot(B, 'showcase-phone-2', 'An East West Apparel collection on mobile.', 'Collection'),
-      slot(B, 'showcase-phone-3', 'The East West Apparel navigation on mobile.', 'Navigation'),
+      // Still, video, still, video (feedback #243)
+      slot(B, 'showcase-phone-3', 'The East West Apparel navigation on mobile, opening Brands and back.', 'Navigation'),
+      slot(B, 'showcase-phone-2', 'The Freenote Cloth collection on East West Apparel, on mobile.', 'Collection'),
       slot(B, 'showcase-phone-4', 'East West Apparel search on mobile.', 'Search'),
     ],
   },
@@ -86,7 +87,9 @@ export const DATA: CaseStudyPageData = {
   ],
   // One 50/50 halfway through the work (27 October 2026): this photo sticks at full height while
   // desktop screens scroll past on the tint. Drop in split-desktop-1 to -3.
-  splits: [desktopSplit(B, 'East West Apparel', photoMedia(B, 'split-1-photo'), '#BBB19A')],
+  splits: [desktopSplit(B, 'East West Apparel', photoMedia(B, 'split-1-photo'), '#BBB19A', 3, [
+    { name: 'split-desktop-4', alt: 'An East West Apparel belt added to the bag on desktop, the bag opening and closing.', label: 'Desktop add to bag' },
+  ])],
   feature: {
     background: photo(B, 'feature-photo'),
     eyebrow: 'Streetwear design system',

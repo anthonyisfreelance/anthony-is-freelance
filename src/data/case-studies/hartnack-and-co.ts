@@ -93,7 +93,9 @@ export const DATA: CaseStudyPageData = {
   ],
   // One 50/50 halfway through the work (27 October 2026): this photo sticks at full height while
   // desktop screens scroll past on the tint. Drop in split-desktop-1 to -3.
-  splits: [desktopSplit(B, 'Hartnack & Co', photoMedia(B, 'split-1-photo', box), '#BBC7C9')],
+  splits: [desktopSplit(B, 'Hartnack & Co', photoMedia(B, 'split-1-photo', box), '#BBC7C9', 3, [
+    { name: 'split-desktop-4', alt: 'The Hartnack & Co customer gallery on desktop, rows of finished binders and boxes.', label: 'Desktop customer gallery' },
+  ])],
   feature: {
     background: photo(B, 'feature-photo'),
     eyebrow: 'Shopify brand refinement',
