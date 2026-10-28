@@ -1,6 +1,7 @@
 // Dr Lipp case study. Copy from the "Case study copy: Dr Lipp" doc (20 October 2026).
-// No photos or screens in the repo yet: everything drops in by name, see src/assets/brands/README.md.
-import { SERVICE, slot, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData, desktopSplit } from './types';
+// Screens drop in by name, see src/assets/brands/README.md. The desktop hero, the 50/50 desktops and
+// the all-sections row are the original launch recordings, without their browser and phone frames.
+import { SERVICE, slot, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData } from './types';
 
 const B = 'dr-lipp';
 const PATH = '/portfolio/dr-lipp-shopify-website-case-study/';
@@ -47,7 +48,7 @@ export const DATA: CaseStudyPageData = {
   showcase: {
     label: 'Dr Lipp screens',
     background: photo(B, 'showcase-photo'),
-    desktop: slot(B, 'showcase-desktop', 'The Dr Lipp store on desktop: the homepage, the navigation and a product page.', 'Desktop store recording'),
+    desktop: slot(B, 'showcase-desktop', 'A scroll down the Dr Lipp homepage on desktop.', 'Desktop store recording'),
     phones: [
       slot(B, 'showcase-phone-1', 'The Dr Lipp homepage on mobile.', 'Homepage'),
       slot(B, 'showcase-phone-2', 'A Dr Lipp collection on mobile.', 'Collection'),
@@ -81,8 +82,19 @@ export const DATA: CaseStudyPageData = {
     },
   ],
   // One 50/50 halfway through the work (27 October 2026): this photo sticks at full height while
-  // desktop screens scroll past on the tint. Drop in split-desktop-1 to -3.
-  splits: [desktopSplit(B, 'Dr Lipp', photoMedia(B, 'split-1-photo'), '#C9C6C2')],
+  // desktop screens scroll past on the tint. Two screens, both from the original launch recordings
+  // (28 October 2026): the store no longer lists products, so they can't be recorded again.
+  splits: [
+    {
+      label: 'Dr Lipp on desktop',
+      photo: photoMedia(B, 'split-1-photo'),
+      screens: [
+        { device: 'desktop', media: slot(B, 'split-desktop-1', 'The Dr Lipp homepage on desktop, with the menu open.', 'Desktop navigation') },
+        { device: 'desktop', media: slot(B, 'split-desktop-2', 'A Dr Lipp product page on desktop, with single, twin and triple pack prices.', 'Desktop product page') },
+      ],
+      tint: '#C9C6C2',
+    },
+  ],
   feature: {
     background: photo(B, 'feature-photo'),
     eyebrow: 'Accessible design system',
