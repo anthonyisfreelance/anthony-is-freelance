@@ -8,14 +8,18 @@ interface Props {
   article: Article;
   titleTag?: 'h2' | 'h3' | 'p'; // 'p' in menus, so they add no headings to the page
   sizes?: string;
+  /** The topic and date line. Off on the articles list, so it scans on phones (feedback #209); the article page keeps both. */
+  meta?: boolean;
 }
-const { article: a, titleTag: Title = 'h3', sizes } = Astro.props;
+const { article: a, titleTag: Title = 'h3', sizes, meta = true } = Astro.props;
 ---
 <article class="hover-card relative flex flex-col">
   <ArticleCover article={a} sizes={sizes} class="w-full" />
-  <p class="t-label flex flex-wrap justify-between gap-x-4 gap-y-1 border-b border-line py-3 text-muted">
-    <span>{categoryLabel(a.category)}</span>
-    <time datetime={a.date}>{formatDate(a.date)}</time>
-  </p>
+  {meta && (
+    <p class="t-label flex flex-wrap justify-between gap-x-4 gap-y-1 border-b border-line py-3 text-muted">
+      <span>{categoryLabel(a.category)}</span>
+      <time datetime={a.date}>{formatDate(a.date)}</time>
+    </p>
+  )}
   <Title class="t-h6 mt-3 text-ink"><a href={a.href} class="stretched-link link-hover">{a.title}</a></Title>
 </article>

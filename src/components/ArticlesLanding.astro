@@ -91,7 +91,7 @@ const btn = 't-button inline-flex items-center px-[14px] py-[10px]';
       )}
 
       <ul class="grid grid-cols-2 gap-x-grid gap-y-large pt-large lg:grid-cols-3 lg:gap-x-grid-lg lg:gap-y-16">
-        {rows.map((a) => <li data-tags={a.category}><ArticleCard article={a} sizes="(min-width: 1024px) 33vw, 50vw" /></li>)}
+        {rows.map((a) => <li data-tags={a.category}><ArticleCard article={a} meta={false} sizes="(min-width: 1024px) 33vw, 50vw" /></li>)}
       </ul>
 
       {pages > 1 && (
