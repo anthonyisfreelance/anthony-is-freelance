@@ -94,7 +94,7 @@ export const DATA: CaseStudyPageData = {
   ],
   // One 50/50 halfway through the work (27 October 2026): this photo sticks at full height while
   // desktop screens scroll past on the tint. Drop in split-desktop-1 to -3.
-  splits: [desktopSplit(B, 'Thameen London', photoMedia(B, 'split-1-photo', bottles), '#E5E6E8')],
+  splits: [desktopSplit(B, 'Thameen London', photoMedia(B, 'split-1-photo', bottles), '#81ABFB')],
   feature: {
     background: photo(B, 'feature-photo'),
     eyebrow: 'Shopify theme styling',

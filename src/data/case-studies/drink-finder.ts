@@ -144,7 +144,7 @@ const SPLITS: Split[] = [
       { device: 'desktop', media: slot(B, 'split-desktop-2', 'The Drink Finder whisky collection on desktop.', 'Desktop collection') },
       { device: 'desktop', media: slot(B, 'split-desktop-3', 'A Drink Finder wine product page on desktop, with one, six and twelve bottle offers.', 'Desktop product page') },
     ],
-    tint: '#FBD2A9',
+    tint: '#FAD1A9',
   },
 ];
 

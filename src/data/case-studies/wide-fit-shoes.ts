@@ -86,7 +86,7 @@ export const DATA: CaseStudyPageData = {
   ],
   // One 50/50 halfway through the work (27 October 2026): this photo sticks at full height while
   // desktop screens scroll past on the tint. Drop in split-desktop-1 to -3.
-  splits: [desktopSplit(B, 'Wide Fit Shoes', photoMedia(B, 'split-1-photo'), '#B4C0D0')],
+  splits: [desktopSplit(B, 'Wide Fit Shoes', photoMedia(B, 'split-1-photo'), '#B7CC97')],
   feature: {
     background: photo(B, 'feature-photo'),
     eyebrow: 'Two-store design system',

@@ -92,7 +92,7 @@ export const DATA: CaseStudyPageData = {
         { device: 'desktop', media: slot(B, 'split-desktop-1', 'The Dr Lipp homepage on desktop, with the menu open.', 'Desktop navigation') },
         { device: 'desktop', media: slot(B, 'split-desktop-2', 'A Dr Lipp product page on desktop, with single, twin and triple pack prices.', 'Desktop product page') },
       ],
-      tint: '#C9C6C2',
+      tint: '#ECD5C9',
     },
   ],
   feature: {

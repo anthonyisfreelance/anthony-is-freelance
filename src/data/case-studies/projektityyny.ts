@@ -116,7 +116,7 @@ export const DATA: CaseStudyPageData = {
         { device: 'desktop', media: slot(B, 'split-desktop-2', 'A Projektityyny collection on desktop.', 'Desktop collection') },
         { device: 'desktop', media: slot(B, 'split-desktop-3', 'A Projektityyny product page on desktop.', 'Desktop product page') },
       ],
-      tint: '#E7D7BB',
+      tint: '#C5CDC9',
     },
   ],
   more: { ...MORE_HEADING, cards: moreFor('Projektityyny') },
