@@ -47,7 +47,7 @@ export const DATA: CaseStudyPageData = {
   showcase: {
     label: 'Fuzzball screens',
     background: photo(B, 'showcase-photo', treats),
-    desktop: slot(B, 'showcase-desktop', 'The Fuzzball store on desktop: the homepage, the navigation and a product page.', 'Desktop experience recording'),
+    desktop: slot(B, 'showcase-desktop', 'The Fuzzball store on desktop: the homepage, the products collection and a product page.', 'Desktop experience recording'),
     phones: [
       slot(B, 'showcase-phone-1', 'The Fuzzball homepage on mobile.', 'Homepage'),
       slot(B, 'showcase-phone-2', 'The Fuzzball collection on mobile.', 'Collection'),

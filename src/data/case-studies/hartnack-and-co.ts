@@ -43,7 +43,7 @@ export const DATA: CaseStudyPageData = {
   showcase: {
     label: 'Hartnack & Co screens',
     background: photo(B, 'showcase-photo'),
-    desktop: slot(B, 'showcase-desktop', 'The Hartnack & Co store on desktop: the homepage and a binders collection.', 'Desktop collection recording'),
+    desktop: slot(B, 'showcase-desktop', 'The Hartnack & Co store on desktop: the homepage, all products and a binder product page.', 'Desktop collection recording'),
     phones: [
       slot(B, 'showcase-phone-1', 'The Hartnack & Co homepage on mobile.', 'Homepage'),
       slot(B, 'showcase-phone-2', 'The Hartnack & Co navigation on mobile.', 'Navigation'),
