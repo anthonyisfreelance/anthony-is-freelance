@@ -65,7 +65,7 @@ export const DATA: CaseStudyPageData = {
       eyebrow: 'Subscription menu design',
       heading: 'Explain the subscription before the click.',
       body: 'Subscription menu design at Fuzzball does more than list products. The menu carries quality, delivery and how-it-works messages, so people trust the subscription before they start the quiz.',
-      media: slot(B, 'work-01', 'The Fuzzball mobile menu on mobile, opening Build Your Box to explain the quiz before the click.', 'The navigation recording'),
+      media: slot(B, 'work-01', 'The Fuzzball menu on mobile, opening on Build Your Box, Our Products and About Fuzzball, then closing.', 'The navigation recording'),
     },
     {
       eyebrow: 'Shopify quiz design',

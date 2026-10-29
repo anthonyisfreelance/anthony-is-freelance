@@ -145,7 +145,7 @@ const SPLITS: Split[] = [
       { device: 'desktop', media: slot(B, 'split-desktop-3', 'A Drink Finder gin product page on desktop, with the details sticking beside the photos.', 'Desktop product page') },
       // The top 10 and the articles (feedback #135, 28 October 2026)
       { device: 'desktop', media: slot(B, 'split-desktop-4', 'The Drink Finder top 10 wines on desktop, each bottle ranked with a numbered badge.', 'Desktop top 10') },
-      { device: 'desktop', media: slot(B, 'split-desktop-5', 'The Drink Finder blog on desktop, with articles filtered by events, news, recipes and visits.', 'Desktop articles') },
+      { device: 'desktop', media: slot(B, 'split-desktop-5', 'A Drink Finder article on desktop, a complete guide to red wine types, opening with the essentials at a glance.', 'Desktop article') },
     ],
     tint: '#FAD1A9',
   },
