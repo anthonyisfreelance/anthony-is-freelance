@@ -31,7 +31,7 @@ export const HERO = {
   ],
   trust: [
     '20+ years of brand and ecommerce experience',
-    'UK eCommerce Website of the Year 2026',
+    'Winner of UK eCommerce Website of the Year 2026',
     '13 Shopify launches since 2023',
   ],
 };
@@ -111,14 +111,14 @@ export const SERVICES = {
   link: { label: 'View all Shopify design services', href: URLS.services },
   // One line each, so it sits on one line at 375px.
   items: [
-    { name: 'Branding', line: 'Identity for new and relaunched brands.', href: URLS.branding },
-    { name: 'UX design', line: 'Research, flows and wireframes first.', href: URLS.ux },
-    { name: 'Bespoke store design', line: 'Every template designed from scratch.', href: URLS.bespoke },
+    { name: 'Branding', line: 'Ecommerce brand identity work.', href: URLS.branding },
+    { name: 'UX design', line: 'Better journeys and bespoke experiences.', href: URLS.ux },
+    { name: 'Bespoke store design', line: 'The journey and design bespoke to your brand.', href: URLS.bespoke },
     { name: 'Migrations', line: 'Moving from Magento, WooCommerce or Wix.', href: URLS.migrations },
     { name: 'Theme customisations', line: 'Premium themes, made to look bespoke.', href: URLS.theme },
     { name: 'Shopify CRO', line: 'Find why customers leave, then fix it.', href: URLS.cro },
     { name: 'Shopify subscriptions', line: "Subscriptions people don't cancel.", href: URLS.subscriptions },
-    { name: 'AI search visibility', line: 'Stores ChatGPT can find and recommend.', href: URLS.aiSearch },
+    { name: 'AI search visibility', line: 'Stores agents like ChatGPT can find and recommend.', href: URLS.aiSearch },
   ],
 };
 
@@ -126,15 +126,12 @@ export const ABOUT = {
   eyebrow: 'Freelance Shopify UX designer',
   heading: 'You get all of my experience, not just my time.',
   // The first sentence names the award: it's the sentence AI tools lift to describe you.
-  // "Drink Finder" links to its case study.
-  lead: {
-    before: "I'm Anthony Bliss, a freelance Shopify designer based in Cornwall, UK, and the designer behind ",
-    link: { label: 'Drink Finder', href: URLS.caseStudies.drinkFinder },
-    after:
-      ", UK eCommerce Website of the Year 2026. I started my career in brand identity across Bath and Bristol before moving into digital, and since 2020 I've focused exclusively on Shopify, working with DTC brands across the UK on everything from bespoke store builds to CRO and UX improvements.",
-  },
+  // [words](/path/) marks an inline link (InlineLinks.astro).
   paragraphs: [
-    'Before specialising in ecommerce, I spent three and a half years as a senior freelance designer at Dyson, overseeing complete campaigns for new product launches. I then moved to Cornwall and spent five and a half years inside a leading Shopify agency, eventually progressing to Creative Director.',
+    `I'm Anthony Bliss, a freelance Shopify designer based in Cornwall, UK, and the designer behind [Drink Finder](${URLS.caseStudies.drinkFinder}), UK eCommerce Website of the Year 2026. I started my career in brand identity across Bath and Bristol before moving into digital, and since 2020 I've focused exclusively on Shopify, working with DTC brands across the UK on everything from [bespoke store builds](${URLS.bespoke}) to [CRO and UX improvements](${URLS.cro}).`,
+    'Before specialising in ecommerce, I spent just over three years as a freelance senior digital designer at Dyson, overseeing complete campaigns for new product launches. I then moved to Cornwall and spent five and a half years inside a Shopify agency in Falmouth, eventually progressing to Creative Director. Going independent was a deliberate move to bring all of that together and work directly with clients myself.',
+    `Most Shopify designers come from a web background. I bring ten years of brand identity, Dyson's global product launches and agency-level Shopify knowledge, all applied directly to your store. You can see the results in my [Shopify case studies](${URLS.work}).`,
+    "I work with a small number of clients at a time. There's no account manager, no handoffs, no team you've never met. When you work with me, you work with me. From the first conversation to the final sign-off.",
   ],
   link: { label: 'More about how I work', href: URLS.about },
   imageAlt: 'Anthony Bliss, freelance Shopify designer, Falmouth, Cornwall',
@@ -148,13 +145,13 @@ export const PROCESS = {
     {
       title: 'Understand',
       // [CONFIRM] wording.
-      body: "A call about your business, then a UX review of your live store where the project needs one. From there I'll tell you honestly whether a theme customisation or a bespoke store is the right fit, even when that's the smaller job.",
+      body: "A call about your business needs, then a UX review of your live store (if the project needs one). From there I'll tell you honestly whether a theme customisation or a bespoke store is the right fit, even when that's the smaller job.",
     },
     {
       title: 'Design',
       body: 'Options first, then the details, mobile first. Bespoke stores are designed in Figma. Theme customisations mix both: the key templates, like the header and product page, in Figma, and the rest straight into the theme.',
     },
-    { title: 'Launch', body: 'Every screen checked on real devices before it goes live, with one question: would I buy this?' },
+    { title: 'Launch', body: 'Every screen tested on real phones, tablets and desktops before launch, then checked again once the store is live.' },
     {
       title: 'Measure and improve',
       body: 'I check conversion rate and average order value at one, three and seven days, then keep improving if you want to.',
@@ -171,7 +168,7 @@ export const INNOVATIONS = {
   items: (
     [
       ['dinner-question-cards', 'Every card shows spice level, dietary needs and flavour, in a list built for comparing on mobile.'],
-      ['comparison-toggle', 'Expand origin, region and vintage to compare bottles side by side, without leaving the listing.'],
+      ['comparison-toggle', 'Expand origin, region and vintage to compare bottles side by side, without leaving the collection page.'],
       ['image-first-product-cards', 'Product names truncated on purpose, because nobody buys a greeting card for its name.'],
     ] as const
   ).map(([slug, body]) => {
@@ -234,20 +231,21 @@ export const ARTICLES = {
 
 export const FAQS = {
   eyebrow: 'Shopify web designer FAQs',
-  heading: 'Before you get in touch',
+  heading: 'What brands ask on the first call.',
   note: 'Prices and timelines checked September 2026.',
   items: [
     {
       q: 'How much does a freelance Shopify designer cost?',
       a: [
-        'My projects start from £5,000 + VAT for a theme customisation and £10,000 + VAT for a bespoke store design. Both prices are for design only; the developer quotes the build separately.',
-        'A theme customisation redesigns inside a premium theme, so the price depends on how far the theme needs pushing and how many templates change. A bespoke design starts from scratch, so it depends on how many templates and variants you need, and whether the brand needs refining first. Every project starts with a tailored quote and a scope of work, which can adapt as we go. Each service page has the detail.',
+        'A store design starts from £5,000 + VAT for a theme customisation and £10,000 + VAT for a bespoke store. Smaller projects, like branding or a CRO project, start from £3,000 + VAT. All prices are for design only. The chosen developer quotes the build separately.',
+        'A theme customisation redesigns inside a premium theme, so the price depends on how far the theme needs pushing and how many templates change. A bespoke design starts from scratch, so it depends on how many page templates and bespoke sections you need, and also whether the brand needs refining first.',
+        `Each [service](${URLS.services}) page has more granular details.`,
       ],
     },
     {
       q: 'How long does a Shopify store design take?',
       a: [
-        "Six to eight weeks for a bespoke store design, with the build taking about the same again. A theme customisation takes four to eight weeks. The biggest variable is content, so having real copy and images early makes the most difference. I'm usually booked one to two months ahead.",
+        "Six to eight weeks for a bespoke store design, with the build taking about the same again. A theme customisation takes four to eight weeks. The biggest roadblocks from experience are timely feedback and client content, so having real copy and images early makes the most difference. I'm usually booked one to two months ahead.",
       ],
     },
     {
@@ -271,7 +269,7 @@ export const FAQS = {
     {
       q: "What's the difference between a bespoke build and theme customisation?",
       a: [
-        'A bespoke build designs every template from scratch, with no theme limits. Theme customisation redesigns inside a premium theme, which is quicker and cheaper but caps how far the design can go, usually at the navigation. A good theme takes most brands a long way. When you keep adding to it and it starts working against you, bespoke is the better investment.',
+        'A bespoke build designs every page template, overlay and interaction from scratch, with no theme limits. Theme customisation redesigns inside a premium theme, which is quicker and cheaper but caps how far the design can go, usually at the navigation. A good theme takes most brands a long way. When you keep adding to it and it starts working against you, bespoke is the better investment.',
       ],
     },
     {
@@ -287,6 +285,7 @@ export const FAQS = {
 export const CONTACT = {
   eyebrow: 'Start a Shopify project',
   heading: 'Tell me where your store is now.',
+  homeHeading: 'Tell me where your store is at.', // the homepage's own version (homepage doc, 29 October 2026)
   budgets: ['Under £5,000', '£5,000 – £10,000', '£10,000 – £20,000', '£20,000+', 'Not sure yet'],
   // Optional, last, one dropdown: the only clean way to count AI and awards referrals.
   found: {

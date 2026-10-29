@@ -8,9 +8,9 @@ export const CONTACT_PAGE = {
   description:
     "Start a Shopify design project with Anthony Bliss. Send a brief or a few lines about your store, and I'll reply within two working days.",
   eyebrow: 'Contact Anthony Bliss',
-  heading: 'Start with a few lines about your store.',
+  heading: 'Tell me about your store.',
   intro:
-    'The quickest way to start a Shopify design project with Anthony Bliss is the form on this page. Every message comes straight to me, and I reply within two working days.',
+    'The quickest way to start a Shopify design project with me is the form on this page. Every message comes straight to me, and I reply within two working days.',
   // Booking month: always two months on from today, so it never needs touching. Set at build time
   // and refreshed in the browser on load (contact page script), so it stays right between deploys.
   availability: { before: 'Currently booking from ', after: '.', monthsAhead: 2 },
@@ -24,7 +24,7 @@ export const bookingMonth = (ahead: number, from = new Date()) => {
 
 export const NEXT_STEPS = {
   heading: 'What happens next',
-  steps: ['I reply within two working days.', 'A 30-minute call about your business and the project.', 'A tailored quote along with a timeline.'],
+  steps: ['I reply within two working days.', 'A 30-minute call about your business and the project.', 'You will receive a quote with a project timeline.'],
   privacy: 'I only use your details to reply to you.',
   privacyLink: { label: 'How I handle your details', href: URLS.privacy },
 };
@@ -37,8 +37,8 @@ export const DETAILS = {
   items: [
     { term: 'Email', value: ENTITY.business.email, href: `mailto:${ENTITY.business.email}` },
     { term: 'Phone', value: '01326 702184', href: `tel:${ENTITY.business.telephone}` },
-    // [CONFIRM] working hours, then add them to the business schema.
-    { term: 'Hours', value: 'Monday to Friday, [CONFIRM hours], UK time' },
+    // Also in the business schema (ENTITY.business openingHours).
+    { term: 'Hours', value: 'Monday to Friday, 9am to 4pm, UK time' },
     { term: 'Based in', value: 'Falmouth, Cornwall. I work with brands across the UK and abroad, by video call wherever you are.' },
   ],
 };

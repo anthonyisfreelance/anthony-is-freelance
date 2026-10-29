@@ -56,7 +56,7 @@ export const TESTIMONIALS_LIST: Testimonial[] = [
     ],
     name: 'Nick Hartnack',
     credit: 'Partner, Hartnack & Company',
-    year: '[CONFIRM year]',
+    year: '2025',
   },
   {
     id: 'thameen-london',
@@ -67,7 +67,7 @@ export const TESTIMONIALS_LIST: Testimonial[] = [
     ],
     name: 'Nour Abdel-Motaal',
     credit: 'General Manager, Thameen London',
-    year: '[CONFIRM year]',
+    year: '2026',
   },
   {
     id: 'whistlefish',
@@ -78,7 +78,7 @@ export const TESTIMONIALS_LIST: Testimonial[] = [
     ],
     name: 'Will Manders',
     credit: 'Head of Ecommerce, Whistlefish',
-    year: '[CONFIRM year]',
+    year: '2025',
   },
   {
     id: 'east-west-apparel',
@@ -88,7 +88,7 @@ export const TESTIMONIALS_LIST: Testimonial[] = [
     ],
     name: 'Jamie Lee',
     credit: 'Owner, East West Apparel',
-    year: '[CONFIRM year]',
+    year: '2025',
     google: { href: ENTITY.googleReviews, label: 'March 2026' },
   },
   {
@@ -99,7 +99,7 @@ export const TESTIMONIALS_LIST: Testimonial[] = [
     ],
     name: 'Frannie Liddle',
     credit: 'Co-Founder/Creative Director, Window Fleur',
-    year: '[CONFIRM year]',
+    year: '2025',
   },
   {
     id: 'zen-maitri',
@@ -110,7 +110,7 @@ export const TESTIMONIALS_LIST: Testimonial[] = [
     ],
     name: 'Jaideep Shah',
     credit: 'Director, Zen Maitri',
-    year: '[CONFIRM year]',
+    year: '2026',
     google: { href: ENTITY.googleReviews, label: 'March 2026' },
   },
 ];
@@ -125,7 +125,7 @@ export const TESTIMONIALS_PAGE = {
   description:
     'What Drink Finder, East at Home and six more Shopify clients say about working with Anthony Bliss. Word for word, named and dated.',
   eyebrow: 'Shopify designer reviews',
-  heading: 'What clients say, word for word.',
+  heading: 'What clients say about past projects.',
   intro:
     'Eight brands, including Drink Finder, East at Home and Thameen London, on working with Anthony Bliss, a freelance Shopify designer in Cornwall. Each quote is as the client wrote it, with their name, role, company and the year they gave it.',
   // Only platforms with reviews on them. [CONFIRM] Clutch rating and LinkedIn recommendations.

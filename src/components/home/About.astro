@@ -3,6 +3,7 @@
 import { Image } from 'astro:assets';
 import Heading from '../Heading.astro';
 import TextLink from '../TextLink.astro';
+import InlineLinks from '../InlineLinks.astro';
 import { ABOUT } from '../../data/home';
 import image from '../../assets/site/anthony.jpg';
 ---
@@ -14,8 +15,7 @@ import image from '../../assets/site/anthony.jpg';
     </div>
     <div class="flex flex-col gap-loose lg:col-start-2 lg:row-start-3">
       <div class="t-body flex flex-col gap-[10px] text-muted">
-        <p>{ABOUT.lead.before}<a href={ABOUT.lead.link.href} class="text-ink underline underline-offset-4 hover:decoration-2">{ABOUT.lead.link.label}</a>{ABOUT.lead.after}</p>
-        {ABOUT.paragraphs.map((p) => <p>{p}</p>)}
+        {ABOUT.paragraphs.map((p) => <p><InlineLinks text={p} /></p>)}
       </div>
       <div><TextLink href={ABOUT.link.href}>{ABOUT.link.label}</TextLink></div>
     </div>

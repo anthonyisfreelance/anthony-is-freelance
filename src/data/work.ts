@@ -92,7 +92,7 @@ const RECORDS: Omit<CaseStudy, 'image' | 'screen' | 'screenVideo'>[] = [
   {
     client: 'Wide Fit Shoes', brand: 'wide-fit-shoes', meta: 'Fashion · August 2024',
     claim: 'A theme rebuild running both the UK and US stores',
-    proof: 'Product cards show width and colours before the click, on a palette built for WCAG AAA contrast [CONFIRM scope].',
+    proof: 'Product cards show width and colours before the click, with text over images built to WCAG AAA contrast.',
     href: URLS.caseStudies.wideFitShoes,
     services: ['theme-customisations'],
   },
@@ -106,7 +106,7 @@ const RECORDS: Omit<CaseStudy, 'image' | 'screen' | 'screenVideo'>[] = [
   },
   {
     client: 'Window Fleur', brand: 'window-fleur', meta: 'Home · August 2024',
-    claim: '[CONFIRM: what the project was and what it changed]',
+    claim: 'A hard-to-shop store made simple, with the brand brought to life',
     proof: "Brand patterns carry key shopping messages through the store, in a way that's fun and memorable.",
     href: p('window-fleur-shopify-case-study'),
     services: ['bespoke-store-design', 'subscriptions'],
@@ -173,7 +173,7 @@ export const WORK_FAQS = {
     {
       q: 'Do you have Shopify case studies in my sector?',
       a: [
-        'My Shopify case studies cover food and drink, wine and spirits, fashion, footwear, skincare, fragrance, homeware and textiles, pet food subscriptions, bespoke bookbinding, greeting cards and tea. [CONFIRM the list] I group them by service rather than sector, because a migration or a theme customisation raises the same questions whatever you sell.',
+        'My Shopify case studies cover food and drink, wine and spirits, fashion, footwear, skincare, fragrance, homeware and textiles, pet food subscriptions, bespoke bookbinding, greeting cards and tea. I group them by service rather than sector, because a migration or a theme customisation raises the same questions whatever you sell.',
       ],
     },
     {

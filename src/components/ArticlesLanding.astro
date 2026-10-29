@@ -42,6 +42,7 @@ const blog = {
     headline: a.title,
     url: new URL(a.href, SITE).href,
     datePublished: a.date,
+    ...(a.updated && { dateModified: a.updated }),
     description: a.excerpt,
     articleSection: categoryLabel(a.category),
   })),

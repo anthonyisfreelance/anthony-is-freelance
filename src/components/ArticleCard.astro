@@ -18,7 +18,7 @@ const { article: a, titleTag: Title = 'h3', sizes, meta = true } = Astro.props;
   {meta && (
     <p class="t-label flex flex-wrap justify-between gap-x-4 gap-y-1 border-b border-line py-3 text-muted">
       <span>{categoryLabel(a.category)}</span>
-      <time datetime={a.date}>{formatDate(a.date)}</time>
+      {a.updated ? <span>Updated <time datetime={a.updated}>{formatDate(a.updated)}</time></span> : <time datetime={a.date}>{formatDate(a.date)}</time>}
     </p>
   )}
   <Title class="t-h6 mt-3 text-ink"><a href={a.href} class="stretched-link link-hover">{a.title}</a></Title>

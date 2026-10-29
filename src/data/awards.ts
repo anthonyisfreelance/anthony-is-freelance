@@ -28,7 +28,7 @@ export const AWARDS_PAGE = {
   intro:
     'Anthony Bliss, a freelance Shopify designer in Cornwall, won two UK eCommerce Awards in 2026: UK eCommerce Website of the Year for Drink Finder and UK User Experience of the Year for East at Home.',
   second:
-    'Both were announced on {date}, from four shortlistings. The organiser credits each win jointly, to Anthony is Freelance and the client, and so do I.',
+    'Four shortlistings, two wins, announced on {date}. Both awards are shared with the clients, Drink Finder and East at Home, because neither store happens without them.',
   announced: { iso: '2026-09-30', label: '30 September 2026' },
   badgeAlt: 'UK eCommerce Awards 2026 winner badge',
 };

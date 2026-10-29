@@ -29,6 +29,7 @@ const person = {
   // The About page is his profile page; the same on every page that carries this @id.
   url: new URL(URLS.about, SITE).href,
   worksFor: { '@id': b.id },
+  alumniOf: ENTITY.person.alumniOf.map((name) => ({ '@type': 'CollegeOrUniversity', name })),
   sameAs: ENTITY.sameAs,
 };
 
@@ -44,6 +45,7 @@ const business = {
   address: { '@type': 'PostalAddress', addressLocality: b.locality, addressRegion: b.region, addressCountry: b.country },
   areaServed: { '@type': 'Country', name: 'United Kingdom' },
   identifier: { '@type': 'PropertyValue', propertyID: 'Companies House', value: b.companyNumber },
+  openingHoursSpecification: { '@type': 'OpeningHoursSpecification', dayOfWeek: b.hours.days, opens: b.hours.opens, closes: b.hours.closes },
   sameAs: ENTITY.sameAs,
 };
 
@@ -92,7 +94,7 @@ if (faqs?.length) {
       '@type': 'Question',
       name: f.q,
       // Word for word with the page, including any "Checked" line.
-      acceptedAnswer: { '@type': 'Answer', text: [...f.a, f.checked].filter(Boolean).join(' ') },
+      acceptedAnswer: { '@type': 'Answer', text: [...f.a, f.checked].filter(Boolean).join(' ').replace(/\[([^\]]+)\]\([^)]+\)/g, '$1') },
     })),
   });
 }

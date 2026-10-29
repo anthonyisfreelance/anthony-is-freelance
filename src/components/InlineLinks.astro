@@ -1,0 +1,11 @@
+---
+// A sentence from the data where [words](/path/) marks an inline link, so copy from the docs
+// keeps its links without splitting the sentence into pieces.
+interface Props { text: string }
+const { text } = Astro.props;
+const parts = text.split(/(\[[^\]]+\]\([^)]+\))/);
+---
+{parts.map((part) => {
+  const m = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/);
+  return m ? <a href={m[2]} class="text-ink underline underline-offset-4 hover:decoration-2">{m[1]}</a> : part;
+})}

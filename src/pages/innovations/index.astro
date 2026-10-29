@@ -2,6 +2,7 @@
 // Innovations: the home of every innovation, in full. Built from the innovation records in
 // src/data/innovations.ts, grouped by the shopping journey. Copy and structure from
 // page-copy/innovations.md. Groups without an innovation yet are left out.
+import InlineLinks from '../../components/InlineLinks.astro';
 import { getImage } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import Schema from '../../components/Schema.astro';
@@ -92,7 +93,7 @@ const list = { '@type': 'ItemList', '@id': `${url}#innovations`, name: 'Shopify 
                 <dl class="t-small flex flex-col gap-3 border-t border-line pt-3 text-muted">
                   <div><dt class="t-badge mb-1 text-ink">The problem</dt><dd>{it.problem}</dd></div>
                   <div><dt class="t-badge mb-1 text-ink">How it works</dt><dd>{it.howItWorks}</dd></div>
-                  {it.evidence && <div><dt class="t-badge mb-1 text-ink">Evidence</dt><dd>{it.evidence}</dd></div>}
+                  {it.evidence && <div><dt class="t-badge mb-1 text-ink">Evidence</dt><dd><InlineLinks text={it.evidence} /></dd></div>}
                 </dl>
                 <p class="t-label mt-auto border-t border-line pt-3 tracking-[0.02em] text-muted">Part of <a href={it.service.href} class="text-ink underline underline-offset-4 hover:decoration-2">{it.service.label}</a></p>
               </li>

@@ -7,6 +7,8 @@ export const ENTITY = {
     id: `${SITE}/#anthony-bliss`,
     name: 'Anthony Bliss',
     jobTitle: 'Freelance Shopify designer',
+    // As on the About page and LinkedIn (29 October 2026): taught at Somerset, a University of Plymouth partner college.
+    alumniOf: ['Somerset College of Arts and Technology', 'University of Plymouth'],
   },
   business: {
     id: `${SITE}/#business`,
@@ -19,6 +21,8 @@ export const ENTITY = {
     locality: 'Falmouth',
     region: 'Cornwall',
     country: 'GB',
+    // Matches the contact page: Monday to Friday, 9am to 4pm, UK time.
+    hours: { days: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'], opens: '09:00', closes: '16:00' },
   },
   website: {
     id: `${SITE}/#website`,

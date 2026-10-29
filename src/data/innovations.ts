@@ -42,7 +42,7 @@ export const INNOVATION_GROUPS = [
     id: 'finding',
     eyebrow: 'Shopify navigation and collection UX',
     heading: 'Helping customers find and compare.',
-    intro: 'Product discovery comes first, because without it the product page is pointless.',
+    intro: 'Product discovery comes first, because without it, users would struggle to get to the right product page.',
   },
   { id: 'choosing', eyebrow: 'Shopify product UX examples', heading: 'Helping customers choose with confidence.' },
   { id: 'buying', eyebrow: 'Shopify cart and subscription UX', heading: 'Buying without the surprises.' },
@@ -74,8 +74,9 @@ const RECORDS: InnovationRecord[] = [
       'Drink Finder stocks over 1,500 wines, and buyers compare them on country, region, vintage and style. A standard card left them opening bottle after bottle.',
     howItWorks:
       'A Show extras toggle at the top of the collection adds rating, origin, region, vintage and style to every card. Leave it on to compare, or switch it off for a clean grid of bottles and prices.',
+    // Andrew Rowe in Business Cornwall, 15 October 2026, word for word.
     evidence:
-      'Project result: website sales up 34%, September to February against the year before. EPoS till data, marketplaces excluded. Drink Finder won UK eCommerce Website of the Year at the UK eCommerce Awards 2026.',
+      '“Customers are now finding and buying bottles online that we used to struggle to sell.” Andrew Rowe, Constantine director, in [Business Cornwall](https://businesscornwall.co.uk/news-by-industry/awards/2026/10/national-award-for-drink-finder/), 15 October 2026.',
     caption: "A comparison toggle on Drink Finder's collection page.",
     alt: "Drink Finder's collection page on mobile, with the Show extras toggle above the wines.",
     videoUploaded: '2026-10-27',
@@ -124,7 +125,7 @@ const RECORDS: InnovationRecord[] = [
     problem:
       'Whistlefish publishes thousands of greeting card designs, and nobody chooses a card by its name. Long names broke the grid for no benefit.',
     howItWorks:
-      'I cut product names to one line, so the picture leads. The multi-buy offer and an Add button sit on the card, because people often buy several cards at once.',
+      'I cut product names to one line, so the picture leads. People often buy several cards at once, so the multi-buy offer and an Add button sit on the card, and each one goes in the bag without leaving the grid.',
     caption: 'Image-first product cards on Whistlefish.',
     alt: 'Whistlefish greeting cards on mobile, with one-line names, the multi-buy offer and Add buttons.',
     videoUploaded: '2026-10-25',
@@ -191,7 +192,7 @@ const RECORDS: InnovationRecord[] = [
     year: '2025',
     service: S.subscriptions,
     problem:
-      'Some Fuzzball products are only sold on subscription. Customers found that out after clicking through and trying to add one.',
+      'Some Fuzzball products are only sold on subscription. Customers only found that out after clicking through and trying to add one.',
     howItWorks:
       'The card shows a lock icon, an "Only available on subscription" label and a View Product button instead of Add to Bag, so expectations are set before the click.',
     caption: 'Subscription-only product cards on Fuzzball.',
@@ -308,16 +309,13 @@ export const INNOVATIONS_PAGE = {
   eyebrow: 'Shopify UX examples',
   heading: "The ideas a theme wouldn't give you.",
   intro:
-    "Shopify UX examples from the stores I've designed, each one an idea that solved a named problem for that brand's customers.",
+    "Shopify UX examples from the stores I've designed. Each idea solves a problem for that brand's customers.",
   test: {
     eyebrow: 'Shopify innovation test',
     heading: 'How an idea earns the name.',
     paragraphs: [
-      "An idea is only called an innovation on this page if it passes four tests. A theme or an app wouldn't do it out of the box. It was shaped by one brand's products or customers. I can name the problem it solved. And you can see it on the live store.",
-      "Plenty of good design doesn't pass. Multi-buy buttons, quantity savings and free delivery bars are standard features. I design them carefully, so they help people buy without pushing, but they aren't new ideas. You'll find them in the case studies and on the Shopify CRO page.",
-      'Seven of the 13 sit before the product page, in the navigation, collection pages and product cards. The nav is your site, and a product page is pointless if nobody finds it.',
-      "Where a figure appears, it's labelled a project result, because it belongs to the whole project, not one feature. Each shows the months it covers and where it came from.",
-      'I like the jigsaw piece as much as the entire jigsaw.',
+      "I only call an idea an innovation if it passes four tests: a theme or an app wouldn't do it out of the box, it was shaped by one brand's products or customers, I can name the problem it solved, and you can see it on the live store.",
+      "Multi-buy buttons and free delivery bars don't pass. I design them carefully, but they're standard features, not new ideas.",
     ],
   },
   faqs: {
