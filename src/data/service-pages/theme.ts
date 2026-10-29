@@ -70,7 +70,7 @@ export const THEME: ServicePage = {
     heading: 'How a project runs',
     intro: PROCESS_INTRO,
     steps: [
-      { title: 'Understand', body: 'A 30-minute call, a fixed-price proposal, a UX review where it helps, and a theme shortlist with reasons before anything is bought.' },
+      { title: 'Understand', body: 'A 30-minute call, a tailored quote, a UX review where it helps, and a theme shortlist with reasons before anything is bought.' },
       { title: 'Design', body: 'The key templates designed in Figma and the rest styled in the theme, with a weekly call and two rounds of feedback.' },
       { title: 'Launch', body: 'Where the theme runs out, I brief the developer on custom sections. Every screen checked on real devices.' },
       { title: 'Measure and improve', body: 'I check conversion rate and average order value at one, three and seven days after launch.' },

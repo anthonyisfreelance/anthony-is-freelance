@@ -109,7 +109,7 @@ export const BESPOKE: ServicePage = {
     intro:
       'Every project starts with a UX review of your live store, and the navigation is where I look first, because it shows how a store really sells. Then your reviews, your data and your customers. And one question I ask on every project: would I buy this?',
     steps: [
-      { title: 'Understand', body: 'A 30-minute call, then a fixed-price proposal. Where it helps, a UX review of your live store, navigation first.' },
+      { title: 'Understand', body: 'A 30-minute call, then a tailored quote. Where it helps, a UX review of your live store, navigation first.' },
       { title: 'Design', body: 'A weekly call and two rounds of feedback in Figma. You see options, not a finished site handed over.' },
       { title: 'Launch', body: 'The developer builds from the design system, and I check every screen on real devices before it goes live.' },
       { title: 'Measure and improve', body: 'I check conversion rate and average order value at one, three and seven days after launch.' },

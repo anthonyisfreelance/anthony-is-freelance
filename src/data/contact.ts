@@ -24,7 +24,7 @@ export const bookingMonth = (ahead: number, from = new Date()) => {
 
 export const NEXT_STEPS = {
   heading: 'What happens next',
-  steps: ['I reply within two working days.', 'A 30-minute call about your business and the project.', 'A fixed-price proposal with a timeline.'],
+  steps: ['I reply within two working days.', 'A 30-minute call about your business and the project.', 'A tailored quote along with a timeline.'],
   privacy: 'I only use your details to reply to you.',
   privacyLink: { label: 'How I handle your details', href: URLS.privacy },
 };

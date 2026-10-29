@@ -58,7 +58,7 @@ export const PLUS: ServicePage = {
     heading: 'How a project runs',
     intro: PROCESS_INTRO,
     steps: [
-      { title: 'Understand', body: 'A call, a fixed-price proposal and, where it helps, a UX review, often alongside your in-house team or agency.' },
+      { title: 'Understand', body: 'A call, a tailored quote and, where it helps, a UX review, often alongside your in-house team or agency.' },
       { title: 'Design', body: 'Designed as a bespoke project, with a weekly call and two rounds of feedback in Figma.' },
       { title: 'Launch', body: 'Your team, your agency or the developer I introduce builds it, and I check every screen before launch.' },
       { title: 'Measure and improve', body: 'I check conversion rate and average order value at one, three and seven days after launch.' },

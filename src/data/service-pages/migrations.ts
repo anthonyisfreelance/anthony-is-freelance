@@ -63,7 +63,7 @@ export const MIGRATIONS: ServicePage = {
     heading: 'How the move runs',
     intro: PROCESS_INTRO,
     steps: [
-      { title: 'Understand', body: 'A call, a fixed-price proposal, and a UX review of the old store: what sells and what the platform stops.' },
+      { title: 'Understand', body: 'A call, a tailored quote, and a UX review of the old store: what sells and what the platform stops.' },
       { title: 'Design', body: 'New navigation, collections and a redirect map for every old URL, then the store designed with weekly calls.' },
       { title: 'Launch', body: 'The developer builds and moves your data while the old store keeps trading. Redirects tested before the switch.' },
       { title: 'Measure and improve', body: 'Conversion compared with the old store at one, three and seven days, then ongoing if you want it.' },

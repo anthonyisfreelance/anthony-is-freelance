@@ -57,7 +57,7 @@ export const BRANDING: ServicePage = {
     heading: 'How a project runs',
     intro: PROCESS_INTRO,
     steps: [
-      { title: 'Understand', body: 'A call, a fixed-price proposal, and a look at the brand as it stands, online and off.' },
+      { title: 'Understand', body: 'A call, a tailored quote, and a look at the brand as it stands, online and off.' },
       { title: 'Design', body: 'Logo, palette, typeface and how the brand behaves on screen, refined with weekly calls and two rounds of feedback.' },
       { title: 'Launch', body: 'The refined brand goes straight into the store design, so it works on screen from day one.' },
       { title: 'Measure and improve', body: 'Once the store is live, I check conversion rate and average order value at one, three and seven days.' },

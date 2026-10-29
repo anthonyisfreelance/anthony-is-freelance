@@ -63,7 +63,7 @@ export const SUBSCRIPTIONS: ServicePage = {
     heading: 'How a project runs',
     intro: PROCESS_INTRO,
     steps: [
-      { title: 'Understand', body: 'A call, a fixed-price proposal and, where it helps, a UX review of your subscription journey.' },
+      { title: 'Understand', body: 'A call, a tailored quote and, where it helps, a UX review of your subscription journey.' },
       { title: 'Design', body: 'Product pages, quizzes and account pages designed around your subscription app, with weekly calls and two rounds of feedback.' },
       { title: 'Launch', body: 'The developer builds it and sets up the app, and I check every step on real devices.' },
       { title: 'Measure and improve', body: 'I check conversion rate and average order value at one, three and seven days after launch.' },

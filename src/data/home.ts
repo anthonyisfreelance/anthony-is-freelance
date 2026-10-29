@@ -241,7 +241,7 @@ export const FAQS = {
       q: 'How much does a freelance Shopify designer cost?',
       a: [
         'My projects start from £5,000 + VAT for a theme customisation and £10,000 + VAT for a bespoke store design. Both prices are for design only; the developer quotes the build separately.',
-        'A theme customisation redesigns inside a premium theme, so the price depends on how far the theme needs pushing and how many templates change. A bespoke design starts from scratch, so it depends on how many templates and variants you need, and whether the brand needs refining first. Every project is quoted at a fixed price before it starts, and each service page has the detail.',
+        'A theme customisation redesigns inside a premium theme, so the price depends on how far the theme needs pushing and how many templates change. A bespoke design starts from scratch, so it depends on how many templates and variants you need, and whether the brand needs refining first. Every project starts with a tailored quote and a scope of work, which can adapt as we go. Each service page has the detail.',
       ],
     },
     {

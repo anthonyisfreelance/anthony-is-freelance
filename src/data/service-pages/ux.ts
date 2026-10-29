@@ -64,7 +64,7 @@ export const UX: ServicePage = {
     heading: 'How a project runs',
     intro: PROCESS_INTRO,
     steps: [
-      { title: 'Understand', body: 'A call, a fixed-price proposal, then a UX review of analytics, navigation, product pages, trust and checkout on Miro.' },
+      { title: 'Understand', body: 'A call, a tailored quote, then a UX review of analytics, navigation, product pages, trust and checkout on Miro.' },
       { title: 'Design', body: 'We agree what to fix first, then flows and wireframes in Figma, mobile first, with two rounds of feedback.' },
       { title: 'Launch', body: "The work feeds a theme customisation, a bespoke design or your developer's list, and I check it before launch. [CONFIRM]" },
       { title: 'Measure and improve', body: 'I check conversion rate and average order value at one, three and seven days after launch.' },

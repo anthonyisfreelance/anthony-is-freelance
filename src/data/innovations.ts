@@ -342,6 +342,6 @@ export const INNOVATIONS_PAGE = {
     eyebrow: 'Start a Shopify UX project',
     heading: "What's getting in your customers' way?",
     intro:
-      "Send me your store and a line about where customers get stuck. I'll reply within two working days, then we'll have a 30-minute call about the business and the project. After that you get a fixed-price proposal with a timeline.",
+      "Send me your store and a line about where customers get stuck. I'll reply within two working days, then we'll have a 30-minute call about the business and the project. After that you get a tailored quote along with a timeline.",
   },
 };
