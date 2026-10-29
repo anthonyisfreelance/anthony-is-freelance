@@ -1,0 +1,34 @@
+---
+// Served for any address with no page (wrangler.jsonc: not_found_handling "404-page").
+// Points people to the places most of them were looking for.
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import PageHero from '../components/PageHero.astro';
+import { URLS } from '../data/site';
+
+const links = [
+  { label: 'Home', href: URLS.home },
+  { label: 'Shopify services', href: URLS.services },
+  { label: 'Shopify success stories', href: URLS.work },
+  { label: 'Articles', href: URLS.articles },
+  { label: 'Contact', href: URLS.contact },
+];
+---
+<Base title="Page not found | Anthony is Freelance" description="This page doesn't exist or has moved." noindex>
+  <Header />
+  <main id="main">
+    <PageHero
+      eyebrow="Page not found"
+      heading="This page has moved or never existed."
+      intro="The site was rebuilt in 2026, so an old link may point somewhere that's gone. One of these should get you there."
+    >
+      <ul class="flex flex-col lg:w-half">
+        {links.map((l, i) => (
+          <li class:list={['py-3', i > 0 && 'border-t border-line']}>
+            <a href={l.href} class="t-label text-ink link-hover">{l.label}</a>
+          </li>
+        ))}
+      </ul>
+    </PageHero>
+  </main>
+</Base>

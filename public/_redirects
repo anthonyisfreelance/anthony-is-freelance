@@ -3,3 +3,5 @@
 # Rows are added here once decided, and any new URL change gets a row in the map first.
 
 /shopify-expert-uk/  /  301
+/feed/  /articles/feed.xml  301
+/articles/feed/  /articles/feed.xml  301

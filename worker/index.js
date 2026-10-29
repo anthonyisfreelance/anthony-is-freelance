@@ -1,6 +1,7 @@
 // Worker in front of the static site. Everything is served from ./dist except /api/*,
 // which wrangler.jsonc routes here first (run_worker_first).
 //
+// /api/enquiry sends the start-a-project form (worker/enquiry.js).
 // /api/feedback powers the test-site comment tool (public/feedback.js). Each comment
 // becomes a GitHub issue labelled "feedback" on the site repo. It never runs on
 // anthonyis.uk itself.
@@ -9,6 +10,8 @@
 //   GITHUB_TOKEN  fine-grained token, this repo only, Issues: read and write
 //   FEEDBACK_KEY  any passphrase; the comment tool sends it with every request
 
+import { enquiry } from './enquiry.js';
+
 const REPO = 'anthonyisfreelance/anthony-is-freelance';
 const LABEL = 'feedback';
 const META = /<!-- feedback-meta ([A-Za-z0-9+/=]+) -->/;
@@ -16,6 +19,7 @@ const META = /<!-- feedback-meta ([A-Za-z0-9+/=]+) -->/;
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    if (url.pathname === '/api/enquiry') return enquiry(request, env);
     if (url.pathname === '/api/feedback' || url.pathname.startsWith('/api/feedback/')) {
       return feedback(request, env, url);
     }

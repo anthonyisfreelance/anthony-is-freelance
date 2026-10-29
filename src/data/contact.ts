@@ -18,8 +18,8 @@ export const CONTACT_PAGE = {
 export const NEXT_STEPS = {
   heading: 'What happens next',
   steps: ['I reply within two working days.', 'A 30-minute call about your business and the project.', 'A fixed-price proposal with a timeline.'],
-  // [CONFIRM] privacy notice page and its line on enquiry data; linked once it exists.
   privacy: 'I only use your details to reply to you.',
+  privacyLink: { label: 'How I handle your details', href: URLS.privacy },
 };
 
 export const DETAILS = {

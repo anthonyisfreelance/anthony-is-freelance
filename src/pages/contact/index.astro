@@ -34,7 +34,7 @@ import { CONTACT_PAGE as P, NEXT_STEPS, DETAILS, OTHER } from '../../data/contac
       <div class="flex flex-col gap-large lg:flex-row lg:gap-[160px]">
         <div class="flex flex-col gap-loose lg:order-last lg:flex-1">
           <ProjectForm />
-          <p class="t-small text-muted">{NEXT_STEPS.privacy}</p>
+          <p class="t-small text-muted">{NEXT_STEPS.privacy} <a href={NEXT_STEPS.privacyLink.href} class="text-ink underline underline-offset-4 hover:decoration-2">{NEXT_STEPS.privacyLink.label}</a>.</p>
         </div>
         <div class="flex flex-col gap-loose lg:w-[437px] lg:shrink-0">
           <h3 class="t-h7 text-ink">{NEXT_STEPS.heading}</h3>

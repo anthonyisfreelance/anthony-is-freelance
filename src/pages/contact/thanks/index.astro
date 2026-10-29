@@ -1,0 +1,21 @@
+---
+// Where the enquiry form lands when JavaScript is off (worker/enquiry.js). With JavaScript the
+// thank-you line shows in place of the form instead. Kept out of search and the sitemap.
+import Base from '../../../layouts/Base.astro';
+import Header from '../../../components/Header.astro';
+import PageHero from '../../../components/PageHero.astro';
+import TextLink from '../../../components/TextLink.astro';
+import { URLS } from '../../../data/site';
+---
+<Base title="Thanks for your enquiry | Anthony is Freelance" description="Your enquiry has been sent to Anthony Bliss." noindex>
+  <Header />
+  <main id="main">
+    <PageHero
+      eyebrow="Enquiry sent"
+      heading="Thanks. Your message is with me."
+      intro="I reply within two working days. In the meantime, the work page shows the kind of projects I take on."
+    >
+      <div><TextLink href={URLS.work}>See the work</TextLink></div>
+    </PageHero>
+  </main>
+</Base>

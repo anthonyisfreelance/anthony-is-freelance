@@ -58,6 +58,8 @@ export const URLS = {
   articles: '/articles/',
   about: '/about/',
   contact: '/contact/',
+  contactThanks: '/contact/thanks/', // noindex, where the form lands without JavaScript
+  privacy: '/privacy-policy/', // new page (29 October 2026)
   caseStudies: {
     drinkFinder: '/portfolio/drink-finder-shopify-website-design-case-study/',
     eastAtHome: '/portfolio/east-at-home-shopify-website-design-case-study/',
