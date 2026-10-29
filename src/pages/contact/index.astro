@@ -9,7 +9,8 @@ import Heading from '../../components/Heading.astro';
 import ProjectForm from '../../components/ProjectForm.astro';
 import Rich from '../../components/Rich.astro';
 import { URLS, ENTITY } from '../../data/site';
-import { CONTACT_PAGE as P, NEXT_STEPS, DETAILS, OTHER } from '../../data/contact';
+import { CONTACT_PAGE as P, NEXT_STEPS, DETAILS, OTHER, bookingMonth } from '../../data/contact';
+const booking = bookingMonth(P.availability.monthsAhead);
 ---
 <Base title={P.title} description={P.description}>
   <Schema
@@ -25,7 +26,17 @@ import { CONTACT_PAGE as P, NEXT_STEPS, DETAILS, OTHER } from '../../data/contac
   <Header />
   <main id="main">
     <PageHero eyebrow={P.eyebrow} heading={P.heading} intro={P.intro}>
-      <p class="t-label tracking-[0.02em] text-ink lg:w-half">{P.availability}</p>
+      <p class="t-label tracking-[0.02em] text-ink lg:w-half">
+        {P.availability.before}<time data-booking-month={P.availability.monthsAhead} datetime={booking.iso}>{booking.label}</time>{P.availability.after}
+      </p>
+      <script is:inline>
+        // Keep the booking month two months on from today, even between deploys.
+        document.querySelectorAll('[data-booking-month]').forEach((t) => {
+          const n = new Date(), d = new Date(n.getFullYear(), n.getMonth() + Number(t.dataset.bookingMonth), 1);
+          t.textContent = d.toLocaleString('en-GB', { month: 'long' });
+          t.setAttribute('datetime', d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0'));
+        });
+      </script>
     </PageHero>
 
     <!-- The enquiry form, on the light form surface used at the foot of every page -->
