@@ -548,6 +548,27 @@ dialog[data-project-dialog]:not([open])::backdrop {
   [data-mobile-menu][data-opening] {
     --lead: 300ms;
   }
+  /* The page behind fades back as the black comes down (feedback #268, 29 October 2026). Over a
+     dark page of text the black edge itself can't be seen, so without this the text just looked
+     chopped off line by line; now it eases away under the wipe on every page. */
+  [data-mobile-menu]::backdrop {
+    top: var(--menu-top, 0px); /* leaves the announcement bar above the menu as it is */
+    background: var(--color-surface);
+    opacity: 0.85;
+    transition: opacity 800ms cubic-bezier(0.33, 0, 0.67, 1);
+  }
+  @starting-style {
+    [data-mobile-menu][open]::backdrop {
+      opacity: 0;
+    }
+  }
+  [data-mobile-menu][data-closing]::backdrop {
+    opacity: 0;
+    transition-duration: 600ms;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-mobile-menu]::backdrop { background: transparent; }
 }
 
 /* Mega menu (desktop). The bar and the panel appear instantly, together. Only what is inside the

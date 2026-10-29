@@ -184,7 +184,7 @@ export const SITUATIONS = {
       href: URLS.migrations,
     },
     {
-      id: 'first-store', // the About page links here
+      id: 'first-store',
       quote: "We're launching our first store.",
       body: [
         { text: "Start with Shopify's AI store builder or a free theme. Either will get you selling quickly, on the same checkout as every other Shopify store. Come back when your sales show what the store needs, and a UX review will tell you where to start." },

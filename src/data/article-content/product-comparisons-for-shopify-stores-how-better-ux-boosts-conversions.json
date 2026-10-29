@@ -114,7 +114,7 @@
     },
     {
       "type": "html",
-      "html": "<p>Not every store needs a table. Sometimes a simple “Best Seller” or “Most Popular” badge does the job.</p>\n<p><a href=\"\">Amazon’s approach</a> is a gold standard, highlighting products with the best value or products with the biggest saving.</p>"
+      "html": "<p>Not every store needs a table. Sometimes a simple “Best Seller” or “Most Popular” badge does the job.</p>\n<p>Amazon’s approach is a gold standard, highlighting products with the best value or products with the biggest saving.</p>"
     },
     {
       "type": "h3",

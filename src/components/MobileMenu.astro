@@ -5,7 +5,9 @@
 // Every link is in the HTML.
 // Opening: the logo and Close row sits exactly where the header is, then the black wipes down
 // from under it to the bottom of the screen on a slow easy ease, and the contents rise in one
-// after another like the desktop mega menu. Closing wipes it back up. Styles are in global.css.
+// after another like the desktop mega menu. Closing wipes it back up. The page behind fades back
+// as the black comes down, so the wipe reads the same over text as over photos (feedback #268).
+// Styles are in global.css.
 import MenuServicesStory from './MenuServicesStory.astro';
 import TrustTiles from './TrustTiles.astro';
 import { MEGA, URLS, GOOGLE_RATING } from '../data/site';
@@ -27,7 +29,7 @@ const back = 'flex size-[18px] cursor-pointer items-center';
   id="mobile-menu"
   data-mobile-menu
   aria-label="Menu"
-  class="m-0 h-dvh max-h-none w-full max-w-none overflow-y-auto bg-transparent p-0 pt-[var(--menu-top,0px)] text-ink backdrop:bg-transparent lg:hidden"
+  class="m-0 h-dvh max-h-none w-full max-w-none overflow-y-auto bg-transparent p-0 pt-[var(--menu-top,0px)] text-ink lg:hidden"
 >
   <div class="flex min-h-full flex-col">
     <div class="flex items-center justify-between gap-gutter bg-surface p-margin">

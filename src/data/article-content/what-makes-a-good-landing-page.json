@@ -86,7 +86,7 @@
     },
     {
       "type": "html",
-      "html": "<p>With more than <a href=\"https://www.statista.com/statistics/249863/us-mobile-commerce-as-percentage-of-total-retail-sales/\">70% of ecommerce traffic now mobile</a> (<a href=\"\">Statista</a>), responsive design is non-negotiable. On Shopify 2.0, flexible sections ensure CTAs, headlines, and product images render correctly across devices.</p>\n<p>See my guide on <a href=\"/articles/how-to-increase-conversion-rates-on-your-shopify-store/\">Conversion Rate Optimisation</a> to learn why mobile-first design is essential.</p>"
+      "html": "<p>With more than <a href=\"https://www.statista.com/statistics/249863/us-mobile-commerce-as-percentage-of-total-retail-sales/\">70% of ecommerce traffic now mobile</a> (Statista), responsive design is non-negotiable. On Shopify 2.0, flexible sections ensure CTAs, headlines, and product images render correctly across devices.</p>\n<p>See my guide on <a href=\"/articles/how-to-increase-conversion-rates-on-your-shopify-store/\">Conversion Rate Optimisation</a> to learn why mobile-first design is essential.</p>"
     },
     {
       "type": "h3",
