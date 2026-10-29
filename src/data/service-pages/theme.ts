@@ -1,6 +1,7 @@
 // Theme customisations. Copy: page-copy/service-pages.md, Page 2.
 import { URLS } from '../site';
 import type { ServicePage } from './types';
+import { serviceHero } from '../service-heroes';
 import { card, caseStudyHref, hubPrice, ROUTING_EYEBROW, PRICE_NOTE, PROCESS_INTRO, TRUST_COMMON, QUOTE, THEME_VS_BESPOKE, THEME_VS_BESPOKE_ROWS } from './shared';
 
 export const THEME: ServicePage = {
@@ -19,6 +20,7 @@ export const THEME: ServicePage = {
     intro:
       'Shopify theme customisation means taking a premium theme and redesigning it around your brand, products and customers, so it stops looking like the demo. I design the key templates, like the header and product page, in Figma, and the rest straight into the theme, then deliver a live store. Theme customisations start from £5,000 + VAT, design only, and take four to eight weeks. Thameen London, a fragrance house stocked in Harrods, runs on one.',
     cta: { label: 'Start a theme project', href: '#start-a-project' },
+    ...serviceHero(URLS.theme),
     caption: 'Thameen London. The desktop journey on the Sleek theme.',
   },
   trust: [`${hubPrice('Theme customisations')}`, 'Four to eight weeks', ...TRUST_COMMON.slice(0, 1)],

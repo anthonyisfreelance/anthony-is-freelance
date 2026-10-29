@@ -1,6 +1,7 @@
 // Migrations. Copy: page-copy/service-pages.md, Page 3.
 import { URLS } from '../site';
 import type { ServicePage } from './types';
+import { serviceHero } from '../service-heroes';
 import { card, hubPrice, ROUTING_EYEBROW, PRICE_NOTE, PROCESS_INTRO, QUOTE } from './shared';
 
 export const MIGRATIONS: ServicePage = {
@@ -18,6 +19,7 @@ export const MIGRATIONS: ServicePage = {
     intro:
       "A Shopify migration moves your store from another platform, such as Magento, WooCommerce, BigCommerce or Wix, onto Shopify. I design the new store, so the move fixes what the old platform held back instead of copying it across. A migration is priced and timed as a theme customisation or a bespoke design, depending on which the new store needs. Drink Finder's move lifted website sales 34%, September to February against the year before, and the store won UK eCommerce Website of the Year 2026.",
     cta: { label: 'Start a migration project', href: '#start-a-project' },
+    ...serviceHero(URLS.migrations),
     caption: 'Drink Finder. The desktop journey after the move to Shopify.',
   },
   trust: ['UK eCommerce Website of the Year 2026', 'Your old store trades until launch', 'Priced as a theme or bespoke project'],

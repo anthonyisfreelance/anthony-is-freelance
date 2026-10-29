@@ -26,7 +26,7 @@ export type Extra =
 
 export interface ServicePage {
   meta: { title: string; description: string; path: string; name: string; serviceType: string; minPrice?: number };
-  hero: { eyebrow: string; heading: string; intro: string; cta: Link; image?: ImageMetadata; imageAlt?: string; caption?: string };
+  hero: { eyebrow: string; heading: string; intro: string; cta: Link; image?: ImageMetadata; imageAlt?: string; imagePosition?: string; caption?: string };
   trust: string[];
   included: { heading: string; items: string[] };
   fit: { heading: string; items: string[] };

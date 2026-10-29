@@ -2,8 +2,8 @@
 // (checked 20 October 2026). Built into every project, never sold or priced on its own (brief, 11 October 2026).
 import { URLS } from '../site';
 import { COMPARE } from '../innovations';
-import desktop from '../../assets/brands/drink-finder/still-desktop.jpg';
 import type { ServicePage } from './types';
+import { serviceHero } from '../service-heroes';
 import { card, ROUTING_EYEBROW, ALL_ARTICLES } from './shared';
 
 export const AI_SEARCH: ServicePage = {
@@ -21,8 +21,7 @@ export const AI_SEARCH: ServicePage = {
     intro:
       "AI search visibility design is the part of a Shopify store's design that decides whether AI assistants like ChatGPT and Google's AI Mode can find it, read it correctly and recommend it. I build it into every store I design, bespoke or theme, using what I learn on my own site, where Google now shows me for more than five times as many long, AI-style searches as a year ago.",
     cta: { label: 'Get my store ready for AI search', href: '#start-a-project' },
-    image: desktop,
-    imageAlt: 'The Drink Finder homepage on desktop, with search, the full category menu and the shop’s Cornish address written in the header.',
+    ...serviceHero(URLS.aiSearch),
     caption: 'Drink Finder. What it sells and where, written on the page rather than baked into images.',
   },
   trust: ['Built into every store I design', 'UK eCommerce Website of the Year 2026', '20+ years of brand and ecommerce experience'],

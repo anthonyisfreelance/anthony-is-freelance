@@ -2,6 +2,7 @@
 // buyer questions sit in the body as question headings instead.
 import { URLS } from '../site';
 import type { ServicePage } from './types';
+import { serviceHero } from '../service-heroes';
 import { card, hubPrice, ROUTING_EYEBROW, PRICE_NOTE, PROCESS_INTRO, QUOTE } from './shared';
 
 export const SUBSCRIPTIONS: ServicePage = {
@@ -19,6 +20,7 @@ export const SUBSCRIPTIONS: ServicePage = {
     intro:
       'Shopify subscription design covers the pages and flows customers use to subscribe: product pages with subscription options, quizzes, build-a-box journeys and account pages for pausing or changing an order. I design them so every choice is clear, however complex the subscription app behind them. Subscription design is usually part of a theme customisation or bespoke project, and priced with it. At Fuzzball, the conversion rate rose 63% in the 12 months after launch.',
     cta: { label: 'Start a subscription project', href: '#start-a-project' },
+    ...serviceHero(URLS.subscriptions),
     caption: "Fuzzball. The cat food quiz on mobile.",
   },
   trust: ['Priced with your theme or bespoke project', 'Designed around Recharge and other apps', '20+ years of brand and ecommerce experience'],

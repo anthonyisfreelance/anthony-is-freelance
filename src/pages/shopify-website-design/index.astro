@@ -89,7 +89,7 @@ const catalog = {
           {SERVICES_LIST.map((s) => (
             <li class="hover-card relative flex flex-col gap-loose">
               <div class="relative aspect-square overflow-hidden bg-line">
-                {s.image ? <Image src={s.image} alt="" widths={[300, 450, 700]} sizes="(min-width: 1024px) 24vw, (min-width: 640px) 48vw, 100vw" quality={75} class="zoom-img absolute inset-0 size-full object-cover" /> : <span class="t-badge absolute inset-0 grid place-items-center text-muted">[Image to come]</span>}
+                {s.image ? <Image src={s.image} alt="" widths={[300, 450, 700]} sizes="(min-width: 1024px) 24vw, (min-width: 640px) 48vw, 100vw" quality={75} class="zoom-img absolute inset-0 size-full object-cover" style={s.imagePosition ? `object-position: ${s.imagePosition}` : undefined} /> : <span class="t-badge absolute inset-0 grid place-items-center text-muted">[Image to come]</span>}
               </div>
               <div class="flex flex-1 flex-col gap-2 lg:gap-loose">
                 <h3 class="t-h5 flex items-start justify-between gap-2 uppercase text-ink">

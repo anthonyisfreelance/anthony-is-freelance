@@ -1,6 +1,7 @@
 // Shopify CRO. Copy: page-copy/service-pages.md, Page 5.
 import { URLS } from '../site';
 import type { ServicePage } from './types';
+import { serviceHero } from '../service-heroes';
 import { card, hubPrice, ROUTING_EYEBROW, PRICE_NOTE, PROCESS_INTRO, QUOTE, ALL_ARTICLES, ARTICLE, CRO_VS_UX } from './shared';
 
 export const CRO: ServicePage = {
@@ -18,6 +19,7 @@ export const CRO: ServicePage = {
     intro:
       'Shopify CRO, short for Shopify conversion rate optimisation, means finding the steps where customers leave your store, redesigning them, and measuring the result against the same period before. I start with your analytics and a UX review, then design the changes and measure them once they’re live. Shopify CRO is quoted after a UX review, based on what the review finds. [CONFIRM] At East at Home, conversion rose 14% and revenue 82% over the eight months after launch, against the same months the year before.',
     cta: { label: 'Start with a UX review', href: '#start-a-project' },
+    ...serviceHero(URLS.cro),
     caption: 'East at Home. Quantity savings on the product page.',
   },
   trust: ['Quoted after a UX review', 'Two to four weeks', 'Works with the analytics you already have'],

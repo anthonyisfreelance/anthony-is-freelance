@@ -10,33 +10,18 @@ import TextLink from '../TextLink.astro';
 import { SERVICES } from '../../data/home';
 import { URLS } from '../../data/site';
 import image from '../../assets/site/services-section.jpg';
-import branding from '../../assets/site/services-hover/branding.jpg';
-import ux from '../../assets/site/services-hover/ux.jpg';
-import bespoke from '../../assets/site/services-hover/bespoke.jpg';
-import migrations from '../../assets/site/services-hover/migrations.jpg';
-import theme from '../../assets/site/services-hover/theme.jpg';
-import cro from '../../assets/site/services-hover/cro.jpg';
-import subscriptions from '../../assets/site/services-hover/subscriptions.jpg';
-import aiSearch from '../../assets/site/services-hover/ai-search.jpg';
+import { SERVICE_HEROES } from '../../data/service-heroes';
 
-// Shopify Plus has no image yet, so hovering it keeps the default.
-const HOVER: Record<string, ImageMetadata> = {
-  [URLS.branding]: branding,
-  [URLS.ux]: ux,
-  [URLS.bespoke]: bespoke,
-  [URLS.migrations]: migrations,
-  [URLS.theme]: theme,
-  [URLS.cro]: cro,
-  [URLS.subscriptions]: subscriptions,
-  [URLS.aiSearch]: aiSearch,
-};
+// The same hero image each service uses on the services page and its own page. Shopify Plus has no
+// image yet, so hovering it keeps the default.
 const sizes = '50vw';
 const hovers = await Promise.all(
   SERVICES.items.map(async (s, i) => {
-    const src = HOVER[s.href];
-    if (!src) return null;
+    const hero = SERVICE_HEROES[s.href];
+    if (!hero) return null;
+    const src = hero.image;
     const img = await getImage({ src, widths: [...new Set([720, 1080, 1440].map((w) => Math.min(w, src.width)))], format: 'webp', quality: 75 });
-    return { i, srcset: img.srcSet.attribute };
+    return { i, srcset: img.srcSet.attribute, position: hero.imagePosition };
   }),
 );
 ---
@@ -68,7 +53,7 @@ const hovers = await Promise.all(
     <div class="relative aspect-[3/2] overflow-hidden lg:aspect-auto lg:h-dvh">
       <Image src={image} alt="" widths={[400, 750, 1000, 1400]} sizes="(min-width: 1024px) 50vw, 100vw" class="absolute inset-0 size-full object-cover" />
       {hovers.map((h) => h && (
-        <img data-hover={h.i} data-srcset={h.srcset} sizes={sizes} alt="" decoding="async" class="absolute inset-0 hidden size-full object-cover opacity-0 transition-opacity duration-300 lg:block" />
+        <img data-hover={h.i} data-srcset={h.srcset} sizes={sizes} alt="" decoding="async" class="absolute inset-0 hidden size-full object-cover opacity-0 transition-opacity duration-300 lg:block" style={h.position ? `object-position: ${h.position}` : undefined} />
       ))}
     </div>
     </div>

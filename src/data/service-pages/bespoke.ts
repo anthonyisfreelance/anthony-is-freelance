@@ -4,9 +4,9 @@ import { URLS } from '../site';
 import { CASE_STUDIES } from '../work';
 import { brandImage } from '../media';
 import type { ServicePage } from './types';
+import { serviceHero } from '../service-heroes';
 import { THEME_VS_BESPOKE, THEME_VS_BESPOKE_ROWS } from './shared';
 // Lifestyle hero from Drive services/<service>/hero-lifestyle.jpg
-import heroPhoto from '../../assets/site/services/hero-bespoke.jpg';
 import shopByRoom from '../../assets/brands/projektityyny/shop-by-room.jpg';
 import redWine from '../../assets/brands/drink-finder/red-wine.jpg';
 import thameenCollection from '../../assets/brands/thameen/collection.jpg';
@@ -36,7 +36,7 @@ export const BESPOKE: ServicePage = {
     intro:
       "A bespoke Shopify store has every template designed from scratch around your products and customers, instead of adapted from a theme. I design it in Figma as a complete design system, with a clickable prototype. Bespoke store design starts from £10,000 + VAT, design only. Drink Finder's bespoke store lifted website sales 34%, September to February against the year before, and won UK eCommerce Website of the Year 2026.",
     cta: { label: 'Start a bespoke project', href: '#start-a-project' },
-    image: heroPhoto,
+    ...serviceHero(URLS.bespoke),
     caption: 'Hartnack & Co. The step-by-step product builder.',
   },
 

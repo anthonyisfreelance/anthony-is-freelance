@@ -4,15 +4,10 @@ import { URLS } from './site';
 
 // First frame of the hero video (public/video/services/service-hero-*.mp4), so the switch is seamless.
 import hero from '../assets/site/services/service-hero-poster.jpg';
-import branding from '../assets/site/services/branding.jpg';
-import ux from '../assets/brands/whistlefish/apron.jpg';
-import bespoke from '../assets/brands/hartnack-and-co/box.jpg';
-import cro from '../assets/brands/east-at-home/curry.jpg';
-import migrations from '../assets/site/services/migrations.jpg';
-import subscriptions from '../assets/brands/fuzzball/treats.jpg';
-import theme from '../assets/brands/thameen/bottles.jpg';
+import { SERVICE_HEROES } from './service-heroes';
 import projektityyny from '../assets/brands/projektityyny/card.jpg';
 import fuzzball from '../assets/brands/fuzzball/card.jpg';
+import thameen from '../assets/brands/thameen/bottles.jpg';
 
 export const HUB_META = {
   title: 'Shopify Website Design Services UK | Anthony is Freelance',
@@ -41,7 +36,7 @@ export const ALL_SERVICES = [
     name: 'Branding',
     slug: 'branding',
     href: URLS.branding,
-    image: branding,
+    ...SERVICE_HEROES[URLS.branding],
     price: 3000,
     body: 'Branding is for brands that got the product out with a basic identity and now need it to look as good as the product. I can do full rebrands or brand refinements. Recent logo and identity work is on the branding page.',
     serviceType: 'Ecommerce brand identity',
@@ -50,7 +45,7 @@ export const ALL_SERVICES = [
     name: 'UX design',
     slug: 'ux-design',
     href: URLS.ux,
-    image: ux,
+    ...SERVICE_HEROES[URLS.ux],
     price: 10000,
     body: "Shopify UX design is for big ranges and complex products, where finding the right product is the hard part. Whistlefish's store routes shoppers in by occasion and recipient, so a big range of cards stays easy to browse.",
     serviceType: 'Shopify UX design',
@@ -59,7 +54,7 @@ export const ALL_SERVICES = [
     name: 'Bespoke store design',
     slug: 'bespoke-store-design',
     href: URLS.bespoke,
-    image: bespoke,
+    ...SERVICE_HEROES[URLS.bespoke],
     price: 10000,
     body: "Bespoke store design is for brands that have outgrown their theme and have data to make informed decisions for a bespoke user journey. Hartnack & Co's bespoke store includes a product configurator that handles hundreds of option combinations, something no theme could do.",
     serviceType: 'Bespoke Shopify website design',
@@ -80,7 +75,7 @@ export const ALL_SERVICES = [
     name: 'Shopify CRO',
     slug: 'shopify-cro',
     href: URLS.cro,
-    image: cro,
+    ...SERVICE_HEROES[URLS.cro],
     price: 3000,
     body: 'Shopify CRO is for stores with steady traffic and a conversion rate that has stalled. At East at Home, conversion rose 14% from October to June against the year before, and the store won UK User Experience of the Year 2026.',
     serviceType: 'Shopify conversion rate optimisation',
@@ -89,7 +84,7 @@ export const ALL_SERVICES = [
     name: 'Migrations',
     slug: 'migrations',
     href: URLS.migrations,
-    image: migrations,
+    ...SERVICE_HEROES[URLS.migrations],
     price: 5000,
     body: "Migrations are for brands on Magento, WooCommerce, BigCommerce, Wix or a custom platform that's holding back checkout, speed or day-to-day running. After Drink Finder moved to Shopify, website sales rose 34% from September to February against the year before, and the store won UK eCommerce Website of the Year 2026.",
     serviceType: 'Shopify migration design',
@@ -98,7 +93,7 @@ export const ALL_SERVICES = [
     name: 'Subscriptions',
     slug: 'subscriptions',
     href: URLS.subscriptions,
-    image: subscriptions,
+    ...SERVICE_HEROES[URLS.subscriptions],
     price: 10000,
     body: "Subscription design is for brands where repeat purchase is the business model, from quizzes to build-a-box flows. Fuzzball's conversion rate rose 63% in the 12 months after launch.",
     serviceType: 'Shopify subscription design',
@@ -107,7 +102,7 @@ export const ALL_SERVICES = [
     name: 'Theme customisations',
     slug: 'theme-customisations',
     href: URLS.theme,
-    image: theme,
+    ...SERVICE_HEROES[URLS.theme],
     price: 5000,
     body: 'Theme customisations are for brands that need to move quickly, or want to see how far a premium theme goes before going bespoke. Thameen London, a luxury fragrance house stocked in Harrods, runs on one.',
     serviceType: 'Shopify theme customisation',
@@ -117,7 +112,7 @@ export const ALL_SERVICES = [
     name: 'AI search visibility',
     slug: 'ai-search-visibility',
     href: URLS.aiSearch,
-    image: undefined,
+    ...SERVICE_HEROES[URLS.aiSearch],
     price: undefined,
     priceNote: 'Included with design projects',
     body: 'AI search visibility is built into every store I design, bespoke or theme, so AI assistants like ChatGPT can find, read and recommend it.',
@@ -215,7 +210,7 @@ export const RECENT_WORK = {
       client: 'Thameen London',
       meta: 'Beauty · March 2026',
       claim: 'Off headless, onto a premium theme the team runs themselves',
-      image: theme,
+      image: thameen,
       href: '/portfolio/thameen-london-shopify-website-design-case-study/',
     },
     {
