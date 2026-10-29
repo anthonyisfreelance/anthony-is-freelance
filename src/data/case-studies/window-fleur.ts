@@ -42,12 +42,12 @@ export const DATA: CaseStudyPageData = {
   showcase: {
     label: 'Window Fleur screens',
     background: photo(B, 'showcase-photo'),
-    desktop: slot(B, 'showcase-desktop', 'The Window Fleur store on desktop: the homepage, a collection and a product page.', 'Desktop click-around recording'),
+    desktop: slot(B, 'showcase-desktop', 'The Window Fleur store on desktop: the homepage, the our story page and a Bloom Bag product page.', 'Desktop click-around recording'),
     phones: [
       slot(B, 'showcase-phone-1', 'The Window Fleur homepage on mobile.', 'Homepage'),
-      slot(B, 'showcase-phone-2', 'The Window Fleur navigation on mobile.', 'Navigation'),
-      slot(B, 'showcase-phone-3', 'A Window Fleur collection on mobile.', 'Collection'),
-      slot(B, 'showcase-phone-4', 'The Window Fleur shopping bag on mobile.', 'Shopping bag'),
+      slot(B, 'showcase-phone-2', 'The Window Fleur menu on mobile, opening over the page and closing again.', 'Navigation'),
+      slot(B, 'showcase-phone-3', 'A Window Fleur Bloom Bag product page on mobile, choosing a bag size, the plants and a box.', 'Product page'),
+      slot(B, 'showcase-phone-4', 'A Window Fleur autumn plant kit on mobile, with the Classic and Luxe kit sizes.', 'Plant kit'),
     ],
   },
   workIntro: {
@@ -86,7 +86,7 @@ export const DATA: CaseStudyPageData = {
     eyebrow: 'Pattern-led brand design',
     heading: 'Patterns that carry the selling messages.',
     body: 'Window Fleur’s brand patterns run through the store and carry its key shopping messages, so the reasons to buy feel fun and memorable rather than pushy. I checked the finished build against the designs before launch.',
-    media: slot(B, 'feature', 'A Window Fleur screen on mobile with the brand patterns.', 'Brand patterns screen'),
+    media: slot(B, 'feature', 'Window Fleur’s brand patterns on mobile, across the homepage, how it works and a Bloom Bag product page.', 'Brand patterns screen'),
   },
   // A verbatim excerpt. The original has an em dash after "work with", shown here as a comma [CONFIRM].
   testimonial: {

@@ -45,9 +45,9 @@ export const DATA: CaseStudyPageData = {
     background: photo(B, 'showcase-photo'),
     desktop: slot(B, 'showcase-desktop', 'The Hartnack & Co store on desktop: the homepage, all products and a binder product page.', 'Desktop collection recording'),
     phones: [
-      slot(B, 'showcase-phone-1', 'The Hartnack & Co homepage on mobile.', 'Homepage'),
-      slot(B, 'showcase-phone-2', 'The Hartnack & Co navigation on mobile.', 'Navigation'),
-      slot(B, 'showcase-phone-3', 'A Hartnack & Co collection on mobile.', 'Collection'),
+      slot(B, 'showcase-phone-1', 'The Hartnack & Co homepage on mobile, from the hero down to the family-run bindery and its product ranges.', 'Homepage'),
+      slot(B, 'showcase-phone-2', 'The Hartnack & Co menu covers page on mobile, with leather and fabric menu covers shown in use.', 'Menu covers'),
+      slot(B, 'showcase-phone-3', 'The Hartnack & Co all products collection on mobile, with sizes, formats and cover materials on each product.', 'Collection'),
       slot(B, 'showcase-phone-4', 'Hartnack & Co search on mobile.', 'Search'),
     ],
   },
@@ -101,7 +101,7 @@ export const DATA: CaseStudyPageData = {
     eyebrow: 'Shopify brand refinement',
     heading: 'Calm, premium, easy to read.',
     body: 'Hartnack & Co needed a refinement, not a rebrand. A tighter palette and typography made the store more luxurious and more accessible, and white space turned a complex shop into a calm one.',
-    media: slot(B, 'feature', 'A Hartnack & Co screen in the refined brand.', 'Brand refinement screen'),
+    media: slot(B, 'feature', 'The refined Hartnack & Co brand on mobile, across the homepage, shop by use and a binder product page.', 'Brand refinement screen'),
   },
   // A trimmed excerpt that leaves out the sentence naming the developer. Nick approves it before it goes live.
   testimonial: {
