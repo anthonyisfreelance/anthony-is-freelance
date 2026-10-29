@@ -267,6 +267,12 @@
     outline: 2px solid var(--color-blue);
     outline-offset: 3px;
   }
+
+  /* Underlines a hairline, not the font's own heavier line (feedback #258, 29 October 2026). Hover still
+     thickens to 2px where a link asks for it. */
+  a, .underline {
+    text-decoration-thickness: 1px;
+  }
 }
 
 /* Eyebrow: lives inside its heading as the first span.
@@ -350,6 +356,8 @@
     color: var(--c-text);
   }
   .prose-article td, .prose-article figcaption { color: var(--c-muted); }
+  /* The privacy notice in its panel (PrivacyDialog.astro): smaller headings for the narrower space. */
+  .prose-dialog h2 { font-size: var(--type-h5); }
   .prose-article > * + * { margin-top: var(--stack-large); }
   .prose-article h2 {
     font-family: var(--font-display);
@@ -376,7 +384,7 @@
   .prose-article > :first-child { margin-top: 0; }
   .prose-article h2 + *, .prose-article h3 + * { margin-top: var(--stack-large); }
   .prose-article strong { color: var(--c-text); font-weight: 600; }
-  .prose-article a, .prose-faq a { color: var(--c-text); text-decoration: underline; text-underline-offset: 4px; }
+  .prose-article a, .prose-faq a { color: var(--c-text); text-decoration: underline; text-decoration-thickness: 1px; text-underline-offset: 4px; }
   .prose-article a:hover, .prose-faq a:hover { text-decoration-thickness: 2px; }
   .prose-article ul, .prose-article ol { padding-left: 1.25em; }
   .prose-article ul { list-style: disc; }

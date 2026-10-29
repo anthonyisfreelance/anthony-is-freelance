@@ -88,11 +88,13 @@ export const DATA: CaseStudyPageData = {
     },
   ],
   // One 50/50 halfway through the work (27 October 2026): this photo sticks at full height while
-  // desktop screens scroll past on the tint. The three landing pages from the Figma file (#214).
-  splits: [desktopSplit(B, 'Wide Fit Shoes', photoMedia(B, 'split-1-photo'), '#B7CC97', 3, [], [
+  // desktop screens scroll past on the tint. Four screens from the Figma file (#214, #263).
+  splits: [desktopSplit(B, 'Wide Fit Shoes', photoMedia(B, 'split-1-photo'), '#B7CC97', 4, [], [
+    // Feedback #263 (29 October 2026): the product page first, then the men's and Christmas landing pages, a collection fourth.
+    'A Wide Fit Shoes product page on desktop, with the width and size options beside the gallery.',
     'The Wide Fit Shoes men’s landing page on desktop, with a row of categories and links by width.',
-    'The Wide Fit Shoes women’s landing page on desktop, with a grid of fifteen categories.',
     'The Wide Fit Shoes Christmas landing page on desktop, with gifts by recipient, budget and brand.',
+    'A Wide Fit Shoes men’s collection on desktop, with category links above the product cards.',
   ])],
   feature: {
     background: photo(B, 'feature-photo'),

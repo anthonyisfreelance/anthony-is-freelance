@@ -97,9 +97,9 @@ export const BRANDS = {
     { name: 'Dyson', slug: 'dyson' },
     { name: 'Wrangler', slug: 'wrangler' },
     { name: 'Thameen London', slug: 'thameen' }, // in place of Fuzzball (feedback #101, 28 October 2026)
-    { name: 'Whistlefish', slug: 'whistlefish', mobileThird: true },
+    { name: 'Wide Fit Shoes', slug: 'wide-fit-shoes' }, // swapped with Whistlefish (feedback #257, 29 October 2026)
     { name: 'Drink Finder', slug: 'drink-finder' },
-    { name: 'Wide Fit Shoes', slug: 'wide-fit-shoes' },
+    { name: 'Whistlefish', slug: 'whistlefish', mobileThird: true },
     { name: 'Dr Lipp', slug: 'dr-lipp' },
     { name: 'East at Home', slug: 'east-at-home' },
   ],

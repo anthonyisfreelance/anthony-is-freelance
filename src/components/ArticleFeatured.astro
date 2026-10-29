@@ -6,7 +6,8 @@ import { type Article, categoryLabel, formatDate } from '../data/articles';
 interface Props { article: Article; titleTag?: 'h2' | 'h3' }
 const { article: a, titleTag: Title = 'h3' } = Astro.props;
 ---
-<article class="hover-card relative flex flex-col gap-large border-t border-line pb-large pt-loose lg:flex-row lg:gap-grid-lg">
+<!-- No rule above: the filters already end the head of the page (feedback #259, 29 October 2026). -->
+<article class="hover-card relative flex flex-col gap-large pb-large lg:flex-row lg:gap-grid-lg">
   <ArticleCover article={a} sizes="(min-width: 1024px) 50vw, 100vw" loading="eager" class="w-full lg:w-half lg:shrink-0" />
   <div class="flex flex-col gap-large lg:flex-1 lg:gap-loose">
     <div class="flex flex-col gap-loose">

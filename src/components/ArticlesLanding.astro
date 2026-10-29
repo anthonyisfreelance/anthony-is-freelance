@@ -9,7 +9,6 @@ import Base from '../layouts/Base.astro';
 import Schema from './Schema.astro';
 import Header from './Header.astro';
 import Heading from './Heading.astro';
-import Breadcrumb from './Breadcrumb.astro';
 import Filters from './Filters.astro';
 import TextLink from './TextLink.astro';
 import ArticleFeatured from './ArticleFeatured.astro';
@@ -68,13 +67,11 @@ const btn = 't-button inline-flex items-center px-[14px] py-[10px]';
   />
   <Header />
   <main id="main">
-    <!-- Head: breadcrumb, H1. The intro shows on phones only (Figma). -->
+    <!-- Head: H1. The intro shows on phones only (Figma). No visible breadcrumb here: only articles show one
+         (feedback #261, 29 October 2026). The trail stays in the schema for search. -->
     <section class="px-margin">
       <div class="flex flex-col gap-large border-t border-line pt-large lg:gap-loose">
-        <div class="flex flex-col gap-loose">
-          <Breadcrumb items={crumbs} />
-          <Heading level={1} eyebrow={P.eyebrow} class="lg:w-[79%]">{P.heading}</Heading>
-        </div>
+        <Heading level={1} eyebrow={P.eyebrow} class="lg:w-[79%]">{P.heading}</Heading>
         <p class="font-serif text-[18px] leading-[1.65] text-ink lg:hidden">{P.intro}</p>
       </div>
     </section>
@@ -124,7 +121,8 @@ const btn = 't-button inline-flex items-center px-[14px] py-[10px]';
                 <p class="t-h6 text-ink">{P.author.award}</p>
               </div>
               <p class="t-body text-muted">{P.author.experience}</p>
-              <ul class="flex flex-col gap-3">
+              <!-- Two callouts side by side on desktop (feedback #260, 29 October 2026). -->
+              <ul class="grid gap-3 lg:grid-cols-2">
                 {P.author.rules.map((r) => <li class="t-body bg-raised p-loose text-ink">{r}</li>)}
               </ul>
             </div>
