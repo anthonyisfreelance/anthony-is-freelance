@@ -183,4 +183,4 @@ export const WORK_FAQS = {
   ],
 };
 
-export const WORK_TRUST = ['20+ years of brand and ecommerce experience', '4× shortlisted, UK eCommerce Awards 2026', 'All independent work, since 2023'];
+export const WORK_TRUST = ['20+ years of brand and ecommerce experience', '2× winner, UK eCommerce Awards 2026', 'All independent work, since 2023'];
