@@ -138,7 +138,6 @@ export const MIGRATIONS: ServicePage = {
         ['Legacy platform, with Sparkstone stock', 'Drink Finder', "A calmer store for thousands of products, and Shopify's checkout"],
         ['WooCommerce', 'East West Apparel', 'Product cards that show sizes up front, and a design system with its own character'],
         ['Headless', 'Thameen London', 'Shopify 2.0 on a premium theme'],
-        ['Wix', 'Celestine and Opal [CONFIRM live and nameable]', 'Selling into several countries with Shopify Markets'],
       ],
     },
     { kind: 'todo', after: 'faqs', title: 'Articles', note: 'Off until a second migration article is published. Shopify Pricing 2026 can be linked inline from the price section meanwhile.' },
