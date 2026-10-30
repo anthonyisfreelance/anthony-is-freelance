@@ -92,7 +92,7 @@ const RECORDS: Omit<CaseStudy, 'image' | 'screen' | 'screenVideo'>[] = [
   {
     client: 'Wide Fit Shoes', brand: 'wide-fit-shoes', meta: 'Fashion · August 2024',
     claim: 'A theme rebuild running both the UK and US stores',
-    proof: 'Product cards show width and colours before the click, with text over images built to WCAG AAA contrast.',
+    proof: 'Product cards show width and colours before the click.',
     href: URLS.caseStudies.wideFitShoes,
     services: ['theme-customisations'],
   },

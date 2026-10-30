@@ -154,6 +154,7 @@ export const BESPOKE: ServicePage = {
     caption: 'Bespoke store design at a glance',
     rows: [
       ['Starting price', 'From £10,000 + VAT, design only'],
+      ['Design time', 'Six to eight weeks'],
       ['Build time', 'About the same again'],
       ['What you get', 'The full Figma file: design system, every template and a clickable prototype'],
       ['Who builds it', 'A developer I introduce, or your own team or agency, quoted separately'],

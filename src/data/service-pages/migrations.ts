@@ -91,7 +91,7 @@ export const MIGRATIONS: ServicePage = {
     caption: 'Migrations at a glance',
     rows: [
       ['Starting price', `${hubPrice('Migrations')} [CONFIRM]`],
-      ['Design time', 'As a theme customisation, four to eight weeks, or as a bespoke design, six to eight weeks'],
+      ['Design time', 'As a theme customisation, six to ten weeks, build included, or as a bespoke design, six to eight weeks'],
       ['Build time', 'As a bespoke design, about the same again. Big catalogues and long order histories add developer time'],
       ['What you get', 'The new store, designed as a theme customisation or a bespoke design, with a new navigation and collection structure'],
       ['Who builds it', 'A developer I introduce, or your own team or agency, quoted separately, including the data move and redirects'],

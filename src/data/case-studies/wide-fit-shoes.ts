@@ -37,8 +37,7 @@ export const DATA: CaseStudyPageData = {
     live: '1 August 2024',
     liveIso: '2024-08-01',
     rows: [
-      // [CONFIRM] colour contrast only, or wider AAA
-      { label: 'Designed for', value: 'Customers of every age, on a palette built for WCAG AAA contrast.' },
+      { label: 'Designed for', value: 'Customers of every age.' },
       { label: 'Theme', value: 'Impulse' }, // [CONFIRM] the live page says "Inpulse"
       // #214 (28 October 2026): the live stores have moved on since, so the screens come from the Figma file.
       { label: 'Screens', value: 'Shown as designed in Figma. The live stores have changed since.' },

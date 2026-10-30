@@ -8,7 +8,7 @@ export const THEME: ServicePage = {
   meta: {
     title: 'Shopify Theme Customisation UK | Anthony is Freelance',
     description:
-      'Shopify theme customisation from £5,000 + VAT, design only. A premium theme redesigned around your brand, delivered as a live store in four to eight weeks.',
+      'Shopify theme customisation from £5,000 + VAT, design only. A premium theme redesigned around your brand, delivered as a live store in six to ten weeks.',
     path: URLS.theme,
     name: 'Theme customisations',
     serviceType: 'Shopify theme customisation',
@@ -18,12 +18,12 @@ export const THEME: ServicePage = {
     eyebrow: 'Shopify theme customisation',
     heading: "A premium theme that doesn't look like one.",
     intro:
-      'Shopify theme customisation means taking a premium theme and redesigning it around your brand, products and customers, so it stops looking like the demo. I design the key templates, like the header and product page, in Figma, and the rest straight into the theme, then deliver a live store. Theme customisations start from £5,000 + VAT, design only, and take four to eight weeks. Thameen London, a fragrance house stocked in Harrods, runs on one.',
+      'Shopify theme customisation means taking a premium theme and redesigning it around your brand, products and customers, so it stops looking like the demo. I design the key templates, like the header and product page, in Figma, and the rest straight into the theme, then deliver a live store. Theme customisations start from £5,000 + VAT, design only, and take six to ten weeks from start to a live store. Thameen London, a fragrance house stocked in Harrods, runs on one.',
     cta: { label: 'Start a theme project', href: '#start-a-project' },
     ...serviceHero(URLS.theme),
     caption: 'Thameen London. The desktop journey on the Sleek theme.',
   },
-  trust: [`${hubPrice('Theme customisations')}`, 'Four to eight weeks', ...TRUST_COMMON.slice(0, 1)],
+  trust: [`${hubPrice('Theme customisations')}`, 'Six to ten weeks', ...TRUST_COMMON.slice(0, 1)],
   included: {
     heading: 'What a theme customisation includes',
     items: [
@@ -90,8 +90,8 @@ export const THEME: ServicePage = {
     caption: 'Theme customisations at a glance',
     rows: [
       ['Starting price', hubPrice('Theme customisations')],
-      ['Design time', 'Four to eight weeks'],
-      ['Build time', 'Included in the four to eight weeks [CONFIRM]'],
+      ['Design time', 'Six to ten weeks'],
+      ['Build time', 'Included in the six to ten weeks'],
       ['What you get', 'Key templates designed in Figma, the rest straight into the theme, delivered as a live store'],
       ['Who builds it', 'A developer I introduce, or your own team or agency, quoted separately, for any custom sections'],
     ],
@@ -118,7 +118,7 @@ export const THEME: ServicePage = {
       { q: 'What is Shopify theme customisation?', a: ['Shopify theme customisation is taking a premium pre-built theme and redesigning it through its settings, custom CSS and new sections, so it fits your brand and products and converts better than the default. Done well, it looks nothing like the theme it started as.'] },
       { q: 'Can a premium theme look unique?', a: ["Yes, if the work goes into what customers look at most: product cards, navigation, typography and spacing. Most stores on the same theme look alike because they keep the demo's defaults."] },
       { q: 'Can I move from a theme to bespoke later?', a: ["Yes. Many brands start on a theme and move to bespoke once their sales data shows what the theme can't do. The brand decisions, photography and content carry over."] },
-      { q: 'How long does Shopify theme customisation take?', a: ['Four to eight weeks, depending on how many templates change and how much custom development the design needs. Client content is the usual holdup, so it helps to start it early.'] },
+      { q: 'How long does Shopify theme customisation take?', a: ['Six to ten weeks, depending on how many templates change and how much custom development the design needs. Client content is the usual holdup, so it helps to start it early.'] },
       { q: "Which Shopify theme should you choose?", a: ["I work most with Sleek, Prestige and Dawn, and I'll push others when a client is already on one, like Inpulse for Wide Fit Shoes. Sleek suits editorial and luxury brands, and Thameen London runs on it. Prestige suits fashion and lifestyle, and Dawn is a clean base for most product types.",
         'For Thameen I shortlisted two themes and we chose together, because picking the wrong one costs more later than choosing well now.'] },
     ],

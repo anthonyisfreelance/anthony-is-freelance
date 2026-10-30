@@ -245,7 +245,7 @@ export const FAQS = {
     {
       q: 'How long does a Shopify store design take?',
       a: [
-        "Six to eight weeks for a bespoke store design, with the build taking about the same again. A theme customisation takes four to eight weeks. The biggest roadblocks from experience are timely feedback and client content, so having real copy and images early makes the most difference. I'm usually booked one to two months ahead.",
+        "Six to eight weeks for a bespoke store design, with the build taking about the same again. A theme customisation takes six to ten weeks, build included. The biggest roadblocks from experience are timely feedback and client content, so having real copy and images early makes the most difference. I'm usually booked one to two months ahead.",
       ],
     },
     {

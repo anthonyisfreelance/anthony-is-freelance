@@ -60,8 +60,8 @@ export const CRO_VS_UX = {
 /** The theme vs bespoke table, shared by the bespoke and theme pages. */
 export const THEME_VS_BESPOKE = { eyebrow: 'Shopify theme vs bespoke', heading: 'Which suits your store?' };
 export const THEME_VS_BESPOKE_ROWS: [string, string, string][] = [
-  ['How it’s designed', 'Every template from scratch in Figma', 'A premium theme redesigned: the key templates, like the header and product page, in Figma, and the rest straight into the theme'],
+  ['How it’s designed', 'Every template and the entire purchase journey designed bespoke to your brand, products and users', 'A premium theme redesigned: the key templates, like the header and product page, in Figma, and the rest straight into the theme'],
   ['How it fits your products', 'Every element shaped around your brand and products', 'Your products fitted to a theme made for thousands of stores'],
-  ['Navigation', 'Designed around your range', 'What the theme supports, plus custom sections'],
-  ['Best for', 'Brands where the store is the brand, and big or complex ranges', 'Moving quickly, or testing before bespoke'],
+  ['Navigation', 'Designed bespoke around your range', 'What the theme supports, plus custom sections'],
+  ['Best for', 'Brands with the analytics data to make decisions and fine-tune each part of the store to their products', 'Launching a new store or if you are moving quickly'],
 ];
