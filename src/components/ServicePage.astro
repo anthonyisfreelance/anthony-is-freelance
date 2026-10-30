@@ -123,9 +123,10 @@ const cell = 't-label tracking-[0.02em]';
         {[p.included, p.fit].map((block, b) => (
           <div id={b === 1 ? 'right-fit' : undefined}>
             <h2 class:list={[h3caps, 'border-t border-line pt-section']}>{block.heading}</h2>
-            <ul class="mt-large flex flex-col gap-4 lg:mt-10">
-              {block.items.map((item) => (
-                <li class="t-label bg-raised px-4 py-4 text-ink lg:px-6 lg:py-6">{item}</li>
+            <!-- Boxes sit flush, a hairline above every box but the first (Figma 47997:13593, feedback #273). -->
+            <ul class="mt-large flex flex-col lg:mt-10">
+              {block.items.map((item, i) => (
+                <li class:list={['t-label bg-raised px-4 py-4 text-ink lg:px-6 lg:py-6', i > 0 && 'border-t border-line']}>{item}</li>
               ))}
             </ul>
           </div>

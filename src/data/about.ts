@@ -108,7 +108,7 @@ export const INDEPENDENT = {
 
 export const FIT = {
   eyebrow: 'DTC brands I work with',
-  heading: 'Ready for the next step.',
+  heading: 'Ready for the next step?',
   paragraphs: [
     'The DTC brands I work best with have taken their Shopify store as far as they can on their own. They know their products and their customers, they care about both, and they need someone with a UX mind and a design eye to take the store to the next level.',
     "Most arrive with a wishlist or a brief already written, which is great. The best clients are down to earth, like to collaborate and trust me to do my job. That's when the work is at its best, and it's usually a lot of fun.",
@@ -118,7 +118,7 @@ export const FIT = {
 
 export const ABOUT_FAQS = {
   eyebrow: 'Anthony Bliss FAQs',
-  heading: 'Three questions people ask about me.',
+  heading: 'Worth knowing before we talk.',
   items: [
     {
       q: 'Are you a Shopify Partner?',

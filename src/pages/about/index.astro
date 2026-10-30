@@ -50,7 +50,8 @@ import photo from '../../assets/site/anthony-about-hero.jpg';
       </div>
     </section>
 
-    <!-- Career as dated rows: on phones each row stacks, the date on top -->
+    <!-- Career as dated rows: on phones each row stacks, the date on top.
+         Colours as the pricing tables (#270): dates and headings white, the details grey. -->
     <section id="career-table" class="px-margin pt-section">
       <div class="border-t border-line pt-section">
         <div class="lg:w-half"><Heading eyebrow={CAREER_TABLE.eyebrow}>{CAREER_TABLE.heading}</Heading></div>
@@ -62,10 +63,10 @@ import photo from '../../assets/site/anthony-about-hero.jpg';
           <tbody>
             {CAREER_TABLE.rows.map((r) => (
               <tr class="flex flex-col gap-2 border-t border-line py-loose lg:table-row lg:py-0">
-                <th scope="row" class="t-label align-top font-medium tracking-[0.02em] text-muted lg:w-[220px] lg:py-loose lg:pr-grid">
+                <th scope="row" class="t-label align-top font-medium tracking-[0.02em] text-ink lg:w-[220px] lg:py-loose lg:pr-grid">
                   {r.datetime ? <time datetime={r.datetime}>{r.when}</time> : r.when}
                 </th>
-                <td class="t-body align-top text-ink lg:w-[45%] lg:py-loose lg:pr-grid">{r.role}</td>
+                <td class="t-body align-top text-muted lg:w-[45%] lg:py-loose lg:pr-grid">{r.role}</td>
                 <td class="t-body align-top text-muted lg:py-loose">{r.taught}</td>
               </tr>
             ))}
