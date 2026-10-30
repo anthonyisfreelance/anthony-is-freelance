@@ -46,7 +46,9 @@ export const ALL_SERVICES = [
     slug: 'ux-design',
     href: URLS.ux,
     ...SERVICE_HEROES[URLS.ux],
-    price: 10000,
+    // UX is built into theme and bespoke projects; only the standalone review is priced (30 October 2026).
+    price: undefined,
+    priceNote: 'Included with design projects. UX review from £800 + VAT',
     body: "Shopify UX design is for big ranges and complex products, where finding the right product is the hard part. Whistlefish's store routes shoppers in by occasion and recipient, so a big range of cards stays easy to browse.",
     serviceType: 'Shopify UX design',
   },

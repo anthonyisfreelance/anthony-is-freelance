@@ -5,13 +5,13 @@ import { URLS } from '../site';
 import type { ServicePage } from './types';
 import { serviceHero } from '../service-heroes';
 // Lifestyle hero from Drive services/<service>/hero-lifestyle.jpg
-import { card, hubPrice, ROUTING_EYEBROW, PRICE_NOTE, PROCESS_INTRO, QUOTE, ALL_ARTICLES, ARTICLE, CRO_VS_UX } from './shared';
+import { card, ROUTING_EYEBROW, PRICE_NOTE, PROCESS_INTRO, QUOTE, ALL_ARTICLES, ARTICLE, CRO_VS_UX } from './shared';
 
 export const UX: ServicePage = {
   meta: {
     title: 'Shopify UX Design and UX Reviews | Anthony is Freelance',
     description:
-      'Shopify UX design that starts with your navigation and your data. A UX review of your live store, then flows and wireframes, by Anthony Bliss.',
+      'Shopify UX design that starts with your navigation and your data. A UX review of your live store from £800 + VAT, by Anthony Bliss.',
     path: URLS.ux,
     name: 'Shopify UX design',
     serviceType: 'Shopify UX design',
@@ -20,7 +20,7 @@ export const UX: ServicePage = {
     eyebrow: 'Shopify UX design',
     heading: 'Help customers find the right product.',
     intro:
-      'Shopify UX design decides how customers find, compare and buy your products, before anything is styled. I start with a UX review of your live store: your analytics, your navigation and your reviews. Then I design the flows and wireframes that fix what the review finds. Shopify UX design is quoted on the call, based on the size of the store. East at Home won UK User Experience of the Year 2026.',
+      'Shopify UX design decides how customers find, compare and buy your products, before anything is styled. I start with a UX review of your live store: your GA4 data first, to see who shops and where they drop off, then the entire purchase journey mapped on a Miro board, screen by screen. Then I design the fixes in Figma, with wireframes first only where the project is truly bespoke. UX design is built into every theme customisation and bespoke store, and a UX review of your live store on its own starts from £800 + VAT. East at Home won UK User Experience of the Year 2026.',
     cta: { label: 'Book a UX review', href: '#start-a-project' },
     ...serviceHero(URLS.ux),
     caption: 'Whistlefish. The collection drill-down on mobile.',
@@ -65,7 +65,7 @@ export const UX: ServicePage = {
     intro: PROCESS_INTRO,
     steps: [
       { title: 'Understand', body: 'A call, a tailored quote, then a UX review of analytics, navigation, product pages, trust and checkout on Miro.' },
-      { title: 'Design', body: 'We agree what to fix first, then flows and wireframes in Figma, mobile first, with two rounds of feedback.' },
+      { title: 'Design', body: 'We agree what to fix first, then the fixes designed in Figma, mobile first, with two rounds of feedback.' },
       { title: 'Launch', body: "The work feeds a theme customisation, a bespoke design or your developer's list, and I check it before launch. [CONFIRM]" },
       { title: 'Measure and improve', body: 'I check conversion rate and average order value at one, three and seven days after launch.' },
     ],
@@ -93,10 +93,10 @@ export const UX: ServicePage = {
     cta: QUOTE,
     caption: 'UX design at a glance',
     rows: [
-      ['Starting price', `${hubPrice('UX design')} [CONFIRM]`],
+      ['Starting price', 'Included in theme customisations and bespoke stores. A UX review on its own from £800 + VAT'],
       ['Design time', '[CONFIRM, e.g. two to three weeks from review to wireframes]'],
       ['Build time', "Depends on where the work goes: a theme customisation, a bespoke design or your developer's list [CONFIRM]"],
-      ['What you get', 'A UX review on a Miro board, then flows and wireframes in Figma'],
+      ['What you get', 'A UX review on a Miro board, then the fixes designed in Figma'],
       ['Who builds it', 'A developer I introduce, or your own team or agency, quoted separately'],
     ],
   },

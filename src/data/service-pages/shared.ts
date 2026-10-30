@@ -51,7 +51,7 @@ export const CRO_VS_UX = {
   rows: [
     ['The question', 'Why aren’t enough visitors buying?', 'How do customers find, compare and choose?'],
     ['Starts with', 'Analytics and drop-off points', 'A UX review of the whole journey'],
-    ['Scope', 'The steps that lose sales', 'Navigation, product discovery and flows'],
+    ['Scope', 'The steps that lose sales', 'Navigation, product discovery and the purchase journey'],
     ['Measured by', 'Conversion rate and average order value', 'Easier journeys, then sales'],
     ['Best when', 'The store works, but has stalled', 'The range is big, or the journey is the problem'],
   ] as [string, string, string][],
