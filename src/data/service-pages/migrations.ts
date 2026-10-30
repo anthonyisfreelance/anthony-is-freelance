@@ -2,7 +2,7 @@
 import { URLS } from '../site';
 import type { ServicePage } from './types';
 import { serviceHero } from '../service-heroes';
-import { card, hubPrice, ROUTING_EYEBROW, PRICE_NOTE, PROCESS_INTRO, QUOTE } from './shared';
+import { card, hubPrice, ROUTING_EYEBROW, PRICE_NOTE, QUOTE } from './shared';
 
 export const MIGRATIONS: ServicePage = {
   meta: {
@@ -26,7 +26,7 @@ export const MIGRATIONS: ServicePage = {
   included: {
     heading: 'What a Shopify migration includes',
     items: [
-      'A UX review of your current store, so the move keeps what already sells.',
+      'A UX review of your current store, so the move keeps what already works.',
       'A new navigation and collection structure, planned with the redirect map in mind.',
       'The new store designed, as a theme customisation or a bespoke design.',
       'A brief for the developer covering data, apps and integrations.',
@@ -51,7 +51,7 @@ export const MIGRATIONS: ServicePage = {
     heading: "When a Shopify migration isn't the right call",
     intro: 'Not every move to Shopify needs a designer, and not every problem needs a move.',
     routes: [
-      { situation: 'You want a like-for-like copy.', body: "If nothing about the store needs to change, you need a developer, not a designer. I'm happy to point you to one. [CONFIRM]", links: [] },
+      { situation: 'You want a like-for-like copy.', body: "If nothing about the store needs to change, you need a developer, not a designer. I'm happy to point you to one.", links: [] },
       { situation: "You're already on Shopify, on an old theme.", body: "That isn't a migration. Moving to a current premium theme is quicker and cheaper.", links: [{ label: 'Theme customisations', href: URLS.theme }] },
       // TO DO (30 October 2026): hidden until the Shopify Plus page is live. Uncomment to bring it back.
       // { situation: "You're moving because of volume.", body: "If you're outgrowing Shopify's standard plans, check whether you need Plus before designing for it.", links: [{ label: 'Shopify Plus design', href: URLS.plus }] },
@@ -62,7 +62,8 @@ export const MIGRATIONS: ServicePage = {
   process: {
     eyebrow: 'Shopify migration process',
     heading: 'How the move runs',
-    intro: PROCESS_INTRO,
+    intro:
+      'Every migration project starts with a UX review of your live store. I go through your GA4 data first to see who shops and where they drop off, then map the entire purchase journey on a Miro board, screen by screen. Throughout, I ask one question: would I buy this product?',
     steps: [
       { title: 'Understand', body: 'A call, a tailored quote, and a UX review of the old store: what sells and what the platform stops.' },
       { title: 'Design', body: 'New navigation, collections and a redirect map for every old URL, then the store designed with weekly calls.' },
@@ -76,6 +77,8 @@ export const MIGRATIONS: ServicePage = {
     intro: 'A migration is the moment to fix what customers hated about the old store. The UX review finds it before any design starts.',
     items: [
       { client: 'Drink Finder', title: 'An offers button instead of sticky pop-ups', body: 'Offers moved into a navigation button, so sign-up prompts no longer block checkout.' },
+      { client: 'Drink Finder', title: 'Compare bottles without opening each one', body: "On the old store, search let customers down and comparing meant opening product page after product page. A comparison toggle on the collection page puts origin, region and vintage side by side, so customers now find bottles they'd never have clicked into." },
+      { client: 'East West Apparel', title: "Modern UX that kept the brand's soul", body: "The old store was a dated custom design that ignored UX best practice. The new one keeps the shop's raw, independent character, with product cards that show sizes up front." },
     ],
   },
   testimonial: {
@@ -91,8 +94,8 @@ export const MIGRATIONS: ServicePage = {
     cta: QUOTE,
     caption: 'Migrations at a glance',
     rows: [
-      ['Starting price', `${hubPrice('Migrations')} [CONFIRM]`],
-      ['Design time', 'As a theme customisation, six to ten weeks, build included, or as a bespoke design, six to eight weeks'],
+      ['Starting price', hubPrice('Migrations')],
+      ['Design time', 'As a theme customisation, six to ten weeks, build included, or as a bespoke design, six to eight weeks, design only'],
       ['Build time', 'As a bespoke design, about the same again. Big catalogues and long order histories add developer time'],
       ['What you get', 'The new store, designed as a theme customisation or a bespoke design, with a new navigation and collection structure'],
       ['Who builds it', 'A developer I introduce, or your own team or agency, quoted separately, including the data move and redirects'],
@@ -106,7 +109,6 @@ export const MIGRATIONS: ServicePage = {
       { q: 'What is a Shopify migration?', a: ["A Shopify migration moves your store, products, customers and order history from another ecommerce platform onto Shopify. It's also the best moment to redesign, because the templates are being rebuilt anyway."] },
       { q: 'Should I redesign when I migrate, or move first?', a: ['Redesign on the way. Moving like-for-like and redesigning later means two launches, two rounds of risk to your rankings, and paying twice for the same templates.'] },
       { q: 'Will my store go offline during the move?', a: ['No. Your current store keeps trading until the new one is ready, and the switch happens on launch day when your domain is pointed at Shopify.'] },
-      { q: 'Will my customers need new passwords?', a: ["Passwords can't be moved between platforms, so customers set up access again on Shopify. With Shopify's newer customer accounts, they sign in with a one-time code sent by email, so there's no password to reset. [CONFIRM with Tom]"] },
     ],
   },
   extras: [
@@ -137,7 +139,7 @@ export const MIGRATIONS: ServicePage = {
       rows: [
         ['Legacy platform, with Sparkstone stock', 'Drink Finder', "A calmer store for thousands of products, and Shopify's checkout"],
         ['WooCommerce', 'East West Apparel', 'Product cards that show sizes up front, and a design system with its own character'],
-        ['Headless', 'Thameen London', 'Shopify 2.0 on a premium theme'],
+        ['Headless', 'Thameen London', 'Shopify 2.0 on a premium theme that the client now runs themselves easily'],
       ],
     },
     { kind: 'todo', after: 'faqs', title: 'Articles', note: 'Off until a second migration article is published. Shopify Pricing 2026 can be linked inline from the price section meanwhile.' },
