@@ -53,7 +53,8 @@ export const MIGRATIONS: ServicePage = {
     routes: [
       { situation: 'You want a like-for-like copy.', body: "If nothing about the store needs to change, you need a developer, not a designer. I'm happy to point you to one. [CONFIRM]", links: [] },
       { situation: "You're already on Shopify, on an old theme.", body: "That isn't a migration. Moving to a current premium theme is quicker and cheaper.", links: [{ label: 'Theme customisations', href: URLS.theme }] },
-      { situation: "You're moving because of volume.", body: "If you're outgrowing Shopify's standard plans, check whether you need Plus before designing for it.", links: [{ label: 'Shopify Plus design', href: URLS.plus }] },
+      // TO DO (30 October 2026): hidden until the Shopify Plus page is live. Uncomment to bring it back.
+      // { situation: "You're moving because of volume.", body: "If you're outgrowing Shopify's standard plans, check whether you need Plus before designing for it.", links: [{ label: 'Shopify Plus design', href: URLS.plus }] },
       { situation: 'Your old store already converts well.', body: 'Keep what works. A UX review first shows which journeys the new store must protect.', links: [{ label: 'Shopify UX design', href: URLS.ux }] },
       { situation: "The platform isn't the problem. The numbers are.", body: "If the store runs fine and just doesn't sell enough, moving it won't fix that. Find the steps that lose sales and fix those first.", links: [{ label: 'Shopify CRO', href: URLS.cro }] },
     ],
