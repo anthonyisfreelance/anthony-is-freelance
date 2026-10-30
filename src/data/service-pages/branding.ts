@@ -27,11 +27,11 @@ export const BRANDING: ServicePage = {
   included: {
     heading: 'What brand design includes',
     items: [
-      'A logo refinement, or a new identity where one is needed',
-      'A colour palette with meaning, not just a set of swatches',
-      'Typefaces chosen for the brand and tested at product-card size',
-      'Flexible guidelines that help your team make new things, rather than rules that stop them',
-      "The brand carried into the store's design system: buttons, cards, photography direction [CONFIRM tone of voice]",
+      'A logo refinement, or a new identity where one is needed.',
+      'A colour palette with meaning, not just a set of swatches.',
+      'Typefaces chosen for the brand and tested at product-card size.',
+      'Flexible guidelines that help your team make new things, rather than rules that stop them.',
+      "The brand carried into the store's design system: buttons, cards, photography direction. [CONFIRM tone of voice]",
     ],
   },
   fit: {

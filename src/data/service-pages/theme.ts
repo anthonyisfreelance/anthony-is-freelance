@@ -27,13 +27,13 @@ export const THEME: ServicePage = {
   included: {
     heading: 'What a theme customisation includes',
     items: [
-      'A UX review of your current store before design starts',
-      'A theme recommendation with the reasons, before you buy anything',
-      'The key templates, like the header and product page, designed in Figma, and the rest styled straight into the theme: home, collection, product, cart and search',
-      'Product cards, navigation, header and footer redesigned around your brand',
-      "A short, clear brief for any custom sections the theme can't do",
-      'Help with the content upload, so it goes live looking as designed [CONFIRM still offered]',
-      'A live store, checked on real devices',
+      'A UX review of your current store before design starts.',
+      'A theme recommendation with the reasons, before you buy anything.',
+      'The key templates, like the header and product page, designed in Figma, and the rest styled straight into the theme: home, collection, product, cart and search.',
+      'Product cards, navigation, header and footer redesigned around your brand.',
+      "A short, clear brief for any custom sections the theme can't do.",
+      'Help with the content upload, so it goes live looking as designed. [CONFIRM still offered]',
+      'A live store, checked on real devices.',
     ],
   },
   fit: {

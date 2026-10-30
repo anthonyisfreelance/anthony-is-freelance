@@ -27,11 +27,11 @@ export const SUBSCRIPTIONS: ServicePage = {
   included: {
     heading: 'What subscription design includes',
     items: [
-      'Product pages where subscribe and one-off purchase sit side by side, with the saving and the frequency clear',
-      'Quizzes that recommend a plan, then let customers change it',
-      "Build-a-box flows, with a summary page that shows exactly what's coming and when",
-      'Account pages where pausing, skipping and swapping take one tap',
-      'Recommendations that feel natural, not pushed',
+      'Product pages where subscribe and one-off purchase sit side by side, with the saving and the frequency clear.',
+      'Quizzes that recommend a plan, then let customers change it.',
+      "Build-a-box flows, with a summary page that shows exactly what's coming and when.",
+      'Account pages where pausing, skipping and swapping take one tap.',
+      'Recommendations that feel natural, not pushed.',
       "I'd rather a customer pauses than cancels, so pausing is never hidden.",
     ],
   },

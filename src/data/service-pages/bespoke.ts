@@ -45,12 +45,12 @@ export const BESPOKE: ServicePage = {
   included: {
     heading: 'What a bespoke store design includes',
     items: [
-      'A UX review of your live store and analytics before any design starts',
-      'Every template designed: home, collection, product, cart, search, account and content pages',
-      'A Figma design system: type, colour, spacing, buttons, product cards and every component, set up with variables and tokens',
-      'Mobile and desktop layouts, with the states people forget: sold out, empty basket, no search results',
-      'A clickable prototype you can test on your own phone before anything is built',
-      'A handover the developer builds from without guesswork, then QA of the build before launch',
+      'A UX review of your live store and analytics before any design starts.',
+      'Every template designed: home, collection, product, cart, search, account and content pages.',
+      'A Figma design system: type, colour, spacing, buttons, product cards and every component, set up with variables and tokens.',
+      'Mobile and desktop layouts, with the states people forget: sold out, empty basket, no search results.',
+      'A clickable prototype you can test on your own phone before anything is built.',
+      'A handover the developer builds from without guesswork, then QA of the build before launch.',
     ],
   },
 

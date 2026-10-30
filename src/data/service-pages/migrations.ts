@@ -26,11 +26,11 @@ export const MIGRATIONS: ServicePage = {
   included: {
     heading: 'What a Shopify migration includes',
     items: [
-      'A UX review of your current store, so the move keeps what already sells',
-      'A new navigation and collection structure, planned with the redirect map in mind',
-      'The new store designed, as a theme customisation or a bespoke design',
-      'A brief for the developer covering data, apps and integrations',
-      'QA of the new store before the switch, and checks after it',
+      'A UX review of your current store, so the move keeps what already sells.',
+      'A new navigation and collection structure, planned with the redirect map in mind.',
+      'The new store designed, as a theme customisation or a bespoke design.',
+      'A brief for the developer covering data, apps and integrations.',
+      'QA of the new store before the switch, and checks after it.',
     ],
   },
   fit: {
