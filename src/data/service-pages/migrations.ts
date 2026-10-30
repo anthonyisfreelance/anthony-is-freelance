@@ -105,7 +105,7 @@ export const MIGRATIONS: ServicePage = {
     eyebrow: 'Shopify migration FAQs',
     heading: 'Before you get in touch.',
     items: [
-      { q: 'Will I lose my Google rankings when I move to Shopify?', a: ['Not if the redirects are done properly. Shopify uses its own URL formats, such as /products/ and /collections/, so every old URL needs a 301 redirect to its new home. I plan the new structure with that map in mind, the developer sets the redirects up, and an SEO specialist can check it where organic traffic matters. Expect some movement for a few weeks after launch.'] },
+      { q: 'Will I lose my Google rankings when I move to Shopify?', a: ['Not if the redirects are done properly. Your URLs will change when you move, so every old URL needs a 301 redirect to its new home. I plan the new structure with that map in mind, the developer sets the redirects up, and an SEO specialist can check it where organic traffic matters. Expect some movement for a few weeks after launch.'] },
       { q: 'What is a Shopify migration?', a: ["A Shopify migration moves your store, products, customers and order history from another ecommerce platform onto Shopify. It's also the best moment to redesign, because the templates are being rebuilt anyway."] },
       { q: 'Should I redesign when I migrate, or move first?', a: ['Redesign on the way. Moving like-for-like and redesigning later means two launches, two rounds of risk to your rankings, and paying twice for the same templates.'] },
       { q: 'Will my store go offline during the move?', a: ['No. Your current store keeps trading until the new one is ready, and the switch happens on launch day when your domain is pointed at Shopify.'] },
