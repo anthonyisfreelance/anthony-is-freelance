@@ -1,7 +1,7 @@
 // Window Fleur case study. Copy from the "Case study copy: Window Fleur" doc (20 October 2026).
 // No photos or screens in the repo yet: everything drops in by name, see src/assets/brands/README.md.
 import { testimonial, creditLine } from '../testimonials';
-import { SERVICE, slot, innovationSlot, innovationLink, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData, desktopSplit } from './types';
+import { SERVICE, BUILDER, slot, innovationSlot, innovationLink, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData, desktopSplit } from './types';
 
 const B = 'window-fleur';
 const PATH = '/portfolio/window-fleur-shopify-case-study/';
@@ -35,6 +35,7 @@ export const DATA: CaseStudyPageData = {
   details: {
     sector: 'Home',
     services: [SERVICE.bespoke, SERVICE.subscriptions],
+    builtBy: BUILDER.cartmasters,
     live: 'August 2024',
     liveIso: '2024-08',
     rows: [{ label: 'In their words', value: '“Our website saw huge improvements.” Frannie Liddle, Co-Founder and Creative Director' }],
@@ -97,4 +98,5 @@ export const DATA: CaseStudyPageData = {
     cite: creditLine(testimonial('window-fleur')),
   },
   more: { ...MORE_HEADING, cards: moreFor('Window Fleur') },
+  enquiry: 'Store looks good but doesn’t convert?',
 };

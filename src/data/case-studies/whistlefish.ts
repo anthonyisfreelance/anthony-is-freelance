@@ -114,4 +114,5 @@ export const DATA: CaseStudyPageData = {
     cite: creditLine(testimonial('whistlefish')),
   },
   more: { ...MORE_HEADING, cards: moreFor('Whistlefish') },
+  enquiry: 'Need a store your team can build on?',
 };

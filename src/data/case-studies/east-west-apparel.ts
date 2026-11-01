@@ -1,7 +1,7 @@
 // East West Apparel case study. Copy from the "Case study copy: East West Apparel" doc (20 October 2026).
 // No photos or screens in the repo yet: everything drops in by name, see src/assets/brands/README.md.
 import { testimonial, creditLine } from '../testimonials';
-import { SERVICE, slot, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData, desktopSplit } from './types';
+import { SERVICE, BUILDER, slot, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData, desktopSplit } from './types';
 
 const B = 'east-west-apparel';
 const PATH = '/portfolio/east-west-apparel-shopify-website-design-case-study/';
@@ -34,6 +34,7 @@ export const DATA: CaseStudyPageData = {
   details: {
     sector: 'Fashion',
     services: [SERVICE.migrations],
+    builtBy: BUILDER.cartmasters,
     live: '2025', // [CONFIRM] month
     rows: [
       {
@@ -106,4 +107,5 @@ export const DATA: CaseStudyPageData = {
     cite: creditLine(testimonial('east-west-apparel')),
   },
   more: { ...MORE_HEADING, cards: moreFor('East West Apparel') },
+  enquiry: 'Want personality without losing the sale?',
 };

@@ -1,7 +1,7 @@
 // Thameen London case study. Copy from the "Case study copy: Thameen London" doc (20 October 2026).
 // Screens drop in by name: see src/assets/brands/README.md.
 import { testimonial, creditLine } from '../testimonials';
-import { SERVICE, slot, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData, desktopSplit } from './types';
+import { SERVICE, BUILDER, slot, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData, desktopSplit } from './types';
 import bottles from '../../assets/brands/thameen/bottles.jpg';
 import collection from '../../assets/brands/thameen/collection.jpg';
 
@@ -36,6 +36,7 @@ export const DATA: CaseStudyPageData = {
   details: {
     sector: 'Beauty',
     services: [SERVICE.theme],
+    builtBy: BUILDER.cartmasters,
     live: '20 March 2026',
     liveIso: '2026-03-20',
     // No Results row: GA4 only started tracking at launch, so there's no before and after.
@@ -113,4 +114,5 @@ export const DATA: CaseStudyPageData = {
     cite: creditLine(testimonial('thameen-london')),
   },
   more: { ...MORE_HEADING, cards: moreFor('Thameen London') },
+  enquiry: 'Headless store too hard to run?',
 };

@@ -123,4 +123,5 @@ export const DATA: CaseStudyPageData = {
     },
   ],
   more: { ...MORE_HEADING, cards: moreFor('Projektityyny') },
+  enquiry: 'Has your brand outgrown its store?',
 };

@@ -1,4 +1,4 @@
-// Drink Finder case study. Copy from the Figma frame "Work - Drink FInder" (48175:18636),
+// Drink Finder case study (copy edits from the doc ported 1 November 2026). Copy from the Figma frame "Work - Drink FInder" (48175:18636),
 // with page-copy/case-study-drink-finder.md filling the gaps where Figma has placeholder text.
 import { URLS } from '../site';
 import { COMPARE } from '../innovations';
@@ -9,7 +9,7 @@ import vineyard from '../../assets/brands/drink-finder/vineyard.jpg';
 import aperol from '../../assets/brands/drink-finder/split-photo.jpg';
 import stillDesktop from '../../assets/brands/drink-finder/still-desktop.jpg';
 import { brandImage } from '../media';
-import { SERVICE, slot, moreFor, MORE_HEADING, type CaseStudyPageData, type Media, type Split } from './types';
+import { SERVICE, BUILDER, slot, moreFor, MORE_HEADING, type CaseStudyPageData, type Media, type Split } from './types';
 
 const B = 'drink-finder';
 
@@ -38,7 +38,7 @@ const HERO = {
   figure: '34%',
   heading: 'more website sales after launch',
   standfirst:
-    'Drink Finder is the online shop of Constantine Stores, a Cornish wine and spirits merchant trading for more than 65 years, with more than 5,000 products for retail and trade buyers. I redesigned it around product discovery and moved it to Shopify, and it won UK eCommerce Website of the Year at the UK eCommerce Awards 2026.',
+    'Drink Finder is the online shop of Constantine Stores, a Cornish wine and spirits merchant trading for more than 65 years, with more than 5,000 products for retail and trade buyers. It migrated from a bespoke platform to Shopify, with UX designed around product discovery to make it easy for users to navigate such a complex store, and it won UK eCommerce Website of the Year at the UK eCommerce Awards 2026.',
   image: { image: hero, alt: '' } as Media,
 };
 
@@ -56,9 +56,10 @@ const DETAILS = {
   services: [
     SERVICE.branding,
     SERVICE.bespoke,
-    { label: 'UX Design', href: URLS.ux },
+    { label: 'UX design', href: URLS.ux },
     SERVICE.migrations,
   ],
+  builtBy: BUILDER.cartmasters,
   live: '19 August 2025',
   liveIso: '2025-08-19',
   rows: [
@@ -101,7 +102,7 @@ const WORK_INTRO = {
 const HIGHLIGHTS = [
   {
     eyebrow: 'Shopify collection page design',
-    heading: 'Compare bottles without opening every one.',
+    heading: 'Compare bottles without opening every product page.',
     body: 'Shopify collection page design is where wine shoppers compare. A Show extras switch opens every product card to show style, grape and country, so they compare side by side before they click.',
     media: { image: COMPARE.poster, video: COMPARE.video, alt: 'A Drink Finder collection on mobile, with the Show extras switch turning on style, grape and country on every card.' },
     link: { label: 'See the comparison toggle', href: `${URLS.innovations}#comparison-toggle` },
@@ -109,22 +110,22 @@ const HIGHLIGHTS = [
   },
   {
     eyebrow: 'Shopify product page design',
-    heading: 'Make the saving easy to see.',
-    body: "Shopify product page design puts grape, region and vintage next to the bottle. Six and twelve bottle offers are buttons you tap, and the basket shows the next saving. A good offer doesn't need pushing.",
+    heading: 'Make the savings easy to see.',
+    body: "The Drink Finder wine product page shows the multi-buy saving without shouting about it. One, six and twelve bottle offers sit above the price as buttons you tap, and the basket shows the next saving. A good offer doesn't need pushing.",
     media: slot(B, 'work-savings-mobile', 'A Drink Finder product page on mobile, with one, six and twelve bottle offers as buttons above the price.', 'Savings'),
     flip: true,
   },
   {
     eyebrow: 'Shopify navigation design',
-    heading: 'The nav is your site.',
+    heading: 'Easy product discovery through a redefined navigation.',
     body: 'I designed Drink Finder’s mobile navigation from scratch, so a customer gets from the home screen to a Spanish Rioja or an organic Cornish wine in a few taps. Search suggests popular searches and bottles before you type.',
     media: slot(B, 'work-menu-mobile', 'The Drink Finder menu on mobile, from the home screen to a wine region in a few taps.', 'Menu'),
     flip: false,
   },
   {
     eyebrow: 'Shopify UX review',
-    heading: 'Design for what shoppers actually saw.',
-    body: 'The Shopify UX review mapped every screen at real phone sizes. Sticky sign-up buttons and a chat widget covered the buttons that mattered, so the offer moved into a notifications button in the header.',
+    heading: 'Design for what real users actually see.',
+    body: 'The Shopify UX review mapped every screen at real phone sizes. Highlighting that sticky sign-up buttons and a chat widget covered the buttons that mattered, I designed a bespoke notification UX so the latest offers moved into a notifications button in the header.',
     media: slot(B, 'work-notifications-mobile', 'Drink Finder on mobile, with the offers in a notifications button in the header and nothing covering the buttons.', 'Notifications'),
     flip: true,
   },
@@ -182,4 +183,5 @@ export const DATA: CaseStudyPageData = {
   splits: SPLITS,
   testimonial: TESTIMONIAL,
   more: { ...MORE_HEADING, cards: moreFor('Drink Finder') },
+  enquiry: 'Big range, dated site? Tell me about it.',
 };

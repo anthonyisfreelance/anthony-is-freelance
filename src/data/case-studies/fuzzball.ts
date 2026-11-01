@@ -1,6 +1,6 @@
 // Fuzzball case study. Copy from the "Case study copy: Fuzzball" doc (20 October 2026).
 // Screens drop in by name: see src/assets/brands/README.md.
-import { SERVICE, slot, innovationSlot, innovationLink, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData, desktopSplit } from './types';
+import { SERVICE, BUILDER, slot, innovationSlot, innovationLink, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData, desktopSplit } from './types';
 import pack from '../../assets/brands/fuzzball/card.jpg';
 import treats from '../../assets/brands/fuzzball/treats.jpg';
 
@@ -36,6 +36,7 @@ export const DATA: CaseStudyPageData = {
   details: {
     sector: 'Pets',
     services: [SERVICE.subscriptions, SERVICE.cro],
+    builtBy: BUILDER.cartmasters,
     live: '13 August 2025',
     liveIso: '2025-08-13',
     // Conversion rate leads, not revenue: paid social traffic nearly tripled over the same 12 months.
@@ -110,4 +111,5 @@ export const DATA: CaseStudyPageData = {
   },
   // No quote yet: ask Fuzzball, or the agency if the work came through one. The page goes live either way.
   more: { ...MORE_HEADING, cards: moreFor('Fuzzball') },
+  enquiry: 'Subscribers dropping off before they sign up?',
 };

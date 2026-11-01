@@ -104,4 +104,5 @@ export const DATA: CaseStudyPageData = {
   },
   // No quote yet: ask Wide Fit Shoes, or the agency if the work came through one. The page goes live either way.
   more: { ...MORE_HEADING, cards: moreFor('Wide Fit Shoes') },
+  enquiry: 'Two stores to keep in step?',
 };

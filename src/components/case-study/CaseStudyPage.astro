@@ -19,7 +19,7 @@ import { SITE } from '../../data/site';
 import type { CaseStudyPageData, Highlight } from '../../data/case-studies/types';
 
 interface Props { data: CaseStudyPageData }
-const { meta: META, client: CLIENT, hero: HERO, brief: BRIEF, details: DETAILS, showcase: SHOWCASE, workIntro: WORK_INTRO, highlights: HIGHLIGHTS, gallery: GALLERY, splits: SPLITS = [], feature: FEATURE, testimonial: TESTIMONIAL, more: MORE } = Astro.props.data;
+const { meta: META, client: CLIENT, hero: HERO, brief: BRIEF, details: DETAILS, showcase: SHOWCASE, workIntro: WORK_INTRO, highlights: HIGHLIGHTS, gallery: GALLERY, splits: SPLITS = [], feature: FEATURE, testimonial: TESTIMONIAL, more: MORE, enquiry: ENQUIRY } = Astro.props.data;
 // The splits that follow work row n (counting from 1).
 // The work rows. The design system or brand section closes them as a plain row (27 October 2026):
 // no full-bleed photo, so no text ever sits on an image.
@@ -100,6 +100,12 @@ const link = 'underline underline-offset-4 hover:decoration-2';
               {DETAILS.services.map((s) => <a href={s.href} class={link}>{s.label}</a>)}
             </dd>
           </div>
+          {DETAILS.builtBy && (
+            <div class="flex gap-2">
+              <dt class="w-[120px] shrink-0 text-[#c4c4c4]">Built by</dt>
+              <dd class="flex-1 text-ink"><a href={DETAILS.builtBy.href} class={link} target="_blank" rel="noopener">{DETAILS.builtBy.label}</a></dd>
+            </div>
+          )}
           <div class="flex gap-2"><dt class="w-[120px] shrink-0 text-[#c4c4c4]">Live</dt><dd class="flex-1 text-ink">{DETAILS.liveIso ? <time datetime={DETAILS.liveIso}>{DETAILS.live}</time> : DETAILS.live}</dd></div>
           {DETAILS.rows.map((r) => (
             <div class="flex gap-2"><dt class="w-[120px] shrink-0 text-[#c4c4c4]">{r.label}</dt><dd class="flex-1 text-ink">{r.value}</dd></div>
@@ -239,7 +245,7 @@ const link = 'underline underline-offset-4 hover:decoration-2';
       </div>
     </section>
 
-    <Contact />
+    <Contact heading={ENQUIRY} />
   </main>
   <style>
     /* Room under the phones for the dropped right-hand column: half a phone and half a row gap. */

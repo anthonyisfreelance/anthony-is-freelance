@@ -106,4 +106,5 @@ export const DATA: CaseStudyPageData = {
   },
   // No quote yet: ask Dr Lipp, or the agency if the work came through one. The page goes live either way.
   more: { ...MORE_HEADING, cards: moreFor('Dr Lipp') },
+  enquiry: 'Is your store holding your brand back?',
 };

@@ -68,6 +68,8 @@ export interface CaseStudyPageData {
   details: {
     sector: string;
     services: Link[];
+    /** The developer who built the store, linked, under Services. Left out when it can't be named. */
+    builtBy?: Link;
     live: string;
     liveIso?: string;
     /** Rows between Live and Recognition: Results and Measured, or Designed for, In their words, Theme. */
@@ -88,6 +90,11 @@ export interface CaseStudyPageData {
   /** Left out when neither the client nor an agency can give a quote. The page still goes live. */
   testimonial?: { eyebrow: string; heading: string; quote: string; cite: string };
   more: { eyebrow: string; heading: string; cards: Card[] };
+  /**
+   * The second line of the enquiry form's H2, written for this case study (1 November 2026), after
+   * the "Start a Shopify project." eyebrow. Left out: the sitewide line. The form itself never changes.
+   */
+  enquiry?: string;
 }
 
 // ---- Helpers for the client files
@@ -100,6 +107,11 @@ export const SERVICE = {
   migrations: { label: 'Migrations', href: URLS.migrations },
   subscriptions: { label: 'Subscriptions', href: URLS.subscriptions },
   theme: { label: 'Theme customisations', href: URLS.theme },
+};
+
+/** Developers who can be named on a case study (1 November 2026). Tim's builds credit Cartmasters, never Tim. */
+export const BUILDER = {
+  cartmasters: { label: 'Cartmasters', href: 'https://cartmasters.co.uk/' },
 };
 
 /**

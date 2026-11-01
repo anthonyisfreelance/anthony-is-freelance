@@ -2,7 +2,7 @@
 // Screens drop in by name: see src/assets/brands/README.md.
 import { URLS } from '../site';
 import { testimonial, creditLine } from '../testimonials';
-import { SERVICE, slot, innovationSlot, innovationLink, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData, desktopSplit } from './types';
+import { SERVICE, BUILDER, slot, innovationSlot, innovationLink, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData, desktopSplit } from './types';
 import { brandVideo } from '../media';
 import cardPhoto from '../../assets/brands/east-at-home/card.jpg';
 import cardScreen from '../../assets/brands/east-at-home/card-screen.jpg';
@@ -40,6 +40,7 @@ export const DATA: CaseStudyPageData = {
   details: {
     sector: 'Food & drink',
     services: [SERVICE.bespoke, SERVICE.cro, SERVICE.ux],
+    builtBy: BUILDER.cartmasters,
     live: '16 October 2025',
     liveIso: '2025-10-16',
     rows: [
@@ -121,4 +122,5 @@ export const DATA: CaseStudyPageData = {
     cite: creditLine(testimonial('east-at-home')),
   },
   more: { ...MORE_HEADING, cards: moreFor('East at Home') },
+  enquiry: 'Want bigger baskets without losing conversion?',
 };

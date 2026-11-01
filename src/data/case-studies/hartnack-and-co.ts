@@ -1,7 +1,7 @@
 // Hartnack & Co case study. Copy from the "Case study copy: Hartnack & Co" doc (20 October 2026).
 // Screens drop in by name: see src/assets/brands/README.md.
 import { testimonial, creditLine } from '../testimonials';
-import { SERVICE, slot, innovationSlot, innovationLink, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData, desktopSplit } from './types';
+import { SERVICE, BUILDER, slot, innovationSlot, innovationLink, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData, desktopSplit } from './types';
 import box from '../../assets/brands/hartnack-and-co/box.jpg';
 
 const B = 'hartnack-and-co';
@@ -35,6 +35,7 @@ export const DATA: CaseStudyPageData = {
   details: {
     sector: 'Stationery & gifts', // [CONFIRM] or bespoke leather goods
     services: [SERVICE.bespoke, SERVICE.ux],
+    builtBy: BUILDER.cartmasters,
     live: '19 June 2025',
     liveIso: '2025-06-19',
     // No Results row: GA4 shows the store down year on year since launch, so sales figures are off.
@@ -112,4 +113,5 @@ export const DATA: CaseStudyPageData = {
     cite: creditLine(testimonial('hartnack-and-co')),
   },
   more: { ...MORE_HEADING, cards: moreFor('Hartnack & Co') },
+  enquiry: 'Too many options for your customers?',
 };
