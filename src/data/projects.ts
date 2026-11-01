@@ -17,7 +17,7 @@ export const DYSON: ProjectPageData = {
     description: "Dyson new product launches designed by Anthony Bliss as a freelance senior designer: tease, email, web pages, social and display, every digital touchpoint.",
     breadcrumbs: [{ name: "Home", path: URLS.home }, { name: "About", path: URLS.about }, { name: "Dyson", path: URLS.dyson }],
   },
-  hero: { eyebrow: "Dyson new product launch design", heading: "The whole launch, every touchpoint.", standfirst: "From January 2015 to February 2018 I was a freelance senior designer in Dyson’s digital team in Malmesbury, designing new product launches from first tease to final advert: tease imagery, email, website pages, social and display advertising. Every digital touchpoint for every new machine. Here are two of those launch campaigns: the Cinetic Big Ball and the American upright range.", image: slot("dyson", "cinetic-display-advertising-targeted-adverts-1", "Dyson Cinetic display advert: Only Dyson Cinetic science", "Hero") },
+  hero: { eyebrow: "Dyson new product launch design", heading: "The whole launch, every touchpoint.", standfirst: "From January 2015 to February 2018 I was a freelance senior designer in Dyson’s digital team in Malmesbury, designing new product launches from first tease to final advert: tease imagery, email, website pages, social and display advertising. Every digital touchpoint for every new machine. Here are two of those launch campaigns: the Cinetic Big Ball and the American upright range.", image: slot("dyson", "hero-lifestyle", "Dyson Cinetic Big Ball vacuum under a single spotlight", "Hero") },
   brief: { eyebrow: "The Dyson brief", heading: "One clear story for every new machine.", body: ["Every Dyson launch needed one story told across every digital touchpoint: tease imagery first, then email, the website pages, then social and display advertising. As senior designer in the digital team, I designed across all of them."] },
   facts: [{ label: "Client", value: "Dyson" }, { label: "Role", value: "Freelance senior designer" }, { label: "When", value: "January 2015 to February 2018" }, { label: "Where", value: "Dyson, Malmesbury" }, { label: "Designed", value: "Tease imagery, email, website pages, social and display advertising" }],
   groups: [
@@ -90,7 +90,7 @@ export const WRANGLER: ProjectPageData = {
     description: "Social and video campaigns Anthony Bliss designed for Wrangler as a freelance senior designer. Two highlights: Women’s Heritage and the 75th anniversary.",
     breadcrumbs: [{ name: "Home", path: URLS.home }, { name: "About", path: URLS.about }, { name: "Wrangler", path: URLS.wrangler }],
   },
-  hero: { eyebrow: "Wrangler social campaigns", heading: "Campaign after campaign, across social.", standfirst: "As a freelance senior designer I’ve designed a long run of Wrangler’s social and video campaigns across Instagram, Facebook and YouTube, from the first awareness post to the shopping ads. Here are two highlights, each one a full campaign: the spring/summer 2021 Women’s Heritage launch with Georgia May Jagger, and the spring/summer 2022 campaign for the brand’s 75th anniversary.", image: slot("wrangler", "heritage-youtube-6-seconds-1", "Wrangler Women’s Heritage campaign: Introducing Women’s Heritage Fits", "Hero") },
+  hero: { eyebrow: "Wrangler social campaigns", heading: "Campaign after campaign, across social.", standfirst: "As a freelance senior designer I’ve designed a long run of Wrangler’s social and video campaigns across Instagram, Facebook and YouTube, from the first awareness post to the shopping ads. Here are two highlights, each one a full campaign: the spring/summer 2021 Women’s Heritage launch with Georgia May Jagger, and the spring/summer 2022 campaign for the brand’s 75th anniversary.", image: slot("wrangler", "hero-lifestyle", "Georgia May Jagger in Wrangler Women’s Heritage jeans", "Hero") },
   brief: { eyebrow: "The Wrangler brief", heading: "Stop the scroll, then sell the denim.", body: ["Each campaign had to work in the few seconds people give a post. Instagram Stories, Facebook carousels and short YouTube shopping ads each had their own job, from awareness through to shopping."] },
   facts: [{ label: "Client", value: "Wrangler" }, { label: "Role", value: "Freelance senior designer" }, { label: "When", value: "Spring/summer 2021 and 2022" }, { label: "Designed", value: "Instagram Stories, Facebook carousels and YouTube shopping ads" }],
   groups: [
@@ -133,14 +133,12 @@ export const CHOP_CHOP: ProjectPageData = {
     description: "Brand identity by Anthony Bliss for Chop Chop, a street food pop-up in Bristol: logo, messaging, packaging, signage and an interior concept, all played with chopsticks.",
     breadcrumbs: [{ name: "Home", path: URLS.home }, { name: "Branding", path: URLS.branding }, { name: "Chop Chop", path: '/portfolio/chop-chop/' }],
   },
-  hero: { eyebrow: "Chop Chop brand identity", heading: "Street food, brought to life with chopsticks.", standfirst: "Chop Chop is a street food pop-up in Bristol. I designed the brand identity and brought it to life by playing with the chopsticks, from the logo to the packaging, the signage and the interior.", image: slot("chop-chop", "signage-1", "Chop Chop street food signage in Bristol", "Hero") },
+  hero: { eyebrow: "Chop Chop brand identity", heading: "Street food, brought to life.", standfirst: "Chop Chop is a street food pop-up in Bristol. I designed the brand identity and brought it to life by playing with the chopsticks, from the logo to the packaging, the signage and the interior.", image: slot("chop-chop", "signage-1", "Chop Chop street food signage in Bristol", "Hero") },
   brief: { eyebrow: "The Chop Chop brief", heading: "A new pop-up needed a brand people remember.", body: ["Street food is sold from the bag, the box, the sign and the stall itself, so the identity had to work on all of them. The chopsticks became the thread through every piece."] },
-  facts: [{ label: "Client", value: "Chop Chop" }, { label: "Sector", value: "Street food, Bristol" }, { label: "Services", value: "Brand identity" }, { label: "Designed", value: "Logo, brand messaging, poster, packaging, bag, signage and an interior concept" }],
+  facts: [{ label: "Client", value: "Chop Chop" }, { label: "Role", value: "Freelance senior designer" }, { label: "Sector", value: "Street food, Bristol" }, { label: "Services", value: "Brand identity" }, { label: "Designed", value: "Logo, brand messaging, poster, packaging, bag, signage and an interior concept" }],
   groups: [
     { rows: [
-      { label: "Logo", items: [
-        { media: slot("chop-chop", "logo-1", "Street food logo design Bristol", "logo-1") },
-      ] },
+      { label: "Logo", logo: { src: "/logos/identity/chop-chop.svg", alt: "Street food logo design Bristol", width: 408, height: 453 }, items: [] },
       { label: "Brand messaging", items: [
         { media: slot("chop-chop", "brand-messaging-1", "Street food brand messaging design Bristol", "brand-messaging-1") },
         { media: slot("chop-chop", "brand-messaging-2", "Street food brand messaging design Bristol", "brand-messaging-2") },
@@ -175,14 +173,12 @@ export const SPICY_GURU: ProjectPageData = {
     description: "Brand identity by Anthony Bliss for Spicy Guru, bringing Mehedi Mahmud’s flavours to the streets of Britain: a logo that became a person, embroidery and packaging.",
     breadcrumbs: [{ name: "Home", path: URLS.home }, { name: "Branding", path: URLS.branding }, { name: "Spicy Guru", path: '/portfolio/spicy-guru/' }],
   },
-  hero: { eyebrow: "Spicy Guru brand identity", heading: "A logo that became a person.", standfirst: "Spicy Guru brings Mehedi Mahmud’s flavours, the spice guru himself, to the streets of Britain. Making the logo into a person gave the brand a more personal feel, with a witty design touch hidden in the identity.", image: slot("spicy-guru", "packaging-1", "Spicy Guru packaging", "Hero") },
+  hero: { eyebrow: "Spicy Guru brand identity", heading: "A logo that became a person.", standfirst: "Spicy Guru brings Mehedi Mahmud’s flavours, the spice guru himself, to the streets of Britain. Making the logo into a person gave the brand a more personal feel, with a witty design touch hidden in the identity.", image: slot("spicy-guru", "embroidered-logo-1", "Spicy Guru logo embroidered on fabric", "Hero") },
   brief: { eyebrow: "The Spicy Guru brief", heading: "Put the guru into the brand.", body: ["The brand is built on one man’s flavours, so the identity needed to feel personal. Turning the logo into a person did that, and it carried through to the embroidered logo and the packaging."] },
-  facts: [{ label: "Client", value: "Spicy Guru" }, { label: "Sector", value: "Food" }, { label: "Services", value: "Brand identity" }, { label: "Designed", value: "Logo, embroidered logo and packaging" }],
+  facts: [{ label: "Client", value: "Spicy Guru" }, { label: "Role", value: "Freelance senior designer" }, { label: "Sector", value: "Food" }, { label: "Services", value: "Brand identity" }, { label: "Designed", value: "Logo, embroidered logo and packaging" }],
   groups: [
     { rows: [
-      { label: "Logo", items: [
-        { media: slot("spicy-guru", "logo-1", "Spicy Guru logo", "logo-1") },
-      ] },
+      { label: "Logo", logo: { src: "/logos/identity/spicy-guru.svg", alt: "Spicy Guru logo", width: 501, height: 843 }, items: [] },
       { label: "Embroidered logo", items: [
         { media: slot("spicy-guru", "embroidered-logo-1", "Spicy Guru embroidered logo", "embroidered-logo-1") },
       ] },
@@ -206,12 +202,10 @@ export const MILSOM_PLACE: ProjectPageData = {
   },
   hero: { eyebrow: "Milsom Place brand identity", heading: "My place, our place, your place.", standfirst: "Milsom Place is a smart retail area in Bath with some real hidden gems. The repositioning celebrated the place, its mix of independent boutiques and big names, and the stories within it. I designed it across signage, imagery, print and a responsive website, before responsive websites became the norm.", image: slot("milsom-place", "signage-1", "Milsom Place signage", "Hero") },
   brief: { eyebrow: "The Milsom Place brief", heading: "Reposition a retail area around its people.", body: ["The idea of my place, our place, your place put the people behind the shops at the centre of the brand, from the hero imagery and posters to the autumn brochure and the website.", "Creative concept and direction by The House."] },
-  facts: [{ label: "Client", value: "Milsom Place, Bath" }, { label: "Sector", value: "Retail destination" }, { label: "Concept", value: "The House" }, { label: "Designed", value: "Logo, signage, hero imagery, poster, brochure and a responsive website" }],
+  facts: [{ label: "Client", value: "Milsom Place, Bath" }, { label: "Role", value: "Freelance senior designer" }, { label: "Sector", value: "Retail destination" }, { label: "Concept", value: "The House" }, { label: "Designed", value: "Logo, signage, hero imagery, poster, brochure and a responsive website" }],
   groups: [
     { rows: [
-      { label: "Logo", items: [
-        { media: slot("milsom-place", "logo-1", "Milsom Place white logo", "logo-1") },
-      ] },
+      { label: "Logo", logo: { src: "/logos/identity/milsom-place.svg", alt: "Milsom Place white logo", width: 738, height: 362 }, items: [] },
       { label: "Signage", items: [
         { media: slot("milsom-place", "signage-1", "Milsom Place signage", "signage-1") },
       ] },
@@ -251,12 +245,10 @@ export const NORTON_RADSTOCK_COLLEGE: ProjectPageData = {
   },
   hero: { eyebrow: "Norton Radstock College identity", heading: "The college that works.", standfirst: "How do you reinvigorate a college where morale is low but its rate of getting students into work is high? Create a visual identity that celebrates those success rates, and give the college the tools to tell its success stories better.", image: slot("norton-radstock-college", "course-guide-1", "Norton Radstock College course guide covers", "Hero") },
   brief: { eyebrow: "The Norton Radstock College brief", heading: "Celebrate the results the college already had.", body: ["Built around the line The College That Works, the identity ran from the logo and brand messaging to course icons, the course guide and advertising. It won a European Transform Award.", "Creative concept and direction by The House."] },
-  facts: [{ label: "Client", value: "Norton Radstock College" }, { label: "Sector", value: "Further education" }, { label: "Concept", value: "The House" }, { label: "Recognition", value: "Winner, European Transform Award" }, { label: "Designed", value: "Logo, brand messaging, course icons, course guide and advertising" }],
+  facts: [{ label: "Client", value: "Norton Radstock College" }, { label: "Role", value: "Freelance senior designer" }, { label: "Sector", value: "Further education" }, { label: "Concept", value: "The House" }, { label: "Recognition", value: "Winner, European Transform Award" }, { label: "Designed", value: "Logo, brand messaging, course icons, course guide, advertising and brand manual" }],
   groups: [
     { rows: [
-      { label: "Logo", items: [
-        { media: slot("norton-radstock-college", "logo-1", "Norton Radstock College white logo", "logo-1") },
-      ] },
+      { label: "Logo", logo: { src: "/logos/identity/norton-radstock-college.svg", alt: "Norton Radstock College white logo", width: 705, height: 474 }, items: [] },
       { label: "Brand messaging", items: [
         { media: slot("norton-radstock-college", "brand-messaging-1", "Norton Radstock College brand message", "brand-messaging-1") },
         { media: slot("norton-radstock-college", "brand-messaging-2", "Norton Radstock College brand message", "brand-messaging-2") },
@@ -273,6 +265,14 @@ export const NORTON_RADSTOCK_COLLEGE: ProjectPageData = {
       { label: "Advertising", items: [
         { media: slot("norton-radstock-college", "advertising-1", "Norton Radstock college advert", "advertising-1") },
       ] },
+      { label: "Brand manual", items: [
+        { media: slot("norton-radstock-college", "brand-manual-1", "Norton Radstock College brand manual cover", "brand-manual-1") },
+        { media: slot("norton-radstock-college", "brand-manual-2", "Norton Radstock College brand manual: logo elements", "brand-manual-2") },
+        { media: slot("norton-radstock-college", "brand-manual-3", "Norton Radstock College brand manual: logo colours", "brand-manual-3") },
+        { media: slot("norton-radstock-college", "brand-manual-4", "Norton Radstock College brand manual: imagery section opener", "brand-manual-4") },
+        { media: slot("norton-radstock-college", "brand-manual-5", "Norton Radstock College brand manual: people imagery do’s and don’ts", "brand-manual-5") },
+        { media: slot("norton-radstock-college", "brand-manual-6", "Norton Radstock College brand manual: course icons", "brand-manual-6") },
+      ] },
     ] },
   ],
   card: { meta: "Brand identity · Education", claim: "An award-winning identity for The College That Works." },
@@ -288,14 +288,12 @@ export const ELECTRONIC_SOUND: ProjectPageData = {
     description: "Anthony Bliss rebranded and redesigned Electronic Sound, turning a one-off newsstand magazine into a monthly interactive app for tablet and mobile.",
     breadcrumbs: [{ name: "Home", path: URLS.home }, { name: "Branding", path: URLS.branding }, { name: "Electronic Sound", path: '/portfolio/electronic-sound-magazine/' }],
   },
-  hero: { eyebrow: "Electronic Sound magazine design", heading: "From one-off magazine to monthly app.", standfirst: "Electronic Sound started as a one-off newsstand magazine. I rebranded and redesigned it as a standout monthly interactive app for the App Store newsstand, on tablet and mobile.", image: slot("electronic-sound", "page-designs-1", "Electronic Sound magazine app on a tablet", "Hero") },
+  hero: { eyebrow: "Electronic Sound magazine design", heading: "From one-off magazine to monthly app.", standfirst: "Electronic Sound started as a one-off newsstand magazine. I rebranded and redesigned it as a standout monthly interactive app for the App Store newsstand, on tablet and mobile.", image: slot("electronic-sound", "hero-lifestyle", "Gary Numan holding the Electronic Sound app on a tablet", "Hero") },
   brief: { eyebrow: "The Electronic Sound brief", heading: "Turn a print one-off into an interactive monthly.", body: ["The rebrand covered the logo, the covers and the page designs, with animated covers and pages that made the most of the screen."] },
-  facts: [{ label: "Client", value: "Electronic Sound" }, { label: "Sector", value: "Music magazine" }, { label: "Services", value: "Brand identity, editorial and app design" }, { label: "Designed", value: "Logo, covers and page designs for tablet and mobile" }],
+  facts: [{ label: "Client", value: "Electronic Sound" }, { label: "Role", value: "Freelance senior designer" }, { label: "Sector", value: "Music magazine" }, { label: "Services", value: "Brand identity, editorial and app design" }, { label: "Designed", value: "Logo, covers and page designs for tablet and mobile" }],
   groups: [
     { rows: [
-      { label: "Logo", items: [
-        { media: slot("electronic-sound", "logo-1", "Electronic sound logo", "logo-1") },
-      ] },
+      { label: "Logo", logo: { src: "/logos/identity/electronic-sound.svg", alt: "Electronic sound logo", width: 1400, height: 369 }, items: [] },
       { label: "Covers", items: [
         { media: slot("electronic-sound", "covers-1", "Electronic sound magazine Chromeo cover", "covers-1") },
         { media: slot("electronic-sound", "covers-2", "Electronic sound magazine Factory Floor cover", "covers-2") },
@@ -306,9 +304,11 @@ export const ELECTRONIC_SOUND: ProjectPageData = {
       ] },
       { label: "Page designs", items: [
         { media: slot("electronic-sound", "page-designs-1", "Electronic sound page design", "page-designs-1") },
+        { media: slot("electronic-sound", "page-designs-4", "Electronic sound how to use the app design", "page-designs-4") },
+      ] },
+      { label: "Animated pages", items: [
         { media: slot("electronic-sound", "page-designs-2", "Electronic sound magazine Karl Bartos page", "page-designs-2") },
         { media: slot("electronic-sound", "page-designs-3", "Electronic sound magazine Dave Clarke page", "page-designs-3") },
-        { media: slot("electronic-sound", "page-designs-4", "Electronic sound how to use the app design", "page-designs-4") },
       ] },
     ] },
   ],

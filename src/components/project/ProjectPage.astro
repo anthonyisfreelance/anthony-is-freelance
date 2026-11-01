@@ -1,7 +1,7 @@
 ---
 // A project page outside Shopify (Dyson, Wrangler, the identity work on the branding page), laid out like
 // a case study: the hero (photo to the centre line, headline beside it), the brief beside the facts, then
-// the work as labelled rows of images in page order, more project cards and the form.
+// the work as labelled rows of images in page order, the best Shopify work and the form.
 // Each image keeps its own shape. Wide images run two a row (one if alone); tall and square ones up to
 // three a row (half the width if alone), so nothing is cropped. Data in src/data/projects.ts.
 import Base from '../../layouts/Base.astro';
@@ -12,7 +12,6 @@ import CaseStudyCard from '../CaseStudyCard.astro';
 import Media from '../case-study/Media.astro';
 import Contact from '../home/Contact.astro';
 import { SITE } from '../../data/site';
-import { PROJECTS } from '../../data/projects';
 import type { ProjectPageData, ProjectRow } from '../../data/project-types';
 import TextLink from '../TextLink.astro';
 import { card } from '../../data/case-studies/types';
@@ -43,9 +42,6 @@ const layout = (r: ProjectRow) => {
 // the top three of the homepage five.
 const shopify = ['Drink Finder', 'East at Home', 'Fuzzball'].map(card);
 
-// Three more cards: the next project pages after this one, wrapping round.
-const i = PROJECTS.findIndex((p) => p.meta.path === d.meta.path);
-const more = [1, 2, 3].map((k) => PROJECTS[(i + k) % PROJECTS.length]);
 
 const meta = 'font-display font-medium text-[14px] leading-[1.3] tracking-[0.02em]';
 ---
@@ -96,6 +92,14 @@ const meta = 'font-display font-medium text-[14px] leading-[1.3] tracking-[0.02e
           </section>
         )}
         {g.rows.map((r) => {
+          if (r.logo) return (
+            <section class="px-margin pt-section">
+              <h3 class="t-h6 text-ink">{r.label}</h3>
+              <div class="mt-loose flex justify-center py-section">
+                <img src={r.logo.src} alt={r.logo.alt} width={r.logo.width} height={r.logo.height} loading="lazy" decoding="async" class="h-auto max-h-[60vh] w-[80%] object-contain lg:w-[60%]" />
+              </div>
+            </section>
+          );
           const l = layout(r);
           return (
             <section class="px-margin pt-section">
@@ -118,20 +122,6 @@ const meta = 'font-display font-medium text-[14px] leading-[1.3] tracking-[0.02e
         })}
       </>
     ))}
-
-    <!-- More project pages -->
-    <section class="px-margin pt-section lg:pt-[120px]">
-      <div class="border-t border-line pt-section">
-        <div class="lg:w-half"><Heading eyebrow="More brand and campaign work">Other brands, other briefs.</Heading></div>
-        <ul class="mt-gutter grid grid-cols-2 gap-grid lg:grid-cols-3">
-          {more.map((p) => (
-            <li class:list={[p === more[2] && 'max-lg:hidden']}>
-              <CaseStudyCard client={p.client} meta={p.card.meta} claim={p.card.claim} image={p.hero.image.image} href={p.meta.path} />
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
 
     <!-- Back to the Shopify work: on phones one large card, then two smaller (as the case studies) -->
     <section class="px-margin pt-section pb-section lg:pt-[120px]">

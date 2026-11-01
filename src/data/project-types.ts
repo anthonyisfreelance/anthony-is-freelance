@@ -7,6 +7,8 @@ export interface ProjectRow {
   label: string;
   /** Show each item at its real ad size (300px wide on desktop, two a row on phones), not filling the grid. */
   adSize?: boolean;
+  /** A logo row: the white SVG from the branding page, centred at about 60% of the page width. */
+  logo?: { src: string; alt: string; width: number; height: number };
   items: { media: Media; caption?: string }[];
 }
 
