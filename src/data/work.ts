@@ -76,18 +76,18 @@ const RECORDS: Omit<CaseStudy, 'image' | 'screen' | 'screenVideo'>[] = [
     services: ['theme-customisations'],
   },
   {
-    client: 'Dr Lipp', brand: 'dr-lipp', meta: 'Beauty · May 2024',
-    claim: '38% higher conversion rate after a re-theme',
-    proof: 'May 2024 to February 2025 vs the previous period. Shopify Analytics.',
-    href: p('dr-lipp-shopify-website-case-study'),
-    services: ['theme-customisations'],
-  },
-  {
     client: 'Whistlefish', brand: 'whistlefish', meta: 'Stationery & gifts · April 2025',
     claim: 'A Shopify 2.0 redesign their own team now builds on',
     proof: '"We\'ve since been able to carry that framework into our own design team." Will Manders',
     href: p('whistlefish-2-0-shopify-website-design-case-study'),
     services: ['bespoke-store-design', 'shopify-ux-design', 'shopify-cro'],
+  },
+  {
+    client: 'Dr Lipp', brand: 'dr-lipp', meta: 'Beauty · May 2024',
+    claim: '38% higher conversion rate after a re-theme',
+    proof: 'May 2024 to February 2025 vs the previous period. Shopify Analytics.',
+    href: p('dr-lipp-shopify-website-case-study'),
+    services: ['theme-customisations'],
   },
   {
     client: 'Wide Fit Shoes', brand: 'wide-fit-shoes', meta: 'Fashion · August 2024',

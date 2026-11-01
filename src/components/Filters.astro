@@ -5,18 +5,21 @@
 // The chosen filter is kept in the URL hash, so a filtered view can be linked to.
 // `line` (articles, Figma "Article/Category filters"): the current filter is underlined, the row is
 // spaced wider and scrolls sideways in one line on phones instead of wrapping.
+// Without `line` (work page) the row also slides sideways on phones, edge to edge, like the services
+// hub menu (feedback #280).
 interface Props { label: string; filters: readonly { id: string; label: string }[]; line?: boolean }
 const { label, filters, line = false } = Astro.props;
 const btn = [
   't-button text-muted hover:text-ink aria-pressed:text-ink',
-  line && 'shrink-0 whitespace-nowrap underline-offset-4 aria-pressed:underline',
+  'shrink-0 whitespace-nowrap',
+  line && 'underline-offset-4 aria-pressed:underline',
 ];
 ---
 <div
   role="group"
   aria-label={label}
   class:list={[
-    line ? 'flex gap-x-6 overflow-x-auto [scrollbar-width:none] lg:flex-wrap lg:gap-x-8 lg:gap-y-3 lg:overflow-visible' : 'flex flex-wrap gap-x-grid gap-y-3',
+    line ? 'flex gap-x-6 overflow-x-auto [scrollbar-width:none] lg:flex-wrap lg:gap-x-8 lg:gap-y-3 lg:overflow-visible' : '-mx-margin flex gap-x-loose overflow-x-auto px-margin [scrollbar-width:none] [&::-webkit-scrollbar]:hidden lg:mx-0 lg:flex-wrap lg:gap-x-grid lg:gap-y-3 lg:overflow-visible lg:px-0',
   ]}
   data-filters
 >

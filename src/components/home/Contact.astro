@@ -8,7 +8,8 @@ const { eyebrow = CONTACT.eyebrow, heading = CONTACT.heading, intro } = Astro.pr
 ---
 <section id="start-a-project" class="theme-light px-margin py-section-sm">
   <div class="flex flex-col gap-large lg:flex-row lg:gap-[160px]">
-    <div class="flex flex-col gap-loose lg:w-[437px] lg:shrink-0">
+    <!-- The heading stays in view while the form scrolls past on desktop, as in the other left-heading sections (#284). -->
+    <div class="flex flex-col gap-loose lg:sticky lg:top-loose lg:w-[437px] lg:shrink-0 lg:self-start">
       <Heading eyebrow={eyebrow}>{heading}</Heading>
       {intro && <p class="t-body text-muted">{intro}</p>}
     </div>

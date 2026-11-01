@@ -28,7 +28,8 @@ const logos = x.kind === 'logos'
   </section>
 ) : (
   <section id={x.id} class="px-margin pt-section">
-    <div class:list={['border-t border-line pt-section', x.kind === 'text' && 'flex flex-col gap-loose lg:w-half']}>
+    <!-- Text sections: heading in the left half, copy in the right on desktop (#295, #296). -->
+    <div class:list={['border-t border-line pt-section', x.kind === 'text' && 'flex flex-col gap-loose lg:grid lg:grid-cols-2 lg:gap-gutter']}>
       <div class:list={[x.kind === 'table' && 'lg:w-[676px]']}>
         <Heading eyebrow={x.eyebrow}>{x.heading}</Heading>
       </div>
@@ -49,7 +50,7 @@ const logos = x.kind === 'logos'
         </div>
       )}
       {x.kind === 'logos' && (
-        <ul class="mt-gutter grid grid-cols-2 gap-grid md:grid-cols-4">
+        <ul class="mt-section-sm grid grid-cols-2 gap-grid md:grid-cols-4 lg:mt-gutter">
           {logos.map((l) => (
             <li class="relative aspect-[3/2] bg-raised">
               <img src={l.src} alt={l.name} width={l.w} height={l.h} loading="lazy" class="absolute left-1/2 top-1/2 h-[min(56%,108px)] w-[min(70%,208px)] -translate-x-1/2 -translate-y-1/2 object-contain" />
@@ -58,7 +59,7 @@ const logos = x.kind === 'logos'
         </ul>
       )}
       {x.kind === 'table' && (
-        <table class="mt-gutter w-full border-collapse text-left lg:w-[1035px] lg:max-w-full">
+        <table class="mt-section-sm w-full border-collapse text-left lg:mt-gutter lg:w-[1035px] lg:max-w-full">
           <caption class="sr-only">{x.caption}</caption>
           <thead>
             <tr>{x.head.map((h) => <th scope="col" class="t-button-lg pb-loose pr-grid font-medium text-ink">{h}</th>)}</tr>

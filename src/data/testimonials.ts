@@ -57,6 +57,7 @@ export const TESTIMONIALS_LIST: Testimonial[] = [
     name: 'Nick Hartnack',
     credit: 'Partner, Hartnack & Company',
     year: '2025',
+    caseStudy: '/portfolio/hartnack-and-co-shopify-website-design-case-study/',
   },
   {
     id: 'thameen-london',
@@ -68,6 +69,7 @@ export const TESTIMONIALS_LIST: Testimonial[] = [
     name: 'Nour Abdel-Motaal',
     credit: 'General Manager, Thameen London',
     year: '2026',
+    caseStudy: '/portfolio/thameen-london-shopify-website-design-case-study/',
   },
   {
     id: 'whistlefish',
@@ -79,6 +81,7 @@ export const TESTIMONIALS_LIST: Testimonial[] = [
     name: 'Will Manders',
     credit: 'Head of Ecommerce, Whistlefish',
     year: '2025',
+    caseStudy: '/portfolio/whistlefish-2-0-shopify-website-design-case-study/',
   },
   {
     id: 'east-west-apparel',
@@ -90,6 +93,7 @@ export const TESTIMONIALS_LIST: Testimonial[] = [
     credit: 'Owner, East West Apparel',
     year: '2025',
     google: { href: ENTITY.googleReviews, label: 'March 2026' },
+    caseStudy: '/portfolio/east-west-apparel-shopify-website-design-case-study/',
   },
   {
     id: 'window-fleur',
@@ -100,6 +104,7 @@ export const TESTIMONIALS_LIST: Testimonial[] = [
     name: 'Frannie Liddle',
     credit: 'Co-Founder/Creative Director, Window Fleur',
     year: '2025',
+    caseStudy: '/portfolio/window-fleur-shopify-case-study/',
   },
   {
     id: 'zen-maitri',

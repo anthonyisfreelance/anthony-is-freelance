@@ -93,7 +93,8 @@ const cell = 't-label tracking-[0.02em]';
   <main id="main">
     <!-- Hero -->
     <section class="px-margin">
-      <div class="grid gap-large border-t border-line pt-large lg:grid-cols-2 lg:gap-grid lg:pt-[40px]">
+      <!-- Split on the header's gutter, so the photo starts exactly under the first menu item (#294). -->
+      <div class="grid gap-large border-t border-line pt-large lg:grid-cols-2 lg:gap-gutter lg:pt-[40px]">
         <div class="flex flex-col">
           <Heading level={1} eyebrow={p.hero.eyebrow}>{p.hero.heading}</Heading>
           <p class="t-body mt-loose text-muted lg:max-w-[676px]">{p.hero.intro}</p>
@@ -160,7 +161,9 @@ const cell = 't-label tracking-[0.02em]';
 
     <!-- Routing: when this isn't the right call -->
     <section class="px-margin pt-section">
-      <div class="grid gap-gutter border-t border-line pt-4 lg:grid-cols-2">
+      <!-- Line to heading matches every other section (#275); on phones the routes start a small section
+           below the intro, the same space as between the routes (#274, #290). -->
+      <div class="grid gap-section-sm border-t border-line lg:grid-cols-2 lg:gap-gutter">
         <div class="pt-section lg:sticky lg:top-0 lg:self-start">
           <Heading eyebrow={p.routing.eyebrow}>{p.routing.heading}</Heading>
           {p.routing.intro && <p class="t-body mt-loose text-muted">{p.routing.intro}</p>}
@@ -190,7 +193,7 @@ const cell = 't-label tracking-[0.02em]';
           <div class="lg:w-half lg:shrink-0"><Heading eyebrow={p.process.eyebrow}>{p.process.heading}</Heading></div>
           <p class="t-body flex-1 text-muted">{p.process.intro}</p>
         </div>
-        <ol class="mt-large grid grid-cols-2 gap-x-grid gap-y-large lg:mt-gutter lg:grid-cols-4 lg:gap-large">
+        <ol class="mt-section-sm grid grid-cols-2 gap-x-grid gap-y-large lg:mt-gutter lg:grid-cols-4 lg:gap-large">
           {p.process.steps.map((s, i) => (
             <li class="flex flex-col gap-4 border-t border-line pr-grid pt-loose">
               <span class="t-number" aria-hidden="true">{String(i + 1).padStart(2, '0')}</span>

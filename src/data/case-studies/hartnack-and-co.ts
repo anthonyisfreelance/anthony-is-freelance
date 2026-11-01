@@ -47,7 +47,7 @@ export const DATA: CaseStudyPageData = {
     phones: [
       slot(B, 'showcase-phone-1', 'The Hartnack & Co homepage on mobile, from the hero down to the family-run bindery and its product ranges.', 'Homepage'),
       slot(B, 'showcase-phone-2', 'The Hartnack & Co menu covers page on mobile, with leather and fabric menu covers shown in use.', 'Menu covers'),
-      slot(B, 'showcase-phone-3', 'The Hartnack & Co all products collection on mobile, with sizes, formats and cover materials on each product.', 'Collection'),
+      slot(B, 'showcase-phone-3', 'The top of the Hartnack & Co all products collection on mobile.', 'Collection'),
       slot(B, 'showcase-phone-4', 'Hartnack & Co search on mobile.', 'Search'),
     ],
   },

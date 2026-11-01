@@ -5,16 +5,20 @@ interface Props {
   level?: 1 | 2 | 3;
   eyebrow?: string;
   deco?: boolean;
+  /** Keep the eyebrow for search and screen readers but don't show it (the page shows it elsewhere). */
+  hideEyebrow?: boolean;
   class?: string;
   id?: string;
 }
-const { level = 2, eyebrow, deco = true, class: className = '', id } = Astro.props;
+const { level = 2, eyebrow, deco = true, hideEyebrow = false, class: className = '', id } = Astro.props;
 const Tag = `h${level}` as 'h1' | 'h2' | 'h3';
 const size = level === 1 ? 't-h1' : 't-h2';
 ---
 <Tag id={id} class:list={[size, 'text-ink', className]}>
-  {eyebrow && (
+  {eyebrow && (hideEyebrow ? (
+    <span class="sr-only">{eyebrow}. </span>
+  ) : (
     <span class="eyebrow" data-deco={deco ? '' : undefined}>{eyebrow}<span class="sr-only">.</span></span>
-  )}
+  ))}
   <slot />
 </Tag>

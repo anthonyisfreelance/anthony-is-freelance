@@ -90,7 +90,7 @@ const posting = {
   inLanguage: 'en-GB',
 };
 const a = ARTICLES_PAGE.author;
-const experience = 'He has worked in design for over 20 years, from brand identity to three years at Dyson, and has been independent since August 2023.';
+const experience = 'Anthony Bliss has worked in design for over 20 years, from brand identity to three years at Dyson, and has been independent since August 2023.';
 ---
 <Base title={c.seoTitle} description={c.description} image={ogImage} ogType="article">
   <Schema
@@ -119,11 +119,17 @@ const experience = 'He has worked in design for over 20 years, from brand identi
         <div class="flex flex-col gap-large border-t border-line pt-6 lg:pt-[40px]">
           <div class="flex flex-col gap-loose">
             <Breadcrumb items={crumbs} />
-            <Heading level={1} eyebrow={category} class="lg:w-[70%]">{article.title}</Heading>
+            <Heading level={1} eyebrow={category} hideEyebrow class="lg:w-[70%]">{article.title}</Heading>
           </div>
           <div class="flex flex-col gap-6 lg:gap-[40px]">
+            <!-- Byline with the category beside it on desktop, above it on phones, a hairline under both
+                 (Figma 48331:13712 and 48331:14015, feedback #297). The category is still the H1's eyebrow,
+                 hidden there so it isn't read twice. -->
+            <div class="flex flex-col gap-4 border-b border-line pb-4 lg:w-[916px] lg:max-w-full lg:flex-row-reverse lg:items-center lg:justify-between lg:gap-[40px] lg:pb-6">
+            <p class="eyebrow !mb-0" data-deco aria-hidden="true">{category}</p>
             <div class="flex items-center gap-3">
-              <Image src={photo} alt="" widths={[44, 88]} sizes="44px" class="size-11 shrink-0 rounded-full object-cover" />
+              <!-- The photo is landscape, cropped to a circle, so the file is sized by its height (#277). -->
+              <Image src={photo} alt="" widths={[70, 140]} sizes="70px" class="size-11 shrink-0 rounded-full object-cover" />
               <div class="t-label flex flex-col gap-1">
                 <p class="text-ink">By <a href={URLS.about} rel="author" class="underline underline-offset-4 hover:decoration-2">Anthony Bliss</a>, freelance Shopify designer</p>
                 <p class="text-muted">
@@ -131,6 +137,7 @@ const experience = 'He has worked in design for over 20 years, from brand identi
                   {c.modified !== c.published && <><span aria-hidden="true">&nbsp; · &nbsp;</span>Updated <time datetime={c.modified}>{formatDate(c.modified)}</time></>}
                 </p>
               </div>
+            </div>
             </div>
             {c.updateNote && <p class="t-tile border-l-2 border-line pl-4 text-muted">{c.updateNote}</p>}
             {c.standfirst && <p class="font-serif text-[20px] leading-[1.6] text-ink lg:w-[66%]">{c.standfirst}</p>}
@@ -158,7 +165,9 @@ const experience = 'He has worked in design for over 20 years, from brand identi
           </details>
         </nav>
 
-        <div class="prose-article lg:col-span-6 lg:col-start-5">
+        <!-- From 1920 the reading column moves to the centre of the page and stops at 880px, so it
+             doesn't drift right or grow too wide on big screens (#278). -->
+        <div class="prose-article lg:col-span-6 lg:col-start-5 min-[1920px]:col-start-4 min-[1920px]:w-full min-[1920px]:max-w-[880px] min-[1920px]:justify-self-center">
           {c.blocks.map((b) =>
             b.type === 'h2' ? <h2 id={b.id}>{b.text}</h2>
             : b.type === 'h3' ? <h3>{b.text}</h3>
@@ -215,7 +224,7 @@ const experience = 'He has worked in design for over 20 years, from brand identi
               {faqs.map((f) => (
                 <div class="flex flex-col gap-3 border-t border-line pt-loose">
                   <h3 class="t-h4 text-ink">{f.q}</h3>
-                  <div class="prose-faq flex flex-col gap-3 font-serif text-[18px] leading-[1.65] text-ink" set:html={f.html} />
+                  <div class="prose-faq flex flex-col gap-3 font-serif text-[18px] leading-[1.65] text-muted" set:html={f.html} />
                 </div>
               ))}
             </div>
@@ -227,10 +236,11 @@ const experience = 'He has worked in design for over 20 years, from brand identi
     <!-- About the author -->
     <section class="px-margin pt-section">
       <div class="grid gap-large border-t border-line pt-section lg:grid-cols-2 lg:gap-gutter">
-        <Heading eyebrow="About the author">Anthony Bliss.</Heading>
+        <!-- The byline already names Anthony, so the heading says what he does and the bio opens with his name (#282). -->
+        <Heading eyebrow="About the author">Written by a freelance Shopify designer.</Heading>
         <div class="flex flex-col gap-loose sm:flex-row sm:items-start sm:gap-grid">
           <div class="relative aspect-[4/5] w-[160px] shrink-0 overflow-hidden lg:w-[180px]">
-            <Image src={photo} alt="Anthony Bliss" widths={[180, 360]} sizes="180px" class="absolute inset-0 size-full object-cover" />
+            <Image src={photo} alt="Anthony Bliss" widths={[340, 680, 1020]} sizes="(min-width: 1024px) 340px, 300px" class="absolute inset-0 size-full object-cover" />
           </div>
           <div class="flex flex-col gap-loose">
             <p class="t-h6 text-ink">{a.award}</p>

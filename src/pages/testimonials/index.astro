@@ -26,13 +26,15 @@ const isYear = (y: string) => /^\d{4}$/.test(y);
   <main id="main">
     <PageHero eyebrow={P.eyebrow} heading={P.heading} intro={P.intro}>
       <!-- Each platform links to the reviews themselves. Plain text, never a widget. -->
-      <ul class="flex flex-wrap gap-2" aria-label="Independent reviews">
+      <!-- Full width on phones; opens the reviews in a new tab (#285). -->
+      <ul class="flex flex-col gap-2 sm:flex-row sm:flex-wrap" aria-label="Independent reviews">
         {P.trust.map((t) => (
           <li>
-            <a href={t.href} class="t-tile inline-flex items-center gap-2 bg-raised px-4 py-3 text-ink hover:underline">
+            <a href={t.href} target="_blank" rel="noopener" class="t-tile flex w-full items-center gap-2 bg-raised px-4 py-3 text-ink hover:underline sm:inline-flex sm:w-auto">
               <img src="/icons/google-g.png" alt="Google" width="25" height="25" class="size-[25px]" loading="lazy" />
               <span><span aria-hidden="true" class="font-serif text-[0.85em]">★★★★★ </span>{t.text}{t.note && <span class="block whitespace-nowrap text-[0.65em] text-muted">{t.note}</span>}</span>
-              <img src="/icons/arrow-up-right.svg" alt="" width="18" height="18" class="size-[18px]" />
+              <img src="/icons/arrow-up-right.svg" alt="" width="18" height="18" class="ml-auto size-[18px]" />
+              <span class="sr-only">(opens in a new tab)</span>
             </a>
           </li>
         ))}
