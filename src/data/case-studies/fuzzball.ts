@@ -92,7 +92,7 @@ export const DATA: CaseStudyPageData = {
       eyebrow: 'Pet food product page design',
       heading: 'Ingredients and benefits at a glance.',
       body: 'Fuzzball’s product pages set out ingredients and benefits with icons and short callouts for scan readers, plus quick links to build a subscription box, including for quiz-only products.',
-      media: slot(B, 'work-05', 'The Fuzzball chicken treats product page on mobile, with all natural, protein and grain free icons beside the pack.', 'The product page recording'),
+      media: slot(B, 'work-05', 'The Fuzzball chicken treats product page on mobile, from the all natural, protein and grain free icons down to the treat benefits.', 'The product page recording'),
     },
   ],
   // One 50/50 halfway through the work (27 October 2026): this photo sticks at full height while
