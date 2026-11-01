@@ -45,6 +45,12 @@ import photo from '../../assets/site/anthony-about-hero.jpg';
         <div class="lg:sticky lg:top-loose lg:self-start"><Heading eyebrow={CAREER.eyebrow}>{CAREER.heading}</Heading></div>
         <div class="t-body flex flex-col gap-loose text-muted">
           {CAREER.paragraphs.map((p) => <p>{p}</p>)}
+          <p>
+            {CAREER.earlierWork.text.split(/(\{dyson\}|\{wrangler\})/).map((part) => {
+              const link = part === '{dyson}' ? CAREER.earlierWork.dyson : part === '{wrangler}' ? CAREER.earlierWork.wrangler : null;
+              return link ? <a href={link.href} class="text-ink underline underline-offset-4 hover:decoration-2">{link.label}</a> : part;
+            })}
+          </p>
           <p>{CAREER.degree.before}<cite class="italic">{CAREER.degree.book}</cite>{CAREER.degree.after}</p>
         </div>
       </div>

@@ -64,6 +64,8 @@ export const URLS = {
   contact: '/contact/',
   contactThanks: '/contact/thanks/', // noindex, where the form lands without JavaScript
   privacy: '/privacy-policy/', // new page (29 October 2026)
+  dyson: '/portfolio/dyson/', // earlier work, new page (1 November 2026)
+  wrangler: '/portfolio/wrangler/', // earlier work, new page (1 November 2026)
   caseStudies: {
     drinkFinder: '/portfolio/drink-finder-shopify-website-design-case-study/',
     eastAtHome: '/portfolio/east-at-home-shopify-website-design-case-study/',
