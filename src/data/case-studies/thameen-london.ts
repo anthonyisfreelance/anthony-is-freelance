@@ -68,19 +68,19 @@ export const DATA: CaseStudyPageData = {
     {
       eyebrow: 'Shopify theme selection',
       heading: 'Two shortlisted, one chosen together.',
-      body: 'Shopify theme selection is where a theme build is won or lost. I shortlisted two with the right bones for content and conversion, and we chose Sleek together for its structure and room to push.',
+      body: 'Choosing the theme is where a build like Thameen London’s is won or lost. I shortlisted two with the right bones for content and conversion, and we chose Sleek together for its structure and room to push.',
       media: slot(B, 'work-01', 'The Thameen London homepage on mobile, built on the Sleek theme.', 'The homepage hero'),
     },
     {
       eyebrow: 'Shopify header and footer design',
       heading: 'The frame round every page.',
-      body: 'Shopify header and footer design made the biggest difference on Thameen. They frame every page, so getting them right lifts the whole store. The header sits quietly against the editorial imagery.',
+      body: 'The header and footer made the biggest difference on Thameen. They frame every page, so getting them right lifts the whole store. The header sits quietly against the editorial imagery.',
       media: slot(B, 'work-02', 'The Thameen London footer on mobile, with its refined spacing and structure.', 'The header and footer'),
     },
     {
       eyebrow: 'Editorial product card design',
       heading: 'Add to bag from the collection.',
-      body: 'Editorial product card design for a tight range meant a full-width, editorial grid with the bottles front and centre. Customers add straight from the collection, without opening every product page.',
+      body: 'Thameen London’s range is tight, so the collection became a full-width, editorial grid with the bottles front and centre. Customers add straight from the collection, without opening every product page.',
       media: (() => {
         const m = slot(B, 'work-03', 'Thameen London product cards on mobile, with add to bag on each bottle.', 'The collection recording');
         return { ...m, image: m.image ?? collection };
@@ -89,7 +89,7 @@ export const DATA: CaseStudyPageData = {
     {
       eyebrow: 'Shopify cart and search design',
       heading: 'Unhurried to the end.',
-      body: 'Shopify cart and search design carries the same calm through to checkout. The cart, search and overlays are styled like the rest of the store, so nothing drops back to the theme default.',
+      body: 'Thameen London’s cart, search and overlays are styled like the rest of the store, so the calm carries through to checkout and nothing drops back to the theme default.',
       media: slot(B, 'work-04', 'Thameen London search and the bag on mobile, styled to match the store.', 'The cart and search recording'),
     },
   ],
@@ -103,7 +103,7 @@ export const DATA: CaseStudyPageData = {
     background: photo(B, 'feature-photo'),
     eyebrow: 'Shopify theme styling',
     heading: 'Every screen still feels like Thameen.',
-    body: 'Thameen’s theme styling covers every section: product and collection pages, the cart, overlays, type, buttons and hover states. I mapped which refinements needed custom CSS and made sure each was built cleanly, so nothing looks off-the-shelf.',
+    body: 'Thameen’s styling covers every section: product and collection pages, the cart, overlays, type, buttons and hover states. I mapped which refinements needed custom CSS and made sure each was built cleanly, so nothing looks off-the-shelf.',
     media: slot(B, 'feature', 'A Thameen London screen on mobile, styled to match the brand.', 'Theme styling screen'),
   },
   testimonial: {

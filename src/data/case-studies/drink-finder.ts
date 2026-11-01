@@ -103,7 +103,7 @@ const HIGHLIGHTS = [
   {
     eyebrow: 'Shopify collection page design',
     heading: 'Compare bottles without opening every product page.',
-    body: 'Shopify collection page design is where wine shoppers compare. A Show extras switch opens every product card to show style, grape and country, so they compare side by side before they click.',
+    body: 'Drink Finder’s collection pages are where wine shoppers compare. A Show extras switch opens every product card to show style, grape and country, so they compare side by side before they click.',
     media: { image: COMPARE.poster, video: COMPARE.video, alt: 'A Drink Finder collection on mobile, with the Show extras switch turning on style, grape and country on every card.' },
     link: { label: 'See the comparison toggle', href: `${URLS.innovations}#comparison-toggle` },
     flip: false,
@@ -125,7 +125,7 @@ const HIGHLIGHTS = [
   {
     eyebrow: 'Shopify UX review',
     heading: 'Design for what real users actually see.',
-    body: 'The Shopify UX review mapped every screen at real phone sizes. Highlighting that sticky sign-up buttons and a chat widget covered the buttons that mattered, I designed a bespoke notification UX so the latest offers moved into a notifications button in the header.',
+    body: 'I reviewed every Drink Finder screen at real phone sizes. Sticky sign-up buttons and a chat widget covered the buttons that mattered, so I designed a bespoke notification UX that moved the latest offers into a notifications button in the header.',
     media: slot(B, 'work-notifications-mobile', 'Drink Finder on mobile, with the offers in a notifications button in the header and nothing covering the buttons.', 'Notifications'),
     flip: true,
   },

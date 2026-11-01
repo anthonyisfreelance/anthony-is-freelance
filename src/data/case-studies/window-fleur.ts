@@ -60,20 +60,20 @@ export const DATA: CaseStudyPageData = {
     {
       eyebrow: 'Shopify subscription design',
       heading: 'Three pages in one screen.',
-      body: 'Shopify subscription design at Window Fleur started with the product page. The three-page journey became one mobile screen, with slide-ups for the detail, so customers set up a subscription without leaving it.',
+      body: 'The Window Fleur redesign started with the product page. The three-page journey became one mobile screen, with slide-ups for the detail, so customers set up a subscription without leaving it.',
       link: innovationLink('See three pages in one screen', 'three-pages-one-screen'),
       media: innovationSlot('three-pages-one-screen', 'The Window Fleur product page on mobile, with the subscription set up on one screen.', 'The product page'),
     },
     {
       eyebrow: 'Shopify accessibility design',
       heading: 'Personality that passes the checks.',
-      body: 'Shopify accessibility design is hardest when the brand is playful. I reworked the type ratios so text reads clearly and the calls to action stand out, without losing Window Fleur’s character.',
+      body: 'Accessibility is hardest when the brand is playful. I reworked the type ratios so text reads clearly and the calls to action stand out, without losing Window Fleur’s character.',
       media: slot(B, 'work-02', 'The Window Fleur size guide on mobile, with clear type and a strong call to action.', 'The size guide slide-up'),
     },
     {
       eyebrow: 'Shopify collection design',
       heading: 'Filters that don’t take over.',
-      body: 'Shopify collection design at Window Fleur keeps filtering simple on a phone, with the brand’s patterns carrying shopping messages through the grid.',
+      body: 'Window Fleur’s collections keep filtering simple on a phone, with the brand’s patterns carrying shopping messages through the grid.',
       media: slot(B, 'work-03', 'The Window Fleur filters panel on mobile.', 'The filters panel'),
     },
   ],

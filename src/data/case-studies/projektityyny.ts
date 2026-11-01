@@ -65,13 +65,13 @@ export const DATA: CaseStudyPageData = {
     {
       eyebrow: 'Purchase journey review',
       heading: 'Start with where people shop.',
-      body: 'The purchase journey review mapped the whole journey and the GA4 data. Over 80% of visitors were on a phone, so every screen was designed mobile first, then scaled up to desktop.',
+      body: 'I mapped Projektityyny’s whole purchase journey against the GA4 data. Over 80% of visitors were on a phone, so every screen was designed mobile first, then scaled up to desktop.',
       media: slot(B, 'work-01', 'The Projektityyny homepage on mobile, from the Made with video down to the footer.', 'The homepage recording'),
     },
     {
       eyebrow: 'Image-led navigation design',
       heading: 'Shop the way people think about home.',
-      body: 'Image-led navigation design gives Projektityyny three routes in: by product, by room and by print. Each leads to its own page, so the menu becomes the start of shopping, not a list of links.',
+      body: 'Projektityyny’s menu gives three routes in: by product, by room and by print. Each leads to its own page, so the menu becomes the start of shopping, not a list of links.',
       link: innovationLink('See shop by product, room or print', 'shop-by-product-room-print'),
       media: (() => {
         const m = innovationSlot('shop-by-product-room-print', 'The Projektityyny mobile menu, into shop by product, print and room, each with picture routes.', 'The navigation recording');
@@ -81,26 +81,26 @@ export const DATA: CaseStudyPageData = {
     {
       eyebrow: 'Shopify homepage design',
       heading: 'Let the photography lead.',
-      body: 'Shopify homepage design at Projektityyny puts full-bleed photography, considered pacing and generous space first. The design never competes with the prints. It frames them.',
+      body: 'The Projektityyny homepage puts full-bleed photography, considered pacing and generous space first. The design never competes with the prints. It frames them.',
       media: slot(B, 'work-03', 'The Projektityyny homepage on mobile, from the full-bleed Christmas section past the collection grid.', 'The image-led recording'),
     },
     {
       eyebrow: 'Shopify lookbook design',
       heading: 'Keep every collection earning.',
-      body: 'Shopify lookbook pages keep every past Projektityyny collection live and shoppable. As of October 2026 there are 17, going back to 2020, so the campaign photography keeps working long after the season ends.',
+      body: 'Every past Projektityyny collection stays live and shoppable in its own lookbook. As of October 2026 there are 17, going back to 2020, so the campaign photography keeps working long after the season ends.',
       link: innovationLink('See a lookbook archive that keeps earning', 'lookbook-archive'),
       media: innovationSlot('lookbook-archive', 'A Projektityyny lookbook on mobile, with shoppable image tiles and product tags.', 'The lookbook recording'),
     },
     {
       eyebrow: 'Shopify cross-sell design',
       heading: 'Styling advice, not random picks.',
-      body: 'Shopify cross-sell design at Projektityyny curates what goes with each quilt, and lets customers shop the same colour or print. It reads like styling advice from the brand, not a sales tactic.',
+      body: 'Projektityyny’s product pages curate what goes with each quilt, and let customers shop the same colour or print. It reads like styling advice from the brand, not a sales tactic.',
       media: slot(B, 'work-05', 'The Projektityyny basket on mobile, with a quilt in it and what others added with it.', 'The basket recording'),
     },
     {
       eyebrow: 'Figma design system',
       heading: 'Restraint that lets the prints lead.',
-      body: 'Projektityyny’s Figma design system pulls back anything that competes with the product: tighter type, deliberate spacing and room to breathe. Colour contrast and type sizes were set for accessibility from the start, and every screen was handed over in Figma.',
+      body: 'Projektityyny’s design system pulls back anything that competes with the product: tighter type, deliberate spacing and room to breathe. Colour contrast and type sizes were set for accessibility from the start, and every screen was handed over in Figma.',
       media: slot(B, 'feature', 'A Projektityyny screen on mobile in the design system.', 'Design system screen'),
     },
   ],

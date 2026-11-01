@@ -67,19 +67,19 @@ export const DATA: CaseStudyPageData = {
     {
       eyebrow: 'Skincare navigation design',
       heading: '[CONFIRM: what it does for shoppers]',
-      body: 'Skincare navigation design for Dr Lipp [CONFIRM: one design decision, for example routes by product or by concern].',
+      body: 'Dr Lipp’s navigation [CONFIRM: one design decision, for example routes by product or by concern].',
       media: slot(B, 'work-01', 'The Dr Lipp navigation on mobile.', 'The navigation recording'),
     },
     {
       eyebrow: 'Multi-use product page design',
       heading: 'Usage, ingredients, how to use.',
-      body: 'Multi-use product page design means answering how to use it. Each Dr Lipp product page sets out usage, ingredients and how to use in its own section.',
+      body: 'A multi-use balm needs to answer how to use it. Each Dr Lipp product page sets out usage, ingredients and how to use in its own section.',
       media: slot(B, 'work-02', 'The 5 in 1 section of the Dr Lipp All Ways product page on mobile: make-up remover, face cleanser, body wash, shampoo and shaving foam.', 'The product page usage section'),
     },
     {
       eyebrow: 'Shopify 2.0 sections',
       heading: 'A library the team builds with.',
-      body: 'Shopify 2.0 sections were designed for every page type, so the Dr Lipp team can build new pages and campaigns from the theme editor without the design drifting.',
+      body: 'I designed sections for every page type, so the Dr Lipp team can build new pages and campaigns from the theme editor without the design drifting.',
       media: slot(B, 'work-03', 'The full library of Dr Lipp Shopify 2.0 sections.', 'The all-sections recording'),
     },
   ],
@@ -101,7 +101,7 @@ export const DATA: CaseStudyPageData = {
     background: photo(B, 'feature-photo'),
     eyebrow: 'Accessible design system',
     heading: 'Refined, accessible and ready to grow.',
-    body: 'Dr Lipp’s accessible design system refines the brand into a modern, accessible set of elements, states and components. Every page was built from it and prototyped in Figma, so the purchase journey was tested on a real phone before the build.',
+    body: 'Dr Lipp’s design system refines the brand into a modern, accessible set of elements, states and components. Every page was built from it and prototyped in Figma, so the purchase journey was tested on a real phone before the build.',
     media: slot(B, 'feature', 'The Dr Lipp Clean Beauty Charter page on mobile, built from the design system.', 'Design system screen'),
   },
   // No quote yet: ask Dr Lipp, or the agency if the work came through one. The page goes live either way.

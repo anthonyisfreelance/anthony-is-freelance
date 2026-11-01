@@ -64,19 +64,19 @@ export const DATA: CaseStudyPageData = {
     {
       eyebrow: 'Shopify UX design',
       heading: 'Inclusive for every age.',
-      body: 'Shopify UX design for Wide Fit Shoes started with personas built from GA4. Customers ranged widely in age, so inclusivity guided every decision: clear type, calm layouts and no hover tricks.',
+      body: 'I built personas for Wide Fit Shoes from the GA4 data. Customers ranged widely in age, so inclusivity guided every decision: clear type, calm layouts and no hover tricks.',
       media: slot(B, 'work-01', 'The Wide Fit Shoes mobile menu, opening Mens and then Shoes to show each collection.', 'The second-level navigation'),
     },
     {
       eyebrow: 'Wide fit product card design',
       heading: 'Width and colour before the click.',
-      body: 'Shopify product card design usually means an image. Wide Fit Shoes customers also need the fit and the colours, so every card shows the width fitting and the colour options up front.',
+      body: 'A product card usually means an image. Wide Fit Shoes customers also need the fit and the colours, so every card shows the width fitting and the colour options up front.',
       media: slot(B, 'work-02', 'A Wide Fit Shoes collection on mobile, with every product card showing the width fittings and colour options.', 'The product cards'),
     },
     {
       eyebrow: 'Variant image design',
       heading: 'Colours shown as shoes.',
-      body: 'Variant image design on Wide Fit Shoes product pages shows variants as images of the shoe, not plain swatches. The page was reordered into a clear hierarchy, with every button state mapped for the build.',
+      body: 'Wide Fit Shoes product pages show every colour as an image of the shoe, not a plain swatch. The page was reordered into a clear hierarchy, with every button state mapped for the build.',
       media: slot(B, 'work-03', 'A Wide Fit Shoes product page on mobile, from the colour and width options down to reviews and similar items.', 'The product page'),
     },
     {
