@@ -14,12 +14,12 @@ export const DYSON: ProjectPageData = {
   meta: {
     path: URLS.dyson,
     title: "Dyson Product Launch Design | Anthony Bliss",
-    description: "Two examples of the Dyson product launches Anthony Bliss designed as a freelance senior digital designer: the Cinetic Big Ball and the Ball Animal 2 and Multifloor 2 uprights.",
+    description: "Dyson new product launches designed by Anthony Bliss as a freelance senior designer: tease, email, web pages, social and display, every digital touchpoint.",
     breadcrumbs: [{ name: "Home", path: URLS.home }, { name: "About", path: URLS.about }, { name: "Dyson", path: URLS.dyson }],
   },
-  hero: { eyebrow: "Dyson product launch design", heading: "Two examples of the launches I designed.", standfirst: "From January 2015 to February 2018 I was a freelance senior digital designer in Dyson’s digital team in Malmesbury, designing new product launches across every digital touchpoint. Here are two of them: the Cinetic Big Ball and the American upright range.", image: slot("dyson", "cinetic-display-advertising-targeted-adverts-1", "Dyson Cinetic display advert: Only Dyson Cinetic science", "Hero") },
-  brief: { eyebrow: "The Dyson brief", heading: "One clear story for every new machine.", body: ["Every launch needed the same story told across every digital touchpoint: tease imagery first, then the website, then social and display advertising. As senior designer in the digital team, I designed across all of them."] },
-  facts: [{ label: "Client", value: "Dyson" }, { label: "Role", value: "Senior digital designer (freelance)" }, { label: "When", value: "January 2015 to February 2018" }, { label: "Where", value: "Dyson, Malmesbury" }, { label: "Designed", value: "Tease imagery, website pages, social and display advertising" }],
+  hero: { eyebrow: "Dyson new product launch design", heading: "The whole launch, every touchpoint.", standfirst: "From January 2015 to February 2018 I was a freelance senior designer in Dyson’s digital team in Malmesbury, designing new product launches from first tease to final advert: tease imagery, email, website pages, social and display advertising. Every digital touchpoint for every new machine. Here are two of those launch campaigns: the Cinetic Big Ball and the American upright range.", image: slot("dyson", "cinetic-display-advertising-targeted-adverts-1", "Dyson Cinetic display advert: Only Dyson Cinetic science", "Hero") },
+  brief: { eyebrow: "The Dyson brief", heading: "One clear story for every new machine.", body: ["Every Dyson launch needed one story told across every digital touchpoint: tease imagery first, then email, the website pages, then social and display advertising. As senior designer in the digital team, I designed across all of them."] },
+  facts: [{ label: "Client", value: "Dyson" }, { label: "Role", value: "Freelance senior designer" }, { label: "When", value: "January 2015 to February 2018" }, { label: "Where", value: "Dyson, Malmesbury" }, { label: "Designed", value: "Tease imagery, email, website pages, social and display advertising" }],
   groups: [
     { id: "cinetic", eyebrow: "Dyson Cinetic Big Ball", heading: "Positioning Dyson’s most premium vacuum.", body: ["The Cinetic Big Ball is the vacuum with no filters to wash or replace. It self-rights, self-adjusts and needs no maintenance. As senior designer in the digital team, I helped position it as Dyson’s most premium vacuum, from the first tease to the targeted display adverts."], rows: [
       { label: "Tease video", items: [
@@ -44,7 +44,7 @@ export const DYSON: ProjectPageData = {
         { media: slot("dyson", "cinetic-website-features-4", "Dyson Cinetic homepage website design", "cinetic-website-features-4") },
         { media: slot("dyson", "cinetic-website-features-5", "Dyson Cinetic homepage website design", "cinetic-website-features-5") },
       ] },
-      { label: "Targeted display adverts", items: [
+      { label: "Targeted display adverts", adSize: true, items: [
         { media: slot("dyson", "cinetic-display-advertising-targeted-adverts-1", "Dyson: targeted display adverts", "cinetic-display-advertising-targeted-adverts-1") },
         { media: slot("dyson", "cinetic-display-advertising-targeted-adverts-2", "Dyson: targeted display adverts", "cinetic-display-advertising-targeted-adverts-2") },
         { media: slot("dyson", "cinetic-display-advertising-targeted-adverts-3", "Dyson: targeted display adverts", "cinetic-display-advertising-targeted-adverts-3") },
@@ -71,13 +71,13 @@ export const DYSON: ProjectPageData = {
         { media: slot("dyson", "uprights-social-advertising-1", "Dyson uprights Multifloor 2 social campaign", "uprights-social-advertising-1") },
         { media: slot("dyson", "uprights-social-advertising-2", "Dyson uprights Animal 2 social campaign", "uprights-social-advertising-2") },
       ] },
-      { label: "Targeted display adverts", items: [
+      { label: "Targeted display adverts", adSize: true, items: [
         { media: slot("dyson", "uprights-display-advertising-targeted-adverts-1", "Dyson: targeted display adverts", "uprights-display-advertising-targeted-adverts-1") },
         { media: slot("dyson", "uprights-display-advertising-targeted-adverts-2", "Dyson: targeted display adverts", "uprights-display-advertising-targeted-adverts-2") },
       ] },
     ] },
   ],
-  card: { meta: "Product launches · Home technology", claim: "Two Dyson launches across web, social and display." },
+  card: { meta: "Product launches · Home technology", claim: "Full launch campaigns, from tease to display." },
   enquiry: "Bring launch-level design to your store.",
 };
 
@@ -87,12 +87,12 @@ export const WRANGLER: ProjectPageData = {
   meta: {
     path: URLS.wrangler,
     title: "Wrangler Social Campaign Design | Anthony Bliss",
-    description: "Two examples of the social campaigns Anthony Bliss designed for Wrangler as a freelancer: the Women’s Heritage launch with Georgia May Jagger and the 75th anniversary campaign.",
+    description: "Social and video campaigns Anthony Bliss designed for Wrangler as a freelance senior designer. Two highlights: Women’s Heritage and the 75th anniversary.",
     breadcrumbs: [{ name: "Home", path: URLS.home }, { name: "About", path: URLS.about }, { name: "Wrangler", path: URLS.wrangler }],
   },
-  hero: { eyebrow: "Wrangler social campaigns", heading: "Two examples of the campaigns I designed.", standfirst: "I’ve designed social campaigns for Wrangler as a freelancer. Here are two of them: the spring/summer 2021 Women’s Heritage launch with Georgia May Jagger, and the spring/summer 2022 campaign for the brand’s 75th anniversary.", image: slot("wrangler", "heritage-youtube-6-seconds-1", "Wrangler Women’s Heritage campaign: Introducing Women’s Heritage Fits", "Hero") },
+  hero: { eyebrow: "Wrangler social campaigns", heading: "Campaign after campaign, across social.", standfirst: "As a freelance senior designer I’ve designed a long run of Wrangler’s social and video campaigns across Instagram, Facebook and YouTube, from the first awareness post to the shopping ads. Here are two highlights, each one a full campaign: the spring/summer 2021 Women’s Heritage launch with Georgia May Jagger, and the spring/summer 2022 campaign for the brand’s 75th anniversary.", image: slot("wrangler", "heritage-youtube-6-seconds-1", "Wrangler Women’s Heritage campaign: Introducing Women’s Heritage Fits", "Hero") },
   brief: { eyebrow: "The Wrangler brief", heading: "Stop the scroll, then sell the denim.", body: ["Each campaign had to work in the few seconds people give a post. Instagram Stories, Facebook carousels and short YouTube shopping ads each had their own job, from awareness through to shopping."] },
-  facts: [{ label: "Client", value: "Wrangler" }, { label: "Role", value: "Freelance designer" }, { label: "When", value: "Spring/summer 2021 and 2022" }, { label: "Designed", value: "Instagram Stories, Facebook carousels and YouTube shopping ads" }],
+  facts: [{ label: "Client", value: "Wrangler" }, { label: "Role", value: "Freelance senior designer" }, { label: "When", value: "Spring/summer 2021 and 2022" }, { label: "Designed", value: "Instagram Stories, Facebook carousels and YouTube shopping ads" }],
   groups: [
     { id: "womens-heritage", eyebrow: "Wrangler Women’s Heritage", heading: "A full social campaign with Georgia May Jagger.", body: ["Wrangler chose Georgia May Jagger as the face of its new women’s denim collection, inspired by heritage cuts from its long history. I designed the full social campaign around her.", "Four Facebook carousels took people from awareness to shopping, and the Stories mixed stills and video to break the swiping rhythm. The YouTube shopping ads ran at 6 and 15 seconds. Six seconds is very little time to land a message, so the music did a lot of the work, with the logo sting and the call to action timed to the beat."], rows: [
       { label: "Instagram Stories", items: [
@@ -120,7 +120,7 @@ export const WRANGLER: ProjectPageData = {
       ] },
     ] },
   ],
-  card: { meta: "Social campaigns · Fashion", claim: "Two Wrangler campaigns made for the scroll." },
+  card: { meta: "Social campaigns · Fashion", claim: "Social and video campaigns made for the scroll." },
   enquiry: "Make your store stop the scroll.",
 };
 

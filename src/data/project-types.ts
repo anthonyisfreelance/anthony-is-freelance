@@ -5,6 +5,8 @@ import type { Media } from './case-studies/types';
 export interface ProjectRow {
   /** What the row shows, for example "Packaging" or "Website, features page". */
   label: string;
+  /** Show each item at its real ad size (300px wide on desktop, two a row on phones), not filling the grid. */
+  adSize?: boolean;
   items: { media: Media; caption?: string }[];
 }
 

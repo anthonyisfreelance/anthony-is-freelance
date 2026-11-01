@@ -14,6 +14,9 @@ import Contact from '../home/Contact.astro';
 import { SITE } from '../../data/site';
 import { PROJECTS } from '../../data/projects';
 import type { ProjectPageData, ProjectRow } from '../../data/project-types';
+import TextLink from '../TextLink.astro';
+import { card } from '../../data/case-studies/types';
+import { URLS } from '../../data/site';
 
 interface Props { data: ProjectPageData }
 const { data: d } = Astro.props;
@@ -28,11 +31,17 @@ const heroSizes = heroImg && heroImg.width > heroImg.height ? '100vw' : '(min-wi
 const wide = (m: ProjectRow['items'][number]) => !!m.media.image && m.media.image.width > m.media.image.height * 1.05;
 const layout = (r: ProjectRow) => {
   const n = r.items.length;
+  // Display adverts at their real size: 300px wide on desktop, two a row on phones.
+  if (r.adSize) return { grid: 'flex flex-wrap', cell: 'w-[calc((100%-var(--spacing-grid))/2)] sm:w-[300px]', sizes: '(min-width: 640px) 300px, 50vw' };
   const allWide = r.items.every(wide);
   if (n === 1) return { grid: 'grid-cols-1', cell: allWide ? '' : 'lg:w-half', sizes: allWide ? '100vw' : '(min-width: 1024px) 50vw, 100vw' };
   if (allWide) return { grid: 'grid-cols-1 sm:grid-cols-2', cell: '', sizes: '(min-width: 640px) 50vw, 100vw' };
   return { grid: n === 2 || n === 4 ? 'grid-cols-2' : 'grid-cols-2 lg:grid-cols-3', cell: '', sizes: n === 2 || n === 4 ? '50vw' : '(min-width: 1024px) 33vw, 50vw' };
 };
+
+// The best Shopify work, so every project page leads back to what I design now (1 November 2026):
+// the top three of the homepage five.
+const shopify = ['Drink Finder', 'East at Home', 'Fuzzball'].map(card);
 
 // Three more cards: the next project pages after this one, wrapping round.
 const i = PROJECTS.findIndex((p) => p.meta.path === d.meta.path);
@@ -91,7 +100,7 @@ const meta = 'font-display font-medium text-[14px] leading-[1.3] tracking-[0.02e
           return (
             <section class="px-margin pt-section">
               <h3 class="t-h6 text-ink">{r.label}</h3>
-              <ul class:list={['mt-loose grid items-start gap-grid', l.grid]}>
+              <ul class:list={['mt-loose items-start gap-grid', r.adSize ? '' : 'grid', l.grid]}>
                 {r.items.map((it) => {
                   const img = it.media.image;
                   return (
@@ -124,7 +133,24 @@ const meta = 'font-display font-medium text-[14px] leading-[1.3] tracking-[0.02e
       </div>
     </section>
 
-    <div class="pt-section lg:pt-[120px]">
+    <!-- Back to the Shopify work: on phones one large card, then two smaller (as the case studies) -->
+    <section class="px-margin pt-section pb-section lg:pt-[120px]">
+      <div class="border-t border-line pt-section">
+        <div class="lg:flex lg:items-end lg:justify-between lg:gap-gutter">
+          <div class="lg:w-half lg:shrink-0"><Heading eyebrow="Shopify success stories">What I design now: stores that sell.</Heading></div>
+          <div class="mt-loose lg:mt-0"><TextLink href={URLS.work}>View all Shopify success stories</TextLink></div>
+        </div>
+        <ul class="cards-align mt-gutter grid grid-cols-2 gap-x-grid [--cards-gap:var(--spacing-grid-lg)] lg:grid-cols-3">
+          {shopify.map((c, i) => (
+            <li class:list={[i === 0 && 'col-span-2 lg:col-span-1']}>
+              <CaseStudyCard {...c} ratio={i === 0 ? 'square-portrait' : 'portrait'} stackMeta={i > 0} sizes={i === 0 ? '(min-width: 1024px) 31vw, calc(100vw - 32px)' : '(min-width: 1024px) 31vw, calc(50vw - 24px)'} />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <div>
       <Contact heading={d.enquiry} />
     </div>
   </main>
