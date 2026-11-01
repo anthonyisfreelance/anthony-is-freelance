@@ -34,7 +34,7 @@ export const DATA: CaseStudyPageData = {
     heading: 'Protect conversion, then grow the basket',
     body: [
       'The East at Home brief was a redesign for a brand with bold new packaging and a conversion rate already worth protecting. The store had to match that confidence and work harder commercially.',
-      'The job was to improve the shopping experience without breaking what worked, then lift average order value. Over half the traffic was on mobile, so the phone came first.',
+      'The job was to improve the shopping experience without breaking what worked, then lift average order value. Over half the traffic was on mobile, so all focus was mobile-first.',
     ],
   },
   details: {
@@ -67,32 +67,32 @@ export const DATA: CaseStudyPageData = {
   workIntro: {
     eyebrow: 'East at Home Shopify UX design',
     heading: 'Five decisions behind the redesign',
-    body: 'The East at Home work started with a UX review of the old store, before any design. The review showed where shoppers hesitated, and that is where the concepts started.',
+    body: 'Each East at Home decision below protects a conversion rate that already worked, or gives shoppers a reason to add one more jar.',
   },
   highlights: [
     {
       eyebrow: 'Mobile UX review',
       heading: 'Find where shoppers hesitate.',
-      body: 'I paired East at Home’s GA4 data with the whole purchase journey at common phone sizes. It showed which details shoppers needed sooner to tell one sauce from another.',
+      body: 'I paired East at Home’s GA4 data with the whole purchase journey at the most commonly used screen size. It showed which details shoppers needed sooner to tell one sauce from another.',
       media: slot(B, 'work-01', 'The East at Home heat and eat sauces row on mobile, swiping through the bestsellers.', 'The sauces recording'),
     },
     {
       eyebrow: 'Shopify product card design',
       heading: 'Four answers before the click.',
-      body: 'Product cards decide a sauce shop. Every East at Home card shows heat in chilli icons, dietary information, reviews and the price, and on mobile the grid becomes a list so it stays readable.',
+      body: 'Good product cards help a food shop. Every East at Home card shows heat in chilli icons, dietary information, reviews and the price, and on mobile the grid becomes a list so it stays digestible and scannable.',
       link: innovationLink('See product cards that answer dinner questions', 'dinner-question-cards'),
       media: innovationSlot('dinner-question-cards', 'East at Home product cards on mobile, showing heat, dietary information, reviews and price.', 'The collection recording'),
     },
     {
       eyebrow: 'Quantity discount design',
       heading: 'Make the saving obvious.',
-      body: 'East at Home’s product pages show the saving as the quantity rises, 8% off three and 17% off ten. Ingredients, dietary information and reviews sit beside the jar, and cooking animations carry the key messages.',
+      body: 'East at Home’s product pages show the savings as the quantity rises, 8% off three and 17% off ten. No pressure tactics, just clear savings and monetary values for each extra item.',
       media: slot(B, 'work-03', 'An East at Home product page on mobile, with quantity savings above the add button.', 'A product page'),
     },
     {
       eyebrow: 'Shopify basket design',
       heading: 'Show what the next spend unlocks.',
-      body: 'The East at Home bag has two goals: free delivery at £35 and a free recipe book at £50. Customers see what the next item unlocks, and decide for themselves.',
+      body: 'The East at Home bag has two goals: free delivery at £35 and a free recipe book at £50. Customers see what the next item unlocks, and decide for themselves. The client has complete control over how many levels are live and what those levels are in the Shopify customiser.',
       media: slot(B, 'work-04', 'The East at Home bag on mobile, with a two-tier progress bar towards free delivery and a free recipe book.', 'The bag recording'),
     },
     {
@@ -108,7 +108,7 @@ export const DATA: CaseStudyPageData = {
   splits: [desktopSplit(B, 'East at Home', photoMedia(B, 'split-1-photo'), '#EDDBE9')],
   feature: {
     background: photo(B, 'feature-photo'),
-    eyebrow: 'Shopify design system',
+    eyebrow: 'Shopify ecommerce design system',
     heading: 'One system for every page and campaign.',
     // The brand itself was another agency's, so the copy credits the system, not the brand.
     body: 'East at Home’s design system balances a bold, playful brand with clean, scannable layouts. Every page was built from it as a clickable Figma prototype, so the team can make new landing pages and campaigns without the design drifting.',

@@ -27,7 +27,7 @@ export const DATA: CaseStudyPageData = {
   },
   brief: {
     eyebrow: "Fuzzball Shopify subscription brief",
-    heading: "Fix the quiz and bag, where people left",
+    heading: "Fix the quiz and bag without losing the brand’s character",
     body: [
       'The Fuzzball brief came from a UX review of the old journey. Customers were dropping off at two points: the quiz that builds their plan, and the bag where trial and subscription met.',
       'The job was to simplify both, show the value at every step and keep the brand’s playful character without slowing anyone down.',
@@ -35,7 +35,7 @@ export const DATA: CaseStudyPageData = {
   },
   details: {
     sector: 'Pets',
-    services: [SERVICE.subscriptions, SERVICE.cro],
+    services: [SERVICE.bespoke, SERVICE.ux, SERVICE.subscriptions, SERVICE.cro],
     builtBy: BUILDER.cartmasters,
     live: '13 August 2025',
     liveIso: '2025-08-13',
@@ -59,7 +59,7 @@ export const DATA: CaseStudyPageData = {
   workIntro: {
     eyebrow: "Fuzzball Shopify subscription design",
     heading: "From quiz to repeat order",
-    body: 'The Fuzzball work started with a UX review of the subscription journey, before any design. The review showed where customers dropped off, and that is where the concepts started.',
+    body: 'Every Fuzzball decision below targets a point where customers were giving up, from the first tap on the menu to the cart.',
   },
   highlights: [
     {
@@ -77,7 +77,7 @@ export const DATA: CaseStudyPageData = {
     {
       eyebrow: 'Shopify subscription cart design',
       heading: 'Trial and repeat, split clearly.',
-      body: 'The cart was Fuzzball’s biggest drop-off. It now separates the trial from the repeating order, so customers see exactly what they’re signing up to.',
+      body: 'The cart was Fuzzball’s biggest drop-off. It now separates the trial from the repeating order, so customers see exactly what they’re signing up to. In the five months after launch, 82% of customers who started checkout finished their order, up from 59% in the six months before.',
       link: innovationLink('See trial and subscription, split clearly', 'trial-subscription-split'),
       media: innovationSlot('trial-subscription-split', 'The Fuzzball quiz cart on mobile, with the trial box above the repeating order.', 'The quiz cart'),
     },
@@ -103,9 +103,9 @@ export const DATA: CaseStudyPageData = {
   ])],
   feature: {
     background: photo(B, 'feature-photo'),
-    eyebrow: 'App-like brand design',
+    eyebrow: 'App-like ecommerce design',
     heading: 'A quiz that feels like Fuzzball.',
-    body: 'Fuzzball’s interface feels more like an app than a shop: rounded corners, bold hover states and animated icons. On the quiz, the cat chases a ball along the progress bar, so finishing it feels like part of the brand, not a form.',
+    body: 'Fuzzball’s interface feels more like an app than a shop: rounded corners, bold hover states and animated icons. On the quiz, the cat chases a ball along the progress bar, bringing that design touch that creates the smile in the mind.',
     link: innovationLink('See a progress bar with character', 'progress-bar-with-character'),
     media: innovationSlot('progress-bar-with-character', 'The Fuzzball quiz progress bar on mobile, with the cat chasing a ball.', 'The progress bar recording'),
   },

@@ -25,15 +25,15 @@ export const DATA: CaseStudyPageData = {
   },
   brief: {
     eyebrow: "Wide Fit Shoes Shopify brief",
-    heading: "Modernise both stores without changing theme",
+    heading: "Modernise both stores without changing the theme",
     body: [
-      'The Wide Fit Shoes brief was a modern design for the UK and US stores, built on the Shopify theme both already used. Navigation and search needed the most work.',
+      'The Wide Fit Shoes brief was a modern design for the UK and US stores, built on the Shopify theme both already used.',
       'GA4 showed customers across a wide range of ages, so the design had to feel right to all of them: not too young, not too old, and easy to read.',
     ],
   },
   details: {
     sector: 'Fashion',
-    services: [SERVICE.theme],
+    services: [SERVICE.theme, SERVICE.ux],
     live: '1 August 2024',
     liveIso: '2024-08-01',
     rows: [
@@ -58,7 +58,7 @@ export const DATA: CaseStudyPageData = {
   workIntro: {
     eyebrow: "Wide Fit Shoes Shopify UX design",
     heading: "Two stores, one set of decisions",
-    body: 'The Wide Fit Shoes work started with the GA4 data, before any design. The data showed who was shopping, and that is where the concepts started.',
+    body: 'Everything below had to work twice: on the UK and US stores, and for Wide Fit Shoes customers of every age.',
   },
   highlights: [
     {
@@ -70,7 +70,7 @@ export const DATA: CaseStudyPageData = {
     {
       eyebrow: 'Wide fit product card design',
       heading: 'Width and colour before the click.',
-      body: 'A product card usually means an image. Wide Fit Shoes customers also need the fit and the colours, so every card shows the width fitting and the colour options up front.',
+      body: 'A product card for fashion usually means just an image. Wide Fit Shoes customers also need the fit and colours, so every card shows the width and colour options up front.',
       media: slot(B, 'work-02', 'A Wide Fit Shoes collection on mobile, with every product card showing the width fittings and colour options.', 'The product cards'),
     },
     {
@@ -97,12 +97,12 @@ export const DATA: CaseStudyPageData = {
   ])],
   feature: {
     background: photo(B, 'feature-photo'),
-    eyebrow: 'Two-store design system',
+    eyebrow: 'Multi-store ecommerce design',
     heading: 'One file for the UK and US.',
     body: 'Both Wide Fit Shoes stores run on one design system in Figma, with every Shopify 2.0 section mapped and styled. A neutral palette keeps it legible and lets the shoes do the talking, and new pages start from the file, not from scratch.',
     media: slot(B, 'feature', 'The Wide Fit Shoes men’s landing page on mobile, built from the design system’s sections.', 'Men’s landing page'),
   },
   // No quote yet: ask Wide Fit Shoes, or the agency if the work came through one. The page goes live either way.
   more: { ...MORE_HEADING, cards: moreFor('Wide Fit Shoes') },
-  enquiry: 'Two stores to keep in step?',
+  enquiry: 'Looking to elevate your fashion store?',
 };

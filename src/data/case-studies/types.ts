@@ -102,7 +102,7 @@ export interface CaseStudyPageData {
 export const SERVICE = {
   branding: { label: 'Branding', href: URLS.branding },
   bespoke: { label: 'Bespoke store design', href: URLS.bespoke },
-  ux: { label: 'Shopify UX design', href: URLS.ux },
+  ux: { label: 'UX design', href: URLS.ux },
   cro: { label: 'Shopify CRO', href: URLS.cro },
   migrations: { label: 'Migrations', href: URLS.migrations },
   subscriptions: { label: 'Subscriptions', href: URLS.subscriptions },
@@ -112,6 +112,7 @@ export const SERVICE = {
 /** Developers who can be named on a case study (1 November 2026). Tim's builds credit Cartmasters, never Tim. */
 export const BUILDER = {
   cartmasters: { label: 'Cartmasters', href: 'https://cartmasters.co.uk/' },
+  tomBlanchard: { label: 'Tom Blanchard', href: 'https://tomblanchard.co.uk/' },
 };
 
 /**

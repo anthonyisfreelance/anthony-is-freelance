@@ -13,7 +13,7 @@ export const DATA: CaseStudyPageData = {
     path: PATH,
     title: 'Thameen London Shopify Case Study: Off Headless',
     description:
-      'How I moved luxury fragrance house Thameen London off headless Shopify onto a premium theme, customised until it looks bespoke.',
+      'How I designed Thameen London’s move off headless Shopify, onto a premium theme customised until it looks bespoke for a luxury fragrance house.',
     breadcrumbs: breadcrumbs('Thameen London', PATH),
   },
   // thameenlondon.com redirects here (checked 25 October 2026)
@@ -22,7 +22,7 @@ export const DATA: CaseStudyPageData = {
     eyebrow: 'Thameen London Shopify case study',
     heading: 'Off headless, onto a premium theme',
     standfirst:
-      'Thameen London is a niche luxury fragrance house, stocked in Harrods and boutiques worldwide. I moved its store off a headless set-up onto a premium Shopify theme, then customised it until it looked bespoke.',
+      'Thameen London is a niche luxury fragrance house, stocked in Harrods and boutiques worldwide. When the store moved off a headless set-up onto a premium Shopify theme, I chose the theme with the team and customised it until it looked bespoke.',
     image: photoMedia(B, 'hero'),
   },
   brief: {
@@ -35,7 +35,7 @@ export const DATA: CaseStudyPageData = {
   },
   details: {
     sector: 'Beauty',
-    services: [SERVICE.theme],
+    services: [SERVICE.theme, SERVICE.ux, SERVICE.cro],
     builtBy: BUILDER.cartmasters,
     live: '20 March 2026',
     liveIso: '2026-03-20',
@@ -101,7 +101,7 @@ export const DATA: CaseStudyPageData = {
   ])],
   feature: {
     background: photo(B, 'feature-photo'),
-    eyebrow: 'Shopify theme styling',
+    eyebrow: 'Luxury ecommerce styling',
     heading: 'Every screen still feels like Thameen.',
     body: 'Thameen’s styling covers every section: product and collection pages, the cart, overlays, type, buttons and hover states. I mapped which refinements needed custom CSS and made sure each was built cleanly, so nothing looks off-the-shelf.',
     media: slot(B, 'feature', 'A Thameen London screen on mobile, styled to match the brand.', 'Theme styling screen'),

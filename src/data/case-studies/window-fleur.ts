@@ -18,7 +18,7 @@ export const DATA: CaseStudyPageData = {
   client: { name: 'Window Fleur', url: 'https://windowfleur.com/', display: 'windowfleur.com' },
   hero: {
     eyebrow: 'Window Fleur Shopify case study',
-    heading: 'Three pages in one screen',
+    heading: 'Re-imagined subscription flow that saves time',
     // [CONFIRM] what Window Fleur sells, in their words.
     standfirst:
       'Window Fleur sells window boxes and flowers by subscription. I turned its three-page product journey into one mobile screen, then designed a new Shopify store around it, full of personality and built to accessible standards.',
@@ -34,7 +34,7 @@ export const DATA: CaseStudyPageData = {
   },
   details: {
     sector: 'Home',
-    services: [SERVICE.bespoke, SERVICE.subscriptions],
+    services: [SERVICE.bespoke, SERVICE.ux, SERVICE.subscriptions],
     builtBy: BUILDER.cartmasters,
     live: 'August 2024',
     liveIso: '2024-08',
@@ -59,8 +59,8 @@ export const DATA: CaseStudyPageData = {
   highlights: [
     {
       eyebrow: 'Shopify subscription design',
-      heading: 'Three pages in one screen.',
-      body: 'The Window Fleur redesign started with the product page. The three-page journey became one mobile screen, with slide-ups for the detail, so customers set up a subscription without leaving it.',
+      heading: 'Three pages redesigned into one screen.',
+      body: 'The Window Fleur redesign started with the product page. The three-page journey became one mobile screen, with slide-ups for the details, so customers set up a subscription without leaving it.',
       link: innovationLink('See three pages in one screen', 'three-pages-one-screen'),
       media: innovationSlot('three-pages-one-screen', 'The Window Fleur product page on mobile, with the subscription set up on one screen.', 'The product page'),
     },
@@ -84,7 +84,7 @@ export const DATA: CaseStudyPageData = {
   ])],
   feature: {
     background: photo(B, 'feature-photo'),
-    eyebrow: 'Pattern-led brand design',
+    eyebrow: 'Pattern-led ecommerce design',
     heading: 'Patterns that carry the selling messages.',
     body: 'Window Fleur’s brand patterns run through the store and carry its key shopping messages, so the reasons to buy feel fun and memorable rather than pushy. I checked the finished build against the designs before launch.',
     media: slot(B, 'feature', 'Window Fleur’s brand patterns on mobile, across the homepage, how it works and a Bloom Bag product page.', 'Brand patterns screen'),

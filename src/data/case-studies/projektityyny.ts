@@ -1,6 +1,6 @@
 // Projektityyny case study. Copy from the "Case study copy: Projektityyny" doc (20 October 2026).
 // Photos from Drive (site-images/case-studies/projektityyny). Screens drop in by name: see README.
-import { SERVICE, slot, innovationSlot, innovationLink, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData } from './types';
+import { SERVICE, BUILDER, slot, innovationSlot, innovationLink, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData } from './types';
 import shopByRoom from '../../assets/brands/projektityyny/shop-by-room.jpg';
 import quilts from '../../assets/brands/projektityyny/lifestyle-03.jpg';
 import lampshades from '../../assets/brands/projektityyny/lifestyle-04.jpg';
@@ -21,7 +21,7 @@ export const DATA: CaseStudyPageData = {
   client: { name: 'Projektityyny', url: 'https://projektityyny.com/', display: 'projektityyny.com' },
   hero: {
     eyebrow: 'Projektityyny Shopify case study',
-    heading: 'Shop by product, room or print',
+    heading: 'Shop by picture, not by filter',
     standfirst:
       'Projektityyny is a Nordic home textiles brand from West Dorset, known for its patchwork quilts, with more than 115,000 followers on Instagram and features in Vogue, Elle Decoration and House & Garden. I designed its bespoke Shopify store mobile first, with the brand’s photography leading every page.',
     image: photoMedia(B, 'hero'),
@@ -36,7 +36,8 @@ export const DATA: CaseStudyPageData = {
   },
   details: {
     sector: 'Home',
-    services: [SERVICE.bespoke],
+    services: [SERVICE.bespoke, SERVICE.ux, SERVICE.cro],
+    builtBy: BUILDER.tomBlanchard,
     live: '5 June 2026',
     liveIso: '2026-06-05',
     // No Results row until there's a verified figure with a window.
@@ -59,18 +60,18 @@ export const DATA: CaseStudyPageData = {
   workIntro: {
     eyebrow: 'Projektityyny Shopify store design',
     heading: 'Built around the photography',
-    body: 'The Projektityyny work started with a UX review of the old store, before any design. The review showed who was shopping and how, and that is where the concepts started.',
+    body: 'Every Projektityyny decision below starts on a phone and lets the photography do the selling.',
   },
   highlights: [
     {
       eyebrow: 'Purchase journey review',
       heading: 'Start with where people shop.',
-      body: 'I mapped Projektityyny’s whole purchase journey against the GA4 data. Over 80% of visitors were on a phone, so every screen was designed mobile first, then scaled up to desktop.',
+      body: 'I mapped Projektityyny’s whole purchase journey against the GA4 data. Over 80% of visitors were on a phone, so every screen was designed mobile-first, then scaled up to desktop.',
       media: slot(B, 'work-01', 'The Projektityyny homepage on mobile, from the Made with video down to the footer.', 'The homepage recording'),
     },
     {
       eyebrow: 'Image-led navigation design',
-      heading: 'Shop the way people think about home.',
+      heading: 'Shop the way people think about their home.',
       body: 'Projektityyny’s menu gives three routes in: by product, by room and by print. Each leads to its own page, so the menu becomes the start of shopping, not a list of links.',
       link: innovationLink('See shop by product, room or print', 'shop-by-product-room-print'),
       media: (() => {
@@ -81,7 +82,7 @@ export const DATA: CaseStudyPageData = {
     {
       eyebrow: 'Shopify homepage design',
       heading: 'Let the photography lead.',
-      body: 'The Projektityyny homepage puts full-bleed photography, considered pacing and generous space first. The design never competes with the prints. It frames them.',
+      body: 'The Projektityyny homepage puts big image cards, considering pacing and generous space first. The design never competes with the prints. It frames them.',
       media: slot(B, 'work-03', 'The Projektityyny homepage on mobile, from the full-bleed Christmas section past the collection grid.', 'The image-led recording'),
     },
     {
@@ -94,11 +95,11 @@ export const DATA: CaseStudyPageData = {
     {
       eyebrow: 'Shopify cross-sell design',
       heading: 'Styling advice, not random picks.',
-      body: 'Projektityyny’s product pages curate what goes with each quilt, and let customers shop the same colour or print. It reads like styling advice from the brand, not a sales tactic.',
+      body: 'Projektityyny’s product pages show each print across the range, so a quilt leads to the matching baby quilt or bag, and the cart picks it up again. It reads like styling advice from the brand, not a sales tactic.',
       media: slot(B, 'work-05', 'The Projektityyny basket on mobile, with a quilt in it and what others added with it.', 'The basket recording'),
     },
     {
-      eyebrow: 'Figma design system',
+      eyebrow: 'Ecommerce design system',
       heading: 'Restraint that lets the prints lead.',
       body: 'Projektityyny’s design system pulls back anything that competes with the product: tighter type, deliberate spacing and room to breathe. Colour contrast and type sizes were set for accessibility from the start, and every screen was handed over in Figma.',
       media: slot(B, 'feature', 'A Projektityyny screen on mobile in the design system.', 'Design system screen'),

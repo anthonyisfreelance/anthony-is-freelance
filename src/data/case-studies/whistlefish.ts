@@ -20,7 +20,7 @@ export const DATA: CaseStudyPageData = {
   client: { name: 'Whistlefish', url: 'https://whistlefish.com/', display: 'whistlefish.com' },
   hero: {
     eyebrow: 'Whistlefish Shopify case study',
-    heading: 'A design system their team runs',
+    heading: 'Thousands of designs, easy to shop',
     // [CONFIRM] the first sentence: what Whistlefish is and sells, in their words.
     standfirst:
       'Whistlefish is a Cornish greeting card and gift brand, with thousands of designs sold online and in its own shops. I redesigned its Shopify store mobile first as part of its move to Shopify 2.0, with a design system its own team now builds on.',
@@ -99,7 +99,7 @@ export const DATA: CaseStudyPageData = {
   ])],
   feature: {
     background: photo(B, 'feature-photo'),
-    eyebrow: 'Team-run design system',
+    eyebrow: 'Ecommerce templating system',
     heading: 'Built for the team that runs it.',
     body: 'Whistlefish’s design system is a Figma file set up as a templating system, with rules for how the script and sans fonts behave in the theme editor. A Christmas landing page showed the team how quickly a season can be built from it.',
     link: innovationLink('See a design system the client’s team runs', 'design-system-team-runs'),

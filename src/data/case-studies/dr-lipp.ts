@@ -1,7 +1,7 @@
 // Dr Lipp case study. Copy from the "Case study copy: Dr Lipp" doc (20 October 2026).
 // Screens drop in by name, see src/assets/brands/README.md. The desktop hero, the 50/50 desktops and
 // the all-sections row are the original launch recordings, without their browser and phone frames.
-import { SERVICE, slot, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData } from './types';
+import { SERVICE, BUILDER, slot, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData } from './types';
 
 const B = 'dr-lipp';
 const PATH = '/portfolio/dr-lipp-shopify-website-case-study/';
@@ -29,14 +29,13 @@ export const DATA: CaseStudyPageData = {
     eyebrow: "Dr Lipp Shopify brief",
     heading: "A cult brand held back by its store",
     body: [
-      // [CONFIRM] what wasn't working on the old store.
       'The Dr Lipp brief was a new Shopify theme with a design that matched the brand. The team needed sections they could use for every page and campaign.',
-      '[CONFIRM: one or two lines on what the UX review or the client flagged, for example navigation or the product page.]',
     ],
   },
   details: {
     sector: 'Beauty',
-    services: [SERVICE.theme],
+    services: [SERVICE.bespoke, SERVICE.ux, SERVICE.theme],
+    builtBy: BUILDER.cartmasters,
     live: '5 May 2024',
     liveIso: '2024-05-05',
     // Average order value and returning customer rate fell over the same period: don't claim them anywhere.
@@ -99,7 +98,7 @@ export const DATA: CaseStudyPageData = {
   ],
   feature: {
     background: photo(B, 'feature-photo'),
-    eyebrow: 'Accessible design system',
+    eyebrow: 'Accessible ecommerce design',
     heading: 'Refined, accessible and ready to grow.',
     body: 'Dr Lipp’s design system refines the brand into a modern, accessible set of elements, states and components. Every page was built from it and prototyped in Figma, so the purchase journey was tested on a real phone before the build.',
     media: slot(B, 'feature', 'The Dr Lipp Clean Beauty Charter page on mobile, built from the design system.', 'Design system screen'),

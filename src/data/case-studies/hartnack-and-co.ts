@@ -21,7 +21,7 @@ export const DATA: CaseStudyPageData = {
     eyebrow: 'Hartnack & Co Shopify case study',
     heading: 'Bespoke binders, built step by step',
     standfirst:
-      'Hartnack & Co makes bespoke binders, boxes and log books to order, for businesses, pilots and weddings. I redesigned its Shopify store around a product builder that turns thousands of options into a few calm steps.',
+      'Hartnack & Co makes bespoke binders, boxes and log books made to order, for businesses, pilots and weddings. I redesigned its Shopify store around a product builder that turns thousands of options into a few calm steps.',
     image: photoMedia(B, 'hero'),
   },
   brief: {
@@ -55,7 +55,7 @@ export const DATA: CaseStudyPageData = {
   workIntro: {
     eyebrow: "Hartnack & Co product builder design",
     heading: "Thousands of options, made simple",
-    body: 'The Hartnack & Co work started with a UX review of the customisation journey, before any design. The review showed where customers gave up, and that is where the concepts started.',
+    body: 'Every Hartnack & Co decision below makes a bespoke order feel simple, from choosing what to make to seeing what other customers made.',
   },
   // [CONFIRM] rows 2 to 5 are desktop recordings: keep the phone frame, or a wider desktop frame?
   highlights: [
@@ -99,7 +99,7 @@ export const DATA: CaseStudyPageData = {
   ])],
   feature: {
     background: photo(B, 'feature-photo'),
-    eyebrow: 'Shopify brand refinement',
+    eyebrow: 'Premium ecommerce branding',
     heading: 'Calm, premium, easy to read.',
     body: 'Hartnack & Co needed a refinement, not a rebrand. A tighter palette and typography made the store more luxurious and more accessible, and white space turned a complex shop into a calm one.',
     media: slot(B, 'feature', 'The refined Hartnack & Co brand on mobile, across the homepage, shop by use and a binder product page.', 'Brand refinement screen'),

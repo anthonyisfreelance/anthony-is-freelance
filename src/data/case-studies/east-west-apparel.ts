@@ -33,7 +33,7 @@ export const DATA: CaseStudyPageData = {
   },
   details: {
     sector: 'Fashion',
-    services: [SERVICE.migrations],
+    services: [SERVICE.bespoke, SERVICE.ux, SERVICE.migrations],
     builtBy: BUILDER.cartmasters,
     live: '2025', // [CONFIRM] month
     rows: [
@@ -93,7 +93,7 @@ export const DATA: CaseStudyPageData = {
   ])],
   feature: {
     background: photo(B, 'feature-photo'),
-    eyebrow: 'Streetwear design system',
+    eyebrow: 'Streetwear ecommerce design',
     heading: 'Raw on the surface, aligned underneath.',
     body: 'East West Apparel’s design system is modular. Every block can be swapped, stacked or reconfigured and still line up, so the team can keep the look raw and expressive without breaking how the store works.',
     media: slot(B, 'feature', 'An East West Apparel screen in the modular design system.', 'Design system screen'),

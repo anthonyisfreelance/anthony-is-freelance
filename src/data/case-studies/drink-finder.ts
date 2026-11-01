@@ -56,7 +56,7 @@ const DETAILS = {
   services: [
     SERVICE.branding,
     SERVICE.bespoke,
-    { label: 'UX design', href: URLS.ux },
+    SERVICE.ux,
     SERVICE.migrations,
   ],
   builtBy: BUILDER.cartmasters,
@@ -94,7 +94,7 @@ const SHOWCASE = {
 const WORK_INTRO = {
   eyebrow: 'Drink Finder Shopify design',
   heading: 'What changed for wine shoppers',
-  body: 'The Drink Finder work started with a UX review of the old site, before any design. The review showed which areas to improve, and that is where the concepts started.',
+  body: 'With more than 5,000 products, every Drink Finder decision below serves one job: helping shoppers find the right bottle, and making it easy to buy more than one.',
 };
 
 // Image and text rows, in Figma order. `flip` puts the media on the left. Each row's recording is
@@ -155,7 +155,7 @@ const SPLITS: Split[] = [
 // The last work row: the design system, on the plain background (27 October 2026, was the
 // full-bleed feature section).
 const BRAND = {
-  eyebrow: 'Brand refinement and design system',
+  eyebrow: 'Ecommerce brand refinement',
   heading: 'Still Drink Finder, sharper on a phone.',
   body: 'A brand refinement, not a rebrand: a tighter logomark for small screens, type for reading on a phone and colours that work the same on every page. Every screen was designed mobile first in Figma and handed over as a design system.',
   media: slot(B, 'work-design-system-mobile', 'Drink Finder on mobile in the refined brand, built from the design system.', 'Design system'),
