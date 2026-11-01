@@ -53,7 +53,13 @@ const logos = x.kind === 'logos'
         <ul class="mt-section-sm grid grid-cols-2 gap-grid md:grid-cols-4 lg:mt-gutter">
           {logos.map((l) => (
             <li class="relative aspect-[3/2] bg-raised">
-              <img src={l.src} alt={l.name} width={l.w} height={l.h} loading="lazy" class="absolute left-1/2 top-1/2 h-[min(56%,108px)] w-[min(70%,208px)] -translate-x-1/2 -translate-y-1/2 object-contain" />
+              {l.href ? (
+                <a href={l.href} class="absolute inset-0 transition-opacity hover:opacity-70">
+                  <img src={l.src} alt={l.name} width={l.w} height={l.h} loading="lazy" class="absolute left-1/2 top-1/2 h-[min(56%,108px)] w-[min(70%,208px)] -translate-x-1/2 -translate-y-1/2 object-contain" />
+                </a>
+              ) : (
+                <img src={l.src} alt={l.name} width={l.w} height={l.h} loading="lazy" class="absolute left-1/2 top-1/2 h-[min(56%,108px)] w-[min(70%,208px)] -translate-x-1/2 -translate-y-1/2 object-contain" />
+              )}
             </li>
           ))}
         </ul>

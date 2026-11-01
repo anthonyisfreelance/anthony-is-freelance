@@ -2,7 +2,7 @@
 # Full map: migration/redirect-map.xlsx (every old URL, the proposal and Anthony's decision).
 # Rows are added here once decided, and any new URL change gets a row in the map first.
 # Not here, by design: http/www and trailing-slash rules (set on the domain in Cloudflare),
-# the 410s (need the two removed slugs), and rows still marked Decide.
+# rows still marked Decide, and the 410s (worker/index.js, GONE).
 
 # Map rows 65, 68, 70 to 72, 81 to 85
 /shopify-expert-uk/                 /                                  301
@@ -16,18 +16,11 @@
 /articles/category/ux-ui/           /articles/                         301
 /articles/25-biggest-brands-on-shopify-2025/  /articles/25-biggest-brands-using-shopify-in-2025/  301
 
-# Map rows 54 to 57: earlier work, one page per brand, linked from About (1 November 2026)
+# Map rows 54 to 57: one page per brand for Dyson and Wrangler (1 November 2026)
 /portfolio/dyson-cinetic/            /portfolio/dyson/                  301
 /portfolio/dyson-american-uprights/  /portfolio/dyson/                  301
 /portfolio/wrangler-ao22/            /portfolio/wrangler/               301
 /portfolio/wrangler-womens-heritage/ /portfolio/wrangler/               301
-
-# Map rows 58, 59, 61 to 63: identity work, logos on the branding page (1 November 2026)
-/portfolio/chop-chop/                /freelance-brand-designer/#identity-work  301
-/portfolio/spicy-guru/               /freelance-brand-designer/#identity-work  301
-/portfolio/milson-place/             /freelance-brand-designer/#identity-work  301
-/portfolio/electronic-sound-magazine/  /freelance-brand-designer/#identity-work  301
-/portfolio/norton-radstock-college/  /freelance-brand-designer/#identity-work  301
 
 # Feeds (new RSS address)
 /feed/                              /articles/feed.xml                 301

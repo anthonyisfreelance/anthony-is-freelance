@@ -12,6 +12,16 @@
 
 import { enquiry } from './enquiry.js';
 
+// Pages removed for good: a 410 tells Google they're gone on purpose, so they drop out quickly.
+// Every path here must also be in run_worker_first in wrangler.jsonc, or the worker never sees it.
+// Redirect map rows 60, 64, 66 and 67 (1 November 2026).
+export const GONE = new Set([
+  '/portfolio/the-brand-manual/',
+  '/portfolio/proconvey-video/',
+  '/portfolio/inlight-beauty-shopify-case-study/',
+  '/portfolio/stovefitters-shopify-case-study/',
+]);
+
 const REPO = 'anthonyisfreelance/anthony-is-freelance';
 const LABEL = 'feedback';
 const META = /<!-- feedback-meta ([A-Za-z0-9+/=]+) -->/;
@@ -19,6 +29,8 @@ const META = /<!-- feedback-meta ([A-Za-z0-9+/=]+) -->/;
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    const path = url.pathname.endsWith('/') ? url.pathname : `${url.pathname}/`;
+    if (GONE.has(path)) return gone(request, env);
     if (url.pathname === '/api/enquiry') return enquiry(request, env);
     if (url.pathname === '/api/feedback' || url.pathname.startsWith('/api/feedback/')) {
       return feedback(request, env, url);
@@ -189,5 +201,14 @@ function json(data, status = 200) {
   return new Response(JSON.stringify(data), {
     status,
     headers: { 'content-type': 'application/json; charset=utf-8', 'cache-control': 'no-store' },
+  });
+}
+
+// The 404 page's content with a 410 status, so people still get the helpful links.
+async function gone(request, env) {
+  const page = await env.ASSETS.fetch(new Request(new URL('/404.html', request.url)));
+  return new Response(page.body, {
+    status: 410,
+    headers: { 'content-type': 'text/html; charset=utf-8', 'x-robots-tag': 'noindex' },
   });
 }

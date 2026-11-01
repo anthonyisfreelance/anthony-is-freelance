@@ -27,12 +27,6 @@ export const CAREER = {
     "I moved to Cornwall to raise my family by the sea, and my work moved into ecommerce. I spent five and a half years inside a Shopify agency in Falmouth, rising to Creative Director. Ecommerce taught me restraint. Branding is about bringing ideas to life, but a store has to sell, so every idea has to earn its place. It's still problem-solving, just a different kind. Since 2020 I've worked only on Shopify. Leading a design team taught me I'd always rather be a doer than a talker, so in August 2023 I went independent.",
   ],
   // The book title is set in italics on the page.
-  // Text links to the earlier work pages, under the career paragraphs (1 November 2026).
-  earlierWork: {
-    text: 'Some of the campaign work from along the way: {dyson} and {wrangler}.',
-    dyson: { label: 'two Dyson product launches', href: URLS.dyson },
-    wrangler: { label: 'two Wrangler social campaigns', href: URLS.wrangler },
-  },
   degree: {
     before: 'I did my degree in graphic design at Somerset College of Arts and Technology, a University of Plymouth partner college, on an ideas-led course where ',
     book: 'A Smile in the Mind',

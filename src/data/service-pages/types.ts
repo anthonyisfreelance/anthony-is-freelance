@@ -21,7 +21,7 @@ export type Extra =
       faq?: boolean; // also goes in the FAQPage schema (heading = question, paragraphs = answer)
     }
   | { kind: 'table'; after: Slot; id?: string; eyebrow?: string; heading: string; caption: string; head: string[]; rows: string[][] }
-  | { kind: 'logos'; after: Slot; id?: string; eyebrow?: string; heading: string; logos: { name: string; src: string }[] }
+  | { kind: 'logos'; after: Slot; id?: string; eyebrow?: string; heading: string; logos: { name: string; src: string; href?: string }[] }
   | { kind: 'todo'; after: Slot; title: string; note: string };
 
 export interface ServicePage {

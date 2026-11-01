@@ -90,18 +90,19 @@ export const BRANDS = {
   heading: 'Brands that trust me',
   // [DRAFT] reword in your voice, and [CONFIRM] all four are cleared to name.
   line: "I've designed for Dyson, Wrangler, Drink Finder and East at Home, with no set style and no favoured sector.",
+  // Each logo links to its case study or project page (1 November 2026).
   // White logos in public/logos/<slug>.svg (from Drive client-logos). Four a row on desktop, three on phones.
   // Projektityyny comes back when its logo is in.
   logos: [
     // Phones show three a row with Whistlefish third (mobile: true moves it up); desktop keeps this order.
-    { name: 'Dyson', slug: 'dyson' },
-    { name: 'Wrangler', slug: 'wrangler' },
-    { name: 'Thameen London', slug: 'thameen' }, // in place of Fuzzball (feedback #101, 28 October 2026)
-    { name: 'Wide Fit Shoes', slug: 'wide-fit-shoes' }, // swapped with Whistlefish (feedback #257, 29 October 2026)
-    { name: 'Drink Finder', slug: 'drink-finder' },
-    { name: 'Whistlefish', slug: 'whistlefish', mobileThird: true },
-    { name: 'Dr Lipp', slug: 'dr-lipp' },
-    { name: 'East at Home', slug: 'east-at-home' },
+    { name: 'Dyson', slug: 'dyson', href: URLS.dyson },
+    { name: 'Wrangler', slug: 'wrangler', href: URLS.wrangler },
+    { name: 'Thameen London', slug: 'thameen', href: '/portfolio/thameen-london-shopify-website-design-case-study/' }, // in place of Fuzzball (feedback #101, 28 October 2026)
+    { name: 'Wide Fit Shoes', slug: 'wide-fit-shoes', href: '/portfolio/wide-fit-shoes-shopify-case-study/' }, // swapped with Whistlefish (feedback #257, 29 October 2026)
+    { name: 'Drink Finder', slug: 'drink-finder', href: URLS.caseStudies.drinkFinder },
+    { name: 'Whistlefish', slug: 'whistlefish', href: '/portfolio/whistlefish-2-0-shopify-website-design-case-study/', mobileThird: true },
+    { name: 'Dr Lipp', slug: 'dr-lipp', href: '/portfolio/dr-lipp-shopify-website-case-study/' },
+    { name: 'East at Home', slug: 'east-at-home', href: URLS.caseStudies.eastAtHome },
   ],
 };
 
