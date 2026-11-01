@@ -90,7 +90,7 @@ export const DATA: CaseStudyPageData = {
   // desktop screens scroll past on the tint. Drop in split-desktop-1 to -3.
   splits: [desktopSplit(B, 'East West Apparel', photoMedia(B, 'split-1-photo'), '#BBB19A', 3, [
     { name: 'split-desktop-4', alt: 'An East West Apparel belt added to the bag on desktop, the bag opening and closing.', label: 'Desktop add to bag' },
-  ])],
+  ], ['The East West Apparel homepage on desktop, from the Double Helix boots feature to What\'s new, with sizes under every product.', 'The East West Apparel new arrivals on desktop, with available sizes listed under every boot and jacket.', 'An East West Apparel shoe page on desktop, with size buttons beside the photos and more footwear below.'])],
   feature: {
     background: photo(B, 'feature-photo'),
     eyebrow: 'Streetwear ecommerce design',

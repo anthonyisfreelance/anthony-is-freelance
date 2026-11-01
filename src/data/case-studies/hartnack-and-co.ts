@@ -36,10 +36,12 @@ export const DATA: CaseStudyPageData = {
     sector: 'Stationery & gifts', // [CONFIRM] or bespoke leather goods
     services: [SERVICE.bespoke, SERVICE.ux],
     builtBy: BUILDER.cartmasters,
-    live: '19 June 2025',
+    live: 'June 2025',
     liveIso: '2025-06-19',
     // No Results row: GA4 shows the store down year on year since launch, so sales figures are off.
-    rows: [],
+    rows: [
+      { label: 'In their words', value: '“A website that looks amazing but also works perfectly.” Nick Hartnack, Partner' },
+    ],
   },
   showcase: {
     label: 'Hartnack & Co screens',
@@ -96,7 +98,7 @@ export const DATA: CaseStudyPageData = {
   // desktop screens scroll past on the tint. Drop in split-desktop-1 to -3.
   splits: [desktopSplit(B, 'Hartnack & Co', photoMedia(B, 'split-1-photo', box), '#BBC7C9', 3, [
     { name: 'split-desktop-4', alt: 'The Hartnack & Co customer gallery on desktop, rows of finished binders and boxes.', label: 'Desktop customer gallery' },
-  ])],
+  ], ['The Hartnack & Co shop by use page on desktop, with tiles for superyachts, pilot logbooks, weddings and personal projects.', 'The Hartnack & Co shop by markets and by use page on desktop, from corporate presentation to car history files.', 'The Hartnack & Co bespoke screw post binder on desktop, opening the step-by-step builder for orientation and page capacity.'])],
   feature: {
     background: photo(B, 'feature-photo'),
     eyebrow: 'Premium ecommerce branding',

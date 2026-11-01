@@ -34,9 +34,9 @@ export const DATA: CaseStudyPageData = {
   },
   details: {
     sector: 'Beauty',
-    services: [SERVICE.bespoke, SERVICE.ux, SERVICE.theme],
+    services: [SERVICE.theme, SERVICE.ux],
     builtBy: BUILDER.cartmasters,
-    live: '5 May 2024',
+    live: 'May 2024',
     liveIso: '2024-05-05',
     // Average order value and returning customer rate fell over the same period: don't claim them anywhere.
     rows: [

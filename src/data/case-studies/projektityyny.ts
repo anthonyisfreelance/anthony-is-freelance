@@ -38,7 +38,7 @@ export const DATA: CaseStudyPageData = {
     sector: 'Home',
     services: [SERVICE.bespoke, SERVICE.ux, SERVICE.cro],
     builtBy: BUILDER.tomBlanchard,
-    live: '5 June 2026',
+    live: 'June 2026',
     liveIso: '2026-06-05',
     // No Results row until there's a verified figure with a window.
     rows: [
@@ -96,7 +96,7 @@ export const DATA: CaseStudyPageData = {
       eyebrow: 'Shopify cross-sell design',
       heading: 'Styling advice, not random picks.',
       body: 'Projektityyny’s product pages show each print across the range, so a quilt leads to the matching baby quilt or bag, and the cart picks it up again. It reads like styling advice from the brand, not a sales tactic.',
-      media: slot(B, 'work-05', 'The Projektityyny basket on mobile, with a quilt in it and what others added with it.', 'The basket recording'),
+      media: slot(B, 'work-05', 'The Projektityyny basket on mobile, with a Tähti quilt in it and the matching Tähti cushion, baby quilt and backpack suggested below.', 'The basket recording'),
     },
     {
       eyebrow: 'Ecommerce design system',
@@ -113,7 +113,7 @@ export const DATA: CaseStudyPageData = {
       label: 'Projektityyny on desktop',
       photo: { image: photo(B, 'split-1-photo', cushions), alt: '' },
       screens: [
-        { device: 'desktop', media: { ...slot(B, 'split-desktop-1', 'The Projektityyny store on desktop.', 'Desktop homepage'), image: brandImage(B, 'split-desktop-1') ?? brandImage(B, 'showcase-desktop') } },
+        { device: 'desktop', media: { ...slot(B, 'split-desktop-1', 'The Projektityyny homepage on desktop, from the patchwork quilts hero to the Christmas at Projektityyny campaign.', 'Desktop homepage'), image: brandImage(B, 'split-desktop-1') ?? brandImage(B, 'showcase-desktop') } },
         // Navigation second, lookbooks last (feedback #174)
         { device: 'desktop', media: slot(B, 'split-desktop-4', 'The Projektityyny menu on desktop, into shop by product, print and room.', 'Desktop navigation') },
         { device: 'desktop', media: slot(B, 'split-desktop-2', 'A Projektityyny collection on desktop.', 'Desktop collection') },

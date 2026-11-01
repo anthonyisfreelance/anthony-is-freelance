@@ -18,7 +18,7 @@ export const DATA: CaseStudyPageData = {
   client: { name: 'Window Fleur', url: 'https://windowfleur.com/', display: 'windowfleur.com' },
   hero: {
     eyebrow: 'Window Fleur Shopify case study',
-    heading: 'Re-imagined subscription flow that saves time',
+    heading: 'A subscription flow in one screen',
     // [CONFIRM] what Window Fleur sells, in their words.
     standfirst:
       'Window Fleur sells window boxes and flowers by subscription. I turned its three-page product journey into one mobile screen, then designed a new Shopify store around it, full of personality and built to accessible standards.',
@@ -81,7 +81,7 @@ export const DATA: CaseStudyPageData = {
   // desktop screens scroll past on the tint. Drop in split-desktop-1 to -3.
   splits: [desktopSplit(B, 'Window Fleur', photoMedia(B, 'split-1-photo'), '#DAC5C9', 3, [
     { name: 'split-desktop-4', alt: 'A Window Fleur product page on desktop, from We’re green, inside and out down to the footer.', label: 'Desktop product page' },
-  ])],
+  ], ['The Window Fleur homepage on desktop, from the ready-planted window boxes hero to the four steps of how it works.', 'The Window Fleur how it works page on desktop, with the seasonal cycle of Bloom Bags from spring to winter.', 'The Window Fleur Autumn Bloom Bags page on desktop, choosing a bag size, the plants and a box before adding to cart.'])],
   feature: {
     background: photo(B, 'feature-photo'),
     eyebrow: 'Pattern-led ecommerce design',

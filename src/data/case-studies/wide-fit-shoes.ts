@@ -34,7 +34,7 @@ export const DATA: CaseStudyPageData = {
   details: {
     sector: 'Fashion',
     services: [SERVICE.theme, SERVICE.ux],
-    live: '1 August 2024',
+    live: 'August 2024',
     liveIso: '2024-08-01',
     rows: [
       { label: 'Designed for', value: 'Customers of every age.' },

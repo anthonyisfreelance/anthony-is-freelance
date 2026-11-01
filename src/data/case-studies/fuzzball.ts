@@ -27,7 +27,7 @@ export const DATA: CaseStudyPageData = {
   },
   brief: {
     eyebrow: "Fuzzball Shopify subscription brief",
-    heading: "Fix the quiz and bag without losing the brand’s character",
+    heading: "Fix the quiz and bag, keep the character",
     body: [
       'The Fuzzball brief came from a UX review of the old journey. Customers were dropping off at two points: the quiz that builds their plan, and the bag where trial and subscription met.',
       'The job was to simplify both, show the value at every step and keep the brand’s playful character without slowing anyone down.',
@@ -37,7 +37,7 @@ export const DATA: CaseStudyPageData = {
     sector: 'Pets',
     services: [SERVICE.bespoke, SERVICE.ux, SERVICE.subscriptions, SERVICE.cro],
     builtBy: BUILDER.cartmasters,
-    live: '13 August 2025',
+    live: 'August 2025',
     liveIso: '2025-08-13',
     // Conversion rate leads, not revenue: paid social traffic nearly tripled over the same 12 months.
     rows: [
@@ -100,7 +100,7 @@ export const DATA: CaseStudyPageData = {
   splits: [desktopSplit(B, 'Fuzzball', photoMedia(B, 'split-1-photo'), '#DDF7F5', 3, [
     { name: 'split-desktop-4', alt: 'The Fuzzball navigation on desktop, opening Build Your Box, Our Products and About Fuzzball in turn.', label: 'Desktop navigation', after: 1 },
     { name: 'split-desktop-5', alt: 'The Fuzzball quiz on desktop, answering what the cat eats and how much.', label: 'Desktop quiz' },
-  ])],
+  ], ['The Fuzzball homepage on desktop, from the All noms, no nasties categories to the Paws for Thought cat care tips.', 'The Fuzzball Our Products collection on desktop, with dry food, wet food, treats and litter filters and a View Product button on every card.', 'A Fuzzball freeze-dried chicken treats page on desktop, with all natural, protein and grain free icons beside the pack.'])],
   feature: {
     background: photo(B, 'feature-photo'),
     eyebrow: 'App-like ecommerce design',

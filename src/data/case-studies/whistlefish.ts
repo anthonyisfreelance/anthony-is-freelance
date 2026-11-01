@@ -37,7 +37,7 @@ export const DATA: CaseStudyPageData = {
   details: {
     sector: 'Stationery & gifts',
     services: [SERVICE.bespoke, SERVICE.ux, SERVICE.cro],
-    live: '8 April 2025',
+    live: 'April 2025',
     liveIso: '2025-04-08',
     rows: [
       { label: 'In their words', value: '“We’ve since been able to carry that framework into our own design team.” Will Manders, Head of Ecommerce' },
@@ -96,7 +96,7 @@ export const DATA: CaseStudyPageData = {
   // desktop screens scroll past on the tint. Drop in split-desktop-1 to -3.
   splits: [desktopSplit(B, 'Whistlefish', photoMedia(B, 'split-1-photo', photo(B, 'gallery-photo')), '#C7D8E0', 3, [
     { name: 'split-desktop-4', alt: 'The Whistlefish Christmas landing page on desktop, down to the red stamp tiles.', label: 'Desktop Christmas page' },
-  ])],
+  ], ['The Whistlefish homepage on desktop, from the 10 for £12 greeting cards offer to the latest cards, each with an Add button.', 'The Whistlefish birthday cards collection on desktop, with the 10 for £12 offer and an Add button on every card.', 'A Whistlefish greeting card page on desktop, from the card and its quantity picker down to Picks for you.'])],
   feature: {
     background: photo(B, 'feature-photo'),
     eyebrow: 'Ecommerce templating system',

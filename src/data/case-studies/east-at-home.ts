@@ -41,7 +41,7 @@ export const DATA: CaseStudyPageData = {
     sector: 'Food & drink',
     services: [SERVICE.bespoke, SERVICE.cro, SERVICE.ux],
     builtBy: BUILDER.cartmasters,
-    live: '16 October 2025',
+    live: 'October 2025',
     liveIso: '2025-10-16',
     rows: [
       { label: 'Results', value: '82% more revenue. 14% higher conversion rate.' },
@@ -105,7 +105,7 @@ export const DATA: CaseStudyPageData = {
   // One 50/50 halfway through the work (27 October 2026): this photo sticks at full height while
   // desktop screens scroll past on the tint. Drop in split-desktop-1 to -3.
   // Tint: #EDDBE9 (feedback #137, 28 October 2026; was #1D0023 at 70%, #124).
-  splits: [desktopSplit(B, 'East at Home', photoMedia(B, 'split-1-photo'), '#EDDBE9')],
+  splits: [desktopSplit(B, 'East at Home', photoMedia(B, 'split-1-photo'), '#EDDBE9', 3, [], ['The East at Home homepage on desktop, from the Restaurant quality curries in Minutes hero to the bestselling heat and eat sauces.', 'The East at Home heat and eat sauces collection on desktop, with heat, vegan labels, reviews and prices on every card.', 'The East at Home Madras curry sauce page on desktop, with one, three and ten pack savings above the add to basket button.'])],
   feature: {
     background: photo(B, 'feature-photo'),
     eyebrow: 'Shopify ecommerce design system',

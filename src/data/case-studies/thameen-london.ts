@@ -37,7 +37,7 @@ export const DATA: CaseStudyPageData = {
     sector: 'Beauty',
     services: [SERVICE.theme, SERVICE.ux, SERVICE.cro],
     builtBy: BUILDER.cartmasters,
-    live: '20 March 2026',
+    live: 'March 2026',
     liveIso: '2026-03-20',
     // No Results row: GA4 only started tracking at launch, so there's no before and after.
     rows: [
@@ -98,7 +98,7 @@ export const DATA: CaseStudyPageData = {
   splits: [desktopSplit(B, 'Thameen London', photoMedia(B, 'split-1-photo', bottles), '#81ABFB', 3, [
     { name: 'split-desktop-4', alt: 'The Thameen London bag opening on desktop, with one fragrance in it.', label: 'Desktop bag' },
     { name: 'split-desktop-5', alt: 'The Thameen London homepage on desktop, from Our olfactory treasures down to the footer.', label: 'Desktop homepage' },
-  ])],
+  ], ['The Thameen London homepage on desktop, from the Patiala and Royal Sapphire campaign to the bestselling Extraits de Parfum.', 'The Thameen London fragrance collection on desktop, with a filter and an add to bag button on every bottle.', 'The Thameen London Opaline product page on desktop, down to You may also like, with add to bag sticking at the bottom.'])],
   feature: {
     background: photo(B, 'feature-photo'),
     eyebrow: 'Luxury ecommerce styling',

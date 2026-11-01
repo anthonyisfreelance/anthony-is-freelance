@@ -60,7 +60,7 @@ const DETAILS = {
     SERVICE.migrations,
   ],
   builtBy: BUILDER.cartmasters,
-  live: '19 August 2025',
+  live: 'August 2025',
   liveIso: '2025-08-19',
   rows: [
     { label: 'Results', value: '34% more website sales. 32% more customers.' },
