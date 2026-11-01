@@ -5,7 +5,7 @@ import { URLS } from '../site';
 import type { ServicePage } from './types';
 import { serviceHero } from '../service-heroes';
 // Lifestyle hero from Drive services/<service>/hero-lifestyle.jpg
-import { card, ROUTING_EYEBROW, PRICE_NOTE, PROCESS_INTRO, QUOTE, ALL_ARTICLES, ARTICLE, CRO_VS_UX } from './shared';
+import { card, ROUTING_EYEBROW, PRICE_NOTE, QUOTE, ALL_ARTICLES, ARTICLE } from './shared';
 
 export const UX: ServicePage = {
   meta: {
@@ -15,17 +15,18 @@ export const UX: ServicePage = {
     path: URLS.ux,
     name: 'Shopify UX design',
     serviceType: 'Shopify UX design',
+    minPrice: 800,
   },
   hero: {
     eyebrow: 'Shopify UX design',
-    heading: 'Help customers find the right product.',
+    heading: 'Making the shopping experience as easy and enjoyable as possible.',
     intro:
-      'Shopify UX design decides how customers find, compare and buy your products, before anything is styled. I start with a UX review of your live store: your GA4 data first, to see who shops and where they drop off, then the entire purchase journey mapped on a Miro board, screen by screen. Then I design the fixes in Figma, with wireframes first only where the project is truly bespoke. UX design is built into every theme customisation and bespoke store, and a UX review of your live store on its own starts from £800 + VAT. East at Home won UK User Experience of the Year 2026.',
+      'Shopify UX design helps decide how customers find, compare and buy your products before anything is styled. I start with a UX review of your live store: your GA4 data first, to see who shops and where they drop off, then the entire purchase journey mapped on a Miro board, screen by screen. Then I design the fixes in Figma, with wireframes first, when it is needed. UX design is built into every theme customisation and bespoke store, and a UX review of your live store on its own starts from £800 + VAT. East at Home won UK User Experience of the Year 2026.',
     cta: { label: 'Book a UX review', href: '#start-a-project' },
     ...serviceHero(URLS.ux),
     caption: 'Whistlefish. The collection drill-down on mobile.',
   },
-  trust: ['UK User Experience of the Year 2026', 'Navigation first', 'Your real data, not personas'],
+  trust: ['UK User Experience of the Year 2026', 'The navigation is where a good site is won and lost', 'I use your real data, not made-up personas'],
   included: {
     heading: 'Shopify UX review: what it covers',
     items: [
@@ -46,7 +47,7 @@ export const UX: ServicePage = {
     ],
   },
   proof: {
-    heading: "Shopify UX design I've done",
+    heading: 'Key Shopify UX design projects',
     link: { label: 'View all Shopify UX design work', href: `${URLS.work}#shopify-ux-design` },
     cards: [card('East at Home'), card('Whistlefish'), card('Drink Finder')],
   },
@@ -62,11 +63,12 @@ export const UX: ServicePage = {
   process: {
     eyebrow: 'Shopify UX design process',
     heading: 'How a project runs',
-    intro: PROCESS_INTRO,
+    intro:
+      'No two UX projects run the same way. Inside a theme or bespoke project, the review shapes everything I design. On its own, it gives you a prioritised list of fixes, some you can make yourself, so the budget goes where it counts. Either way, I ask one question throughout: would I buy this?',
     steps: [
-      { title: 'Understand', body: 'A call, a tailored quote, then a UX review of analytics, navigation, product pages, trust and checkout on Miro.' },
-      { title: 'Design', body: 'We agree what to fix first, then the fixes designed in Figma, mobile first, with two rounds of feedback.' },
-      { title: 'Launch', body: "The work feeds a theme customisation, a bespoke design or your developer's list, and I check it before launch. [CONFIRM]" },
+      { title: 'Understand', body: 'A call, a tailored quote, then a UX review of the analytics and then the purchase journey mapped out on a Miro board.' },
+      { title: 'Design', body: 'We create a document of fixes and tweaks, some you can do yourself. Some will need design time. We can work through a priority order to suit your budget.' },
+      { title: 'Launch', body: "The work feeds a theme customisation, a bespoke design or your developer's list, and I check it before launch." },
       { title: 'Measure and improve', body: 'I check conversion rate and average order value at one, three and seven days after launch.' },
     ],
   },
@@ -94,29 +96,34 @@ export const UX: ServicePage = {
     caption: 'UX design at a glance',
     rows: [
       ['Starting price', 'Included in theme customisations and bespoke stores. A UX review on its own from £800 + VAT'],
-      ['Design time', '[CONFIRM, e.g. two to three weeks from review to wireframes]'],
-      ['Build time', "Depends on where the work goes: a theme customisation, a bespoke design or your developer's list [CONFIRM]"],
+      ['Design time', 'Two to three weeks from review to design.'],
+      ['Build time', "Depends on where the work goes: a theme customisation, a bespoke design or your developer's priority list."],
       ['What you get', 'A UX review on a Miro board, then the fixes designed in Figma'],
       ['Who builds it', 'A developer I introduce, or your own team or agency, quoted separately'],
     ],
   },
   comparison: {
-    eyebrow: CRO_VS_UX.eyebrow,
-    heading: CRO_VS_UX.heading,
-    caption: CRO_VS_UX.caption,
+    eyebrow: 'UX review on its own vs in a design project',
+    heading: 'Which suits your store?',
+    caption: 'A standalone Shopify UX review and UX inside a design project compared, design only, checked November 2026',
     columns: [
-      { label: 'Shopify CRO', href: URLS.cro },
-      { label: 'Shopify UX design', href: URLS.ux, current: true },
+      { label: 'UX review on its own', href: URLS.ux, current: true },
+      { label: 'UX in a design project', href: URLS.services },
     ],
-    rows: CRO_VS_UX.rows,
+    rows: [
+      ['Price', 'From £800 + VAT', 'Included in theme customisations, from £5,000 + VAT, and bespoke stores, from £10,000 + VAT'],
+      ['What you get', 'An annotated Miro board of your store and a prioritised list of fixes', 'The fixes designed into the new store in Figma'],
+      ['Who makes the fixes', 'You, your team or your developer, in priority order, some without any design time', 'The developer builds from the design, and I check it before launch'],
+      ['Best when', "You want to know what's wrong before committing a bigger budget", "You're ready to redesign, and want the evidence behind every decision"],
+    ],
   },
   faqs: {
     eyebrow: 'Shopify UX design questions',
     heading: 'Before you get in touch.',
     items: [
-      { q: "What's the difference between UX and CRO?", a: ["CRO is about conversion: lifting conversion rate and order value at the steps that lose sales. UX is the whole experience: finding products, joining the email list, coming back later. A customer who doesn't buy today but remembers you is a UX win, which is why I avoid stressful, time-pressured tactics."] },
+      { q: "What's the difference between UX and CRO?", a: ["Less than most people think. Both are about the shopping experience, and most fixes from a UX review lift conversion too. The difference is focus: CRO measures the steps that lose sales in conversion rate and order value, while UX looks at the whole journey, including finding products, joining the email list and coming back later. A customer who doesn't buy today but remembers you is still a win, which is why I avoid stressful, time-pressured tactics."] },
       { q: 'Do you use personas?', a: ['I start from your real data instead: analytics, reviews and how customers actually move through the store. Invented personas are guesses, and a review built on guesses tends to confirm them.'] },
-      { q: "Do the small details really matter?", a: ['The small things carry the store. I iterate a single button many times before it goes into the design system, and product cards get more time than any hero. For a timber merchant, I swapped the shopping basket icon for a flatbed trolley, because nobody puts a length of oak in a basket. [CONFIRM this is from before you went freelance]'] },
+      { q: "Do the small details really matter?", a: ["The small things carry the store. I iterate a single button many times before it goes into the design system, and product cards get more time than any hero. For a timber merchant, I swapped the shopping basket icon for a flatbed trolley, because nobody puts a length of oak in a basket. It's those little touches that can make all the difference."] },
     ],
   },
   articles: {

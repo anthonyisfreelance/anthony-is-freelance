@@ -191,7 +191,7 @@ const cell = 't-label tracking-[0.02em]';
       <div class="border-t border-line pt-section">
         <div class="flex flex-col gap-loose lg:flex-row lg:items-end lg:gap-gutter">
           <div class="lg:w-half lg:shrink-0"><Heading eyebrow={p.process.eyebrow}>{p.process.heading}</Heading></div>
-          <p class="t-body flex-1 text-muted">{p.process.intro}</p>
+          {p.process.intro && <p class="t-body flex-1 text-muted">{p.process.intro}</p>}
         </div>
         <ol class="mt-section-sm grid grid-cols-2 gap-x-grid gap-y-large lg:mt-gutter lg:grid-cols-4 lg:gap-large">
           {p.process.steps.map((s, i) => (

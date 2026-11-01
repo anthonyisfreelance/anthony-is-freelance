@@ -3,7 +3,7 @@
 import { URLS } from '../site';
 import type { ServicePage } from './types';
 import { serviceHero } from '../service-heroes';
-import { card, hubPrice, ROUTING_EYEBROW, PRICE_NOTE, PROCESS_INTRO, QUOTE } from './shared';
+import { card, ROUTING_EYEBROW, PRICE_NOTE, QUOTE } from './shared';
 
 export const SUBSCRIPTIONS: ServicePage = {
   meta: {
@@ -13,21 +13,22 @@ export const SUBSCRIPTIONS: ServicePage = {
     path: URLS.subscriptions,
     name: 'Subscriptions',
     serviceType: 'Shopify subscription design',
+    minPrice: 3000,
   },
   hero: {
     eyebrow: 'Shopify subscription design',
     heading: 'Easy to join. Easy to stay.',
     intro:
-      'Shopify subscription design covers the pages and flows customers use to subscribe: product pages with subscription options, quizzes, build-a-box journeys and account pages for pausing or changing an order. I design them so every choice is clear, however complex the subscription app behind them. Subscription design is usually part of a theme customisation or bespoke project, and priced with it. At Fuzzball, the conversion rate rose 63% in the 12 months after launch.',
+      'Shopify subscription design covers the pages and flows customers use to subscribe: product pages with subscription options, quizzes, build-a-box journeys and account pages for pausing or changing an order. I design them so every choice is clear, however complex the subscription app behind them. Subscription design usually runs inside a CRO, theme or bespoke project, and is priced with it. At Fuzzball, the conversion rate rose 63% in the 12 months after launch.',
     cta: { label: 'Start a subscription project', href: '#start-a-project' },
     ...serviceHero(URLS.subscriptions),
     caption: "Fuzzball. The cat food quiz on mobile.",
   },
-  trust: ['Priced with your theme or bespoke project', 'Designed around Recharge and other apps', '20+ years of brand and ecommerce experience'],
+  trust: ['Priced with your CRO, theme or bespoke project', 'Integrated with apps like Recharge', '20+ years of brand and ecommerce experience'],
   included: {
     heading: 'What subscription design includes',
     items: [
-      'Product pages where subscribe and one-off purchase sit side by side, with the saving and the frequency clear.',
+      'Product pages where subscribe and one-off purchase sit side by side, with the savings and the frequency clear.',
       'Quizzes that recommend a plan, then let customers change it.',
       "Build-a-box flows, with a summary page that shows exactly what's coming and when.",
       'Account pages where pausing, skipping and swapping take one tap.',
@@ -53,7 +54,7 @@ export const SUBSCRIPTIONS: ServicePage = {
     heading: "When subscription design isn't the right call",
     routes: [
       { situation: 'You need the subscription app set up or moved.', body: "That's developer work. I design around what your app can do and brief the developer, and I can introduce one.", links: [] },
-      { situation: 'Subscriptions are a small part of your range.', body: 'A subscribe option on a few products fits inside a theme customisation.', links: [{ label: 'Theme customisations', href: URLS.theme }] },
+      { situation: 'Subscriptions are a small part of your range.', body: 'A subscription option on a few products fits inside a theme customisation.', links: [{ label: 'Theme customisations', href: URLS.theme }] },
       { situation: 'The subscription is the product.', body: 'When the quiz and the box are the business, design the whole store around them, as Fuzzball did.', links: [{ label: 'Bespoke store design', href: URLS.bespoke }] },
       { situation: 'Plenty start the quiz. Few subscribe.', body: "If the subscription flow is designed and people still drop out of it, you don't need a redesign. Find the step where they leave and fix that.", links: [{ label: 'Shopify CRO', href: URLS.cro }] },
     ],
@@ -61,7 +62,8 @@ export const SUBSCRIPTIONS: ServicePage = {
   process: {
     eyebrow: 'Shopify subscription design process',
     heading: 'How a project runs',
-    intro: PROCESS_INTRO,
+    intro:
+      'Every subscription design project starts with a UX review of your live store. I go through your GA4 data first to see who shops and where they drop off, then map the entire purchase journey on a Miro board, screen by screen. Throughout, I ask one question: would I buy this product?',
     steps: [
       { title: 'Understand', body: 'A call, a tailored quote and, where it helps, a UX review of your subscription journey.' },
       { title: 'Design', body: 'Product pages, quizzes and account pages designed around your subscription app, with weekly calls and two rounds of feedback.' },
@@ -92,9 +94,9 @@ export const SUBSCRIPTIONS: ServicePage = {
     cta: QUOTE,
     caption: 'Subscriptions at a glance',
     rows: [
-      ['Starting price', `${hubPrice('Subscriptions')} [CONFIRM]`],
-      ['Design time', 'Usually runs inside a theme customisation or bespoke project [CONFIRM]'],
-      ['Build time', '[CONFIRM]'],
+      ['Starting price', 'From £3,000 + VAT as CRO changes, £5,000 + VAT within a theme customisation, or £10,000 + VAT as a bespoke design, all design only'],
+      ['Design time', 'Usually runs inside a CRO, theme customisation or bespoke project.'],
+      ['Build time', 'Dependent on the scope of the project.'],
       ['What you get', 'Subscription product pages, quiz or build-a-box flows and account pages, designed around your subscription app'],
       ['Who builds it', 'A developer I introduce, or your own team or agency, quoted separately, including the app setup'],
     ],
@@ -104,7 +106,7 @@ export const SUBSCRIPTIONS: ServicePage = {
     heading: 'Before you get in touch.',
     items: [
       { q: "Should I use a quiz?", a: ["Use one when customers need help choosing, like Fuzzball's meal plans built around each cat. If people already know what they want, a quiz only slows them down."] },
-      { q: "Which subscription apps do you design for?", a: ['Recharge, which Window Fleur runs on. [CONFIRM any others you’ve designed for, and which app Fuzzball uses] I design within what your app allows, so the brief to the developer holds no surprises.'] },
+      { q: "Which subscription apps do you design for?", a: ['Recharge, which Window Fleur runs on. I design within what your app allows, so the brief to the developer holds no surprises.'] },
     ],
   },
   extras: [

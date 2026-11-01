@@ -43,20 +43,6 @@ export const ARTICLE = {
   },
 };
 
-/** The CRO vs UX design table appears on both pages, word for word. */
-export const CRO_VS_UX = {
-  eyebrow: 'Shopify CRO vs UX design',
-  heading: 'Which does your store need?',
-  caption: 'Shopify CRO and Shopify UX design compared',
-  rows: [
-    ['The question', 'Why aren’t enough visitors buying?', 'How do customers find, compare and choose?'],
-    ['Starts with', 'Analytics and drop-off points', 'A UX review of the whole journey'],
-    ['Scope', 'The steps that lose sales', 'Navigation, product discovery and the purchase journey'],
-    ['Measured by', 'Conversion rate and average order value', 'Easier journeys, then sales'],
-    ['Best when', 'The store works, but has stalled', 'The range is big, or the journey is the problem'],
-  ] as [string, string, string][],
-};
-
 /** The theme vs bespoke table, shared by the bespoke and theme pages. */
 export const THEME_VS_BESPOKE = { eyebrow: 'Shopify theme vs bespoke', heading: 'Which suits your store?' };
 export const THEME_VS_BESPOKE_ROWS: [string, string, string][] = [

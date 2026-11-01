@@ -2,7 +2,9 @@
 import { URLS } from '../site';
 import type { ServicePage } from './types';
 import { serviceHero } from '../service-heroes';
-import { card, caseStudyHref, hubPrice, ROUTING_EYEBROW, PRICE_NOTE, PROCESS_INTRO, TRUST_COMMON, QUOTE, THEME_VS_BESPOKE, THEME_VS_BESPOKE_ROWS } from './shared';
+import redWine from '../../assets/brands/drink-finder/red-wine.jpg';
+import thameenCollection from '../../assets/brands/thameen/collection.jpg';
+import { card, caseStudyHref, hubPrice, ROUTING_EYEBROW, PRICE_NOTE, TRUST_COMMON, QUOTE, THEME_VS_BESPOKE, THEME_VS_BESPOKE_ROWS } from './shared';
 
 export const THEME: ServicePage = {
   meta: {
@@ -18,7 +20,7 @@ export const THEME: ServicePage = {
     eyebrow: 'Shopify theme customisation',
     heading: "A premium theme that doesn't look like one.",
     intro:
-      'Shopify theme customisation means taking a premium theme and redesigning it around your brand, products and customers, so it stops looking like the demo. I design the key templates, like the header and product page, in Figma, and the rest straight into the theme, then deliver a live store. Theme customisations start from £5,000 + VAT, design only, and take six to ten weeks from start to a live store. Thameen London, a fragrance house stocked in Harrods, runs on one.',
+      'Shopify theme customisation means taking a premium theme and redesigning it around your brand, products and customers, so it stops looking like the demo store. I design the key page templates, like the header and product page, in Figma, and the rest straight into the theme. Theme customisations start from £5,000 + VAT, design only, and take six to ten weeks from start to a live store. Thameen London, a fragrance house stocked in Harrods, runs on one.',
     cta: { label: 'Start a theme project', href: '#start-a-project' },
     ...serviceHero(URLS.theme),
     caption: 'Thameen London. The desktop journey on the Sleek theme.',
@@ -27,12 +29,11 @@ export const THEME: ServicePage = {
   included: {
     heading: 'What a theme customisation includes',
     items: [
-      'A UX review of your current store before design starts.',
       'A theme recommendation with the reasons, before you buy anything.',
-      'The key templates, like the header and product page, designed in Figma, and the rest styled straight into the theme: home, collection, product, cart and search.',
+      'The key page templates and sections, like the header and footer, homepage and product page, designed in Figma, and then the rest styled straight into the theme.',
       'Product cards, navigation, header and footer redesigned around your brand.',
       "A short, clear brief for any custom sections the theme can't do.",
-      'Help with the content upload, so it goes live looking as designed. [CONFIRM still offered]',
+      'Optional help with the content upload, so it goes live looking as designed.',
       'A live store, checked on real devices.',
     ],
   },
@@ -54,7 +55,7 @@ export const THEME: ServicePage = {
     eyebrow: ROUTING_EYEBROW,
     heading: "When a theme customisation isn't the right call",
     intro:
-      "Most brands can go a long way on a good theme. These are the signs you've reached the end of it, when your products start to feel like square pegs in round holes.",
+      "Most brands can go a long way on a good theme. Thameen London runs on one now, with a bespoke build to revisit once they have more data and content, and the brand decisions, photography and content will carry straight over. These are the signs you've reached the end of a theme, when your products start to feel like square pegs in round holes.",
     routes: [
       { situation: "Your range has outgrown the theme's navigation.", body: 'Navigation is where themes fall down first. If customers need several routes into a big range, the store needs designing around your products.', links: [{ label: 'Bespoke store design', href: URLS.bespoke }] },
       { situation: 'Your product needs a buying journey no theme has.', body: "Configurators, quizzes and build-a-box flows don't come in a theme. They need designing from the product up.", links: [{ label: 'Bespoke store design', href: URLS.bespoke }, { label: 'Subscriptions', href: URLS.subscriptions }] },
@@ -63,12 +64,10 @@ export const THEME: ServicePage = {
       { situation: "You're not sure what's holding the store back.", body: 'A theme customisation changes how a store looks, not always how it works. A UX review first shows which of the two you need.', links: [{ label: 'Shopify UX design', href: URLS.ux }] },
       { situation: "You're launching your first store.", body: "Start with Shopify's AI store builder or a free theme, and come back when sales show what it needs.", links: [] },
     ],
-    note: 'Thameen London did exactly this: a premium theme now, with a bespoke build to revisit once they have more data and content. The brand decisions, photography and content carry straight over when that day comes.',
   },
   process: {
     eyebrow: 'Shopify theme customisation process',
     heading: 'How a project runs',
-    intro: PROCESS_INTRO,
     steps: [
       { title: 'Understand', body: 'A 30-minute call, a tailored quote, a UX review where it helps, and a theme shortlist with reasons before anything is bought.' },
       { title: 'Design', body: 'The key templates designed in Figma and the rest styled in the theme, with a weekly call and two rounds of feedback.' },
@@ -85,7 +84,7 @@ export const THEME: ServicePage = {
   price: {
     eyebrow: 'Theme customisation price',
     heading: 'How much does a Shopify theme customisation cost?',
-    notes: [PRICE_NOTE, "The price moves with how many templates change and how many custom sections the design needs. The theme licence is a one-off cost paid to the theme's maker."],
+    notes: [PRICE_NOTE, 'The final price is dependent on how many templates change and how many custom sections need to be designed. The theme licence is a one-off cost paid once the theme has been selected.'],
     cta: QUOTE,
     caption: 'Theme customisations at a glance',
     rows: [
@@ -105,8 +104,8 @@ export const THEME: ServicePage = {
     ],
     rows: THEME_VS_BESPOKE_ROWS,
     examples: [
-      { client: 'Drink Finder', href: URLS.caseStudies.drinkFinder, alt: '' },
-      { client: 'Thameen London', href: caseStudyHref('Thameen London'), alt: '' },
+      { client: 'Drink Finder', href: URLS.caseStudies.drinkFinder, screen: redWine, alt: 'The Drink Finder red wine collection on mobile.' },
+      { client: 'Thameen London', href: caseStudyHref('Thameen London'), screen: thameenCollection, alt: 'A Thameen London collection on mobile.' },
     ],
     notes: ['Bespoke store design starts from £10,000 + VAT, design only, with six to eight weeks of design and about the same again for the build.'],
   },
@@ -119,8 +118,8 @@ export const THEME: ServicePage = {
       { q: 'Can a premium theme look unique?', a: ["Yes, if the work goes into what customers look at most: product cards, navigation, typography and spacing. Most stores on the same theme look alike because they keep the demo's defaults."] },
       { q: 'Can I move from a theme to bespoke later?', a: ["Yes. Many brands start on a theme and move to bespoke once their sales data shows what the theme can't do. The brand decisions, photography and content carry over."] },
       { q: 'How long does Shopify theme customisation take?', a: ['Six to ten weeks, depending on how many templates change and how much custom development the design needs. Client content is the usual holdup, so it helps to start it early.'] },
-      { q: "Which Shopify theme should you choose?", a: ["I work most with Sleek, Prestige and Dawn, and I'll push others when a client is already on one, like Inpulse for Wide Fit Shoes. Sleek suits editorial and luxury brands, and Thameen London runs on it. Prestige suits fashion and lifestyle, and Dawn is a clean base for most product types.",
-        'For Thameen I shortlisted two themes and we chose together, because picking the wrong one costs more later than choosing well now.'] },
+      { q: "Which Shopify theme should you choose?", a: ["I don't have a set theme to recommend. I pick whatever suits the brand and products best, or work with the one a client is already on. Thameen London runs on Sleek, and Wide Fit Shoes on Impulse.",
+        "Most premium themes are fine. Some can't hold many editorial blocks, though, which holds a store back when the brand needs a lot of storytelling. That's why I look at it project by project. For Thameen, I shortlisted two themes and we chose together."] },
     ],
   },
   extras: [

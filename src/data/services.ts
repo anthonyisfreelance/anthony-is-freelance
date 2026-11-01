@@ -96,7 +96,7 @@ export const ALL_SERVICES = [
     slug: 'subscriptions',
     href: URLS.subscriptions,
     ...SERVICE_HEROES[URLS.subscriptions],
-    price: 10000,
+    price: 3000, // from £3,000 as CRO changes; theme and bespoke subscription work price with those projects (1 November 2026)
     body: "Subscription design is for brands where repeat purchase is the business model, from quizzes to build-a-box flows. Fuzzball's conversion rate rose 63% in the 12 months after launch.",
     serviceType: 'Shopify subscription design',
   },

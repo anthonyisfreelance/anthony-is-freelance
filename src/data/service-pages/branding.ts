@@ -3,27 +3,28 @@ import { URLS } from '../site';
 import type { ServicePage } from './types';
 import { serviceHero } from '../service-heroes';
 // Lifestyle hero from Drive services/<service>/hero-lifestyle.jpg
-import { hubPrice, ROUTING_EYEBROW, PRICE_NOTE, PROCESS_INTRO, QUOTE } from './shared';
+import { hubPrice, ROUTING_EYEBROW, PRICE_NOTE, QUOTE } from './shared';
 
 export const BRANDING: ServicePage = {
   meta: {
     title: 'Freelance Brand Designer for Shopify | Anthony is Freelance',
     description:
-      'Brand design for Shopify brands, from a refined logo, palette and typeface to a full identity, designed alongside the store it lives in. Since 2002.',
+      'Brand design for Shopify brands, from a refined logo, palette and typeface to a full identity, designed alongside the store it lives in. Since 2005.',
     path: URLS.branding,
     name: 'Branding',
     serviceType: 'Ecommerce brand identity',
+    minPrice: 3000,
   },
   hero: {
     eyebrow: 'Brand design for Shopify brands',
-    heading: 'Make the brand as good as the product.',
+    heading: 'Ecommerce brand identity design.',
     intro:
-      "I'm a brand designer first. I spent my first decade in brand identity at agencies in Bath and Bristol before moving into Shopify, so I can refine your brand and design the store it lives in. Most of my branding work refines rather than replaces: logo, palette, typeface and how the brand behaves on screen. Branding is quoted on scope, from a refinement to a full identity. [CONFIRM] For Drink Finder, a merchant trading for over 65 years, I refined the logo, palette and typeface alongside the new store.",
+      "I'm a brand designer first. I spent my first decade in brand identity at agencies in Bath and Bristol before moving into Shopify, so I can refine your brand and design the store it lives in. Some projects are a full rebrand, others a refinement, and both cover the same ground: logo, palette, typeface and how the brand behaves on screen. Branding is quoted on scope, from a refinement to a full identity, with prices from £3,000 + VAT. For Drink Finder, a merchant trading for over 65 years, I refined the logo, palette and typeface alongside the new store.",
     cta: { label: 'Start a brand project', href: '#start-a-project' },
     ...serviceHero(URLS.branding),
     caption: 'Window Fleur. The rebrand carried across the store.',
   },
-  trust: ['Brand design since 2002', 'Designed for humans', 'UK eCommerce Website of the Year 2026'],
+  trust: ['Brand design since 2005', 'Designed for humans', 'UK eCommerce Website of the Year 2026'],
   included: {
     heading: 'What brand design includes',
     items: [
@@ -31,7 +32,7 @@ export const BRANDING: ServicePage = {
       'A colour palette with meaning, not just a set of swatches.',
       'Typefaces chosen for the brand and tested at product-card size.',
       'Flexible guidelines that help your team make new things, rather than rules that stop them.',
-      "The brand carried into the store's design system: buttons, cards, photography direction. [CONFIRM tone of voice]",
+      "The brand carried into the store's design system: buttons, cards, photography direction.",
     ],
   },
   fit: {
@@ -46,18 +47,19 @@ export const BRANDING: ServicePage = {
     eyebrow: ROUTING_EYEBROW,
     heading: "When brand design isn't the right call",
     routes: [
-      { situation: "You're happy with your identity.", body: 'Then keep it. Most of my projects refine rather than replace, and the store design brings the brand through anyway.', links: [{ label: 'Theme customisations', href: URLS.theme }, { label: 'Bespoke store design', href: URLS.bespoke }] },
-      { situation: 'You need naming, strategy and a full rebrand.', body: "That's a job for a brand agency with a strategy team. I'll say so on the call. [CONFIRM]", links: [] },
+      { situation: "You're happy with your identity.", body: 'Then keep it. The store design brings the brand through anyway.', links: [{ label: 'Theme customisations', href: URLS.theme }, { label: 'Bespoke store design', href: URLS.bespoke }] },
+      { situation: 'You need naming, strategy and a full rebrand.', body: "That's a job for a brand agency with a strategy team. I'll say so on the call.", links: [] },
       { situation: "The brand is fine, the store isn't.", body: 'Put the budget into the store.', links: [{ label: 'Bespoke store design', href: URLS.bespoke }] },
-      { situation: "Customers like the brand, but can't find things.", body: "That isn't a brand problem. It starts with the navigation.", links: [{ label: 'Shopify UX design', href: URLS.ux }] },
+      { situation: "The brand looks right, but the store doesn't sell.", body: "A new look won't fix the steps where customers leave. Find those and fix them first.", links: [{ label: 'Shopify CRO', href: URLS.cro }] },
     ],
   },
   process: {
     eyebrow: 'Shopify brand design process',
     heading: 'How a project runs',
-    intro: PROCESS_INTRO,
+    intro:
+      "No two branding projects run the same way, because the scope sets the process. A refinement works with what you already have and sharpens it. A full rebrand starts from what the brand stands for and who it's for. Either way, every decision gets tested where customers will see it: on a product card, on a phone, in your store.",
     steps: [
-      { title: 'Understand', body: 'A call, a tailored quote, and a look at the brand as it stands, online and off.' },
+      { title: 'Understand', body: 'A call, a tailored quote, and a look at the brand as it stands.' },
       { title: 'Design', body: 'Logo, palette, typeface and how the brand behaves on screen, refined with weekly calls and two rounds of feedback.' },
       { title: 'Launch', body: 'The refined brand goes straight into the store design, so it works on screen from day one.' },
       { title: 'Measure and improve', body: 'Once the store is live, I check conversion rate and average order value at one, three and seven days.' },
@@ -78,8 +80,8 @@ export const BRANDING: ServicePage = {
     cta: QUOTE,
     caption: 'Branding at a glance',
     rows: [
-      ['Starting price', `${hubPrice('Branding')} [CONFIRM]`],
-      ['Design time', '[CONFIRM]'],
+      ['Starting price', hubPrice('Branding')],
+      ['Design time', 'Four to six weeks'],
       ['Build time', 'No build for the brand itself. It carries into your store design'],
       ['What you get', "Logo, palette, typefaces and flexible guidelines, carried into the store's design system"],
       ['Who builds it', 'On a store project, a developer I introduce, or your own team or agency, quoted separately'],
@@ -89,14 +91,13 @@ export const BRANDING: ServicePage = {
     heading: 'Drink Finder on their brand refinement. The soul kept, the journey smoothed.',
     quote:
       "Ant was incredibly accommodating, ensuring the site received a modern upgrade without alienating our core customers. He kept the 'Drink Finder' soul intact while significantly smoothing out the user journey.",
-    cite: 'Jon Wigmore, Marketing & E-Commerce, Constantine Stores Ltd, home of Drink Finder',
+    cite: 'Jon Wigmore, Marketing & E-Commerce, Constantine Stores Ltd, home of Drink Finder · 2026',
   },
   faqs: {
     eyebrow: 'Shopify brand design FAQs',
     heading: 'Before you get in touch.',
     items: [
-      { q: 'Will we have to change our brand?', a: ['No. Most projects refine rather than replace: typography, colour and how the brand shows up on screen.'] },
-      { q: 'Can you do a full rebrand?', a: ["Yes, for the identity itself: logo, palette, typefaces and guidelines. If you need naming or brand strategy too, a brand agency with a strategy team is the better fit, and I'll say so on the call."] },
+      { q: 'Do you refine brands, or start again?', a: ["Both, depending on the project. I've led full rebrands, and I've refined brands that were already working, like Drink Finder's logo, palette and typeface. If you need naming or brand strategy too, a brand agency with a strategy team is the better fit, and I'll say so on the first call."] },
       { q: 'Can you design the brand and the store together?', a: ['Yes, and it works best that way. The brand gets tested where customers actually see it, on product cards, buttons and the navigation, before anything is built.'] },
     ],
   },
@@ -105,7 +106,7 @@ export const BRANDING: ServicePage = {
       kind: 'text',
       after: 'trust',
       id: 'why-together',
-      eyebrow: 'Brand and store together',
+      eyebrow: 'Brand and store design',
       heading: 'Why brand and store work better designed together',
       paragraphs: [
         "A brand that's never been tested on a product card falls apart the moment it meets one. Designing both together means the brand is built for the places customers actually see it: product cards, buttons, navigation and the add-to-basket moment.",
@@ -118,7 +119,7 @@ export const BRANDING: ServicePage = {
       after: 'included',
       id: 'identity-work',
       eyebrow: 'Brand identity',
-      heading: 'Identity work',
+      heading: 'Freelance brand identity work',
       logos: [
         { name: 'Norton Radstock College', src: '/logos/identity/norton-radstock-college.svg' },
         { name: 'Electronic Sound Magazine', src: '/logos/identity/electronic-sound.svg' },

@@ -36,7 +36,7 @@ export interface ServicePage {
     cards: { client: string; meta: string; claim: string; proof: string; href: string; image?: ImageMetadata; badge?: ImageMetadata; badgeAlt?: string }[];
   };
   routing: { eyebrow: string; heading: string; intro?: string; routes: { situation: string; body: string; links: Link[] }[]; note?: string };
-  process: { eyebrow: string; heading: string; intro: string; steps: { title: string; body: string }[] };
+  process: { eyebrow: string; heading: string; intro?: string; steps: { title: string; body: string }[] };
   innovations?: {
     eyebrow: string; heading: string; intro?: string;
     items: { client: string; title: string; body: string; screen?: ImageMetadata; video?: string }[];

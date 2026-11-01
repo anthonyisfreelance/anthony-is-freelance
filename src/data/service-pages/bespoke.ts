@@ -32,7 +32,7 @@ export const BESPOKE: ServicePage = {
 
   hero: {
     eyebrow: 'Bespoke Shopify store design',
-    heading: 'Built around your products, not a theme.',
+    heading: 'Totally tailored to your brand.',
     intro:
       "A bespoke Shopify store has every template designed from scratch around your products and customers, instead of adapted from a theme. I design it in Figma as a complete design system, with a clickable prototype. Bespoke store design starts from £10,000 + VAT, design only. Drink Finder's bespoke store lifted website sales 34%, September to February against the year before, and won UK eCommerce Website of the Year 2026.",
     cta: { label: 'Start a bespoke project', href: '#start-a-project' },
@@ -46,7 +46,7 @@ export const BESPOKE: ServicePage = {
     heading: 'What a bespoke store design includes',
     items: [
       'A UX review of your live store and analytics before any design starts.',
-      'Every template designed: home, collection, product, cart, search, account and content pages.',
+      'Every template designed. Home, collection, product, cart, search and content pages.',
       'A Figma design system: type, colour, spacing, buttons, product cards and every component, set up with variables and tokens.',
       'Mobile and desktop layouts, with the states people forget: sold out, empty basket, no search results.',
       'A clickable prototype you can test on your own phone before anything is built.',
@@ -107,7 +107,7 @@ export const BESPOKE: ServicePage = {
     eyebrow: 'Bespoke Shopify design process',
     heading: 'How a project runs',
     intro:
-      'Every project starts with a UX review of your live store, and the navigation is where I look first, because it shows how a store really sells. Then your reviews, your data and your customers. And one question I ask on every project: would I buy this?',
+      'Every bespoke project starts with a UX review of your live store. I go through your GA4 data first, to see who shops and where they drop off, then map the entire purchase journey on a Miro board, screen by screen. Throughout, I ask one question: would I buy this product?',
     steps: [
       { title: 'Understand', body: 'A 30-minute call, then a tailored quote. Where it helps, a UX review of your live store, navigation first.' },
       { title: 'Design', body: 'A weekly call and two rounds of feedback in Figma. You see options, not a finished site handed over.' },
@@ -148,7 +148,7 @@ export const BESPOKE: ServicePage = {
     heading: 'How much does a bespoke Shopify store cost?',
     notes: [
       'Prices checked September 2026. Every project is quoted individually once the brief is defined.',
-      'The price moves with how many templates you need, how complex the products are (configurators, bundles, subscriptions), and whether the brand needs refining first.',
+      'The final price is dependent on how many templates you need, how complex the products are (configurators, bundles, subscriptions), and whether the brand needs refining first.',
     ],
     cta: { label: 'Get a quote', href: '#start-a-project' },
     caption: 'Bespoke store design at a glance',
@@ -156,7 +156,7 @@ export const BESPOKE: ServicePage = {
       ['Starting price', 'From £10,000 + VAT, design only'],
       ['Design time', 'Six to eight weeks'],
       ['Build time', 'About the same again'],
-      ['What you get', 'The full Figma file: design system, every template and a clickable prototype'],
+      ['What you get', 'The full Figma file: design system, every page template and a clickable prototype'],
       ['Who builds it', 'A developer I introduce, or your own team or agency, quoted separately'],
     ],
   },
@@ -188,15 +188,15 @@ export const BESPOKE: ServicePage = {
     items: [
       {
         q: "What's the difference between an AI-generated store and a designed one?",
-        a: ['An AI-generated store is a theme laid out from a short description of your business. A designed store starts from your analytics, your reviews and how your customers shop, then builds the navigation, product cards and pages around them. At East at Home, that work won UK User Experience of the Year 2026.'],
+        a: ['An AI-generated store is a template with your products dropped in. A bespoke store is designed around your customers and products, covering not just the look but the whole shopping journey, from the first visit to checkout. That journey is where conversion rates are won and lost. At East at Home, it won UK User Experience of the Year 2026.'],
       },
       {
         q: 'What is a bespoke Shopify store?',
-        a: ['A bespoke Shopify store has every template designed from scratch around your products and customers, instead of adapted from a pre-built theme. It still runs on Shopify, so you manage products, orders and content in the normal Shopify admin.'],
+        a: ['A bespoke Shopify store has every page template designed from scratch around your products and customers, instead of adapted from a pre-built theme. It still runs on Shopify, so you manage products, orders and content in the normal Shopify admin.'],
       },
       {
         q: 'What do I get at the end of a bespoke project?',
-        a: ['A Figma design system and every template, set up with variables and tokens so the developer builds without guesswork. After launch, the same system makes every new page and every CRO change quicker to design.'],
+        a: ['A Figma design system and every page template, set up with variables and tokens so the developer builds without guesswork. After launch, the same system makes every new page and every CRO change quicker to design.'],
       },
       {
         q: 'Who builds a bespoke Shopify store?',
@@ -218,5 +218,5 @@ export const BESPOKE: ServicePage = {
       { category: 'Shopify CRO', title: 'What Is a Good Conversion Rate on Shopify?', href: '/articles/good-conversion-rate-shopify/' },
     ],
   },
-  cta: { eyebrow: 'Start a bespoke Shopify project', heading: 'Tell me about your range.' },
+  cta: { eyebrow: 'Start a bespoke Shopify project', heading: 'I would love to hear about your brand.' },
 };
