@@ -18,7 +18,7 @@ export const HUB_META = {
 
 export const HUB_HERO = {
   eyebrow: 'Shopify website design services',
-  heading: 'For brands on Shopify and Shopify Plus',
+  heading: 'For Shopify and Shopify Plus brands',
   intro:
     "My Shopify website design services help UK DTC brands on Shopify and Shopify Plus sell more, with stores that are easy to use and look as good as the products in them. There are eight, from a theme customisation to a fully bespoke store, and each one below shows who it's for, what it costs and where it has worked.",
   image: hero,

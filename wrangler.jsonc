@@ -19,6 +19,9 @@
       "/portfolio/trebah-garden*",
       "/portfolio/the-chocolate-gift-co-shopify-case-study*",
       "/portfolio/lou-coulson-associates*",
+      "/portfolio/willow-stone*",
+      "/portfolio/the-box*",
+      "/portfolio/cloudberry*",
       // Attachment pages (map row 74): case study images one level down, demo media, and the stragglers
       "/portfolio/*/*",
       "/demo-media-*",

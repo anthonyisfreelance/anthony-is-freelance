@@ -206,7 +206,7 @@ export const RESULTS = {
 };
 
 export const TESTIMONIALS = {
-  eyebrow: 'Shopify designer UK',
+  eyebrow: 'Shopify website designer UK',
   heading: 'What clients say about working with me.',
   links: [
     { label: 'Client testimonials', href: URLS.testimonials },

@@ -18,7 +18,7 @@ export const THEME: ServicePage = {
   },
   hero: {
     eyebrow: 'Shopify theme customisation',
-    heading: "A premium theme that doesn't look like one.",
+    heading: 'A premium theme that looks bespoke.',
     intro:
       'Shopify theme customisation means taking a premium theme and redesigning it around your brand, products and customers, so it stops looking like the demo store. I design the key page templates, like the header and product page, in Figma, and the rest straight into the theme. Theme customisations start from £5,000 + VAT, design only, and take six to ten weeks from start to a live store. Thameen London, a fragrance house stocked in Harrods, runs on one.',
     cta: { label: 'Start a theme project', href: '#start-a-project' },

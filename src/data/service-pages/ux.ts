@@ -18,8 +18,8 @@ export const UX: ServicePage = {
     minPrice: 800,
   },
   hero: {
-    eyebrow: 'Shopify UX design',
-    heading: 'Making the shopping experience as easy and enjoyable as possible.',
+    eyebrow: 'Shopify UX designer',
+    heading: 'Easy to find, easy to buy.',
     intro:
       'Shopify UX design helps decide how customers find, compare and buy your products before anything is styled. I start with a UX review of your live store: your GA4 data first, to see who shops and where they drop off, then the entire purchase journey mapped on a Miro board, screen by screen. Then I design the fixes in Figma, with wireframes first, when it is needed. UX design is built into every theme customisation and bespoke store, and a UX review of your live store on its own starts from £800 + VAT. East at Home won UK User Experience of the Year 2026.',
     cta: { label: 'Book a UX review', href: '#start-a-project' },
@@ -39,7 +39,7 @@ export const UX: ServicePage = {
     ],
   },
   fit: {
-    heading: "Shopify UX design: who it's for",
+    heading: "Ecommerce UX design: who it's for",
     items: [
       'Your range is big, and customers struggle to find the right product.',
       'Your products are complex, and choosing is the hard part.',
