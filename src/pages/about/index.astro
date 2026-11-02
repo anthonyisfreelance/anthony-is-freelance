@@ -44,7 +44,7 @@ import photo from '../../assets/site/anthony-about-hero.jpg';
       <div class="grid gap-gutter border-t border-line pt-section lg:grid-cols-2">
         <div class="lg:sticky lg:top-loose lg:self-start"><Heading eyebrow={CAREER.eyebrow}>{CAREER.heading}</Heading></div>
         <div class="t-body flex flex-col gap-loose text-muted">
-          {CAREER.paragraphs.map((p) => <p>{p}</p>)}
+          {CAREER.paragraphs.map((p) => <p>{p.split(/(\[[^\]]+\]\([^)]+\))/).map((part) => { const m = part.match(/^\[([^\]]+)\]\(([^)]+)\)$/); return m ? <a href={m[2]} class="underline underline-offset-4 hover:decoration-2">{m[1]}</a> : part; })}</p>)}
           <p>{CAREER.degree.before}<cite class="italic">{CAREER.degree.book}</cite>{CAREER.degree.after}</p>
         </div>
       </div>
