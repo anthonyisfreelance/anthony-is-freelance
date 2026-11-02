@@ -88,9 +88,12 @@ const TESTIMONIAL_LOGOS: [string, string][] = [
 const testimonialLogo = p.testimonial && TESTIMONIAL_LOGOS.find(([name]) => p.testimonial!.cite.includes(name))?.[1];
 const h3caps = 'font-display text-[length:var(--type-h5)] font-medium uppercase leading-[1.1] text-ink lg:text-[length:var(--type-h3)]';
 const cell = 't-label tracking-[0.02em]';
+// The innovations shown on this page, by the @id they have on /innovations/ (innovations doc).
+const innovationIds = (p.innovations?.items ?? []).map((it) => INNOVATIONS_LIST.find((r) => r.name === it.title)).filter((r) => r && r.slug).map((r) => ({ '@id': `${SITE}/innovations/#${r!.slug}` }));
+const innovationMentions = innovationIds.length ? { mentions: innovationIds } : {};
 ---
 <Base title={p.meta.title} description={p.meta.description} noindex={p.meta.noindex} ogImage={p.hero.image}>
-  <Schema slot="head" title={p.meta.title} description={p.meta.description} path={p.meta.path} breadcrumbs={breadcrumbs} faqs={faqSchema} extra={[service]} about={serviceId} mainEntity={serviceId} />
+  <Schema slot="head" title={p.meta.title} description={p.meta.description} path={p.meta.path} breadcrumbs={breadcrumbs} faqs={faqSchema} extra={[service]} about={serviceId} mainEntity={serviceId} page={innovationMentions} />
   <Header />
   <main id="main">
     <!-- Hero -->

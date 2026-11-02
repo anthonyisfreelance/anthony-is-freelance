@@ -15,7 +15,7 @@ import CaseStudyCard from '../CaseStudyCard.astro';
 import Media from './Media.astro';
 import SplitBlock from './Split.astro';
 import Contact from '../home/Contact.astro';
-import { SITE } from '../../data/site';
+import { SITE, ENTITY } from '../../data/site';
 import type { CaseStudyPageData, Highlight } from '../../data/case-studies/types';
 
 interface Props { data: CaseStudyPageData }
@@ -55,6 +55,23 @@ const client = {
 const heroImg = HERO.image.image;
 // The hero as the page's main image in the schema (launch audit, 2 November 2026).
 const heroPage = heroImg ? { primaryImageOfPage: { '@type': 'ImageObject', url: new URL((await getImage({ src: heroImg, width: 1200, format: 'jpg', quality: 80 })).src, SITE).href } } : {};
+
+// The case study itself as an Article, as the work page doc sets out (author, client, image, date).
+// dateModified is the day this version went live; the store's own launch month is in the copy.
+const articleId = `${url}#article`;
+const article = {
+  '@type': 'Article',
+  '@id': articleId,
+  headline: META.title,
+  description: META.description,
+  author: { '@id': ENTITY.person.id },
+  publisher: { '@id': ENTITY.business.id },
+  about: { '@id': clientId },
+  mainEntityOfPage: { '@id': `${url}#webpage` },
+  ...(heroPage.primaryImageOfPage ? { image: heroPage.primaryImageOfPage.url } : {}),
+  dateModified: '2026-11-02',
+  inLanguage: 'en-GB',
+};
 const heroSizes = heroImg && heroImg.width > heroImg.height ? '100vw' : '(min-width: 1024px) 50vw, 100vw';
 
 // Background photo widths, never past the photo's own width.
@@ -64,7 +81,7 @@ const meta = 'font-display font-medium text-[14px] leading-[1.3] tracking-[0.02e
 const link = 'underline underline-offset-4 hover:decoration-2';
 ---
 <Base title={META.title} description={META.description} ogImage={heroImg}>
-  <Schema slot="head" title={META.title} description={META.description} path={META.path} breadcrumbs={META.breadcrumbs} about={clientId} extra={[client]} page={heroPage} />
+  <Schema slot="head" title={META.title} description={META.description} path={META.path} breadcrumbs={META.breadcrumbs} about={clientId} extra={[client, article]} mainEntity={articleId} page={heroPage} />
   <Header overlay />
   <main id="main">
     <!-- Hero: photo from the left screen edge to the centre line, a full screen tall on desktop, headline right. The rule sits
