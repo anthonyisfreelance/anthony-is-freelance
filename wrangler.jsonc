@@ -5,6 +5,11 @@
   "name": "anthony-is-freelance",
   "compatibility_date": "2026-10-18",
   "main": "./worker/index.js",
+  // Plain settings for the enquiry form (worker/enquiry.js). Kept here so a deploy never wipes them.
+  // The Resend key is a secret, set in the dashboard, and secrets survive deploys.
+  "vars": {
+    "ENQUIRY_FROM": "Anthony is Freelance <enquiries@mail.anthonyis.uk>"
+  },
   "assets": {
     "directory": "./dist",
     "binding": "ASSETS",
