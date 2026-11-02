@@ -1,6 +1,7 @@
 // Dr Lipp case study. Copy from the "Case study copy: Dr Lipp" doc (20 October 2026).
-// Screens drop in by name, see src/assets/brands/README.md. The desktop hero, the 50/50 desktops and
-// the all-sections row are the original launch recordings, without their browser and phone frames.
+// Screens drop in by name, see src/assets/brands/README.md. Since 2 November 2026 every screen comes from the
+// Dr Lipp Design System Figma file (placeholder copy replaced on copies, page "Portfolio exports (copies)"),
+// apart from the feature row, which is still the launch recording of the Clean Beauty Charter page.
 import { SERVICE, BUILDER, slot, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData } from './types';
 
 const B = 'dr-lipp';
@@ -42,18 +43,18 @@ export const DATA: CaseStudyPageData = {
     rows: [
       { label: 'Results', value: '38% higher conversion rate. 28% more orders. 15% more sales.' },
       { label: 'Measured', value: 'From launch on 5 May 2024 to 3 February 2025, compared with the previous period. Shopify data.' },
+      { label: 'Screens', value: 'Shown as designed in Figma, apart from the Clean Beauty Charter page. The live store has changed since.' },
     ],
   },
   showcase: {
     label: 'Dr Lipp screens',
     background: photo(B, 'showcase-photo'),
-    desktop: slot(B, 'showcase-desktop', 'A scroll down the Dr Lipp homepage on desktop.', 'Desktop store recording'),
+    desktop: slot(B, 'showcase-desktop', 'A scroll down the Dr Lipp homepage on desktop.', 'Desktop design recording'),
     phones: [
-      // Phone screens from the Drive designs (feedback #195): the top of the All Ways product page, the shop-all
-      // collection, the bag and search. The store has no products live to record.
-      slot(B, 'showcase-phone-1', 'The Dr Lipp All Ways product page on mobile.', 'Product page'),
-      slot(B, 'showcase-phone-2', 'A Dr Lipp collection on mobile.', 'Collection'),
-      slot(B, 'showcase-phone-3', 'The Dr Lipp shopping bag on mobile, with a free shipping bar and suggestions.', 'Cart'),
+      // From the Figma file (2 November 2026): video, still, video, still.
+      slot(B, 'showcase-phone-1', 'A scroll down the Dr Lipp All Ways product page on mobile.', 'Product page'),
+      slot(B, 'showcase-phone-2', 'The Dr Lipp shop all collection on mobile.', 'Collection'),
+      slot(B, 'showcase-phone-3', 'The Dr Lipp shopping bag sliding in over a product page on mobile, with a free shipping bar and suggestions.', 'Cart'),
       slot(B, 'showcase-phone-4', 'Dr Lipp search on mobile, with related products and articles.', 'Search'),
     ],
   },
@@ -67,7 +68,7 @@ export const DATA: CaseStudyPageData = {
       eyebrow: 'Skincare navigation design',
       heading: '[CONFIRM: what it does for shoppers]',
       body: 'Dr Lipp’s navigation [CONFIRM: one design decision, for example routes by product or by concern].',
-      media: slot(B, 'work-01', 'The Dr Lipp navigation on mobile.', 'The navigation recording'),
+      media: slot(B, 'work-01', 'The Dr Lipp menu on mobile, opening Shop all and then Bundle & Save, each with its products in the menu.', 'The navigation recording'),
     },
     {
       eyebrow: 'Multi-use product page design',
@@ -79,18 +80,17 @@ export const DATA: CaseStudyPageData = {
       eyebrow: 'Shopify 2.0 sections',
       heading: 'A library the team builds with.',
       body: 'I designed sections for every page type, so the Dr Lipp team can build new pages and campaigns from the theme editor without the design drifting.',
-      media: slot(B, 'work-03', 'The full library of Dr Lipp Shopify 2.0 sections.', 'The all-sections recording'),
+      media: slot(B, 'work-03', 'A scroll through the full library of Dr Lipp Shopify 2.0 sections on mobile.', 'The all-sections recording'),
     },
   ],
   // One 50/50 halfway through the work (27 October 2026): this photo sticks at full height while
-  // desktop screens scroll past on the tint. Two screens, both from the original launch recordings
-  // (28 October 2026): the store no longer lists products, so they can't be recorded again.
+  // desktop screens scroll past on the tint. Both screens from the Figma file (2 November 2026).
   splits: [
     {
       label: 'Dr Lipp on desktop',
       photo: photoMedia(B, 'split-1-photo'),
       screens: [
-        { device: 'desktop', media: slot(B, 'split-desktop-1', 'The Dr Lipp homepage on desktop, with the menu open.', 'Desktop navigation') },
+        { device: 'desktop', media: slot(B, 'split-desktop-1', 'The Dr Lipp homepage on desktop, opening the Shop all, What’s up and Bundle & Save menus.', 'Desktop navigation') },
         { device: 'desktop', media: slot(B, 'split-desktop-2', 'A Dr Lipp product page on desktop, with single, twin and triple pack prices.', 'Desktop product page') },
       ],
       tint: '#ECD5C9',
