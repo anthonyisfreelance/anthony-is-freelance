@@ -26,7 +26,7 @@ const columns: Col[] = [
 const bar = 'hidden lg:inline';
 ---
 <!-- Phones keep 92px clear at the bottom for the sticky Start a project bar. -->
-<footer class="bg-surface px-margin pb-[92px] pt-[64px] lg:pb-[80px] lg:pt-[120px]">
+<footer class="bg-surface px-margin pb-[92px] pt-[64px] lg:pb-[24px] lg:pt-[120px]">
   <img src="/icons/wordmark.svg" alt="Anthony Bliss, Anthony is Freelance" width="1392" height="94" class="mb-[36px] h-auto w-full lg:mb-[80px]" loading="lazy" />
 
   <div class="flex flex-col lg:flex-row lg:justify-between">
@@ -58,13 +58,13 @@ const bar = 'hidden lg:inline';
     items={[GOOGLE_RATING, { text: '2× winner, UK eCommerce Awards 2026' }]}
   />
 
-  <p class="t-tile mt-8 flex flex-col gap-[12px] text-muted lg:mt-[40px] lg:flex-row lg:flex-wrap lg:justify-center lg:gap-x-3 lg:gap-y-1">
+  <p class="t-tile mt-8 flex flex-col gap-[12px] text-muted lg:mt-[40px] lg:text-[12px] lg:flex-row lg:flex-wrap lg:justify-center lg:gap-x-3 lg:gap-y-1">
     <span class="max-lg:order-last max-lg:mt-[6px]">© {year} Anthony is Freelance</span>
     <span aria-hidden="true" class={bar}>|</span>
     <span>Anthony is Freelance is the trading name of {ENTITY.business.legalName}, registered in England &amp; Wales No. <a href={ENTITY.companiesHouse} target="_blank" rel="noopener" class="underline underline-offset-4 hover:decoration-2">{ENTITY.business.companyNumber}</a></span>
     <span aria-hidden="true" class={bar}>|</span>
     <span>VAT number 530 0230 61</span>
-    <span aria-hidden="true" class={bar}>|</span>
+    <span aria-hidden="true" class="hidden lg:block lg:basis-full"></span>
     <span>Based in Falmouth, Cornwall, UK.</span>
     <span aria-hidden="true" class={bar}>|</span>
     <span class="flex gap-x-3">
