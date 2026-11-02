@@ -15,7 +15,17 @@
       "/portfolio/the-brand-manual*",
       "/portfolio/proconvey-video*",
       "/portfolio/inlight-beauty-shopify-case-study*",
-      "/portfolio/stovefitters-shopify-case-study*"
+      "/portfolio/stovefitters-shopify-case-study*",
+      // Attachment pages (map row 74): case study images one level down, demo media, and the stragglers
+      "/portfolio/*/*",
+      "/demo-media-*",
+      "/anthony-bliss-freela2x-light*",
+      "/2cfe64aa-db05-4ce3-bbfd-9f5c7243b084-2*",
+      "/drink-finder-hero-2-2*",
+      "/back-in-stock*",
+      "/recipes-m*",
+      "/red-bull*",
+      "/shopify-website-design/east-west-apparel-hero_white*"
     ]
   }
 }

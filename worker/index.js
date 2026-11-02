@@ -20,7 +20,19 @@ export const GONE = new Set([
   '/portfolio/proconvey-video/',
   '/portfolio/inlight-beauty-shopify-case-study/',
   '/portfolio/stovefitters-shopify-case-study/',
+  // WordPress media attachment pages still in Search Console (map row 74, 2 November 2026)
+  '/anthony-bliss-freela2x-light/',
+  '/2cfe64aa-db05-4ce3-bbfd-9f5c7243b084-2/',
+  '/drink-finder-hero-2-2/',
+  '/back-in-stock/',
+  '/recipes-m/',
+  '/red-bull/',
+  '/shopify-website-design/east-west-apparel-hero_white/',
 ]);
+
+// Attachment pages by pattern (map row 74): WordPress put every image in a case study at
+// /portfolio/<case study>/<image>/, and demo imports at /demo-media-<n>/.
+const GONE_PATTERNS = [/^\/portfolio\/[^/]+\/[^/]+\/$/, /^\/demo-media-[^/]+\/$/];
 
 const REPO = 'anthonyisfreelance/anthony-is-freelance';
 const LABEL = 'feedback';
@@ -30,7 +42,7 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
     const path = url.pathname.endsWith('/') ? url.pathname : `${url.pathname}/`;
-    if (GONE.has(path)) return gone(request, env);
+    if (GONE.has(path) || GONE_PATTERNS.some((re) => re.test(path))) return gone(request, env);
     if (url.pathname === '/api/enquiry') return enquiry(request, env);
     if (url.pathname === '/api/feedback' || url.pathname.startsWith('/api/feedback/')) {
       return feedback(request, env, url);
