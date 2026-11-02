@@ -51,9 +51,9 @@ export const DATA: CaseStudyPageData = {
     background: photo(B, 'showcase-photo'),
     desktop: slot(B, 'showcase-desktop', 'A scroll down the Dr Lipp homepage on desktop.', 'Desktop design recording'),
     phones: [
-      // From the Figma file (2 November 2026): video, still, video, still.
+      // From the Figma file (2 November 2026): three scrolling or tapping videos, then search as a still.
       slot(B, 'showcase-phone-1', 'A scroll down the Dr Lipp All Ways product page on mobile.', 'Product page'),
-      slot(B, 'showcase-phone-2', 'The Dr Lipp shop all collection on mobile.', 'Collection'),
+      slot(B, 'showcase-phone-2', 'A scroll down the Dr Lipp shop all collection on mobile.', 'Collection'),
       slot(B, 'showcase-phone-3', 'The Dr Lipp shopping bag sliding in over a product page on mobile, with a free shipping bar and suggestions.', 'Cart'),
       slot(B, 'showcase-phone-4', 'Dr Lipp search on mobile, with related products and articles.', 'Search'),
     ],
@@ -68,13 +68,13 @@ export const DATA: CaseStudyPageData = {
       eyebrow: 'Skincare navigation design',
       heading: 'Products inside the menu.',
       body: 'Dr Lipp’s menu shows the products inside each section, with a short intro and a button to the full page, so shoppers can see the whole range from any page in two taps.',
-      media: slot(B, 'work-01', 'The Dr Lipp menu on mobile, opening Shop all and then Bundle & Save, each with its products in the menu.', 'The navigation recording'),
+      media: slot(B, 'work-01', 'The Dr Lipp menu on mobile, opening Shop all with its products inside the menu, then closing.', 'The navigation recording'),
     },
     {
       eyebrow: 'Multi-use product page design',
       heading: 'Usage, ingredients, how to use.',
       body: 'A multi-use balm needs to answer how to use it. Each Dr Lipp product page sets out usage, ingredients and how to use in its own section.',
-      media: slot(B, 'work-02', 'The 5 in 1 section of the Dr Lipp All Ways product page on mobile: make-up remover, face cleanser, body wash, shampoo and shaving foam.', 'The product page usage section'),
+      media: slot(B, 'work-02', 'A scroll through the 5 in 1 section of the Dr Lipp All Ways product page on mobile: make-up remover, face cleanser, body wash, shampoo and shaving foam, then reviews and ingredients.', 'The product page usage section'),
     },
     {
       eyebrow: 'Shopify 2.0 sections',
