@@ -11,7 +11,9 @@ const awards = ENTITY.awards;
 const knowsAbout = ENTITY.person.knowsAbout.map((k) => ({ '@type': 'Thing', ...k }));
 
 interface Props {
-  type?: 'WebPage' | 'CollectionPage' | 'AboutPage' | 'ContactPage';
+  type?: 'WebPage' | 'CollectionPage' | 'AboutPage' | 'ContactPage' | 'ProfilePage';
+  /** Carry the full Person and business, as the homepage does (the About page is his profile). */
+  fullEntities?: boolean;
   title: string;
   description: string;
   path: string;
@@ -25,7 +27,7 @@ interface Props {
   /** Extra properties on this page's own node (mentions, citation, dateModified), from data. */
   page?: Record<string, unknown>;
 }
-const { type = 'WebPage', title, description, path, faqs, isHome = false, breadcrumbs, extra = [], mainEntity, about, page = {} } = Astro.props;
+const { type = 'WebPage', title, description, path, faqs, isHome = false, fullEntities = false, breadcrumbs, extra = [], mainEntity, about, page = {} } = Astro.props;
 const url = new URL(path, SITE).href;
 const b = ENTITY.business;
 
@@ -107,7 +109,7 @@ graph.push(...extra);
 // Full entity definitions live on the homepage. Every other page carries a short version under the
 // same @id (who they are, not everything about them): Google doesn't follow an @id to another page,
 // so an article's author needs a name on the article itself.
-if (isHome) graph.push(person, business);
+if (isHome || fullEntities) graph.push(person, business);
 else
   graph.push(
     { '@type': 'Person', '@id': person['@id'], name: person.name, jobTitle: person.jobTitle, url: person.url, sameAs: person.sameAs },
