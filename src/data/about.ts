@@ -5,7 +5,7 @@ import { AWARD_LINKS } from './awards';
 
 export const ABOUT_PAGE = {
   path: URLS.about,
-  title: 'About Anthony Bliss | Freelance Shopify Designer, Cornwall',
+  title: 'About Anthony Bliss | Freelance Shopify Designer',
   description:
     'From brand identity in Bath and Bristol to Dyson launches to Shopify. How Anthony Bliss works, what he believes and why he still designs every screen.',
   eyebrow: 'About Anthony Bliss',
