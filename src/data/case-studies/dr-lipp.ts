@@ -66,8 +66,8 @@ export const DATA: CaseStudyPageData = {
   highlights: [
     {
       eyebrow: 'Skincare navigation design',
-      heading: '[CONFIRM: what it does for shoppers]',
-      body: 'Dr Lipp’s navigation [CONFIRM: one design decision, for example routes by product or by concern].',
+      heading: 'Products inside the menu.',
+      body: 'Dr Lipp’s menu shows the products inside each section, with a short intro and a button to the full page, so shoppers can see the whole range from any page in two taps.',
       media: slot(B, 'work-01', 'The Dr Lipp menu on mobile, opening Shop all and then Bundle & Save, each with its products in the menu.', 'The navigation recording'),
     },
     {
