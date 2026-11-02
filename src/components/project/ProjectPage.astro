@@ -45,7 +45,7 @@ const shopify = ['Drink Finder', 'East at Home', 'Fuzzball'].map(card);
 
 const meta = 'font-display font-medium text-[14px] leading-[1.3] tracking-[0.02em]';
 ---
-<Base title={d.meta.title} description={d.meta.description}>
+<Base title={d.meta.title} description={d.meta.description} ogImage={heroImg}>
   <Schema slot="head" title={d.meta.title} description={d.meta.description} path={d.meta.path} breadcrumbs={d.meta.breadcrumbs} about={clientId} extra={[client]} />
   <Header overlay />
   <main id="main">

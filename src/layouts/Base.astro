@@ -12,14 +12,28 @@ interface Props {
   description: string;
   announcement?: boolean;
   /** Preview image path (og:image), e.g. an article's /og/<slug>.png. 1200 x 675. */
+  /** Or the page's hero, cropped to 1200 x 675 for sharing when there's no image path. */
+  ogImage?: ImageMetadata;
   image?: string;
   ogType?: 'website' | 'article';
   /** Keep the page out of search (thank-you and error pages). */
   noindex?: boolean;
 }
-const { title, description, announcement = true, image, ogType = 'website', noindex = false } = Astro.props;
+const { title, description, announcement = true, image, ogImage, ogType = 'website', noindex = false } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
-const imageUrl = image ? new URL(image, Astro.site).href : undefined;
+// Share image: an article's own /og/ picture, otherwise the page's hero (ogImage) cropped to 1200 x 675,
+// otherwise Anthony's About photo, so every page shares with a picture.
+let imageUrl = image ? new URL(image, Astro.site).href : undefined;
+let ogSized = true;
+if (!imageUrl) {
+  const og = await getImage({ src: ogImage ?? defaultOg, width: 1200, height: 675, fit: 'cover', format: 'jpg', quality: 80 });
+  imageUrl = new URL(og.src, Astro.site).href;
+  // A hero smaller than 1200 wide isn't upscaled, so its size isn't stated; sites read it from the file.
+  ogSized = false;
+}
+import { getImage } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+import defaultOg from '../assets/site/anthony-about-hero.jpg';
 ---
 <!doctype html>
 <html lang="en-GB" class="theme-dark">
@@ -47,8 +61,8 @@ const imageUrl = image ? new URL(image, Astro.site).href : undefined;
     {imageUrl && (
       <>
         <meta property="og:image" content={imageUrl} />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="675" />
+        {ogSized && <meta property="og:image:width" content="1200" />}
+        {ogSized && <meta property="og:image:height" content="675" />}
         <meta name="twitter:card" content="summary_large_image" />
       </>
     )}

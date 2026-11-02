@@ -89,7 +89,7 @@ const testimonialLogo = p.testimonial && TESTIMONIAL_LOGOS.find(([name]) => p.te
 const h3caps = 'font-display text-[length:var(--type-h5)] font-medium uppercase leading-[1.1] text-ink lg:text-[length:var(--type-h3)]';
 const cell = 't-label tracking-[0.02em]';
 ---
-<Base title={p.meta.title} description={p.meta.description} noindex={p.meta.noindex}>
+<Base title={p.meta.title} description={p.meta.description} noindex={p.meta.noindex} ogImage={p.hero.image}>
   <Schema slot="head" title={p.meta.title} description={p.meta.description} path={p.meta.path} breadcrumbs={breadcrumbs} faqs={faqSchema} extra={[service]} about={serviceId} mainEntity={serviceId} />
   <Header />
   <main id="main">
