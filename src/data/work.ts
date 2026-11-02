@@ -31,7 +31,7 @@ export interface CaseStudy {
   services: FilterId[];
 }
 
-const p = (slug: string) => `/portfolio/${slug}/`;
+const p = (slug: string) => `/work/${slug}/`;
 
 // Card media drops in by name (Drive case-studies/<client>/): card.jpg is the lifestyle photo, used
 // everywhere; card-screen.jpg is the phone shot on the work page, and card-screen.mp4 plays over it.
@@ -57,7 +57,7 @@ const RECORDS: Omit<CaseStudy, 'image' | 'screen' | 'screenVideo'>[] = [
     client: 'Fuzzball', brand: 'fuzzball', meta: 'Pets · August 2025',
     claim: '63% higher conversion rate after a subscription redesign',
     proof: 'August 2025 to August 2026 vs the same months a year earlier. GA4.',
-    href: p('fuzzball-shopify-website-design-case-study'),
+    href: p('fuzzball'),
     services: ['subscriptions', 'shopify-cro'],
   },
   {
@@ -65,14 +65,14 @@ const RECORDS: Omit<CaseStudy, 'image' | 'screen' | 'screenVideo'>[] = [
     claim: 'A mobile-first store launch for a Nordic-inspired textiles brand',
     // PageSpeed dropped (19 October 2026): speed is development work, not design.
     proof: 'Every past collection stays live as a shoppable lookbook, so campaign photography keeps earning traffic.',
-    href: p('projektityyny-shopify-website-design-case-study'),
+    href: p('projektityyny'),
     services: ['bespoke-store-design'],
   },
   {
     client: 'Thameen London', brand: 'thameen', meta: 'Beauty · March 2026',
     claim: 'Off headless, onto a premium theme the team runs themselves',
     proof: '"A journey that feels both effortless for the customer and truly reflective of Thameen\'s luxury positioning." Nour Abdel-Motaal',
-    href: p('thameen-london-shopify-website-design-case-study'),
+    href: p('thameen-london'),
     services: ['theme-customisations'],
   },
   {
@@ -86,7 +86,7 @@ const RECORDS: Omit<CaseStudy, 'image' | 'screen' | 'screenVideo'>[] = [
     client: 'Dr Lipp', brand: 'dr-lipp', meta: 'Beauty · May 2024',
     claim: '38% higher conversion rate after a re-theme',
     proof: 'May 2024 to February 2025 vs the previous period. Shopify Analytics.',
-    href: p('dr-lipp-shopify-website-case-study'),
+    href: p('dr-lipp'),
     services: ['theme-customisations'],
   },
   {
@@ -101,21 +101,21 @@ const RECORDS: Omit<CaseStudy, 'image' | 'screen' | 'screenVideo'>[] = [
     // No figure: GA4 shows conversion down since launch, so 39% and 91% are off (19 October 2026).
     claim: 'A bespoke store that sells made-to-order books online',
     proof: 'Landing pages by use, from business binders to pilot log books, help customers picture the product in their life.',
-    href: p('hartnack-and-co-shopify-website-design-case-study'),
+    href: p('hartnack-and-co'),
     services: ['bespoke-store-design', 'shopify-ux-design'],
   },
   {
     client: 'Window Fleur', brand: 'window-fleur', meta: 'Home · August 2024',
     claim: 'A hard-to-shop store made simple, with the brand brought to life',
     proof: "Brand patterns carry key shopping messages through the store, in a way that's fun and memorable.",
-    href: p('window-fleur-shopify-case-study'),
+    href: p('window-fleur'),
     services: ['bespoke-store-design', 'subscriptions'],
   },
   {
     client: 'East West Apparel', brand: 'east-west-apparel', meta: 'Fashion · 2025',
     claim: 'A WooCommerce to Shopify migration that lifted sales',
     proof: '"The increase in sales because of it." Jamie Lee, Owner',
-    href: p('east-west-apparel-shopify-website-design-case-study'),
+    href: p('east-west-apparel'),
     services: ['migrations'],
   },
   // Sensational Eyes joins once the store is stocking products (22 October 2026).

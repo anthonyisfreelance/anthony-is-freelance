@@ -5,7 +5,7 @@ import { SERVICE, BUILDER, slot, innovationSlot, innovationLink, photo, photoMed
 import box from '../../assets/brands/hartnack-and-co/box.jpg';
 
 const B = 'hartnack-and-co';
-const PATH = '/portfolio/hartnack-and-co-shopify-website-design-case-study/';
+const PATH = '/work/hartnack-and-co/';
 
 export const DATA: CaseStudyPageData = {
   meta: {

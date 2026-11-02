@@ -4,7 +4,7 @@ import { testimonial, creditLine } from '../testimonials';
 import { SERVICE, BUILDER, slot, innovationSlot, innovationLink, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData, desktopSplit } from './types';
 
 const B = 'window-fleur';
-const PATH = '/portfolio/window-fleur-shopify-case-study/';
+const PATH = '/work/window-fleur/';
 
 export const DATA: CaseStudyPageData = {
   meta: {

@@ -4,7 +4,7 @@ import { testimonial, creditLine } from '../testimonials';
 import { SERVICE, BUILDER, slot, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData, desktopSplit } from './types';
 
 const B = 'east-west-apparel';
-const PATH = '/portfolio/east-west-apparel-shopify-website-design-case-study/';
+const PATH = '/work/east-west-apparel/';
 
 export const DATA: CaseStudyPageData = {
   meta: {

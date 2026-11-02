@@ -8,7 +8,7 @@ import cushions from '../../assets/brands/projektityyny/lifestyle-05.webp';
 import { brandImage } from '../media';
 
 const B = 'projektityyny';
-const PATH = '/portfolio/projektityyny-shopify-website-design-case-study/';
+const PATH = '/work/projektityyny/';
 
 export const DATA: CaseStudyPageData = {
   meta: {

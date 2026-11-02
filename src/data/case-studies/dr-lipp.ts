@@ -5,7 +5,7 @@
 import { SERVICE, BUILDER, slot, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData } from './types';
 
 const B = 'dr-lipp';
-const PATH = '/portfolio/dr-lipp-shopify-website-case-study/';
+const PATH = '/work/dr-lipp/';
 
 export const DATA: CaseStudyPageData = {
   meta: {

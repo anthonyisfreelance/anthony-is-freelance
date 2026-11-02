@@ -6,7 +6,7 @@ import bottles from '../../assets/brands/thameen/bottles.jpg';
 import collection from '../../assets/brands/thameen/collection.jpg';
 
 const B = 'thameen';
-const PATH = '/portfolio/thameen-london-shopify-website-design-case-study/';
+const PATH = '/work/thameen-london/';
 
 export const DATA: CaseStudyPageData = {
   meta: {

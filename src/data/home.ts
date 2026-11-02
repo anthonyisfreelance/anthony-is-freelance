@@ -65,21 +65,21 @@ export const STORIES = {
       meta: 'Pets · August 2025',
       claim: '63% higher conversion rate after a subscription redesign',
       image: fuzzball,
-      href: '/portfolio/fuzzball-shopify-website-design-case-study/',
+      href: '/work/fuzzball/',
     },
     {
       client: 'Projektityyny',
       meta: 'Home · June 2026',
       claim: 'A mobile-first store launch for a Nordic-inspired textiles brand',
       image: projektityyny,
-      href: '/portfolio/projektityyny-shopify-website-design-case-study/',
+      href: '/work/projektityyny/',
     },
     {
       client: 'Thameen London',
       meta: 'Beauty · March 2026',
       claim: 'Off headless, onto a premium theme the team runs themselves',
       image: thameen,
-      href: '/portfolio/thameen-london-shopify-website-design-case-study/',
+      href: '/work/thameen-london/',
       mobileOnly: true,
     },
   ],
@@ -97,11 +97,11 @@ export const BRANDS = {
     // Phones show three a row with Whistlefish third (mobile: true moves it up); desktop keeps this order.
     { name: 'Dyson', slug: 'dyson', href: URLS.dyson },
     { name: 'Wrangler', slug: 'wrangler', href: URLS.wrangler },
-    { name: 'Thameen London', slug: 'thameen', href: '/portfolio/thameen-london-shopify-website-design-case-study/' }, // in place of Fuzzball (feedback #101, 28 October 2026)
-    { name: 'Wide Fit Shoes', slug: 'wide-fit-shoes', href: '/portfolio/wide-fit-shoes-shopify-case-study/' }, // swapped with Whistlefish (feedback #257, 29 October 2026)
+    { name: 'Thameen London', slug: 'thameen', href: '/work/thameen-london/' }, // in place of Fuzzball (feedback #101, 28 October 2026)
+    { name: 'Wide Fit Shoes', slug: 'wide-fit-shoes', href: '/work/wide-fit-shoes/' }, // swapped with Whistlefish (feedback #257, 29 October 2026)
     { name: 'Drink Finder', slug: 'drink-finder', href: URLS.caseStudies.drinkFinder },
-    { name: 'Whistlefish', slug: 'whistlefish', href: '/portfolio/whistlefish/', mobileThird: true },
-    { name: 'Dr Lipp', slug: 'dr-lipp', href: '/portfolio/dr-lipp-shopify-website-case-study/' },
+    { name: 'Whistlefish', slug: 'whistlefish', href: '/work/whistlefish/', mobileThird: true },
+    { name: 'Dr Lipp', slug: 'dr-lipp', href: '/work/dr-lipp/' },
     { name: 'East at Home', slug: 'east-at-home', href: URLS.caseStudies.eastAtHome },
   ],
 };

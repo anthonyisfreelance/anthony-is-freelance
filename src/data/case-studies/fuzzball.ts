@@ -5,7 +5,7 @@ import pack from '../../assets/brands/fuzzball/card.jpg';
 import treats from '../../assets/brands/fuzzball/treats.jpg';
 
 const B = 'fuzzball';
-const PATH = '/portfolio/fuzzball-shopify-website-design-case-study/';
+const PATH = '/work/fuzzball/';
 
 export const DATA: CaseStudyPageData = {
   meta: {
