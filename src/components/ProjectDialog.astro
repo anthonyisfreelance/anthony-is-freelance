@@ -29,8 +29,9 @@ const { aside } = PROJECT_DIALOG;
           <figcaption class="t-label">{aside.cite}</figcaption>
         </figure>
       </div>
+      {/* One tile per line until the panel is wide enough for a row (#367). */}
       <TrustTiles
-        class="px-margin py-[40px] [--c-raised:#fff] [--c-text:#111]"
+        class="px-margin py-[40px] [--c-raised:#fff] [--c-text:#111] lg:flex-col lg:[&>li]:basis-auto min-[1920px]:flex-row min-[1920px]:[&>li]:basis-0"
         items={[GOOGLE_RATING, ...PROJECT_DIALOG.trust.map((text) => ({ text }))]}
       />
     </aside>

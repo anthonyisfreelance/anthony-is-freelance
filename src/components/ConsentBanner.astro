@@ -1,7 +1,7 @@
 ---
 // Cookie consent for analytics (GA4, to be loaded through Cloudflare Zaraz).
-// Shown until the visitor chooses. Accept and Reject look the same and sit side by side,
-// because the ICO expects rejecting to be as easy as accepting. Nothing that sets a cookie
+// Shown until the visitor chooses. Reject (plain text, left) and Accept (filled, right) sit on one row,
+// each one click, because the ICO expects rejecting to be as easy as accepting. Nothing that sets a cookie
 // should load before Accept. The choice is kept in localStorage (no cookie of our own) for
 // six months, then the visitor is asked again. "Cookie settings" in the footer reopens it.
 //
@@ -11,6 +11,7 @@
 // Fixed to the bottom of the screen, so it never shifts the page. It starts hidden and the script
 // below shows it before first paint when no choice has been made.
 const button = 't-button inline-flex h-[34px] flex-1 cursor-pointer items-center justify-center whitespace-nowrap bg-white px-[14px] text-[#111] [text-box:trim-both_cap_alphabetic] hover:opacity-90 sm:flex-none';
+const reject = 't-button inline-flex h-[34px] flex-1 cursor-pointer items-center justify-center whitespace-nowrap px-[14px] text-ink underline underline-offset-4 [text-box:trim-both_cap_alphabetic] hover:decoration-2 sm:flex-none sm:px-0';
 ---
 <section
   id="consent"
@@ -22,11 +23,15 @@ const button = 't-button inline-flex h-[34px] flex-1 cursor-pointer items-center
   <p id="consent-title" class="t-button-lg text-ink">Cookies</p>
   <p class="t-small mt-2 text-muted">
     I use analytics cookies to see how people find and use this site. Nothing is tracked unless you accept.
+  </p>
+  <p class="t-small mt-2">
     <a href="/privacy-policy/#cookies" data-privacy-open class="text-ink underline underline-offset-4 hover:decoration-2">Privacy and cookies</a>
   </p>
-  <div class="mt-4 flex gap-3">
+  <!-- Reject on the left as a plain text button, Accept filled on the right (Anthony, 2 November 2026).
+       Both stay one click, the same size and on the same row. -->
+  <div class="mt-4 flex items-center justify-between gap-3">
+    <button type="button" data-consent-choice="denied" class={reject}>Reject</button>
     <button type="button" data-consent-choice="granted" class={button}>Accept</button>
-    <button type="button" data-consent-choice="denied" class={button}>Reject</button>
   </div>
 </section>
 
