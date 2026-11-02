@@ -20,6 +20,10 @@ export const GONE = new Set([
   '/portfolio/proconvey-video/',
   '/portfolio/inlight-beauty-shopify-case-study/',
   '/portfolio/stovefitters-shopify-case-study/',
+  // Agency-era case studies still in Search Console (Anthony, 2 November 2026)
+  '/portfolio/trebah-garden/',
+  '/portfolio/the-chocolate-gift-co-shopify-case-study/',
+  '/portfolio/lou-coulson-associates/',
   // WordPress media attachment pages still in Search Console (map row 74, 2 November 2026)
   '/anthony-bliss-freela2x-light/',
   '/2cfe64aa-db05-4ce3-bbfd-9f5c7243b084-2/',

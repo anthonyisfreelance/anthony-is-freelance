@@ -16,6 +16,9 @@
       "/portfolio/proconvey-video*",
       "/portfolio/inlight-beauty-shopify-case-study*",
       "/portfolio/stovefitters-shopify-case-study*",
+      "/portfolio/trebah-garden*",
+      "/portfolio/the-chocolate-gift-co-shopify-case-study*",
+      "/portfolio/lou-coulson-associates*",
       // Attachment pages (map row 74): case study images one level down, demo media, and the stragglers
       "/portfolio/*/*",
       "/demo-media-*",
