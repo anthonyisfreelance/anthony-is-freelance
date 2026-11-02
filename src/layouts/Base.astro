@@ -37,6 +37,8 @@ const imageUrl = image ? new URL(image, Astro.site).href : undefined;
     <meta name="theme-color" content="#0059FF" />
     <!-- Lets Google show large image previews (Discover and mobile results). -->
     <meta name="robots" content={noindex ? 'noindex, follow' : 'max-image-preview:large'} />
+    <!-- Pinterest claimed-website check, copied from the WordPress site so the claim carries over. -->
+    <meta name="p:domain_verify" content="3f631f0577b375bfb2827f68f24afa7c" />
     <meta property="og:type" content={ogType} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
