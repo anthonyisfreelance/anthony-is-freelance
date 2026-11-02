@@ -79,7 +79,7 @@ const RECORDS: Omit<CaseStudy, 'image' | 'screen' | 'screenVideo'>[] = [
     client: 'Whistlefish', brand: 'whistlefish', meta: 'Stationery & gifts · April 2025',
     claim: 'A Shopify 2.0 redesign their own team now builds on',
     proof: '"We\'ve since been able to carry that framework into our own design team." Will Manders',
-    href: p('whistlefish-2-0-shopify-website-design-case-study'),
+    href: p('whistlefish'),
     services: ['bespoke-store-design', 'shopify-ux-design', 'shopify-cro'],
   },
   {

@@ -100,7 +100,7 @@ export const BRANDS = {
     { name: 'Thameen London', slug: 'thameen', href: '/portfolio/thameen-london-shopify-website-design-case-study/' }, // in place of Fuzzball (feedback #101, 28 October 2026)
     { name: 'Wide Fit Shoes', slug: 'wide-fit-shoes', href: '/portfolio/wide-fit-shoes-shopify-case-study/' }, // swapped with Whistlefish (feedback #257, 29 October 2026)
     { name: 'Drink Finder', slug: 'drink-finder', href: URLS.caseStudies.drinkFinder },
-    { name: 'Whistlefish', slug: 'whistlefish', href: '/portfolio/whistlefish-2-0-shopify-website-design-case-study/', mobileThird: true },
+    { name: 'Whistlefish', slug: 'whistlefish', href: '/portfolio/whistlefish/', mobileThird: true },
     { name: 'Dr Lipp', slug: 'dr-lipp', href: '/portfolio/dr-lipp-shopify-website-case-study/' },
     { name: 'East at Home', slug: 'east-at-home', href: URLS.caseStudies.eastAtHome },
   ],

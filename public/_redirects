@@ -26,10 +26,10 @@
 /feed/                              /articles/feed.xml                 301
 /articles/feed/                     /articles/feed.xml                 301
 
-# Map rows 9, 12, 53 and 96 to 100 (2 November 2026)
+# Map rows 9, 12, 53 and 96 to 100 (2 November 2026). Whistlefish now lives at the short address (row 105).
 /shopify-website-design/shopify-design-for-dtc-brands/  /shopify-website-design/  301
 /freelance-motion-graphics-designer/  /about/                          301
-/portfolio/whistlefish/              /portfolio/whistlefish-2-0-shopify-website-design-case-study/  301
+/portfolio/whistlefish-2-0-shopify-website-design-case-study/  /portfolio/whistlefish/  301
 /skills/                             /about/                            301
 /articles/how-to-choose-the-best-shopify-website-designer-in-the-uk-2025/  /articles/what-to-look-for-hiring-shopify-designer/  301
 /portfolio/jing-tea-shopify-website-design-case-study/  /work/          301

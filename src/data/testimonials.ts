@@ -81,7 +81,7 @@ export const TESTIMONIALS_LIST: Testimonial[] = [
     name: 'Will Manders',
     credit: 'Head of Ecommerce, Whistlefish',
     year: '2025',
-    caseStudy: '/portfolio/whistlefish-2-0-shopify-website-design-case-study/',
+    caseStudy: '/portfolio/whistlefish/',
   },
   {
     id: 'east-west-apparel',

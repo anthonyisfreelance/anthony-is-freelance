@@ -6,7 +6,7 @@ import apron from '../../assets/brands/whistlefish/apron.jpg';
 import cards from '../../assets/brands/whistlefish/cards.jpg';
 
 const B = 'whistlefish';
-const PATH = '/portfolio/whistlefish-2-0-shopify-website-design-case-study/';
+const PATH = '/portfolio/whistlefish/';
 
 export const DATA: CaseStudyPageData = {
   meta: {
