@@ -9,7 +9,30 @@ export const ENTITY = {
     jobTitle: 'Freelance Shopify designer',
     // As on the About page and LinkedIn (29 October 2026): taught at Somerset, a University of Plymouth partner college.
     alumniOf: ['Somerset College of Arts and Technology', 'University of Plymouth'],
+    description:
+      'Anthony Bliss is a freelance Shopify designer in Falmouth, Cornwall, with over 20 years in brand and ecommerce design, including just over three years on Dyson product launches. He designs bespoke Shopify and Shopify Plus stores for DTC brands, with UX and conversion rate optimisation built in.',
+    // Skills carried over from the WordPress schema (knowsAbout and hasOccupation skills), brought up to
+    // date with the eight services. Well-known topics link to Wikipedia so search engines can't mistake them.
+    knowsAbout: [
+      { name: 'Shopify', sameAs: 'https://en.wikipedia.org/wiki/Shopify' },
+      { name: 'Shopify Plus' },
+      { name: 'Shopify website design' },
+      { name: 'Ecommerce design' },
+      { name: 'User experience design', sameAs: 'https://en.wikipedia.org/wiki/User_experience_design' },
+      { name: 'User interface design', sameAs: 'https://en.wikipedia.org/wiki/User_interface_design' },
+      { name: 'Conversion rate optimisation', sameAs: 'https://en.wikipedia.org/wiki/Conversion_rate_optimization' },
+      { name: 'Shopify migration' },
+      { name: 'Shopify subscriptions' },
+      { name: 'Shopify theme customisation' },
+      { name: 'Brand identity design' },
+      { name: 'Design systems' },
+      { name: 'Figma', sameAs: 'https://en.wikipedia.org/wiki/Figma_(software)' },
+      { name: 'AI search visibility' },
+    ],
+    skills: ['Shopify design', 'UX design', 'UI design', 'Conversion rate optimisation', 'Ecommerce strategy', 'Brand design', 'Design systems', 'Figma prototyping'],
   },
+  // Wins only, with the organiser's category names (awards page). Shortlists stay on the awards page.
+  awards: ['UK eCommerce Website of the Year 2026 (UK eCommerce Awards), for Drink Finder', 'UK User Experience of the Year 2026 (UK eCommerce Awards), for East at Home'],
   business: {
     id: `${SITE}/#business`,
     name: 'Anthony is Freelance',
@@ -21,6 +44,10 @@ export const ENTITY = {
     telephone: '+441326702184',
     telephoneDisplay: '01326702184',
     email: 'hello@anthonyis.uk',
+    description: 'Anthony is Freelance is the Shopify design practice of Anthony Bliss: Shopify and Shopify Plus store design, UX and conversion rate optimisation for DTC brands across the UK, from Falmouth, Cornwall.',
+    // Anthonyis Limited was incorporated in 2017 (Companies House), as in the WordPress schema.
+    foundingDate: '2017',
+    priceRange: 'From £800 + VAT',
     locality: 'Falmouth',
     region: 'Cornwall',
     country: 'GB',

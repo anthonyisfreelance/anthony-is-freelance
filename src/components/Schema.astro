@@ -1,6 +1,14 @@
 ---
 // Builds one @graph per page from the shared entity data. Pages pass their own bits.
 import { ENTITY, SITE, URLS } from '../data/site';
+import { getImage } from 'astro:assets';
+import portrait from '../assets/site/anthony-about-hero.jpg';
+// Anthony's photo for the Person entity, the same picture as the About page.
+const photo = await getImage({ src: portrait, width: 800, format: 'jpg', quality: 80 });
+const photoUrl = new URL(photo.src, SITE).href;
+const logoUrl = new URL('/icon-512.png', SITE).href;
+const awards = ENTITY.awards;
+const knowsAbout = ENTITY.person.knowsAbout.map((k) => ({ '@type': 'Thing', ...k }));
 
 interface Props {
   type?: 'WebPage' | 'CollectionPage' | 'AboutPage' | 'ContactPage';
@@ -30,6 +38,17 @@ const person = {
   url: new URL(URLS.about, SITE).href,
   worksFor: { '@id': b.id },
   alumniOf: ENTITY.person.alumniOf.map((name) => ({ '@type': 'CollegeOrUniversity', name })),
+  image: photoUrl,
+  description: ENTITY.person.description,
+  knowsAbout,
+  hasOccupation: {
+    '@type': 'Occupation',
+    name: 'Shopify designer',
+    occupationLocation: { '@type': 'Country', name: 'United Kingdom' },
+    skills: ENTITY.person.skills.join(', '),
+  },
+  award: awards,
+  homeLocation: { '@type': 'Place', name: `${b.locality}, ${b.region}` },
   sameAs: ENTITY.sameAs,
 };
 
@@ -39,6 +58,15 @@ const business = {
   name: b.name,
   legalName: b.legalName,
   url: SITE + '/',
+  logo: logoUrl,
+  image: photoUrl,
+  description: b.description,
+  foundingDate: b.foundingDate,
+  priceRange: b.priceRange,
+  knowsAbout,
+  award: awards,
+  // The full price list lives on the services page as an OfferCatalog under this @id.
+  hasOfferCatalog: { '@id': new URL(URLS.services, SITE).href + '#catalog' },
   telephone: b.telephone,
   email: b.email,
   founder: { '@id': ENTITY.person.id },
