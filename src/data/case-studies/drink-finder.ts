@@ -166,7 +166,7 @@ const TESTIMONIAL = {
   eyebrow: 'Drink Finder testimonial',
   heading: 'In the client’s words.',
   quote:
-    'Our site is a beast handling the distinct functional requirements for wine vs. spirits, managing wholesale and retail channels, and juggling complex shipping metrics. Ant was incredibly accommodating, ensuring the site received a modern upgrade without alienating our core customers. He kept the ‘Drink Finder’ soul intact while significantly smoothing out the user journey. … He didn’t just give us a facelift; he built a platform that performs.',
+    'Our site is a beast handling the distinct functional requirements for wine vs. spirits, managing wholesale and retail channels, and juggling complex shipping metrics. Ant was incredibly accommodating, ensuring the site received a modern upgrade without alienating our core customers. He kept the ‘Drink Finder’ soul intact while significantly smoothing out the user journey. He didn’t just give us a facelift; he built a platform that performs.',
   // Name, role and year from the testimonials record, as on the homepage.
   cite: creditLine(testimonial('drink-finder')),
 };

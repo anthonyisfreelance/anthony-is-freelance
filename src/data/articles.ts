@@ -23,11 +23,13 @@ export interface Article {
   /** The article's real headline number, for the on-site featured cover (Figma Article/Cover, Figure=True).
    *  Leave it off when the article has no single figure; the cover falls back to the category mark. */
   figure?: { value: string; label: string };
+  /** false hides the date on cards (menus, lists) for an older article awaiting a refresh; the article page still shows it. */
+  cardDate?: boolean;
 }
 
 // Newest first.
 export const ARTICLES_LIST: Article[] = [
-  { title: 'What Is a Good Conversion Rate on Shopify?', href: '/articles/good-conversion-rate-shopify/', date: '2026-09-20', category: 'shopify-cro', excerpt: 'A good Shopify conversion rate is above 3.2%, which puts a store in the top 20%.', figure: { value: '3.2%', label: 'puts a store in the top 20%' } },
+  { title: 'What Is a Good Conversion Rate on Shopify?', href: '/articles/good-conversion-rate-shopify/', date: '2026-09-20', updated: '2026-11-02', category: 'shopify-cro', excerpt: 'A good Shopify conversion rate is above 2.7%, which puts a store in the top 20%.', figure: { value: '2.7%', label: 'puts a store in the top 20%' } },
   { title: 'Two Wins from Four Shortlistings at the UK eCommerce Awards 2026', href: '/articles/shortlisted-uk-ecommerce-awards-2026/', date: '2026-08-30', updated: '2026-09-30', category: 'news', excerpt: 'I won two categories at the UK eCommerce Awards 2026 from four shortlistings, for my work with Drink Finder and East at Home.' },
   { title: "What Is a Shopify UX Review (And Why It's Where Every Project Should Start)", href: '/articles/shopify-ux-review/', date: '2026-05-13', category: 'design-and-ux', excerpt: 'A Shopify UX review is where every project should start, and yet most agencies skip it in favour of made-up personas and assumptions.' },
   { title: 'Shopify Product Card Design: The Art of Cards That Convert', href: '/articles/shopify-product-card-design/', date: '2026-05-05', category: 'design-and-ux', excerpt: 'Product cards are the most fundamental component of any ecommerce site, and the place where premium Shopify themes quietly underperform.' },
@@ -46,7 +48,7 @@ export const ARTICLES_LIST: Article[] = [
   { title: 'Product Comparisons for Shopify Stores: How Better UX Boosts Conversions', href: '/articles/product-comparisons-for-shopify-stores-how-better-ux-boosts-conversions/', date: '2025-08-26', category: 'design-and-ux', excerpt: 'When a customer lands on your Shopify store, they’re either ready to buy or still weighing up their options.' },
   { title: 'Voice Search Optimisation for Shopify Stores: A Complete 2026 Guide', href: '/articles/voice-search-optimisation-for-shopify-stores-a-complete-2025-guide/', date: '2025-08-24', category: 'ecommerce-strategy', excerpt: 'The way people search online is changing.' },
   { title: 'Why Off-the-Shelf Shopify Themes Hold Stores Back in 2026', href: '/articles/why-off-the-shelf-shopify-themes-hold-stores-back-in-2025/', date: '2025-07-30', category: 'design-and-ux', excerpt: 'Why choosing convenience over strategy might be costing your business more than you think.' },
-  { title: '25 Biggest Brands using Shopify in 2026', href: '/articles/25-biggest-brands-using-shopify-in-2025/', date: '2025-03-13', category: 'shopify-platform', excerpt: 'Shopify has emerged as a leading platform within the eCommerce industry.' },
+  { title: '25 Biggest Brands using Shopify in 2026', href: '/articles/25-biggest-brands-using-shopify-in-2025/', date: '2025-03-13', cardDate: false, category: 'shopify-platform', excerpt: 'Shopify has emerged as a leading platform within the eCommerce industry.' },
   { title: 'How to Increase Conversion Rates on Your Shopify Store', href: '/articles/how-to-increase-conversion-rates-on-your-shopify-store/', date: '2025-03-03', category: 'shopify-cro', excerpt: 'Driving traffic to your Shopify store is only half the battle; the real challenge is converting visitors into paying customers.' },
   { title: 'Shopify vs Shopify Plus', href: '/articles/shopify-vs-shopify-plus/', date: '2025-02-19', category: 'shopify-platform', excerpt: 'When setting up or expanding an online store, Shopify is frequently one of the first platforms that comes to mind.' },
   { title: 'Microinteractions in Shopify Website Design', href: '/articles/microinteractions-in-shopify-website-design/', date: '2025-02-17', category: 'design-and-ux', excerpt: 'In today’s digital-first world, user experience (UX) and user interface (UI) design are essential for keeping users engaged.' },

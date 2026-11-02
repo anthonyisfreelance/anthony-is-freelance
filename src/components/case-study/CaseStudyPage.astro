@@ -224,7 +224,7 @@ const link = 'underline underline-offset-4 hover:decoration-2';
         <div class="border-t border-line pt-section">
           <div class="lg:w-half"><Heading eyebrow={TESTIMONIAL.eyebrow}>{TESTIMONIAL.heading}</Heading></div>
           <figure class="mt-gutter flex flex-col gap-gutter">
-            <blockquote class="font-display text-[length:var(--type-h2)] font-medium leading-[1.3] text-ink lg:max-w-[30.3em]">“{TESTIMONIAL.quote}”</blockquote>
+            <blockquote class="font-display text-[length:var(--type-h2)] font-medium leading-[1.3] text-ink lg:max-w-[30.3em]">“{TESTIMONIAL.quote.replace(/\s*…\s*/g, " ")}”</blockquote>
             <figcaption class="t-label text-muted">{TESTIMONIAL.cite}</figcaption>
           </figure>
         </div>

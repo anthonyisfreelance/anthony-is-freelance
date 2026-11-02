@@ -50,8 +50,8 @@ export const DATA: CaseStudyPageData = {
     phones: [
       slot(B, 'showcase-phone-1', 'The Whistlefish homepage on mobile.', 'Homepage'),
       slot(B, 'showcase-phone-2', 'A Whistlefish card collection on mobile.', 'Card collection'),
-      slot(B, 'showcase-phone-3', 'The Whistlefish greeting cards menu on mobile.', 'Greeting cards menu'),
       slot(B, 'showcase-phone-4', 'The Whistlefish Falmouth shop page on mobile.', 'Falmouth shop'),
+      slot(B, 'showcase-phone-3', 'The Whistlefish greeting cards menu on mobile.', 'Greeting cards menu'),
     ],
   },
   workIntro: {
@@ -110,7 +110,7 @@ export const DATA: CaseStudyPageData = {
     eyebrow: 'Whistlefish testimonial',
     heading: 'In the client’s words.',
     quote:
-      'The design process and finalised site helped our brand leap into its next phase with a fresh, clean look that our customers immediately loved. … Using Figma as a templating system meant all of our building blocks worked seamlessly together, and we’ve since been able to carry that framework into our own design team, making adjustments easily while staying true to the original vision.',
+      'The design process and finalised site helped our brand leap into its next phase with a fresh, clean look that our customers immediately loved. Using Figma as a templating system meant all of our building blocks worked seamlessly together, and we’ve since been able to carry that framework into our own design team, making adjustments easily while staying true to the original vision.',
     cite: creditLine(testimonial('whistlefish')),
   },
   more: { ...MORE_HEADING, cards: moreFor('Whistlefish') },

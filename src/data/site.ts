@@ -15,6 +15,9 @@ export const ENTITY = {
     name: 'Anthony is Freelance',
     legalName: 'Anthonyis Limited',
     companyNumber: '10575474',
+    // Shown on the privacy page only, not the footer (Anthony, 2 November 2026). From the Companies House
+    // officers page; it's the accountant's address. [CONFIRM] it matches the registered office.
+    registeredOffice: 'Unit 3 Building B, Green Court, Truro Business Park, Threemilestone, Truro, Cornwall, TR4 9LF',
     telephone: '+441326702184',
     telephoneDisplay: '01326702184',
     email: 'hello@anthonyis.uk',

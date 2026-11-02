@@ -70,7 +70,7 @@ export const ALL_SERVICES = [
     // Jing Tea image to come.
     image: undefined,
     price: 10000,
-    body: 'Shopify Plus design is for high-volume brands already on Plus, or moving to it. Jing Tea runs on a Plus store I designed [CONFIRM].',
+    body: 'Shopify Plus design is for high-volume brands already on Plus, or moving to it. Jing Tea runs on a Plus store I designed.',
     serviceType: 'Shopify Plus website design',
   },
   {
@@ -180,8 +180,8 @@ export const SITUATIONS = {
       body: [
         { text: 'If the checkout, speed or day-to-day running is the problem, ' },
         { text: 'moving to Shopify', href: URLS.migrations },
-        { text: ' fixes it, and the move is the time to redesign. Brands growing fast should look at ' },
-        { text: 'Shopify Plus', href: URLS.plus }, { text: '.' },
+        // "Brands growing fast should look at Shopify Plus" comes back when the Plus page goes live.
+        { text: ' fixes it, and the move is the time to redesign.' },
       ],
       href: URLS.migrations,
     },
@@ -230,7 +230,7 @@ export const HUB_TESTIMONIAL = {
   heading: 'Led by data, not guesswork.',
   quote:
     'We were also impressed by how data driven Anthony was: the first thing he did was do an analysis of our website to identify click rates and where page views were dropping off. This analysis allowed us to figure out where exactly our priorities need to be.',
-  cite: 'Jaideep Shah, Director, Zen Maitri · [CONFIRM year]',
+  cite: 'Jaideep Shah, Director, Zen Maitri · 2026',
 };
 
 export const HUB_FAQS = {

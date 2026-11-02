@@ -111,7 +111,7 @@ export const CRO: ServicePage = {
     heading: 'Before you get in touch.',
     items: [
       { q: 'What is Shopify CRO?', a: ["Shopify CRO, or conversion rate optimisation, is improving your store so more visitors buy. It means finding where customers leave, redesigning those steps and measuring the result. A store is never finished, so it's ongoing work, not a one-off."] },
-      { q: 'What is a good conversion rate on Shopify?', a: ['Above 3.2% puts a Shopify store in the top 20%, and the average is 1.4%. Your sector matters more than the average, so compare yourself with similar stores.'] },
+      { q: 'What is a good conversion rate on Shopify?', a: ['Above 2.7% puts a Shopify store in the top 20%, and the median is 1.4% (Littledata, October 2026). Your sector matters more than the average, so compare yourself with similar stores.'] },
       { q: 'How long does CRO take to show results?', a: ["It depends on what's being measured. For a CRO change, I usually compare a week against a week, and make sure it's a fair test, with no sale or campaign flattering one side. For a case study, I show a longer stretch so the figure reflects the whole new store, and I always say which dates and which data it comes from."] },
       { q: 'Can you work with my existing developer?', a: ['Yes. I design the changes in Figma and brief your developer, then QA what they build before it goes live.'] },
       { q: 'Do I need CRO help if I already use an analytics app?', a: ["An analytics app shows you what happened and where. It can't design the change that fixes it, or judge whether that change suits your brand. I start from what your app already shows, so if it has found the drop-off, we go straight to the fix."] },

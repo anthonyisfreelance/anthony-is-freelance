@@ -111,7 +111,7 @@ export const DATA: CaseStudyPageData = {
     eyebrow: 'Hartnack & Co testimonial',
     heading: 'In the client’s words.',
     quote:
-      'After many failed attempts to find a Shopify designer and developer anywhere in the world who could understand how our markets worked, but more importantly could design a website that could “make” a product, we discovered Anthony, just down the road in Cornwall. … he delivered a website that looks amazing but also works perfectly and we only wish we had found him earlier.',
+      'After many failed attempts to find a Shopify designer and developer anywhere in the world who could understand how our markets worked, but more importantly could design a website that could “make” a product, we discovered Anthony, just down the road in Cornwall. he delivered a website that looks amazing but also works perfectly and we only wish we had found him earlier.',
     cite: creditLine(testimonial('hartnack-and-co')),
   },
   more: { ...MORE_HEADING, cards: moreFor('Hartnack & Co') },

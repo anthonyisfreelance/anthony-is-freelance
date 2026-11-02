@@ -1,8 +1,8 @@
 {
  "seoTitle": "What Is a Good Conversion Rate on Shopify? 2026 Benchmarks",
- "description": "A good Shopify conversion rate is above 3.2%. The average is 1.4%. Here is what the benchmarks actually say, why sector matters more, and what moves the number.",
+ "description": "A good Shopify conversion rate is above 2.7%, the top 20%. The median is 1.4%. What the latest benchmark says, why sector matters more, and what moves the number.",
  "published": "2026-09-20",
- "modified": "2026-09-21",
+ "modified": "2026-11-02",
  "hero": {
   "file": "What-Is-a-Good-Conversion-Rate-on-Shopify_.webp",
   "alt": "Shopify logo beside a rising line graph, illustrating Shopify conversion rate benchmarks"
@@ -16,7 +16,7 @@
   },
   {
    "type": "html",
-   "html": "<p>A good conversion rate on Shopify is anything above 3.2%. That puts a store in the top 20%. The platform average is 1.4%, and above 4.7% puts you in the top 10%.</p>\n<p>Those figures come from Littledata’s benchmark of 2,800 Shopify stores. They are a useful yardstick and a poor target, because your sector, your price point, your device mix and where your traffic comes from move the number more than anything on your site does.</p>"
+   "html": "<p>A good conversion rate on Shopify is anything above 2.7%. That puts a store in the top 20%. The median store converts 1.4% of sessions, and above 3.7% puts you in the top 10%.</p>\n<p>Those figures come from Littledata’s benchmark of 436 Shopify stores, covering the 90 days to 24 October 2026. They are a useful yardstick and a poor target, because your sector, your price point, your device mix and where your traffic comes from move the number more than anything on your site does.</p>"
   },
   {
    "type": "h3",
@@ -24,7 +24,7 @@
   },
   {
    "type": "html",
-   "html": "<ul>\n<li>The average Shopify conversion rate is 1.4%. Above 3.2% is the top 20%, above 4.7% is the top 10%.</li>\n<li>Mobile converts at 1.2% against 1.9% on desktop, and mobile is where most of the traffic sits.</li>\n<li>UK and Irish independent merchants averaged 2.23% in August 2026, up from 1.85% a year earlier, on 13.69% fewer visitors.</li>\n<li>Sector moves the number more than tactics do. Food and drink averaged 1.58% in August 2026, arts and crafts 5.81%.</li>\n<li>A realistic target is a 10% to 30% relative improvement over a few months, not a doubling.</li>\n</ul>"
+   "html": "<ul>\n<li>The median Shopify conversion rate is 1.4%. Above 2.7% is the top 20%, above 3.7% is the top 10%.</li>\n<li>At the median, mobile now converts as well as desktop: 1.5% against 1.4%. The best stores still convert better on desktop.</li>\n<li>UK and Irish independent merchants averaged 2.23% in August 2026, up from 1.85% a year earlier, on 13.69% fewer visitors.</li>\n<li>Sector moves the number more than tactics do. Food and drink averaged 1.58% in August 2026, arts and crafts 5.81%.</li>\n<li>A realistic target is a 10% to 30% relative improvement over a few months, not a doubling.</li>\n</ul>"
   },
   {
    "type": "h2",
@@ -33,7 +33,7 @@
   },
   {
    "type": "html",
-   "html": "<p>Above 3.2% is good and above 4.7% is excellent. The average sits at 1.4%. These are Littledata’s Shopify-specific percentiles, taken from a benchmark of 2,800 stores, and they are the only widely published benchmark measuring Shopify on its own rather than ecommerce as a whole.</p>\n<div class=\"table-wrap\"><table>\n<thead>\n<tr>\n<th>Performance</th>\n<th>Shopify conversion rate</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>Average</td>\n<td>1.4%</td>\n</tr>\n<tr>\n<td>Top 20%</td>\n<td>Above 3.2%</td>\n</tr>\n<tr>\n<td>Top 10%</td>\n<td>Above 4.7%</td>\n</tr>\n<tr>\n<td>Average, mobile</td>\n<td>1.2%</td>\n</tr>\n<tr>\n<td>Average, desktop</td>\n<td>1.9%</td>\n</tr>\n<tr>\n<td>Top 10%, mobile</td>\n<td>Above 3.9%</td>\n</tr>\n<tr>\n<td>Top 10%, desktop</td>\n<td>Above 6.5%</td>\n</tr>\n</tbody>\n</table></div>\n<p>Source: <a href=\"https://www.littledata.io/ecommerce-conversion-rate\">Littledata</a>.</p>\n<p>One caveat, because most articles quoting these numbers leave it out. Littledata’s benchmark is a 2023 dataset. It is still the most recent Shopify-only benchmark published anywhere, which is why everyone cites it, but it is not this year’s number. If you find a page quoting an updated Littledata study across several thousand more stores, check it against Littledata’s own page before you trust it.</p>"
+   "html": "<p>Above 2.7% is good and above 3.7% is excellent. The median sits at 1.4%. These are Littledata’s Shopify-specific percentiles, from 436 stores that send their data to Google Analytics 4 the same way, and they are the only widely published benchmark measuring Shopify on its own rather than ecommerce as a whole.</p>\n<div class=\"table-wrap\"><table>\n<thead>\n<tr>\n<th>Performance</th>\n<th>Shopify conversion rate</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>Median</td>\n<td>1.4%</td>\n</tr>\n<tr>\n<td>Top 20%</td>\n<td>Above 2.7%</td>\n</tr>\n<tr>\n<td>Top 10%</td>\n<td>Above 3.7%</td>\n</tr>\n<tr>\n<td>Bottom 20%</td>\n<td>Below 0.5%</td>\n</tr>\n<tr>\n<td>Median, mobile</td>\n<td>1.5%</td>\n</tr>\n<tr>\n<td>Median, desktop</td>\n<td>1.4%</td>\n</tr>\n<tr>\n<td>Top 10%, mobile</td>\n<td>Above 4.2%</td>\n</tr>\n<tr>\n<td>Top 10%, desktop</td>\n<td>Above 5.1%</td>\n</tr>\n</tbody>\n</table></div>\n<p>Source: <a href=\"https://www.littledata.io/ecommerce-conversion-rate\">Littledata</a>, 436 Shopify stores, 27 July to 24 October 2026, generated 28 October 2026.</p>\n<p>One caveat, because most articles quoting these numbers leave it out. Littledata now refreshes this benchmark every few weeks on a rolling 90 days, so the top-tier thresholds move a little each time. Plenty of pages still quote its older 2,800-store figures, where the top 20% started at 3.2%. If a number looks out of line, check the date on it.</p>"
   },
   {
    "type": "h2",
@@ -46,12 +46,12 @@
   },
   {
    "type": "h2",
-   "text": "Why is your mobile conversion rate lower than desktop?",
-   "id": "why-is-your-mobile-conversion-rate-lower-than-desktop"
+   "text": "Is mobile conversion still lower than desktop?",
+   "id": "is-mobile-conversion-still-lower-than-desktop"
   },
   {
    "type": "html",
-   "html": "<p>Because most stores are still designed for desktop and then squeezed onto a phone. On Shopify, mobile averages 1.2% against 1.9% on desktop. The gap widens at the top, where the best 10% of stores manage more than 3.9% on mobile and more than 6.5% on desktop.</p>\n<p>That matters because mobile is where the traffic is. In August 2026, mobile accounted for 63.7% of sales across UK and Irish independent merchants, desktop 34.7% and tablet 1.6%. If your mobile rate sits far below your desktop rate, the losses are concentrated on the majority of your visits.</p>\n<p>The fix is rarely a mobile-specific patch bolted on at the end. It is designing the journey for a phone first and letting the desktop version inherit it.</p>"
+   "html": "<p>Not for the typical store any more. In Littledata’s latest benchmark the median Shopify store converts 1.5% on mobile and 1.4% on desktop. Its older dataset had mobile at 1.2% against 1.9%, the gap most articles still quote.</p>\n<p>The gap hasn’t closed at the top. The best 10% of stores convert above 4.2% on mobile and above 5.1% on desktop. Good stores have caught up on phones, and the best desktop journeys still pull further ahead.</p>\n<p>That matters because mobile is where the traffic is. In August 2026, mobile accounted for 63.7% of sales across UK and Irish independent merchants, desktop 34.7% and tablet 1.6%. If your mobile rate sits well below your desktop rate, you are now behind the typical store, and the losses fall on the majority of your visits.</p>\n<p>The fix is rarely a mobile-specific patch bolted on at the end. It is designing the journey for a phone first and letting the desktop version inherit it.</p>"
   },
   {
    "type": "h2",
@@ -91,7 +91,7 @@
   },
   {
    "type": "html",
-   "html": "<p>On East at Home, a DTC food brand, the collection pages were rebuilt around bespoke product cards that surface what actually drives the choice: spice level, dietary fit, flavour. A customer can compare the range without opening a single product page.</p>\n<p>Conversion rate rose 14% from a base that was already well above sector average, and revenue grew 82% year on year.</p>\n<p><a href=\"/portfolio/east-at-home-shopify-website-design-case-study/\">Read the East at Home case study</a></p>"
+   "html": "<p>On East at Home, a DTC food brand, the collection pages were rebuilt around bespoke product cards that surface what actually drives the choice: spice level, dietary fit, flavour. A customer can compare the range without opening a single product page.</p>\n<p>Conversion rate rose 14% from a base that was already well above sector average, checkout starts rose 23%, add to basket actions rose 27%, and revenue grew 82% year on year.</p>\n<p><a href=\"/portfolio/east-at-home-shopify-website-design-case-study/\">Read the East at Home case study</a></p>"
   },
   {
    "type": "h3",
@@ -120,7 +120,7 @@
   },
   {
    "type": "html",
-   "html": "<p>A theme’s default menu will not cope with thousands of products. On the drinks project the mobile navigation was built from scratch rather than bent out of a generic component, and a catalogue that had been a barrier became calm to browse. Checkout starts rose 23% and add to basket actions rose 27%.</p>"
+   "html": "<p>A theme’s default menu will not cope with thousands of products. On the drinks project the mobile navigation was built from scratch rather than bent out of a generic component, and a catalogue that had been a barrier became calm to browse.</p>"
   },
   {
    "type": "h3",
@@ -155,17 +155,17 @@
   },
   {
    "type": "html",
-   "html": "<p>A good Shopify conversion rate is above 3.2%, the average is 1.4%, and the top 10% clear 4.7%. None of those numbers means much until you account for your sector, your price point and your device mix, which is why the most useful benchmark is your own previous period.</p>\n<p>Measure your rate by device and by traffic source before you measure it against anyone else. One blended number hides the problem. Split it and it usually points straight at it.</p>\n<p>If you want it looked at properly, that is the work I do with DTC brands. More on <a href=\"/shopify-website-design/shopify-conversion-rate-optimisation/\">Shopify conversion rate optimisation</a>.</p>"
+   "html": "<p>A good Shopify conversion rate is above 2.7%, the median is 1.4%, and the top 10% clear 3.7%. None of those numbers means much until you account for your sector, your price point and your device mix, which is why the most useful benchmark is your own previous period.</p>\n<p>Measure your rate by device and by traffic source before you measure it against anyone else. One blended number hides the problem. Split it and it usually points straight at it.</p>\n<p>If you want it looked at properly, that is the work I do with DTC brands. More on <a href=\"/shopify-website-design/shopify-conversion-rate-optimisation/\">Shopify conversion rate optimisation</a>.</p>"
   }
  ],
  "faqs": [
   {
    "q": "What is the average conversion rate on Shopify?",
-   "html": "<p>1.4% across all stores, according to Littledata’s benchmark of 2,800 Shopify sites. Mobile averages 1.2% and desktop 1.9%. Sector and price point cause enormous variation, so treat the average as a reference point rather than a target.</p>"
+   "html": "<p>The median is 1.4%, according to Littledata’s benchmark of 436 Shopify stores over the 90 days to 24 October 2026. Mobile and desktop are now close at the median, 1.5% and 1.4%. Sector and price point cause enormous variation, so treat it as a reference point rather than a target.</p>"
   },
   {
    "q": "Is 2% a good conversion rate on Shopify?",
-   "html": "<p>2% is above the Shopify average of 1.4% and below the 3.2% that marks the top 20%. Whether it is good for your store depends on your sector, your price point and how much of your traffic is cold and paid.</p>"
+   "html": "<p>2% is above the Shopify median of 1.4% and below the 2.7% that marks the top 20%. Whether it is good for your store depends on your sector, your price point and how much of your traffic is cold and paid.</p>"
   },
   {
    "q": "How is a Shopify conversion rate calculated?",
@@ -173,7 +173,7 @@
   },
   {
    "q": "Why is my mobile conversion rate lower than my desktop rate?",
-   "html": "<p>That is normal. On Shopify, mobile averages 1.2% against 1.9% on desktop. A very large gap usually means the site was designed desktop first and squeezed down. Since mobile carries most of the traffic, closing that gap is often the single biggest opportunity.</p>"
+   "html": "<p>At the median it no longer should be. In Littledata’s October 2026 benchmark the typical Shopify store converts 1.5% on mobile and 1.4% on desktop. A big gap in your own numbers usually means the site was designed desktop first and squeezed down. Since mobile carries most of the traffic, closing that gap is often the single biggest opportunity.</p>"
   },
   {
    "q": "What is a good conversion rate for a UK store?",

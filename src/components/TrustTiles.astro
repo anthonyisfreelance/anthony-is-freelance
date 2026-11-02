@@ -1,8 +1,8 @@
 ---
 // Trust tiles (Figma "Icon and text Section" / "_Master Text", Background style):
 // each fact sits on the raised surface with its text centred.
-// Phones: a two-column grid, 8px gaps. From 1024px: one row, 12px gaps, the Google tile
-// sized to its content and the rest sharing the width.
+// Phones: a two-column grid, 8px gaps. From 1024px: one row, 12px gaps, the Google tile at three
+// quarters of the others' width (at least its content) and the rest sharing the width.
 // stack: one tile under another at every size, 8px apart (the footer).
 // equal: from 1024px every tile shares the width, the Google tile included.
 // The Google tile keeps its G, stars and rating on one line everywhere.
@@ -23,7 +23,7 @@ const odd = items.length % 2 === 1;
     <li
       class:list={[
         'flex items-center justify-center gap-2 bg-raised px-4 py-3 text-center',
-        !stack && (t.google && !equal ? 'lg:shrink-0' : 'lg:min-w-0 lg:flex-1 lg:basis-0'),
+        !stack && (t.google && !equal ? 'lg:min-w-max lg:flex-[0.75] lg:basis-0' : 'lg:min-w-0 lg:flex-1 lg:basis-0'),
         !stack && odd && i === items.length - 1 && 'col-span-2',
       ]}
     >

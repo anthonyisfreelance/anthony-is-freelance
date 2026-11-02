@@ -11,12 +11,14 @@ export const PLUS: ServicePage = {
     path: URLS.plus,
     name: 'Shopify Plus design',
     serviceType: 'Shopify Plus website design',
+    // Held back until there's a Plus case study (Gee Hair). Noindexed, out of the sitemap, no links in.
+    noindex: true,
   },
   hero: {
     eyebrow: 'Shopify Plus website design',
     heading: 'Design for when the stakes go up.',
     intro:
-      "Shopify Plus design is store design for brands on Shopify's enterprise plan, where more traffic, a customisable checkout, wholesale and more than one market raise the stakes. I design Plus stores as bespoke projects, often alongside an in-house team or agency. Shopify Plus design is priced as a bespoke design, from £10,000 + VAT, design only. [CONFIRM] Jing Tea runs on a Plus store I designed.",
+      "Shopify Plus design is store design for brands on Shopify's enterprise plan, where more traffic, a customisable checkout, wholesale and more than one market raise the stakes. I design Plus stores as bespoke projects, often alongside an in-house team or agency. Shopify Plus design is priced as a bespoke design, from £10,000 + VAT, design only. Jing Tea runs on a Plus store I designed.",
     cta: { label: 'Start a Plus project', href: '#start-a-project' },
     caption: 'Jing Tea. The collection page on Shopify Plus.',
   },
@@ -71,7 +73,7 @@ export const PLUS: ServicePage = {
     cta: QUOTE,
     caption: 'Shopify Plus design at a glance',
     rows: [
-      ['Starting price', `${hubPrice('Shopify Plus design')} [CONFIRM]`],
+      ['Starting price', hubPrice('Shopify Plus design')],
       ['Design time', 'Six to eight weeks, as a bespoke design'],
       ['Build time', 'About the same again'],
       ['What you get', 'The full Figma file: design system, every template and a clickable prototype'],

@@ -25,7 +25,7 @@ export type Extra =
   | { kind: 'todo'; after: Slot; title: string; note: string };
 
 export interface ServicePage {
-  meta: { title: string; description: string; path: string; name: string; serviceType: string; minPrice?: number };
+  meta: { title: string; description: string; path: string; name: string; serviceType: string; minPrice?: number; /** Built but held back: noindex, out of the sitemap. */ noindex?: boolean };
   hero: { eyebrow: string; heading: string; intro: string; cta: Link; image?: ImageMetadata; imageAlt?: string; imagePosition?: string; caption?: string };
   trust: string[];
   included: { heading: string; items: string[] };

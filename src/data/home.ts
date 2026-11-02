@@ -89,7 +89,7 @@ export const BRANDS = {
   eyebrow: 'Shopify designer Cornwall, UK',
   heading: 'Brands that trust me',
   // [DRAFT] reword in your voice, and [CONFIRM] all four are cleared to name.
-  line: "I've designed for Dyson, Wrangler, Drink Finder and East at Home, with no set style and no favoured sector.",
+  line: "I've designed for Dyson, Wrangler, Drink Finder and East at Home, with no set style and no favoured sector. Every logo opens the work I did for that brand.",
   // Each logo links to its case study or project page (1 November 2026).
   // White logos in public/logos/<slug>.svg (from Drive client-logos). Four a row on desktop, three on phones.
   // Projektityyny comes back when its logo is in.
@@ -209,8 +209,8 @@ export const TESTIMONIALS = {
   eyebrow: 'Shopify designer UK',
   heading: 'What clients say about working with me.',
   links: [
-    { label: 'Read all client testimonials', href: URLS.testimonials },
-    { label: 'Read my Google reviews', href: ENTITY.googleReviews, external: true },
+    { label: 'Client testimonials', href: URLS.testimonials },
+    { label: 'Google reviews', href: ENTITY.googleReviews, external: true },
   ],
   // Excerpts copied word for word from the testimonials record, each linking to its full quote.
   // Phones show the first two.

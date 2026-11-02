@@ -70,18 +70,13 @@ export const DATA: CaseStudyPageData = {
       body: 'Accessibility is hardest when the brand is playful. I reworked the type ratios so text reads clearly and the calls to action stand out, without losing Window Fleur’s character.',
       media: slot(B, 'work-02', 'The Window Fleur size guide on mobile, with clear type and a strong call to action.', 'The size guide slide-up'),
     },
-    {
-      eyebrow: 'Shopify collection design',
-      heading: 'Filters that don’t take over.',
-      body: 'Window Fleur’s collections keep filtering simple on a phone, with the brand’s patterns carrying shopping messages through the grid.',
-      media: slot(B, 'work-03', 'The Window Fleur filters panel on mobile.', 'The filters panel'),
-    },
+    // The collection filters row came out (feedback #349, 2 November 2026): the store has hardly any filters.
   ],
   // One 50/50 halfway through the work (27 October 2026): this photo sticks at full height while
   // desktop screens scroll past on the tint. Drop in split-desktop-1 to -3.
-  splits: [desktopSplit(B, 'Window Fleur', photoMedia(B, 'split-1-photo'), '#DAC5C9', 3, [
+  splits: [{ ...desktopSplit(B, 'Window Fleur', photoMedia(B, 'split-1-photo'), '#DAC5C9', 3, [
     { name: 'split-desktop-4', alt: 'A Window Fleur product page on desktop, from We’re green, inside and out down to the footer.', label: 'Desktop product page' },
-  ], ['The Window Fleur homepage on desktop, from the ready-planted window boxes hero to the four steps of how it works.', 'The Window Fleur how it works page on desktop, with the seasonal cycle of Bloom Bags from spring to winter.', 'The Window Fleur Autumn Bloom Bags page on desktop, choosing a bag size, the plants and a box before adding to cart.'])],
+  ], ['The Window Fleur homepage on desktop, from the ready-planted window boxes hero to the four steps of how it works.', 'The Window Fleur how it works page on desktop, with the seasonal cycle of Bloom Bags from spring to winter.', 'The Window Fleur Autumn Bloom Bags page on desktop, choosing a bag size, the plants and a box before adding to cart.']), after: 2 }],
   feature: {
     background: photo(B, 'feature-photo'),
     eyebrow: 'Pattern-led ecommerce design',

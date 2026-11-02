@@ -87,23 +87,25 @@ const testimonialLogo = p.testimonial && TESTIMONIAL_LOGOS.find(([name]) => p.te
 const h3caps = 'font-display text-[length:var(--type-h5)] font-medium uppercase leading-[1.1] text-ink lg:text-[length:var(--type-h3)]';
 const cell = 't-label tracking-[0.02em]';
 ---
-<Base title={p.meta.title} description={p.meta.description}>
+<Base title={p.meta.title} description={p.meta.description} noindex={p.meta.noindex}>
   <Schema slot="head" title={p.meta.title} description={p.meta.description} path={p.meta.path} breadcrumbs={breadcrumbs} faqs={faqSchema} extra={[service]} about={serviceId} mainEntity={serviceId} />
   <Header />
   <main id="main">
     <!-- Hero -->
     <section class="px-margin">
       <!-- Split on the header's gutter, so the photo starts exactly under the first menu item (#294). -->
-      <div class="grid gap-large border-t border-line pt-large lg:grid-cols-2 lg:gap-gutter lg:pt-[40px]">
+      <!-- Phones: the photo comes first, edge to edge, with no rule under the header, like the case study
+           heroes (feedback #312, #313). Desktop is unchanged. -->
+      <div class="grid gap-large lg:grid-cols-2 lg:gap-gutter lg:border-t lg:border-line lg:pt-[40px]">
         <div class="flex flex-col">
           <Heading level={1} eyebrow={p.hero.eyebrow}>{p.hero.heading}</Heading>
           <p class="t-body mt-loose text-muted lg:max-w-[676px]">{p.hero.intro}</p>
           <div class="mt-large lg:mt-[38px]"><TextLink href={p.hero.cta.href}>{p.hero.cta.label}</TextLink></div>
         </div>
-        <div>
+        <div class="max-lg:order-first max-lg:-mx-margin">
           {p.hero.image ? (
             <div class="relative aspect-[4/3] overflow-hidden bg-line lg:aspect-auto lg:h-[450px]">
-              <Image src={p.hero.image} alt={p.hero.imageAlt ?? ''} widths={[400, 700, 1000, 1400]} sizes="(min-width: 1024px) 48vw, calc(100vw - 32px)" quality={75} loading="eager" fetchpriority="high" class="absolute inset-0 size-full object-cover" style={p.hero.imagePosition ? `object-position: ${p.hero.imagePosition}` : undefined} />
+              <Image src={p.hero.image} alt={p.hero.imageAlt ?? ''} widths={[400, 700, 1000, 1400]} sizes="(min-width: 1024px) 48vw, 100vw" quality={75} loading="eager" fetchpriority="high" class="absolute inset-0 size-full object-cover" style={p.hero.imagePosition ? `object-position: ${p.hero.imagePosition}` : undefined} />
             </div>
           ) : (
             <div class="aspect-[4/3] lg:aspect-auto lg:h-[450px] grid place-items-center bg-line"><span class="t-badge text-muted">[Lead work to come]</span></div>
@@ -217,8 +219,11 @@ const cell = 't-label tracking-[0.02em]';
             {p.innovations.intro && <p class="t-body mt-loose text-muted">{p.innovations.intro}</p>}
           </div>
           <ul class="mt-gutter grid gap-x-grid gap-y-section sm:grid-cols-3 sm:gap-y-gutter">
-            {p.innovations.items.map((it) => {
-              // Matched to its innovation record by name; an item without one shows an empty phone.
+            {p.innovations.items
+              // Matched to its innovation record by name. An item with no still or recording yet is
+              // left off rather than shown as an empty phone (launch QA, 2 November 2026).
+              .filter((it) => { const r = INNOVATIONS_LIST.find((x) => x.name === it.title); return !!(r?.poster ?? it.screen); })
+              .map((it) => {
               const rec = INNOVATIONS_LIST.find((r) => r.name === it.title);
               return (
               <li class:list={['flex flex-col', rec && 'hover-card relative']}>
