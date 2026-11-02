@@ -218,7 +218,7 @@ const cell = 't-label tracking-[0.02em]';
             <Heading eyebrow={p.innovations.eyebrow}>{p.innovations.heading}</Heading>
             {p.innovations.intro && <p class="t-body mt-loose text-muted">{p.innovations.intro}</p>}
           </div>
-          <ul class="mt-gutter grid gap-x-grid gap-y-section sm:grid-cols-3 sm:gap-y-gutter">
+          <ul class:list={['mt-gutter grid gap-x-grid gap-y-section sm:gap-y-gutter', p.innovations.items.length === 4 ? 'sm:grid-cols-2 lg:grid-cols-4' : 'sm:grid-cols-3']}>
             {p.innovations.items
               // Matched to its innovation record by name. An item with no still or recording yet is
               // left off rather than shown as an empty phone (launch QA, 2 November 2026).

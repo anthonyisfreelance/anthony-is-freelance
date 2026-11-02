@@ -230,7 +230,7 @@ export const HUB_TESTIMONIAL = {
   heading: 'Led by data, not guesswork.',
   quote:
     'We were also impressed by how data driven Anthony was: the first thing he did was do an analysis of our website to identify click rates and where page views were dropping off. This analysis allowed us to figure out where exactly our priorities need to be.',
-  cite: 'Jaideep Shah, Director, Zen Maitri · 2026',
+  cite: 'Jaideep Shah, Director, Zen Maitri · 2025',
 };
 
 export const HUB_FAQS = {

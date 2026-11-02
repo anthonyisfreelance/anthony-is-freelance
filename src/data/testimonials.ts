@@ -115,8 +115,8 @@ export const TESTIMONIALS_LIST: Testimonial[] = [
     ],
     name: 'Jaideep Shah',
     credit: 'Director, Zen Maitri',
-    year: '2026',
-    google: { href: ENTITY.googleReviews, label: 'March 2026' },
+    year: '2025',
+    google: { href: ENTITY.googleReviews, label: '2025' },
   },
 ];
 

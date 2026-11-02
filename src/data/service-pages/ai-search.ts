@@ -2,6 +2,10 @@
 // (checked 20 October 2026). Built into every project, never sold or priced on its own (brief, 11 October 2026).
 import { URLS } from '../site';
 import { COMPARE } from '../innovations';
+import { slot } from '../case-studies/types';
+
+// Hartnack's shop by use clip, from its case study row (work-03).
+const SHOP_BY_USE = slot('hartnack-and-co', 'work-03', 'The Hartnack & Co shop by use page on mobile, from business binders to pilot log books.', 'Shop by use');
 import type { ServicePage } from './types';
 import { serviceHero } from '../service-heroes';
 import { card, ROUTING_EYEBROW, ALL_ARTICLES } from './shared';
@@ -100,7 +104,7 @@ export const AI_SEARCH: ServicePage = {
     intro: 'Each of these puts a fact or a route on the page as text, so shoppers and AI tools find the same answer.',
     items: [
       { client: 'Projektityyny', title: 'Shop by product, room or print', body: 'Routes in from the navigation that match how people describe what they want, each leading to its own page.' },
-      { client: 'Hartnack & Co', title: 'Shop by use', body: 'A landing page for each use, from business binders to pilot log books, so every question has one clear page.' },
+      { client: 'Hartnack & Co', title: 'Shop by use', body: 'A landing page for each use, from business binders to pilot log books, so every question has one clear page.', screen: SHOP_BY_USE.image, video: SHOP_BY_USE.video },
       { client: 'Drink Finder', title: 'A comparison toggle on the collection page', body: 'Country, region, vintage and style written on the collection page, so people and AI tools compare without opening every product.', screen: COMPARE.poster, video: COMPARE.video },
       { client: 'East at Home', title: 'Product cards that answer dinner questions', body: 'Spice level, dietary needs and flavour written on every card, with review counts and the Great Taste award where the decision happens.' },
     ],

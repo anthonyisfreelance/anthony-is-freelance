@@ -74,7 +74,7 @@ export const CRO: ServicePage = {
     heading: 'Zen Maitri on Shopify CRO. Data first, then design.',
     quote:
       'We were very impressed by how data-driven Anthony was: the first thing he did was do an analysis of our website to identify click rates and where page views were dropping off. This analysis allowed us to figure out where exactly our priorities need to be. We were extremely pleased with the end result and we would not hesitate to recommend Anthony.',
-    cite: 'Jaideep Shah, Director, Zen Maitri',
+    cite: 'Jaideep Shah, Director, Zen Maitri · 2025',
   },
   price: {
     eyebrow: 'Shopify CRO price',
