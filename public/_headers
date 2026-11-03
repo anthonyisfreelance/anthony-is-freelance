@@ -9,3 +9,14 @@ https://:prefix.:subdomain.workers.dev/*
 # Videos are linked with ?v=<content hash> (src/data/media.ts), so a replaced file gets a new URL.
 /video/*
   Cache-Control: public, max-age=31536000, immutable
+
+# Fonts never change in place: a replaced font gets a new file name.
+/fonts/*
+  Cache-Control: public, max-age=31536000, immutable
+
+# Icons and logos keep their names when edited, so a week rather than forever.
+/icons/*
+  Cache-Control: public, max-age=604800
+
+/logos/*
+  Cache-Control: public, max-age=604800

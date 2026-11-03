@@ -117,7 +117,7 @@ const back = 'flex size-[18px] cursor-pointer items-center';
       </div>
       <ul class="cards-align grid grid-cols-2 gap-x-grid [--cards-gap:var(--spacing-large)]">
         {workCards.map((c) => (
-          <li data-rise><CaseStudyCard client={c.client} meta={c.meta} claim={c.claim} image={c.image} href={c.href} ratio="square" sizes="45vw" stackMeta /></li>
+          <li data-rise><CaseStudyCard client={c.client} meta={c.meta} claim={c.claim} image={c.image} href={c.href} ratio="square" sizes="45vw" stackMeta titleTag="p" /></li>
         ))}
       </ul>
     </div>

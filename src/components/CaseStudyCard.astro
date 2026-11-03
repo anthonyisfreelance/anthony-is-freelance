@@ -1,6 +1,7 @@
 ---
 // Compact case study card, the same on every page.
 // The H3 reads "Client. Claim"; the client label is drawn visually in the top row.
+// Menus pass titleTag="p" so their cards don't put headings in the page outline ahead of the H1.
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 interface Props {
@@ -16,8 +17,10 @@ interface Props {
   stackMeta?: boolean | 'always'; // small cards stack client and sector on mobile; 'always' at every size (four-up grids)
   eager?: boolean;
   proof?: string; // service page proof sections add the proof line under the claim
+  titleTag?: 'h2' | 'h3' | 'p';
 }
-const { client, meta, claim, image, badge, badgeAlt = '', href, ratio = 'portrait', sizes = '(min-width: 1024px) 31vw, calc(50vw - 24px)', stackMeta = false, eager = false, proof } = Astro.props;
+const { client, meta, claim, image, badge, badgeAlt = '', href, ratio = 'portrait', sizes = '(min-width: 1024px) 31vw, calc(50vw - 24px)', stackMeta = false, eager = false, proof, titleTag = 'h3' } = Astro.props;
+const Title = titleTag;
 // Space between the rows under the photo (margins, not gap, so the rows can join a parent grid's
 // tracks: in a .cards-align grid every card's lines sit level with the cards beside it).
 const space = stackMeta === 'always' ? 'mt-2' : stackMeta ? 'mt-2 lg:mt-3' : 'mt-3';
@@ -51,13 +54,13 @@ const aspect = { square: 'aspect-square', portrait: 'aspect-[4/5]', 'portrait-sq
       <span class="shrink-0">{client}</span>
       <span class:list={['min-w-0 flex-1', stackMeta === 'always' ? '' : stackMeta ? 'lg:text-right' : 'text-right']}>{meta}</span>
     </p>
-    <h3 class:list={['t-h6 text-ink', space]}>
+    <Title class:list={['t-h6 text-ink', space]}>
       {href ? (
         <a href={href} class="stretched-link link-hover"><span class="sr-only">{client}. </span>{claim}</a>
       ) : (
         <><span class="sr-only">{client}. </span>{claim}</>
       )}
-    </h3>
+    </Title>
     <p class="sr-only">{meta}</p>
     {proof && <p class:list={['t-label border-t border-line pt-2 tracking-[0.02em] text-muted', space]}>{proof}</p>}
   </div>

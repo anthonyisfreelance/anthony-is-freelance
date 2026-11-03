@@ -55,3 +55,7 @@
 /portfolio/wide-fit-shoes-shopify-case-study/                         /work/wide-fit-shoes/         301
 /portfolio/window-fleur-shopify-case-study/                           /work/window-fleur/           301
 /portfolio/wrangler/                                                  /work/wrangler/               301
+
+# Map row 124: best-linked old page after the homepage (21 backlinks). WordPress already 301'd it
+# here in .htaccess, so it was never in a sitemap and was missed at launch (3 November 2026).
+/freelance-shopify-designer/          /shopify-website-design/           301

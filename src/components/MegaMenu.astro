@@ -45,7 +45,7 @@ const workCards = [STORIES.featured, ...STORIES.cards.filter((c) => c.href)].sli
       </ul>
       <ul class="cards-align grid flex-1 grid-cols-3 gap-x-gutter [--cards-gap:var(--spacing-gutter)]">
         {workCards.map((c) => (
-          <li><CaseStudyCard client={c.client} meta={c.meta} claim={c.claim} image={c.image} href={c.href} ratio="square" sizes="320px" /></li>
+          <li><CaseStudyCard client={c.client} meta={c.meta} claim={c.claim} image={c.image} href={c.href} ratio="square" sizes="320px" titleTag="p" /></li>
         ))}
       </ul>
     </div>
