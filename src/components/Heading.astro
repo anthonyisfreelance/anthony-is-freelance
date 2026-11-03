@@ -18,7 +18,7 @@ const size = level === 1 ? 't-h1' : 't-h2';
   {eyebrow && (hideEyebrow ? (
     <span class="sr-only">{eyebrow}. </span>
   ) : (
-    <span class="eyebrow" data-deco={deco ? '' : undefined}>{eyebrow}<span class="sr-only">.</span></span>
+    <span class="eyebrow" data-deco={deco ? '' : undefined}>{eyebrow}<span class="sr-only">. </span></span>
   ))}
   <slot />
 </Tag>
