@@ -36,7 +36,7 @@ export const DATA: CaseStudyPageData = {
   details: {
     sector: 'Beauty',
     services: [SERVICE.theme, SERVICE.ux, SERVICE.cro],
-    builtBy: BUILDER.cartmasters,
+    builtBy: { ...BUILDER.cartmasters, href: 'https://cartmasters.co.uk/work/thameen-london/' },
     live: 'March 2026',
     liveIso: '2026-03-20',
     // No Results row: GA4 only started tracking at launch, so there's no before and after.

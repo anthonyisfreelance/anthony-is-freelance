@@ -35,7 +35,7 @@ export const DATA: CaseStudyPageData = {
   details: {
     sector: 'Stationery & gifts', // [CONFIRM] or bespoke leather goods
     services: [SERVICE.bespoke, SERVICE.ux],
-    builtBy: BUILDER.cartmasters,
+    builtBy: { ...BUILDER.cartmasters, href: 'https://cartmasters.co.uk/work/hartnack/' },
     live: 'June 2025',
     liveIso: '2025-06-19',
     // No Results row: GA4 shows the store down year on year since launch, so sales figures are off.

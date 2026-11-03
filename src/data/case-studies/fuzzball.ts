@@ -36,7 +36,7 @@ export const DATA: CaseStudyPageData = {
   details: {
     sector: 'Pets',
     services: [SERVICE.bespoke, SERVICE.ux, SERVICE.subscriptions, SERVICE.cro],
-    builtBy: BUILDER.cartmasters,
+    builtBy: { ...BUILDER.cartmasters, href: 'https://cartmasters.co.uk/work/fuzzball/' },
     live: 'August 2025',
     liveIso: '2025-08-13',
     // Conversion rate leads, not revenue: paid social traffic nearly tripled over the same 12 months.

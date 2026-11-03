@@ -40,7 +40,7 @@ export const DATA: CaseStudyPageData = {
   details: {
     sector: 'Food & drink',
     services: [SERVICE.bespoke, SERVICE.cro, SERVICE.ux],
-    builtBy: BUILDER.cartmasters,
+    builtBy: { ...BUILDER.cartmasters, href: 'https://cartmasters.co.uk/work/east-at-home/' },
     live: 'October 2025',
     liveIso: '2025-10-16',
     rows: [

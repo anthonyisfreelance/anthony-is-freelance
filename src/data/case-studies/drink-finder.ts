@@ -59,7 +59,7 @@ const DETAILS = {
     SERVICE.ux,
     SERVICE.migrations,
   ],
-  builtBy: BUILDER.cartmasters,
+  builtBy: { ...BUILDER.cartmasters, href: 'https://cartmasters.co.uk/work/drink-finder/' },
   live: 'August 2025',
   liveIso: '2025-08-19',
   rows: [
