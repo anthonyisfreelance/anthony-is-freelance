@@ -129,7 +129,7 @@ const experience = 'Anthony Bliss has worked in design for over 20 years, from b
             <p class="eyebrow !mb-0" data-deco aria-hidden="true">{category}</p>
             <div class="flex items-center gap-3">
               <!-- The photo is landscape, cropped to a circle, so the file is sized by its height (#277). -->
-              <Image src={photo} alt="" widths={[70, 140]} sizes="70px" class="size-11 shrink-0 rounded-full object-cover" />
+              <Image src={photo} alt="" widths={[70, 140]} width={Math.min(140, photo.width)} sizes="70px" class="size-11 shrink-0 rounded-full object-cover" />
               <div class="t-label flex flex-col gap-1">
                 <p class="text-ink">By <a href={URLS.about} rel="author" class="underline underline-offset-4 hover:decoration-2">Anthony Bliss</a>, freelance Shopify designer</p>
                 <p class="text-muted">
@@ -176,7 +176,7 @@ const experience = 'Anthony Bliss has worked in design for over 20 years, from b
                 return (
                   <figure>
                     {img
-                      ? <Image src={img} alt={b.caption && b.alt === b.caption ? '' : b.alt!} widths={[480, 750, 1100, 1400]} sizes="(min-width: 1024px) 50vw, 100vw" class="h-auto w-full" />
+                      ? <Image src={img} alt={b.caption && b.alt === b.caption ? '' : b.alt!} widths={[480, 750, 1100, 1400]} width={Math.min(1400, img.width)} sizes="(min-width: 1024px) 50vw, 100vw" class="h-auto w-full" />
                       : <div class="flex aspect-[3/2] w-full items-center justify-center bg-raised p-6"><p class="t-badge max-w-[40ch] text-center text-muted">Image to come: {b.alt}</p></div>}
                     {b.caption && <figcaption class="t-small mt-3">{b.caption}</figcaption>}
                   </figure>
@@ -189,7 +189,7 @@ const experience = 'Anthony Bliss has worked in design for over 20 years, from b
                 return (
                   <figure>
                     <div class="relative overflow-hidden bg-raised" style={`aspect-ratio:${b.width}/${b.height}`}>
-                      {poster && <Image src={poster} alt={b.caption && b.alt === b.caption ? '' : (b.alt ?? '')} widths={[480, 750, 1100, 1280]} sizes="(min-width: 1024px) 50vw, 100vw" class="absolute inset-0 size-full object-cover" />}
+                      {poster && <Image src={poster} alt={b.caption && b.alt === b.caption ? '' : (b.alt ?? '')} widths={[480, 750, 1100, 1280]} width={Math.min(1280, poster.width)} sizes="(min-width: 1024px) 50vw, 100vw" class="absolute inset-0 size-full object-cover" />}
                       <video
                         src={versioned(b.file!)}
                         data-autoplay
@@ -240,7 +240,7 @@ const experience = 'Anthony Bliss has worked in design for over 20 years, from b
         <Heading eyebrow="About the author">Written by a freelance Shopify designer.</Heading>
         <div class="flex flex-col gap-loose sm:flex-row sm:items-start sm:gap-grid">
           <div class="relative aspect-[4/5] w-[160px] shrink-0 overflow-hidden lg:w-[180px]">
-            <Image src={photo} alt="Anthony Bliss" widths={[340, 680, 1020]} sizes="(min-width: 1024px) 340px, 300px" class="absolute inset-0 size-full object-cover" />
+            <Image src={photo} alt="Anthony Bliss" widths={[340, 680, 1020]} width={Math.min(1020, photo.width)} sizes="(min-width: 1024px) 340px, 300px" class="absolute inset-0 size-full object-cover" />
           </div>
           <div class="flex flex-col gap-loose">
             <p class="t-h6 text-ink">{a.award}</p>

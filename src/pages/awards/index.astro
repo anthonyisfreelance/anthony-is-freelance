@@ -39,7 +39,7 @@ const cell = 'border-t border-line py-3 pr-grid text-left align-top';
           <p class="t-label tracking-[0.02em] text-muted">Updated <time datetime={UPDATED.iso}>{UPDATED.label}</time></p>
         </div>
         <!-- The claim is always text; the badge sits beside it, never instead of it. -->
-        <Image src={badge} alt={P.badgeAlt} widths={[240, 480, 720]} sizes="240px" format="png" class="h-auto w-[180px] lg:w-[240px]" />
+        <Image src={badge} alt={P.badgeAlt} widths={[240, 480, 720]} width={Math.min(720, badge.width)} sizes="240px" format="png" class="h-auto w-[180px] lg:w-[240px]" />
       </div>
     </PageHero>
 
@@ -48,7 +48,7 @@ const cell = 'border-t border-line py-3 pr-grid text-left align-top';
       <section id={a.id} class="scroll-mt-6 pt-section">
         <div class="grid items-center gap-large lg:grid-cols-2 lg:gap-gutter">
           <div class:list={['relative aspect-[3/2] lg:aspect-[4/5]', i % 2 === 1 && 'lg:order-last']}>
-            <Image src={a.image} alt={a.imageAlt} widths={[480, 750, 1000, 1400]} sizes="(min-width: 1024px) 50vw, 100vw" class="absolute inset-0 size-full object-cover" />
+            <Image src={a.image} alt={a.imageAlt} widths={[480, 750, 1000, 1400]} width={Math.min(1400, a.image.width)} sizes="(min-width: 1024px) 50vw, 100vw" class="absolute inset-0 size-full object-cover" />
           </div>
           <div class:list={['flex flex-col gap-loose px-margin', i % 2 === 0 ? 'lg:pl-0' : 'lg:pr-0']}>
             <Heading eyebrow={a.eyebrow}>{a.heading}</Heading>

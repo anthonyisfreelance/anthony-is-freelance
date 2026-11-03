@@ -11,7 +11,7 @@ import image from '../../assets/site/anthony.jpg';
   <div class="grid gap-loose lg:grid-cols-2 lg:grid-rows-[1fr_auto_auto] lg:gap-x-gutter">
     <Heading eyebrow={ABOUT.eyebrow} deco={false} class="lg:col-start-2 lg:row-start-2 lg:pb-loose">{ABOUT.heading}</Heading>
     <div class="relative aspect-square lg:aspect-[4/5] lg:col-start-1 lg:row-span-3 lg:row-start-1">
-      <Image src={image} alt={ABOUT.imageAlt} widths={[400, 750, 1000, 1400]} sizes="(min-width: 1024px) 48vw, 100vw" class="absolute inset-0 size-full object-cover" />
+      <Image src={image} alt={ABOUT.imageAlt} widths={[400, 750, 1000, 1400]} width={Math.min(1400, image.width)} sizes="(min-width: 1024px) 48vw, 100vw" class="absolute inset-0 size-full object-cover" />
     </div>
     <div class="flex flex-col gap-loose lg:col-start-2 lg:row-start-3">
       <div class="t-body flex flex-col gap-[10px] text-muted">

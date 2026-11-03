@@ -16,7 +16,7 @@ interface Props {
 const { poster, base, widths = [480, 960, 1400, 1920], sizes = '100vw', class: className = '' } = Astro.props;
 const src = (size: string, av1: boolean) => versioned(`${base}-${size}${av1 ? '-av1' : ''}.mp4`);
 ---
-<Image src={poster} alt="" widths={widths} sizes={sizes} loading="eager" fetchpriority="high" quality={75} class:list={['absolute inset-0 size-full object-cover', className]} />
+<Image src={poster} alt="" widths={widths} width={Math.min(Math.max(...widths), poster.width)} sizes={sizes} loading="eager" fetchpriority="high" quality={75} class:list={['absolute inset-0 size-full object-cover', className]} />
 <video
   data-loop-video
   data-desktop={src('desktop', false)}

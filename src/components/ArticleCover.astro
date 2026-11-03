@@ -31,7 +31,7 @@ const markStyle = `left:${MARK_POSITION.left}%;top:${MARK_POSITION.top}%;width:$
     <Image
       src={tile}
       alt=""
-      widths={[400, 640, 960, 1400, 2000, 2400]}
+      widths={[400, 640, 960, 1400, 2000, 2400]} width={Math.min(2400, tile.width)}
       sizes={sizes}
       loading={loading}
       fetchpriority={loading === 'eager' ? 'high' : undefined}

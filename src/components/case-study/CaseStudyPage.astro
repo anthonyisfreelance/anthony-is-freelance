@@ -156,7 +156,7 @@ const link = 'underline underline-offset-4 hover:decoration-2';
         <!-- h-lvh, not dvh: on phones the photo stays one size as the address bar hides (feedback #208) -->
         <div class="sticky top-0 h-lvh w-full overflow-hidden">
           {SHOWCASE.background
-            ? <Image src={SHOWCASE.background} alt="" widths={bgWidths(SHOWCASE.background, [640, 1024, 1440, 2160, 2879])} sizes="100vw" quality={70} class="size-full object-cover" />
+            ? <Image src={SHOWCASE.background} alt="" widths={bgWidths(SHOWCASE.background, [640, 1024, 1440, 2160, 2879])} width={Math.min(2879, SHOWCASE.background.width)} sizes="100vw" quality={70} class="size-full object-cover" />
             : <div class="size-full bg-[#8a8a8a]"><span class="t-badge absolute right-5 top-5 text-white">[Photo to come]</span></div>}
           <div class="absolute inset-0 bg-black/40"></div>
         </div>

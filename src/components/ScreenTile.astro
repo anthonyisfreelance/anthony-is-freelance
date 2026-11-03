@@ -43,7 +43,7 @@ const poster = screen && video && controls ? (await getImage({ src: screen, widt
     </div>
     <div class="absolute inset-0 bg-white/20"></div>
     <div class:list={['absolute aspect-[216/376] overflow-hidden', pin]} style={`left:${side};right:${side}`}>
-      <Image src={screen} alt={alt} widths={[220, 440, 660]} sizes={sizes} class:list={['size-full object-cover', crop]} />
+      <Image src={screen} alt={alt} widths={[220, 440, 660]} width={Math.min(660, screen.width)} sizes={sizes} class:list={['size-full object-cover', crop]} />
       {video && (controls ? (
         <video
           src={video}

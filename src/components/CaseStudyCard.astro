@@ -31,7 +31,7 @@ const aspect = { square: 'aspect-square', portrait: 'aspect-[4/5]', 'portrait-sq
     {image ? <Image
       src={image}
       alt=""
-      widths={[240, 360, 480, 720, 960, 1400]}
+      widths={[240, 360, 480, 720, 960, 1400]} width={Math.min(1400, image.width)}
       quality={75}
       sizes={sizes}
       class="zoom-img absolute inset-0 size-full object-cover"

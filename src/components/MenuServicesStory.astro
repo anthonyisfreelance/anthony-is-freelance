@@ -17,7 +17,7 @@ const story = CASE_STUDIES.find((c) => c.client === 'Projektityyny')!;
 <article class:list={['hover-card relative flex flex-col', className]}>
   <div class="grid grid-cols-2 gap-[2px]">
     <div class="relative aspect-[4/5] overflow-hidden">
-      <Image src={story.image!} alt="" widths={[200, 280, 400, 560]} sizes={photoSizes} loading="lazy" class="zoom-img absolute inset-0 size-full object-cover" />
+      <Image src={story.image!} alt="" widths={[200, 280, 400, 560]} width={Math.min(560, story.image!.width)} sizes={photoSizes} loading="lazy" class="zoom-img absolute inset-0 size-full object-cover" />
     </div>
     <ScreenTile screen={story.screen ?? fallbackScreen} video={story.screenVideo} backdrop={story.image} ratio="portrait" sizes={screenSizes} />
   </div>

@@ -34,7 +34,7 @@ import photo from '../../assets/site/anthony-about-hero.jpg';
     <PageHero eyebrow={P.eyebrow} heading={P.heading} intro={P.intro}>
       <figure class="flex flex-col gap-3">
         <div class="relative aspect-[3/2] overflow-hidden lg:aspect-[21/9]">
-          <Image src={photo} alt={P.photoAlt} widths={[480, 750, 1200, 1800, 2400]} sizes="(min-width: 2560px) 2512px, 100vw" loading="eager" class="absolute inset-0 size-full object-cover object-top" />
+          <Image src={photo} alt={P.photoAlt} widths={[480, 750, 1200, 1800, 2400]} width={Math.min(2400, photo.width)} sizes="(min-width: 2560px) 2512px, 100vw" loading="eager" class="absolute inset-0 size-full object-cover object-top" />
         </div>
         <figcaption class="t-label tracking-[0.02em] text-muted">{P.photoCaption}</figcaption>
       </figure>

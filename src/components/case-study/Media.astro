@@ -22,7 +22,7 @@ const objectFit = fit === 'contain' ? 'object-contain' : 'object-cover';
     <Image
       src={image}
       alt={media.alt}
-      widths={[...new Set(w)]}
+      widths={[...new Set(w)]} width={Math.min(2400, image.width)}
       sizes={sizes}
       quality={78}
       loading={eager ? 'eager' : 'lazy'}

@@ -9,7 +9,7 @@ const src = (size: string, av1: boolean) => versioned(`/video/showreel-${size}${
 <Image
   src={poster}
   alt=""
-  widths={[375, 560, 750, 1000, 1440]}
+  widths={[375, 560, 750, 1000, 1440]} width={Math.min(1440, poster.width)}
   quality={75}
   sizes="(min-width: 1024px) 49vw, 100vw"
   loading="eager"
