@@ -10,7 +10,7 @@
 //
 // Fixed to the bottom of the screen, so it never shifts the page. It starts hidden and the script
 // below shows it before first paint when no choice has been made.
-const button = 't-button inline-flex h-[34px] flex-1 cursor-pointer items-center justify-center whitespace-nowrap bg-white px-[14px] text-[#111] [text-box:trim-both_cap_alphabetic] hover:opacity-90 sm:flex-none';
+const button = 't-button inline-flex h-[34px] flex-1 cursor-pointer items-center justify-center whitespace-nowrap bg-ink px-[14px] text-surface [text-box:trim-both_cap_alphabetic] hover:opacity-90 sm:flex-none';
 const reject = 't-button inline-flex h-[34px] flex-1 cursor-pointer items-center justify-center whitespace-nowrap px-[14px] text-ink underline underline-offset-4 [text-box:trim-both_cap_alphabetic] hover:decoration-2 sm:flex-none sm:px-0';
 ---
 <section
@@ -18,7 +18,7 @@ const reject = 't-button inline-flex h-[34px] flex-1 cursor-pointer items-center
   data-consent
   hidden
   aria-labelledby="consent-title"
-  class="fixed inset-x-0 bottom-0 z-50 border-t border-line bg-surface px-margin pb-[max(16px,env(safe-area-inset-bottom))] pt-4 lg:inset-x-auto lg:bottom-margin lg:left-margin lg:w-[440px] lg:border lg:p-large"
+  class="theme-light fixed inset-x-0 bottom-0 z-50 border-t border-line bg-surface px-margin pb-[max(16px,env(safe-area-inset-bottom))] pt-4 lg:inset-x-auto lg:bottom-margin lg:left-margin lg:w-[440px] lg:border lg:p-large"
 >
   <p id="consent-title" class="t-button-lg text-ink">Cookies</p>
   <p class="t-small mt-2 text-muted">
