@@ -11,7 +11,7 @@
 // Fixed to the bottom of the screen, so it never shifts the page. It starts hidden and the script
 // below shows it before first paint when no choice has been made.
 const button = 't-button inline-flex h-[34px] flex-1 cursor-pointer items-center justify-center whitespace-nowrap bg-ink px-[14px] text-surface [text-box:trim-both_cap_alphabetic] hover:opacity-90 sm:flex-none';
-const reject = 't-button inline-flex h-[34px] flex-1 cursor-pointer items-center justify-center whitespace-nowrap px-[14px] text-ink underline underline-offset-4 [text-box:trim-both_cap_alphabetic] hover:decoration-2 sm:flex-none sm:px-0';
+const reject = 't-button inline-flex h-[34px] flex-1 cursor-pointer items-center justify-center whitespace-nowrap px-[14px] text-ink [text-box:trim-both_cap_alphabetic] hover:underline hover:underline-offset-4 sm:flex-none sm:px-0';
 ---
 <section
   id="consent"
@@ -27,7 +27,7 @@ const reject = 't-button inline-flex h-[34px] flex-1 cursor-pointer items-center
   <p class="t-small mt-2">
     <a href="/privacy-policy/#cookies" data-privacy-open class="text-ink underline underline-offset-4 hover:decoration-2">Privacy and cookies</a>
   </p>
-  <!-- Reject on the left as a plain text button, Accept filled on the right (Anthony, 2 November 2026).
+  <!-- Reject on the left as plain text, no underline (underlined on hover), Accept filled on the right (Anthony, 3 November 2026).
        Both stay one click, the same size and on the same row. -->
   <div class="mt-4 flex items-center justify-between gap-3">
     <button type="button" data-consent-choice="denied" class={reject}>Reject</button>
