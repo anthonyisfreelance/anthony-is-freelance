@@ -44,7 +44,9 @@ export const ENTITY = {
     telephone: '+441326702184',
     telephoneDisplay: '01326702184',
     email: 'hello@anthonyis.uk',
-    description: 'Anthony is Freelance is the Shopify design practice of Anthony Bliss: Shopify and Shopify Plus store design, UX and conversion rate optimisation for DTC brands across the UK, from Falmouth, Cornwall.',
+    // The award-led description approved for the WordPress schema and Knowledge Graph (12 October 2026).
+    description: 'Freelance Shopify designer in Falmouth, Cornwall, UK, and designer of Drink Finder, UK eCommerce Website of the Year 2026. Bespoke Shopify store design, UX/UI and conversion rate optimisation for DTC brands, with 20+ years of design experience.',
+    alternateName: 'Anthonyis Limited',
     // Anthonyis Limited was incorporated in 2017 (Companies House), as in the WordPress schema.
     foundingDate: '2017',
     priceRange: 'From £800 + VAT',
