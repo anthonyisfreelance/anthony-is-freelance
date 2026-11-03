@@ -30,7 +30,7 @@ const heroImg = d.hero.image.image;
 const heroPage = heroImg ? { primaryImageOfPage: { '@type': 'ImageObject', url: new URL((await getImage({ src: heroImg, width: 1200, format: 'jpg', quality: 80 })).src, SITE).href } } : {};
 
 // The case study itself as an Article, as the work page doc sets out (author, client, image, date).
-// dateModified is the day this version went live; the store's own launch month is in the copy.
+// Published and modified: the day this page went live at its /work/ address; the store's own launch month is in the copy.
 const articleId = `${url}#article`;
 const article = {
   '@type': 'Article',
@@ -42,6 +42,7 @@ const article = {
   about: { '@id': clientId },
   mainEntityOfPage: { '@id': `${url}#webpage` },
   ...(heroPage.primaryImageOfPage ? { image: heroPage.primaryImageOfPage.url } : {}),
+  datePublished: '2026-11-02',
   dateModified: '2026-11-02',
   inLanguage: 'en-GB',
 };
