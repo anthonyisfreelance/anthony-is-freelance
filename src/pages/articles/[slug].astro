@@ -6,6 +6,7 @@
 // has them. Cover across the page, then contents down the left (desktop) and the article in a
 // centred reading column. FAQs all open, the author, related articles.
 // Body images drop in by file name (src/assets/articles/<slug>/), placeholders until then.
+import { altFor } from '../../data/alt-text';
 import { Image } from 'astro:assets';
 import Base from '../../layouts/Base.astro';
 import Schema from '../../components/Schema.astro';
@@ -189,7 +190,7 @@ const experience = 'Anthony Bliss has worked in design for over 20 years, from b
                 return (
                   <figure>
                     <div class="relative overflow-hidden bg-raised" style={`aspect-ratio:${b.width}/${b.height}`}>
-                      {poster && <Image src={poster} alt={b.caption && b.alt === b.caption ? '' : (b.alt ?? '')} widths={[480, 750, 1100, 1280]} width={Math.min(1280, poster.width)} sizes="(min-width: 1024px) 50vw, 100vw" class="absolute inset-0 size-full object-cover" />}
+                      {poster && <Image src={poster} alt={altFor(poster) || (b.caption && b.alt === b.caption ? '' : (b.alt ?? ''))} widths={[480, 750, 1100, 1280]} width={Math.min(1280, poster.width)} sizes="(min-width: 1024px) 50vw, 100vw" class="absolute inset-0 size-full object-cover" />}
                       <video
                         src={versioned(b.file!)}
                         data-autoplay

@@ -1,6 +1,7 @@
 ---
 // Full case study card (work page and service page proof sections):
 // photo and the store's UI side by side, client · sector row, claim, proof line.
+import { altFor } from '../data/alt-text';
 import { Image } from 'astro:assets';
 import ScreenTile from './ScreenTile.astro';
 import type { CaseStudy } from '../data/work';
@@ -17,7 +18,7 @@ const sizes = '(min-width: 1024px) 24vw, calc(50vw - 16px)';
   <div class="grid grid-cols-2 gap-[2px]">
     <div class="relative aspect-[4/5] overflow-hidden bg-line">
       {s.image ? (
-        <Image src={s.image} alt="" width={w} height={Math.round(w * ratio)} fit="cover" widths={widths} sizes={sizes} quality={75} loading={eager ? 'eager' : 'lazy'} fetchpriority={eager ? 'high' : undefined} class="zoom-img absolute inset-0 size-full object-cover" />
+        <Image src={s.image} alt={altFor(s.image)} width={w} height={Math.round(w * ratio)} fit="cover" widths={widths} sizes={sizes} quality={75} loading={eager ? 'eager' : 'lazy'} fetchpriority={eager ? 'high' : undefined} class="zoom-img absolute inset-0 size-full object-cover" />
       ) : (
         <span class="t-badge absolute inset-0 grid place-items-center text-muted">[Image to come]</span>
       )}
@@ -28,7 +29,7 @@ const sizes = '(min-width: 1024px) 24vw, calc(50vw - 16px)';
       )}
     </div>
     {s.screen ? (
-      <div aria-hidden="true"><ScreenTile screen={s.screen} video={s.screenVideo} backdrop={s.image} ratio="portrait" sizes="(min-width: 1024px) 15vw, 30vw" /></div>
+      <div aria-hidden="true"><ScreenTile screen={s.screen} alt={altFor(s.screen)} video={s.screenVideo} backdrop={s.image} ratio="portrait" sizes="(min-width: 1024px) 15vw, 30vw" /></div>
     ) : (
       <div class="relative aspect-[4/5] bg-line" aria-hidden="true">
         <span class="t-badge absolute inset-0 grid place-items-center text-muted">[Screen to come]</span>

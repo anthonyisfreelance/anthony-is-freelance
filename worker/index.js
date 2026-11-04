@@ -48,6 +48,7 @@ const META = /<!-- feedback-meta ([A-Za-z0-9+/=]+) -->/;
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
+    if (url.pathname.startsWith('/wp-content/uploads/')) return oldImage(request, env, url);
     const path = url.pathname.endsWith('/') ? url.pathname : `${url.pathname}/`;
     if (GONE.has(path) || GONE_PATTERNS.some((re) => re.test(path))) return gone(request, env);
     if (url.pathname === '/api/enquiry') return enquiry(request, env);
@@ -224,6 +225,25 @@ function json(data, status = 200) {
 }
 
 // The 404 page's content with a 410 status, so people still get the helpful links.
+// Old WordPress images (4 November 2026). Google Images still holds the /wp-content/uploads/ addresses
+// of images that ranked, so each one 301s to the same picture on the new site. The map is built with
+// the site (src/pages/image-redirects.json.ts). WordPress also served resized copies (name-300x200.jpg)
+// and big uploads as name-scaled.jpg, so those are matched to their original. Anything not in the map
+// is the normal 404.
+let imageMap;
+async function oldImage(request, env, url) {
+  if (!imageMap) {
+    const res = await env.ASSETS.fetch(new Request(new URL('/image-redirects.json', url)));
+    imageMap = res.ok ? await res.json() : {};
+  }
+  let path = url.pathname;
+  try { path = decodeURIComponent(path); } catch {}
+  const original = path.replace(/-\d+x\d+(?=\.[a-z0-9]+$)/i, '').replace(/-scaled(?=\.[a-z0-9]+$)/i, '');
+  const target = imageMap[path] ?? imageMap[original] ?? imageMap[original.replace(/(\.[a-z0-9]+)$/i, '-scaled$1')];
+  if (target) return Response.redirect(new URL(target, url).href, 301);
+  return env.ASSETS.fetch(request);
+}
+
 async function gone(request, env) {
   const page = await env.ASSETS.fetch(new Request(new URL('/404.html', request.url)));
   return new Response(page.body, {

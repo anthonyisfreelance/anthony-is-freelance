@@ -16,6 +16,8 @@
     "not_found_handling": "404-page",
     "run_worker_first": [
       "/api/*",
+      // Old WordPress images, 301 to their new copies (oldImage in worker/index.js)
+      "/wp-content/uploads/*",
       // Removed pages that answer 410 (GONE in worker/index.js)
       "/portfolio/the-brand-manual*",
       "/portfolio/proconvey-video*",

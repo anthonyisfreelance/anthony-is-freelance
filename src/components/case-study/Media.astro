@@ -2,6 +2,7 @@
 // A screen or photo. When a screen recording exists it plays over the still, muted and looping,
 // loaded when it scrolls into view (the shared script in Base.astro). Reduced motion keeps the still.
 // No still yet: a grey placeholder naming what goes there.
+import { altFor } from '../../data/alt-text';
 import { Image } from 'astro:assets';
 import type { Media } from '../../data/case-studies/types';
 interface Props {
@@ -21,7 +22,7 @@ const objectFit = fit === 'contain' ? 'object-contain' : 'object-cover';
   <div class:list={['relative overflow-hidden', className]}>
     <Image
       src={image}
-      alt={media.alt}
+      alt={media.alt || altFor(image)}
       widths={[...new Set(w)]} width={Math.min(2400, image.width)}
       sizes={sizes}
       quality={78}

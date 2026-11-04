@@ -104,7 +104,7 @@ export const AI_SEARCH: ServicePage = {
     intro: 'Each of these puts a fact or a route on the page as text, so shoppers and AI tools find the same answer.',
     items: [
       { client: 'Projektityyny', title: 'Shop by product, room or print', body: 'Routes in from the navigation that match how people describe what they want, each leading to its own page.' },
-      { client: 'Hartnack & Co', title: 'Shop by use', body: 'A landing page for each use, from business binders to pilot log books, so every question has one clear page.', screen: SHOP_BY_USE.image, video: SHOP_BY_USE.video },
+      { client: 'Hartnack & Co', title: 'Shop by use', body: 'A landing page for each use, from business binders to pilot log books, so every question has one clear page.', screen: SHOP_BY_USE.image, video: SHOP_BY_USE.video, alt: SHOP_BY_USE.alt },
       { client: 'Drink Finder', title: 'A comparison toggle on the collection page', body: 'Country, region, vintage and style written on the collection page, so people and AI tools compare without opening every product.', screen: COMPARE.poster, video: COMPARE.video },
       { client: 'East at Home', title: 'Product cards that answer dinner questions', body: 'Spice level, dietary needs and flavour written on every card, with review counts and the Great Taste award where the decision happens.' },
     ],

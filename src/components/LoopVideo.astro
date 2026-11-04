@@ -3,6 +3,7 @@
 // The still paints first and is the LCP image. The video loads only after the page has finished, picks
 // the desktop or phone file and AV1 where the browser plays it, fades in over the still, and is skipped
 // for reduced motion and Save-Data. Files: public/video/<folder>/<name>-{desktop,mobile}{,-av1}.mp4.
+import { altFor } from '../data/alt-text';
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import { versioned } from '../data/media';
@@ -16,7 +17,7 @@ interface Props {
 const { poster, base, widths = [480, 960, 1400, 1920], sizes = '100vw', class: className = '' } = Astro.props;
 const src = (size: string, av1: boolean) => versioned(`${base}-${size}${av1 ? '-av1' : ''}.mp4`);
 ---
-<Image src={poster} alt="" widths={widths} width={Math.min(Math.max(...widths), poster.width)} sizes={sizes} loading="eager" fetchpriority="high" quality={75} class:list={['absolute inset-0 size-full object-cover', className]} />
+<Image src={poster} alt={altFor(poster)} widths={widths} width={Math.min(Math.max(...widths), poster.width)} sizes={sizes} loading="eager" fetchpriority="high" quality={75} class:list={['absolute inset-0 size-full object-cover', className]} />
 <video
   data-loop-video
   data-desktop={src('desktop', false)}

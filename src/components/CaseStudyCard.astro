@@ -2,6 +2,7 @@
 // Compact case study card, the same on every page.
 // The H3 reads "Client. Claim"; the client label is drawn visually in the top row.
 // Menus pass titleTag="p" so their cards don't put headings in the page outline ahead of the H1.
+import { altFor } from '../data/alt-text';
 import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 interface Props {
@@ -30,7 +31,7 @@ const aspect = { square: 'aspect-square', portrait: 'aspect-[4/5]', 'portrait-sq
   <div class:list={['relative overflow-hidden bg-line', aspect]}>
     {image ? <Image
       src={image}
-      alt=""
+      alt={altFor(image)}
       widths={[240, 360, 480, 720, 960, 1400]} width={Math.min(1400, image.width)}
       quality={75}
       sizes={sizes}

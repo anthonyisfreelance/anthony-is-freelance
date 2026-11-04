@@ -1,6 +1,7 @@
 ---
 // Service page template. Every service page uses this, in the same section order
 // (Figma "Services - Sub Page"; page-copy/service-pages.md "The page model").
+import { altFor } from '../data/alt-text';
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Schema from './Schema.astro';
@@ -110,7 +111,7 @@ const innovationMentions = innovationIds.length ? { mentions: innovationIds } : 
         <div class="max-lg:order-first max-lg:-mx-margin">
           {p.hero.image ? (
             <div class="relative aspect-[4/3] overflow-hidden bg-line lg:aspect-auto lg:h-[450px]">
-              <Image src={p.hero.image} alt={p.hero.imageAlt ?? ''} widths={[400, 700, 1000, 1400]} width={Math.min(1400, p.hero.image.width)} sizes="(min-width: 1024px) 48vw, 100vw" quality={75} loading="eager" fetchpriority="high" class="absolute inset-0 size-full object-cover" style={p.hero.imagePosition ? `object-position: ${p.hero.imagePosition}` : undefined} />
+              <Image src={p.hero.image} alt={p.hero.imageAlt || altFor(p.hero.image)} widths={[400, 700, 1000, 1400]} width={Math.min(1400, p.hero.image.width)} sizes="(min-width: 1024px) 48vw, 100vw" quality={75} loading="eager" fetchpriority="high" class="absolute inset-0 size-full object-cover" style={p.hero.imagePosition ? `object-position: ${p.hero.imagePosition}` : undefined} />
             </div>
           ) : (
             <div class="aspect-[4/3] lg:aspect-auto lg:h-[450px] grid place-items-center bg-line"><span class="t-badge text-muted">[Lead work to come]</span></div>
@@ -232,7 +233,7 @@ const innovationMentions = innovationIds.length ? { mentions: innovationIds } : 
               const rec = INNOVATIONS_LIST.find((r) => r.name === it.title);
               return (
               <li class:list={['flex flex-col', rec && 'hover-card relative']}>
-                <ScreenTile screen={rec?.poster ?? it.screen} video={rec?.video ?? it.video} alt={rec?.alt} anchor={rec?.anchor} sizes="(min-width: 640px) 16vw, 50vw" />
+                <ScreenTile screen={rec?.poster ?? it.screen} video={rec?.video ?? it.video} alt={rec?.alt ?? it.alt} anchor={rec?.anchor} sizes="(min-width: 640px) 16vw, 50vw" />
                 <div class="flex flex-col gap-3 pt-grid">
                   <h3 class="t-h6 text-ink">
                     {rec ? (

@@ -7,13 +7,14 @@
 // - mark: the category's line mark on the raised surface, no text.
 // - figure: the article's headline number in blue. Falls back to the mark.
 // Mark and figure sizes scale with the cover's width (container units).
+import { altFor } from '../data/alt-text';
 import { Image } from 'astro:assets';
 import { COVER_MARKS, MARK_POSITION } from '../data/article-covers';
 import { articleSlug, type Article } from '../data/articles';
 import { articleTile } from '../data/media';
 interface Props {
   article: Article;
-  /** Unused: the tile repeats the headline beside it, so it is decorative. Kept so callers don't break. */
+  /** Unused: the tile's alt text comes from src/data/alt-text.ts, so it's the same on the card and the hero. */
   alt?: string;
   kind?: 'tile' | 'mark' | 'figure';
   sizes?: string;
@@ -30,7 +31,7 @@ const markStyle = `left:${MARK_POSITION.left}%;top:${MARK_POSITION.top}%;width:$
   <div class:list={['cover-outline relative aspect-video overflow-hidden bg-sunken', className]}>
     <Image
       src={tile}
-      alt=""
+      alt={altFor(tile)}
       widths={[400, 640, 960, 1400, 2000, 2400]} width={Math.min(2400, tile.width)}
       sizes={sizes}
       loading={loading}

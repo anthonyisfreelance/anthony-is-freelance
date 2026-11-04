@@ -3,6 +3,7 @@
 // that service's own image, and leaving the list brings the default back. Phones only ever see the default.
 // The hover images don't load with the page: they're fetched the first time the pointer reaches the list,
 // so they cost nothing on load or in Lighthouse.
+import { altFor } from '../../data/alt-text';
 import { Image, getImage } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import SectionIntro from '../SectionIntro.astro';
@@ -51,7 +52,7 @@ const hovers = await Promise.all(
          page background under it hides the list as it passes, so no text shows between photo and list. -->
     <div class="sticky top-0 z-10 order-first self-start bg-surface pb-4 max-lg:-mx-margin lg:order-none lg:pb-0">
     <div class="relative aspect-[3/2] overflow-hidden lg:aspect-auto lg:h-dvh">
-      <Image src={image} alt="" widths={[400, 750, 1000, 1400]} width={Math.min(1400, image.width)} sizes="(min-width: 1024px) 50vw, 100vw" class="absolute inset-0 size-full object-cover" />
+      <Image src={image} alt={altFor(image)} widths={[400, 750, 1000, 1400]} width={Math.min(1400, image.width)} sizes="(min-width: 1024px) 50vw, 100vw" class="absolute inset-0 size-full object-cover" />
       {hovers.map((h) => h && (
         <img data-hover={h.i} data-srcset={h.srcset} sizes={sizes} alt="" decoding="async" class="absolute inset-0 hidden size-full object-cover opacity-0 transition-opacity duration-300 lg:block" style={h.position ? `object-position: ${h.position}` : undefined} />
       ))}
