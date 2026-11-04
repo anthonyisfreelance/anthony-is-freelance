@@ -28,7 +28,8 @@ export const ALT_TEXT: Record<string, string> = {
   'articles/what-dtc-brands-should-look-for-shopify-designer/tile.png': 'Shopify logo beside the East at Home Shopify homepage on mobile',
   'articles/what-is-a-shopify-partner/tile.png': 'Shopify Partners badge with 2026 in blue',
   'articles/what-makes-a-good-landing-page/tile.png': 'Hartnack & Co, Wide Fit Shoes and Whistlefish Shopify landing pages on mobile',
-  'articles/what-to-look-for-hiring-shopify-designer/tile.png': 'Fuzzball, Drink Finder and Wide Fit Shoes Shopify homepages on mobile, designed by Anthony Bliss',
+  // Old WordPress alt text kept: this image ranked first in Google Images for "best shopify designer in the uk"
+  'articles/what-to-look-for-hiring-shopify-designer/tile.png': 'High-converting Shopify store homepages designed by the best Shopify designer in the UK, Anthony is Freelance',
   'articles/why-conversion-rate-optimisation-is-still-a-human-skill/tile.png': 'A Nike product card with a 7.5% increase in sales',
   'articles/why-off-the-shelf-shopify-themes-hold-stores-back-in-2025/tile.png': 'A grid of Shopify theme demo homepages',
 
@@ -109,7 +110,8 @@ export const ALT_TEXT: Record<string, string> = {
   'site/services/service-hero-poster.jpg': 'A woman holding yellow fabric up against a blue sky',
 
   // Homepage
-  'site/showreel-poster.jpg': "A woman in sunglasses and a black jacket, the opening frame of Anthony Bliss's Shopify design showreel",
+  // Starts with the old WordPress alt text of the showreel cover, which ranked for Shopify designer searches
+  'site/showreel-poster.jpg': 'Anthony is Freelance Shopify web designer showreel: a woman in sunglasses and a black jacket',
   'site/services-section.jpg': 'A person in pink glasses reaching towards the camera under red light',
   'site/success-stories.jpg': 'A woman in a floral apron leaning against a log pile',
 };
