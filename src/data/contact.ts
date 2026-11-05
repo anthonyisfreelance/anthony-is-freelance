@@ -4,7 +4,7 @@ import { URLS, ENTITY } from './site';
 
 export const CONTACT_PAGE = {
   path: URLS.contact,
-  title: 'Contact Anthony Bliss | Anthony is Freelance',
+  title: 'Contact Anthony Bliss | Shopify Designer Cornwall, UK',
   description:
     "Start a Shopify design project with Anthony Bliss. Send a brief or a few lines about your store, and I'll reply within two working days.",
   eyebrow: 'Contact Anthony Bliss',
