@@ -74,6 +74,11 @@ export const ENTITY = {
 };
 
 // Existing live URLs, so links keep working through the move.
+// Shopify launches since going independent (August 2023). Shown on the homepage and in the partner line.
+export const LAUNCH_COUNT = 13;
+// Who builds the stores. One line so every page says the same thing (5 November 2026).
+export const BUILD_PARTNERS = `Cartmasters or Tom Blanchard, the Shopify developers who've built all ${LAUNCH_COUNT} of my launches since 2023`;
+
 export const URLS = {
   home: '/',
   services: '/shopify-website-design/',

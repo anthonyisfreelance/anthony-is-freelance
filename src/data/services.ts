@@ -1,6 +1,6 @@
 // Services hub content. Structure from Figma (Services frame); copy from
 // page-copy/services-hub.md where Figma has placeholders or out-of-date facts.
-import { URLS } from './site';
+import { URLS, BUILD_PARTNERS } from './site';
 
 // First frame of the hero video (public/video/services/service-hero-*.mp4), so the switch is seamless.
 import hero from '../assets/site/services/service-hero-poster.jpg';
@@ -243,7 +243,7 @@ export const HUB_FAQS = {
     },
     {
       q: 'Does your price include the developer?',
-      a: ["No. My prices cover design, and the developer quotes the build separately. You pay them directly, so you always know who's doing what. I'll introduce the right developer, or work with your own team or agency."],
+      a: [`My prices cover the design. The build is quoted alongside it by ${BUILD_PARTNERS}, and you pay them directly. Your own team or agency can build it instead.`],
     },
     {
       q: 'What do you need from me before you can quote?',

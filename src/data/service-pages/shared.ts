@@ -16,7 +16,7 @@ export const caseStudyHref = (client: string) => card(client).href ?? '';
 export const hubPrice = (name: string) => {
   const s = ALL_SERVICES.find((x) => x.name === name);
   if (!s) throw new Error(`No hub price for ${name}`);
-  return `${formatPrice(s.price)}, design only`;
+  return formatPrice(s.price);
 };
 
 export const ROUTING_EYEBROW = 'Honest Shopify advice';

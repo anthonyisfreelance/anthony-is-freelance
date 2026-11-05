@@ -1,5 +1,5 @@
 // Theme customisations. Copy: page-copy/service-pages.md, Page 2.
-import { URLS } from '../site';
+import { URLS, BUILD_PARTNERS } from '../site';
 import type { ServicePage } from './types';
 import { serviceHero } from '../service-heroes';
 import redWine from '../../assets/brands/drink-finder/red-wine.jpg';
@@ -10,7 +10,7 @@ export const THEME: ServicePage = {
   meta: {
     title: 'Shopify Theme Customisation UK | Anthony is Freelance',
     description:
-      'Shopify theme customisation from £5,000 + VAT, design only. A premium theme redesigned around your brand, delivered as a live store in six to ten weeks.',
+      'Shopify theme customisation from £5,000 + VAT. A premium theme redesigned around your brand, delivered as a live store in six to ten weeks.',
     path: URLS.theme,
     name: 'Theme customisations',
     serviceType: 'Shopify theme customisation',
@@ -20,7 +20,7 @@ export const THEME: ServicePage = {
     eyebrow: 'Shopify theme customisation',
     heading: 'A premium theme that looks bespoke.',
     intro:
-      'Shopify theme customisation means taking a premium theme and redesigning it around your brand, products and customers, so it stops looking like the demo store. I design the key page templates, like the header and product page, in Figma, and the rest straight into the theme. Theme customisations start from £5,000 + VAT, design only, and take six to ten weeks from start to a live store. Thameen London, a fragrance house stocked in Harrods, runs on one.',
+      'Shopify theme customisation means taking a premium theme and redesigning it around your brand, products and customers, so it stops looking like the demo store. I design the key page templates, like the header and product page, in Figma, and the rest straight into the theme. Theme customisations start from £5,000 + VAT and take six to ten weeks from start to a live store. Thameen London, a fragrance house stocked in Harrods, runs on one.',
     cta: { label: 'Start a theme project', href: '#start-a-project' },
     ...serviceHero(URLS.theme),
     caption: 'Thameen London. The desktop journey on the Sleek theme.',
@@ -92,12 +92,12 @@ export const THEME: ServicePage = {
       ['Design time', 'Six to ten weeks'],
       ['Build time', 'Included in the six to ten weeks'],
       ['What you get', 'Key templates designed in Figma, the rest straight into the theme, delivered as a live store'],
-      ['Who builds it', 'A developer I introduce, or your own team or agency, quoted separately, for any custom sections'],
+      ['Who builds it', `For any custom sections, ${BUILD_PARTNERS}. Or your own team or agency`],
     ],
   },
   comparison: {
     ...THEME_VS_BESPOKE,
-    caption: 'Bespoke store design and theme customisation compared, design only, checked September 2026',
+    caption: 'Bespoke store design and theme customisation compared, checked September 2026',
     columns: [
       { label: 'Bespoke store design', href: URLS.bespoke },
       { label: 'Theme customisations', href: URLS.theme, current: true },
@@ -107,7 +107,7 @@ export const THEME: ServicePage = {
       { client: 'Drink Finder', href: URLS.caseStudies.drinkFinder, screen: redWine, alt: 'The Drink Finder red wine collection on mobile.' },
       { client: 'Thameen London', href: caseStudyHref('Thameen London'), screen: thameenCollection, alt: 'A Thameen London collection on mobile.' },
     ],
-    notes: ['Bespoke store design starts from £10,000 + VAT, design only, with six to eight weeks of design and about the same again for the build.'],
+    notes: ['Bespoke store design starts from £10,000 + VAT, with six to eight weeks of design and about the same again for the build.'],
   },
   faqs: {
     eyebrow: 'Shopify theme customisation FAQs',

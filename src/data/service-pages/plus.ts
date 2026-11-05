@@ -1,5 +1,5 @@
 // Shopify Plus design. Copy: page-copy/service-pages.md, Page 4. New page.
-import { URLS } from '../site';
+import { URLS, BUILD_PARTNERS } from '../site';
 import type { ServicePage } from './types';
 import { card, hubPrice, ROUTING_EYEBROW, PRICE_NOTE, PROCESS_INTRO, TRUST_COMMON, QUOTE } from './shared';
 
@@ -18,7 +18,7 @@ export const PLUS: ServicePage = {
     eyebrow: 'Shopify Plus website design',
     heading: 'Design for when the stakes go up.',
     intro:
-      "Shopify Plus design is store design for brands on Shopify's enterprise plan, where more traffic, a customisable checkout, wholesale and more than one market raise the stakes. I design Plus stores as bespoke projects, often alongside an in-house team or agency. Shopify Plus design is priced as a bespoke design, from £10,000 + VAT, design only. Jing Tea runs on a Plus store I designed.",
+      "Shopify Plus design is store design for brands on Shopify's enterprise plan, where more traffic, a customisable checkout, wholesale and more than one market raise the stakes. I design Plus stores as bespoke projects, often alongside an in-house team or agency. Shopify Plus design is priced as a bespoke design, from £10,000 + VAT. Jing Tea runs on a Plus store I designed.",
     cta: { label: 'Start a Plus project', href: '#start-a-project' },
     caption: 'Jing Tea. The collection page on Shopify Plus.',
   },
@@ -62,7 +62,7 @@ export const PLUS: ServicePage = {
     steps: [
       { title: 'Understand', body: 'A call, a tailored quote and, where it helps, a UX review, often alongside your in-house team or agency.' },
       { title: 'Design', body: 'Designed as a bespoke project, with a weekly call and two rounds of feedback in Figma.' },
-      { title: 'Launch', body: 'Your team, your agency or the developer I introduce builds it, and I check every screen before launch.' },
+      { title: 'Launch', body: 'Cartmasters or Tom Blanchard build it, or your own team or agency, and I check every screen before launch.' },
       { title: 'Measure and improve', body: 'I check conversion rate and average order value at one, three and seven days after launch.' },
     ],
   },
@@ -77,7 +77,7 @@ export const PLUS: ServicePage = {
       ['Design time', 'Six to eight weeks, as a bespoke design'],
       ['Build time', 'About the same again'],
       ['What you get', 'The full Figma file: design system, every template and a clickable prototype'],
-      ['Who builds it', 'A developer I introduce, or your own team or agency, quoted separately'],
+      ['Who builds it', `${BUILD_PARTNERS}. Or your own team or agency`],
     ],
   },
   faqs: {

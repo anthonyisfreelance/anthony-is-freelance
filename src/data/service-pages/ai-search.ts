@@ -1,6 +1,6 @@
 // Shopify AI search visibility design. Copy: the service pages doc, Page 9, from the live WordPress page
 // (checked 20 October 2026). Built into every project, never sold or priced on its own (brief, 11 October 2026).
-import { URLS } from '../site';
+import { URLS, BUILD_PARTNERS } from '../site';
 import { COMPARE } from '../innovations';
 import { slot } from '../case-studies/types';
 
@@ -119,7 +119,7 @@ export const AI_SEARCH: ServicePage = {
       ['Price', 'Included with every design project'],
       ['Where it happens', 'Through the whole design, from the navigation plan to the product page order'],
       ['What you get', 'Answer-first pages, product details as text, structured data briefed to the developer, and checkable proof'],
-      ['Who builds it', 'A developer I introduce, or your own team or agency'],
+      ['Who builds it', `${BUILD_PARTNERS}. Or your own team or agency`],
     ],
   },
   comparison: {

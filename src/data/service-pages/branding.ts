@@ -1,5 +1,5 @@
 // Branding. Copy: page-copy/service-pages.md, Page 8. Keeps /freelance-brand-designer/.
-import { URLS } from '../site';
+import { URLS, BUILD_PARTNERS } from '../site';
 import type { ServicePage } from './types';
 import { serviceHero } from '../service-heroes';
 // Lifestyle hero from Drive services/<service>/hero-lifestyle.jpg
@@ -84,7 +84,7 @@ export const BRANDING: ServicePage = {
       ['Design time', 'Four to six weeks'],
       ['Build time', 'No build for the brand itself. It carries into your store design'],
       ['What you get', "Logo, palette, typefaces and flexible guidelines, carried into the store's design system"],
-      ['Who builds it', 'On a store project, a developer I introduce, or your own team or agency, quoted separately'],
+      ['Who builds it', `On a store project, ${BUILD_PARTNERS}. Or your own team or agency`],
     ],
   },
   testimonial: {

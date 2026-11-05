@@ -1,7 +1,7 @@
 // Shopify UX design. Copy: page-copy/service-pages.md, Page 6.
 // Lives at the existing /freelance-ux-ui-designer/ URL for now ([CONFIRM] the doc's move to
 // /shopify-website-design/shopify-ux-design/ with a 301).
-import { URLS } from '../site';
+import { URLS, BUILD_PARTNERS } from '../site';
 import type { ServicePage } from './types';
 import { serviceHero } from '../service-heroes';
 // Lifestyle hero from Drive services/<service>/hero-lifestyle.jpg
@@ -99,13 +99,13 @@ export const UX: ServicePage = {
       ['Design time', 'Two to three weeks from review to design.'],
       ['Build time', "Depends on where the work goes: a theme customisation, a bespoke design or your developer's priority list."],
       ['What you get', 'A UX review on a Miro board, then the fixes designed in Figma'],
-      ['Who builds it', 'A developer I introduce, or your own team or agency, quoted separately'],
+      ['Who builds it', `${BUILD_PARTNERS}. Or your own team or agency`],
     ],
   },
   comparison: {
     eyebrow: 'UX review on its own vs in a design project',
     heading: 'Which suits your store?',
-    caption: 'A standalone Shopify UX review and UX inside a design project compared, design only, checked November 2026',
+    caption: 'A standalone Shopify UX review and UX inside a design project compared, checked November 2026',
     columns: [
       { label: 'UX review on its own', href: URLS.ux, current: true },
       { label: 'UX in a design project', href: URLS.services },

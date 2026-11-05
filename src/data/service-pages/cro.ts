@@ -1,5 +1,5 @@
 // Shopify CRO. Copy: page-copy/service-pages.md, Page 5.
-import { URLS } from '../site';
+import { URLS, BUILD_PARTNERS } from '../site';
 import type { ServicePage } from './types';
 import { serviceHero } from '../service-heroes';
 import { card, hubPrice, ROUTING_EYEBROW, PRICE_NOTE, QUOTE, ALL_ARTICLES, ARTICLE } from './shared';
@@ -87,13 +87,13 @@ export const CRO: ServicePage = {
       ['Design time', 'From three weeks for a review and tweaks, depending on how many changes there are'],
       ['Build time', 'Depends on how many changes the review finds'],
       ['What you get', 'A UX review on a Miro board, an agreed list of fixes, and the changes designed in Figma'],
-      ['Who builds it', 'A developer I introduce, or your own team or agency, quoted separately'],
+      ['Who builds it', `${BUILD_PARTNERS}. Or your own team or agency`],
     ],
   },
   comparison: {
     eyebrow: 'Shopify CRO vs a redesign',
     heading: 'Which does your store need?',
-    caption: 'Shopify CRO and a store redesign compared, design only, checked November 2026',
+    caption: 'Shopify CRO and a store redesign compared, checked November 2026',
     columns: [
       { label: 'Shopify CRO', href: URLS.cro, current: true },
       { label: 'A redesign, theme or bespoke', href: URLS.services },

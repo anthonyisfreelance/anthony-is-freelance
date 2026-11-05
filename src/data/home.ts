@@ -2,7 +2,7 @@
 // a line stays only if it's a fact nobody else can claim, a number with its window and source, or a
 // line people would quote. Mobile shows fewer cards in some sections; every card stays in the HTML.
 // Anything marked [CONFIRM] shows on the preview so it can't slip through.
-import { URLS, ENTITY } from './site';
+import { URLS, ENTITY, LAUNCH_COUNT } from './site';
 
 import drinkFinder from '../assets/brands/drink-finder/card.jpg';
 import eastAtHome from '../assets/brands/east-at-home/card.jpg';
@@ -32,7 +32,7 @@ export const HERO = {
   trust: [
     '20+ years of brand and ecommerce experience',
     'Winner of UK eCommerce Website of the Year 2026',
-    '13 Shopify launches since 2023',
+    `${LAUNCH_COUNT} Shopify launches since 2023`,
   ],
 };
 
@@ -238,7 +238,7 @@ export const FAQS = {
     {
       q: 'How much does a freelance Shopify designer cost?',
       a: [
-        'A store design starts from £5,000 + VAT for a theme customisation and £10,000 + VAT for a bespoke store. Smaller projects, like branding or a CRO project, start from £3,000 + VAT. All prices are for design only. The chosen developer quotes the build separately.',
+        'A store design starts from £5,000 + VAT for a theme customisation and £10,000 + VAT for a bespoke store. Smaller projects, like branding or a CRO project, start from £3,000 + VAT. Prices are for the design. Cartmasters or Tom Blanchard quote the build alongside it, and you pay them directly.',
         'A theme customisation redesigns inside a premium theme, so the price depends on how far the theme needs pushing and how many templates change. A bespoke design starts from scratch, so it depends on how many page templates and bespoke sections you need, and also whether the brand needs refining first.',
         `Each [service](${URLS.services}) page has more granular details.`,
       ],
@@ -252,13 +252,13 @@ export const FAQS = {
     {
       q: 'Do you build the store as well as design it?',
       a: [
-        "No. I'm a Shopify web designer, not a developer, which keeps my full attention on the design. The build is done by your own developer or agency, or by one of the Shopify developers I've worked with for years. You pay the developer directly, so you always know who's doing what. I stay involved through the build and check every screen before launch.",
+        `I design it, and Cartmasters or Tom Blanchard build it. They've built all ${LAUNCH_COUNT} of my Shopify launches since 2023, so they know how I design, I know how they build, and nothing gets lost in the handover. You get two Shopify specialists, one for the design and one for the build, each doing the job they do best. I stay on the project through the build and check every screen before launch. Your own developer or agency can build it instead.`,
       ],
     },
     {
       q: 'Should I hire a freelance Shopify designer or an agency?',
       a: [
-        'Hire a freelancer when you want the senior person doing the work, not overseeing it. Agencies suit large programmes with several workstreams running at once, and I often work alongside them as their design partner. The fair worry with a freelancer is dealing with two people instead of one. I introduce the right developer, hand over a design system that leaves no guesswork, and stay involved until launch.',
+        `Hire a freelancer when you want the senior person doing the work, not overseeing it. Agencies suit large programmes with several workstreams running at once, and I often work alongside them as their design partner. With me you still get a full team: Cartmasters or Tom Blanchard have built all ${LAUNCH_COUNT} of my launches since 2023, from a design system that leaves no guesswork, and I stay involved until launch.`,
       ],
     },
     {

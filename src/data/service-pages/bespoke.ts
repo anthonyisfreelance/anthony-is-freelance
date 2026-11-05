@@ -1,6 +1,6 @@
 // Bespoke store design service page. Layout and headings from the Figma frame
 // "Services - Sub Page" (47742:8885); body copy from page-copy/service-pages.md, Page 1.
-import { URLS } from '../site';
+import { URLS, BUILD_PARTNERS } from '../site';
 import { CASE_STUDIES } from '../work';
 import { brandImage } from '../media';
 import type { ServicePage } from './types';
@@ -23,7 +23,7 @@ export const BESPOKE: ServicePage = {
   meta: {
     title: 'Bespoke Shopify Store Design UK | Anthony is Freelance',
     description:
-      'Bespoke Shopify store design from £10,000 + VAT, design only. Every template designed around your products, in six to eight weeks. By Anthony Bliss.',
+      'Bespoke Shopify store design from £10,000 + VAT. Every template designed around your products, in six to eight weeks. By Anthony Bliss.',
     path: URLS.bespoke,
     name: 'Bespoke store design',
     serviceType: 'Bespoke Shopify website design',
@@ -34,7 +34,7 @@ export const BESPOKE: ServicePage = {
     eyebrow: 'Bespoke Shopify store design',
     heading: 'Totally tailored to your brand.',
     intro:
-      "A bespoke Shopify store has every template designed from scratch around your products and customers, instead of adapted from a theme. I design it in Figma as a complete design system, with a clickable prototype. Bespoke store design starts from £10,000 + VAT, design only. Drink Finder's bespoke store lifted website sales 34%, September to February against the year before, and won UK eCommerce Website of the Year 2026.",
+      "A bespoke Shopify store has every template designed from scratch around your products and customers, instead of adapted from a theme. I design it in Figma as a complete design system, with a clickable prototype. Bespoke store design starts from £10,000 + VAT. Drink Finder's bespoke store lifted website sales 34%, September to February against the year before, and won UK eCommerce Website of the Year 2026.",
     cta: { label: 'Start a bespoke project', href: '#start-a-project' },
     ...serviceHero(URLS.bespoke),
     caption: 'Hartnack & Co. The step-by-step product builder.',
@@ -153,17 +153,17 @@ export const BESPOKE: ServicePage = {
     cta: { label: 'Get a quote', href: '#start-a-project' },
     caption: 'Bespoke store design at a glance',
     rows: [
-      ['Starting price', 'From £10,000 + VAT, design only'],
+      ['Starting price', 'From £10,000 + VAT'],
       ['Design time', 'Six to eight weeks'],
       ['Build time', 'About the same again'],
       ['What you get', 'The full Figma file: design system, every page template and a clickable prototype'],
-      ['Who builds it', 'A developer I introduce, or your own team or agency, quoted separately'],
+      ['Who builds it', `${BUILD_PARTNERS}. Or your own team or agency`],
     ],
   },
 
   comparison: {
     ...THEME_VS_BESPOKE,
-    caption: 'Bespoke store design and theme customisation compared, design only, checked September 2026',
+    caption: 'Bespoke store design and theme customisation compared, checked September 2026',
     columns: [
       { label: 'Bespoke store design', href: URLS.bespoke, current: true },
       { label: 'Theme customisations', href: URLS.theme },
@@ -200,7 +200,7 @@ export const BESPOKE: ServicePage = {
       },
       {
         q: 'Who builds a bespoke Shopify store?',
-        a: ['A Shopify developer builds it from my designs. I introduce the right developer for the project, or brief your own team or agency, and I QA the build before launch.'],
+        a: [`${BUILD_PARTNERS}. They build from my design system, and I check every screen before launch. Your own team or agency can build it instead.`],
       },
       {
         q: 'Is a bespoke Shopify store worth it?',

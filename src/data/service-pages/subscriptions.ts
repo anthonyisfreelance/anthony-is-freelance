@@ -1,6 +1,6 @@
 // Subscriptions. Copy: page-copy/service-pages.md, Page 7. No FAQ block: the
 // buyer questions sit in the body as question headings instead.
-import { URLS } from '../site';
+import { URLS, BUILD_PARTNERS } from '../site';
 import type { ServicePage } from './types';
 import { serviceHero } from '../service-heroes';
 import { card, ROUTING_EYEBROW, PRICE_NOTE, QUOTE } from './shared';
@@ -94,11 +94,11 @@ export const SUBSCRIPTIONS: ServicePage = {
     cta: QUOTE,
     caption: 'Subscriptions at a glance',
     rows: [
-      ['Starting price', 'From £3,000 + VAT as CRO changes, £5,000 + VAT within a theme customisation, or £10,000 + VAT as a bespoke design, all design only'],
+      ['Starting price', 'From £3,000 + VAT as CRO changes, £5,000 + VAT within a theme customisation, or £10,000 + VAT as a bespoke design'],
       ['Design time', 'Usually runs inside a CRO, theme customisation or bespoke project.'],
       ['Build time', 'Dependent on the scope of the project.'],
       ['What you get', 'Subscription product pages, quiz or build-a-box flows and account pages, designed around your subscription app'],
-      ['Who builds it', 'A developer I introduce, or your own team or agency, quoted separately, including the app setup'],
+      ['Who builds it', `${BUILD_PARTNERS}. They set up the subscription app. Or your own team or agency`],
     ],
   },
   faqs: {
