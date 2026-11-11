@@ -129,8 +129,8 @@ const experience = 'Anthony Bliss has worked in design for over 20 years, from b
             <div class="flex flex-col gap-4 border-b border-line pb-4 lg:w-[916px] lg:max-w-full lg:flex-row-reverse lg:items-center lg:justify-between lg:gap-[40px] lg:pb-6">
             <p class="eyebrow !mb-0" data-deco>{category}</p>
             <div class="flex items-center gap-3">
-              <!-- The photo is landscape, cropped to a circle, so the file is sized by its height (#277). -->
-              <Image src={photo} alt="" widths={[70, 140]} width={Math.min(140, photo.width)} sizes="70px" class="size-11 shrink-0 rounded-full object-cover" />
+              <!-- The photo is landscape, so it is cropped square at build time; the srcset then matches the circle (11 November 2026). -->
+              <Image src={photo} alt="" width={132} height={132} fit="cover" widths={[44, 88, 132]} sizes="44px" class="size-11 shrink-0 rounded-full object-cover" />
               <div class="t-label flex flex-col gap-1">
                 <p class="text-ink">By <a href={URLS.about} rel="author" class="underline underline-offset-4 hover:decoration-2">Anthony Bliss</a>, freelance Shopify designer</p>
                 <p class="text-muted">
@@ -241,7 +241,7 @@ const experience = 'Anthony Bliss has worked in design for over 20 years, from b
         <Heading eyebrow="About the author">Written by a freelance Shopify designer.</Heading>
         <div class="flex flex-col gap-loose sm:flex-row sm:items-start sm:gap-grid">
           <div class="relative aspect-[4/5] w-[160px] shrink-0 overflow-hidden lg:w-[180px]">
-            <Image src={photo} alt="Anthony Bliss" widths={[340, 680, 1020]} width={Math.min(1020, photo.width)} sizes="(min-width: 1024px) 340px, 300px" class="absolute inset-0 size-full object-cover" />
+            <Image src={photo} alt="Anthony Bliss" width={540} height={675} fit="cover" widths={[180, 360, 540]} sizes="(min-width: 1024px) 180px, 160px" class="absolute inset-0 size-full object-cover" />
           </div>
           <div class="flex flex-col gap-loose">
             <p class="t-h6 text-ink">{a.award}</p>

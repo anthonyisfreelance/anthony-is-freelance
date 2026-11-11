@@ -111,13 +111,13 @@ const btn = 't-button inline-flex items-center px-[14px] py-[10px]';
         <Heading eyebrow={P.author.eyebrow} class="lg:w-[31.6%] lg:shrink-0">{P.author.heading}</Heading>
         <div class="flex flex-col gap-loose lg:flex-1 lg:flex-row lg:items-start lg:gap-gutter">
           <div class="relative hidden aspect-[4/5] w-[195px] shrink-0 overflow-hidden lg:block">
-            <Image src={photo} alt="Anthony Bliss" widths={[195, 390]} width={Math.min(390, photo.width)} sizes="195px" class="absolute inset-0 size-full object-cover" />
+            <Image src={photo} alt="Anthony Bliss" width={585} height={731} fit="cover" widths={[195, 390, 585]} sizes="195px" class="absolute inset-0 size-full object-cover" />
           </div>
           <div class="flex flex-col gap-loose lg:flex-1 lg:gap-large">
             <div class="flex flex-col gap-loose">
               <div class="flex items-start gap-4">
                 <div class="relative aspect-[4/5] w-[111px] shrink-0 overflow-hidden lg:hidden">
-                  <Image src={photo} alt="" widths={[111, 222]} width={Math.min(222, photo.width)} sizes="111px" class="absolute inset-0 size-full object-cover" />
+                  <Image src={photo} alt="" width={333} height={416} fit="cover" widths={[111, 222, 333]} sizes="111px" class="absolute inset-0 size-full object-cover" />
                 </div>
                 <p class="t-h6 text-ink">{P.author.award}</p>
               </div>
