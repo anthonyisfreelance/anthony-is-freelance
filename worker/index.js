@@ -2,6 +2,7 @@
 // which wrangler.jsonc routes here first (run_worker_first).
 //
 // /api/enquiry sends the start-a-project form (worker/enquiry.js).
+// /doc/* serves client quotes, contracts and invoices (worker/docs/).
 // /api/feedback powers the test-site comment tool (public/feedback.js). Each comment
 // becomes a GitHub issue labelled "feedback" on the site repo. It never runs on
 // anthonyis.uk itself.
@@ -11,6 +12,7 @@
 //   FEEDBACK_KEY  any passphrase; the comment tool sends it with every request
 
 import { enquiry } from './enquiry.js';
+import { docs } from './docs/index.js';
 
 // Pages removed for good: a 410 tells Google they're gone on purpose, so they drop out quickly.
 // Every path here must also be in run_worker_first in wrangler.jsonc, or the worker never sees it.
@@ -48,9 +50,11 @@ const LABEL = 'feedback';
 const META = /<!-- feedback-meta ([A-Za-z0-9+/=]+) -->/;
 
 export default {
-  async fetch(request, env) {
+  async fetch(request, env, ctx) {
     const url = new URL(request.url);
     if (url.pathname.startsWith('/wp-content/uploads/')) return oldImage(request, env, url);
+    // Client quotes, contracts and invoices (worker/docs/README.md).
+    if (url.pathname === '/doc' || url.pathname.startsWith('/doc/')) return docs(request, env, ctx);
     const path = url.pathname.endsWith('/') ? url.pathname : `${url.pathname}/`;
     if (GONE.has(path) || GONE_PATTERNS.some((re) => re.test(path))) return gone(request, env);
     if (url.pathname === '/api/enquiry') return enquiry(request, env);

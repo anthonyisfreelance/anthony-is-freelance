@@ -5,10 +5,15 @@
   "name": "anthony-is-freelance",
   "compatibility_date": "2026-10-18",
   "main": "./worker/index.js",
+  // nodejs_compat and the browser binding are for the client documents' PDFs (worker/docs/pdf.js).
+  "compatibility_flags": ["nodejs_compat"],
+  "browser": { "binding": "BROWSER" },
   // Plain settings for the enquiry form (worker/enquiry.js). Kept here so a deploy never wipes them.
   // The Resend key is a secret, set in the dashboard, and secrets survive deploys.
   "vars": {
-    "ENQUIRY_FROM": "Anthony is Freelance <enquiries@mail.anthonyis.uk>"
+    "ENQUIRY_FROM": "Anthony is Freelance <enquiries@mail.anthonyis.uk>",
+    // Sender for document codes and notices (worker/docs/mail.js).
+    "DOCS_FROM": "Anthony is Freelance <documents@mail.anthonyis.uk>"
   },
   "assets": {
     "directory": "./dist",
@@ -16,6 +21,9 @@
     "not_found_handling": "404-page",
     "run_worker_first": [
       "/api/*",
+      // Client quotes, contracts and invoices (worker/docs/)
+      "/doc",
+      "/doc/*",
       // Old WordPress images, 301 to their new copies (oldImage in worker/index.js)
       "/wp-content/uploads/*",
       // Removed pages that answer 410 (GONE in worker/index.js)
