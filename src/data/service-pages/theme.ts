@@ -123,6 +123,20 @@ export const THEME: ServicePage = {
     ],
   },
   extras: [
+    {
+      // Anthony's copy, 11 November 2026
+      kind: 'text',
+      after: 'included',
+      id: 'designed-not-installed',
+      heading: 'Designed, not just installed.',
+      paragraphs: ['A theme gives you a structure. I design what goes in it.'],
+      list: [
+        { body: 'The header, navigation, collection and product pages designed in Figma first' },
+        { body: "Every section shaped around your products, not left as the theme's default" },
+        { body: 'Your brand carried through the type, spacing and imagery' },
+        { body: 'Tested on real devices before launch, then checked again once live' },
+      ],
+    },
     { kind: 'todo', after: 'process', title: 'Theme customisation innovations', note: "Off for now: none of the 13 innovations come from theme projects. Returns if Wide Fit Shoes passes the innovations test." },
     { kind: 'todo', after: 'faqs', title: 'Articles', note: "Best Shopify themes and Shopify's AI Store Builder: A Designer's Honest Take, once both are published." },
   ],

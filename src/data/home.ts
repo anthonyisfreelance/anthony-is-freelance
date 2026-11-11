@@ -244,6 +244,13 @@ export const FAQS = {
       ],
     },
     {
+      // Anthony's copy, 11 November 2026
+      q: 'Why do your prices start at £5,000?',
+      a: [
+        "Because every store is beautifully designed with deep UX thinking behind it, not just set up. Even on a theme customisation, I design the key templates in Figma first, then shape every other section around your brand and products. Nothing is left as the theme's default. Every screen is tested on real phones, tablets and desktops before launch. Lower prices usually mean installing a theme and changing the logo, colours and fonts. That's a fine start for a new store. My clients have outgrown it.",
+      ],
+    },
+    {
       q: 'How long does a Shopify store design take?',
       a: [
         "Six to eight weeks for a bespoke store design, with the build taking about the same again. A theme customisation takes six to ten weeks, build included. The biggest roadblocks from experience are timely feedback and client content, so having real copy and images early makes the most difference. I'm usually booked one to two months ahead.",

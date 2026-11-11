@@ -25,11 +25,9 @@ export const ALT_TEXT: Record<string, string> = {
   'articles/shortlisted-uk-ecommerce-awards-2026/tile.png': 'UK eCommerce Awards 2026 winner badge',
   'articles/strategies-for-your-homeware-lifestyle-shopify-store/tile.png': 'A stone basin and brass tap in a styled homeware bathroom',
   'articles/voice-search-optimisation-for-shopify-stores-a-complete-2025-guide/tile.png': 'A blue microphone icon for voice search',
-  'articles/what-dtc-brands-should-look-for-shopify-designer/tile.png': 'Shopify logo beside the East at Home Shopify homepage on mobile',
   'articles/what-is-a-shopify-partner/tile.png': 'Shopify Partners badge with 2026 in blue',
   'articles/what-makes-a-good-landing-page/tile.png': 'Hartnack & Co, Wide Fit Shoes and Whistlefish Shopify landing pages on mobile',
   // Old WordPress alt text kept: this image ranked first in Google Images for "best shopify designer in the uk"
-  'articles/what-to-look-for-hiring-shopify-designer/tile.png': 'High-converting Shopify store homepages designed by the best Shopify designer in the UK, Anthony is Freelance',
   'articles/why-conversion-rate-optimisation-is-still-a-human-skill/tile.png': 'A Nike product card with a 7.5% increase in sales',
   'articles/why-off-the-shelf-shopify-themes-hold-stores-back-in-2025/tile.png': 'A grid of Shopify theme demo homepages',
 

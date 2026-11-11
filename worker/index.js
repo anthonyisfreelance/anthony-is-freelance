@@ -35,6 +35,8 @@ export const GONE = new Set([
   '/recipes-m/',
   '/red-bull/',
   '/shopify-website-design/east-west-apparel-hero_white/',
+  // Found in the Search Console check of 11 November 2026
+  '/1-1-christopherdaviddesign_edit-2-without-begining-frame_1080p/',
 ]);
 
 // Attachment pages by pattern (map row 74): WordPress put every image in a case study at
