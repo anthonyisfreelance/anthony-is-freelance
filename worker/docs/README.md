@@ -1,6 +1,8 @@
 # Client documents
 
-Quotes, contracts and invoices at `anthonyis.uk/doc/<token>/`, each at an unguessable link. Every
+Quotes, contracts and invoices on their own subdomain, `docs.anthonyis.uk` (a custom domain on the
+site worker): `/quote/<token>/`, `/quote/<token>/contract/`, `/invoice/<token>/` and `/admin/`. Each
+link is unguessable. Every
 document is one A4 sheet, the same on screen and in the PDF.
 
 ## How it fits together
@@ -19,7 +21,7 @@ document is one A4 sheet, the same on screen and in the PDF.
 ## The flow
 
 1. A quote's JSON goes into the data folder (Claude writes it from what Anthony says).
-2. Anthony checks it at `/doc/admin/` and presses **Send quote**: the PDF is saved to Quotes and the
+2. Anthony checks it at `docs.anthonyis.uk/admin/` and presses **Send quote**: the PDF is saved to Quotes and the
    client gets an email from his Gmail with the link and the PDF.
 3. The client presses **Accept quote**, fills in their company details, signs (draw, type or upload)
    and confirms with a code emailed to them.
@@ -30,17 +32,18 @@ document is one A4 sheet, the same on screen and in the PDF.
 
 ## Settings
 
-Worker (Cloudflare dashboard > Worker > Settings > Variables and secrets):
+Worker (Cloudflare dashboard > Worker > Settings > Variables and secrets). Add them as secrets:
+plain-text variables set in the dashboard are wiped by the next deploy.
 
 | Name | Type | What |
 | --- | --- | --- |
 | `DOCS_SECRET` | secret | Long random string; signs code and login cookies |
-| `BRIDGE_URL` | text | The Apps Script web app URL (ends `/exec`) |
+| `BRIDGE_URL` | secret | The Apps Script web app URL (ends `/exec`) |
 | `BRIDGE_KEY` | secret | Shared with the bridge's `BRIDGE_KEY` script property |
 | `RESEND_API_KEY` | secret | Already set for the enquiry form |
-| `ADMIN_EMAIL` | text, optional | Where admin login codes go; defaults to hello@anthonyis.uk |
+| `ADMIN_EMAIL` | secret, optional | Where admin login codes go; defaults to hello@anthonyis.uk |
 
-`wrangler.jsonc` adds the `BROWSER` binding and `nodejs_compat` for the PDFs.
+`wrangler.jsonc` adds the `BROWSER` binding and `nodejs_compat` for the PDFs, and `DOCS_HOST`.
 
 ## Data format
 

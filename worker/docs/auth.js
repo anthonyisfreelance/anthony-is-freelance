@@ -61,7 +61,7 @@ export function getCookie(request, name) {
 }
 
 export function cookie(name, value, seconds) {
-  return `${name}=${encodeURIComponent(value)}; Path=/doc/; Max-Age=${seconds}; HttpOnly; Secure; SameSite=Lax`;
+  return `${name}=${encodeURIComponent(value)}; Path=/; Max-Age=${seconds}; HttpOnly; Secure; SameSite=Lax`;
 }
 
 // Constant-time compare for short strings.

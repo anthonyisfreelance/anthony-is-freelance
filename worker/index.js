@@ -2,7 +2,7 @@
 // which wrangler.jsonc routes here first (run_worker_first).
 //
 // /api/enquiry sends the start-a-project form (worker/enquiry.js).
-// /doc/* serves client quotes, contracts and invoices (worker/docs/).
+// docs.anthonyis.uk serves client quotes, contracts and invoices (worker/docs/).
 // /api/feedback powers the test-site comment tool (public/feedback.js). Each comment
 // becomes a GitHub issue labelled "feedback" on the site repo. It never runs on
 // anthonyis.uk itself.
@@ -53,8 +53,11 @@ export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
     if (url.pathname.startsWith('/wp-content/uploads/')) return oldImage(request, env, url);
-    // Client quotes, contracts and invoices (worker/docs/README.md).
-    if (url.pathname === '/doc' || url.pathname.startsWith('/doc/')) return docs(request, env, ctx);
+    // Client quotes, contracts and invoices, on their own subdomain (worker/docs/README.md).
+    if (url.hostname === (env.DOCS_HOST || 'docs.anthonyis.uk') || env.DOCS_DEV === '1') {
+      const res = await docs(request, env, ctx);
+      if (res) return res;
+    }
     const path = url.pathname.endsWith('/') ? url.pathname : `${url.pathname}/`;
     if (GONE.has(path) || GONE_PATTERNS.some((re) => re.test(path))) return gone(request, env);
     if (url.pathname === '/api/enquiry') return enquiry(request, env);

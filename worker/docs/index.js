@@ -1,20 +1,23 @@
-// Client documents at /doc/*: quotes, contracts and invoices, each at an unguessable link.
+// Client documents on docs.anthonyis.uk: quotes, contracts and invoices, each at an unguessable link.
 //
-//   /doc/<token>/                 the quote or invoice
-//   /doc/<token>/contract/        the contract for a quote (signing panel until signed)
-//   /doc/<token>/<kind>.pdf       the same page as a PDF
-//   /doc/<token>/sign/code        POST: email a one-time code to the signer
-//   /doc/<token>/sign/confirm     POST: check the code and record the signature
-//   /doc/<token>/sign/finalise    POST: signed PDFs to Drive, email both sides, draft the deposit invoice
-//   /doc/admin/                   Anthony's list of documents and actions
+//   /quote/<token>/                 the quote
+//   /quote/<token>/contract/        its contract (signing panel until signed)
+//   /quote/<token>/quote.pdf        PDFs of the same pages (also contract.pdf)
+//   /quote/<token>/sign/code        POST: email a one-time code to the signer
+//   /quote/<token>/sign/confirm     POST: check the code and record the signature
+//   /quote/<token>/sign/finalise    POST: signed PDFs to Drive, email both sides, draft the deposit invoice
+//   /invoice/<token>/               the invoice (and invoice.pdf)
+//   /admin/                         Anthony's list of documents and actions
+//   /                               redirects to anthonyis.uk
 //
 // Document data lives as JSON files in Anthony's Google Drive, read and written through the Drive
 // bridge (bridge.js). How it all fits together: worker/docs/README.md.
 //
-// Settings (Cloudflare dashboard > Worker > Settings > Variables and secrets):
-//   DOCS_SECRET     secret, any long random string; signs the code and login cookies
+// Settings (Cloudflare dashboard > Worker > Settings > Variables and secrets). Add them as secrets:
+// plain-text variables set in the dashboard are wiped by the next deploy.
+//   DOCS_SECRET     any long random string; signs the code and login cookies
 //   BRIDGE_URL      the Drive bridge web app URL
-//   BRIDGE_KEY      secret, shared with the Drive bridge
+//   BRIDGE_KEY      shared with the Drive bridge
 //   RESEND_API_KEY  already set for the enquiry form; sends codes and notices
 //   ADMIN_EMAIL     optional, defaults to hello@anthonyis.uk
 
@@ -54,28 +57,31 @@ function message(base, title, text, status = 404) {
   return html(shell({ title, base, body }), status);
 }
 
+// Returns null for paths that aren't documents, so the site handles them.
 export async function docs(request, env, ctx) {
   const url = new URL(request.url);
   const base = url.origin;
-  const parts = url.pathname.replace(/^\/doc\/?/, '').split('/').filter(Boolean);
+  const parts = url.pathname.split('/').filter(Boolean);
 
   try {
+    if (!parts.length) return Response.redirect('https://anthonyis.uk/', 302);
     if (parts[0] === 'admin') return await admin(request, env, url, parts.slice(1));
-    if (!parts.length) return message(base, 'Not found', 'This link is not a document.');
-
-    const token = parts[0];
-    const rest = parts.slice(1).join('/');
+    const kind = parts[0];
+    if (kind !== 'quote' && kind !== 'invoice') return null;
+    const token = parts[1];
+    if (!token) return message(base, 'Not found', 'This link is not a document.');
+    const rest = parts.slice(2).join('/');
 
     // Pages always end in a slash (site rule); PDFs and POST routes don't.
     if (request.method === 'GET' && !url.pathname.endsWith('/') && !rest.endsWith('.pdf')) {
       return Response.redirect(`${base}${url.pathname}/`, 301);
     }
 
-    if (request.method === 'POST' && rest.startsWith('sign/')) return await sign(request, env, url, token, rest.slice(5));
+    if (request.method === 'POST' && kind === 'quote' && rest.startsWith('sign/')) return await sign(request, env, url, token, rest.slice(5));
     if (request.method !== 'GET') return json({ ok: false, error: 'Not found' }, 404);
 
     const doc = await getDoc(env, token);
-    if (!doc) return message(base, 'Document not found', `This link doesn't match a document. Check the link, or email ${COMPANY.email}.`);
+    if (!doc || doc.type !== kind) return message(base, 'Document not found', `This link doesn't match a document. Check the link, or email ${COMPANY.email}.`);
     const settings = await getSettings(env);
     const isAdmin = Boolean(await unseal(env.DOCS_SECRET, getCookie(request, 'doc_admin')));
 
@@ -119,7 +125,7 @@ export async function docs(request, env, ctx) {
 // After signing, the contract page is the snapshot taken at the moment of signing.
 function contractPage(doc, { base, settings }) {
   if (doc.state?.contractHtml) {
-    const bar = `<div class="bar"><a href="/doc/${esc(doc.token)}/">Back to the quote</a><a href="/doc/${esc(doc.token)}/contract.pdf">Download signed PDF</a></div>`;
+    const bar = `<div class="bar"><a href="/quote/${esc(doc.token)}/">Back to the quote</a><a href="/quote/${esc(doc.token)}/contract.pdf">Download signed PDF</a></div>`;
     return doc.state.contractHtml.replace('<body>\n', `<body>\n${bar}\n`);
   }
   return renderContract(doc, { base, settings });
@@ -244,7 +250,7 @@ async function finalise(env, doc, base) {
     subject: `Signed contract: ${doc.title}`,
     text: `Hi ${firstName(sig.name)},\n\nThanks for signing. The signed contract and the quote are attached for your records.\n\n${
       deposit ? `The ${deposit.label.toLowerCase()} invoice for ${money(deposit.gross)} including VAT will follow shortly, then we can book the kick-off call.\n\n` : ''
-    }You can also view the signed contract online:\n${base}/doc/${doc.token}/contract/\n\nThanks,\nAnthony`,
+    }You can also view the signed contract online:\n${base}/quote/${doc.token}/contract/\n\nThanks,\nAnthony`,
     attachments: [{ fileId: contractFile.id }, { fileId: quoteFile.id }],
   });
 
@@ -259,7 +265,7 @@ async function finalise(env, doc, base) {
     to: adminEmail(env),
     subject: `Signed: ${doc.client?.name} (${doc.number})`,
     text: `${sig.name} (${sig.position}, ${sig.legalName}) signed the contract for ${doc.title}.\n\nThe signed contract and quote are saved in Drive and emailed to ${to.join(', ')} from your Gmail.${
-      invoice ? `\n\nThe ${deposit.label.toLowerCase()} invoice ${invoice.number} (${money(deposit.gross, { pennies: true })} inc. VAT) is drafted. Check it and send it from the admin page:\n${base}/doc/admin/` : ''
+      invoice ? `\n\nThe ${deposit.label.toLowerCase()} invoice ${invoice.number} (${money(deposit.gross, { pennies: true })} inc. VAT) is drafted. Check it and send it from the admin page:\n${base}/admin/` : ''
     }`,
   }).catch((e) => console.error('[docs] notice', e));
 
@@ -315,8 +321,7 @@ async function admin(request, env, url, parts) {
   const action = parts[0] || '';
 
   if (request.method === 'GET') {
-    if (action) return Response.redirect(`${base}/doc/admin/`, 302);
-    if (!url.pathname.endsWith('/')) return Response.redirect(`${base}/doc/admin/`, 301);
+    if (action || !url.pathname.endsWith('/')) return Response.redirect(`${base}/admin/`, 302);
     if (!session) return html(renderLogin({ base, to: adminEmail(env) }));
     let docs = [];
     let error = '';
@@ -374,7 +379,7 @@ async function admin(request, env, url, parts) {
       await sendEmail(env, {
         to: [c.email],
         subject: `Quote: ${doc.title}`,
-        text: `Hi ${firstName(c.name)},\n\nHere's the quote for ${doc.title}. You can read it and accept it online:\n${base}/doc/${doc.token}/\n\nAccepting takes you straight to the contract, which you can sign online. The PDF is attached too, and the quote is valid until ${fmtDate(doc.validUntil, 'long')}.\n\nAny questions, just reply to this email.\n\nThanks,\nAnthony`,
+        text: `Hi ${firstName(c.name)},\n\nHere's the quote for ${doc.title}. You can read it and accept it online:\n${base}/quote/${doc.token}/\n\nAccepting takes you straight to the contract, which you can sign online. The PDF is attached too, and the quote is valid until ${fmtDate(doc.validUntil, 'long')}.\n\nAny questions, just reply to this email.\n\nThanks,\nAnthony`,
         attachments: [{ fileId: file.id }],
       });
       doc.state.quoteFileId = file.id;
@@ -410,7 +415,7 @@ async function admin(request, env, url, parts) {
       await sendEmail(env, {
         to: [c.email],
         subject: `Invoice ${doc.number}: ${doc.project || doc.title}`,
-        text: `Hi ${firstName(c.name)},\n\nInvoice ${doc.number} is attached, for ${money(t.total, { pennies: true })} including VAT, due by ${fmtDate(doc.due, 'long')}.\n\nYou can also view it online, with the bank details to copy:\n${base}/doc/${doc.token}/\n\nThanks,\nAnthony`,
+        text: `Hi ${firstName(c.name)},\n\nInvoice ${doc.number} is attached, for ${money(t.total, { pennies: true })} including VAT, due by ${fmtDate(doc.due, 'long')}.\n\nYou can also view it online, with the bank details to copy:\n${base}/invoice/${doc.token}/\n\nThanks,\nAnthony`,
         attachments: [{ fileId: file.id }],
       });
       doc.state.fileId = file.id;

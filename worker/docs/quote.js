@@ -133,11 +133,11 @@ export function renderQuote(q, { base, pdf = false }) {
   let action;
   if (signed) {
     action = `<div class="status">Accepted and signed<span>Signed on ${esc(fmtDate(q.state.signedAt, 'long'))} by ${esc(q.state.signature?.name || '')}.</span></div>
-      <a class="ghost" href="/doc/${esc(q.token)}/contract/">View the signed contract</a>`;
+      <a class="ghost" href="/quote/${esc(q.token)}/contract/">View the signed contract</a>`;
   } else if (expired) {
     action = `<div class="status error">This quote expired on ${esc(fmtDate(q.validUntil, 'long'))}<span>Email <b>${COMPANY.email}</b> for an updated quote.</span></div>`;
   } else {
-    action = `<a class="btn" href="/doc/${esc(q.token)}/contract/">Accept quote ${ARROW}</a>
+    action = `<a class="btn" href="/quote/${esc(q.token)}/contract/">Accept quote ${ARROW}</a>
       <p class="contact">Questions? Email <b>${COMPANY.email}</b></p>`;
   }
 
@@ -185,6 +185,6 @@ export function renderQuote(q, { base, pdf = false }) {
     title: `Quote ${q.number}`,
     base,
     body,
-    bar: pdf ? '' : topBar(`<span>Quote for ${esc(q.client?.name || '')}</span><a href="/doc/${esc(q.token)}/quote.pdf">Download PDF</a>`),
+    bar: pdf ? '' : topBar(`<span>Quote for ${esc(q.client?.name || '')}</span><a href="/quote/${esc(q.token)}/quote.pdf">Download PDF</a>`),
   });
 }

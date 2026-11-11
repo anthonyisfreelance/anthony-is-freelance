@@ -13,7 +13,9 @@
   "vars": {
     "ENQUIRY_FROM": "Anthony is Freelance <enquiries@mail.anthonyis.uk>",
     // Sender for document codes and notices (worker/docs/mail.js).
-    "DOCS_FROM": "Anthony is Freelance <documents@mail.anthonyis.uk>"
+    "DOCS_FROM": "Anthony is Freelance <documents@mail.anthonyis.uk>",
+    // The client documents' own subdomain (a custom domain on this worker).
+    "DOCS_HOST": "docs.anthonyis.uk"
   },
   "assets": {
     "directory": "./dist",
@@ -21,9 +23,13 @@
     "not_found_handling": "404-page",
     "run_worker_first": [
       "/api/*",
-      // Client quotes, contracts and invoices (worker/docs/)
-      "/doc",
-      "/doc/*",
+      // Client quotes, contracts and invoices on docs.anthonyis.uk (worker/docs/). "/" sends the
+      // subdomain's root to anthonyis.uk; on anthonyis.uk itself these paths fall through to the site.
+      "/",
+      "/quote/*",
+      "/invoice/*",
+      "/admin",
+      "/admin/*",
       // Old WordPress images, 301 to their new copies (oldImage in worker/index.js)
       "/wp-content/uploads/*",
       // Removed pages that answer 410 (GONE in worker/index.js)

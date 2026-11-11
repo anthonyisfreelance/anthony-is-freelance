@@ -1,4 +1,4 @@
-// Anthony's admin page at /doc/admin/: every document with its status, and the actions that move
+// Anthony's admin page at docs.anthonyis.uk/admin/: every document with its status, and the actions that move
 // it on (send, create the next invoice, mark paid). Login is a one-time code sent to ADMIN_EMAIL.
 
 import { esc, money, fmtDate, eyebrow, masthead, shell, COPY_SCRIPT } from './shared.js';
@@ -30,7 +30,7 @@ const ADMIN_SCRIPT = `
   var msg = document.getElementById('msg');
   function say(t, err) { if (!msg) return; msg.hidden = false; msg.className = 'status' + (err ? ' error' : ''); msg.textContent = t; window.scrollTo({ top: 0, behavior: 'smooth' }); }
   function post(path, body) {
-    return fetch('/doc/admin/' + path, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body || {}), credentials: 'same-origin' })
+    return fetch('/admin/' + path, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body || {}), credentials: 'same-origin' })
       .then(function (r) { return r.json().catch(function () { return { ok: false, error: 'Something went wrong.' }; }); });
   }
   var send = document.getElementById('send-code');
@@ -88,7 +88,7 @@ function statusOf(d) {
 
 function actions(d, base) {
   const s = d.state || {};
-  const link = `${base}/doc/${d.token}/`;
+  const link = `${base}/${d.type}/${d.token}/`;
   const a = [];
   const btn = (action, label, extra = '', primary = false) =>
     `<button type="button" class="ghost small${primary ? ' primary' : ''}" data-action="${action}" data-token="${esc(d.token)}" ${extra}>${esc(label)}</button>`;

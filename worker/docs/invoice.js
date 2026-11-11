@@ -126,7 +126,7 @@ export function renderInvoice(inv, { base, settings, pdf = false }) {
     body,
     css: INVOICE_CSS,
     script: pdf ? '' : COPY_SCRIPT,
-    bar: pdf ? '' : topBar(`<span>Invoice for ${esc(c.name || '')}</span><a href="/doc/${esc(inv.token)}/invoice.pdf">Download PDF</a>`),
+    bar: pdf ? '' : topBar(`<span>Invoice for ${esc(c.name || '')}</span><a href="/invoice/${esc(inv.token)}/invoice.pdf">Download PDF</a>`),
   });
 }
 

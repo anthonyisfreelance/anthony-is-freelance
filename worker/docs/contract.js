@@ -262,7 +262,7 @@ const SIGN_SCRIPT = `
     return '';
   }
   function post(path, body) {
-    return fetch('/doc/' + token + '/sign/' + path, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body), credentials: 'same-origin' })
+    return fetch('/quote/' + token + '/sign/' + path, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body), credentials: 'same-origin' })
       .then(function (r) { return r.json().catch(function () { return { ok: false, error: 'Something went wrong. Please try again.' }; }); });
   }
   var sendBtn = document.getElementById('send-code');
@@ -321,7 +321,7 @@ export function renderContract(q, { base, settings, pdf = false }) {
     <div class="table-wrap"><table class="kv"><tbody>${scheduleRows(q)
       .map(([k, v]) => `<tr><th scope="row">${esc(k)}</th><td>${esc(v)}</td></tr>`)
       .join('')}</tbody></table></div>
-    <p class="note">The Project Schedule is read together with the terms below and the Quote${pdf ? ', which is attached' : ` (<a href="/doc/${esc(q.token)}/">view the Quote</a>)`}.</p>
+    <p class="note">The Project Schedule is read together with the terms below and the Quote${pdf ? ', which is attached' : ` (<a href="/quote/${esc(q.token)}/">view the Quote</a>)`}.</p>
   </section>
 
   <section class="sec full" aria-labelledby="h-terms">
@@ -348,7 +348,7 @@ export function renderContract(q, { base, settings, pdf = false }) {
 
   const bar = pdf
     ? ''
-    : topBar(`<a href="/doc/${esc(q.token)}/">Back to the quote</a>${signed ? `<a href="/doc/${esc(q.token)}/contract.pdf">Download signed PDF</a>` : ''}`);
+    : topBar(`<a href="/quote/${esc(q.token)}/">Back to the quote</a>${signed ? `<a href="/quote/${esc(q.token)}/contract.pdf">Download signed PDF</a>` : ''}`);
 
   return shell({
     title: `Contract ${q.number}`,
