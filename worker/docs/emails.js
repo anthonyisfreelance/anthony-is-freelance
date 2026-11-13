@@ -105,7 +105,7 @@ function layout({ preheader, title, body, footer = true }) {
 @font-face { font-family: "Mint Grotesk Display"; src: url(${SITE}/fonts/mint-grotesk-display-narrow-500.woff2) format("woff2"); font-weight: 500; }
 @font-face { font-family: "Source Serif Pro"; src: url(${SITE}/fonts/source-serif-pro-400.woff2) format("woff2"); font-weight: 400; }
 a { color: ${BLUE}; }
-@media (max-width: 600px) { .wrap { padding: 24px 20px !important; } }
+@media (max-width: 600px) { .wrap { padding: 24px 20px !important; } .sig-logo { width: 124px !important; } .sig-logo img { width: 124px !important; height: 32px !important; } }
 u + .body .logo-plain { display: none !important; }
 u + .body .logo-blend { display: block !important; mix-blend-mode: difference; }
 </style>
@@ -322,16 +322,19 @@ const mint = (size, colour, extra = '') => `font-family:${DISPLAY};font-size:${s
 // The arrow as text, never an emoji (the trailing selector asks for the text form).
 const ARROW_UP = '&#8599;&#xFE0E;';
 
-// D, Headline: eyebrow, name as the headline, links, then the logo and award line.
+// D, Headline (Figma 48493:112): eyebrow and name as the headline, then the logo with the site link
+// and award line on the right. The award line may wrap on a narrow phone; the link never does.
 export function signatureHeadline({ adaptive = true } = {}) {
   const a = `color:${INK};text-decoration:none`;
-  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:520px;border-top:1px solid ${LINE}">
-<tr><td style="padding:20px 0 0;${mint(14, MUTED, 'line-height:1.3')}">+ ${esc(PERSON.role)} +</td></tr>
-<tr><td style="padding:8px 0 0;${mint(26, INK, 'line-height:1.1;letter-spacing:0;text-transform:uppercase')}">${esc(PERSON.name)}</td></tr>
-<tr><td style="padding:20px 0 22px;${mint(14, INK, 'line-height:1;text-transform:uppercase')}"><a href="${SITE}/" target="_blank" style="${a}">${esc(PERSON.site)}&nbsp;${ARROW_UP}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="tel:${PERSON.phoneHref}" style="${a}">${esc(PERSON.phone)}</a></td></tr>
-<tr><td style="padding:20px 0 0;border-top:1px solid ${LINE}"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
-<td width="102" bgcolor="#FFFFFF" style="width:102px;background:#FFFFFF;vertical-align:middle">${logoLink(adaptive, 102, 26)}</td>
-<td align="right" style="padding:0 0 0 12px;vertical-align:middle;text-align:right;white-space:nowrap;${mint(12, MUTED, 'line-height:1.3')}">${esc(PERSON.award)}</td>
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:552px;border-top:1px solid ${LINE}">
+<tr><td style="padding:24px 0 0;${mint(14, MUTED, 'line-height:1.3')}">+ ${esc(PERSON.role)} +</td></tr>
+<tr><td style="padding:8px 0 24px;${mint(26, INK, 'line-height:1.1;letter-spacing:0;text-transform:uppercase')}">${esc(PERSON.name)}</td></tr>
+<tr><td style="padding:24px 0 0;border-top:1px solid ${LINE}"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+<td width="149" class="sig-logo" bgcolor="#FFFFFF" style="width:149px;background:#FFFFFF;vertical-align:middle">${logoLink(adaptive, 149, 38)}</td>
+<td align="right" style="padding:0 0 0 8px;vertical-align:middle;text-align:right">
+<div style="${mint(14, INK, 'line-height:1.3;text-transform:uppercase;white-space:nowrap')}"><a href="${SITE}/" target="_blank" style="${a}">${esc(PERSON.site)}&nbsp;${ARROW_UP}</a></div>
+<div style="padding:6px 0 0;${mint(14, MUTED, 'line-height:1.3')}">${esc(PERSON.award).replace('UK eCommerce Awards 2026', '<span style="white-space:nowrap">UK eCommerce Awards 2026</span>')}</div>
+</td>
 </tr></table></td></tr>
 </table>`;
 }
