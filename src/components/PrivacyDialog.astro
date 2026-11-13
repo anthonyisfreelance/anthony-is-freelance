@@ -5,13 +5,17 @@
 // the script runs and with modifier keys. The notice itself is fetched from the privacy page the first
 // time the panel opens, so it isn't repeated in every page's HTML and there's only one copy to keep.
 // A modal <dialog>: focus stays inside, Escape closes it and the page behind is inert.
-import { URLS } from '../data/site';
+// From 1024px the panel is the right half of the page, the same centre line as the homepage hero
+// (Anthony, 13 November 2026).
+// The same panel shows the client reviews: links that carry data-reviews-open (the Google tile in the
+// homepage hero) fetch the list from the testimonials page, so there is still one copy of each quote.
+import { URLS, ENTITY } from '../data/site';
 ---
 <dialog
   id="privacy-dialog"
   data-privacy-dialog
   aria-labelledby="privacy-dialog-title"
-  class="m-0 ml-auto h-dvh max-h-none w-full max-w-[720px] overflow-hidden border-0 bg-surface p-0 text-ink backdrop:bg-blue/60"
+  class="m-0 ml-auto h-dvh max-h-none w-full max-w-[720px] overflow-hidden border-0 bg-surface p-0 text-ink backdrop:bg-blue/60 lg:w-1/2 lg:max-w-none"
 >
   <div class="flex h-full flex-col">
     <div class="flex items-center justify-between gap-grid border-b border-line px-margin py-loose lg:px-[48px]">
@@ -24,7 +28,8 @@ import { URLS } from '../data/site';
       <p class="t-body text-muted" data-privacy-loading>Loading…</p>
     </div>
     <div class="border-t border-line px-margin py-loose lg:px-[48px]">
-      <a href={URLS.privacy} class="t-label text-muted underline underline-offset-4 hover:decoration-2">Open the full page</a>
+      <a href={URLS.privacy} data-panel-full class="t-label text-muted underline underline-offset-4 hover:decoration-2">Open the full page</a>
+      <a href={ENTITY.googleReviews} data-panel-google hidden target="_blank" rel="noopener" class="t-label ml-6 text-muted underline underline-offset-4 hover:decoration-2">See the reviews on Google<span class="sr-only"> (opens in a new tab)</span></a>
     </div>
   </div>
 </dialog>
@@ -34,40 +39,80 @@ import { URLS } from '../data/site';
     var dialog = document.querySelector('[data-privacy-dialog]');
     if (!dialog) return;
     var body = dialog.querySelector('[data-privacy-body]');
-    var loaded = null;
-    function load(href) {
-      if (!loaded) {
-        loaded = fetch(href.split('#')[0], { credentials: 'same-origin' })
+    var title = dialog.querySelector('#privacy-dialog-title');
+    var full = dialog.querySelector('[data-panel-full]');
+    var google = dialog.querySelector('[data-panel-google]');
+    // What each kind of link shows: the panel's title, and how to lift the content out of its page.
+    var KINDS = {
+      privacy: {
+        title: 'Privacy and cookies',
+        build: function (doc) {
+          var prose = doc.querySelector('main .prose-article');
+          if (!prose) return null;
+          var frag = document.createDocumentFragment();
+          var updated = doc.querySelector('main time');
+          if (updated) {
+            var p = document.createElement('p');
+            p.className = 't-label mb-large tracking-[0.02em] text-muted';
+            p.textContent = 'Updated ' + updated.textContent;
+            frag.appendChild(p);
+          }
+          var copy = document.importNode(prose, true);
+          copy.className = 'prose-article prose-dialog';  // the page's column width doesn't apply in the panel
+          frag.appendChild(copy);
+          return frag;
+        },
+      },
+      reviews: {
+        title: 'Client reviews',
+        build: function (doc) {
+          var list = doc.querySelector('main #testimonials ul');
+          if (!list) return null;
+          var copy = document.importNode(list, true);
+          copy.className = 'flex flex-col';
+          // Client above the quote at every width (the page's two columns don't fit the panel), no rule above the first.
+          for (var i = 0; i < copy.children.length; i++) {
+            copy.children[i].className = 'flex flex-col gap-loose border-t border-line py-large first:border-t-0 first:pt-0';
+          }
+          return copy;
+        },
+      },
+    };
+    var cache = {};   // kind -> promise of its content
+    var showing = null;
+    function load(kind, href) {
+      if (!cache[kind]) {
+        cache[kind] = fetch(href.split('#')[0], { credentials: 'same-origin' })
           .then(function (r) { if (!r.ok) throw new Error(r.status); return r.text(); })
           .then(function (html) {
-            var doc = new DOMParser().parseFromString(html, 'text/html');
-            var prose = doc.querySelector('main .prose-article');
-            if (!prose) throw new Error('no notice');
-            var updated = doc.querySelector('main time');
-            body.innerHTML = '';
-            if (updated) {
-              var p = document.createElement('p');
-              p.className = 't-label mb-large tracking-[0.02em] text-muted';
-              p.textContent = 'Updated ' + updated.textContent;
-              body.appendChild(p);
-            }
-            var copy = document.importNode(prose, true);
-            copy.className = 'prose-article prose-dialog';  // the page's column width doesn't apply in the panel
-            body.appendChild(copy);
+            var content = KINDS[kind].build(new DOMParser().parseFromString(html, 'text/html'));
+            if (!content) throw new Error('nothing to show');
+            var holder = document.createElement('div');
+            holder.appendChild(content);
+            return holder;
           })
-          .catch(function () { loaded = null; throw new Error('failed'); });
+          .catch(function () { cache[kind] = null; throw new Error('failed'); });
       }
-      return loaded;
+      return cache[kind];
     }
     document.addEventListener('click', function (e) {
-      var link = e.target.closest && e.target.closest('a[data-privacy-open]');
+      var link = e.target.closest && e.target.closest('a[data-privacy-open], a[data-reviews-open]');
       if (!link || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
       e.preventDefault();
+      var kind = link.hasAttribute('data-reviews-open') ? 'reviews' : 'privacy';
       var href = link.getAttribute('href');
       var hash = href.indexOf('#') > -1 ? href.slice(href.indexOf('#') + 1) : '';
+      title.textContent = KINDS[kind].title;
+      full.setAttribute('href', href.split('#')[0]);
+      google.hidden = kind !== 'reviews';
+      if (showing !== kind) {
+        showing = null;
+        body.innerHTML = '<p class="t-body text-muted">Loading…</p>';
+      }
       if (!dialog.open) dialog.showModal();
       body.scrollTop = 0;
-      load(href).then(function () {
+      load(kind, href).then(function (holder) {
+        if (showing !== kind) { body.innerHTML = ''; body.appendChild(holder); showing = kind; }
         var target = hash && body.querySelector('#' + CSS.escape(hash));
         body.scrollTop = target ? target.offsetTop - body.offsetTop - 24 : 0;
       }, function () { location.href = href; });

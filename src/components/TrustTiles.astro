@@ -6,7 +6,8 @@
 // stack: one tile under another at every size, 8px apart (the footer).
 // equal: from 1024px every tile shares the width, the Google tile included.
 // The Google tile keeps its G, stars and rating on one line everywhere.
-interface Tile { text: string; note?: string; google?: boolean; stars?: boolean; srText?: string }
+// A tile with an href is a link over the whole tile; reviews: true opens the client reviews in the side panel.
+interface Tile { text: string; note?: string; google?: boolean; stars?: boolean; srText?: string; href?: string; reviews?: boolean }
 interface Props { items: Tile[]; class?: string; label?: string; row?: boolean; stack?: boolean; equal?: boolean }
 const { items, class: className = '', label, row = true, stack = false, equal = false } = Astro.props;
 const odd = items.length % 2 === 1;
@@ -23,12 +24,17 @@ const odd = items.length % 2 === 1;
     <li
       class:list={[
         'flex items-center justify-center gap-2 bg-raised px-4 py-3 text-center',
+        t.href && 'hover-card relative',
         !stack && (t.google && !equal ? 'lg:min-w-max lg:flex-[0.75] lg:basis-0' : 'lg:min-w-0 lg:flex-1 lg:basis-0'),
         !stack && odd && i === items.length - 1 && 'col-span-2',
       ]}
     >
       {t.google && <img src="/icons/google-g.png" alt="Google" width="25" height="25" class="size-[25px] shrink-0" loading="lazy" />}
-      <span class:list={[t.stars && "whitespace-nowrap"]}>{t.stars && <span aria-hidden="true" class="font-serif text-[0.85em]">★★★★★ </span>}{t.text}{t.note && <span class="block whitespace-nowrap text-[0.65em] text-muted">{t.note}</span>}{t.srText && <span class="sr-only">{t.srText}</span>}</span>
+      {t.href ? (
+        <a href={t.href} data-reviews-open={t.reviews ? '' : undefined} class:list={['stretched-link link-hover', t.stars && 'whitespace-nowrap']}>{t.stars && <span aria-hidden="true" class="font-serif text-[0.85em]">★★★★★ </span>}{t.text}{t.note && <span class="block whitespace-nowrap text-[0.65em] text-muted">{t.note}</span>}{t.srText && <span class="sr-only">{t.srText}</span>}{t.reviews && <span class="sr-only">, read the client reviews</span>}</a>
+      ) : (
+        <span class:list={[t.stars && "whitespace-nowrap"]}>{t.stars && <span aria-hidden="true" class="font-serif text-[0.85em]">★★★★★ </span>}{t.text}{t.note && <span class="block whitespace-nowrap text-[0.65em] text-muted">{t.note}</span>}{t.srText && <span class="sr-only">{t.srText}</span>}</span>
+      )}
     </li>
   ))}
 </ul>
