@@ -23,8 +23,10 @@ const csp = (nonce) =>
     `script-src 'nonce-${nonce}'`,
     "style-src 'self' 'unsafe-inline'",
     "img-src 'self' data: blob: https://anthonyis.uk",
-    "font-src 'self' https://anthonyis.uk",
+    "font-src 'self' data: https://anthonyis.uk",
     "connect-src 'self'",
+    // The PDF view on the sample pages draws PDFs with pdf.js, which runs in a worker from this site.
+    "worker-src 'self'",
     "form-action 'self'",
     "base-uri 'self'",
     "frame-ancestors 'none'",

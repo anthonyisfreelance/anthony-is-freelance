@@ -37,7 +37,7 @@ import { resend } from './mail.js';
 import { seal, unseal, hmac, sha256Hex, newCode, newToken, getCookie, cookie, same } from './auth.js';
 import { page as html, headers, allowed, codeAllowed, cachedPdf } from './security.js';
 import { quoteEmail, signedEmail, invoiceEmail, signCodeEmail, loginCodeEmail, loginNotice, signedNotice } from './emails.js';
-import { samplePage, samplePdfHtml, samplesIndex, signaturePage, SAMPLE_QUOTE } from './samples.js';
+import { samplePage, samplePdfHtml, samplePdfView, samplesIndex, signaturePage, SAMPLE_QUOTE } from './samples.js';
 
 function json(data, status = 200, extra = {}) {
   const h = new Headers({ 'content-type': 'application/json', ...headers() });
@@ -425,6 +425,7 @@ async function admin(request, env, url, parts, ctx) {
   if (!session) return json({ ok: false, error: 'Please log in again.' }, 401);
   if (action !== 'action') return json({ ok: false, error: 'Not found' }, 404);
 
+  if (String(body.token || '').startsWith('SAMPLE')) return json({ ok: false, error: 'This is the sample admin page, so the buttons do nothing here.' }, 400);
   const doc = await getDoc(env, String(body.token || ''));
   if (!doc) return json({ ok: false, error: 'Document not found.' }, 404);
   const settings = await getSettings(env);
@@ -525,6 +526,11 @@ async function samples(request, env, url, parts, ctx) {
     return pdfOf(request, env, ctx, base, page, `Sample_${slug}`);
   }
   if (!url.pathname.endsWith('/')) return Response.redirect(`${base}${url.pathname}/`, 301);
+  if (parts[1] === 'pdf') {
+    const view = samplePdfView(slug, { base });
+    return view ? html(view) : message(base, 'Not found', 'There is no PDF for this sample.');
+  }
+  if (parts.length > 1) return message(base, 'Not found', 'There is no sample with that name.');
   if (slug === 'signature') return html(signaturePage({ base }));
   const page = samplePage(slug, { base, settings });
   return page ? html(page) : message(base, 'Not found', 'There is no sample with that name.');

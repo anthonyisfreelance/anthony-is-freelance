@@ -9,6 +9,7 @@ import { esc, money, today, addDays, masthead, eyebrow, shell, COMPANY } from '.
 import { renderQuote, quoteTotals, stageAmounts } from './quote.js';
 import { renderContract } from './contract.js';
 import { renderInvoice, invoiceTotals } from './invoice.js';
+import { renderAdmin } from './admin.js';
 import { quoteEmail, signedEmail, invoiceEmail, signCodeEmail, loginCodeEmail, loginNotice, signedNotice, signatureHtml, PERSON } from './emails.js';
 
 export const SAMPLE_QUOTE = 'SAMPLEquote';
@@ -160,7 +161,27 @@ function invoice(kind = 'stage', paid = false) {
 
 const sampleBase = 'https://docs.anthonyis.uk';
 
+// The admin list with a spread of made-up documents in every state.
+function adminDocs() {
+  const day = (n) => `${addDays(today(), n)}T10:00:00Z`;
+  const other = { ...CLIENT, name: 'Fernhill Bakery', contact: { name: 'Alex Morgan', email: 'alex@example.com' } };
+  const q = (over) => ({ ...quote(), ...over });
+  const inv = (over, kind = 'stage') => ({ ...invoice(kind), ...over });
+  return [
+    q({ number: 'SaltwaterSupply_02', title: 'Wholesale area design', state: { status: 'draft' }, updated: day(0) }),
+    q({ number: 'SaltwaterSupply_01', title: 'Shopify store redesign', state: { status: 'sent', sentAt: day(-3), viewedAt: day(-2) }, updated: day(-2) }),
+    inv({ number: 'SaltwaterSupply_03', state: { status: 'draft' }, updated: day(0) }),
+    inv({ number: 'SaltwaterSupply_02', issued: addDays(today(), -30), due: addDays(today(), -16), state: { status: 'sent', sentAt: day(-30) }, updated: day(-30) }),
+    inv({ number: 'SaltwaterSupply_01', state: { status: 'paid', sentAt: day(-40), paidAt: addDays(today(), -35) }, updated: day(-35) }),
+    { ...signedQuote(), client: other, key: 'FernhillBakery', number: 'FernhillBakery_01', title: 'Product page and checkout design', updated: day(-1), state: { ...signedQuote().state, invoices: [{ stage: 0 }] } },
+    { ...signedQuote(), client: other, key: 'FernhillBakery', number: 'FernhillBakery_02', title: 'Christmas landing page', updated: day(-1), state: { ...signedQuote().state, finalisedAt: undefined } },
+    inv({ client: other, key: 'FernhillBakery', number: 'FernhillBakery_04', title: 'Design support, October', project: 'Design support, October', state: { status: 'sent', sentAt: day(-2), viewedAt: day(-1) }, updated: day(-1) }, 'itemised'),
+    q({ client: other, key: 'FernhillBakery', number: 'FernhillBakery_03', title: 'Gift guide pages', state: { status: 'sent', sentAt: day(-20), withdrawnAt: day(-10) }, updated: day(-10) }),
+  ];
+}
+
 const SAMPLES = [
+  { slug: 'admin', group: 'Admin', label: 'Admin page', note: 'Your documents list, with made-up documents in every state. The buttons do nothing here.', page: (o) => renderAdmin({ base: o.base, docs: adminDocs() }), pdf: false },
   { slug: 'quote-scoped', group: 'Quotes', label: 'Quote, scoped hours', note: 'The usual quote: hours per item.', page: (o) => renderQuote(quote('scoped'), o), pdf: true },
   { slug: 'quote-fixed', group: 'Quotes', label: 'Quote, fixed price', note: 'Hours left off.', page: (o) => renderQuote(quote('fixed'), o), pdf: true },
   { slug: 'quote-hourly', group: 'Quotes', label: 'Quote, hourly', note: 'Estimated hours, invoiced monthly.', page: (o) => renderQuote(quote('hourly'), o), pdf: true },
@@ -198,7 +219,7 @@ const BAR_CSS = `.qa{position:sticky;top:0;z-index:5;display:flex;flex-wrap:wrap
 .qa a{color:#fff}.qa b{color:#FCE233;font-weight:500}.qa span{display:flex;gap:16px;flex-wrap:wrap}`;
 
 function qaBar(s, prev, next) {
-  return `<style>${BAR_CSS}</style><div class="qa"><span><b>Sample</b> ${esc(s.label)}. Made-up client, safe to comment on.</span><span>${prev ? `<a href="${P}${prev.slug}/">← ${esc(prev.label)}</a>` : ''}<a href="${P}">All samples</a>${s.pdf ? `<a href="${P}${s.slug}.pdf">PDF</a>` : ''}${next ? `<a href="${P}${next.slug}/">${esc(next.label)} →</a>` : ''}</span></div>`;
+  return `<style>${BAR_CSS}</style><div class="qa"><span><b>Sample</b> ${esc(s.label)}. Made-up client, safe to comment on.</span><span>${prev ? `<a href="${P}${prev.slug}/">← ${esc(prev.label)}</a>` : ''}<a href="${P}">All samples</a>${s.pdf ? `<a href="${P}${s.slug}/pdf/">PDF view</a>` : ''}${next ? `<a href="${P}${next.slug}/">${esc(next.label)} →</a>` : ''}</span></div>`;
 }
 
 // The comment tool, signed in through the admin session (see public/feedback.js).
@@ -215,7 +236,8 @@ export function samplePage(slug, { base, settings }) {
     return relink(mail.html, slug).replaceAll(sampleBase, '').replace(/<body([^>]*)>/, `<body$1>\n${bar}${head}`).replace('</body>', `${FEEDBACK}\n</body>`);
   }
   const html = s.page({ base, settings: { ...SAMPLE_SETTINGS, signatureSvg: settings?.signatureSvg } });
-  return relink(html, slug).replace('<body>\n', `<body>\n${bar}\n`).replace('</body>', `${FEEDBACK}\n</body>`);
+  // The sample admin page's Log out button would log you out for real, so it's switched off.
+  return relink(html, slug).replace('id="logout"', 'id="logout-sample"').replace('<body>\n', `<body>\n${bar}\n`).replace('</body>', `${FEEDBACK}\n</body>`);
 }
 
 export function samplePdfHtml(slug, { base, settings }) {
@@ -228,7 +250,7 @@ export function samplesIndex({ base }) {
   const groups = [...new Set(SAMPLES.map((s) => s.group))];
   const rows = groups
     .map((g) => `<tr class="group"><td colspan="3">${esc(g)}</td></tr>${SAMPLES.filter((s) => s.group === g)
-      .map((s) => `<tr><td><a href="${P}${s.slug}/">${esc(s.label)}</a></td><td class="muted">${esc(s.note)}</td><td class="r">${s.pdf ? `<a class="ghost small" href="${P}${s.slug}.pdf" target="_blank" rel="noopener">PDF</a>` : ''}</td></tr>`)
+      .map((s) => `<tr><td><a href="${P}${s.slug}/">${esc(s.label)}</a></td><td class="muted">${esc(s.note)}</td><td class="r">${s.pdf ? `<span class="pdfs"><a class="ghost small" href="${P}${s.slug}/pdf/">PDF view</a><a class="ghost small" href="${P}${s.slug}.pdf" target="_blank" rel="noopener">PDF file</a></span>` : ''}</td></tr>`)
       .join('')}`)
     .join('');
   const body = `
@@ -237,6 +259,7 @@ export function samplesIndex({ base }) {
   <div class="prose" style="margin-top:6mm;max-width:150mm">
     <p>Every kind of quote, contract, invoice and email, filled in for a made-up client, so you can check them on screen and as PDFs without touching a real document.</p>
     <p>The comment tool is on every sample: press <b>C</b> or the comment button, click anything and type. Each comment is filed for me to pick up. Comments are public on GitHub, which is why only these made-up samples have the tool, never real documents.</p>
+    <p><b>PDF view</b> shows the real PDF, page by page, with the comment tool on it. <b>PDF file</b> opens the file itself.</p>
   </div>
   <section class="sec full"><div class="table-wrap"><table class="admin-table"><tbody>${rows}
     <tr class="group"><td colspan="3">Gmail</td></tr>
@@ -254,6 +277,7 @@ h1 { width: auto; }
 .admin-table a { color: var(--blue); }
 .admin-table a.ghost { color: var(--ink); }
 .ghost.small { padding: 6px 9px; font-size: 11px; }
+.pdfs { display: inline-flex; gap: 6px; }
 `;
 
 const COPY_SIG = `
@@ -299,4 +323,98 @@ export function signaturePage({ base }) {
   </section>
   <p style="margin-top:8mm"><a class="ghost" href="${P}">All samples</a></p>`;
   return shell({ title: 'Gmail signature', base, body, script: COPY_SIG, css: '#sig td { border: 0; padding: 0; vertical-align: top; }' }).replace('</body>', `${FEEDBACK}\n</body>`);
+}
+
+/* ---------- PDF view ---------- */
+
+// The real PDF, drawn page by page with pdf.js (public/vendor/pdfjs/), with an invisible text layer
+// on top so the comment tool can point at words. The comment tool loads once every page is drawn,
+// so its pins find their places.
+const PDF_CSS = `
+html, body { background: #e4e4e4; }
+body { margin: 0; padding: 0 0 48px; }
+.pdf-wrap { display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 8px 16px 0; }
+.pdf-page { position: relative; background: #fff; box-shadow: 0 1px 3px rgba(0,0,0,.12); max-width: 100%; }
+.pdf-page canvas { display: block; }
+.pdf-page .n { position: absolute; left: 100%; top: 0; margin-left: 10px; font: 500 11px "Mint Grotesk Display", "Arial Narrow", Arial, sans-serif; color: #5a5a5a; white-space: nowrap; }
+.pdf-status { font: 500 13px "Mint Grotesk Display", "Arial Narrow", Arial, sans-serif; color: #5a5a5a; padding: 24px; }
+.textLayer { position: absolute; inset: 0; overflow: clip; line-height: 1; text-size-adjust: none; forced-color-adjust: none; transform-origin: 0 0; z-index: 0;
+  --min-font-size: 1; --text-scale-factor: calc(var(--total-scale-factor) * var(--min-font-size)); --min-font-size-inv: calc(1 / var(--min-font-size)); }
+.textLayer :is(span, br) { color: transparent; position: absolute; white-space: pre; cursor: text; transform-origin: 0% 0%; }
+.textLayer > :not(.markedContent), .textLayer .markedContent span:not(.markedContent) { z-index: 1; --font-height: 0; font-size: calc(var(--text-scale-factor) * var(--font-height));
+  --scale-x: 1; --rotate: 0deg; transform: rotate(var(--rotate)) scaleX(var(--scale-x)) scale(var(--min-font-size-inv)); }
+.textLayer .markedContent { display: contents; }
+.textLayer ::selection { background: rgba(0, 89, 255, .25); }
+`;
+
+const PDF_SCRIPT = (src) => `
+import * as pdfjs from '/vendor/pdfjs/pdf.min.mjs';
+pdfjs.GlobalWorkerOptions.workerSrc = '/vendor/pdfjs/pdf.worker.min.mjs';
+const wrap = document.getElementById('pdf');
+const status = document.getElementById('pdf-status');
+try {
+  const doc = await pdfjs.getDocument({ url: ${JSON.stringify(src)}, isEvalSupported: false }).promise;
+  status.remove();
+  const dpr = window.devicePixelRatio || 1;
+  for (let n = 1; n <= doc.numPages; n++) {
+    const page = await doc.getPage(n);
+    const scale = 96 / 72; // actual size: A4 is 794px wide
+    const vp = page.getViewport({ scale });
+    const box = document.createElement('div');
+    box.className = 'pdf-page';
+    box.id = 'page-' + n;
+    box.style.width = vp.width + 'px';
+    box.style.height = vp.height + 'px';
+    box.style.setProperty('--scale-factor', scale);
+    box.style.setProperty('--total-scale-factor', scale);
+    const canvas = document.createElement('canvas');
+    canvas.width = Math.floor(vp.width * dpr);
+    canvas.height = Math.floor(vp.height * dpr);
+    canvas.style.width = vp.width + 'px';
+    canvas.style.height = vp.height + 'px';
+    const text = document.createElement('div');
+    text.className = 'textLayer';
+    const label = document.createElement('span');
+    label.className = 'n';
+    label.textContent = 'Page ' + n + ' of ' + doc.numPages;
+    box.append(canvas, text, label);
+    wrap.append(box);
+    await page.render({ canvas, viewport: vp, transform: dpr !== 1 ? [dpr, 0, 0, dpr, 0, 0] : undefined }).promise;
+    await new pdfjs.TextLayer({ textContentSource: page.streamTextContent(), container: text, viewport: vp }).render();
+  }
+} catch (e) {
+  status.textContent = 'The PDF could not be shown: ' + (e && e.message ? e.message : e);
+}
+window.__aifFeedbackLogin = true;
+const tool = document.createElement('script');
+tool.src = '/feedback.js';
+tool.nonce = document.querySelector('script[nonce]').nonce;
+document.body.append(tool);
+`;
+
+export function samplePdfView(slug, { base }) {
+  const i = SAMPLES.findIndex((s) => s.slug === slug && s.pdf);
+  if (i < 0) return null;
+  const s = SAMPLES[i];
+  const pdfs = SAMPLES.filter((x) => x.pdf);
+  const j = pdfs.indexOf(s);
+  const prev = pdfs[j - 1];
+  const next = pdfs[j + 1];
+  const bar = `<style>${BAR_CSS}</style><div class="qa"><span><b>Sample PDF</b> ${esc(s.label)}. Made-up client, safe to comment on.</span><span>${prev ? `<a href="${P}${prev.slug}/pdf/">← ${esc(prev.label)}</a>` : ''}<a href="${P}">All samples</a><a href="${P}${s.slug}/">Page view</a><a href="${P}${s.slug}.pdf" target="_blank" rel="noopener">PDF file</a>${next ? `<a href="${P}${next.slug}/pdf/">${esc(next.label)} →</a>` : ''}</span></div>`;
+  return `<!doctype html>
+<html lang="en-GB">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>PDF: ${esc(s.label)}</title>
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<style>@font-face { font-family: "Mint Grotesk Display"; src: url(/fonts/mint-grotesk-display-narrow-500.woff2) format("woff2"); font-weight: 500; }${PDF_CSS}</style>
+</head>
+<body>
+${bar}
+<div class="pdf-wrap" id="pdf"><p class="pdf-status" id="pdf-status">Drawing the PDF…</p></div>
+<script type="module">${PDF_SCRIPT(`${P}${slug}.pdf`)}</script>
+</body>
+</html>`;
 }
