@@ -177,11 +177,14 @@ function adminDocs() {
     { ...signedQuote(), client: other, key: 'FernhillBakery', number: 'FernhillBakery_02', title: 'Christmas landing page', updated: day(-1), state: { ...signedQuote().state, finalisedAt: undefined } },
     inv({ client: other, key: 'FernhillBakery', number: 'FernhillBakery_04', title: 'Design support, October', project: 'Design support, October', state: { status: 'sent', sentAt: day(-2), viewedAt: day(-1) }, updated: day(-1) }, 'itemised'),
     q({ client: other, key: 'FernhillBakery', number: 'FernhillBakery_03', title: 'Gift guide pages', state: { status: 'sent', sentAt: day(-20), withdrawnAt: day(-10) }, updated: day(-10) }),
+    // Last tax year
+    inv({ client: other, key: 'FernhillBakery', number: 'FernhillBakery_02', title: 'Autumn campaign pages', project: 'Autumn campaign pages', issued: '2025-11-20', due: '2025-12-04', state: { status: 'paid', sentAt: '2025-11-20T10:00:00Z', paidAt: '2025-12-02' } }),
+    q({ client: other, key: 'FernhillBakery', number: 'FernhillBakery_00', title: 'Autumn campaign pages', issued: '2025-10-01', validUntil: '2025-10-31', state: { ...signedQuote().state, signedAt: '2025-10-08T10:00:00Z' } }),
   ];
 }
 
 const SAMPLES = [
-  { slug: 'admin', group: 'Admin', label: 'Admin page', note: 'Your documents list, with made-up documents in every state. The buttons do nothing here.', page: (o) => renderAdmin({ base: o.base, docs: adminDocs() }), pdf: false },
+  { slug: 'admin', group: 'Admin', label: 'Admin page', note: 'Your documents list, with made-up documents in every state. The buttons do nothing here.', page: (o) => renderAdmin({ base: o.base, docs: adminDocs(), year: o.year, path: `${P}admin/` }), pdf: false },
   { slug: 'quote-scoped', group: 'Quotes', label: 'Quote, scoped hours', note: 'The usual quote: hours per item.', page: (o) => renderQuote(quote('scoped'), o), pdf: true },
   { slug: 'quote-fixed', group: 'Quotes', label: 'Quote, fixed price', note: 'Hours left off.', page: (o) => renderQuote(quote('fixed'), o), pdf: true },
   { slug: 'quote-hourly', group: 'Quotes', label: 'Quote, hourly', note: 'Estimated hours, invoiced monthly.', page: (o) => renderQuote(quote('hourly'), o), pdf: true },
@@ -225,7 +228,7 @@ function qaBar(s, prev, next) {
 // The comment tool, signed in through the admin session (see public/feedback.js).
 const FEEDBACK = '<script>window.__aifFeedbackLogin = true;</script><script src="/feedback.js" defer></script>';
 
-export function samplePage(slug, { base, settings }) {
+export function samplePage(slug, { base, settings, year }) {
   const i = SAMPLES.findIndex((s) => s.slug === slug);
   if (i < 0) return null;
   const s = SAMPLES[i];
@@ -235,7 +238,7 @@ export function samplePage(slug, { base, settings }) {
     const head = `<div style="max-width:600px;padding:0 32px;font:500 13px/1.6 'Mint Grotesk Display','Arial Narrow',Arial,sans-serif;color:#5A5A5A"><p style="margin:16px 0 0">Subject: <span style="color:#111">${esc(mail.subject)}</span></p></div>`;
     return relink(mail.html, slug).replaceAll(sampleBase, '').replace(/<body([^>]*)>/, `<body$1>\n${bar}${head}`).replace('</body>', `${FEEDBACK}\n</body>`);
   }
-  const html = s.page({ base, settings: { ...SAMPLE_SETTINGS, signatureSvg: settings?.signatureSvg } });
+  const html = s.page({ base, year, settings: { ...SAMPLE_SETTINGS, signatureSvg: settings?.signatureSvg } });
   // The sample admin page's Log out button would log you out for real, so it's switched off.
   return relink(html, slug).replace('id="logout"', 'id="logout-sample"').replace('<body>\n', `<body>\n${bar}\n`).replace('</body>', `${FEEDBACK}\n</body>`);
 }

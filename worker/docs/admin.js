@@ -1,7 +1,7 @@
 // Anthony's admin page at docs.anthonyis.uk/admin/: every document with its status, and the actions that move
 // it on (send, create the next invoice, mark paid). Login is a one-time code sent to ADMIN_EMAIL.
 
-import { esc, money, fmtDate, eyebrow, masthead, shell, COPY_SCRIPT } from './shared.js';
+import { esc, money, fmtDate, eyebrow, masthead, shell, today, taxYear, COPY_SCRIPT } from './shared.js';
 import { quoteTotals, stageAmounts, stageLabel } from './quote.js';
 import { invoiceTotals } from './invoice.js';
 
@@ -19,6 +19,15 @@ h1 { width: auto; }
 .pill.overdue, .pill.unfinished { border-color: #c4001a; color: #c4001a; }
 .pill.withdrawn { color: var(--muted); text-decoration: line-through; }
 .tools { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6mm; }
+.years { display: flex; flex-wrap: wrap; gap: 0 24px; margin-top: 8mm; border-bottom: 1px solid var(--line); }
+.years a { padding: 0 0 10px; margin-bottom: -1px; border-bottom: 2px solid transparent; font: 500 15px var(--display); letter-spacing: 0.02em; color: var(--muted); text-decoration: none; }
+.years a[aria-current="page"] { color: var(--ink); border-color: var(--ink); }
+.years a:hover { color: var(--ink); }
+.totals { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin: 6mm 0 0; padding-bottom: 10px; }
+.totals dt { font: 500 var(--label) var(--display); letter-spacing: 0.02em; color: var(--muted); }
+.totals dd { margin: 2px 0 0; font: 500 20px/1.1 var(--display); }
+.totals .overdue dd { color: #c4001a; }
+@media (max-width: 720px) { .totals { grid-template-columns: 1fr 1fr; } }
 tr.withdrawn td { color: var(--muted); }
 .actions { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
 .ghost.small { padding: 6px 9px; font-size: 11px; }
@@ -129,15 +138,41 @@ function actions(d, base) {
   return `<div class="actions">${a.join('')}</div>`;
 }
 
-export function renderAdmin({ base, docs, error }) {
+// Tax years end on 31 January (taxYear in shared.js), the same as the Invoices folders in Drive.
+// Each document sits in the year of its issue date. Tabs are links (?year=26-27), so no script.
+const yearOf = (d) => taxYear(d.issued || (d.updated || '').slice(0, 10) || today());
+const yearLabel = (y) => y.replace(':', '/');
+const yearParam = (y) => y.replace(':', '-');
+
+export function renderAdmin({ base, docs, error, year, path = '/admin/' }) {
+  const years = [...new Set([taxYear(today()), ...docs.map(yearOf)])].sort().reverse();
+  const current = years.includes(String(year || '').replace('-', ':')) ? String(year).replace('-', ':') : taxYear(today());
+  const inYear = docs.filter((d) => yearOf(d) === current);
+
+  // Clients A to Z; within a client, quotes then invoices, newest first.
   const groups = new Map();
-  for (const d of docs) {
+  for (const d of inYear) {
     const k = d.client?.name || d.key || 'Other';
     if (!groups.has(k)) groups.set(k, []);
     groups.get(k).push(d);
   }
-  const latest = (list) => list.reduce((m, d) => Math.max(m, Date.parse(d.updated || d.issued || 0) || 0), 0);
-  const ordered = [...groups.entries()].sort((a, b) => latest(b[1]) - latest(a[1]));
+  const ordered = [...groups.entries()].sort((a, b) => a[0].localeCompare(b[0], 'en-GB', { sensitivity: 'base' }));
+
+  // The year's invoices, including VAT: sent or paid, paid, still to come in, and overdue.
+  const invoices = inYear.filter((d) => d.type === 'invoice' && !d.state?.withdrawnAt && d.state?.sentAt);
+  const sum = (list) => list.reduce((n, d) => n + invoiceTotals(d).total, 0);
+  const paid = invoices.filter((d) => d.state?.status === 'paid');
+  const unpaid = invoices.filter((d) => d.state?.status !== 'paid');
+  const overdue = unpaid.filter((d) => d.due && d.due < today());
+  const totals = `<dl class="totals">
+    <div><dt>Invoiced, inc. VAT</dt><dd>${money(sum(invoices), { pennies: true })}</dd></div>
+    <div><dt>Paid</dt><dd>${money(sum(paid), { pennies: true })}</dd></div>
+    <div><dt>Waiting for payment</dt><dd>${money(sum(unpaid), { pennies: true })}</dd></div>
+    <div class="${overdue.length ? 'overdue' : ''}"><dt>Overdue</dt><dd>${money(sum(overdue), { pennies: true })}</dd></div>
+  </dl>`;
+  const tabs = `<nav class="years" aria-label="Tax years">${years
+    .map((y) => `<a href="${esc(path)}?year=${yearParam(y)}"${y === current ? ' aria-current="page"' : ''}>${esc(yearLabel(y))}${y === taxYear(today()) ? ' (this year)' : ''}</a>`)
+    .join('')}</nav>`;
 
   const rows = ordered
     .map(([client, list]) => {
@@ -162,11 +197,13 @@ export function renderAdmin({ base, docs, error }) {
   ${masthead('Documents', 'Admin')}
   <h1>${eyebrow('Anthony is Freelance')}Quotes, contracts and invoices</h1>
   <div id="msg" class="status" role="status" ${error ? '' : 'hidden'}>${esc(error || '')}</div>
-  ${docs.length
+  ${tabs}
+  ${totals}
+  ${inYear.length
     ? `<section class="sec full"><div class="table-wrap"><table class="admin-table">
         <thead><tr><th>Document</th><th>Project</th><th>Status</th><th class="r">Inc. VAT</th><th class="r">Actions</th></tr></thead>
         <tbody>${rows}</tbody></table></div></section>`
-    : '<p class="empty">No documents yet. New quotes and invoices appear here once their data file is in the Drive folder.</p>'}
+    : `<p class="empty">No documents in ${esc(yearLabel(current))} yet. New quotes and invoices appear here once their data file is in the Drive folder.</p>`}
   <div class="tools">
     <a class="ghost" href="/admin/samples/">Sample documents and emails</a>
     <a class="ghost" href="/admin/samples/signature/">Gmail signature</a>
