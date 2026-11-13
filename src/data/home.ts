@@ -29,10 +29,12 @@ export const HERO = {
     { label: 'Start a project', href: URLS.contact },
     { label: 'View my success stories', href: URLS.work },
   ],
+  // Every tile links to its proof (Anthony, 13 November 2026): the experience to About, each award to the
+  // case study that won it. The Google tile opens the reviews (GOOGLE_RATING_HERO in site.ts).
   trust: [
-    '20+ years of brand and ecommerce experience',
-    'UK eCommerce Website of the Year 2026',
-    'UK User Experience of the Year 2026',
+    { text: '20+ years of brand and ecommerce experience', href: URLS.about },
+    { text: 'Winner: UK eCommerce Website of the Year 2026', href: '/work/drink-finder/' },
+    { text: 'Winner: UK User Experience of the Year 2026', href: '/work/east-at-home/' },
   ],
 };
 
