@@ -31,8 +31,8 @@ export const HERO = {
   ],
   trust: [
     '20+ years of brand and ecommerce experience',
-    'Winner of UK eCommerce Website of the Year 2026',
-    `${LAUNCH_COUNT} Shopify launches since 2023`,
+    'UK eCommerce Website of the Year 2026',
+    'UK User Experience of the Year 2026',
   ],
 };
 

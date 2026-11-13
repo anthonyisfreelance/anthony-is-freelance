@@ -112,6 +112,8 @@ export const URLS = {
 
 // The Google rating, worded once for every tile on the site. The G, stars and text sit on one line.
 export const GOOGLE_RATING = { google: true, stars: true, text: '5.0', note: '(6 reviews)', srText: ' on Google' } as const;
+// The homepage hero's version: the rating without the review count (13 November 2026). Same tile, "on Google" in the note line.
+export const GOOGLE_RATING_HERO = { google: true, stars: true, text: '5.0', note: 'on Google' } as const;
 
 export const ANNOUNCEMENT = {
   text: 'Winner, UK eCommerce Website of the Year, UK eCommerce Awards 2026',
