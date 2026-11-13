@@ -17,7 +17,7 @@
 //
 // Settings (Cloudflare dashboard > Worker > Settings > Variables and secrets):
 //   RESEND_API_KEY  secret, from resend.com (a domain verified there, e.g. mail.anthonyis.uk)
-//   ENQUIRY_FROM    e.g. "Anthony is Freelance <enquiries@mail.anthonyis.uk>"
+//   ENQUIRY_FROM    e.g. "Anthony Bliss <hello@mail.anthonyis.uk>" (set in wrangler.jsonc)
 //   ENQUIRY_TO      where enquiries land; defaults to hello@anthonyis.uk
 
 import { enquiryNotice, enquiryReceivedEmail } from './docs/emails.js';
