@@ -2,8 +2,7 @@
 
 Quotes, contracts and invoices on their own subdomain, `docs.anthonyis.uk` (a custom domain on the
 site worker): `/quote/<token>/`, `/quote/<token>/contract/`, `/invoice/<token>/` and `/admin/`. Each
-link is unguessable. Every
-document is one A4 sheet, the same on screen and in the PDF.
+link is unguessable. Every document is one A4 sheet, the same on screen and in the PDF.
 
 ## How it fits together
 
@@ -17,6 +16,12 @@ document is one A4 sheet, the same on screen and in the PDF.
   Invoices (tax-year) folders, and send client emails from his Gmail.
 - **PDFs** come from Cloudflare Browser Rendering (`pdf.js`), from the same HTML as the pages.
 - **Codes and notices** (signing codes, admin login, "signed" notices) go through Resend (`mail.js`).
+- **Emails**: every email's wording and HTML is in `emails.js` (plain text and HTML from the same
+  copy, a blue button, and the same signature block as Anthony's Gmail signature).
+- **Samples** at `/admin/samples/` (admin only, `samples.js`): every kind of quote, contract, invoice
+  and email filled in for a made-up client, with PDFs, plus the Gmail signature to copy. The comment
+  tool runs on these pages only. Its comments are public GitHub issues, so samples must stay fictional
+  and real documents never load it.
 
 ## The flow
 
@@ -43,7 +48,33 @@ plain-text variables set in the dashboard are wiped by the next deploy.
 | `RESEND_API_KEY` | secret | Already set for the enquiry form |
 | `ADMIN_EMAIL` | secret, optional | Where admin login codes go; defaults to hello@anthonyis.uk |
 
-`wrangler.jsonc` adds the `BROWSER` binding and `nodejs_compat` for the PDFs, and `DOCS_HOST`.
+`wrangler.jsonc` adds the `BROWSER` binding and `nodejs_compat` for the PDFs, `DOCS_HOST`, and the
+rate limits.
+
+The Drive bridge's `email` action sends `html` as the email's HTML body (Code.gs). After changing
+Code.gs, deploy a new version: Deploy > Manage deployments > edit > Version: New version > Deploy.
+The web app URL stays the same.
+
+## Security
+
+- **Links**: each document has a random 128-bit token. Pages and PDFs are never indexed, cached,
+  framed or passed on as a referrer.
+- **Pages** carry a strict Content Security Policy: only scripts with that response's nonce run, and
+  pages only talk to this site (`security.js`). Plus nosniff, HSTS, COOP and a Permissions-Policy.
+- **Signing** needs a one-time code emailed to the signer, valid 10 minutes, five tries. Only the
+  address the quote went to, or the same company email domain, can sign (webmail domains: the exact
+  address only). Someone else? Add them to the quote's `contract.signers`, as an address or
+  `"@domain"`.
+- **Admin** login is a one-time code to `ADMIN_EMAIL`, lasting 14 days per browser, with a notice
+  email after every login (time, IP, place, browser). **Withdraw** on the admin page turns off a
+  document's link straight away (Restore turns it back on). Signed contracts can't be withdrawn.
+- **POSTs** are only accepted from pages on this site (Origin check) and as JSON.
+- **Rate limits** per IP: 60 page views, 20 posts and 10 fresh PDF renders a minute, and 5 guesses
+  a minute at any one code (`DOCS_RL_*` bindings). PDFs are cached by content, so a repeat download
+  costs nothing.
+- **Secrets** live in Cloudflare (worker) and the script's properties (bridge), never in this repo.
+  Changing `DOCS_SECRET` logs everyone out and cancels any codes in flight.
+- **Data** stays in Anthony's Google Drive. The bridge only answers requests carrying its key.
 
 ## Data format
 

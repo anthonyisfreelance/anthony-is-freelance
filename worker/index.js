@@ -5,14 +5,15 @@
 // docs.anthonyis.uk serves client quotes, contracts and invoices (worker/docs/).
 // /api/feedback powers the test-site comment tool (public/feedback.js). Each comment
 // becomes a GitHub issue labelled "feedback" on the site repo. It never runs on
-// anthonyis.uk itself.
+// anthonyis.uk itself. On docs.anthonyis.uk it runs only for the made-up sample documents
+// at /admin/samples/ (issues on this repo are public), with the admin login instead of the key.
 //
 // Secrets (Cloudflare dashboard > Worker > Settings > Variables and secrets):
 //   GITHUB_TOKEN  fine-grained token, this repo only, Issues: read and write
 //   FEEDBACK_KEY  any passphrase; the comment tool sends it with every request
 
 import { enquiry } from './enquiry.js';
-import { docs } from './docs/index.js';
+import { docs, adminSession } from './docs/index.js';
 
 // Pages removed for good: a 410 tells Google they're gone on purpose, so they drop out quickly.
 // Every path here must also be in run_worker_first in wrangler.jsonc, or the worker never sees it.
@@ -68,13 +69,23 @@ export default {
   },
 };
 
+// Comments on the documents subdomain may only be about the sample pages.
+const SAMPLES = '/admin/samples/';
+
 async function feedback(request, env, url) {
-  if (/(^|\.)anthonyis\.uk$/.test(url.hostname)) return json({ error: 'Not found' }, 404);
-  if (!env.GITHUB_TOKEN || !env.FEEDBACK_KEY) {
-    return json({ error: 'Comments are not set up yet: add GITHUB_TOKEN and FEEDBACK_KEY in Cloudflare.' }, 503);
-  }
-  if (!sameKey(request.headers.get('x-feedback-key') || '', env.FEEDBACK_KEY)) {
-    return json({ error: 'Wrong feedback key.' }, 401);
+  const docsHost = url.hostname === (env.DOCS_HOST || 'docs.anthonyis.uk');
+  if (/(^|\.)anthonyis\.uk$/.test(url.hostname) && !docsHost) return json({ error: 'Not found' }, 404);
+  if (docsHost) {
+    if (!env.GITHUB_TOKEN) return json({ error: 'Comments are not set up yet: add GITHUB_TOKEN in Cloudflare.' }, 503);
+    if (request.method !== 'GET' && request.headers.get('origin') !== url.origin) return json({ error: 'Not allowed.' }, 403);
+    if (!(await adminSession(request, env))) return json({ error: 'Log in at /admin/ first.' }, 401);
+  } else {
+    if (!env.GITHUB_TOKEN || !env.FEEDBACK_KEY) {
+      return json({ error: 'Comments are not set up yet: add GITHUB_TOKEN and FEEDBACK_KEY in Cloudflare.' }, 503);
+    }
+    if (!sameKey(request.headers.get('x-feedback-key') || '', env.FEEDBACK_KEY)) {
+      return json({ error: 'Wrong feedback key.' }, 401);
+    }
   }
 
   const gh = (path, init = {}) =>
@@ -90,10 +101,10 @@ async function feedback(request, env, url) {
     });
 
   try {
-    if (request.method === 'GET') return await list(gh);
-    if (request.method === 'POST' && url.pathname === '/api/feedback') return await create(gh, request);
+    if (request.method === 'GET') return await list(gh, docsHost ? SAMPLES : '');
+    if (request.method === 'POST' && url.pathname === '/api/feedback') return await create(gh, request, docsHost ? SAMPLES : '');
     const done = url.pathname.match(/^\/api\/feedback\/(\d+)$/);
-    if (request.method === 'PATCH' && done) return await close(gh, Number(done[1]));
+    if (request.method === 'PATCH' && done) return await close(gh, Number(done[1]), docsHost ? SAMPLES : '');
     return json({ error: 'Not found' }, 404);
   } catch (err) {
     return json({ error: err.message || 'Something went wrong.' }, 502);
@@ -101,7 +112,7 @@ async function feedback(request, env, url) {
 }
 
 // Open comments across the whole site. The page filters to its own path.
-async function list(gh) {
+async function list(gh, only) {
   const items = [];
   for (let page = 1; page <= 5; page++) {
     const res = await gh(`/issues?labels=${LABEL}&state=open&per_page=100&page=${page}`);
@@ -111,6 +122,7 @@ async function list(gh) {
       if (issue.pull_request) continue;
       const meta = readMeta(issue.body);
       if (!meta) continue;
+      if (only && !String(meta.path || '').startsWith(only)) continue;
       items.push({
         number: issue.number,
         comment: meta.comment,
@@ -131,11 +143,11 @@ async function list(gh) {
   return json({ items });
 }
 
-async function create(gh, request) {
+async function create(gh, request, only) {
   const d = await request.json().catch(() => null);
   const comment = clean(d && d.comment, 4000);
   const path = clean(d && d.path, 300);
-  if (!comment || !path || !path.startsWith('/')) return json({ error: 'A comment and page are needed.' }, 400);
+  if (!comment || !path || !path.startsWith(only || '/')) return json({ error: 'A comment and page are needed.' }, 400);
 
   const meta = {
     comment,
@@ -176,11 +188,12 @@ async function create(gh, request) {
 }
 
 // "Done" in the comment tool closes the issue, leaving a note on it.
-async function close(gh, number) {
+async function close(gh, number, only) {
   const res = await gh(`/issues/${number}`);
   if (!res.ok) return json({ error: 'Comment not found.' }, 404);
   const issue = await res.json();
   if (!issue.labels.some((l) => l.name === LABEL)) return json({ error: 'Not a feedback comment.' }, 400);
+  if (only && !String(readMeta(issue.body)?.path || '').startsWith(only)) return json({ error: 'Not a sample comment.' }, 400);
   await gh(`/issues/${number}/comments`, {
     method: 'POST',
     body: JSON.stringify({ body: 'Marked done on the test site.' }),

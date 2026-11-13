@@ -113,6 +113,7 @@ var ACTIONS = {
   // Sends from Anthony's Gmail (from hello@anthonyis.uk when it's set up as a Send-as address).
   email: function (req) {
     var opts = { name: SENDER_NAME };
+    if (req.html) opts.htmlBody = req.html;
     if (GmailApp.getAliases().indexOf(SEND_FROM) !== -1) opts.from = SEND_FROM;
     if (req.cc && req.cc.length) opts.cc = req.cc.join(',');
     if (req.attachments && req.attachments.length) {

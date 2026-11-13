@@ -273,7 +273,7 @@ const SIGN_SCRIPT = `
       sendBtn.disabled = false;
       if (!r.ok) { say(r.error, true); return; }
       document.getElementById('code-step').hidden = false; sendBtn.textContent = 'Send a new code';
-      say('We\\'ve emailed a 6-digit code to ' + val('email') + '. It lasts 15 minutes.' + (r.devCode ? ' (Test code: ' + r.devCode + ')' : ''));
+      say('We\\'ve emailed a 6-digit code to ' + val('email') + '. It lasts 10 minutes.' + (r.devCode ? ' (Test code: ' + r.devCode + ')' : ''));
       document.getElementById('code').focus();
     });
   });

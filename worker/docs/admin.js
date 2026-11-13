@@ -17,6 +17,9 @@ h1 { width: auto; }
 .pill.sent, .pill.viewed { border-color: var(--blue); color: var(--blue); }
 .pill.signed, .pill.paid { background: var(--ink); border-color: var(--ink); color: var(--paper); }
 .pill.overdue, .pill.unfinished { border-color: #c4001a; color: #c4001a; }
+.pill.withdrawn { color: var(--muted); text-decoration: line-through; }
+.tools { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6mm; }
+tr.withdrawn td { color: var(--muted); }
 .actions { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
 .ghost.small { padding: 6px 9px; font-size: 11px; }
 .ghost.primary { background: var(--blue); border-color: var(--blue); color: #fff; }
@@ -39,13 +42,17 @@ const ADMIN_SCRIPT = `
     post('code').then(function (r) { send.disabled = false; if (!r.ok) return say(r.error, true);
       document.getElementById('code-step').hidden = false; say('Code sent to ' + r.to + '.' + (r.devCode ? ' (Test code: ' + r.devCode + ')' : '')); document.getElementById('code').focus(); });
   });
+  var out = document.getElementById('logout');
+  if (out) out.addEventListener('click', function () { post('logout').then(function () { location.reload(); }); });
   var verify = document.getElementById('verify');
   if (verify) verify.addEventListener('click', function () {
     post('verify', { code: document.getElementById('code').value.trim() }).then(function (r) { if (!r.ok) return say(r.error, true); location.reload(); });
   });
   document.querySelectorAll('[data-action]').forEach(function (b) {
     b.addEventListener('click', function () {
-      var label = b.textContent; b.disabled = true; b.textContent = 'Working…';
+      var confirmText = b.getAttribute('data-confirm');
+      if (confirmText && b.getAttribute('data-armed') !== '1') { b.setAttribute('data-armed', '1'); b.textContent = confirmText; setTimeout(function () { b.removeAttribute('data-armed'); b.textContent = b.getAttribute('data-label'); }, 4000); return; }
+      var label = b.getAttribute('data-label') || b.textContent; b.disabled = true; b.textContent = 'Working…';
       say(b.getAttribute('data-wait') || 'Working…');
       post('action', { action: b.getAttribute('data-action'), token: b.getAttribute('data-token'), stage: b.getAttribute('data-stage') })
         .then(function (r) { if (!r.ok) { b.disabled = false; b.textContent = label; return say(r.error, true); } say(r.message || 'Done.'); setTimeout(function () { location.reload(); }, 900); });
@@ -72,6 +79,7 @@ export function renderLogin({ base, to }) {
 
 function statusOf(d) {
   const s = d.state || {};
+  if (s.withdrawnAt) return ['withdrawn', `Withdrawn ${fmtDate(s.withdrawnAt)}`];
   if (d.type === 'quote') {
     if (s.signedAt && !s.finalisedAt) return ['unfinished', 'Signed, steps unfinished'];
     if (s.signedAt) return ['signed', `Signed ${fmtDate(s.signedAt)}`];
@@ -91,7 +99,12 @@ function actions(d, base) {
   const link = `${base}/${d.type}/${d.token}/`;
   const a = [];
   const btn = (action, label, extra = '', primary = false) =>
-    `<button type="button" class="ghost small${primary ? ' primary' : ''}" data-action="${action}" data-token="${esc(d.token)}" ${extra}>${esc(label)}</button>`;
+    `<button type="button" class="ghost small${primary ? ' primary' : ''}" data-action="${action}" data-token="${esc(d.token)}" data-label="${esc(label)}" ${extra}>${esc(label)}</button>`;
+  if (s.withdrawnAt) {
+    a.push(btn('restore', 'Restore', 'data-wait="Restoring…"'));
+    a.push(`<a class="ghost small" href="${esc(link)}" target="_blank" rel="noopener">Open</a>`);
+    return `<div class="actions">${a.join('')}</div>`;
+  }
   if (d.type === 'quote') {
     if (!s.signedAt) a.push(btn('send-quote', s.sentAt ? 'Send again' : 'Send quote', 'data-wait="Saving the PDF to Drive and emailing it from your Gmail…"', !s.sentAt));
     if (s.signedAt && !s.finalisedAt) a.push(btn('finalise', 'Finish signing steps', 'data-wait="Making the signed PDFs, saving to Drive and emailing…"', true));
@@ -110,6 +123,9 @@ function actions(d, base) {
   }
   a.push(`<a class="ghost small" href="${esc(link)}" target="_blank" rel="noopener">Open</a>`);
   a.push(`<button type="button" class="ghost small" data-copy="${esc(link)}">Copy link</button>`);
+  if (!(d.type === 'quote' && s.signedAt) && s.status !== 'paid') {
+    a.push(btn('withdraw', 'Withdraw', 'data-confirm="Sure? Press again" data-wait="Withdrawing…"'));
+  }
   return `<div class="actions">${a.join('')}</div>`;
 }
 
@@ -130,7 +146,7 @@ export function renderAdmin({ base, docs, error }) {
         .map((d) => {
           const [cls, label] = statusOf(d);
           const amount = d.type === 'quote' ? quoteTotals(d).total : invoiceTotals(d).total;
-          return `<tr>
+          return `<tr class="${cls === 'withdrawn' ? 'withdrawn' : ''}">
             <td><span class="muted">${d.type === 'quote' ? 'Quote' : 'Invoice'}</span><br>${esc(d.number)}</td>
             <td>${esc(d.title || d.project || '')}</td>
             <td><span class="pill ${cls}">${esc(label)}</span></td>
@@ -151,6 +167,11 @@ export function renderAdmin({ base, docs, error }) {
         <thead><tr><th>Document</th><th>Project</th><th>Status</th><th class="r">Inc. VAT</th><th class="r">Actions</th></tr></thead>
         <tbody>${rows}</tbody></table></div></section>`
     : '<p class="empty">No documents yet. New quotes and invoices appear here once their data file is in the Drive folder.</p>'}
+  <div class="tools">
+    <a class="ghost" href="/admin/samples/">Sample documents and emails</a>
+    <a class="ghost" href="/admin/samples/signature/">Gmail signature</a>
+    <button type="button" class="ghost" id="logout">Log out</button>
+  </div>
   `;
   return shell({ title: 'Documents admin', base, body, css: ADMIN_CSS, script: ADMIN_SCRIPT + COPY_SCRIPT });
 }

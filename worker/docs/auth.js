@@ -60,6 +60,7 @@ export function getCookie(request, name) {
   return null;
 }
 
+// Lax so links from emails open logged in; POSTs are separately checked to come from this site.
 export function cookie(name, value, seconds) {
   return `${name}=${encodeURIComponent(value)}; Path=/; Max-Age=${seconds}; HttpOnly; Secure; SameSite=Lax`;
 }

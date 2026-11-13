@@ -2,13 +2,16 @@
 // Base.astro) and never on anthonyis.uk. Click "Comment", click any element, type,
 // post. Each comment becomes a GitHub issue via /api/feedback (worker/index.js).
 (function () {
-  if (/(^|\.)anthonyis\.uk$/.test(location.hostname) || window.__aifFeedback) return;
+  // On the documents subdomain the tool runs only on the made-up sample pages, signed in to the
+  // admin (window.__aifFeedbackLogin is set by those pages), and needs no key.
+  const login = Boolean(window.__aifFeedbackLogin) && location.pathname.startsWith('/admin/samples/');
+  if ((/(^|\.)anthonyis\.uk$/.test(location.hostname) && !login) || window.__aifFeedback) return;
   window.__aifFeedback = true;
 
   const ON = 'aif-fb';
   const KEY = 'aif-fb-key';
   const store = {
-    get: (k) => { try { return localStorage.getItem(k) || ''; } catch { return ''; } },
+    get: (k) => (login && k === KEY ? 'login' : (() => { try { return localStorage.getItem(k) || ''; } catch { return ''; } })()),
     set: (k, v) => { try { localStorage.setItem(k, v); } catch {} },
     del: (k) => { try { localStorage.removeItem(k); } catch {} },
   };
