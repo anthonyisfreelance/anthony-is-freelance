@@ -36,7 +36,7 @@ import { renderPdfs, toBase64 } from './pdf.js';
 import { resend } from './mail.js';
 import { seal, unseal, hmac, sha256Hex, newCode, newToken, getCookie, cookie, same } from './auth.js';
 import { page as html, headers, allowed, codeAllowed, cachedPdf } from './security.js';
-import { quoteEmail, signedEmail, invoiceEmail, signCodeEmail, loginCodeEmail, loginNotice, signedNotice } from './emails.js';
+import { quoteEmail, signedEmail, invoiceEmail, signCodeEmail, loginCodeEmail, loginNotice, signedNotice, signatureTest } from './emails.js';
 import { samplePage, samplePdfHtml, samplePdfView, samplesIndex, signaturePage, SAMPLE_QUOTE } from './samples.js';
 
 function json(data, status = 200, extra = {}) {
@@ -423,6 +423,11 @@ async function admin(request, env, url, parts, ctx) {
   }
 
   if (!session) return json({ ok: false, error: 'Please log in again.' }, 401);
+  // Signature designs being tried: one test email each, to Anthony only, from his Gmail.
+  if (action === 'test-signatures') {
+    for (const kind of ['headline', 'one-line']) await sendEmail(env, { to: [adminEmail(env)], ...signatureTest(kind) });
+    return json({ ok: true, message: `Two test emails sent to ${adminEmail(env)}.` });
+  }
   if (action !== 'action') return json({ ok: false, error: 'Not found' }, 404);
 
   if (String(body.token || '').startsWith('SAMPLE')) return json({ ok: false, error: 'This is the sample admin page, so the buttons do nothing here.' }, 400);

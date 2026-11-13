@@ -72,15 +72,16 @@ function signOff(greeting = 'Thanks,') {
 // comes out as the dark logo, on a dark page as the light logo, with no box either way. Only Gmail
 // sees it (the "u + .body" rules in layout's <style>); every other mail app keeps the plain picture.
 // The signature pasted into Gmail's settings keeps the plain picture too, as Gmail strips the styling.
-function logoCell(adaptive) {
+function logoLink(adaptive, w = 118, h = 30) {
   const img = (file, extra = '') =>
-    `<img src="${SITE}/email/${file}" width="118" height="30" alt="Anthony is Freelance" ${extra}>`;
-  const plain = img('logo.png', `${adaptive ? 'class="logo-plain" ' : ''}style="display:block;width:118px;height:30px;border:0"`);
+    `<img src="${SITE}/email/${file}" width="${w}" height="${h}" alt="Anthony is Freelance" ${extra}>`;
+  const plain = img('logo.png', `${adaptive ? 'class="logo-plain" ' : ''}style="display:block;width:${w}px;height:${h}px;border:0"`);
   const blend = adaptive
-    ? `<!--[if !mso]><!-->${img('logo-blend.png', 'class="logo-blend" style="display:none;width:118px;height:30px;border:0"')}<!--<![endif]-->`
+    ? `<!--[if !mso]><!-->${img('logo-blend.png', `class="logo-blend" style="display:none;width:${w}px;height:${h}px;border:0"`)}<!--<![endif]-->`
     : '';
-  return `<tr><td bgcolor="#FFFFFF" style="padding:0 0 10px;background:#FFFFFF"><a href="${SITE}/" target="_blank" style="text-decoration:none">${plain}${blend}</a></td></tr>`;
+  return `<a href="${SITE}/" target="_blank" style="text-decoration:none">${plain}${blend}</a>`;
 }
+const logoCell = (adaptive) => `<tr><td bgcolor="#FFFFFF" style="padding:0 0 10px;background:#FFFFFF">${logoLink(adaptive)}</td></tr>`;
 
 function signatureRows({ adaptive = false } = {}) {
   const line = `font-family:${DISPLAY};font-size:13px;font-weight:500;line-height:1.5;letter-spacing:0.02em;color:${MUTED}`;
@@ -313,4 +314,57 @@ ${button(`${base}/admin/`, 'Open the documents admin')}`,
 // The same signature block as the emails, to paste into Gmail > Settings > Signature.
 export function signatureHtml() {
   return `<table role="presentation" cellpadding="0" cellspacing="0" border="0">${signatureRows()}</table>`;
+}
+
+/* ---------- Signature designs being tried (Figma: Email Sig > Signature variations) ---------- */
+
+const mint = (size, colour, extra = '') => `font-family:${DISPLAY};font-size:${size}px;font-weight:500;letter-spacing:0.02em;color:${colour};${extra}`;
+// The arrow as text, never an emoji (the trailing selector asks for the text form).
+const ARROW_UP = '&#8599;&#xFE0E;';
+
+// D, Headline: eyebrow, name as the headline, links, then the logo and award line.
+export function signatureHeadline({ adaptive = true } = {}) {
+  const a = `color:${INK};text-decoration:none`;
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:520px;border-top:1px solid ${LINE}">
+<tr><td style="padding:20px 0 0;${mint(14, MUTED, 'line-height:1.3')}">+ ${esc(PERSON.role)} +</td></tr>
+<tr><td style="padding:8px 0 0;${mint(26, INK, 'line-height:1.1;letter-spacing:0;text-transform:uppercase')}">${esc(PERSON.name)}</td></tr>
+<tr><td style="padding:20px 0 22px;${mint(14, INK, 'line-height:1;text-transform:uppercase')}"><a href="${SITE}/" target="_blank" style="${a}">${esc(PERSON.site)}&nbsp;${ARROW_UP}</a>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="tel:${PERSON.phoneHref}" style="${a}">${esc(PERSON.phone)}</a></td></tr>
+<tr><td style="padding:20px 0 0;border-top:1px solid ${LINE}"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+<td width="102" bgcolor="#FFFFFF" style="width:102px;background:#FFFFFF;vertical-align:middle">${logoLink(adaptive, 102, 26)}</td>
+<td align="right" style="padding:0 0 0 12px;vertical-align:middle;text-align:right;white-space:nowrap;${mint(12, MUTED, 'line-height:1.3')}">${esc(PERSON.award)}</td>
+</tr></table></td></tr>
+</table>`;
+}
+
+// F, One line: logo, a divider, name and role, the award badge.
+export function signatureOneLine({ adaptive = true } = {}) {
+  return `<table role="presentation" cellpadding="0" cellspacing="0" border="0"><tr>
+<td bgcolor="#FFFFFF" style="background:#FFFFFF;padding:0 14px 0 0;vertical-align:middle">${logoLink(adaptive, 102, 26)}</td>
+<td style="padding:2px 14px;border-left:1px solid ${LINE};vertical-align:middle"><span style="${mint(16, INK, 'line-height:1.35;white-space:nowrap')}">${esc(PERSON.name)}</span><br><span style="${mint(12, MUTED, 'line-height:1.4')}">${esc(PERSON.role)}</span></td>
+<td style="vertical-align:middle"><a href="${SITE}/awards/" target="_blank" style="text-decoration:none"><img src="${SITE}/email/award-badge.png" width="66" height="43" alt="UK eCommerce Awards 2026 winner" style="display:block;width:66px;height:43px;border:0"></a></td>
+</tr></table>`;
+}
+
+// A test email for a signature design: some everyday text, then the signature.
+export function signatureTest(kind) {
+  const sig = kind === 'one-line' ? signatureOneLine() : signatureHeadline();
+  const name = kind === 'one-line' ? 'F, One line' : 'D, Headline';
+  const lines = [
+    'Hi Sam,',
+    'Thanks for your time on the call this morning. It was great to hear more about the plans for the store and where you want to take it next year.',
+    "I'll pull together the quote and a rough timeline over the next couple of days, and send both across by Thursday.",
+    'In the meantime, if you can share access to your analytics, I can start looking at how customers move through the site on mobile.',
+  ];
+  return {
+    subject: `Signature test: ${name}`,
+    text: `${lines.join('\n\n')}\n\nThanks,\nAnthony\n\n(Signature test ${name}. The signature shows in the HTML version.)`,
+    html: layout({
+      title: `Signature test ${name}`,
+      preheader: `Signature test ${name}: check it in light and dark mode.`,
+      footer: false,
+      body: `${lines.map((l) => p(esc(l))).join('\n')}
+${p('Thanks,<br>Anthony')}
+<div style="margin:28px 0 0">${sig}</div>`,
+    }),
+  };
 }

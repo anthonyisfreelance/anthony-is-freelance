@@ -10,7 +10,7 @@ import { renderQuote, quoteTotals, stageAmounts } from './quote.js';
 import { renderContract } from './contract.js';
 import { renderInvoice, invoiceTotals } from './invoice.js';
 import { renderAdmin } from './admin.js';
-import { quoteEmail, signedEmail, invoiceEmail, signCodeEmail, loginCodeEmail, loginNotice, signedNotice, signatureHtml, PERSON } from './emails.js';
+import { quoteEmail, signedEmail, invoiceEmail, signCodeEmail, loginCodeEmail, loginNotice, signedNotice, signatureHtml, signatureHeadline, signatureOneLine, PERSON } from './emails.js';
 
 export const SAMPLE_QUOTE = 'SAMPLEquote';
 const SIGNED = 'SAMPLEsigned';
@@ -285,6 +285,15 @@ h1 { width: auto; }
 
 const COPY_SIG = `
 (function () {
+  var t = document.getElementById('send-tests'), tm = document.getElementById('test-msg');
+  if (t) t.addEventListener('click', function () {
+    t.disabled = true; tm.hidden = false; tm.className = 'status'; tm.textContent = 'Sending from your Gmail…';
+    fetch('/admin/test-signatures', { method: 'POST', headers: { 'content-type': 'application/json' }, body: '{}', credentials: 'same-origin' })
+      .then(function (r) { return r.json(); }).catch(function () { return { ok: false, error: 'Something went wrong.' }; })
+      .then(function (r) { t.disabled = false; tm.className = 'status' + (r.ok ? '' : ' error'); tm.textContent = r.ok ? r.message : r.error; });
+  });
+})();
+(function () {
   var b = document.getElementById('copy-sig'), sig = document.getElementById('sig'), msg = document.getElementById('sig-msg');
   b.addEventListener('click', function () {
     var r = document.createRange(); r.selectNode(sig);
@@ -306,6 +315,13 @@ export function signaturePage({ base }) {
     <div class="act" style="margin-top:6mm"><button type="button" class="btn" id="copy-sig">Copy signature</button></div>
     <div id="sig-msg" class="status" role="status" hidden style="margin-top:4mm"></div>
   </section>
+  <section class="sec full" aria-labelledby="h-try">
+    <h2 id="h-try">${eyebrow('Being tried')}Headline and One line</h2>
+    <div style="margin-top:6mm;padding:8mm;border:1px solid var(--line);background:#fff" class="sigtry">${signatureHeadline({ adaptive: false })}</div>
+    <div style="margin-top:6mm;padding:8mm;border:1px solid var(--line);background:#fff" class="sigtry">${signatureOneLine({ adaptive: false })}</div>
+    <div class="act" style="margin-top:6mm"><button type="button" class="btn" id="send-tests">Email me both tests</button></div>
+    <div id="test-msg" class="status" role="status" hidden style="margin-top:4mm"></div>
+  </section>
   <section class="sec" aria-labelledby="h-how">
     <h2 id="h-how">${eyebrow('Setting it up')}Add it to Gmail</h2>
     <ol class="prose" style="padding-left:1.1em;margin:0">
@@ -325,7 +341,7 @@ export function signaturePage({ base }) {
     </div>
   </section>
   <p style="margin-top:8mm"><a class="ghost" href="${P}">All samples</a></p>`;
-  return shell({ title: 'Gmail signature', base, body, script: COPY_SIG, css: '#sig td { border: 0; padding: 0; vertical-align: top; }' }).replace('</body>', `${FEEDBACK}\n</body>`);
+  return shell({ title: 'Gmail signature', base, body, script: COPY_SIG, css: '#sig td { border: 0; padding: 0; vertical-align: top; } .sigtry td { border: 0; padding: 0; }' }).replace('</body>', `${FEEDBACK}\n</body>`);
 }
 
 /* ---------- PDF view ---------- */
