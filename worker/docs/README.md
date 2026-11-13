@@ -14,10 +14,24 @@ link is unguessable. Every document is one A4 sheet, the same on screen and in t
 - **The Drive bridge** (`apps-script/Code.gs`) is a Google Apps Script web app running as Anthony.
   The worker uses it to read and write the JSON, save PDFs into the Quotes, Contracts (Signed) and
   Invoices (tax-year) folders, and send client emails from his Gmail.
-- **PDFs** come from Cloudflare Browser Rendering (`pdf.js`), from the same HTML as the pages.
+- **PDFs** come from Cloudflare Browser Rendering (`pdf.js`), from the same HTML as the pages,
+  printed at 90% so an A4 page holds about what the sheet shows on screen.
+- **Design** follows Figma (New Site 26 > .docs page): the sheet, type sizes, boxed lists, stage
+  blocks, admin rows and emails are built from the components there. Sizes live in `shared.js`
+  (`CSS`) and `emails.js`; change Figma first, then match it here.
+- **Stage blocks** (`stageBlocks` in `shared.js`, `nextSteps` in `quote.js`) show the three steps
+  of starting a project and which one the client is on: step 1 on the quote, step 2 on the contract,
+  step 3 above the signed contract and on the signed quote. The deposit invoice button only appears
+  once that invoice has been sent, so a client never opens a draft.
 - **Codes and notices** (signing codes, admin login, "signed" notices) go through Resend (`mail.js`).
 - **Emails**: every email's wording and HTML is in `emails.js` (plain text and HTML from the same
-  copy, a blue button, and the same signature block as Anthony's Gmail signature).
+  copy): logo and document label across the top, key facts, numbered "what happens next" boxes, a
+  full-width blue button, then the signature without a logo and the legal footer. The Gmail
+  signature (with the logo) is on the samples page to copy.
+- **Enquiry emails**: the contact form (`worker/enquiry.js`) sends the enquiry to Anthony and a
+  "Thanks for getting in touch" reply to the sender. The reply goes to an unchecked address, so it
+  carries nothing they typed except a plain first name, each address gets at most one a day, and the
+  form allows three sends a minute per visitor (`ENQUIRY_RL` in `wrangler.jsonc`).
 - **Samples** at `/admin/samples/` (admin only, `samples.js`): every kind of quote, contract, invoice
   and email filled in for a made-up client, with PDFs, plus the Gmail signature to copy. The comment
   tool runs on these pages only. Its comments are public GitHub issues, so samples must stay fictional
@@ -82,9 +96,9 @@ Quote:
 
 ```json
 {
-  "type": "quote", "token": "…", "key": "HappyThreads", "seq": 1, "number": "HappyThreads_01",
-  "client": { "name": "Happythreads", "legalName": "", "companyNumber": "", "address": "",
-              "contact": { "name": "Aga Hencil", "email": "aga@happythreads.com" } },
+  "type": "quote", "token": "…", "key": "SaltwaterSupply", "seq": 1, "number": "SaltwaterSupply_01",
+  "client": { "name": "Saltwater Supply Co.", "legalName": "", "companyNumber": "", "address": "",
+              "contact": { "name": "Sam Taylor", "email": "sam@example.com" } },
   "issued": "2026-11-11", "validUntil": "2026-12-11",
   "title": "Shopify store redesign and design system",
   "overview": { "heading": "…", "paragraphs": ["…"] },
@@ -92,7 +106,7 @@ Quote:
   "pages": { "heading": "Mobile and desktop", "items": [{ "name": "Homepage", "note": "" }] },
   "pricing": { "type": "scoped | fixed | hourly", "rate": 8000, "fixed": 400000 },
   "stages": [{ "label": "Deposit", "percent": 50, "due": "Before work begins" }],
-  "revisions": "…", "builtBy": "StudioForty9", "fromClient": "…",
+  "revisions": "…", "builtBy": "Your developer", "fromClient": "…",
   "contract": { "optional": ["A"], "completionPoint": "…", "revisionRounds": "…",
                 "startDate": "", "confidential": false, "competitor": { "months": 12, "sector": "…" } },
   "state": { "status": "draft" }
@@ -106,11 +120,11 @@ Invoice (`kind` "stage" with `lines`, or "itemised" with `items` priced at `rate
 
 ```json
 {
-  "type": "invoice", "token": "…", "key": "eComplete", "seq": 10, "number": "eComplete_10",
-  "issued": "2026-11-30", "due": "2026-12-14", "project": "Dr David Jack design support",
-  "kind": "itemised", "rate": 7000,
-  "items": [{ "date": "2026-11-03", "description": "Clinic page tweaks", "hours": 6 }],
-  "client": { "name": "eComplete", "legalName": "…", "address": "…", "contact": { "name": "…", "email": "…" } },
+  "type": "invoice", "token": "…", "key": "SaltwaterSupply", "seq": 4, "number": "SaltwaterSupply_04",
+  "issued": "2026-11-30", "due": "2026-12-14", "project": "Design support, November",
+  "kind": "itemised", "rate": 8000,
+  "items": [{ "date": "2026-11-03", "description": "Size guide page design", "hours": 6 }],
+  "client": { "name": "Saltwater Supply Co.", "legalName": "…", "address": "…", "contact": { "name": "…", "email": "…" } },
   "state": { "status": "draft" }
 }
 ```

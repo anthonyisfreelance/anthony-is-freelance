@@ -1,7 +1,7 @@
 // Worker in front of the static site. Everything is served from ./dist except /api/*,
 // which wrangler.jsonc routes here first (run_worker_first).
 //
-// /api/enquiry sends the start-a-project form (worker/enquiry.js).
+// /api/enquiry sends the start-a-project form, and thanks the sender (worker/enquiry.js).
 // docs.anthonyis.uk serves client quotes, contracts and invoices (worker/docs/).
 // /api/feedback powers the test-site comment tool (public/feedback.js). Each comment
 // becomes a GitHub issue labelled "feedback" on the site repo. It never runs on
@@ -61,7 +61,7 @@ export default {
     }
     const path = url.pathname.endsWith('/') ? url.pathname : `${url.pathname}/`;
     if (GONE.has(path) || GONE_PATTERNS.some((re) => re.test(path))) return gone(request, env);
-    if (url.pathname === '/api/enquiry') return enquiry(request, env);
+    if (url.pathname === '/api/enquiry') return enquiry(request, env, ctx);
     if (url.pathname === '/api/feedback' || url.pathname.startsWith('/api/feedback/')) {
       return feedback(request, env, url);
     }

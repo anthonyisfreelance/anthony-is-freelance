@@ -190,6 +190,6 @@ function today() {
 // Run once from the editor to check the setup: lists the documents it can see.
 function testSetup() {
   Logger.log(JSON.stringify(ACTIONS.list().docs.map(function (d) { return d.number; })));
-  Logger.log('Next HappyThreads invoice: ' + ACTIONS.nextInvoice({ client: 'HappyThreads' }).next);
+  Logger.log('Next SaltwaterSupply invoice: ' + ACTIONS.nextInvoice({ client: 'SaltwaterSupply' }).next);
   Logger.log('Sending from: ' + (GmailApp.getAliases().indexOf(SEND_FROM) !== -1 ? SEND_FROM : Session.getActiveUser().getEmail()));
 }

@@ -7,10 +7,10 @@
 
 import { esc, money, today, addDays, masthead, eyebrow, shell, COMPANY } from './shared.js';
 import { renderQuote, quoteTotals, stageAmounts } from './quote.js';
-import { renderContract } from './contract.js';
+import { renderContract, signedContractPage } from './contract.js';
 import { renderInvoice, invoiceTotals } from './invoice.js';
 import { renderAdmin } from './admin.js';
-import { quoteEmail, signedEmail, invoiceEmail, signCodeEmail, loginCodeEmail, loginNotice, signedNotice, signatureHtml, signatureHeadline, signatureOneLine, PERSON } from './emails.js';
+import { enquiryReceivedEmail, enquiryNotice, quoteEmail, signedEmail, invoiceEmail, signCodeEmail, loginCodeEmail, loginNotice, signedNotice, signatureHtml, PERSON } from './emails.js';
 
 export const SAMPLE_QUOTE = 'SAMPLEquote';
 const SIGNED = 'SAMPLEsigned';
@@ -98,6 +98,7 @@ function signedQuote() {
     status: 'signed',
     sentAt: `${q.issued}T09:00:00Z`,
     viewedAt: `${q.issued}T09:20:00Z`,
+    acceptedAt: `${q.issued}T09:40:00Z`,
     signedAt,
     finalisedAt: signedAt,
     signature: {
@@ -160,6 +161,10 @@ function invoice(kind = 'stage', paid = false) {
 }
 
 const sampleBase = 'https://docs.anthonyis.uk';
+// The deposit invoice once it has been sent, for the "after signing" samples.
+const DEPOSIT_SENT = { token: INVOICE, number: 'SaltwaterSupply_01', paid: false };
+const accepted = () => quote('scoped', { state: { status: 'sent', sentAt: `${today()}T09:00:00Z`, acceptedAt: `${today()}T09:40:00Z` } });
+const ENQUIRY = { name: CLIENT.contact.name, email: CLIENT.contact.email, website: 'saltwatersupply.example', budget: '£8k to £15k', found: 'Google', page: '/shopify-website-design/', message: "We're looking to redesign our Shopify store before spring. The current theme is slow on mobile and customers struggle to find the right kit.\n\nCould we talk through how you'd approach it?" };
 
 // The admin list with a spread of made-up documents in every state.
 function adminDocs() {
@@ -189,12 +194,15 @@ const SAMPLES = [
   { slug: 'quote-fixed', group: 'Quotes', label: 'Quote, fixed price', note: 'Hours left off.', page: (o) => renderQuote(quote('fixed'), o), pdf: true },
   { slug: 'quote-hourly', group: 'Quotes', label: 'Quote, hourly', note: 'Estimated hours, invoiced monthly.', page: (o) => renderQuote(quote('hourly'), o), pdf: true },
   { slug: 'quote-expired', group: 'Quotes', label: 'Quote, expired', note: 'Past its valid-until date.', page: (o) => renderQuote(quote('scoped', { issued: addDays(today(), -45), validUntil: addDays(today(), -15) }), o), pdf: false },
-  { slug: 'quote-signed', group: 'Quotes', label: 'Quote, signed', note: 'After the client signs.', page: (o) => renderQuote(signedQuote(), o), pdf: true },
-  { slug: 'contract', group: 'Contracts', label: 'Contract, ready to sign', note: 'With the signing panel. Sending a code works here; signing is switched off.', page: (o) => renderContract(quote(), o), pdf: true },
-  { slug: 'contract-signed', group: 'Contracts', label: 'Contract, signed', note: 'The signed copy, with the signing record.', page: (o) => renderContract(signedQuote(), o), pdf: true },
+  { slug: 'quote-signed', group: 'Quotes', label: 'Quote, signed', note: 'After the client signs: step 3, before the deposit invoice is sent.', page: (o) => renderQuote(signedQuote(), o), pdf: true },
+  { slug: 'quote-deposit-paid', group: 'Quotes', label: 'Quote, deposit paid', note: 'All three steps complete.', page: (o) => renderQuote(signedQuote(), { ...o, depositInvoice: { ...DEPOSIT_SENT, paid: true, paidAt: today() } }), pdf: false },
+  { slug: 'contract', group: 'Contracts', label: 'Contract, ready to sign', note: 'Step 2, with the signing panel. Sending a code works here; signing is switched off.', page: (o) => renderContract(accepted(), o), pdf: true },
+  { slug: 'contract-signed', group: 'Contracts', label: 'Contract, signed', note: 'The signed copy with the signing record. On screen, step 3 sits above it with the deposit invoice button.', page: (o) => (o.pdf ? renderContract(signedQuote(), o) : signedContractPage(renderContract(signedQuote(), { ...o, pdf: true }), signedQuote(), { depositInvoice: DEPOSIT_SENT })), pdf: true },
   { slug: 'invoice-stage', group: 'Invoices', label: 'Invoice, payment stage', note: 'Deposit from a quote.', page: (o) => renderInvoice(invoice('stage'), o), pdf: true },
   { slug: 'invoice-itemised', group: 'Invoices', label: 'Invoice, itemised hours', note: 'Monthly support work.', page: (o) => renderInvoice(invoice('itemised'), o), pdf: true },
   { slug: 'invoice-paid', group: 'Invoices', label: 'Invoice, paid', note: 'After you mark it paid.', page: (o) => renderInvoice(invoice('stage', true), o), pdf: true },
+  { slug: 'email-enquiry', group: 'Emails', label: 'Enquiry received', note: 'To whoever sends the contact form, straight away.', email: () => enquiryReceivedEmail(ENQUIRY) },
+  { slug: 'email-enquiry-notice', group: 'Emails', label: 'New enquiry', note: 'To you, with everything they sent.', email: () => enquiryNotice(ENQUIRY) },
   { slug: 'email-quote', group: 'Emails', label: 'Quote email', note: 'To the client, from your Gmail, with the PDF attached.', email: () => quoteEmail({ base: sampleBase, doc: quote(), total: quoteTotals(quote()).total }) },
   { slug: 'email-signed', group: 'Emails', label: 'Signed contract email', note: 'To the client, with both PDFs attached.', email: () => signedEmail({ base: sampleBase, doc: signedQuote(), sig: signedQuote().state.signature, deposit: stageAmounts(signedQuote())[0] }) },
   { slug: 'email-invoice', group: 'Emails', label: 'Invoice email', note: 'To the client, with the PDF attached.', email: () => invoiceEmail({ base: sampleBase, doc: invoice(), total: invoiceTotals(invoice()).total }) },
@@ -235,7 +243,7 @@ export function samplePage(slug, { base, settings, year }) {
   const bar = qaBar(s, SAMPLES[i - 1], SAMPLES[i + 1]);
   if (s.email) {
     const mail = s.email();
-    const head = `<div style="max-width:600px;padding:0 32px;font:500 13px/1.6 'Mint Grotesk Display','Arial Narrow',Arial,sans-serif;color:#5A5A5A"><p style="margin:16px 0 0">Subject: <span style="color:#111">${esc(mail.subject)}</span></p></div>`;
+    const head = `<div style="max-width:600px;padding:0 40px;font:500 14px/1.6 'Mint Grotesk Display','Arial Narrow',Arial,sans-serif;color:#393939"><p style="margin:16px 0 0">Subject: <span style="color:#111">${esc(mail.subject)}</span></p></div>`;
     return relink(mail.html, slug).replaceAll(sampleBase, '').replace(/<body([^>]*)>/, `<body$1>\n${bar}${head}`).replace('</body>', `${FEEDBACK}\n</body>`);
   }
   const html = s.page({ base, year, settings: { ...SAMPLE_SETTINGS, signatureSvg: settings?.signatureSvg } });
@@ -259,7 +267,7 @@ export function samplesIndex({ base }) {
   const body = `
   ${masthead('Documents', 'Samples')}
   <h1>${eyebrow('Check the design')}Sample documents</h1>
-  <div class="prose" style="margin-top:6mm;max-width:150mm">
+  <div class="prose" style="max-width:560px">
     <p>Every kind of quote, contract, invoice and email, filled in for a made-up client, so you can check them on screen and as PDFs without touching a real document.</p>
     <p>The comment tool is on every sample: press <b>C</b> or the comment button, click anything and type. Each comment is filed for me to pick up. Comments are public on GitHub, which is why only these made-up samples have the tool, never real documents.</p>
     <p><b>PDF view</b> shows the real PDF, page by page, with the comment tool on it. <b>PDF file</b> opens the file itself.</p>
@@ -268,19 +276,19 @@ export function samplesIndex({ base }) {
     <tr class="group"><td colspan="3">Gmail</td></tr>
     <tr><td><a href="${P}signature/">Gmail signature</a></td><td class="muted">To copy into Gmail settings.</td><td></td></tr>
   </tbody></table></div></section>
-  <p style="margin-top:8mm"><a class="ghost" href="/admin/">Back to documents</a></p>`;
+  <p><a class="ghost" href="/admin/">Back to documents</a></p>`;
   return shell({ title: 'Sample documents', base, body, css: INDEX_CSS });
 }
 
 const INDEX_CSS = `
 .sheet { max-width: 1180px; }
-h1 { width: auto; }
-.admin-table td { vertical-align: middle; }
-.admin-table .group td { padding-top: 18px; border-top: 1px solid var(--ink); font-size: 15px; text-transform: uppercase; }
+.sheet > * + * { margin-top: 40px; }
+.admin-table td { vertical-align: middle; padding-block: 12px; }
+.admin-table .group td { padding: 24px 0 8px; font-size: 22px; line-height: 1.3; text-transform: uppercase; }
+.admin-table tr:first-child.group td { border-top: 0; padding-top: 0; }
 .admin-table a { color: var(--blue); }
 .admin-table a.ghost { color: var(--ink); }
-.ghost.small { padding: 6px 9px; font-size: 11px; }
-.pdfs { display: inline-flex; gap: 6px; }
+.pdfs { display: inline-flex; gap: 8px; }
 `;
 
 const COPY_SIG = `
@@ -311,20 +319,17 @@ export function signaturePage({ base }) {
   ${masthead('Documents', 'Gmail signature')}
   <h1>${eyebrow('Your email')}Gmail signature</h1>
   <section class="sec full">
-    <div id="sig" style="padding:8mm;border:1px solid var(--line);background:#fff">${signatureHtml()}</div>
-    <div class="act" style="margin-top:6mm"><button type="button" class="btn" id="copy-sig">Copy signature</button></div>
-    <div id="sig-msg" class="status" role="status" hidden style="margin-top:4mm"></div>
-  </section>
-  <section class="sec full" aria-labelledby="h-try">
-    <h2 id="h-try">${eyebrow('Being tried')}Headline and One line</h2>
-    <div style="margin-top:6mm;padding:8mm;border:1px solid var(--line);background:#fff" class="sigtry">${signatureHeadline({ adaptive: false })}</div>
-    <div style="margin-top:6mm;padding:8mm;border:1px solid var(--line);background:#fff" class="sigtry">${signatureOneLine({ adaptive: false })}</div>
-    <div class="act" style="margin-top:6mm"><button type="button" class="btn" id="send-tests">Email me both tests</button></div>
-    <div id="test-msg" class="status" role="status" hidden style="margin-top:4mm"></div>
+    <div id="sig" style="padding:32px;border:1px solid var(--line);background:#fff">${signatureHtml()}</div>
+    <div class="act">
+      <button type="button" class="btn" id="copy-sig">Copy signature</button>
+      <button type="button" class="ghost" id="send-tests">Email me a test</button>
+    </div>
+    <div id="sig-msg" class="status" role="status" hidden style="margin-top:16px"></div>
+    <div id="test-msg" class="status" role="status" hidden style="margin-top:16px"></div>
   </section>
   <section class="sec" aria-labelledby="h-how">
     <h2 id="h-how">${eyebrow('Setting it up')}Add it to Gmail</h2>
-    <ol class="prose" style="padding-left:1.1em;margin:0">
+    <ol class="prose" style="padding-left:1.1em;margin:0;gap:8px">
       <li>Press <b>Copy signature</b>.</li>
       <li>In Gmail on a computer, open Settings (the cog), then <b>See all settings</b>.</li>
       <li>On the General tab, scroll to <b>Signature</b>, press <b>Create new</b>, name it and paste into the box.</li>
@@ -335,13 +340,14 @@ export function signaturePage({ base }) {
   <section class="sec" aria-labelledby="h-notes">
     <h2 id="h-notes">${eyebrow('Good to know')}How it shows</h2>
     <div class="prose">
+      <p>This is the signature for emails you write yourself in Gmail, and it carries the logo. The emails the site sends (quotes, contracts, invoices, enquiry replies) have the logo across the top instead, so their signature leaves it out. The wording is the same in both.</p>
       <p>The logo is a picture hosted on anthonyis.uk, so it shows for anyone who loads images. Gmail and Outlook can't use your own typeface, so the text shows in Arial Narrow or Arial; Apple Mail shows Mint Grotesk.</p>
-      <p>The same block closes the quote, contract and invoice emails the site sends, so everything matches. Change the details in one place (<b>PERSON</b> in worker/docs/emails.js) and the emails follow; paste the signature into Gmail again after a change.</p>
-      <p>It says: ${esc([PERSON.name, PERSON.role, PERSON.award, PERSON.phone, PERSON.site].join(' · '))}.</p>
+      <p>Change the details in one place (<b>PERSON</b> in worker/docs/emails.js) and the emails follow; paste the signature into Gmail again after a change.</p>
+      <p>It says: ${esc([PERSON.name, PERSON.role, PERSON.award, PERSON.site].join(' · '))}.</p>
     </div>
   </section>
-  <p style="margin-top:8mm"><a class="ghost" href="${P}">All samples</a></p>`;
-  return shell({ title: 'Gmail signature', base, body, script: COPY_SIG, css: '#sig td { border: 0; padding: 0; vertical-align: top; } .sigtry td { border: 0; padding: 0; }' }).replace('</body>', `${FEEDBACK}\n</body>`);
+  <p><a class="ghost" href="${P}">All samples</a></p>`;
+  return shell({ title: 'Gmail signature', base, body, script: COPY_SIG, css: '#sig td { border: 0; padding: 0; }' }).replace('</body>', `${FEEDBACK}\n</body>`);
 }
 
 /* ---------- PDF view ---------- */

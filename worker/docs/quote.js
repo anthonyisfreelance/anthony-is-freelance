@@ -1,9 +1,10 @@
-// The quote page. Costs and payment always start their own page in the PDF, full width.
+// The quote page. Costs and payment always sit on their own page in the PDF, full width.
 // Pricing types: "scoped" (hours per item), "fixed" (one price, no hours shown) and "hourly"
 // (rate, with optional estimated hours).
 
 import {
-  esc, money, vatOf, fmtDate, today, eyebrow, masthead, legalFooter, shell, topBar, ARROW, COMPANY, PAYMENT_DAYS,
+  esc, money, vatOf, fmtDate, today, eyebrow, masthead, legalFooter, shell, topBar, downloadLink, stageBlocks,
+  ARROW, ICON_TICK, COMPANY, PAYMENT_DAYS,
 } from './shared.js';
 
 export function quoteTotals(q) {
@@ -37,20 +38,56 @@ export function pricingSummary(q) {
   return `Scoped at ${t.hours} hours, ${money(t.subtotal)} + VAT`;
 }
 
-export function renderQuote(q, { base, pdf = false }) {
+// The three steps of starting a project, and which one the client is on:
+//   1 on the quote (accept), 2 on the contract (sign), 3 after signing (pay the deposit).
+// `depositInvoice` is the deposit invoice once it has been sent: { token, paid, paidAt }.
+export function nextSteps(q, { step, depositInvoice } = {}) {
+  const s = q.state || {};
+  const deposit = stageAmounts(q)[0];
+  const signed = Boolean(s.signedAt);
+  const at = signed ? 3 : step || 1;
+  const paid = Boolean(depositInvoice?.paid);
+  const state = (n) => (n < at ? 'complete' : n === at ? 'current' : 'next');
+
+  const one = at > 1
+    ? { state: 'complete', title: 'Quote accepted', text: s.acceptedAt ? `Accepted ${fmtDate(s.acceptedAt, 'long')}.` : 'Accepted online.' }
+    : { state: 'current', title: 'Accept the quote', text: 'Accept online, using the button below.' };
+  const two = signed
+    ? { state: 'complete', title: 'Contract signed', text: `Signed ${fmtDate(s.signedAt, 'long')}${s.signature?.name ? ` by ${s.signature.name}` : ''}.` }
+    : { state: state(2), title: 'Sign the contract', text: at === 2 ? 'Sign online, using the form below.' : 'The contract opens straight after accepting, to sign online.' };
+  let three;
+  if (!deposit) three = { state: state(3), title: 'Book the kick-off', text: 'We agree dates for each phase and get started.' };
+  else if (paid) three = { state: 'complete', title: 'Deposit paid', text: `${depositInvoice.paidAt ? `Paid ${fmtDate(depositInvoice.paidAt, 'long')}. ` : ''}Next, we book the kick-off call.` };
+  else three = { state: state(3), title: 'Pay the deposit', text: `${money(deposit.gross)} including VAT${at === 3 ? ' by bank transfer' : ''}, then we book the kick-off call.` };
+  if (at === 1) three.label = 'Then';
+
+  const title = at === 1 ? 'Ready to start' : at === 2 ? 'Sign the contract' : paid ? 'All set' : deposit ? 'Pay the deposit' : 'Signed and ready';
+  return { at, eyebrow: `Step ${at} of 3`, title, items: [one, two, three], paid, deposit };
+}
+
+// What the client can do at step 3: open the deposit invoice once it has been sent.
+export function afterSigningAction(q, { depositInvoice } = {}) {
+  const deposit = stageAmounts(q)[0];
+  if (depositInvoice?.token && !depositInvoice.paid) return `<a class="btn" href="/invoice/${esc(depositInvoice.token)}/">View deposit invoice ${ARROW}</a>`;
+  if (deposit && !depositInvoice) return '<p class="contact">The deposit invoice will arrive by email shortly.</p>';
+  return '';
+}
+
+export function renderQuote(q, { base, pdf = false, depositInvoice } = {}) {
   const t = quoteTotals(q);
   const type = q.pricing?.type || 'scoped';
   const signed = Boolean(q.state?.signedAt);
   const expired = !signed && q.validUntil && q.validUntil < today();
   const stages = stageAmounts(q);
   const contact = q.client?.contact || {};
+  const num = (i) => String(i + 1).padStart(2, '0');
 
   const scopeLabel = { scoped: 'Scoped at', fixed: 'Pricing', hourly: 'Rate' }[type];
   const scopeValue = { scoped: `${t.hours} hours`, fixed: 'Fixed price', hourly: `${money(t.rate)} per hour` }[type];
   const totalLabel = type === 'hourly' ? 'Estimate, inc. VAT' : 'Total, inc. VAT';
 
   const facts = `
-  <dl class="facts">
+  <dl class="facts${t.subtotal ? '' : ' four'}">
     <div><dt>Issued</dt><dd>${esc(fmtDate(q.issued))}</dd></div>
     <div><dt>Valid until</dt><dd>${esc(fmtDate(q.validUntil))}</dd></div>
     <div><dt>Prepared for</dt><dd>${esc([contact.name, q.client?.name].filter(Boolean).join(', '))}</dd></div>
@@ -64,20 +101,22 @@ export function renderQuote(q, { base, pdf = false }) {
     <div class="prose">${q.overview.paragraphs.map((p) => `<p>${esc(p)}</p>`).join('')}</div>
   </section>` : '';
 
+  // Scope: one numbered box per item.
   const items = q.scope?.items || [];
   const scope = `
   <section class="sec" aria-labelledby="h-scope">
     <h2 id="h-scope">${eyebrow('Scope of work')}${esc(q.scope?.heading || "What I'll design")}</h2>
-    <ol class="rows">${items
-      .map((it, i) => `<li><span class="n">${String(i + 1).padStart(2, '0')}</span><div><h3>${esc(it.title)}</h3>${it.body ? `<p>${esc(it.body)}</p>` : ''}</div></li>`)
+    <ol class="boxes">${items
+      .map((it, i) => `<li class="box"><span class="n" aria-hidden="true">${num(i)}</span><div><h3>${esc(it.title)}</h3>${it.body ? `<p>${esc(it.body)}</p>` : ''}</div></li>`)
       .join('')}</ol>
   </section>`;
 
+  // Pages: ticked boxes, two across.
   const pages = q.pages?.items?.length ? `
   <section class="sec" aria-labelledby="h-pages">
-    <h2 id="h-pages">${eyebrow('Pages included')}${esc(q.pages.heading || 'Mobile and desktop')}</h2>
-    <ul class="list2">${q.pages.items
-      .map((p) => `<li><b>${esc(p.name)}</b>${p.note ? ` ${esc(p.note)}` : ''}</li>`)
+    <h2 id="h-pages">${eyebrow('Pages and sections included')}${esc(q.pages.heading || 'Mobile and desktop')}</h2>
+    <ul class="ticks">${q.pages.items
+      .map((p) => `<li class="tick">${ICON_TICK}<div><b>${esc(p.name)}</b>${p.note ? `<span>${esc(p.note)}</span>` : ''}</div></li>`)
       .join('')}</ul>
   </section>` : '';
 
@@ -86,7 +125,7 @@ export function renderQuote(q, { base, pdf = false }) {
   const costRows = items
     .map((it, i) => {
       const h = Number(it.hours) || 0;
-      return `<tr><td class="n">${String(i + 1).padStart(2, '0')}</td><td>${esc(it.title)}</td>${
+      return `<tr><td><span class="n">${num(i)}</span>${esc(it.title)}</td>${
         showHours ? `<td class="r">${h || ''}</td><td class="r">${h ? money(h * t.rate) : ''}</td>` : '<td></td>'
       }</tr>`;
     })
@@ -99,12 +138,12 @@ export function renderQuote(q, { base, pdf = false }) {
     </div>
     <div class="table-wrap">
       <table>
-        <thead><tr><th colspan="2">Item</th>${showHours ? `<th class="r">${type === 'hourly' ? 'Est. hours' : 'Hours'}</th>` : ''}<th class="r">Amount</th></tr></thead>
+        <thead><tr><th>Item</th>${showHours ? `<th class="r w-detail">${type === 'hourly' ? 'Est. hours' : 'Hours'}</th>` : ''}<th class="r w-amt">Amount</th></tr></thead>
         <tbody>${costRows}</tbody>
         ${t.subtotal ? `<tfoot>
-          <tr><td></td><td>${type === 'hourly' ? 'Estimate' : 'Subtotal'}</td>${showHours ? `<td class="r">${t.hours || ''}</td>` : ''}<td class="r">${money(t.subtotal)}</td></tr>
-          <tr><td></td><td>VAT at 20%</td>${showHours ? '<td></td>' : ''}<td class="r">${money(t.vat)}</td></tr>
-          <tr class="grand"><td></td><td>Total</td>${showHours ? '<td></td>' : ''}<td class="r amt">${money(t.total)}</td></tr>
+          <tr><td>${type === 'hourly' ? 'Estimate' : 'Subtotal'}</td>${showHours ? `<td class="r">${t.hours || ''}</td>` : ''}<td class="r">${money(t.subtotal)}</td></tr>
+          <tr><td>VAT at 20%</td>${showHours ? '<td></td>' : ''}<td class="r">${money(t.vat)}</td></tr>
+          <tr class="grand"><td>Total</td>${showHours ? '<td></td>' : ''}<td class="r amt">${money(t.total)}</td></tr>
         </tfoot>` : ''}
       </table>
     </div>
@@ -113,26 +152,21 @@ export function renderQuote(q, { base, pdf = false }) {
     <h3 class="sub-h">Payment stages</h3>
     <div class="table-wrap">
       <table>
-        <thead><tr><th>Stage</th><th>Due</th><th class="r">+ VAT</th><th class="r">Total</th></tr></thead>
+        <thead><tr><th>Stage</th><th class="r w-detail">+ VAT</th><th class="r w-amt">Total</th></tr></thead>
         <tbody>${stages
-          .map((s) => `<tr><td>${esc(stageLabel(s))}</td><td>${esc(s.due)}</td><td class="r">${money(s.net)}</td><td class="r">${money(s.gross)}</td></tr>`)
+          .map((s) => `<tr><td>${esc(`${stageLabel(s)}, ${s.due.charAt(0).toLowerCase()}${s.due.slice(1)}`)}</td><td class="r">${money(s.net)}</td><td class="r">${money(s.gross)}</td></tr>`)
           .join('')}</tbody>
       </table>
     </div>` : ''}
   </section>`;
 
-  const deposit = stages[0];
-  const steps = [
-    ['Accept the quote', 'Accept online, using the button below.'],
-    ['Sign the contract', 'The contract opens straight after accepting, to sign online.'],
-    deposit
-      ? ['Pay the deposit', `${money(deposit.gross)} including VAT, then we book the kick-off call.`]
-      : ['Book the kick-off', 'We agree dates for each phase and get started.'],
-  ];
+  // Next steps: the three stage blocks, with the step the client is on picked out.
+  const steps = nextSteps(q, { depositInvoice });
+  if (expired) steps.items.forEach((it, i) => { it.state = 'next'; it.label = i ? 'Then' : 'Next'; });
 
   let action;
   if (signed) {
-    action = `<div class="status">Accepted and signed<span>Signed on ${esc(fmtDate(q.state.signedAt, 'long'))} by ${esc(q.state.signature?.name || '')}.</span></div>
+    action = `${afterSigningAction(q, { depositInvoice })}
       <a class="ghost" href="/quote/${esc(q.token)}/contract/">View the signed contract</a>`;
   } else if (expired) {
     action = `<div class="status error">This quote expired on ${esc(fmtDate(q.validUntil, 'long'))}<span>Email <b>${COMPANY.email}</b> for an updated quote.</span></div>`;
@@ -143,10 +177,8 @@ export function renderQuote(q, { base, pdf = false }) {
 
   const next = `
   <section class="sec full page-start" aria-labelledby="h-next">
-    <h2 id="h-next">${eyebrow('Next steps')}${signed ? 'Signed and ready' : 'Ready to start'}</h2>
-    <ol class="steps">${steps
-      .map(([h, p], i) => `<li${signed && i < 2 ? ' class="done"' : ''}><span class="big" aria-hidden="true">${String(i + 1).padStart(2, '0')}</span><h3>${esc(h)}</h3><p>${esc(p)}</p></li>`)
-      .join('')}</ol>
+    <h2 id="h-next">${eyebrow(steps.eyebrow)}${esc(steps.title)}</h2>
+    ${stageBlocks(steps.items)}
     <div class="act">${action}</div>
   </section>`;
 
@@ -185,6 +217,6 @@ export function renderQuote(q, { base, pdf = false }) {
     title: `Quote ${q.number}`,
     base,
     body,
-    bar: pdf ? '' : topBar(`<span>Quote for ${esc(q.client?.name || '')}</span><a href="/quote/${esc(q.token)}/quote.pdf">Download PDF</a>`),
+    bar: pdf ? '' : topBar(`<span>Quote for ${esc(q.client?.name || '')}</span>${downloadLink(`/quote/${q.token}/quote.pdf`)}`),
   });
 }

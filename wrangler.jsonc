@@ -8,12 +8,14 @@
   // nodejs_compat and the browser binding are for the client documents' PDFs (worker/docs/pdf.js).
   "compatibility_flags": ["nodejs_compat"],
   "browser": { "binding": "BROWSER" },
-  // Per-IP rate limits for docs.anthonyis.uk (worker/docs/security.js). Period is 10 or 60 seconds.
+  // Per-IP rate limits for docs.anthonyis.uk (worker/docs/security.js) and the contact form. Period is 10 or 60 seconds.
   "ratelimits": [
     { "name": "DOCS_RL_READ", "namespace_id": "26111301", "simple": { "limit": 60, "period": 60 } },
     { "name": "DOCS_RL_POST", "namespace_id": "26111302", "simple": { "limit": 20, "period": 60 } },
     { "name": "DOCS_RL_CODE", "namespace_id": "26111304", "simple": { "limit": 5, "period": 60 } },
-    { "name": "DOCS_RL_PDF", "namespace_id": "26111303", "simple": { "limit": 10, "period": 60 } }
+    { "name": "DOCS_RL_PDF", "namespace_id": "26111303", "simple": { "limit": 10, "period": 60 } },
+    // The contact form (worker/enquiry.js): each send also emails the person who filled it in.
+    { "name": "ENQUIRY_RL", "namespace_id": "26111305", "simple": { "limit": 3, "period": 60 } }
   ],
   // Plain settings for the enquiry form (worker/enquiry.js). Kept here so a deploy never wipes them.
   // The Resend key is a secret, set in the dashboard, and secrets survive deploys.

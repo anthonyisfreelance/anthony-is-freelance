@@ -3,6 +3,8 @@
 
 import puppeteer from '@cloudflare/puppeteer';
 
+export const PDF_SCALE = 0.9;
+
 export async function renderPdfs(env, htmlList) {
   // Local testing only: a placeholder PDF per page, so the flows run without a browser.
   if (env.DOCS_FAKE_PDF === '1') return htmlList.map(() => new TextEncoder().encode('%PDF-1.4\n% test\n'));
@@ -23,7 +25,9 @@ export async function renderPdfs(env, htmlList) {
       const page = await browser.newPage();
       await page.setContent(html, { waitUntil: 'networkidle0', timeout: 30000 });
       await page.evaluate(() => document.fonts.ready);
-      out.push(new Uint8Array(await page.pdf({ format: 'A4', printBackground: true, preferCSSPageSize: true })));
+      // Printed at 90% of the screen design, so an A4 page holds about what the sheet shows and the
+      // type comes out at a normal document size (about 9.5pt).
+      out.push(new Uint8Array(await page.pdf({ format: 'A4', printBackground: true, preferCSSPageSize: true, scale: PDF_SCALE })));
       await page.close();
     }
     return out;

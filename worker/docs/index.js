@@ -28,7 +28,7 @@
 
 import { esc, money, fmtDateTime, today, addDays, shell, masthead, eyebrow, COMPANY, PAYMENT_DAYS } from './shared.js';
 import { renderQuote, quoteTotals, stageAmounts, stageLabel } from './quote.js';
-import { renderContract, fingerprintSource } from './contract.js';
+import { renderContract, signedContractPage, fingerprintSource } from './contract.js';
 import { renderInvoice, invoiceTotals } from './invoice.js';
 import { renderAdmin, renderLogin } from './admin.js';
 import { getDoc, putDoc, createDoc, listDocs, getSettings, savePdf, sendEmail, nextInvoiceSeq, BridgeError } from './bridge.js';
@@ -74,7 +74,7 @@ export async function adminSession(request, env) {
 const fromHere = (request, url) => request.headers.get('origin') === url.origin;
 
 function message(base, title, text, status = 404) {
-  const body = `${masthead('Document', '')}<h1>${eyebrow('Anthony is Freelance')}${esc(title)}</h1><p style="margin-top:6mm">${esc(text)}</p>`;
+  const body = `${masthead('Document', '')}<h1>${eyebrow('Anthony is Freelance')}${esc(title)}</h1><p>${esc(text)}</p>`;
   return html(shell({ title, base, body }), status);
 }
 
@@ -123,8 +123,13 @@ export async function docs(request, env, ctx) {
     }
 
     if (doc.type === 'quote') {
-      if (!rest) return html(renderQuote(doc, { base }));
-      if (rest === 'contract') return html(contractPage(doc, { base, settings }));
+      // Pressing Accept on the quote opens the contract: the first time the client does, note it.
+      if (rest === 'contract' && !isAdmin && doc.state?.sentAt && !doc.state.acceptedAt && !doc.state.signedAt) {
+        doc.state.acceptedAt = new Date().toISOString();
+        ctx?.waitUntil(putDoc(env, doc).catch(() => {}));
+      }
+      if (!rest) return html(renderQuote(doc, { base, depositInvoice: await depositInvoiceOf(env, doc) }));
+      if (rest === 'contract') return html(contractPage(doc, { base, settings, depositInvoice: await depositInvoiceOf(env, doc) }));
       if (rest === 'quote.pdf') {
         return pdfOf(request, env, ctx, base, renderQuote(doc, { base, pdf: true }), `${fileBase(doc, 'Quote')}.pdf`);
       }
@@ -150,13 +155,25 @@ export async function docs(request, env, ctx) {
   }
 }
 
-// After signing, the contract page is the snapshot taken at the moment of signing.
-function contractPage(doc, { base, settings }) {
-  if (doc.state?.contractHtml) {
-    const bar = `<div class="bar"><a href="/quote/${esc(doc.token)}/">Back to the quote</a><a href="/quote/${esc(doc.token)}/contract.pdf">Download signed PDF</a></div>`;
-    return doc.state.contractHtml.replace('<body>\n', `<body>\n${bar}\n`);
-  }
+// After signing, the contract page is the snapshot taken at the moment of signing, with the
+// "what's next" panel above it on screen (signedContractPage in contract.js).
+function contractPage(doc, { base, settings, depositInvoice }) {
+  if (doc.state?.contractHtml) return signedContractPage(doc.state.contractHtml, doc, { depositInvoice });
   return renderContract(doc, { base, settings });
+}
+
+// The deposit invoice of a signed quote, once it has been sent to the client. Until then the
+// client is told it will follow by email, and never sees a draft.
+async function depositInvoiceOf(env, doc) {
+  const ref = (doc.state?.invoices || []).find((i) => Number(i.stage) === 0);
+  if (!doc.state?.signedAt || !ref?.token) return null;
+  try {
+    const inv = await getDoc(env, ref.token);
+    if (!inv || inv.type !== 'invoice' || inv.state?.withdrawnAt || !inv.state?.sentAt) return null;
+    return { token: inv.token, number: inv.number, paid: inv.state.status === 'paid', paidAt: inv.state.paidAt };
+  } catch {
+    return null;
+  }
 }
 
 /* ---------- Signing ---------- */
@@ -423,10 +440,10 @@ async function admin(request, env, url, parts, ctx) {
   }
 
   if (!session) return json({ ok: false, error: 'Please log in again.' }, 401);
-  // Signature designs being tried: one test email each, to Anthony only, from his Gmail.
+  // A test of the Gmail signature, to Anthony only, from his Gmail.
   if (action === 'test-signatures') {
-    for (const kind of ['headline', 'one-line']) await sendEmail(env, { to: [adminEmail(env)], ...signatureTest(kind) });
-    return json({ ok: true, message: `Two test emails sent to ${adminEmail(env)}.` });
+    await sendEmail(env, { to: [adminEmail(env)], ...signatureTest() });
+    return json({ ok: true, message: `Test email sent to ${adminEmail(env)}.` });
   }
   if (action !== 'action') return json({ ok: false, error: 'Not found' }, 404);
 

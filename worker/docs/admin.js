@@ -5,36 +5,52 @@ import { esc, money, fmtDate, eyebrow, masthead, shell, today, taxYear, COPY_SCR
 import { quoteTotals, stageAmounts, stageLabel } from './quote.js';
 import { invoiceTotals } from './invoice.js';
 
+// Layout follows the Figma admin page: every row shares one set of column widths, so each column
+// starts on the same line, and the buttons run Open, the next step (blue), other actions, then the
+// quiet text links.
 const ADMIN_CSS = `
 .sheet { max-width: 1180px; }
+.sheet > * + * { margin-top: 40px; }
 .bar { max-width: 1180px; }
-h1 { width: auto; }
-.admin-table td, .admin-table th { padding-right: 14px; }
-.admin-table td { vertical-align: middle; }
-.admin-table .group td { padding-top: 18px; border-top: 1px solid var(--ink); font-size: 15px; text-transform: uppercase; }
-.pill { display: inline-block; padding: 3px 8px; border: 1px solid var(--line); font: 500 11px var(--display); letter-spacing: 0.02em; white-space: nowrap; }
-.pill.draft { color: var(--muted); }
+.years { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
+.years a { padding: 8px 12px; border: 1px solid var(--line); background: var(--paper); color: var(--ink); font: 500 14px/1 var(--display); text-transform: uppercase; text-decoration: none; }
+.years a[aria-current="page"] { border-color: var(--ink); background: var(--ink); color: var(--paper); }
+.years a:hover { border-color: var(--ink); }
+.totals { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px; margin-bottom: 0; }
+.totals dt { font: 500 14px/1.3 var(--display); letter-spacing: 0.02em; color: var(--muted); }
+.totals dd { margin: 4px 0 0; font: 500 26px/1.1 var(--display); text-transform: uppercase; color: var(--blue); }
+.adm { display: flex; flex-direction: column; gap: 40px; }
+.adm-head, .adm-row { display: flex; align-items: center; gap: 16px; border-top: 1px solid var(--line); font: 500 14px/1.3 var(--display); letter-spacing: 0.02em; }
+.adm-head { padding: 24px 0 12px; color: var(--muted); }
+.adm-row { padding: 12px 0; }
+.adm-client { display: flex; flex-direction: column; gap: 12px; }
+.adm-client h2 { padding: 24px 0 8px; border-top: 1px solid var(--line); font-size: 22px; line-height: 1.3; text-transform: uppercase; }
+.c-doc { flex: 0 0 176px; min-width: 0; overflow-wrap: anywhere; }
+.c-doc span { display: block; color: var(--muted); }
+.c-proj { flex: 0 0 150px; min-width: 0; }
+.c-status { flex: 0 0 160px; min-width: 0; }
+.c-amt { flex: 0 0 110px; font-size: 18px; line-height: 1.4; letter-spacing: 0; }
+.adm-head .c-amt { font-size: 14px; line-height: 1.3; letter-spacing: 0.02em; }
+.c-act { flex: 1 1 0; min-width: 0; display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; }
+/* Nothing left to do (paid or withdrawn): the row fades, its status and buttons stay readable. */
+.adm-row.done .c-doc, .adm-row.done .c-proj, .adm-row.done .c-amt { opacity: 0.4; }
+.pill { display: inline-block; padding: 4px 8px; border: 1px solid var(--line); font: 500 11px/1 var(--display); letter-spacing: 0.02em; color: var(--muted); }
 .pill.sent, .pill.viewed { border-color: var(--blue); color: var(--blue); }
-.pill.signed, .pill.paid { background: var(--ink); border-color: var(--ink); color: var(--paper); }
-.pill.overdue, .pill.unfinished { border-color: #c4001a; color: #c4001a; }
-.pill.withdrawn { color: var(--muted); text-decoration: line-through; }
-.tools { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6mm; }
-.years { display: flex; flex-wrap: wrap; gap: 0 24px; margin-top: 8mm; border-bottom: 1px solid var(--line); }
-.years a { padding: 0 0 10px; margin-bottom: -1px; border-bottom: 2px solid transparent; font: 500 15px var(--display); letter-spacing: 0.02em; color: var(--muted); text-decoration: none; }
-.years a[aria-current="page"] { color: var(--ink); border-color: var(--ink); }
-.years a:hover { color: var(--ink); }
-.totals { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; margin: 6mm 0 0; padding-bottom: 10px; }
-.totals dt { font: 500 var(--label) var(--display); letter-spacing: 0.02em; color: var(--muted); }
-.totals dd { margin: 2px 0 0; font: 500 20px/1.1 var(--display); }
-.totals .overdue dd { color: #c4001a; }
-@media (max-width: 720px) { .totals { grid-template-columns: 1fr 1fr; } }
-tr.withdrawn td { color: var(--muted); }
-.actions { display: flex; gap: 6px; flex-wrap: wrap; justify-content: flex-end; }
-.ghost.small { padding: 6px 9px; font-size: 11px; }
-.ghost.primary { background: var(--blue); border-color: var(--blue); color: #fff; }
-.login { max-width: 420px; display: flex; flex-direction: column; gap: 12px; margin-top: 8mm; }
-.login input { padding: 10px 12px; border: 1px solid var(--line); font: 500 20px var(--display); letter-spacing: 0.3em; text-align: center; }
-.empty { margin-top: 8mm; color: var(--muted); }
+.pill.signed, .pill.paid { border-color: var(--ink); color: var(--ink); }
+.pill.overdue, .pill.unfinished { border-color: var(--red); color: var(--red); }
+.tools { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; padding-top: 24px; border-top: 1px solid var(--line); }
+.tools div { display: flex; flex-wrap: wrap; gap: 8px; }
+.login { max-width: 420px; display: flex; flex-direction: column; gap: 12px; }
+.login input { width: 100%; padding: 10px 12px; border: 1px solid var(--line); border-radius: 0; font: 500 20px var(--display); letter-spacing: 0.3em; text-align: center; }
+.empty { color: var(--muted); }
+@media (max-width: 900px) {
+  .totals { grid-template-columns: 1fr 1fr; gap: 16px; }
+  .adm-head { display: none; }
+  .adm-row { flex-wrap: wrap; gap: 8px 16px; }
+  .c-doc, .c-proj { flex: 1 1 40%; }
+  .c-status, .c-amt { flex: 0 0 auto; }
+  .c-act { flex: 1 1 100%; }
+}
 `;
 
 const ADMIN_SCRIPT = `
@@ -79,7 +95,7 @@ export function renderLogin({ base, to }) {
     <button type="button" class="btn" id="send-code">Email me a code</button>
     <div id="code-step" hidden>
       <input id="code" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000" aria-label="Login code">
-      <p style="margin-top:10px"><button type="button" class="btn" id="verify">Log in</button></p>
+      <p style="margin-top:12px"><button type="button" class="btn" id="verify">Log in</button></p>
     </div>
     <div id="msg" class="status" role="status" hidden></div>
   </div>`;
@@ -103,20 +119,22 @@ function statusOf(d) {
   return ['draft', 'Draft'];
 }
 
+// The buttons for one document, in a fixed order so they line up down the page: Open, the one next
+// step (blue), any other actions (outlined), then Copy link and Withdraw as text links.
 function actions(d, base) {
   const s = d.state || {};
   const link = `${base}/${d.type}/${d.token}/`;
-  const a = [];
-  const btn = (action, label, extra = '', primary = false) =>
-    `<button type="button" class="ghost small${primary ? ' primary' : ''}" data-action="${action}" data-token="${esc(d.token)}" data-label="${esc(label)}" ${extra}>${esc(label)}</button>`;
+  const a = [`<a class="ghost small" href="${esc(link)}" target="_blank" rel="noopener">Open</a>`];
+  const btn = (action, label, extra = '', kind = 'ghost small') =>
+    `<button type="button" class="${kind}" data-action="${action}" data-token="${esc(d.token)}" data-label="${esc(label)}" ${extra}>${esc(label)}</button>`;
+  const primary = 'ghost small primary';
   if (s.withdrawnAt) {
     a.push(btn('restore', 'Restore', 'data-wait="Restoring…"'));
-    a.push(`<a class="ghost small" href="${esc(link)}" target="_blank" rel="noopener">Open</a>`);
-    return `<div class="actions">${a.join('')}</div>`;
+    return `<div class="c-act">${a.join('')}</div>`;
   }
   if (d.type === 'quote') {
-    if (!s.signedAt) a.push(btn('send-quote', s.sentAt ? 'Send again' : 'Send quote', 'data-wait="Saving the PDF to Drive and emailing it from your Gmail…"', !s.sentAt));
-    if (s.signedAt && !s.finalisedAt) a.push(btn('finalise', 'Finish signing steps', 'data-wait="Making the signed PDFs, saving to Drive and emailing…"', true));
+    if (!s.signedAt) a.push(btn('send-quote', s.sentAt ? 'Send again' : 'Send quote', 'data-wait="Saving the PDF to Drive and emailing it from your Gmail…"', s.sentAt ? undefined : primary));
+    if (s.signedAt && !s.finalisedAt) a.push(btn('finalise', 'Finish signing', 'data-wait="Making the signed PDFs, saving to Drive and emailing…"', primary));
     if (s.signedAt) {
       const done = new Set((s.invoices || []).map((i) => Number(i.stage)));
       stageAmounts(d).forEach((st, i) => {
@@ -124,18 +142,17 @@ function actions(d, base) {
       });
     }
   } else {
-    if (!s.sentAt) a.push(btn('send-invoice', 'Send invoice', 'data-wait="Saving the PDF to Drive and emailing it from your Gmail…"', true));
+    if (!s.sentAt) a.push(btn('send-invoice', 'Send invoice', 'data-wait="Saving the PDF to Drive and emailing it from your Gmail…"', primary));
     else if (s.status !== 'paid') {
       a.push(btn('mark-paid', 'Mark paid', 'data-wait="Marking as paid…"'));
       a.push(btn('send-invoice', 'Send again', 'data-wait="Emailing it again…"'));
     }
   }
-  a.push(`<a class="ghost small" href="${esc(link)}" target="_blank" rel="noopener">Open</a>`);
-  a.push(`<button type="button" class="ghost small" data-copy="${esc(link)}">Copy link</button>`);
+  a.push(`<button type="button" class="textbtn" data-copy="${esc(link)}">Copy link</button>`);
   if (!(d.type === 'quote' && s.signedAt) && s.status !== 'paid') {
-    a.push(btn('withdraw', 'Withdraw', 'data-confirm="Sure? Press again" data-wait="Withdrawing…"'));
+    a.push(btn('withdraw', 'Withdraw', 'data-confirm="Sure? Press again" data-wait="Withdrawing…"', 'textbtn'));
   }
-  return `<div class="actions">${a.join('')}</div>`;
+  return `<div class="c-act">${a.join('')}</div>`;
 }
 
 // Tax years end on 31 January (taxYear in shared.js), the same as the Invoices folders in Drive.
@@ -168,7 +185,7 @@ export function renderAdmin({ base, docs, error, year, path = '/admin/' }) {
     <div><dt>Invoiced, inc. VAT</dt><dd>${money(sum(invoices), { pennies: true })}</dd></div>
     <div><dt>Paid</dt><dd>${money(sum(paid), { pennies: true })}</dd></div>
     <div><dt>Waiting for payment</dt><dd>${money(sum(unpaid), { pennies: true })}</dd></div>
-    <div class="${overdue.length ? 'overdue' : ''}"><dt>Overdue</dt><dd>${money(sum(overdue), { pennies: true })}</dd></div>
+    <div><dt>Overdue</dt><dd>${money(sum(overdue), { pennies: true })}</dd></div>
   </dl>`;
   const tabs = `<nav class="years" aria-label="Tax years">${years
     .map((y) => `<a href="${esc(path)}?year=${yearParam(y)}"${y === current ? ' aria-current="page"' : ''}>${esc(yearLabel(y))}${y === taxYear(today()) ? ' (this year)' : ''}</a>`)
@@ -177,36 +194,40 @@ export function renderAdmin({ base, docs, error, year, path = '/admin/' }) {
   const rows = ordered
     .map(([client, list]) => {
       list.sort((a, b) => (a.type === b.type ? (b.issued || '').localeCompare(a.issued || '') : a.type === 'quote' ? -1 : 1));
-      return `<tr class="group"><td colspan="5">${esc(client)}</td></tr>${list
+      return `<section class="adm-client"><h2>${esc(client)}</h2>${list
         .map((d) => {
           const [cls, label] = statusOf(d);
           const amount = d.type === 'quote' ? quoteTotals(d).total : invoiceTotals(d).total;
-          return `<tr class="${cls === 'withdrawn' ? 'withdrawn' : ''}">
-            <td><span class="muted">${d.type === 'quote' ? 'Quote' : 'Invoice'}</span><br>${esc(d.number)}</td>
-            <td>${esc(d.title || d.project || '')}</td>
-            <td><span class="pill ${cls}">${esc(label)}</span></td>
-            <td class="r">${amount ? money(amount, { pennies: d.type === 'invoice' }) : ''}</td>
-            <td class="r">${actions(d, base)}</td>
-          </tr>`;
+          return `<div class="adm-row${cls === 'withdrawn' || cls === 'paid' ? ' done' : ''}">
+            <div class="c-doc"><span>${d.type === 'quote' ? 'Quote' : 'Invoice'}</span>${esc(d.number)}</div>
+            <div class="c-proj">${esc(d.title || d.project || '')}</div>
+            <div class="c-status"><span class="pill ${cls}">${esc(label)}</span></div>
+            <div class="c-amt">${amount ? money(amount, { pennies: d.type === 'invoice' }) : ''}</div>
+            ${actions(d, base)}
+          </div>`;
         })
-        .join('')}`;
+        .join('')}</section>`;
     })
     .join('');
 
   const body = `
   ${masthead('Documents', 'Admin')}
-  <h1>${eyebrow('Anthony is Freelance')}Quotes, contracts and invoices</h1>
+  <div>
+    <h1>${eyebrow('Anthony is Freelance')}Quotes, contracts and invoices</h1>
+    ${tabs}
+  </div>
   <div id="msg" class="status" role="status" ${error ? '' : 'hidden'}>${esc(error || '')}</div>
-  ${tabs}
   ${totals}
   ${inYear.length
-    ? `<section class="sec full"><div class="table-wrap"><table class="admin-table">
-        <thead><tr><th>Document</th><th>Project</th><th>Status</th><th class="r">Inc. VAT</th><th class="r">Actions</th></tr></thead>
-        <tbody>${rows}</tbody></table></div></section>`
+    ? `<div class="adm">
+        <div class="adm-head"><div class="c-doc">Document</div><div class="c-proj">Project</div><div class="c-status">Status</div><div class="c-amt">Inc. VAT</div><div class="c-act">Actions</div></div>
+        ${rows}</div>`
     : `<p class="empty">No documents in ${esc(yearLabel(current))} yet. New quotes and invoices appear here once their data file is in the Drive folder.</p>`}
   <div class="tools">
-    <a class="ghost" href="/admin/samples/">Sample documents and emails</a>
-    <a class="ghost" href="/admin/samples/signature/">Gmail signature</a>
+    <div>
+      <a class="ghost" href="/admin/samples/">Sample documents and emails</a>
+      <a class="ghost" href="/admin/samples/signature/">Gmail signature</a>
+    </div>
     <button type="button" class="ghost" id="logout">Log out</button>
   </div>
   `;

@@ -3,17 +3,18 @@
 // company details, a drawn, typed or uploaded signature, and a one-time code sent to the signer.
 
 import {
-  esc, money, fmtDate, fmtDateTime, today, eyebrow, masthead, legalFooter, shell, topBar, ARROW, COMPANY,
+  esc, money, fmtDate, fmtDateTime, today, eyebrow, masthead, legalFooter, shell, topBar, backLink, downloadLink,
+  stageBlocks, STAGE_CSS, ARROW, COMPANY,
 } from './shared.js';
-import { quoteTotals, stageAmounts, stageLabel, pricingSummary } from './quote.js';
+import { quoteTotals, stageAmounts, stageLabel, pricingSummary, nextSteps, afterSigningAction } from './quote.js';
 import { TERMS, OPTIONAL, OPTIONAL_NAMES, CONTRACT_VERSION } from './terms.js';
 
 const bold = (s) => esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
 
 function clauseHtml([n, title, paras]) {
-  return `<div class="clause"><h3>${esc(n)}. ${esc(title)}</h3>${paras
+  return `<div class="clause"><h3>${esc(n)}. ${esc(title)}</h3><div>${paras
     .map((p) => (typeof p === 'string' ? `<p>${bold(p)}</p>` : `<ul>${p.list.map((li) => `<li>${bold(li)}</li>`).join('')}</ul>`))
-    .join('')}</div>`;
+    .join('')}</div></div>`;
 }
 
 // The client's details: from the signature once signed, else from the quote, else blanks.
@@ -117,9 +118,11 @@ function signPanel(q) {
   const contact = c.contact || {};
   const f = (id, label, value = '', attrs = '') =>
     `<label class="field" for="${id}"><span>${label}</span><input id="${id}" name="${id}" value="${esc(value)}" ${attrs}></label>`;
+  const steps = nextSteps(q, { step: 2 });
   return `
   <section class="sec full screen-only sign" id="sign" aria-labelledby="h-sign" data-token="${esc(q.token)}">
-    <h2 id="h-sign">${eyebrow('Sign online')}Sign the contract</h2>
+    <h2 id="h-sign">${eyebrow(steps.eyebrow)}${esc(steps.title)}</h2>
+    ${stageBlocks(steps.items)}
     <form id="sign-form" novalidate>
       <p class="form-h">Your company</p>
       <div class="grid">
@@ -162,52 +165,50 @@ function signPanel(q) {
 }
 
 const CONTRACT_CSS = `
-.parties p + p { margin-top: 6px; }
-.keep { break-inside: avoid; }
-table.kv th { width: 44mm; padding: 7px 8px 7px 0; border-top: 1px solid var(--line); vertical-align: top; }
-table.kv tr:first-child th, table.kv tr:first-child td { border-top: 0; }
-.terms { columns: 2; column-gap: var(--gap); }
-.clause { break-inside: avoid-column; margin-bottom: 14px; }
-.clause h3 { font-size: 13px; text-transform: uppercase; margin-bottom: 4px; }
-.clause p { margin-bottom: 5px; }
-.clause ul { margin: 0 0 5px; padding-left: 1.1em; }
+.parties p + p { margin-top: 1.5em; }
+/* Terms: clause title on the left, wording in the main column, as in the Figma contract template. */
+.clause { display: grid; grid-template-columns: minmax(0, 1fr) var(--main); column-gap: 8px; padding-bottom: 24px; }
+.clause:last-child { padding-bottom: 0; }
+.clause h3 { font-size: 14px; line-height: 1.3; }
+.clause p, .clause ul { margin: 0 0 6px; }
+.clause ul { padding-left: 1.1em; }
 .clause li { margin-bottom: 2px; }
+.clause > div > :last-child { margin-bottom: 0; }
 .sigs { display: grid; grid-template-columns: 1fr 1fr; gap: var(--gap); }
-.sig-for { font-family: var(--display); font-weight: 500; font-size: 13px; margin-bottom: 4mm; }
-.sig-img { display: block; height: 22mm; width: auto; max-width: 100%; object-fit: contain; object-position: left bottom; border-bottom: 1px solid var(--line); padding-bottom: 2mm; }
-.sig-line { height: 22mm; border-bottom: 1px solid var(--line); }
-.sig dl { margin: 3mm 0 0; }
-.sig dl div { display: grid; grid-template-columns: 22mm 1fr; padding: 3px 0; }
-.sig dt { font-family: var(--display); font-weight: 500; font-size: var(--label); color: var(--muted); }
-.sig dd { margin: 0; font-family: var(--display); font-weight: 500; }
+.sig-for { font: 500 14px/1.3 var(--display); margin-bottom: 16px; }
+.sig-img { display: block; height: 83px; width: auto; max-width: 100%; object-fit: contain; object-position: left bottom; border-bottom: 1px solid var(--line); padding-bottom: 8px; }
+.sig-line { height: 83px; border-bottom: 1px solid var(--line); }
+.sig dl { margin: 16px 0 0; display: flex; flex-direction: column; gap: 4px; }
+.sig dl div { display: grid; grid-template-columns: 83px 1fr; }
+.sig dt, .sig dd { margin: 0; font: 500 14px/1.2 var(--display); text-transform: uppercase; }
+.sig dt { color: var(--muted); }
 
-.sign form { display: flex; flex-direction: column; gap: 10px; }
-.form-h { font-family: var(--display); font-weight: 500; font-size: 13px; text-transform: uppercase; margin-top: 6px; }
-.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px var(--gap); }
+.sign form { display: flex; flex-direction: column; gap: 12px; margin-top: 24px; }
+.form-h { font: 500 16px/1 var(--display); text-transform: uppercase; margin-top: 12px; }
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px var(--gap); }
 .field { display: flex; flex-direction: column; gap: 4px; }
 .field.wide { grid-column: 1 / -1; }
-.field span { font-family: var(--display); font-weight: 500; font-size: var(--label); color: var(--muted); letter-spacing: 0.02em; }
-.field input, .field textarea, .sig-type, #code { width: 100%; padding: 10px 12px; border: 1px solid var(--line); border-radius: 0; background: var(--paper); color: var(--ink); font: 500 15px var(--display); }
+.field span { font: 500 14px/1.3 var(--display); letter-spacing: 0.02em; color: var(--muted); }
+.field input, .field textarea, .sig-type, #code { width: 100%; padding: 10px 12px; border: 1px solid var(--line); border-radius: 0; background: var(--paper); color: var(--ink); font: 500 16px/1.3 var(--display); }
 .field input:focus, .field textarea:focus, .sig-type:focus, #code:focus { outline: 2px solid var(--blue); outline-offset: -1px; border-color: var(--blue); }
-.tabs { display: flex; gap: 6px; flex-wrap: wrap; }
-.tab { padding: 7px 12px; border: 1px solid var(--line); background: var(--paper); font: 500 12px var(--display); letter-spacing: 0.02em; cursor: pointer; color: var(--ink); }
+.tabs { display: flex; gap: 8px; flex-wrap: wrap; }
+.tab { padding: 8px 12px; border: 1px solid var(--line); border-radius: 0; background: var(--paper); font: 500 14px/1 var(--display); text-transform: uppercase; cursor: pointer; color: var(--ink); }
 .tab[aria-pressed="true"] { border-color: var(--ink); background: var(--ink); color: var(--paper); }
 .tab.clear { margin-left: auto; }
 .pad { position: relative; border: 1px dashed var(--muted); background: var(--paper); }
 #sig { display: block; width: 100%; height: auto; aspect-ratio: 10 / 3; touch-action: none; cursor: crosshair; }
 .sig-type { position: absolute; left: 12px; right: 12px; bottom: 12px; width: auto; }
 .agree { display: flex; gap: 10px; align-items: flex-start; }
-.agree input { margin-top: 4px; width: 16px; height: 16px; flex: none; accent-color: var(--blue); }
-.code-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.agree input { margin-top: 3px; width: 16px; height: 16px; flex: none; accent-color: var(--blue); }
+.sign .act { margin-top: 12px; }
+.code-row { display: flex; gap: 12px; flex-wrap: wrap; }
+.code-row .btn { flex: 1 1 200px; width: auto; }
 #code { width: 160px; letter-spacing: 0.3em; font-size: 20px; text-align: center; }
 
 @media (max-width: 720px) {
-  .terms { columns: 1; }
-  .sigs, .grid { grid-template-columns: 1fr; }
-  table.kv th { width: 34%; }
-}
-@media print {
-  .terms { columns: 2; }
+  .clause { grid-template-columns: 1fr; row-gap: 4px; }
+  .sigs, .grid { grid-template-columns: 1fr; gap: 24px; }
+  .grid { gap: 12px; }
 }
 `;
 
@@ -324,7 +325,7 @@ export function renderContract(q, { base, settings, pdf = false }) {
     <p class="note">The Project Schedule is read together with the terms below and the Quote${pdf ? ', which is attached' : ` (<a href="/quote/${esc(q.token)}/">view the Quote</a>)`}.</p>
   </section>
 
-  <section class="sec full" aria-labelledby="h-terms">
+  <section class="sec full page-start" aria-labelledby="h-terms">
     <h2 id="h-terms">${eyebrow('Terms')}Terms of the agreement</h2>
     <div class="terms">${TERMS.map(clauseHtml).join('')}</div>
   </section>
@@ -336,19 +337,19 @@ export function renderContract(q, { base, settings, pdf = false }) {
 
   <section class="sec full keep" aria-labelledby="h-sigs">
     <h2 id="h-sigs">${eyebrow('Signatures')}Agreed and signed</h2>
-    <p class="note" style="margin:0 0 5mm">By signing, both parties agree to this Agreement, the Project Schedule and the Quote.</p>
+    <p class="note" style="margin:0 0 24px">By signing, both parties agree to this Agreement, the Project Schedule and the Quote.</p>
     <div class="sigs">${designerSignature(q, settings)}${clientSignature(q)}</div>
   </section>
 
   ${signed || pdf ? '' : expired
-    ? `<div class="status error screen-only" style="margin-top:8mm">This quote expired on ${esc(fmtDate(q.validUntil, 'long'))}<span>Email <b>${COMPANY.email}</b> for an updated quote before signing.</span></div>`
+    ? `<div class="status error screen-only">This quote expired on ${esc(fmtDate(q.validUntil, 'long'))}<span>Email <b>${COMPANY.email}</b> for an updated quote before signing.</span></div>`
     : signPanel(q)}
   ${signingRecord(q)}
   ${legalFooter()}`;
 
   const bar = pdf
     ? ''
-    : topBar(`<a href="/quote/${esc(q.token)}/">Back to the quote</a>${signed ? `<a href="/quote/${esc(q.token)}/contract.pdf">Download signed PDF</a>` : ''}`);
+    : topBar(`${backLink(`/quote/${q.token}/`, 'Back to the quote')}${signed ? downloadLink(`/quote/${q.token}/contract.pdf`, 'Download signed PDF') : ''}`);
 
   return shell({
     title: `Contract ${q.number}`,
@@ -364,4 +365,37 @@ export function renderContract(q, { base, settings, pdf = false }) {
 export function fingerprintSource(q) {
   const { state, token, ...content } = q;
   return JSON.stringify({ version: CONTRACT_VERSION, terms: TERMS, optional: optionalClauses(q), quote: content });
+}
+
+// After signing, the contract page is the snapshot taken at the moment of signing, exactly as it
+// was signed. On screen only, a panel sits above it showing step 3 (pay the deposit), and the bar
+// with the PDF link. The snapshot carries the styles it was signed with, so the panel brings its own.
+const mintFont = '"Mint Grotesk Display", "Arial Narrow", ui-sans-serif, system-ui, sans-serif';
+const AFTER_CSS = `
+.bar { max-width: 794px; margin: 0 auto 12px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 16px; font: 500 14px/1.3 ${mintFont}; letter-spacing: 0.02em; color: #111111; }
+.bar a { display: inline-flex; align-items: center; gap: 4px; color: #111111; text-decoration: none; }
+.bar a.up { text-transform: uppercase; }
+.bar svg { width: 18px; height: 18px; flex: none; }
+.after-sign { max-width: 794px; margin: 0 auto 12px; padding: 24px 64px 32px; background: #ffffff; color: #111111; }
+.after-sign .as-eyebrow { margin: 0 0 4px; font: 500 14px/1.3 ${mintFont}; color: #393939; }
+.after-sign h2 { margin: 0 0 24px; font: 500 16px/1 ${mintFont}; text-transform: uppercase; }
+.after-sign .as-act { margin-top: 24px; display: flex; flex-direction: column; align-items: flex-start; gap: 24px; }
+.after-sign .as-act:empty { display: none; }
+.after-sign .btn { display: flex; width: 100%; min-width: 0; min-height: 46px; align-items: center; justify-content: space-between; gap: 8px; padding: 14px 16px; border: 0; background: #0059ff; color: #ffffff; font: 500 16px/1 ${mintFont}; letter-spacing: 0; text-transform: uppercase; text-decoration: none; }
+.after-sign .btn svg { width: 18px; height: 18px; flex: none; }
+.after-sign .contact { margin: 0; font: 500 14px/1.3 ${mintFont}; }
+@media (max-width: 720px) { .after-sign { padding: 24px 16px; } .bar { padding: 12px 16px 0; } }
+@media print { .after-sign { display: none !important; } }
+${STAGE_CSS}`;
+
+export function signedContractPage(snapshot, q, { depositInvoice } = {}) {
+  const steps = nextSteps(q, { depositInvoice });
+  const bar = `<div class="bar">${backLink(`/quote/${q.token}/`, 'Back to the quote')}${downloadLink(`/quote/${q.token}/contract.pdf`, 'Download signed PDF')}</div>`;
+  const panel = `<section class="after-sign" aria-labelledby="h-after">
+  <p class="as-eyebrow">+ ${esc(steps.eyebrow)} +</p>
+  <h2 id="h-after">${esc(steps.title)}</h2>
+  ${stageBlocks(steps.items)}
+  <div class="as-act">${afterSigningAction(q, { depositInvoice })}</div>
+</section>`;
+  return snapshot.replace('<body>\n', `<body>\n<style>${AFTER_CSS}</style>\n${bar}\n${panel}\n`);
 }
