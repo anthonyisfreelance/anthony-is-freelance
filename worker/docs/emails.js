@@ -63,13 +63,29 @@ const codeBlock = (code) =>
 // The sign-off and signature, the same as the Gmail signature (signatureHtml below).
 function signOff(greeting = 'Thanks,') {
   return `${p(`${esc(greeting)}<br>Anthony`)}
-<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:28px 0 0">${signatureRows()}</table>`;
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" style="margin:28px 0 0">${signatureRows({ adaptive: true })}</table>`;
 }
 
-function signatureRows() {
+// The logo in dark mode. Gmail's apps turn the white page dark but leave pictures alone, so a dark
+// logo on a white picture shows as a white box. In the emails (adaptive), Gmail gets a second copy
+// of the logo, white on black, blended with whatever is behind it ("difference"): on a white page it
+// comes out as the dark logo, on a dark page as the light logo, with no box either way. Only Gmail
+// sees it (the "u + .body" rules in layout's <style>); every other mail app keeps the plain picture.
+// The signature pasted into Gmail's settings keeps the plain picture too, as Gmail strips the styling.
+function logoCell(adaptive) {
+  const img = (file, extra = '') =>
+    `<img src="${SITE}/email/${file}" width="118" height="30" alt="Anthony is Freelance" ${extra}>`;
+  const plain = img('logo.png', `${adaptive ? 'class="logo-plain" ' : ''}style="display:block;width:118px;height:30px;border:0"`);
+  const blend = adaptive
+    ? `<!--[if !mso]><!-->${img('logo-blend.png', 'class="logo-blend" style="display:none;width:118px;height:30px;border:0"')}<!--<![endif]-->`
+    : '';
+  return `<tr><td bgcolor="#FFFFFF" style="padding:0 0 10px;background:#FFFFFF"><a href="${SITE}/" target="_blank" style="text-decoration:none">${plain}${blend}</a></td></tr>`;
+}
+
+function signatureRows({ adaptive = false } = {}) {
   const line = `font-family:${DISPLAY};font-size:13px;font-weight:500;line-height:1.5;letter-spacing:0.02em;color:${MUTED}`;
   const link = `color:${MUTED};text-decoration:none`;
-  return `<tr><td style="padding:0 0 10px"><a href="${SITE}/" target="_blank" style="text-decoration:none"><img src="${SITE}/email/logo.png" width="118" height="30" alt="Anthony is Freelance" style="display:block;width:118px;height:30px;border:0"></a></td></tr>
+  return `${logoCell(adaptive)}
 <tr><td style="padding:0;font-family:${DISPLAY};font-size:14px;font-weight:500;line-height:1.5;letter-spacing:0.02em;color:${INK}">${esc(PERSON.name)}</td></tr>
 <tr><td style="padding:0;${line}">${esc(PERSON.role)}<br>${esc(PERSON.award)}</td></tr>
 <tr><td style="${line};padding:6px 0 0"><a href="tel:${PERSON.phoneHref}" style="${link}">${esc(PERSON.phone)}</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="${SITE}/" target="_blank" style="${link}">${esc(PERSON.site)}</a></td></tr>`;
@@ -89,9 +105,11 @@ function layout({ preheader, title, body, footer = true }) {
 @font-face { font-family: "Source Serif Pro"; src: url(${SITE}/fonts/source-serif-pro-400.woff2) format("woff2"); font-weight: 400; }
 a { color: ${BLUE}; }
 @media (max-width: 600px) { .wrap { padding: 24px 20px !important; } }
+u + .body .logo-plain { display: none !important; }
+u + .body .logo-blend { display: block !important; mix-blend-mode: difference; }
 </style>
 </head>
-<body style="margin:0;padding:0;background:#FFFFFF">
+<body class="body" style="margin:0;padding:0;background:#FFFFFF">
 <div style="display:none;max-height:0;overflow:hidden;opacity:0;color:#FFFFFF">${esc(preheader)}</div>
 <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#FFFFFF" style="background:#FFFFFF">
 <tr><td align="left">
