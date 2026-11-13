@@ -1,0 +1,114 @@
+{
+ "seoTitle": "Shopify Product Discovery: How I Designed It for 5,000 Products",
+ "description": "How I designed product discovery for Drink Finder, a 5,000-product Shopify store: navigation, search, a comparison switch and clearer offers.",
+ "published": "2026-11-13",
+ "modified": "2026-11-13",
+ "hero": {
+  "file": "Drink-finder-comparison-toggle.webp",
+  "alt": "Drink Finder Shopify collection page with the comparison toggle off and on"
+ },
+ "faqHeading": "Shopify product discovery questions.",
+ "blocks": [
+  {
+   "type": "h2",
+   "text": "Introduction",
+   "id": "introduction"
+  },
+  {
+   "type": "html",
+   "html": "<p>Product discovery is how a customer gets from “I fancy a red” to the right bottle in their basket. On a small store it barely matters. On a store with thousands of products, it decides whether people buy at all.</p>\n<p>I’m Anthony, a UK <a href=\"/\">freelance Shopify designer</a>. This is how I designed product discovery for <a href=\"/work/drink-finder/\">Drink Finder</a>, the online shop of Constantine Stores, a Cornish wine and spirits merchant with more than 5,000 products for retail and trade buyers. The new store went live on Shopify in August 2025 and won UK eCommerce Website of the Year at the UK eCommerce Awards 2026.</p>"
+  },
+  {
+   "type": "h2",
+   "text": "The problem with a big range",
+   "id": "the-problem-with-a-big-range"
+  },
+  {
+   "type": "html",
+   "html": "<p>The old site was dated, hard to use on a phone and hard to find your way around. Shoppers had to open bottle after bottle to compare them, and baskets were being abandoned.</p>\n<p>There was no sales target. The brief was to make the range easy to explore and come through the move to Shopify in better shape than we went in. Every design decision served one job: help shoppers find the right bottle, then make it easy to buy more than one.</p>"
+  },
+  {
+   "type": "h2",
+   "text": "1. Clear what’s in the way first",
+   "id": "clear-whats-in-the-way-first"
+  },
+  {
+   "type": "html",
+   "html": "<p>Before designing anything, I reviewed every screen of the old store at real phone sizes. Sticky sign-up buttons and a chat widget were covering the buttons that mattered, including the way to checkout.</p>\n<p>So the offers and events moved into a button in the header. That freed the announcement bar for trust messages and cleared the screen for shopping. It’s the least glamorous fix in the project and one of the most important. No navigation is good enough if something is sitting on top of it.</p>"
+  },
+  {
+   "type": "h2",
+   "text": "2. Navigation built around how people shop",
+   "id": "navigation-built-around-how-people-shop"
+  },
+  {
+   "type": "html",
+   "html": "<p>I designed the mobile navigation from scratch. The menu starts with the drink, then narrows down, so a customer gets from the home screen to a Spanish Rioja or an organic Cornish wine in a few taps.</p>\n<p>The test for a menu on a big store is simple. Does it follow the way customers think, or the way the stock is organised? Customers think in drinks, countries, regions and styles. Your stock system thinks in suppliers and codes. Design for the customer.</p>\n<p>Search does the same job for people who already know what they want. It suggests popular searches and bottles before you type, so even a vague idea gets a head start.</p>"
+  },
+  {
+   "type": "image",
+   "file": "Drink-finder-menu-search-offers.webp",
+   "alt": "Drink Finder on mobile: the menu, the homepage with the offers bell in the header, and a wine product page with one, six and twelve bottle offers",
+   "caption": "Drink Finder on mobile: the menu, the offers bell in the header, and one, six and twelve bottle offers on the product page."
+  },
+  {
+   "type": "h2",
+   "text": "3. Let shoppers compare without leaving the list",
+   "id": "let-shoppers-compare-without-leaving-the-list"
+  },
+  {
+   "type": "html",
+   "html": "<p>This is the decision I’m proudest of. Wine shoppers compare bottles on country, region, vintage and style. A standard product card shows a photo, a name and a price, which left them opening product page after product page.</p>\n<p>So the collection pages have a Show extras switch. Turn it on and every card shows its rating, origin, region, vintage and style, so shoppers compare side by side before they click. Turn it off for a clean grid of bottles and prices.</p>\n<p>It gives both kinds of shopper what they need. Browsers get a calm page. Enthusiasts get the detail. Nobody has to set up a filter first.</p>"
+  },
+  {
+   "type": "image",
+   "file": "Drink-finder-comparison-toggle.webp",
+   "alt": "Drink Finder Shopify collection page with the comparison toggle off and on, expanding product cards to show country, region, vintage and wine style"
+  },
+  {
+   "type": "html",
+   "html": "<p>Andrew Rowe, a director at Constantine, put it best in <a href=\"https://businesscornwall.co.uk/news-by-industry/awards/2026/10/national-award-for-drink-finder/\">Business Cornwall</a>: “Customers are now finding and buying bottles online that we used to struggle to sell.”</p>"
+  },
+  {
+   "type": "h2",
+   "text": "4. Make buying more than one easy",
+   "id": "make-buying-more-than-one-easy"
+  },
+  {
+   "type": "html",
+   "html": "<p>Discovery doesn’t stop at the product page. Wine is often bought by the half dozen, so the product page shows one, six and twelve bottle offers as buttons above the price. The saving is easy to see without shouting about it. A good offer doesn’t need pushing.</p>"
+  },
+  {
+   "type": "h2",
+   "text": "The results",
+   "id": "the-results"
+  },
+  {
+   "type": "html",
+   "html": "<p>Comparing the six months after launch, September to February, with the same period the year before, Drink Finder made 34% more website sales and gained 32% more customers. Those figures come from the shop’s EPoS till data, with marketplace sales left out.</p>\n<p>I designed the store in Figma, and <a href=\"https://cartmasters.co.uk/work/drink-finder/\">Cartmasters</a> built it. The full story is in the <a href=\"/work/drink-finder/\">Drink Finder case study</a>, and the comparison switch is one of my <a href=\"/innovations/#comparison-toggle\">design innovations</a>.</p>"
+  },
+  {
+   "type": "h2",
+   "text": "What to take for your own store",
+   "id": "what-to-take-for-your-own-store"
+  },
+  {
+   "type": "html",
+   "html": "<ul>\n<li><strong>Clear the screen first.</strong> Check your store on a real phone. If pop-ups, chat or sticky bars cover the buttons, fix that before anything else.</li>\n<li><strong>Build the menu around how customers think.</strong> Not around your stock system or your suppliers.</li>\n<li><strong>Put the comparison on the collection page.</strong> Show the two or three facts your customers compare on, on the card itself.</li>\n<li><strong>Let search help before anyone types.</strong> Popular searches and bestsellers give a vague idea a head start.</li>\n<li><strong>Make the good offer obvious.</strong> Show it plainly where the decision happens, on the product page.</li>\n</ul>\n<p>If your range has outgrown your store, <a href=\"/contact/\">tell me about it</a>.</p>"
+  }
+ ],
+ "faqs": [
+  {
+   "q": "What is product discovery on Shopify?",
+   "html": "<p>Product discovery is how customers find the products they want: the navigation, search, collection pages and the product cards themselves. On a large range it matters more than any single product page, because customers have to find the right product before the product page gets its chance.</p>"
+  },
+  {
+   "q": "How do you improve product discovery on a large Shopify store?",
+   "html": "<p>Start by checking the store on a real phone and clearing anything that covers the buttons. Then build the navigation around how customers think, show the facts they compare on the product card, and give search suggestions before anyone types.</p>"
+  },
+  {
+   "q": "Do I need a bespoke design for good product discovery?",
+   "html": "<p>Not always. A well-chosen theme can go a long way with good navigation and search. Features like Drink Finder’s comparison switch, built around one range and one way of shopping, need custom design and development.</p>"
+  }
+ ]
+}

@@ -29,6 +29,7 @@ export interface Article {
 
 // Newest first.
 export const ARTICLES_LIST: Article[] = [
+  { title: 'Shopify Product Discovery: How I Designed It for 5,000 Products', href: '/articles/shopify-product-discovery/', date: '2026-11-13', category: 'design-and-ux', excerpt: 'How I designed product discovery for Drink Finder, a 5,000-product Shopify store that won UK eCommerce Website of the Year.' },
   { title: 'What Is a Good Conversion Rate on Shopify?', href: '/articles/good-conversion-rate-shopify/', date: '2026-09-20', updated: '2026-11-02', category: 'shopify-cro', excerpt: 'A good Shopify conversion rate is above 2.7%, which puts a store in the top 20%.', figure: { value: '2.7%', label: 'puts a store in the top 20%' } },
   { title: 'Two Wins from Four Shortlistings at the UK eCommerce Awards 2026', href: '/articles/shortlisted-uk-ecommerce-awards-2026/', date: '2026-08-30', updated: '2026-09-30', category: 'news', excerpt: 'I won two categories at the UK eCommerce Awards 2026 from four shortlistings, for my work with Drink Finder and East at Home.' },
   { title: "What Is a Shopify UX Review (And Why It's Where Every Project Should Start)", href: '/articles/shopify-ux-review/', date: '2026-05-13', category: 'design-and-ux', excerpt: 'A Shopify UX review is where every project should start, and yet most agencies skip it in favour of made-up personas and assumptions.' },
