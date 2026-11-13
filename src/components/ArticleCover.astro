@@ -11,7 +11,7 @@ import { altFor } from '../data/alt-text';
 import { Image } from 'astro:assets';
 import { COVER_MARKS, MARK_POSITION } from '../data/article-covers';
 import { articleSlug, type Article } from '../data/articles';
-import { articleTile } from '../data/media';
+import { articleTile, versioned } from '../data/media';
 interface Props {
   article: Article;
   /** Unused: the tile's alt text comes from src/data/alt-text.ts, so it's the same on the card and the hero. */
@@ -20,8 +20,10 @@ interface Props {
   sizes?: string;
   loading?: 'eager' | 'lazy';
   class?: string;
+  /** Optional screen recording laid out like the tile (public path). Fades in over it once on screen; the tile stays for reduced motion. */
+  video?: string;
 }
-const { article, kind = 'tile', sizes = '(min-width: 1024px) 33vw, 50vw', loading = 'lazy', class: className = '' } = Astro.props;
+const { article, kind = 'tile', sizes = '(min-width: 1024px) 33vw, 50vw', loading = 'lazy', class: className = '', video } = Astro.props;
 const slug = articleSlug(article);
 const tile = kind === 'tile' ? articleTile(slug) : undefined;
 const figure = kind === 'figure' ? article.figure : undefined;
@@ -38,6 +40,9 @@ const markStyle = `left:${MARK_POSITION.left}%;top:${MARK_POSITION.top}%;width:$
       fetchpriority={loading === 'eager' ? 'high' : undefined}
       class="zoom-img absolute inset-0 size-full object-cover"
     />
+    {video && (
+      <video src={versioned(video)} data-autoplay data-fade muted loop playsinline preload="none" aria-hidden="true" tabindex="-1" class="pointer-events-none absolute inset-0 size-full object-cover opacity-0 transition-opacity duration-300"></video>
+    )}
   </div>
 ) : (
   <div class:list={['cover-outline @container relative aspect-video overflow-hidden bg-sunken', className]} aria-hidden="true">

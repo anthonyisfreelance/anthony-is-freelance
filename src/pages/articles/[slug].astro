@@ -48,6 +48,8 @@ interface Content {
   /** What changed in the last update, e.g. "Updated with the 2026 benchmarks". Shown only when written. */
   updateNote?: string;
   hero: { file: string; alt: string };
+  /** Optional screen recording over the hero tile, laid out like it (public path, e.g. /video/articles/<slug>/hero.mp4). */
+  heroVideo?: string;
   faqHeading: string;
   blocks: Block[];
   faqs: { q: string; html: string }[];
@@ -148,7 +150,7 @@ const experience = 'Anthony Bliss has worked in design for over 20 years, from b
 
       <!-- Hero: the article's image (see ArticleCover for the live image / tile trial) -->
       <figure class="mt-large px-margin">
-        <ArticleCover article={article} alt={c.hero?.alt ?? ''} sizes="(min-width: 2560px) 2512px, 100vw" loading="eager" class="w-full" />
+        <ArticleCover article={article} alt={c.hero?.alt ?? ''} sizes="(min-width: 2560px) 2512px, 100vw" loading="eager" class="w-full" video={c.heroVideo} />
       </figure>
 
       <!-- Body: contents on the left (desktop), the article in a centred reading column -->

@@ -4,8 +4,8 @@
  "published": "2026-11-13",
  "modified": "2026-11-13",
  "hero": {
-  "file": "Drink-finder-comparison-toggle.webp",
-  "alt": "Drink Finder Shopify collection page with the comparison toggle off and on"
+  "file": "tile.png",
+  "alt": "Drink Finder on mobile: the Show extras switch on a wine collection, and a whisky collection scrolling with the filter bar fixed at the top"
  },
  "faqHeading": "Shopify product discovery questions.",
  "blocks": [
@@ -110,5 +110,6 @@
    "q": "Do I need a bespoke design for good product discovery?",
    "html": "<p>Not always. A well-chosen theme can go a long way with good navigation and search. Features like Drink Finder’s comparison switch, built around one range and one way of shopping, need custom design and development.</p>"
   }
- ]
+ ],
+ "heroVideo": "/video/articles/shopify-product-discovery/hero.mp4"
 }
