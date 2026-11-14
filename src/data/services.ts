@@ -137,15 +137,14 @@ export const SERVICES_GRID = {
 // The Shopify features Anthony has designed, named the way Shopify agencies name them (14 November 2026).
 // Each block is one sentence that stands on its own: the store, what was designed and the result where
 // there is one, all taken from the linked case study. A feature only goes on this list when a live case
-// study proves it. Waiting for their case studies: B2B & Wholesale (Dovecote), checkout and customer
-// accounts (Gee Hair).
+// study proves it. Subscriptions and migrations are left out because they are services, already in the
+// grid above this section on the hub. Waiting for their case studies: B2B & Wholesale (Dovecote),
+// checkout and customer accounts (Gee Hair).
 export const FEATURES = {
   eyebrow: 'Shopify expertise',
-  heading: 'Shopify Markets, subscriptions, migrations and more',
+  heading: 'Shopify Markets, bundles, product builders and more',
   items: [
     { name: 'Internationalisation and Shopify Markets', body: [{ text: 'Projektityyny', href: '/work/projektityyny/' }, { text: ' sells to 50 countries, with the country selector in the menu and again in the footer.' }] },
-    { name: 'Subscriptions', body: [{ text: 'Fuzzball', href: '/work/fuzzball/' }, { text: '’s conversion rate rose 63% in the 12 months after I redesigned its subscription journey. ' }, { text: 'Window Fleur', href: '/work/window-fleur/' }, { text: '’s went from three pages to one screen.' }] },
-    { name: 'Shopify migrations', body: [{ text: 'Drink Finder', href: '/work/drink-finder/' }, { text: ' moved from a bespoke platform, with 34% more website sales in six months. ' }, { text: 'East West Apparel', href: '/work/east-west-apparel/' }, { text: ' moved from WooCommerce.' }] },
     { name: 'Quantity and multi-buy discounts', body: [{ text: 'East at Home', href: '/work/east-at-home/' }, { text: ' shows the saving as the quantity rises. ' }, { text: 'Whistlefish', href: '/work/whistlefish/' }, { text: ' and ' }, { text: 'Drink Finder', href: '/work/drink-finder/' }, { text: ' show the next offer in the basket.' }] },
     { name: 'Bundle builders', body: [{ text: 'East at Home', href: '/work/east-at-home/' }, { text: '’s bundle builder lets customers mix and match sauces and kits on a phone.' }] },
     { name: 'Product quizzes', body: [{ text: 'Fuzzball', href: '/work/fuzzball/' }, { text: '’s quiz builds each customer’s plan in fewer steps and clicks.' }] },
