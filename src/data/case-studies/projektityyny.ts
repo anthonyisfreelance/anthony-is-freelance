@@ -72,7 +72,7 @@ export const DATA: CaseStudyPageData = {
     {
       eyebrow: 'Image-led navigation design',
       heading: 'Shop the way people think about their home.',
-      body: 'Projektityyny’s menu gives three routes in: by product, by room and by print. Each leads to its own page, so the menu becomes the start of shopping, not a list of links.',
+      body: 'Projektityyny’s menu gives three routes in: by product, by room and by print. Each leads to its own page, so the menu becomes the start of shopping, not a list of links. Projektityyny sells to 50 countries through Shopify Markets, so the country selector sits in the menu and again in the footer.',
       link: innovationLink('See shop by product, room or print', 'shop-by-product-room-print'),
       media: (() => {
         const m = innovationSlot('shop-by-product-room-print', 'The Projektityyny mobile menu, into shop by product, print and room, each with picture routes.', 'The navigation recording');
