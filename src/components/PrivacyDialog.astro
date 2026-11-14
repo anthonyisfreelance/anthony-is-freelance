@@ -73,6 +73,7 @@ import { URLS, ENTITY } from '../data/site';
           // Client above the quote at every width (the page's two columns don't fit the panel), no rule above the first.
           for (var i = 0; i < copy.children.length; i++) {
             copy.children[i].className = 'flex flex-col gap-loose border-t border-line py-large first:border-t-0 first:pt-0';
+            copy.children[i].removeAttribute('id');  // the testimonials page already has these ids
           }
           return copy;
         },

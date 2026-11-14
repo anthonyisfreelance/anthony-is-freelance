@@ -44,7 +44,7 @@ const items = await Promise.all(
             description: it.caption,
             thumbnailUrl: poster,
             contentUrl: new URL(it.video, SITE).href,
-            ...(it.videoUploaded && { uploadDate: it.videoUploaded }),
+            ...(it.videoUploaded && { uploadDate: `${it.videoUploaded}T00:00:00+00:00` }), // Google wants a full timestamp with a time zone
           },
         }),
       },

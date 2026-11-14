@@ -110,11 +110,10 @@ export const URLS = {
   },
 };
 
-// The Google rating, worded once for every tile on the site. The G, stars and text sit on one line.
-export const GOOGLE_RATING = { google: true, stars: true, text: '5.0', note: '(6 reviews)', srText: ' on Google' } as const;
-// The homepage hero's version: the rating without the review count (13 November 2026). Same tile, "on Google" in the note line.
-// It links to the testimonials page, which opens in the side panel (see PrivacyDialog).
-export const GOOGLE_RATING_HERO = { google: true, stars: true, text: '5.0', note: 'on Google', href: URLS.testimonials, reviews: true } as const;
+// The Google rating, worded once for every tile on the site: the G, stars and 5.0 on one line, "on Google"
+// beneath, no review count (hero 13 November 2026, everywhere 14 November 2026).
+// The tile links to the testimonials page, which opens in the side panel (see PrivacyDialog).
+export const GOOGLE_RATING = { google: true, stars: true, text: '5.0', note: 'on Google', href: URLS.testimonials, reviews: true } as const;
 
 export const ANNOUNCEMENT = {
   text: 'Winner, UK eCommerce Website of the Year, UK eCommerce Awards 2026',

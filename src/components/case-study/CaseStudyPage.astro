@@ -17,6 +17,7 @@ import Media from './Media.astro';
 import SplitBlock from './Split.astro';
 import Contact from '../home/Contact.astro';
 import { SITE, ENTITY } from '../../data/site';
+import { AWARD_LINKS } from '../../data/awards';
 import type { CaseStudyPageData, Highlight } from '../../data/case-studies/types';
 
 interface Props { data: CaseStudyPageData }
@@ -136,7 +137,7 @@ const link = 'underline underline-offset-4 hover:decoration-2';
               <dt class="w-[120px] shrink-0 text-[#c4c4c4]">Recognition</dt>
               <dd class="flex flex-1 flex-col gap-grid text-ink sm:flex-row">
                 <Image src={DETAILS.recognition.badge} alt={DETAILS.recognition.badgeAlt} height={77} densities={[1, 2, 3]} format="png" class="h-[77px] w-[130px] shrink-0 object-cover" />
-                <span class="flex-1">{DETAILS.recognition.text}</span>
+                <span class="flex-1">{DETAILS.recognition.text}{' '}<a href={AWARD_LINKS.winners} class={link} target="_blank" rel="noopener">See the official winners list<span class="sr-only"> (opens in a new tab)</span></a></span>
               </dd>
             </div>
           )}

@@ -30,7 +30,7 @@ export const HERO = {
     { label: 'View my success stories', href: URLS.work },
   ],
   // Every tile links to its proof (Anthony, 13 November 2026): the experience to About, each award to the
-  // case study that won it. The Google tile opens the reviews (GOOGLE_RATING_HERO in site.ts).
+  // case study that won it. The Google tile opens the reviews (GOOGLE_RATING in site.ts).
   trust: [
     { text: '20+ years of brand and ecommerce experience', href: URLS.about },
     { text: 'Winner: UK eCommerce Website of the Year 2026', href: '/work/drink-finder/' },
@@ -300,7 +300,7 @@ export const CONTACT = {
   // Optional, last, one dropdown: the only clean way to count AI and awards referrals.
   found: {
     label: 'How did you find me? (optional)',
-    options: ['Google search', 'ChatGPT, Gemini or another AI tool', 'UK eCommerce Awards', 'A recommendation', 'LinkedIn', 'An article on this site', 'A directory or list', 'Other'],
+    options: ['Google search', 'Google ad', 'ChatGPT, Gemini or another AI tool', 'UK eCommerce Awards', 'A recommendation', 'LinkedIn', 'An article on this site', 'A directory or list', 'Other'],
   },
   reply: 'I reply within two working days.',
   legal: 'Anthony Bliss · Falmouth, Cornwall · Anthonyis Limited, company number 10575474',
