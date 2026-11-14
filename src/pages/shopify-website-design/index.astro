@@ -17,7 +17,7 @@ import Faqs from '../../components/home/Faqs.astro';
 import Contact from '../../components/home/Contact.astro';
 import { SITE, ENTITY, GOOGLE_RATING } from '../../data/site';
 import {
-  HUB_META, HUB_HERO, SERVICES_LIST, SERVICES_GRID, SITUATIONS, FEATURES, RECENT_WORK, HUB_TESTIMONIAL, HUB_FAQS, formatPrice,
+  HUB_META, HUB_HERO, SERVICES_LIST, SERVICES_GRID, SITUATIONS, RECENT_WORK, HUB_TESTIMONIAL, HUB_FAQS, formatPrice,
 } from '../../data/services';
 
 const url = new URL(HUB_META.path, SITE).href;
@@ -133,27 +133,6 @@ const catalog = {
             </li>
           ))}
         </ul>
-      </div>
-    </section>
-
-    <!-- Shopify features: solid blocks like the service pages' included lists, one feature and its proof
-         each, every block the same width. A swipe row on phones (the case study gallery pattern), two
-         across on tablets, and on desktop four across, or three when the count divides by three and not four. -->
-    <section class="px-margin pt-section">
-      <div class="border-t border-line pt-section">
-        <SectionIntro eyebrow={FEATURES.eyebrow} heading={FEATURES.heading} />
-        <div class="-mx-margin mt-large overflow-x-auto scroll-px-margin px-margin [scrollbar-width:none] max-sm:snap-x max-sm:snap-mandatory sm:mx-0 sm:overflow-visible sm:px-0 [&::-webkit-scrollbar]:hidden" tabindex="0" role="region" aria-label={FEATURES.eyebrow}>
-          <ul class:list={['flex gap-2 sm:grid sm:grid-cols-2', FEATURES.items.length % 4 !== 0 && FEATURES.items.length % 3 === 0 ? 'lg:grid-cols-3' : 'lg:grid-cols-4']}>
-            {FEATURES.items.map((it) => (
-              <li class="flex w-[78%] shrink-0 snap-start flex-col gap-3 bg-raised px-4 py-4 sm:w-auto lg:px-6 lg:py-6">
-                <h3 class="t-h7 uppercase text-ink">{it.name}</h3>
-                <p class="t-body text-muted">
-                  {it.body.map((part) => part.href ? <a href={part.href} class="text-ink underline underline-offset-4 hover:decoration-2">{part.text}</a> : part.text)}
-                </p>
-              </li>
-            ))}
-          </ul>
-        </div>
       </div>
     </section>
 

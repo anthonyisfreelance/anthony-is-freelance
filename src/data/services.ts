@@ -134,25 +134,6 @@ export const SERVICES_GRID = {
 };
 
 // Situation guide. `links` are woven into the paragraph where the service is named.
-// The Shopify features Anthony has designed, named the way Shopify agencies name them (14 November 2026).
-// Each block is one sentence that stands on its own: the store, what was designed and the result where
-// there is one, all taken from the linked case study. A feature only goes on this list when a live case
-// study proves it. Subscriptions and migrations are left out because they are services, already in the
-// grid above this section on the hub. Waiting for their case studies: B2B & Wholesale (Dovecote),
-// checkout and customer accounts (Gee Hair).
-export const FEATURES = {
-  eyebrow: 'Shopify expertise',
-  heading: 'Shopify Markets, bundles, product builders and more',
-  items: [
-    { name: 'Internationalisation and Shopify Markets', body: [{ text: 'Projektityyny', href: '/work/projektityyny/' }, { text: ' sells to 50 countries, with the country selector in the menu and again in the footer.' }] },
-    { name: 'Quantity and multi-buy discounts', body: [{ text: 'East at Home', href: '/work/east-at-home/' }, { text: ' shows the saving as the quantity rises. ' }, { text: 'Whistlefish', href: '/work/whistlefish/' }, { text: ' and ' }, { text: 'Drink Finder', href: '/work/drink-finder/' }, { text: ' show the next offer in the basket.' }] },
-    { name: 'Bundle builders', body: [{ text: 'East at Home', href: '/work/east-at-home/' }, { text: '’s bundle builder lets customers mix and match sauces and kits on a phone.' }] },
-    { name: 'Product quizzes', body: [{ text: 'Fuzzball', href: '/work/fuzzball/' }, { text: '’s quiz builds each customer’s plan in fewer steps and clicks.' }] },
-    { name: 'Product builders', body: [{ text: 'Hartnack & Co', href: '/work/hartnack-and-co/' }, { text: '’s product builder turns thousands of options into a few calm steps.' }] },
-    { name: 'Shoppable lookbooks', body: [{ text: 'Every past ' }, { text: 'Projektityyny', href: '/work/projektityyny/' }, { text: ' collection stays live and shoppable in its own lookbook.' }] },
-  ] as { name: string; body: { text: string; href?: string }[] }[],
-};
-
 export const SITUATIONS = {
   eyebrow: 'Shopify store problems',
   heading: 'Which service is right for your store?',
@@ -283,6 +264,10 @@ export const HUB_FAQS = {
     {
       q: 'Do you work with brands outside the UK?',
       a: ["Yes. I'm based in Falmouth, Cornwall, and most clients are UK DTC brands, but I can work with brands anywhere. Everything runs through Figma and regular video calls."],
+    },
+    {
+      q: 'Do you design international Shopify stores?',
+      a: ['Yes. I design how shoppers choose their country, and where that selector sits depends on how many of your customers need it: the header, inside the menu or the footer. [Projektityyny](/work/projektityyny/) sells to 50 countries through Shopify Markets, with the selector in the menu and again in the footer. [Wide Fit Shoes](/work/wide-fit-shoes/) runs separate UK and US stores from one design system.'],
     },
   ],
 };
