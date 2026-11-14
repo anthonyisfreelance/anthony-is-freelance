@@ -14,6 +14,12 @@ link is unguessable. Every document is one A4 sheet, the same on screen and in t
 - **The Drive bridge** (`apps-script/Code.gs`) is a Google Apps Script web app running as Anthony.
   The worker uses it to read and write the JSON, save PDFs into the Quotes, Contracts (Signed) and
   Invoices (tax-year) folders, and send client emails from his Gmail.
+- **Speed**: calls to the bridge take a second or more, so page views read a copy kept in
+  Cloudflare's cache for up to a minute (`bridge.js`, "Short-lived copies"). Changes go to Drive
+  first and then update the copy; anything that changes a document reads the latest from Drive
+  first. Copies are encrypted with a key made from `DOCS_SECRET`. A file edited by hand in Drive can
+  take up to a minute to show. The bridge's `listFast` keeps `index.json` in the data folder so the
+  admin lists only open files that changed.
 - **PDFs** come from Cloudflare Browser Rendering (`pdf.js`), from the same HTML as the pages,
   printed at 90% so an A4 page holds about what the sheet shows on screen.
 - **Design** follows Figma (New Site 26 > .docs page): the sheet, type sizes, boxed lists, stage

@@ -70,17 +70,6 @@ var ACTIONS = {
     return { id: f.getId() };
   },
 
-  // Bins a lead's data file. Leads only: quotes and invoices are never deleted from here.
-  remove: function (req) {
-    var f = findDocFile(req.token);
-    if (!f) return {};
-    var d = JSON.parse(f.getBlob().getDataAsString());
-    if (d.type !== 'lead') throw new Error('Only leads can be removed');
-    f.setTrashed(true);
-    PropertiesService.getScriptProperties().deleteProperty('doc:' + req.token);
-    return {};
-  },
-
   // Every document, without the heavy parts (signature images, signed snapshots).
   list: function () {
     var docs = [];
@@ -88,7 +77,7 @@ var ACTIONS = {
     while (it.hasNext()) {
       var f = it.next();
       var name = f.getName();
-      if (name === 'settings.json' || !/\.json$/.test(name)) continue;
+      if (name === 'settings.json' || name === 'index.json' || !/\.json$/.test(name)) continue;
       try {
         var d = JSON.parse(f.getBlob().getDataAsString());
         if (d.state) {
@@ -203,4 +192,93 @@ function testSetup() {
   Logger.log(JSON.stringify(ACTIONS.list().docs.map(function (d) { return d.number; })));
   Logger.log('Next SaltwaterSupply invoice: ' + ACTIONS.nextInvoice({ client: 'SaltwaterSupply' }).next);
   Logger.log('Sending from: ' + (GmailApp.getAliases().indexOf(SEND_FROM) !== -1 ? SEND_FROM : Session.getActiveUser().getEmail()));
+}
+
+/**
+ * Version 3 additions: deleting leads, and a faster list. This whole block sits at the very end of
+ * the script, so adding it to an older copy is one paste at the bottom, then Deploy > Manage
+ * deployments > Edit > Version: New version > Deploy.
+ */
+
+// Bins a lead's data file. Leads only: quotes and invoices are never deleted from here.
+ACTIONS.remove = function (req) {
+  var f = findDocFile(req.token);
+  if (!f) return {};
+  var d = JSON.parse(f.getBlob().getDataAsString());
+  if (d.type !== 'lead') throw new Error('Only leads can be removed');
+  f.setTrashed(true);
+  PropertiesService.getScriptProperties().deleteProperty('doc:' + req.token);
+  return {};
+};
+
+// The same result as "list", but quick. A summary of every file is kept in index.json, and only
+// files that are new or changed since it was written are opened. Files added or edited by hand in
+// Drive are picked up too, because each entry is checked against the file's last-updated time.
+var INDEX_NAME = 'index.json';
+
+ACTIONS.listFast = function () {
+  var folder = DriveApp.getFolderById(DATA_FOLDER);
+  var indexFile = null;
+  var entries = {};
+  var found = folder.getFilesByName(INDEX_NAME);
+  if (found.hasNext()) {
+    indexFile = found.next();
+    try {
+      entries = JSON.parse(indexFile.getBlob().getDataAsString()) || {};
+    } catch (err) {
+      entries = {};
+    }
+  }
+
+  var seen = {};
+  var changed = false;
+  var docs = [];
+  var it = folder.getFiles();
+  while (it.hasNext()) {
+    var f = it.next();
+    var name = f.getName();
+    if (name === 'settings.json' || name === INDEX_NAME || !/\.json$/.test(name)) continue;
+    var id = f.getId();
+    var updated = f.getLastUpdated().getTime();
+    seen[id] = true;
+    var entry = entries[id];
+    if (!entry || entry.updated !== updated) {
+      var d = null;
+      try {
+        d = JSON.parse(f.getBlob().getDataAsString());
+        if (d.state) {
+          delete d.state.contractHtml;
+          if (d.state.signature) delete d.state.signature.image;
+        }
+      } catch (err) {
+        d = null; // Not valid JSON: remembered as empty, so it isn't opened again until it changes.
+      }
+      entry = { updated: updated, doc: d };
+      entries[id] = entry;
+      changed = true;
+    }
+    if (entry.doc) {
+      entry.doc.updated = new Date(updated).toISOString();
+      docs.push(entry.doc);
+    }
+  }
+  for (var key in entries) {
+    if (!seen[key]) {
+      delete entries[key];
+      changed = true;
+    }
+  }
+  if (changed) {
+    var text = JSON.stringify(entries);
+    if (indexFile) indexFile.setContent(text);
+    else folder.createFile(INDEX_NAME, text, 'application/json');
+  }
+  return { docs: docs };
+};
+
+// Optional: run once from the editor after pasting, to check the fast list works. It logs how many
+// documents and leads it found, which should match what the admin pages show.
+function testFast() {
+  var docs = ACTIONS.listFast().docs;
+  Logger.log('Fast list found ' + docs.length + ' documents and leads.');
 }

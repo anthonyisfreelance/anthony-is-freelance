@@ -109,25 +109,26 @@ export async function docs(request, env, ctx) {
 
     if (!(await allowed(env, 'DOCS_RL_READ', request))) return tooMany(request);
 
-    const doc = await getDoc(env, token);
-    if (!doc || doc.type !== kind) return message(base, 'Document not found', `This link doesn't match a document. Check the link, or email ${COMPANY.email}.`);
-    const isAdmin = await adminSession(request, env);
+    // Page views read the short-lived copy (bridge.js), so they don't wait on Drive each time.
+    const [doc, isAdmin] = await Promise.all([getDoc(env, token), adminSession(request, env)]);
+    if (!doc || doc.deleted || doc.type !== kind) return message(base, 'Document not found', `This link doesn't match a document. Check the link, or email ${COMPANY.email}.`);
     if (doc.state?.withdrawnAt && !isAdmin) {
       return message(base, 'Document withdrawn', `This ${kind} is no longer available. Please email ${COMPANY.email} if you need a copy.`, 410);
     }
-    const settings = await getSettings(env);
+    // Only the contract and the invoice need the settings (signature, bank details).
+    const settings = doc.type === 'invoice' || rest.startsWith('contract') ? await getSettings(env) : {};
 
     // First view by the client moves a sent document to "viewed".
     if (!isAdmin && doc.state?.sentAt && !doc.state.viewedAt && !rest) {
       doc.state.viewedAt = new Date().toISOString();
-      ctx?.waitUntil(putDoc(env, doc).catch(() => {}));
+      ctx?.waitUntil(stamp(env, token, 'viewedAt').catch(() => {}));
     }
 
     if (doc.type === 'quote') {
       // Pressing Accept on the quote opens the contract: the first time the client does, note it.
       if (rest === 'contract' && !isAdmin && doc.state?.sentAt && !doc.state.acceptedAt && !doc.state.signedAt) {
         doc.state.acceptedAt = new Date().toISOString();
-        ctx?.waitUntil(putDoc(env, doc).catch(() => {}));
+        ctx?.waitUntil(stamp(env, token, 'acceptedAt').catch(() => {}));
       }
       if (!rest) return html(renderQuote(doc, { base, depositInvoice: await depositInvoiceOf(env, doc) }));
       if (rest === 'contract') return html(contractPage(doc, { base, settings, depositInvoice: await depositInvoiceOf(env, doc) }));
@@ -154,6 +155,15 @@ export async function docs(request, env, ctx) {
     if (request.method === 'POST') return json({ ok: false, error: text }, 500);
     return message(base, 'Something went wrong', text, 500);
   }
+}
+
+// Notes the first time a client opens a document, or opens the contract from the quote. It reads
+// the latest from Drive first, so a page shown from the short-lived copy never writes old data back.
+async function stamp(env, token, field) {
+  const doc = await getDoc(env, token, { fresh: true });
+  if (!doc?.state?.sentAt || doc.state[field] || (field === 'acceptedAt' && doc.state.signedAt)) return;
+  doc.state[field] = new Date().toISOString();
+  await putDoc(env, doc);
 }
 
 // After signing, the contract page is the snapshot taken at the moment of signing, with the
@@ -223,7 +233,8 @@ async function sign(request, env, url, token, step) {
   if (!body) return json({ ok: false, error: 'The request could not be read.' }, 400);
   if (!env.DOCS_SECRET) return json({ ok: false, error: `Online signing isn't switched on yet. Please email ${COMPANY.email}.` }, 503);
 
-  const doc = await getDoc(env, token);
+  // Signing changes the document, so it always works from the latest in Drive.
+  const doc = await getDoc(env, token, { fresh: true });
   if (!doc || doc.type !== 'quote') return json({ ok: false, error: 'This contract was not found.' }, 404);
   if (doc.state?.withdrawnAt) return json({ ok: false, error: `This quote has been withdrawn. Please email ${COMPANY.email}.` }, 410);
   const signed = Boolean(doc.state?.signedAt);
@@ -469,7 +480,8 @@ async function admin(request, env, url, parts, ctx) {
     return json({ ok: true, message: `${lead.name} added.` });
   }
 
-  const doc = await getDoc(env, String(body.token || ''));
+  // Actions change the document, so they always work from the latest in Drive.
+  const doc = await getDoc(env, String(body.token || ''), { fresh: true });
   if (!doc || doc.deleted) return json({ ok: false, error: 'Document not found.' }, 404);
   if (doc.type === 'lead') {
     const r = leadAction(doc, body.action, body.value);
