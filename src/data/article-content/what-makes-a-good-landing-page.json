@@ -38,7 +38,7 @@
     },
     {
       "type": "html",
-      "html": "<p>Your headline needs to immediately explain the value proposition. For Wide Fit Shoes, the headline highlighted comfort and fit — instantly addressing customer pain points.</p>\n<p>Top Tip: Keep headlines short and impactful. Test variations to see which resonates most.</p>"
+      "html": "<p>Your headline needs to immediately explain the value proposition. For Wide Fit Shoes, the headline highlighted comfort and fit, instantly addressing customer pain points.</p>\n<p>Top Tip: Keep headlines short and impactful. Test variations to see which resonates most.</p>"
     },
     {
       "type": "video",
@@ -150,7 +150,7 @@
   "faqs": [
     {
       "q": "How long should a landing page be?",
-      "html": "<p>There’s no fixed length — it depends on your product and audience. Some perform best with just a headline, image, and CTA. Others need testimonials, detailed benefits, and FAQs. The key is clarity.</p>"
+      "html": "<p>There’s no fixed length: it depends on your product and audience. Some perform best with just a headline, image, and CTA. Others need testimonials, detailed benefits, and FAQs. The key is clarity.</p>"
     },
     {
       "q": "Should my landing page replace my homepage?",

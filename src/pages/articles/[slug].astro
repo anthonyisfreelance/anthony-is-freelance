@@ -94,6 +94,8 @@ const posting = {
 };
 const a = ARTICLES_PAGE.author;
 const experience = 'Anthony Bliss has worked in design for over 20 years, from brand identity to three years at Dyson, and has been independent since August 2023.';
+// A single word of 15 letters or more can be wider than a phone screen at headline size.
+const longestWord = Math.max(...article.title.split(/\s+/).map((w) => w.length));
 ---
 <Base title={c.seoTitle} description={c.description} image={ogImage} ogType="article">
   <Schema
@@ -122,7 +124,7 @@ const experience = 'Anthony Bliss has worked in design for over 20 years, from b
         <div class="flex flex-col gap-large border-t border-line pt-6 lg:pt-[40px]">
           <div class="flex flex-col gap-loose">
             <Breadcrumb items={crumbs} />
-            <Heading level={1} class="lg:w-[70%]">{article.title}</Heading>
+            <Heading level={1} class="lg:w-[70%]" fit={longestWord >= 15 ? longestWord : undefined}>{article.title}</Heading>
           </div>
           <div class="flex flex-col gap-6 lg:gap-[40px]">
             <!-- Byline with the category beside it on desktop, above it on phones, a hairline under both

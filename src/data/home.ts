@@ -235,7 +235,7 @@ export const ARTICLES = {
 export const FAQS = {
   eyebrow: 'Shopify web designer FAQs',
   heading: 'What brands ask on the first call.',
-  note: 'Prices and timelines checked September 2026.',
+  note: 'Prices and timelines checked November 2026.',
   items: [
     {
       q: 'How much does a freelance Shopify designer cost?',

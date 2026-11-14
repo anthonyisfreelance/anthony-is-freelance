@@ -1,6 +1,6 @@
 {
   "seoTitle": "Shopify vs Shopify Plus - Anthony is Freelance",
-  "description": "When setting up or expanding an online store, Shopify is frequently one of the first platforms that comes to mind. However, you might wonder about Shopify Plus. Often referred to as the “premium” version, what exactly distinguishes it from the standard Shopify? More importantly, is it a worthwhile investment for your business?",
+  "description": "Shopify vs Shopify Plus compared: pricing, checkout, automation, API access and support, and how to tell when the upgrade is worth it for your store.",
   "published": "2025-02-19",
   "modified": "2025-02-19",
   "hero": {
@@ -25,7 +25,7 @@
     },
     {
       "type": "html",
-      "html": "<p>Let’s start with one of the biggest deciding factors: cost.</p>\n<h4>Shopify Pricing</h4>\n<p>Plans range from £25/month (Basic) to £344/month (Advanced). These plans offer all the essential features to run a small to medium-sized online store. <a href=\"https://www.shopify.co.uk/pricing\">View Shopify pricing</a></p>\n<h4>Shopify Plus Pricing</h4>\n<p>Starts at around £1,600/month, with pricing scaling based on your business revenue. While this is a significant jump, it includes enterprise-level features and dedicated support tailored for fast-growing brands.Many of the world’s biggest brands run on Shopify Plus. <a href=\"/articles/25-biggest-brands-using-shopify-in-2025/\">Here’s a look at 25 of them</a> and what makes Shopify their platform of choice. <a href=\"https://www.shopify.com/uk/plus\">Learn more about Shopify Plus</a></p>"
+      "html": "<p>Let’s start with one of the biggest deciding factors: cost.</p>\n<h3 class=\"as-h4\">Shopify Pricing</h3>\n<p>Plans range from £25/month (Basic) to £344/month (Advanced). These plans offer all the essential features to run a small to medium-sized online store. <a href=\"https://www.shopify.co.uk/pricing\">View Shopify pricing</a></p>\n<h3 class=\"as-h4\">Shopify Plus Pricing</h3>\n<p>Starts at around £1,600/month, with pricing scaling based on your business revenue. While this is a significant jump, it includes enterprise-level features and dedicated support tailored for fast-growing brands.Many of the world’s biggest brands run on Shopify Plus. <a href=\"/articles/25-biggest-brands-using-shopify-in-2025/\">Here’s a look at 25 of them</a> and what makes Shopify their platform of choice. <a href=\"https://www.shopify.com/uk/plus\">Learn more about Shopify Plus</a></p>"
     },
     {
       "type": "h2",
@@ -83,7 +83,7 @@
     },
     {
       "type": "html",
-      "html": "<p>Choosing between Shopify and Shopify Plus ultimately depends on your business’s size, growth stage, and specific needs.</p>\n<h4>Shopify</h4>\n<p>Ideal for small to medium-sized businesses that need a robust, easy-to-use platform without a hefty price tag.</p>\n<h4>Shopify Plus</h4>\n<p>Best for large or rapidly growing brands (typically generating £750k+ per year) that need advanced features, scalability, and hands-on support.</p>"
+      "html": "<p>Choosing between Shopify and Shopify Plus ultimately depends on your business’s size, growth stage, and specific needs.</p>\n<h3 class=\"as-h4\">Shopify</h3>\n<p>Ideal for small to medium-sized businesses that need a robust, easy-to-use platform without a hefty price tag.</p>\n<h3 class=\"as-h4\">Shopify Plus</h3>\n<p>Best for large or rapidly growing brands (typically generating £750k+ per year) that need advanced features, scalability, and hands-on support.</p>"
     },
     {
       "type": "h2",
@@ -92,7 +92,7 @@
     },
     {
       "type": "html",
-      "html": "<p>If you’re a smaller business or just starting out, Shopify’s core plans likely offer everything you need to build and run a successful online store. But if you’re scaling quickly, need a custom checkout, or want enterprise-level automation, Shopify Plus could be the game-changer that helps you level up.</p>\n<p>If you’re ready to build or upgrade your Shopify store, I’d love to help. Take a look at my <a href=\"/shopify-website-design/\">Shopify web design services</a> and get in touch.</p>\n<p><a href=\"/contact/\">Feel free to contact me</a> — I’d love to help you navigate your Shopify journey and build a store that grows with your business!</p>"
+      "html": "<p>If you’re a smaller business or just starting out, Shopify’s core plans likely offer everything you need to build and run a successful online store. But if you’re scaling quickly, need a custom checkout, or want enterprise-level automation, Shopify Plus could be the game-changer that helps you level up.</p>\n<p>If you’re ready to build or upgrade your Shopify store, I’d love to help. Take a look at my <a href=\"/shopify-website-design/\">Shopify web design services</a> and get in touch.</p>\n<p><a href=\"/contact/\">Feel free to contact me</a>. I’d love to help you navigate your Shopify journey and build a store that grows with your business!</p>"
     }
   ],
   "faqs": [
@@ -110,11 +110,11 @@
     },
     {
       "q": "Can you customise checkout on standard Shopify?",
-      "html": "<p>Standard Shopify allows limited checkout customisation — you can change colours and add a logo, but you cannot modify the checkout layout, add custom fields, or embed third-party scripts. Shopify Plus unlocks full checkout customisation through checkout.liquid (and increasingly through Checkout Extensibility), which is why it’s so valuable for brands with specific upsell flows or B2B requirements.</p>"
+      "html": "<p>Standard Shopify allows limited checkout customisation: you can change colours and add a logo, but you cannot modify the checkout layout, add custom fields, or embed third-party scripts. Shopify Plus unlocks full checkout customisation through checkout.liquid (and increasingly through Checkout Extensibility), which is why it’s so valuable for brands with specific upsell flows or B2B requirements.</p>"
     },
     {
       "q": "Is Shopify Plus worth the cost?",
-      "html": "<p>For the right business, yes — the combination of reduced transaction fees (Shopify Plus waives third-party transaction fees entirely), checkout customisation, and automation capabilities can deliver significant ROI. However, for stores doing under £500k annually, the cost of Plus rarely justifies itself. The honest answer is: it depends on which specific limitations you’re hitting on your current plan.</p>"
+      "html": "<p>For the right business, yes: the combination of reduced transaction fees (Shopify Plus waives third-party transaction fees entirely), checkout customisation, and automation capabilities can deliver significant ROI. However, for stores doing under £500k annually, the cost of Plus rarely justifies itself. The honest answer is: it depends on which specific limitations you’re hitting on your current plan.</p>"
     },
     {
       "q": "Does Shopify Plus include dedicated support?",

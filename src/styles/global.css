@@ -412,7 +412,9 @@
   .prose-article tbody tr:last-child td { border-bottom: 1px solid var(--c-border); }
   .prose-article figure { margin-top: 2em; margin-bottom: 2em; }
   /* Figma "Article/H4": sentence case, 22px phones, 26px desktop. */
-  .prose-article h4 {
+  /* h3.as-h4 and h3.as-h5: old article headings that skipped a level, moved up to h3 but kept looking as they did (14 November 2026). */
+  .prose-article h4, .prose-article h3.as-h4 {
+    text-transform: none;
     font-family: var(--font-display);
     font-weight: 500;
     font-size: 22px;
@@ -420,7 +422,8 @@
     color: var(--c-text);
     margin-top: calc(var(--stack-large) + 8px);
   }
-  .prose-article h4 + * { margin-top: var(--stack-loose); }
+  .prose-article h4 + *, .prose-article h3.as-h4 + * { margin-top: var(--stack-loose); }
+  .prose-article h3.as-h5 { font: inherit; text-transform: none; color: inherit; margin-top: var(--stack-large); }
   /* Figma "Article/Blockquote": 2px white rule, the quote in Mint, the cite line small and grey. */
   .prose-article blockquote {
     border-left: 2px solid var(--c-text);
@@ -438,7 +441,8 @@
     color: var(--c-muted);
   }
   @media (min-width: 1024px) {
-    .prose-article h4, .prose-article blockquote { font-size: var(--type-h3); }
+    .prose-article h4, .prose-article h3.as-h4, .prose-article blockquote { font-size: var(--type-h3); }
+    .prose-article h3.as-h5 { font-size: inherit; }
   }
 
   /* Contents: a thin rail down the left; the section being read turns white with a solid bar. */

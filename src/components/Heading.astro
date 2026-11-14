@@ -9,12 +9,16 @@ interface Props {
   hideEyebrow?: boolean;
   class?: string;
   id?: string;
+  /** Letters in the heading's longest word, when it is long enough to overrun a phone screen: the type shrinks just enough to fit. */
+  fit?: number;
 }
-const { level = 2, eyebrow, deco = true, hideEyebrow = false, class: className = '', id } = Astro.props;
+const { level = 2, eyebrow, deco = true, hideEyebrow = false, class: className = '', id, fit } = Astro.props;
+// Mint Grotesk Narrow capitals run about 0.58em a letter; 0.6 leaves a little room. On wider screens the token wins.
+const fitStyle = fit ? `font-size:min(var(--type-h${level}), calc((100vw - 2 * var(--page-margin)) / ${(fit * 0.6).toFixed(1)}))` : undefined;
 const Tag = `h${level}` as 'h1' | 'h2' | 'h3';
 const size = level === 1 ? 't-h1' : 't-h2';
 ---
-<Tag id={id} class:list={[size, 'text-ink', className]}>
+<Tag id={id} class:list={[size, 'text-ink', className]} style={fitStyle}>
   {eyebrow && (hideEyebrow ? (
     <span class="sr-only">{eyebrow}. </span>
   ) : (

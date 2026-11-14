@@ -20,7 +20,7 @@ export const hubPrice = (name: string) => {
 };
 
 export const ROUTING_EYEBROW = 'Honest Shopify advice';
-export const PRICE_NOTE = 'Prices checked September 2026. Every project is quoted individually once the brief is defined.';
+export const PRICE_NOTE = 'Prices checked November 2026. Every project is quoted individually once the brief is defined.';
 export const PROCESS_INTRO =
   'Most projects start with a UX review of your live store, and the navigation is where I look first, because it shows how a store really sells. Then your reviews, your data and your customers. And one question I ask on every project: would I buy this?';
 export const TRUST_COMMON = ['20+ years of brand and ecommerce experience', '4× shortlisted, UK eCommerce Awards 2026'];

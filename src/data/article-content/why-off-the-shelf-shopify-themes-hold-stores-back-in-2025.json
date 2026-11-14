@@ -20,7 +20,7 @@
     },
     {
       "type": "html",
-      "html": "<blockquote>\n<h3>“You didn’t build a cookie-cutter business — so why use a cookie-cutter website?”</h3>\n</blockquote>"
+      "html": "<blockquote>\n<h3>“You didn’t build a cookie-cutter business, so why use a cookie-cutter website?”</h3>\n</blockquote>"
     },
     {
       "type": "h2",
@@ -29,7 +29,7 @@
     },
     {
       "type": "html",
-      "html": "<p>Many themes are built to <em>look</em> good out of the box — but under the hood, they can be slow and clunky.</p>\n<p>They often:</p>\n<ul>\n<li>Load lots of unused scripts and animations.</li>\n<li>Include integrations you don’t use.</li>\n<li>Aren’t optimised for your real-world image or content needs.</li>\n<li>Have lots of features and settings you would never use</li>\n</ul>\n<p>That’s a big issue when it comes to mobile shoppers and SEO.</p>"
+      "html": "<p>Many themes are built to <em>look</em> good out of the box, but under the hood, they can be slow and clunky.</p>\n<p>They often:</p>\n<ul>\n<li>Load lots of unused scripts and animations.</li>\n<li>Include integrations you don’t use.</li>\n<li>Aren’t optimised for your real-world image or content needs.</li>\n<li>Have lots of features and settings you would never use</li>\n</ul>\n<p>That’s a big issue when it comes to mobile shoppers and SEO.</p>"
     },
     {
       "type": "html",
@@ -42,7 +42,7 @@
     },
     {
       "type": "html",
-      "html": "<p>Most pre-made themes let you “drag and drop” sections around, but only within certain boundaries. Try to do something slightly different and suddenly you’re in the code editor, fiddling with Liquid or CSS.</p>\n<p>This often leads to:</p>\n<ul>\n<li>Frankensteined layouts and clashing styles.</li>\n<li>Rigid templates that don’t fit the product.</li>\n<li>A design you’re always “working around.”</li>\n</ul>\n<p>By contrast, custom design starts with the <em>customer experience</em> — not a predetermined template. If you’re interested in what a bespoke Shopify build actually involves, here’s an overview of my <a href=\"/shopify-website-design/bespoke-shopify-store-builds/\">bespoke Shopify store builds</a>.</p>\n<p>If you want to explore Shopify theme development, <a href=\"https://shopify.dev/docs/api/liquid\">Shopify’s official Liquid documentation </a>is an excellent resource.</p>"
+      "html": "<p>Most pre-made themes let you “drag and drop” sections around, but only within certain boundaries. Try to do something slightly different and suddenly you’re in the code editor, fiddling with Liquid or CSS.</p>\n<p>This often leads to:</p>\n<ul>\n<li>Frankensteined layouts and clashing styles.</li>\n<li>Rigid templates that don’t fit the product.</li>\n<li>A design you’re always “working around.”</li>\n</ul>\n<p>By contrast, custom design starts with the <em>customer experience</em>, not a predetermined template. If you’re interested in what a bespoke Shopify build actually involves, here’s an overview of my <a href=\"/shopify-website-design/bespoke-shopify-store-builds/\">bespoke Shopify store builds</a>.</p>\n<p>If you want to explore Shopify theme development, <a href=\"https://shopify.dev/docs/api/liquid\">Shopify’s official Liquid documentation </a>is an excellent resource.</p>"
     },
     {
       "type": "h2",
@@ -51,11 +51,11 @@
     },
     {
       "type": "html",
-      "html": "<p>There are hundreds of thousands of stores using the same themes — many even leave the demo text and colour palette untouched.</p>\n<p>That doesn’t exactly inspire trust. And in competitive markets, that lack of uniqueness is a conversion killer.</p>"
+      "html": "<p>There are hundreds of thousands of stores using the same themes: many even leave the demo text and colour palette untouched.</p>\n<p>That doesn’t exactly inspire trust. And in competitive markets, that lack of uniqueness is a conversion killer.</p>"
     },
     {
       "type": "html",
-      "html": "<blockquote>\n<h3>“Your brand is more than your logo — it’s how your entire online experience feels.”</h3>\n</blockquote>"
+      "html": "<blockquote>\n<h3>“Your brand is more than your logo: it’s how your entire online experience feels.”</h3>\n</blockquote>"
     },
     {
       "type": "html",
@@ -77,7 +77,7 @@
     },
     {
       "type": "html",
-      "html": "<p>Let’s be clear — themes can be a good starting point, especially if:</p>\n<ul>\n<li>You’re launching a side project.</li>\n<li>You have a tiny product range.</li>\n<li>You’re testing a new concept with minimal budget.</li>\n</ul>\n<p>But if you’re serious about growing a Shopify store, whether that’s a DTC brand, <a href=\"/articles/strategies-for-your-homeware-lifestyle-shopify-store/\">a homeware business</a>, or a scaling ecommerce operation — a theme is usually where you start, not where you stay. The brands that consistently outperform their competitors invest in design that is built around their customers, not borrowed from a template library. If you’re ready to explore what a custom Shopify build could do for your store, take a look at my <a href=\"/shopify-website-design/\">Shopify web design services</a>.</p>"
+      "html": "<p>Let’s be clear: themes can be a good starting point, especially if:</p>\n<ul>\n<li>You’re launching a side project.</li>\n<li>You have a tiny product range.</li>\n<li>You’re testing a new concept with minimal budget.</li>\n</ul>\n<p>But if you’re serious about growing a Shopify store, whether that’s a DTC brand, <a href=\"/articles/strategies-for-your-homeware-lifestyle-shopify-store/\">a homeware business</a>, or a scaling ecommerce operation: a theme is usually where you start, not where you stay. The brands that consistently outperform their competitors invest in design that is built around their customers, not borrowed from a template library. If you’re ready to explore what a custom Shopify build could do for your store, take a look at my <a href=\"/shopify-website-design/\">Shopify web design services</a>.</p>"
     }
   ],
   "faqs": []

@@ -16,7 +16,7 @@
     },
     {
       "type": "html",
-      "html": "<p>In this article, I’ll look at why product comparisons are so powerful, the psychology behind them, real-world Shopify examples, and practical ways to implement them — all from my perspective as a <a href=\"/\">Shopify web designer</a>.</p>"
+      "html": "<p>In this article, I’ll look at why product comparisons are so powerful, the psychology behind them, real-world Shopify examples, and practical ways to implement them, all from my perspective as a <a href=\"/\">Shopify web designer</a>.</p>"
     },
     {
       "type": "h2",
@@ -131,7 +131,7 @@
     },
     {
       "type": "html",
-      "html": "<ul>\n<li>\n<p>Keep it simple: No more than 3–4 products side by side.</p>\n</li>\n<li>\n<p>Use icons: Visuals are processed faster than text.</p>\n</li>\n<li>\n<p>Highlight differences: Don’t just list features — call out what’s unique.</p>\n</li>\n<li>\n<p>Mobile first: Ensure tables stack properly and remain scannable.</p>\n</li>\n<li>\n<p>CTA placement: Always keep “Add to Cart” or “Shop Now” buttons visible.</p>\n</li>\n</ul>\n<p>If you run a homeware or lifestyle store, there are some s<a href=\"/articles/strategies-for-your-homeware-lifestyle-shopify-store/\">pecific strategies worth reading about</a>, including how to use landing pages and curated collections to aid product comparison.</p>"
+      "html": "<ul>\n<li>\n<p>Keep it simple: No more than 3–4 products side by side.</p>\n</li>\n<li>\n<p>Use icons: Visuals are processed faster than text.</p>\n</li>\n<li>\n<p>Highlight differences: Don’t just list features: call out what’s unique.</p>\n</li>\n<li>\n<p>Mobile first: Ensure tables stack properly and remain scannable.</p>\n</li>\n<li>\n<p>CTA placement: Always keep “Add to Cart” or “Shop Now” buttons visible.</p>\n</li>\n</ul>\n<p>If you run a homeware or lifestyle store, there are some s<a href=\"/articles/strategies-for-your-homeware-lifestyle-shopify-store/\">pecific strategies worth reading about</a>, including how to use landing pages and curated collections to aid product comparison.</p>"
     },
     {
       "type": "h2",
@@ -140,7 +140,7 @@
     },
     {
       "type": "html",
-      "html": "<ol>\n<li>\n<p>Identify comparable products (don’t compare completely unrelated items).</p>\n</li>\n<li>\n<p>Choose your attributes (size, weight, features, guarantee).</p>\n</li>\n<li>\n<p>Select a format (table, quiz, badge).</p>\n</li>\n<li>\n<p>Test it — check usability on mobile, ensure no performance issues.</p>\n</li>\n<li>\n<p>A/B test with and without comparison to see the uplift in conversions.</p>\n</li>\n</ol>\n<p>These are not cookie-cutter approaches, each of these would need to be bespoke to your store and more importantly your users needs. For example a user looking for a new Coffee to try is a completely different user case to someone looking to purchase a new Sofa. All of their needs are different, and they would have different questions that need answering.</p>\n<p>For more information on how I can help discover what your user needs are and help boost your conversion rate please see my <a href=\"/shopify-website-design/shopify-conversion-rate-optimisation/\">Shopify CRO</a> page on my website.</p>"
+      "html": "<ol>\n<li>\n<p>Identify comparable products (don’t compare completely unrelated items).</p>\n</li>\n<li>\n<p>Choose your attributes (size, weight, features, guarantee).</p>\n</li>\n<li>\n<p>Select a format (table, quiz, badge).</p>\n</li>\n<li>\n<p>Test it: check usability on mobile, ensure no performance issues.</p>\n</li>\n<li>\n<p>A/B test with and without comparison to see the uplift in conversions.</p>\n</li>\n</ol>\n<p>These are not cookie-cutter approaches, each of these would need to be bespoke to your store and more importantly your users needs. For example a user looking for a new Coffee to try is a completely different user case to someone looking to purchase a new Sofa. All of their needs are different, and they would have different questions that need answering.</p>\n<p>For more information on how I can help discover what your user needs are and help boost your conversion rate please see my <a href=\"/shopify-website-design/shopify-conversion-rate-optimisation/\">Shopify CRO</a> page on my website.</p>"
     },
     {
       "type": "h2",
@@ -149,17 +149,17 @@
     },
     {
       "type": "html",
-      "html": "<p>Product comparisons aren’t a gimmick or a dated approach — they’re a proven way to reduce choice overload, build trust, and guide customers to the right purchase. Whether you use tables, quizzes, or subtle badging, the goal is the same: help customers decide faster and with more confidence.</p>\n<p>If you’re a Shopify store owner wondering how to integrate comparisons into your store, <a href=\"/shopify-website-design/\">working with a Shopify Expert</a> and specialist freelance designer like me can help you choose the right approach for your products and your customers’ needs.</p>"
+      "html": "<p>Product comparisons aren’t a gimmick or a dated approach: they’re a proven way to reduce choice overload, build trust, and guide customers to the right purchase. Whether you use tables, quizzes, or subtle badging, the goal is the same: help customers decide faster and with more confidence.</p>\n<p>If you’re a Shopify store owner wondering how to integrate comparisons into your store, <a href=\"/shopify-website-design/\">working with a Shopify Expert</a> and specialist freelance designer like me can help you choose the right approach for your products and your customers’ needs.</p>"
     }
   ],
   "faqs": [
     {
       "q": "Do product comparison tables work on mobile Shopify stores?",
-      "html": "<p>Yes — but they must be designed responsively. Consider stacking rows or using swipeable cards.</p>"
+      "html": "<p>Yes, but they must be designed responsively. Consider stacking rows or using swipeable cards.</p>"
     },
     {
       "q": "Should I use comparisons if I only sell a few products?",
-      "html": "<p>Yes. Even two items can benefit from comparison — especially if one is an upgrade. Highlight the value differences clearly.</p>"
+      "html": "<p>Yes. Even two items can benefit from comparison, especially if one is an upgrade. Highlight the value differences clearly.</p>"
     },
     {
       "q": "What’s the best Shopify app for product comparisons?",
@@ -171,7 +171,7 @@
     },
     {
       "q": "Are quizzes better than tables for certain niches?",
-      "html": "<p>Yes — lifestyle, fashion, and beauty brands often do better with quizzes, while tech, supplements, or B2B products suit tables.</p>"
+      "html": "<p>Yes: lifestyle, fashion, and beauty brands often do better with quizzes, while tech, supplements, or B2B products suit tables.</p>"
     }
   ]
 }

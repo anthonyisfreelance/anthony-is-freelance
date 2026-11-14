@@ -97,7 +97,7 @@ export const THEME: ServicePage = {
   },
   comparison: {
     ...THEME_VS_BESPOKE,
-    caption: 'Bespoke store design and theme customisation compared, checked September 2026',
+    caption: 'Bespoke store design and theme customisation compared, checked November 2026',
     columns: [
       { label: 'Bespoke store design', href: URLS.bespoke },
       { label: 'Theme customisations', href: URLS.theme, current: true },

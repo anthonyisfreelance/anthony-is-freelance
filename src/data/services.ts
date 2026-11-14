@@ -130,7 +130,7 @@ export const SERVICES_GRID = {
   eyebrow: 'Shopify web design',
   heading: 'Eight services, and how they have got results',
   intro: "Each of the eight Shopify design services below says who it's for, how it's priced and where it has worked.",
-  note: 'Prices checked October 2026. Every project is quoted individually once the brief is defined.',
+  note: 'Prices checked November 2026. Every project is quoted individually once the brief is defined.',
 };
 
 // Situation guide. `links` are woven into the paragraph where the service is named.

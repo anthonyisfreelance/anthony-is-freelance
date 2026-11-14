@@ -49,7 +49,7 @@
     },
     {
       "type": "html",
-      "html": "<p>When I redesign websites, I always use Dawn as a starting point. It’s lightweight, fast, and built with Shopify’s best practices in mind.</p>\n<p>Many themes come with excessive functionality and sections that don’t suit every niche or sector. For example, a fashion-focused theme might include a “Shop the Look” section, which would be irrelevant for a grocery store.</p>\n<p>Creating bespoke sections tailored to your business will enhance the user experience while keeping the theme lean and efficient—resulting in a faster, more optimised site.</p>\n<p><a href=\"/work/window-fleur/\">Read the Window Fleur case study</a> which was built using Dawn as a starting point.</p>"
+      "html": "<p>When I redesign websites, I always use Dawn as a starting point. It’s lightweight, fast, and built with Shopify’s best practices in mind.</p>\n<p>Many themes come with excessive functionality and sections that don’t suit every niche or sector. For example, a fashion-focused theme might include a “Shop the Look” section, which would be irrelevant for a grocery store.</p>\n<p>Creating bespoke sections tailored to your business will enhance the user experience while keeping the theme lean and efficient, resulting in a faster, more optimised site.</p>\n<p><a href=\"/work/window-fleur/\">Read the Window Fleur case study</a> which was built using Dawn as a starting point.</p>"
     },
     {
       "type": "h2",
@@ -92,7 +92,7 @@
     },
     {
       "type": "html",
-      "html": "<p>The product page required some enhancements, including a design tweak for improved visual calmness, as there were too many styles and backgrounds competing for attention.\n</p><p>It was essential to establish a clear hierarchy instead of overwhelming the user with too much information above the fold.</p>\n<p>I decided to place the Trustpilot rating at the very top to build trust from the outset. Following that, I included the key elements—product image, title, price, and review rating—on the initial screen, along with a sticky “Add to Cart” button.</p>\n<p>This layout provides users with all the essential information they need before they scroll down. The rest of the page features a clear content hierarchy, utilising bullet points and call-outs to assist readers in scanning the information. Additionally, more detailed information is housed in accordions for easy access.</p>\n<p>Take a look at the final product page for <a href=\"https://zenmaitri.com/products/nerve-oil\">Zen Maitri Nerve Oil</a>.</p>"
+      "html": "<p>The product page required some enhancements, including a design tweak for improved visual calmness, as there were too many styles and backgrounds competing for attention.\n</p><p>It was essential to establish a clear hierarchy instead of overwhelming the user with too much information above the fold.</p>\n<p>I decided to place the Trustpilot rating at the very top to build trust from the outset. Following that, I included the key elements, product image, title, price, and review rating, on the initial screen, along with a sticky “Add to Cart” button.</p>\n<p>This layout provides users with all the essential information they need before they scroll down. The rest of the page features a clear content hierarchy, utilising bullet points and call-outs to assist readers in scanning the information. Additionally, more detailed information is housed in accordions for easy access.</p>\n<p>Take a look at the final product page for <a href=\"https://zenmaitri.com/products/nerve-oil\">Zen Maitri Nerve Oil</a>.</p>"
     },
     {
       "type": "h2",
@@ -172,7 +172,7 @@
     },
     {
       "type": "html",
-      "html": "<p>- Offer free shipping (either sitewide or above a certain amount).\n</p><p>– Clearly state your return and refund policy on product pages.</p>\n<p>– Use urgency tactics like “Limited stock” or “Only 2 left in stock.”</p>\n<p>– Offer a simple return process—<a href=\"https://help.shopify.com/en/manual/fulfillment/managing-orders/returns/return-rules\">Shopify’s guide to return policies</a> provides best practices.</p>"
+      "html": "<p>- Offer free shipping (either sitewide or above a certain amount).\n</p><p>– Clearly state your return and refund policy on product pages.</p>\n<p>– Use urgency tactics like “Limited stock” or “Only 2 left in stock.”</p>\n<p>– Offer a simple return process: <a href=\"https://help.shopify.com/en/manual/fulfillment/managing-orders/returns/return-rules\">Shopify’s guide to return policies</a> provides best practices.</p>"
     },
     {
       "type": "h3",
@@ -222,7 +222,7 @@
     },
     {
       "type": "html",
-      "html": "<p>- Use product recommendation apps like <a href=\"https://limespot.com/\">LimeSpot</a> to show “Recommended for You” products.\n</p><p>– <a href=\"https://www.shopbox.ai/\">Shopbox</a> takes AI to the next level, integrating personalisation at every touchpoint—from a dedicated Shopify section to a chatbot-style button and even fully tailored emails.</p>\n<p>– Enable personalised discount pop-ups based on user behaviour.</p>\n<p>– Implement a chatbot (like <a href=\"https://www.tidio.com/integrations/shopify/\">Tidio</a>) to offer real-time support.</p>"
+      "html": "<p>- Use product recommendation apps like <a href=\"https://limespot.com/\">LimeSpot</a> to show “Recommended for You” products.\n</p><p>– <a href=\"https://www.shopbox.ai/\">Shopbox</a> takes AI to the next level, integrating personalisation at every touchpoint, from a dedicated Shopify section to a chatbot-style button and even fully tailored emails.</p>\n<p>– Enable personalised discount pop-ups based on user behaviour.</p>\n<p>– Implement a chatbot (like <a href=\"https://www.tidio.com/integrations/shopify/\">Tidio</a>) to offer real-time support.</p>"
     },
     {
       "type": "h2",
@@ -231,7 +231,7 @@
     },
     {
       "type": "html",
-      "html": "<p>A high conversion rate isn’t just about having great products—it’s about optimising every step of the customer journey. From site speed and product pages to checkout flow, trust signals, and retargeting efforts, each element plays a role in turning visitors into loyal customers.</p>\n<p>If you’re ready to grow your Shopify store, a UX audit is a great place to start. I begin by analysing your Google GA4 data, then walk through the entire purchasing journey with real user behaviour in mind. Using a Miro board, I annotate screenshots with insights on what’s working, what’s not, and actionable ideas to improve conversions. Read more about my process and how you could work with a <a href=\"/shopify-website-design/shopify-conversion-rate-optimisation/\">Shopify conversion rate optimisation expert</a>. For a deeper read on why conversion optimisation is still fundamentally a human discipline, read this article on <a href=\"/articles/why-conversion-rate-optimisation-is-still-a-human-skill/\">why CRO can’t be automated.</a></p>\n<p>Would you like a UX &amp; Heuristic Review of your site? Then <a href=\"/contact/\">Let’s chat!</a></p>"
+      "html": "<p>A high conversion rate isn’t just about having great products: it’s about optimising every step of the customer journey. From site speed and product pages to checkout flow, trust signals, and retargeting efforts, each element plays a role in turning visitors into loyal customers.</p>\n<p>If you’re ready to grow your Shopify store, a UX audit is a great place to start. I begin by analysing your Google GA4 data, then walk through the entire purchasing journey with real user behaviour in mind. Using a Miro board, I annotate screenshots with insights on what’s working, what’s not, and actionable ideas to improve conversions. Read more about my process and how you could work with a <a href=\"/shopify-website-design/shopify-conversion-rate-optimisation/\">Shopify conversion rate optimisation expert</a>. For a deeper read on why conversion optimisation is still fundamentally a human discipline, read this article on <a href=\"/articles/why-conversion-rate-optimisation-is-still-a-human-skill/\">why CRO can’t be automated.</a></p>\n<p>Would you like a UX &amp; Heuristic Review of your site? Then <a href=\"/contact/\">Let’s chat!</a></p>"
     },
     {
       "type": "h3",
@@ -245,11 +245,11 @@
   "faqs": [
     {
       "q": "What is a good conversion rate for a Shopify store?",
-      "html": "<p>The average Shopify store converts at around 1.4%, but the top 20% of stores convert at 3.2% or above. A “good” conversion rate varies by industry — fashion and apparel often sits lower (around 1–2%) while subscription or consumable products can reach 4–5%. Rather than benchmarking against a single number, the goal is consistent improvement on your own baseline.</p>"
+      "html": "<p>The average Shopify store converts at around 1.4%, but the top 20% of stores convert at 3.2% or above. A “good” conversion rate varies by industry: fashion and apparel often sits lower (around 1–2%) while subscription or consumable products can reach 4–5%. Rather than benchmarking against a single number, the goal is consistent improvement on your own baseline.</p>"
     },
     {
       "q": "What are the most common reasons Shopify stores have low conversion rates?",
-      "html": "<p>The most frequent culprits are slow page speed (especially on mobile), unclear product pages that don’t answer buyer objections, a complicated or untrustworthy checkout experience, and weak or absent social proof. In most stores I audit, the biggest issue isn’t any single thing — it’s several small friction points adding up throughout the customer journey.</p>"
+      "html": "<p>The most frequent culprits are slow page speed (especially on mobile), unclear product pages that don’t answer buyer objections, a complicated or untrustworthy checkout experience, and weak or absent social proof. In most stores I audit, the biggest issue isn’t any single thing: it’s several small friction points adding up throughout the customer journey.</p>"
     },
     {
       "q": "How much can CRO realistically improve my revenue?",
@@ -261,15 +261,15 @@
     },
     {
       "q": "Should I run A/B tests on my Shopify store?",
-      "html": "<p>A/B testing is valuable, but only once you have enough traffic to generate statistically significant results — typically at least a few thousand sessions per month per test. For smaller stores, making informed design and copy improvements based on user behaviour data (heatmaps, session recordings) is usually more effective than trying to run formal tests with insufficient traffic.</p>"
+      "html": "<p>A/B testing is valuable, but only once you have enough traffic to generate statistically significant results, typically at least a few thousand sessions per month per test. For smaller stores, making informed design and copy improvements based on user behaviour data (heatmaps, session recordings) is usually more effective than trying to run formal tests with insufficient traffic.</p>"
     },
     {
       "q": "What’s the difference between UX design and CRO?",
-      "html": "<p>UX (user experience) design focuses on making your store intuitive and enjoyable to use. CRO (conversion rate optimisation) focuses specifically on removing barriers to purchase. In practice, they overlap significantly — good UX tends to improve conversion, and CRO work often identifies UX problems. The distinction matters more in theory than in practice for most Shopify stores.</p>"
+      "html": "<p>UX (user experience) design focuses on making your store intuitive and enjoyable to use. CRO (conversion rate optimisation) focuses specifically on removing barriers to purchase. In practice, they overlap significantly: good UX tends to improve conversion, and CRO work often identifies UX problems. The distinction matters more in theory than in practice for most Shopify stores.</p>"
     },
     {
       "q": "How long does it take to see results from CRO work?",
-      "html": "<p>Quick wins — like improving product page copy, adding trust signals, or fixing mobile layout issues — can show measurable results within 2–4 weeks. Structural changes like redesigning the checkout flow or rebuilding navigation take longer to implement and test. Most stores see meaningful improvement within 60–90 days of a focused CRO engagement.</p>"
+      "html": "<p>Quick wins, like improving product page copy, adding trust signals, or fixing mobile layout issues, can show measurable results within 2–4 weeks. Structural changes like redesigning the checkout flow or rebuilding navigation take longer to implement and test. Most stores see meaningful improvement within 60–90 days of a focused CRO engagement.</p>"
     }
   ]
 }

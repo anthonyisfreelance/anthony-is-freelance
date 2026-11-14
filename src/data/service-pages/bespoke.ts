@@ -147,7 +147,7 @@ export const BESPOKE: ServicePage = {
     eyebrow: 'Bespoke store design price',
     heading: 'How much does a bespoke Shopify store cost?',
     notes: [
-      'Prices checked September 2026. Every project is quoted individually once the brief is defined.',
+      'Prices checked November 2026. Every project is quoted individually once the brief is defined.',
       'The final price is dependent on how many templates you need, how complex the products are (configurators, bundles, subscriptions), and whether the brand needs refining first.',
     ],
     cta: { label: 'Get a quote', href: '#start-a-project' },
@@ -163,7 +163,7 @@ export const BESPOKE: ServicePage = {
 
   comparison: {
     ...THEME_VS_BESPOKE,
-    caption: 'Bespoke store design and theme customisation compared, checked September 2026',
+    caption: 'Bespoke store design and theme customisation compared, checked November 2026',
     columns: [
       { label: 'Bespoke store design', href: URLS.bespoke, current: true },
       { label: 'Theme customisations', href: URLS.theme },
