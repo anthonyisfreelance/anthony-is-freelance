@@ -3,6 +3,10 @@
 //   - the enquiry to Anthony, with the sender's address as Reply-To so a reply goes straight back;
 //   - "Thanks for getting in touch" to the sender, so they meet the brand and know what happens next.
 //
+// Each enquiry is also saved as a lead in the documents admin (docs.anthonyis.uk/admin/leads/,
+// worker/docs/leads.js), with whether they ticked the box for occasional news. If saving fails the
+// enquiry still counts as sent: the email to Anthony is the record that matters.
+//
 // The second one goes to an address nobody has checked, so it is fenced in: it carries none of the
 // text they typed (only a plain first name), each address gets at most one a day, and the whole form
 // is limited to a few sends a minute per visitor (ENQUIRY_RL in wrangler.jsonc). If it fails, the
@@ -21,6 +25,9 @@
 //   ENQUIRY_TO      where enquiries land; defaults to hello@anthonyis.uk
 
 import { enquiryNotice, enquiryReceivedEmail } from './docs/emails.js';
+import { createDoc } from './docs/bridge.js';
+import { newLead, leadFileName } from './docs/leads.js';
+import { newToken } from './docs/auth.js';
 
 const TO = 'hello@anthonyis.uk';
 const MIN_FILL_MS = 3000;
@@ -93,6 +100,8 @@ export async function enquiry(request, env, ctx) {
     message: get('message'),
     found: get('found'),
     page: get('page'),
+    // The unticked "occasional news" box. Only an explicit tick counts.
+    news: String(form.get('news') || '') === 'yes',
   };
 
   // Honeypot or too fast: pretend it worked, send nothing.
@@ -120,8 +129,13 @@ export async function enquiry(request, env, ctx) {
     const ok = await send(env, { to: [d.email], reply_to: env.ENQUIRY_TO || TO, ...enquiryReceivedEmail({ name: d.name }) });
     if (!ok) console.error('[enquiry] thank-you email did not send');
   })();
-  if (ctx?.waitUntil) ctx.waitUntil(thanks);
-  else await thanks;
+  // The lead for the admin's Leads page, saved to Drive after the response.
+  const lead = newLead({ token: newToken(), ...d });
+  const save = createDoc(env, lead, leadFileName(lead)).catch((e) => console.error('[enquiry] lead not saved:', e.message));
+
+  const after = Promise.all([thanks, save]);
+  if (ctx?.waitUntil) ctx.waitUntil(after);
+  else await after;
   return reply(true);
 }
 

@@ -8,17 +8,23 @@ import { invoiceTotals } from './invoice.js';
 // Layout follows the Figma admin page: every row shares one set of column widths, so each column
 // starts on the same line, and the buttons run Open, the next step (blue), other actions, then the
 // quiet text links.
-const ADMIN_CSS = `
+export const ADMIN_CSS = `
 .sheet { max-width: 1180px; }
 .sheet > * + * { margin-top: 40px; }
 .bar { max-width: 1180px; }
-.years { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px; }
-.years a { padding: 8px 12px; border: 1px solid var(--line); background: var(--paper); color: var(--ink); font: 500 14px/1 var(--display); text-transform: uppercase; text-decoration: none; }
-.years a[aria-current="page"] { border-color: var(--ink); background: var(--ink); color: var(--paper); }
-.years a:hover { border-color: var(--ink); }
+.years, .views { display: flex; flex-wrap: wrap; gap: 8px; }
+.years { margin-top: 24px; }
+.sheet > .views { margin-top: 24px; }
+.views a b { font-weight: 500; color: var(--red); }
+.views a[aria-current="page"] b { color: inherit; }
+.years a, .views a { padding: 8px 12px; border: 1px solid var(--line); background: var(--paper); color: var(--ink); font: 500 14px/1 var(--display); text-transform: uppercase; text-decoration: none; }
+.years a[aria-current="page"], .views a[aria-current="page"] { border-color: var(--ink); background: var(--ink); color: var(--paper); }
+.years a:hover, .views a:hover { border-color: var(--ink); }
 .totals { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px; margin-bottom: 0; }
 .totals dt { font: 500 14px/1.3 var(--display); letter-spacing: 0.02em; color: var(--muted); }
-.totals dd { margin: 4px 0 0; font: 500 26px/1.1 var(--display); text-transform: uppercase; color: var(--blue); }
+.totals dd { margin: 4px 0 0; font: 500 26px/1.1 var(--display); text-transform: uppercase; color: var(--ink); }
+.totals .t-blue dd { color: var(--blue); }
+.totals .t-red dd { color: var(--red); }
 .adm { display: flex; flex-direction: column; gap: 40px; }
 .adm-head, .adm-row { display: flex; align-items: center; gap: 16px; border-top: 1px solid var(--line); font: 500 14px/1.3 var(--display); letter-spacing: 0.02em; }
 .adm-head { padding: 24px 0 12px; color: var(--muted); }
@@ -53,7 +59,7 @@ const ADMIN_CSS = `
 }
 `;
 
-const ADMIN_SCRIPT = `
+export const ADMIN_SCRIPT = `
 (function () {
   var msg = document.getElementById('msg');
   function say(t, err) { if (!msg) return; msg.hidden = false; msg.className = 'status' + (err ? ' error' : ''); msg.textContent = t; window.scrollTo({ top: 0, behavior: 'smooth' }); }
@@ -79,7 +85,7 @@ const ADMIN_SCRIPT = `
       if (confirmText && b.getAttribute('data-armed') !== '1') { b.setAttribute('data-armed', '1'); b.textContent = confirmText; setTimeout(function () { b.removeAttribute('data-armed'); b.textContent = b.getAttribute('data-label'); }, 4000); return; }
       var label = b.getAttribute('data-label') || b.textContent; b.disabled = true; b.textContent = 'Working…';
       say(b.getAttribute('data-wait') || 'Working…');
-      post('action', { action: b.getAttribute('data-action'), token: b.getAttribute('data-token'), stage: b.getAttribute('data-stage') })
+      post('action', { action: b.getAttribute('data-action'), token: b.getAttribute('data-token'), stage: b.getAttribute('data-stage'), value: b.getAttribute('data-value') })
         .then(function (r) { if (!r.ok) { b.disabled = false; b.textContent = label; return say(r.error, true); } say(r.message || 'Done.'); setTimeout(function () { location.reload(); }, 900); });
     });
   });
@@ -161,7 +167,27 @@ const yearOf = (d) => taxYear(d.issued || (d.updated || '').slice(0, 10) || toda
 const yearLabel = (y) => y.replace(':', '/');
 const yearParam = (y) => y.replace(':', '-');
 
-export function renderAdmin({ base, docs, error, year, path = '/admin/' }) {
+// The two halves of the admin: documents, and leads (leads.js). The Leads tab shows how many are new.
+export function adminNav(active, all, paths = { documents: '/admin/', leads: '/admin/leads/' }) {
+  const fresh = all.filter((d) => d.type === 'lead' && !d.deleted && (d.status || 'new') === 'new').length;
+  const tab = (key, label) => `<a href="${esc(paths[key])}"${active === key ? ' aria-current="page"' : ''}>${label}</a>`;
+  return `<nav class="views" aria-label="Admin sections">${tab('documents', 'Documents')}${tab('leads', `Leads${fresh ? ` <b>(${fresh} new)</b>` : ''}`)}</nav>`;
+}
+
+// The foot of both admin pages: samples, signature, anything extra for that page, and Log out.
+export function adminTools(extra = '') {
+  return `<div class="tools">
+    <div>
+      <a class="ghost" href="/admin/samples/">Sample documents and emails</a>
+      <a class="ghost" href="/admin/samples/signature/">Gmail signature</a>
+      ${extra}
+    </div>
+    <button type="button" class="ghost" id="logout">Log out</button>
+  </div>`;
+}
+
+export function renderAdmin({ base, docs: all, error, year, path = '/admin/', paths }) {
+  const docs = all.filter((d) => d.type === 'quote' || d.type === 'invoice');
   const years = [...new Set([taxYear(today()), ...docs.map(yearOf)])].sort().reverse();
   const current = years.includes(String(year || '').replace('-', ':')) ? String(year).replace('-', ':') : taxYear(today());
   const inYear = docs.filter((d) => yearOf(d) === current);
@@ -182,10 +208,10 @@ export function renderAdmin({ base, docs, error, year, path = '/admin/' }) {
   const unpaid = invoices.filter((d) => d.state?.status !== 'paid');
   const overdue = unpaid.filter((d) => d.due && d.due < today());
   const totals = `<dl class="totals">
-    <div><dt>Invoiced, inc. VAT</dt><dd>${money(sum(invoices), { pennies: true })}</dd></div>
+    <div class="t-blue"><dt>Invoiced, inc. VAT</dt><dd>${money(sum(invoices), { pennies: true })}</dd></div>
     <div><dt>Paid</dt><dd>${money(sum(paid), { pennies: true })}</dd></div>
     <div><dt>Waiting for payment</dt><dd>${money(sum(unpaid), { pennies: true })}</dd></div>
-    <div><dt>Overdue</dt><dd>${money(sum(overdue), { pennies: true })}</dd></div>
+    <div${overdue.length ? ' class="t-red"' : ''}><dt>Overdue</dt><dd>${money(sum(overdue), { pennies: true })}</dd></div>
   </dl>`;
   const tabs = `<nav class="years" aria-label="Tax years">${years
     .map((y) => `<a href="${esc(path)}?year=${yearParam(y)}"${y === current ? ' aria-current="page"' : ''}>${esc(yearLabel(y))}${y === taxYear(today()) ? ' (this year)' : ''}</a>`)
@@ -212,6 +238,7 @@ export function renderAdmin({ base, docs, error, year, path = '/admin/' }) {
 
   const body = `
   ${masthead('Documents', 'Admin')}
+  ${adminNav('documents', all, paths)}
   <div>
     <h1>${eyebrow('Anthony is Freelance')}Quotes, contracts and invoices</h1>
     ${tabs}
@@ -223,13 +250,7 @@ export function renderAdmin({ base, docs, error, year, path = '/admin/' }) {
         <div class="adm-head"><div class="c-doc">Document</div><div class="c-proj">Project</div><div class="c-status">Status</div><div class="c-amt">Inc. VAT</div><div class="c-act">Actions</div></div>
         ${rows}</div>`
     : `<p class="empty">No documents in ${esc(yearLabel(current))} yet. New quotes and invoices appear here once their data file is in the Drive folder.</p>`}
-  <div class="tools">
-    <div>
-      <a class="ghost" href="/admin/samples/">Sample documents and emails</a>
-      <a class="ghost" href="/admin/samples/signature/">Gmail signature</a>
-    </div>
-    <button type="button" class="ghost" id="logout">Log out</button>
-  </div>
+  ${adminTools()}
   `;
   return shell({ title: 'Documents admin', base, body, css: ADMIN_CSS, script: ADMIN_SCRIPT + COPY_SCRIPT });
 }

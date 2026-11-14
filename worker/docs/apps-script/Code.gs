@@ -12,8 +12,8 @@
  *   3. Deploy > New deployment > Web app. Execute as: Me. Who has access: Anyone. Authorise.
  *   4. Copy the web app URL (ends in /exec) into the worker's BRIDGE_URL.
  *
- * Data: one JSON file per document in DATA_FOLDER, named "<name> [<token>].json", plus settings.json
- * (bank details and Anthony's signature).
+ * Data: one JSON file per document or lead in DATA_FOLDER, named "<name> [<token>].json", plus
+ * settings.json (bank details and Anthony's signature).
  */
 
 var KEY_FALLBACK = '';
@@ -68,6 +68,17 @@ var ACTIONS = {
     var f = DriveApp.getFolderById(DATA_FOLDER).createFile(name, JSON.stringify(req.doc, null, 2), 'application/json');
     PropertiesService.getScriptProperties().setProperty('doc:' + req.doc.token, f.getId());
     return { id: f.getId() };
+  },
+
+  // Bins a lead's data file. Leads only: quotes and invoices are never deleted from here.
+  remove: function (req) {
+    var f = findDocFile(req.token);
+    if (!f) return {};
+    var d = JSON.parse(f.getBlob().getDataAsString());
+    if (d.type !== 'lead') throw new Error('Only leads can be removed');
+    f.setTrashed(true);
+    PropertiesService.getScriptProperties().deleteProperty('doc:' + req.token);
+    return {};
   },
 
   // Every document, without the heavy parts (signature images, signed snapshots).

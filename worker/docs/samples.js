@@ -10,6 +10,7 @@ import { renderQuote, quoteTotals, stageAmounts } from './quote.js';
 import { renderContract, signedContractPage } from './contract.js';
 import { renderInvoice, invoiceTotals } from './invoice.js';
 import { renderAdmin } from './admin.js';
+import { renderLeads, newLead, NEWS_WORDING } from './leads.js';
 import { enquiryReceivedEmail, enquiryNotice, quoteEmail, signedEmail, invoiceEmail, signCodeEmail, loginCodeEmail, loginNotice, signedNotice, signatureHtml, PERSON } from './emails.js';
 
 export const SAMPLE_QUOTE = 'SAMPLEquote';
@@ -164,7 +165,7 @@ const sampleBase = 'https://docs.anthonyis.uk';
 // The deposit invoice once it has been sent, for the "after signing" samples.
 const DEPOSIT_SENT = { token: INVOICE, number: 'SaltwaterSupply_01', paid: false };
 const accepted = () => quote('scoped', { state: { status: 'sent', sentAt: `${today()}T09:00:00Z`, acceptedAt: `${today()}T09:40:00Z` } });
-const ENQUIRY = { name: CLIENT.contact.name, email: CLIENT.contact.email, website: 'saltwatersupply.example', budget: '£8k to £15k', found: 'Google', page: '/shopify-website-design/', message: "We're looking to redesign our Shopify store before spring. The current theme is slow on mobile and customers struggle to find the right kit.\n\nCould we talk through how you'd approach it?" };
+const ENQUIRY = { name: CLIENT.contact.name, email: CLIENT.contact.email, website: 'saltwatersupply.example', budget: '£10,000 – £20,000', found: 'Google search', page: '/shopify-website-design/', news: true, message: "We're looking to redesign our Shopify store before spring. The current theme is slow on mobile and customers struggle to find the right kit.\n\nCould we talk through how you'd approach it?" };
 
 // The admin list with a spread of made-up documents in every state.
 function adminDocs() {
@@ -188,8 +189,27 @@ function adminDocs() {
   ];
 }
 
+// Made-up leads in every status, for the sample Leads page.
+function sampleLeads() {
+  const at = (n) => `${addDays(today(), n)}T10:00:00Z`;
+  const lead = (i, over, days, status = 'new') => ({
+    ...newLead({ token: `SAMPLElead${i}`, name: 'Sam Taylor', email: 'sam@example.com', ...over }),
+    created: at(days), status, statusAt: at(Math.min(0, days + 2)),
+  });
+  return [
+    lead(1, { name: 'Priya Shah', email: 'priya@northcoastcandles.example', website: 'northcoastcandles.example', budget: '£10,000 – £20,000', found: 'Google search', page: '/shopify-website-design/', message: "We sell hand-poured candles and our store has grown past its theme. We'd like a redesign before next autumn, with a better gift-set page.\n\nCould we have a call next week?", news: true }, 0),
+    lead(2, { name: 'Tom Reeve', email: 'tom@reevecycles.example', website: 'reevecycles.example', budget: 'Not sure yet', found: 'UK eCommerce Awards', page: '/awards/', message: 'Saw the award win. We are moving from WooCommerce to Shopify next year and need the design done properly.' }, -1),
+    { ...lead(3, { name: CLIENT.contact.name, email: CLIENT.contact.email, website: 'saltwatersupply.example', budget: '£10,000 – £20,000', found: 'A recommendation', page: '/contact/', message: "We're looking to redesign our Shopify store before spring. The current theme is slow on mobile and customers struggle to find the right kit.", news: true }, -6, 'quoted'), note: 'Quote sent, chasing on Friday.' },
+    lead(4, { name: 'Jo Lambert', email: 'jo@harbourtea.example', website: 'harbourtea.example', budget: '£5,000 – £10,000', source: 'LinkedIn', message: 'Asked on LinkedIn about a subscription page for loose-leaf tea.' }, -9, 'call'),
+    lead(5, { name: 'Alex Morgan', email: 'alex@example.com', website: 'fernhillbakery.example', budget: '£10,000 – £20,000', source: 'Referral', message: 'Referred by an existing client. Product page and checkout design.' }, -30, 'won'),
+    lead(6, { name: 'Dan Okoro', email: 'dan@quickprintmugs.example', website: 'quickprintmugs.example', budget: 'Under £5,000', found: 'Google ad', page: '/', message: 'Need a full store built in two weeks.' }, -14, 'lost'),
+  ].map((l) => (l.news ? { ...l, news: { at: l.created, wording: NEWS_WORDING } } : l));
+}
+const SAMPLE_PATHS = { documents: `${P}admin/`, leads: `${P}leads/` };
+
 const SAMPLES = [
-  { slug: 'admin', group: 'Admin', label: 'Admin page', note: 'Your documents list, with made-up documents in every state. The buttons do nothing here.', page: (o) => renderAdmin({ base: o.base, docs: adminDocs(), year: o.year, path: `${P}admin/` }), pdf: false },
+  { slug: 'admin', group: 'Admin', label: 'Admin page', note: 'Your documents list, with made-up documents in every state. The buttons do nothing here.', page: (o) => renderAdmin({ base: o.base, docs: [...adminDocs(), ...sampleLeads()], year: o.year, path: `${P}admin/`, paths: SAMPLE_PATHS }), pdf: false },
+  { slug: 'leads', group: 'Admin', label: 'Leads page', note: 'Every enquiry and where it has got to, with made-up leads in every status. The buttons do nothing here.', page: (o) => renderLeads({ base: o.base, docs: [...adminDocs(), ...sampleLeads()], sample: true, paths: SAMPLE_PATHS }), pdf: false },
   { slug: 'quote-scoped', group: 'Quotes', label: 'Quote, scoped hours', note: 'The usual quote: hours per item.', page: (o) => renderQuote(quote('scoped'), o), pdf: true },
   { slug: 'quote-fixed', group: 'Quotes', label: 'Quote, fixed price', note: 'Hours left off.', page: (o) => renderQuote(quote('fixed'), o), pdf: true },
   { slug: 'quote-hourly', group: 'Quotes', label: 'Quote, hourly', note: 'Estimated hours, invoiced monthly.', page: (o) => renderQuote(quote('hourly'), o), pdf: true },

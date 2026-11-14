@@ -302,6 +302,9 @@ export const CONTACT = {
     label: 'How did you find me? (optional)',
     options: ['Google search', 'Google ad', 'ChatGPT, Gemini or another AI tool', 'UK eCommerce Awards', 'A recommendation', 'LinkedIn', 'An article on this site', 'A directory or list', 'Other'],
   },
+  // The opt-in box on the form. The worker records this wording with each lead who ticks it
+  // (NEWS_WORDING in worker/docs/leads.js), so change both together.
+  news: 'Send me occasional news, a few emails a year.',
   reply: 'I reply within two working days.',
   legal: 'Anthony Bliss · Falmouth, Cornwall · Anthonyis Limited, company number 10575474',
 };

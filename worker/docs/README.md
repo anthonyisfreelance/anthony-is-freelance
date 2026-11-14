@@ -32,6 +32,13 @@ link is unguessable. Every document is one A4 sheet, the same on screen and in t
   "Thanks for getting in touch" reply to the sender. The reply goes to an unchecked address, so it
   carries nothing they typed except a plain first name, each address gets at most one a day, and the
   form allows three sends a minute per visitor (`ENQUIRY_RL` in `wrangler.jsonc`).
+- **Leads** at `/admin/leads/` (`leads.js`): every contact-form enquiry is saved as a lead (one JSON
+  file in the data folder, type `lead`), and others can be added by hand. Statuses: New, Replied,
+  Call booked, Quoted, Won, Not a fit, plus a note. Replies still go from Gmail. Leads that don't
+  become projects are deleted after two years (six for clients), as the privacy notice says. The
+  form's unticked "occasional news" box is recorded on the lead with its wording and date: that is
+  the news list and the record of consent. Deleting uses the bridge's `remove` action; a bridge
+  deployed before that action wipes the lead's details instead and leaves an empty file.
 - **Samples** at `/admin/samples/` (admin only, `samples.js`): every kind of quote, contract, invoice
   and email filled in for a made-up client, with PDFs, plus the Gmail signature to copy. The comment
   tool runs on these pages only. Its comments are public GitHub issues, so samples must stay fictional

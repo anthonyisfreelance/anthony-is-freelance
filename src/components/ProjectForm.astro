@@ -4,6 +4,7 @@
 // Phones: 12px labels, 34px fields, two-column budget, full-width Send with an arrow.
 // From 1024px: 14px labels, 42px fields, three columns, Send message.
 import { CONTACT } from '../data/home';
+import { URLS } from '../data/site';
 const field = 't-tile h-[34px] w-full border border-line bg-surface px-3 text-ink placeholder:text-muted lg:h-[42px]';
 const label = 't-tile text-ink';
 ---
@@ -45,6 +46,12 @@ const label = 't-tile text-ink';
       </select>
       <svg viewBox="0 0 18 18" width="18" height="18" fill="none" aria-hidden="true" class="pointer-events-none absolute right-3 top-1/2 size-[18px] -translate-y-1/2 text-ink"><path d="M5.4 7.2L9 10.8L12.6 7.2" stroke="currentColor" stroke-linecap="square" stroke-linejoin="round" /></svg>
     </span>
+  </label>
+  <!-- Unticked by default: only a tick adds someone to the news list. The worker keeps this wording
+       with the lead as the record of consent (NEWS_WORDING in worker/docs/leads.js), so change both. -->
+  <label class="t-tile flex cursor-pointer items-center gap-2 text-ink">
+    <input type="checkbox" name="news" value="yes" class="size-[14px] shrink-0 cursor-pointer appearance-none border border-ink bg-[length:8px_8px] bg-center bg-no-repeat checked:bg-[linear-gradient(var(--c-text),var(--c-text))] focus-visible:outline-2 focus-visible:outline-offset-3 focus-visible:outline-blue" />
+    <span>{CONTACT.news} <a href={URLS.privacy} target="_blank" rel="noopener" class="text-muted underline underline-offset-4 hover:decoration-2">Privacy</a></span>
   </label>
   <p data-enquiry-status role="status" aria-live="polite" class="t-body text-ink empty:hidden"></p>
   <div>

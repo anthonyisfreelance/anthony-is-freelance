@@ -229,11 +229,13 @@ export function enquiryNotice(d) {
     ['Budget', d.budget],
     ['Found me through', d.found],
     ['Sent from', d.page],
+    ['News list', d.news ? 'Yes, they ticked the box' : ''],
   ].filter(([, v]) => v);
   const message = d.message || '(No message)';
+  const leads = 'https://docs.anthonyis.uk/admin/leads/';
   return {
     subject: `Project enquiry: ${d.name}${d.budget ? ` (${d.budget})` : ''}`,
-    text: `${rows.map(([k, v]) => `${k}: ${v}`).join('\n')}\n\n${message}\n`,
+    text: `${rows.map(([k, v]) => `${k}: ${v}`).join('\n')}\n\n${message}\n\nSaved in your leads: ${leads}\n`,
     html: layout({
       title: `Enquiry from ${d.name}`,
       footer: false,
@@ -241,7 +243,8 @@ export function enquiryNotice(d) {
       head: ['Enquiry', d.name],
       body: `${facts(rows)}
 <p style="margin:0 0 24px;font-family:${SERIF};font-size:16px;line-height:1.5;color:${INK};white-space:pre-wrap">${esc(message)}</p>
-${button(`mailto:${encodeURIComponent(d.email).replace(/%40/g, '@')}?subject=${encodeURIComponent('Your enquiry')}`, `Reply to ${firstName(d.name)}`)}`,
+${button(`mailto:${encodeURIComponent(d.email).replace(/%40/g, '@')}?subject=${encodeURIComponent('Your enquiry')}`, `Reply to ${firstName(d.name)}`)}
+${note(`Saved in your <a href="${leads}" style="color:${MUTED}">leads</a>, where you can track where it goes.`)}`,
     }),
   };
 }

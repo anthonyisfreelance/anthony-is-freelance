@@ -46,6 +46,18 @@ export const putDoc = (env, doc) => bridge(env, 'put', { token: doc.token, doc }
 export const createDoc = (env, doc, name) => bridge(env, 'create', { doc, name });
 export const listDocs = (env) => bridge(env, 'list').then((r) => r.docs || []);
 
+// Deletes a lead. The bridge's "remove" action bins its file in Drive. A bridge deployed before
+// that action existed doesn't know it, so the lead's details are wiped instead, leaving an empty
+// file that the lists ignore.
+export async function removeLead(env, lead) {
+  try {
+    await bridge(env, 'remove', { token: lead.token });
+  } catch (e) {
+    if (!(e instanceof BridgeError) || !/unknown action/i.test(e.message)) throw e;
+    await putDoc(env, { type: 'lead', token: lead.token, deleted: new Date().toISOString() });
+  }
+}
+
 // kind: quote | contract | invoice. `date` (YYYY-MM-DD) picks the invoice's tax-year folder.
 export const savePdf = (env, { kind, name, base64, date }) => bridge(env, 'savePdf', { kind, name, base64, date });
 

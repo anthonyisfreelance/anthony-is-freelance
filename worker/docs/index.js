@@ -31,7 +31,8 @@ import { renderQuote, quoteTotals, stageAmounts, stageLabel } from './quote.js';
 import { renderContract, signedContractPage, fingerprintSource } from './contract.js';
 import { renderInvoice, invoiceTotals } from './invoice.js';
 import { renderAdmin, renderLogin } from './admin.js';
-import { getDoc, putDoc, createDoc, listDocs, getSettings, savePdf, sendEmail, nextInvoiceSeq, BridgeError } from './bridge.js';
+import { renderLeads, leadAction, newLead, leadFileName, isLead, expired } from './leads.js';
+import { getDoc, putDoc, createDoc, listDocs, removeLead, getSettings, savePdf, sendEmail, nextInvoiceSeq, BridgeError } from './bridge.js';
 import { renderPdfs, toBase64 } from './pdf.js';
 import { resend } from './mail.js';
 import { seal, unseal, hmac, sha256Hex, newCode, newToken, getCookie, cookie, same } from './auth.js';
@@ -387,7 +388,8 @@ async function admin(request, env, url, parts, ctx) {
   if (request.method === 'GET') {
     if (!(await allowed(env, 'DOCS_RL_READ', request))) return tooMany(request);
     if (action === 'samples' && session) return await samples(request, env, url, parts.slice(1), ctx);
-    if (action || !url.pathname.endsWith('/')) return Response.redirect(`${base}/admin/`, 302);
+    const leads = action === 'leads' && session && parts.length === 1;
+    if ((action && !leads) || !url.pathname.endsWith('/')) return Response.redirect(`${base}/admin/${leads ? 'leads/' : ''}`, 302);
     if (!session) return html(renderLogin({ base, to: adminEmail(env) }));
     let docs = [];
     let error = '';
@@ -395,6 +397,15 @@ async function admin(request, env, url, parts, ctx) {
       docs = await listDocs(env);
     } catch (e) {
       error = e.message;
+    }
+    if (leads) {
+      // Leads past their keep-by date (two years, or six for clients) are deleted as the page opens.
+      const old = docs.filter((d) => isLead(d) && expired(d));
+      if (old.length) {
+        docs = docs.filter((d) => !old.includes(d));
+        ctx?.waitUntil(Promise.all(old.map((l) => removeLead(env, l).catch((e) => console.error('[docs] lead clean-up', e.message)))));
+      }
+      return html(renderLeads({ base, docs, error }));
     }
     return html(renderAdmin({ base, docs, error, year: url.searchParams.get('year') }));
   }
@@ -448,8 +459,25 @@ async function admin(request, env, url, parts, ctx) {
   if (action !== 'action') return json({ ok: false, error: 'Not found' }, 404);
 
   if (String(body.token || '').startsWith('SAMPLE')) return json({ ok: false, error: 'This is the sample admin page, so the buttons do nothing here.' }, 400);
+
+  // A lead added by hand, for enquiries that didn't come through the form.
+  if (body.action === 'lead-add') {
+    const l = body.lead || {};
+    if (!clip(l.name, 120)) return json({ ok: false, error: 'Please add a name.' }, 400);
+    const lead = newLead({ token: newToken(), source: clip(l.source, 40) || 'Other', name: l.name, email: l.email, website: l.website, budget: l.budget, message: l.message });
+    await createDoc(env, lead, leadFileName(lead));
+    return json({ ok: true, message: `${lead.name} added.` });
+  }
+
   const doc = await getDoc(env, String(body.token || ''));
-  if (!doc) return json({ ok: false, error: 'Document not found.' }, 404);
+  if (!doc || doc.deleted) return json({ ok: false, error: 'Document not found.' }, 404);
+  if (doc.type === 'lead') {
+    const r = leadAction(doc, body.action, body.value);
+    if (r.error) return json({ ok: false, error: r.error }, 400);
+    if (r.remove) await removeLead(env, doc);
+    else await putDoc(env, r.lead);
+    return json({ ok: true, message: r.message });
+  }
   const settings = await getSettings(env);
   const now = new Date().toISOString();
   if (doc.state?.withdrawnAt && body.action !== 'restore') return json({ ok: false, error: 'Restore this document before sending it.' }, 400);

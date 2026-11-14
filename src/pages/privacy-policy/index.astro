@@ -1,7 +1,8 @@
 ---
 // Privacy and cookie notice. Plain, first person, and only what actually happens: the enquiry form
 // and its confirmation email (worker/enquiry.js), analytics only after Accept (ConsentBanner.astro),
-// hosting, and the client documents on docs.anthonyis.uk (worker/docs: signing record, signing cookie).
+// hosting, the client documents on docs.anthonyis.uk (worker/docs: signing record, signing cookie), and
+// enquiries kept as leads with an optional news list (worker/docs/leads.js, deleted after two years).
 // Suppliers are described by what they do, never by name (Anthony, 14 November 2026), so the page
 // doesn't need changing when a supplier does. Cookies are listed by purpose for the same reason.
 // 29 October 2026, details confirmed 2 November 2026. No ICO fee: exempt (self-assessment, 2 November 2026).
@@ -51,8 +52,8 @@ const mail = `mailto:${business.email}`;
         <h2>The enquiry form</h2>
         <p>
           When you send the form, I receive your name, email, website, budget, message and how you found me. I use them to
-          reply to you and, if we work together, to run the project. Nothing goes on a mailing list, and I never sell or share
-          it for marketing.
+          reply to you and, if we work together, to run the project. I only add you to my news list if you tick the box on the
+          form, and you can leave it any time by emailing me. I never sell or share your details for marketing.
         </p>
         <p>
           The form reaches my inbox through an email delivery service, which also sends you a short confirmation. If you
@@ -100,7 +101,7 @@ const mail = `mailto:${business.email}`;
         <ul>
           <li>Website hosting and security.</li>
           <li>Email delivery, for the enquiry form and the codes used to sign contracts.</li>
-          <li>Email and file storage, for my inbox and client documents.</li>
+          <li>Email and file storage, for my inbox, enquiries and client documents.</li>
           <li>Analytics, only if you accept.</li>
         </ul>
         <p>
@@ -110,8 +111,8 @@ const mail = `mailto:${business.email}`;
 
         <h2>Why I'm allowed to use it</h2>
         <p>
-          Replying to an enquiry and running a project are steps towards, or part of, a contract with you. Analytics rely on
-          your consent, which you can withdraw. Keeping client records rests on a legal obligation, and the signing record on
+          Replying to an enquiry and running a project are steps towards, or part of, a contract with you. Analytics and the
+          news list rely on your consent, which you can withdraw. Keeping client records rests on a legal obligation, and the signing record on
           my legitimate interest in being able to show a contract was signed.
         </p>
 
