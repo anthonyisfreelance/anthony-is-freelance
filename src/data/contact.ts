@@ -13,7 +13,7 @@ export const CONTACT_PAGE = {
     'The quickest way to start a Shopify design project with me is the form on this page. Every message comes straight to me, and I reply within two working days.',
   // Booking month: always two months on from today, so it never needs touching. Set at build time
   // and refreshed in the browser on load (contact page script), so it stays right between deploys.
-  availability: { before: 'Currently booking from ', after: '.', monthsAhead: 2 },
+  availability: { before: 'Currently booking projects for ', after: ". Enquire now and I'll have yours scoped, quoted and ready to start.", monthsAhead: 2 },
 };
 
 /** The month `ahead` months on from `from`, e.g. 'January', plus its YYYY-MM for a <time> element. */
