@@ -501,12 +501,14 @@ ${button(`${base}/admin/`, 'Open the documents admin')}`,
 // `compact` is the one pasted into Gmail: the same design scaled down to sit under Gmail's own
 // 13px text, where the full size looks oversized. Emails the worker sends (16px text) use full.
 const SIG_SIZES = {
-  full: { width: 552, pad: 24, small: 14, logo: [149, 38] },
-  compact: { width: 448, pad: 14, small: 12, logo: [110, 28] },
+  // above: space over the rule. pad: rule to logo. gap: logo to award line when stacked. side: the
+  // least space between them on one row.
+  full: { width: 552, above: 0, pad: 32, gap: 16, side: 40, small: 14, logo: [149, 38] },
+  compact: { width: 448, above: 16, pad: 24, gap: 12, side: 32, small: 12, logo: [110, 28] },
 };
 export function signatureHtml({ adaptive = false, compact = false } = {}) {
   const z = SIG_SIZES[compact ? 'compact' : 'full'];
-  return `<div style="max-width:${z.width}px;border-top:1px solid ${LINE};padding:${z.pad}px 0 0;text-align:justify;font-size:0;line-height:0"><span class="sig-logo" style="display:inline-block;vertical-align:middle;margin:0 24px 8px 0;background:#FFFFFF">${logoLink(adaptive, z.logo[0], z.logo[1])}</span> <span style="display:inline-block;vertical-align:middle;margin:0 0 8px;${mint(z.small, INK, 'line-height:1.3;letter-spacing:0.02em;white-space:nowrap;text-align:left')}">${esc(PERSON.award)}</span> <span style="display:inline-block;width:100%;height:0;font-size:0;line-height:0">&nbsp;</span></div>`;
+  return `<div style="max-width:${z.width}px;margin:${z.above}px 0 0;border-top:1px solid ${LINE};padding:${z.pad}px 0 0;text-align:justify;font-size:0;line-height:0"><span class="sig-logo" style="display:inline-block;vertical-align:middle;margin:0 ${z.side}px ${z.gap}px 0;background:#FFFFFF">${logoLink(adaptive, z.logo[0], z.logo[1])}</span> <span style="display:inline-block;vertical-align:middle;margin:0 0 ${z.gap}px;${mint(z.small, INK, 'line-height:1.3;letter-spacing:0.02em;white-space:nowrap;text-align:left')}">${esc(PERSON.award)}</span> <span style="display:inline-block;width:100%;height:0;font-size:0;line-height:0">&nbsp;</span></div>`;
 }
 
 // A test email for the Gmail signature: some everyday text set the way Gmail sets it (13px sans),
