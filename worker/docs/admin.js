@@ -49,13 +49,24 @@ export const ADMIN_CSS = `
 .login { max-width: 420px; display: flex; flex-direction: column; gap: 12px; }
 .login input { width: 100%; padding: 10px 12px; border: 1px solid var(--line); border-radius: 0; font: 500 20px var(--display); letter-spacing: 0.3em; text-align: center; }
 .empty { color: var(--muted); }
+/* Phones and narrow screens (Figma: Admin page (mobile), docs/Admin row (mobile)). Each row stacks:
+   who and how much on the first line, then the project, the status and the buttons. */
 @media (max-width: 900px) {
+  .sheet > * + * { margin-top: 24px; }
   .totals { grid-template-columns: 1fr 1fr; gap: 16px; }
+  .totals dt { font-size: 12px; }
+  .totals dd { font-size: 22px; }
+  .adm { gap: 24px; }
   .adm-head { display: none; }
-  .adm-row { flex-wrap: wrap; gap: 8px 16px; }
-  .c-doc, .c-proj { flex: 1 1 40%; }
-  .c-status, .c-amt { flex: 0 0 auto; }
-  .c-act { flex: 1 1 100%; }
+  .adm-client { gap: 0; }
+  .adm-client h2 { padding: 16px 0 8px; font-size: 18px; }
+  .adm-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "doc amt" "proj proj" "status status" "act act"; align-items: start; gap: 8px 16px; padding: 16px 0; font-size: 12px; }
+  .c-doc { grid-area: doc; }
+  .c-amt { grid-area: amt; font-size: 14px; line-height: 1.3; text-align: right; }
+  .c-proj { grid-area: proj; }
+  .c-status { grid-area: status; }
+  .c-act { grid-area: act; gap: 12px; padding-top: 4px; }
+  .tools, .tools div { flex-direction: column; align-items: flex-start; }
 }
 `;
 

@@ -144,7 +144,7 @@ export const STAGE_CSS = `
   .stages { grid-template-columns: 1fr; }
   .stage { display: grid; grid-template-columns: auto 1fr; gap: 4px 16px; align-items: start; }
   .stage .st { grid-column: 1 / -1; }
-  .stage .big { font-size: 56px; min-width: 64px; }
+  .stage .big { font-size: 64px; min-width: 72px; }
   .stage h3 { font-size: 18px; }
 }
 `;
@@ -274,14 +274,21 @@ ${STAGE_CSS}
 .screen-only { }
 .print-only { display: none; }
 
+/* Phone sizes follow the design system's mobile mode: 16px page margin, 16px between sections,
+   28px page title, 22px money figures, 12px labels. */
 @media (max-width: 720px) {
-  body { padding: 0; font-size: 15px; }
+  body { padding: 0; }
   .bar { padding: 12px max(16px, env(safe-area-inset-right, 0px)) 0 max(16px, env(safe-area-inset-left, 0px)); }
   .sheet { padding: 24px max(16px, env(safe-area-inset-right, 0px)) 32px max(16px, env(safe-area-inset-left, 0px)); }
-  .logo { height: 36px; }
-  h1 { font-size: 30px; }
+  .sheet > * + * { margin-top: 16px; }
+  .logo { height: 38px; }
+  h1 { font-size: 28px; }
   .facts, .facts.four { grid-template-columns: 1fr 1fr; gap: 16px; }
-  .sec { grid-template-columns: 1fr; gap: 16px; }
+  .facts dt, table.kv th { font-size: 12px; }
+  .facts .money dd { font-size: 22px; }
+  .sec { grid-template-columns: 1fr; gap: 16px; padding-top: 16px; }
+  .fine { padding-top: 16px; }
+  .sec.full > h2, .sec.full > .money-head { margin-bottom: 16px; }
   .fine .cols { columns: 1; }
   th, td { padding-right: 12px; }
   th.w-detail { width: 64px; }

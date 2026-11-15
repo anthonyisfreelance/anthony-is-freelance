@@ -96,6 +96,9 @@ const LEADS_CSS = `
 .lead-add > summary::-webkit-details-marker { display: none; }
 @media (max-width: 900px) {
   .lead-body, .lead-form { grid-template-columns: 1fr; }
+  .lead-body { gap: 16px; }
+  .lead-more { padding-bottom: 16px; }
+  .leads .c-amt { font-size: 12px; }
 }
 `;
 
