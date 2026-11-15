@@ -47,13 +47,11 @@ export function replyDefaults(l) {
   };
 }
 
-// The same reply as a ready-made draft in Gmail's own compose page, for when Anthony would rather
-// write it there (attachments, formatting). Their message is quoted under it, trimmed so the link
-// stays a sensible length.
+// A new message in Gmail's own compose page, addressed and with the subject filled in, for when
+// Anthony would rather write it there (attachments, formatting). The message itself is left empty
+// on purpose: Gmail leaves out the signature whenever a link fills the message in.
 function gmailDraft(l) {
-  const d = replyDefaults(l);
-  const quoted = l.message ? `\n\n---\nOn ${fmtDate(l.created)} you wrote:\n${l.message.slice(0, 1200)}${l.message.length > 1200 ? '…' : ''}` : '';
-  const q = new URLSearchParams({ view: 'cm', fs: '1', to: l.email || '', su: d.subject, body: d.body + quoted });
+  const q = new URLSearchParams({ view: 'cm', fs: '1', to: l.email || '', su: replyDefaults(l).subject });
   return `https://mail.google.com/mail/?${q}`;
 }
 
@@ -230,7 +228,7 @@ function row(l, quotes, sample) {
             <h3>Reply from your Gmail</h3>
             <input aria-label="Subject" maxlength="150" value="${esc(draft.subject)}">
             <textarea aria-label="Your reply to ${esc(l.name)}" maxlength="5000">${esc(draft.body)}</textarea>
-            <p class="lead-hint">Goes to ${esc(l.email)} from your Gmail, with your signature. Their message is added underneath, and the lead moves to Replied.</p>
+            <p class="lead-hint">Sends to ${esc(l.email)} from your Gmail, like a normal reply: your message, then your signature, then their enquiry quoted below. The lead moves to Replied.</p>
             <div class="lead-send">
               <button type="button" class="ghost small primary" data-lead-reply="${esc(l.token)}">Send reply</button>
               <a class="textbtn" href="${esc(gmailDraft(l))}" target="_blank" rel="noopener">Write it in Gmail instead</a>
