@@ -354,7 +354,10 @@ export function signaturePage({ base }) {
   ${masthead('Documents', 'Gmail signature')}
   <h1>${eyebrow('Your email')}Gmail signature</h1>
   <section class="sec full">
-    <div style="padding:32px;border:1px solid var(--line);background:#fff"><div id="sig">${signatureHtml()}</div></div>
+    <div style="padding:32px;border:1px solid var(--line);background:#fff">
+      <div style="margin:0 0 20px;font:13px/1.5 Arial, Helvetica, sans-serif;color:#222">Hi Sam,<br><br>This line is the size Gmail writes your emails in, so you can judge the signature against it.<br><br>Thanks,<br>Anthony</div>
+      <div id="sig">${signatureHtml({ compact: true })}</div>
+    </div>
     <div class="act">
       <button type="button" class="btn" id="copy-sig">Copy signature</button>
       <button type="button" class="ghost" id="send-tests">Email me a test</button>
@@ -375,7 +378,7 @@ export function signaturePage({ base }) {
   <section class="sec" aria-labelledby="h-notes">
     <h2 id="h-notes">${eyebrow('Good to know')}How it shows</h2>
     <div class="prose">
-      <p>This is the signature for emails you write yourself in Gmail, and it carries the logo. The emails the site sends (quotes, contracts, invoices, enquiry replies) have the logo across the top instead, so their signature leaves it out. The wording is the same in both.</p>
+      <p>This is the signature for emails you write yourself in Gmail, and it carries the logo. It is a smaller cut of the design, sized to sit under Gmail's own small text. The emails the site sends (quotes, contracts, invoices, enquiry replies) use larger text, so their signature is larger, and they have the logo across the top instead. The wording is the same in both.</p>
       <p>The logo is a picture hosted on anthonyis.uk, so it shows for anyone who loads images. Gmail and Outlook can't use your own typeface, so the text shows in Arial Narrow or Arial; Apple Mail shows Mint Grotesk.</p>
       <p>Change the details in one place (<b>PERSON</b> in worker/docs/emails.js) and the emails follow; paste the signature into Gmail again after a change.</p>
       <p>It says: ${esc([PERSON.name, PERSON.role, PERSON.award, PERSON.site].join(' · '))}.</p>

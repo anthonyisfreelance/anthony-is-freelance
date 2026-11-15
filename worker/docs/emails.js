@@ -113,18 +113,19 @@ function mastheadRow([kind, value]) {
 
 // The signature's two halves, shared by the emails (no logo, the header has it) and Gmail (logo).
 // The name is larger in the site's emails (26px) than in the Gmail signature (22px), as in Figma.
-const sigHeading = (size = 22, lh = 1.3, gap = 4) => `<div style="${mint(14, MUTED, 'line-height:1.3')}">+ ${esc(PERSON.role)} +</div>
+// `small` is the size of the supporting lines (14px, or 12px in the compact Gmail signature).
+const sigHeading = (size = 22, lh = 1.3, gap = 4, small = 14) => `<div style="${mint(small, MUTED, 'line-height:1.3')}">+ ${esc(PERSON.role)} +</div>
 <div style="padding:${gap}px 0 0;${mint(size, INK, `line-height:${lh};text-transform:uppercase`)}">${esc(PERSON.name)}</div>`;
-const sigLink = `<a href="${SITE}/" target="_blank" style="${mint(14, INK, 'line-height:1.3;text-transform:uppercase;text-decoration:none;white-space:nowrap')}">${esc(PERSON.site)}&nbsp;${ARROW_UP}</a>`;
-const sigAward = `<span style="${mint(14, MUTED, 'line-height:1.3;letter-spacing:0.02em')}">${esc(PERSON.award).replace('UK eCommerce Awards 2026', '<span style="white-space:nowrap">UK eCommerce Awards 2026</span>')}</span>`;
+const sigLink = (small = 14) => `<a href="${SITE}/" target="_blank" style="${mint(small, INK, 'line-height:1.3;text-transform:uppercase;text-decoration:none;white-space:nowrap')}">${esc(PERSON.site)}&nbsp;${ARROW_UP}</a>`;
+const sigAward = (small = 14) => `<span style="${mint(small, MUTED, 'line-height:1.3;letter-spacing:0.02em')}">${esc(PERSON.award).replace('UK eCommerce Awards 2026', '<span style="white-space:nowrap">UK eCommerce Awards 2026</span>')}</span>`;
 
 // In the site's emails (Figma: Email signature, Logo=Off).
 function emailSignature() {
   return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 24px;border-top:1px solid ${LINE}">
 <tr><td style="padding:24px 0 0">${sigHeading(26, 1.1, 8)}</td></tr>
 <tr><td style="padding:16px 0 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
-<td style="vertical-align:top">${sigAward}</td>
-<td align="right" style="padding:0 0 0 12px;text-align:right;vertical-align:top;white-space:nowrap">${sigLink}</td>
+<td style="vertical-align:top">${sigAward()}</td>
+<td align="right" style="padding:0 0 0 12px;text-align:right;vertical-align:top;white-space:nowrap">${sigLink()}</td>
 </tr></table></td></tr>
 </table>`;
 }
@@ -490,20 +491,28 @@ ${button(`${base}/admin/`, 'Open the documents admin')}`,
 // The signature to paste into Gmail > Settings > Signature (Figma: Email signature, Logo=On): the
 // same heading as the emails, then the logo with the site link and award line on the right.
 // `adaptive` is only for the test email, where the Gmail dark-mode logo rules can apply.
-export function signatureHtml({ adaptive = false } = {}) {
-  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:552px;border-top:1px solid ${LINE}">
-<tr><td style="padding:24px 0">${sigHeading()}</td></tr>
-<tr><td style="padding:24px 0 0;border-top:1px solid ${LINE}"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
-<td width="149" class="sig-logo" bgcolor="#FFFFFF" style="width:149px;background:#FFFFFF;vertical-align:middle">${logoLink(adaptive, 149, 38)}</td>
+// `compact` is the one pasted into Gmail: the same design scaled down to sit under Gmail's own
+// 13px text, where the full size looks oversized. The site's emails (16px text) use the full size.
+const SIG_SIZES = {
+  full: { width: 552, pad: 24, name: 22, gap: 4, small: 14, logo: [149, 38], between: 6 },
+  compact: { width: 400, pad: 14, name: 16, gap: 2, small: 12, logo: [110, 28], between: 3 },
+};
+export function signatureHtml({ adaptive = false, compact = false } = {}) {
+  const z = SIG_SIZES[compact ? 'compact' : 'full'];
+  return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:${z.width}px;border-top:1px solid ${LINE}">
+<tr><td style="padding:${z.pad}px 0">${sigHeading(z.name, 1.3, z.gap, z.small)}</td></tr>
+<tr><td style="padding:${z.pad}px 0 0;border-top:1px solid ${LINE}"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+<td width="${z.logo[0]}" class="sig-logo" bgcolor="#FFFFFF" style="width:${z.logo[0]}px;background:#FFFFFF;vertical-align:middle">${logoLink(adaptive, z.logo[0], z.logo[1])}</td>
 <td align="right" style="padding:0 0 0 12px;vertical-align:middle"><table role="presentation" align="right" cellpadding="0" cellspacing="0" border="0" style="width:auto"><tr><td align="left" style="text-align:left">
-<div>${sigLink}</div>
-<div style="padding:6px 0 0">${sigAward}</div>
+<div>${sigLink(z.small)}</div>
+<div style="padding:${z.between}px 0 0">${sigAward(z.small)}</div>
 </td></tr></table></td>
 </tr></table></td></tr>
 </table>`;
 }
 
-// A test email for the Gmail signature: some everyday text, then the signature.
+// A test email for the Gmail signature: some everyday text set the way Gmail sets it (13px sans),
+// then the compact signature, so the test shows the same proportions as a real email from Gmail.
 export function signatureTest() {
   const lines = [
     'Hi Sam,',
@@ -518,9 +527,8 @@ export function signatureTest() {
       title: 'Signature test',
       preheader: 'Signature test: check it in light and dark mode.',
       footer: false,
-      body: `${lines.map((l) => p(esc(l))).join('\n')}
-${p('Thanks,<br>Anthony')}
-<div style="margin:28px 0 0">${signatureHtml({ adaptive: true })}</div>`,
+      body: `${[...lines, 'Thanks,<br>Anthony'].map((l, i) => `<div style="margin:0 0 13px;font-family:Arial,Helvetica,sans-serif;font-size:13px;line-height:1.5;color:#222222">${i < lines.length ? esc(l) : l}</div>`).join('\n')}
+<div style="margin:20px 0 0">${signatureHtml({ adaptive: true, compact: true })}</div>`,
     }),
   };
 }
