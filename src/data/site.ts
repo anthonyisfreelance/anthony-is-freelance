@@ -73,6 +73,10 @@ export const ENTITY = {
   googleReviews: 'https://g.page/anthonyis-freelance',
 };
 
+// The enquiry form's spam check (Cloudflare Turnstile). This is the public half of the key pair and
+// belongs in the page; the secret half is the worker's TURNSTILE_SECRET and never goes in the repo.
+export const TURNSTILE_SITEKEY = '0x4AAAAAAGCKK8ZDXY-ZBn6Y';
+
 // Existing live URLs, so links keep working through the move.
 // Shopify launches since going independent (August 2023). Shown on the homepage and in the partner line.
 export const LAUNCH_COUNT = 13;

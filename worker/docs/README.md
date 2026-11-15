@@ -38,7 +38,9 @@ link is unguessable. Every document is one A4 sheet, the same on screen and in t
   "Thanks for getting in touch" reply to the sender. The reply goes to an unchecked address, so it
   carries nothing they typed except a plain first name, each address gets at most one a day, and the
   form allows three sends a minute per visitor (`ENQUIRY_RL` in `wrangler.jsonc`). Junk that gets
-  past the honeypot is caught by `automated()`: obvious bot sends are dropped quietly, and a message
+  past the honeypot is caught by `automated()` and by a Cloudflare Turnstile check (hidden unless
+  Cloudflare wants a tick; its script loads only when someone starts the form; the email to Anthony
+  says how it went). In `automated()`: obvious bot sends are dropped quietly, and a message
   that is only a link still reaches Anthony, marked "[Possible spam]", with no thank-you sent.
 - **Leads** at `/admin/leads/` (`leads.js`): every contact-form enquiry is saved as a lead (one JSON
   file in the data folder, type `lead`), and others can be added by hand. Statuses: New, Replied,
@@ -79,6 +81,7 @@ plain-text variables set in the dashboard are wiped by the next deploy.
 | `BRIDGE_URL` | secret | The Apps Script web app URL (ends `/exec`) |
 | `BRIDGE_KEY` | secret | Shared with the bridge's `BRIDGE_KEY` script property |
 | `RESEND_API_KEY` | secret | Already set for the enquiry form |
+| `TURNSTILE_SECRET` | secret, optional | The enquiry form's spam check (Cloudflare Turnstile widget secret key). Without it the check is off |
 | `ADMIN_EMAIL` | secret, optional | Where admin login codes go; defaults to hello@anthonyis.uk |
 
 `wrangler.jsonc` adds the `BROWSER` binding and `nodejs_compat` for the PDFs, `DOCS_HOST`, and the

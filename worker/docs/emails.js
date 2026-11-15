@@ -220,6 +220,14 @@ ${signOff()}`,
   };
 }
 
+// How the form's spam check went (worker/enquiry.js), in the email to Anthony.
+const SPAM_CHECK = {
+  passed: 'Passed',
+  missing: 'Not done (sent without it)',
+  unknown: "Couldn't be checked just now",
+  broken: 'Not working: Cloudflare refused the secret key (TURNSTILE_SECRET)',
+};
+
 // To Anthony: everything they sent, with a button that starts the reply.
 export function enquiryNotice(d) {
   const rows = [
@@ -230,8 +238,12 @@ export function enquiryNotice(d) {
     ['Found me through', d.found],
     ['Sent from', d.page],
     ['News list', d.news ? 'Yes, they ticked the box' : ''],
+    ['Spam check', SPAM_CHECK[d.check] || ''],
   ].filter(([, v]) => v);
   const message = d.message || '(No message)';
+  const why = d.suspect === 'check'
+    ? "This came in without passing the form's spam check, so it may be automated. No thank-you email went to them. It is in your leads in case it is real: a few browsers block the check."
+    : 'This looks automated (the message is only a link), so no thank-you email went to them. It is in your leads if it turns out to be real.';
   // The button opens this lead on the Leads page with the reply box ready, so the reply goes from
   // Gmail whatever mail app the phone would open for an email link.
   const leads = `https://docs.anthonyis.uk/admin/leads/${d.token ? `?reply=${encodeURIComponent(d.token)}` : ''}`;
@@ -243,7 +255,7 @@ export function enquiryNotice(d) {
       footer: false,
       preheader: message.slice(0, 120),
       head: ['Enquiry', d.name],
-      body: `${d.suspect ? note('This looks automated (the message is only a link), so no thank-you email went to them. It is in your leads if it turns out to be real.') : ''}${facts(rows)}
+      body: `${d.suspect ? note(why) : ''}${facts(rows)}
 <p style="margin:0 0 24px;font-family:${SERIF};font-size:16px;line-height:1.5;color:${INK};white-space:pre-wrap">${esc(message)}</p>
 ${button(leads, d.suspect ? 'Open this lead' : `Reply to ${firstName(d.name)}`)}
 ${note('The button opens this lead on your leads page with a reply ready to edit. It sends from your Gmail.')}`,

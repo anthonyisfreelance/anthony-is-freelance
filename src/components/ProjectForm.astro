@@ -4,7 +4,7 @@
 // Phones: 12px labels, 34px fields, two-column budget, full-width Send with an arrow.
 // From 1024px: 14px labels, 42px fields, three columns, Send message.
 import { CONTACT } from '../data/home';
-import { URLS } from '../data/site';
+import { URLS, TURNSTILE_SITEKEY } from '../data/site';
 const field = 't-tile h-[34px] w-full border border-line bg-surface px-3 text-ink placeholder:text-muted lg:h-[42px]';
 const label = 't-tile text-ink';
 ---
@@ -55,6 +55,9 @@ const label = 't-tile text-ink';
   </label>
   <p data-enquiry-status role="status" aria-live="polite" class="t-body text-ink empty:hidden"></p>
   <div>
+    <!-- The spam check (worker/enquiry.js). Nothing shows here unless Cloudflare wants a visitor to
+         tick a box; its script only loads once someone starts filling in the form. -->
+    <div data-turnstile data-sitekey={TURNSTILE_SITEKEY}></div>
     <button type="submit" class="t-button-lg flex w-full cursor-pointer items-center justify-between gap-2 bg-ink px-4 py-[15px] text-surface hover:opacity-90 lg:w-auto">
       <span class="lg:hidden">Send</span><span class="hidden lg:inline">Send message</span>
       <img src="/icons/arrow-right.svg" alt="" width="18" height="18" class="size-[18px] lg:hidden" />
@@ -66,6 +69,21 @@ const label = 't-tile text-ink';
   // Sends the enquiry without leaving the page, then swaps the form for a thank-you line.
   // Shared by every copy of the form on the page (the page's own and the Start a project overlay).
   const ERROR = 'Sorry, that didn’t send. Please try again, or email hello@anthonyis.uk.';
+
+  // The spam check's script, fetched once, the first time anyone starts a form. If it can't load
+  // (a blocker, no connection) the form still sends; the worker just treats it with more caution.
+  let loading: Promise<any> | null = null;
+  const loadCheck = () =>
+    (loading ??= new Promise((resolve) => {
+      const done = () => resolve((window as any).turnstile || null);
+      (window as any).__enquiryCheckReady = done;
+      const s = document.createElement('script');
+      s.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit&onload=__enquiryCheckReady';
+      s.async = true;
+      s.onerror = () => resolve(null);
+      document.head.append(s);
+      setTimeout(() => resolve(null), 10000);
+    }));
   document.querySelectorAll<HTMLFormElement>('form[data-enquiry]').forEach((form) => {
     const status = form.querySelector<HTMLElement>('[data-enquiry-status]')!;
     const set = (name: string, value: string) => {
@@ -76,12 +94,50 @@ const label = 't-tile text-ink';
     set('page', location.pathname);
     if (new URLSearchParams(location.search).get('enquiry') === 'error') status.textContent = ERROR;
 
+    // The check for this form: started on the first tap or keystroke, so it is ready by Send.
+    const box = form.querySelector<HTMLElement>('[data-turnstile]');
+    const check = { api: null as any, id: null as string | null, token: '', asking: false, wake: null as null | (() => void), begun: null as Promise<void> | null };
+    const begin = () =>
+      (check.begun ??= loadCheck().then((api) => {
+        if (!api || !box || !form.isConnected) return;
+        const settled = () => check.wake?.();
+        // Match the widget to the section: light text means a dark section.
+        const dark = (getComputedStyle(form).color.match(/\d+/g) || []).slice(0, 3).reduce((a, n) => a + Number(n), 0) > 382;
+        check.api = api;
+        check.id = api.render(box, {
+          sitekey: box.dataset.sitekey,
+          appearance: 'interaction-only',
+          theme: dark ? 'dark' : 'light',
+          callback: (t: string) => { check.token = t; settled(); },
+          'expired-callback': () => { check.token = ''; },
+          'error-callback': () => { check.token = ''; settled(); return true; },
+          'before-interactive-callback': () => { check.asking = true; box.style.marginBottom = '24px'; },
+          'after-interactive-callback': () => { check.asking = false; box.style.marginBottom = ''; },
+        });
+      }));
+    form.addEventListener('focusin', begin, { once: true });
+    form.addEventListener('pointerdown', begin, { once: true });
+    // Waits for the check to finish: a few seconds normally, longer while it is asking for a tick.
+    const checked = async () => {
+      await begin();
+      if (check.id === null || check.token) return;
+      const until = Date.now() + 60000;
+      const quick = Date.now() + 8000;
+      while (!check.token && Date.now() < (check.asking ? until : quick)) {
+        if (check.asking) status.textContent = 'One quick check: tick the box above and it will send.';
+        await new Promise<void>((r) => { check.wake = r; setTimeout(r, 500); });
+      }
+      check.wake = null;
+    };
+
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       const button = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
       button.disabled = true;
       status.textContent = 'Sending…';
       try {
+        await checked();
+        status.textContent = 'Sending…';
         const res = await fetch(form.action, { method: 'POST', body: new FormData(form), headers: { accept: 'application/json' } });
         const data = await res.json().catch(() => ({}));
         if (!res.ok || !data.ok) throw new Error(data.error || ERROR);
@@ -95,6 +151,8 @@ const label = 't-tile text-ink';
       } catch (err) {
         status.textContent = err instanceof Error && err.message ? err.message : ERROR;
         button.disabled = false;
+        // Each pass of the check can only be used once, so a second try needs a new one.
+        if (check.id !== null) { check.token = ''; try { check.api.reset(check.id); } catch { /* the form still sends */ } }
       }
     });
   });

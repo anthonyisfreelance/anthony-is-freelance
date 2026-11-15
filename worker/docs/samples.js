@@ -165,7 +165,7 @@ const sampleBase = 'https://docs.anthonyis.uk';
 // The deposit invoice once it has been sent, for the "after signing" samples.
 const DEPOSIT_SENT = { token: INVOICE, number: 'SaltwaterSupply_01', paid: false };
 const accepted = () => quote('scoped', { state: { status: 'sent', sentAt: `${today()}T09:00:00Z`, acceptedAt: `${today()}T09:40:00Z` } });
-const ENQUIRY = { name: CLIENT.contact.name, email: CLIENT.contact.email, website: 'saltwatersupply.example', budget: '£10,000 – £20,000', found: 'Google search', page: '/shopify-website-design/', news: true, message: "We're looking to redesign our Shopify store before spring. The current theme is slow on mobile and customers struggle to find the right kit.\n\nCould we talk through how you'd approach it?" };
+const ENQUIRY = { check: 'passed', name: CLIENT.contact.name, email: CLIENT.contact.email, website: 'saltwatersupply.example', budget: '£10,000 – £20,000', found: 'Google search', page: '/shopify-website-design/', news: true, message: "We're looking to redesign our Shopify store before spring. The current theme is slow on mobile and customers struggle to find the right kit.\n\nCould we talk through how you'd approach it?" };
 
 // The admin list with a spread of made-up documents in every state.
 function adminDocs() {
@@ -223,7 +223,7 @@ const SAMPLES = [
   { slug: 'invoice-paid', group: 'Invoices', label: 'Invoice, paid', note: 'After you mark it paid.', page: (o) => renderInvoice(invoice('stage', true), o), pdf: true },
   { slug: 'email-enquiry', group: 'Emails', label: 'Enquiry received', note: 'To whoever sends the contact form, straight away.', email: () => enquiryReceivedEmail(ENQUIRY) },
   { slug: 'email-enquiry-notice', group: 'Emails', label: 'New enquiry', note: 'To you, with everything they sent. The button opens the lead with a reply ready.', email: () => enquiryNotice(ENQUIRY) },
-  { slug: 'email-enquiry-spam', group: 'Emails', label: 'New enquiry, possible spam', note: 'To you, when the message is only a link. They get no thank-you email.', email: () => enquiryNotice({ name: 'Marketing Team', email: 'promo@example.com', website: 'cheap-traffic.example', message: 'https://cheap-traffic.example/offer', page: '/contact/', suspect: true }) },
+  { slug: 'email-enquiry-spam', group: 'Emails', label: 'New enquiry, possible spam', note: 'To you, when the message is only a link. They get no thank-you email.', email: () => enquiryNotice({ name: 'Marketing Team', email: 'promo@example.com', website: 'cheap-traffic.example', message: 'https://cheap-traffic.example/offer', page: '/contact/', suspect: 'link', check: 'passed' }) },
   { slug: 'email-lead-reply', group: 'Emails', label: 'Your reply to a lead', note: 'What they receive when you reply from the Leads page: your words, your signature, then their message.', email: () => { const lead = { ...newLead({ token: 'SAMPLEreply', ...ENQUIRY }), created: `${addDays(today(), -1)}T10:00:00Z` }; return leadReplyEmail({ lead, subject: replyDefaults(lead).subject, text: `Hi ${ENQUIRY.name.split(' ')[0]},\n\nGood to hear from you. A slow theme on mobile is one of the most common things I fix, and it is very fixable.\n\nAre you free for a 30 minute call on Tuesday or Wednesday next week? Mornings suit me best.\n\nThanks,\nAnthony` }); } },
   { slug: 'email-quote', group: 'Emails', label: 'Quote email', note: 'To the client, from your Gmail, with the PDF attached.', email: () => quoteEmail({ base: sampleBase, doc: quote(), total: quoteTotals(quote()).total }) },
   { slug: 'email-signed', group: 'Emails', label: 'Signed contract email', note: 'To the client, with both PDFs attached.', email: () => signedEmail({ base: sampleBase, doc: signedQuote(), sig: signedQuote().state.signature, deposit: stageAmounts(signedQuote())[0] }) },
@@ -325,13 +325,26 @@ const COPY_SIG = `
 })();
 (function () {
   var b = document.getElementById('copy-sig'), sig = document.getElementById('sig'), msg = document.getElementById('sig-msg');
-  b.addEventListener('click', function () {
-    var r = document.createRange(); r.selectNode(sig);
+  function say(ok) {
+    msg.hidden = false;
+    msg.textContent = ok ? 'Copied. Now paste it into Gmail (steps below).' : 'Select the signature above with your mouse, copy it, then paste it into Gmail.';
+  }
+  // Older browsers: select what is inside the preview (never the preview box itself) and copy that.
+  function bySelection() {
+    var r = document.createRange(); r.selectNodeContents(sig);
     var s = window.getSelection(); s.removeAllRanges(); s.addRange(r);
     var ok = false; try { ok = document.execCommand('copy'); } catch (e) {}
     s.removeAllRanges();
-    msg.hidden = false;
-    msg.textContent = ok ? 'Copied. Now paste it into Gmail (steps below).' : 'Select the signature above with your mouse, copy it, then paste it into Gmail.';
+    say(ok);
+  }
+  // The signature's own HTML goes on the clipboard exactly as written, so nothing from this page
+  // (the preview's border and padding, page styles) comes along into Gmail.
+  b.addEventListener('click', function () {
+    if (!navigator.clipboard || !window.ClipboardItem) return bySelection();
+    navigator.clipboard.write([new ClipboardItem({
+      'text/html': new Blob([sig.innerHTML], { type: 'text/html' }),
+      'text/plain': new Blob([sig.innerText], { type: 'text/plain' })
+    })]).then(function () { say(true); }, bySelection);
   });
 })();
 `;
@@ -341,7 +354,7 @@ export function signaturePage({ base }) {
   ${masthead('Documents', 'Gmail signature')}
   <h1>${eyebrow('Your email')}Gmail signature</h1>
   <section class="sec full">
-    <div id="sig" style="padding:32px;border:1px solid var(--line);background:#fff">${signatureHtml()}</div>
+    <div style="padding:32px;border:1px solid var(--line);background:#fff"><div id="sig">${signatureHtml()}</div></div>
     <div class="act">
       <button type="button" class="btn" id="copy-sig">Copy signature</button>
       <button type="button" class="ghost" id="send-tests">Email me a test</button>

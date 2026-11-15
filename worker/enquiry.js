@@ -19,12 +19,19 @@
 //
 // Spam: a hidden honeypot field ("company") and a minimum fill time ("t", set by the form's script).
 // Bots that fill the honeypot or submit in under three seconds get a quiet success and no email.
-// automated() below catches the junk that gets past both.
+// automated() below catches the junk that gets past both. The form also carries a Cloudflare
+// Turnstile check (sitekey in src/data/site.ts), which the worker confirms with Cloudflare:
+//   - passed: a normal enquiry;
+//   - sent without one (no JavaScript, or the check was blocked): it still reaches Anthony, marked
+//     as possible spam, but nobody is emailed a thank-you and no news tick is kept;
+//   - a forged, reused or expired one: refused, and the form asks them to try again.
+// Without TURNSTILE_SECRET the check is simply off.
 //
 // Settings (Cloudflare dashboard > Worker > Settings > Variables and secrets):
 //   RESEND_API_KEY  secret, from resend.com (a domain verified there, e.g. mail.anthonyis.uk)
 //   ENQUIRY_FROM    e.g. "Anthony Bliss <hello@mail.anthonyis.uk>" (set in wrangler.jsonc)
 //   ENQUIRY_TO      where enquiries land; defaults to hello@anthonyis.uk
+//   TURNSTILE_SECRET  secret, the Turnstile widget's secret key (Cloudflare dashboard > Turnstile)
 
 import { enquiryNotice, enquiryReceivedEmail } from './docs/emails.js';
 import { createDoc } from './docs/bridge.js';
@@ -76,6 +83,34 @@ async function send(env, message) {
     body: JSON.stringify({ from: env.ENQUIRY_FROM, ...message }),
   }).catch(() => null);
   return Boolean(res && res.ok);
+}
+
+// Asks Cloudflare whether the form's spam check was really passed. Returns:
+//   off (no secret set), passed, missing (nothing sent with the form), failed (forged, reused or
+//   expired), broken (Cloudflare refused the secret key), unknown (Cloudflare couldn't be reached).
+const VERIFY = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
+async function spamCheck(env, request, token) {
+  if (!env.TURNSTILE_SECRET) return 'off';
+  if (!token) return 'missing';
+  // Local testing only: a stand-in for Cloudflare.
+  const url = env.DOCS_DEV === '1' && env.TURNSTILE_VERIFY_URL ? env.TURNSTILE_VERIFY_URL : VERIFY;
+  try {
+    const res = await fetch(url, {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ secret: env.TURNSTILE_SECRET, response: token.slice(0, 2048), remoteip: request.headers.get('cf-connecting-ip') || undefined }),
+    });
+    const data = await res.json();
+    if (data.success) return 'passed';
+    const codes = data['error-codes'] || [];
+    if (codes.some((c) => /input-secret/.test(c))) {
+      console.error('[enquiry] Turnstile refused TURNSTILE_SECRET');
+      return 'broken';
+    }
+    return codes.includes('internal-error') ? 'unknown' : 'failed';
+  } catch {
+    return 'unknown';
+  }
 }
 
 // Junk that gets past the honeypot. A form-filling bot puts the same thing in every box, or pastes
@@ -134,7 +169,7 @@ export async function enquiry(request, env, ctx) {
     return reply(true);
   }
   if (bot === 'suspect') {
-    d.suspect = true;
+    d.suspect = 'link';
     d.news = false;
   }
   // The lead's id, made now so the email to Anthony can link straight to it.
@@ -145,6 +180,16 @@ export async function enquiry(request, env, ctx) {
   }
   if (!(await underLimit(env, request))) {
     return reply(false, `Too many tries in a short time. Please wait a minute, or email ${env.ENQUIRY_TO || TO}.`, 429);
+  }
+
+  // The spam check, after the rate limit so the form can't be used to hammer Cloudflare.
+  d.check = await spamCheck(env, request, String(form.get('cf-turnstile-response') || ''));
+  if (d.check === 'failed') {
+    return reply(false, `The spam check didn't pass. Please try again, or email ${env.ENQUIRY_TO || TO}.`);
+  }
+  if (d.check === 'missing' && !d.suspect) {
+    d.suspect = 'check';
+    d.news = false;
   }
 
   const sent = await send(env, { to: [env.ENQUIRY_TO || TO], reply_to: d.email, ...enquiryNotice(d) });
