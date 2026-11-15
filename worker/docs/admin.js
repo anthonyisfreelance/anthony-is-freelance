@@ -18,6 +18,9 @@ export const ADMIN_CSS = `
 .views a b { font-weight: 500; color: var(--red); }
 .views a[aria-current="page"] b { color: inherit; }
 .years a, .views a { padding: 8px 12px; border: 1px solid var(--line); background: var(--paper); color: var(--ink); font: 500 14px/1 var(--display); text-transform: uppercase; text-decoration: none; }
+/* A tab with something waiting inside is blue, so it catches the eye from the other page. */
+.views a.todo { border-color: var(--blue); background: var(--blue); color: #ffffff; }
+.views a.todo b { color: inherit; }
 .years a[aria-current="page"], .views a[aria-current="page"] { border-color: var(--ink); background: var(--ink); color: var(--paper); }
 .years a:hover, .views a:hover { border-color: var(--ink); }
 .totals { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 40px; margin-bottom: 0; }
@@ -178,11 +181,15 @@ const yearOf = (d) => taxYear(d.issued || (d.updated || '').slice(0, 10) || toda
 const yearLabel = (y) => y.replace(':', '/');
 const yearParam = (y) => y.replace(':', '-');
 
-// The two halves of the admin: documents, and leads (leads.js). The Leads tab shows how many are new.
+// The two halves of the admin: documents, and leads (leads.js). Each tab counts what is waiting
+// inside it and turns blue when there is something: new leads, and documents whose row shows a
+// blue next step (a draft to send, a signing to finish) or an overdue invoice.
 export function adminNav(active, all, paths = { documents: '/admin/', leads: '/admin/leads/' }) {
   const fresh = all.filter((d) => d.type === 'lead' && !d.deleted && (d.status || 'new') === 'new').length;
-  const tab = (key, label) => `<a href="${esc(paths[key])}"${active === key ? ' aria-current="page"' : ''}>${label}</a>`;
-  return `<nav class="views" aria-label="Admin sections">${tab('documents', 'Documents')}${tab('leads', `Leads${fresh ? ` <b>(${fresh} new)</b>` : ''}`)}</nav>`;
+  const todo = all.filter((d) => (d.type === 'quote' || d.type === 'invoice') && ['draft', 'unfinished', 'overdue'].includes(statusOf(d)[0])).length;
+  const tab = (key, label, count, word) =>
+    `<a href="${esc(paths[key])}"${active === key ? ' aria-current="page"' : ''}${count ? ' class="todo"' : ''}>${label}${count ? ` <b>(${count} ${word})</b>` : ''}</a>`;
+  return `<nav class="views" aria-label="Admin sections">${tab('documents', 'Documents', todo, 'to do')}${tab('leads', 'Leads', fresh, 'new')}</nav>`;
 }
 
 // The foot of both admin pages: samples, signature, anything extra for that page, and Log out.

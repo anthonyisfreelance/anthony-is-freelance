@@ -192,8 +192,10 @@ function row(l, quotes, sample) {
 
   const a = [];
   const draft = replyDefaults(l);
-  if (l.email) a.push(`<a class="ghost small" href="#reply-${esc(l.token)}" data-reply-open="${esc(l.token)}">Reply</a>`);
-  if (NEXT[status]) a.push(setTo(NEXT[status][0], NEXT[status][1], 'ghost small primary'));
+  // The blue button is the one next step: Reply for a new lead, then the next status.
+  const replyFirst = status === 'new' && l.email;
+  if (l.email) a.push(`<a class="ghost small${replyFirst ? ' primary' : ''}" href="#reply-${esc(l.token)}" data-reply-open="${esc(l.token)}">Reply</a>`);
+  if (NEXT[status]) a.push(setTo(NEXT[status][0], NEXT[status][1], replyFirst ? 'ghost small' : 'ghost small primary'));
   if (closed) a.push(setTo('replied', 'Reopen'));
   // A quote already written for the same person, matched on their email address.
   const quote = l.email && quotes.find((q) => (q.client?.contact?.email || '').toLowerCase() === l.email.toLowerCase());
