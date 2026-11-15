@@ -232,19 +232,48 @@ export function enquiryNotice(d) {
     ['News list', d.news ? 'Yes, they ticked the box' : ''],
   ].filter(([, v]) => v);
   const message = d.message || '(No message)';
-  const leads = 'https://docs.anthonyis.uk/admin/leads/';
+  // The button opens this lead on the Leads page with the reply box ready, so the reply goes from
+  // Gmail whatever mail app the phone would open for an email link.
+  const leads = `https://docs.anthonyis.uk/admin/leads/${d.token ? `?reply=${encodeURIComponent(d.token)}` : ''}`;
   return {
-    subject: `Project enquiry: ${d.name}${d.budget ? ` (${d.budget})` : ''}`,
-    text: `${rows.map(([k, v]) => `${k}: ${v}`).join('\n')}\n\n${message}\n\nSaved in your leads: ${leads}\n`,
+    subject: `${d.suspect ? '[Possible spam] ' : ''}Project enquiry: ${d.name}${d.budget ? ` (${d.budget})` : ''}`,
+    text: `${rows.map(([k, v]) => `${k}: ${v}`).join('\n')}\n\n${message}\n\nReply from your leads page: ${leads}\n`,
     html: layout({
       title: `Enquiry from ${d.name}`,
       footer: false,
       preheader: message.slice(0, 120),
       head: ['Enquiry', d.name],
-      body: `${facts(rows)}
+      body: `${d.suspect ? note('This looks automated (the message is only a link), so no thank-you email went to them. It is in your leads if it turns out to be real.') : ''}${facts(rows)}
 <p style="margin:0 0 24px;font-family:${SERIF};font-size:16px;line-height:1.5;color:${INK};white-space:pre-wrap">${esc(message)}</p>
-${button(`mailto:${encodeURIComponent(d.email).replace(/%40/g, '@')}?subject=${encodeURIComponent('Your enquiry')}`, `Reply to ${firstName(d.name)}`)}
-${note(`Saved in your <a href="${leads}" style="color:${MUTED}">leads</a>, where you can track where it goes.`)}`,
+${button(leads, d.suspect ? 'Open this lead' : `Reply to ${firstName(d.name)}`)}
+${note('The button opens this lead on your leads page with a reply ready to edit. It sends from your Gmail.')}`,
+    }),
+  };
+}
+
+// Anthony's reply to a lead, written on the Leads page and sent from his Gmail. It reads as a
+// normal email: his words, his Gmail signature, then what they sent, quoted underneath.
+export function leadReplyEmail({ lead, subject, text }) {
+  const when = fmtDate(lead.created, 'long');
+  const extra = [lead.website && `Website: ${lead.website}`, lead.budget && `Budget: ${lead.budget}`].filter(Boolean);
+  const paragraphs = String(text).replace(/\r/g, '').trim().split(/\n{2,}/).map((para) => p(esc(para).replace(/\n/g, '<br>'))).join('\n');
+  const quoted = lead.message || extra.length
+    ? `<div style="margin:40px 0 0;padding:0 0 0 16px;border-left:2px solid ${LINE};font-family:${SERIF};font-size:14px;line-height:1.5;color:${MUTED}">
+<div style="margin:0 0 8px">On ${esc(when)} you wrote:</div>
+${lead.message ? `<div style="margin:0 0 8px;white-space:pre-wrap">${esc(lead.message)}</div>` : ''}
+${extra.map((line) => `<div>${esc(line)}</div>`).join('')}
+</div>`
+    : '';
+  return {
+    subject,
+    text: `${String(text).trim()}\n\n${PERSON.name}\n${PERSON.role}\n${PERSON.site}${lead.message || extra.length ? `\n\n---\nOn ${when} you wrote:\n${lead.message || ''}\n${extra.join('\n')}` : ''}\n`,
+    html: layout({
+      title: subject,
+      preheader: String(text).replace(/\s+/g, ' ').trim().slice(0, 110),
+      footer: false,
+      body: `${paragraphs}
+<div style="margin:28px 0 0">${signatureHtml({ adaptive: true })}</div>
+${quoted}`,
     }),
   };
 }

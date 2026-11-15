@@ -10,8 +10,8 @@ import { renderQuote, quoteTotals, stageAmounts } from './quote.js';
 import { renderContract, signedContractPage } from './contract.js';
 import { renderInvoice, invoiceTotals } from './invoice.js';
 import { renderAdmin } from './admin.js';
-import { renderLeads, newLead, NEWS_WORDING } from './leads.js';
-import { enquiryReceivedEmail, enquiryNotice, quoteEmail, signedEmail, invoiceEmail, signCodeEmail, loginCodeEmail, loginNotice, signedNotice, signatureHtml, PERSON } from './emails.js';
+import { renderLeads, newLead, replyDefaults, NEWS_WORDING } from './leads.js';
+import { enquiryReceivedEmail, enquiryNotice, leadReplyEmail, quoteEmail, signedEmail, invoiceEmail, signCodeEmail, loginCodeEmail, loginNotice, signedNotice, signatureHtml, PERSON } from './emails.js';
 
 export const SAMPLE_QUOTE = 'SAMPLEquote';
 const SIGNED = 'SAMPLEsigned';
@@ -200,7 +200,7 @@ function sampleLeads() {
     lead(1, { name: 'Priya Shah', email: 'priya@northcoastcandles.example', website: 'northcoastcandles.example', budget: '£10,000 – £20,000', found: 'Google search', page: '/shopify-website-design/', message: "We sell hand-poured candles and our store has grown past its theme. We'd like a redesign before next autumn, with a better gift-set page.\n\nCould we have a call next week?", news: true }, 0),
     lead(2, { name: 'Tom Reeve', email: 'tom@reevecycles.example', website: 'reevecycles.example', budget: 'Not sure yet', found: 'UK eCommerce Awards', page: '/awards/', message: 'Saw the award win. We are moving from WooCommerce to Shopify next year and need the design done properly.' }, -1),
     { ...lead(3, { name: CLIENT.contact.name, email: CLIENT.contact.email, website: 'saltwatersupply.example', budget: '£10,000 – £20,000', found: 'A recommendation', page: '/contact/', message: "We're looking to redesign our Shopify store before spring. The current theme is slow on mobile and customers struggle to find the right kit.", news: true }, -6, 'quoted'), note: 'Quote sent, chasing on Friday.' },
-    lead(4, { name: 'Jo Lambert', email: 'jo@harbourtea.example', website: 'harbourtea.example', budget: '£5,000 – £10,000', source: 'LinkedIn', message: 'Asked on LinkedIn about a subscription page for loose-leaf tea.' }, -9, 'call'),
+    { ...lead(4, { name: 'Jo Lambert', email: 'jo@harbourtea.example', website: 'harbourtea.example', budget: '£5,000 – £10,000', source: 'LinkedIn', message: 'Asked on LinkedIn about a subscription page for loose-leaf tea.' }, -9, 'call'), replies: [{ at: at(-8), subject: 'Your enquiry about harbourtea.example' }] },
     lead(5, { name: 'Alex Morgan', email: 'alex@example.com', website: 'fernhillbakery.example', budget: '£10,000 – £20,000', source: 'Referral', message: 'Referred by an existing client. Product page and checkout design.' }, -30, 'won'),
     lead(6, { name: 'Dan Okoro', email: 'dan@quickprintmugs.example', website: 'quickprintmugs.example', budget: 'Under £5,000', found: 'Google ad', page: '/', message: 'Need a full store built in two weeks.' }, -14, 'lost'),
   ].map((l) => (l.news ? { ...l, news: { at: l.created, wording: NEWS_WORDING } } : l));
@@ -222,7 +222,9 @@ const SAMPLES = [
   { slug: 'invoice-itemised', group: 'Invoices', label: 'Invoice, itemised hours', note: 'Monthly support work.', page: (o) => renderInvoice(invoice('itemised'), o), pdf: true },
   { slug: 'invoice-paid', group: 'Invoices', label: 'Invoice, paid', note: 'After you mark it paid.', page: (o) => renderInvoice(invoice('stage', true), o), pdf: true },
   { slug: 'email-enquiry', group: 'Emails', label: 'Enquiry received', note: 'To whoever sends the contact form, straight away.', email: () => enquiryReceivedEmail(ENQUIRY) },
-  { slug: 'email-enquiry-notice', group: 'Emails', label: 'New enquiry', note: 'To you, with everything they sent.', email: () => enquiryNotice(ENQUIRY) },
+  { slug: 'email-enquiry-notice', group: 'Emails', label: 'New enquiry', note: 'To you, with everything they sent. The button opens the lead with a reply ready.', email: () => enquiryNotice(ENQUIRY) },
+  { slug: 'email-enquiry-spam', group: 'Emails', label: 'New enquiry, possible spam', note: 'To you, when the message is only a link. They get no thank-you email.', email: () => enquiryNotice({ name: 'Marketing Team', email: 'promo@example.com', website: 'cheap-traffic.example', message: 'https://cheap-traffic.example/offer', page: '/contact/', suspect: true }) },
+  { slug: 'email-lead-reply', group: 'Emails', label: 'Your reply to a lead', note: 'What they receive when you reply from the Leads page: your words, your signature, then their message.', email: () => { const lead = { ...newLead({ token: 'SAMPLEreply', ...ENQUIRY }), created: `${addDays(today(), -1)}T10:00:00Z` }; return leadReplyEmail({ lead, subject: replyDefaults(lead).subject, text: `Hi ${ENQUIRY.name.split(' ')[0]},\n\nGood to hear from you. A slow theme on mobile is one of the most common things I fix, and it is very fixable.\n\nAre you free for a 30 minute call on Tuesday or Wednesday next week? Mornings suit me best.\n\nThanks,\nAnthony` }); } },
   { slug: 'email-quote', group: 'Emails', label: 'Quote email', note: 'To the client, from your Gmail, with the PDF attached.', email: () => quoteEmail({ base: sampleBase, doc: quote(), total: quoteTotals(quote()).total }) },
   { slug: 'email-signed', group: 'Emails', label: 'Signed contract email', note: 'To the client, with both PDFs attached.', email: () => signedEmail({ base: sampleBase, doc: signedQuote(), sig: signedQuote().state.signature, deposit: stageAmounts(signedQuote())[0] }) },
   { slug: 'email-invoice', group: 'Emails', label: 'Invoice email', note: 'To the client, with the PDF attached.', email: () => invoiceEmail({ base: sampleBase, doc: invoice(), total: invoiceTotals(invoice()).total }) },

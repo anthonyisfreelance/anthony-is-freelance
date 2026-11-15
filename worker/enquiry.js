@@ -1,6 +1,7 @@
 // /api/enquiry: the start-a-project form. Two emails go out through Resend (resend.com), both
 // designed in worker/docs/emails.js:
-//   - the enquiry to Anthony, with the sender's address as Reply-To so a reply goes straight back;
+//   - the enquiry to Anthony, with a button that opens the lead on his Leads page ready to reply
+//     from Gmail (and the sender's address as Reply-To, so the mail app's own Reply works too);
 //   - "Thanks for getting in touch" to the sender, so they meet the brand and know what happens next.
 //
 // Each enquiry is also saved as a lead in the documents admin (docs.anthonyis.uk/admin/leads/,
@@ -18,6 +19,7 @@
 //
 // Spam: a hidden honeypot field ("company") and a minimum fill time ("t", set by the form's script).
 // Bots that fill the honeypot or submit in under three seconds get a quiet success and no email.
+// automated() below catches the junk that gets past both.
 //
 // Settings (Cloudflare dashboard > Worker > Settings > Variables and secrets):
 //   RESEND_API_KEY  secret, from resend.com (a domain verified there, e.g. mail.anthonyis.uk)
@@ -76,6 +78,21 @@ async function send(env, message) {
   return Boolean(res && res.ok);
 }
 
+// Junk that gets past the honeypot. A form-filling bot puts the same thing in every box, or pastes
+// this site's own address as "their" website: nobody real does either, so those get the quiet
+// "sent" and nothing happens. A message that is only a link is less certain, so it still reaches
+// Anthony, marked as possible spam, but nobody is emailed a thank-you and no news tick is kept.
+const squash = (s) => String(s).toLowerCase().replace(/[^a-z0-9]/g, '');
+function automated(d, { script, started }) {
+  // The form's own script always says when the form was opened; a scripted send without it isn't the form.
+  if (script && !started) return 'junk';
+  if (/:\/\/|www\./i.test(d.name)) return 'junk';
+  if (/(^|[^a-z0-9-])anthonyis\.uk/i.test(d.website)) return 'junk';
+  if (d.message && d.website && squash(d.message) === squash(d.website)) return 'junk';
+  if (/^\W*(https?:\/\/|www\.)\S+\W*$/i.test(d.message)) return 'suspect';
+  return '';
+}
+
 export async function enquiry(request, env, ctx) {
   const wantsJson = (request.headers.get('accept') || '').includes('application/json');
   const reply = (ok, error, status) =>
@@ -111,6 +128,18 @@ export async function enquiry(request, env, ctx) {
 
   if (!d.name || !EMAIL.test(d.email)) return reply(false, 'Please add your name and a valid email address.');
 
+  const bot = automated(d, { script: wantsJson, started });
+  if (bot === 'junk') {
+    console.log('[enquiry] dropped as automated');
+    return reply(true);
+  }
+  if (bot === 'suspect') {
+    d.suspect = true;
+    d.news = false;
+  }
+  // The lead's id, made now so the email to Anthony can link straight to it.
+  d.token = newToken();
+
   if ((!env.RESEND_API_KEY || !env.ENQUIRY_FROM) && env.DOCS_DEV !== '1') {
     return reply(false, `The form isn't connected yet. Please email ${env.ENQUIRY_TO || TO} instead.`, 503);
   }
@@ -125,12 +154,12 @@ export async function enquiry(request, env, ctx) {
 
   // The thank-you to the sender: after the response, and never a reason for the form to fail.
   const thanks = (async () => {
-    if (!(await firstToday(request, d.email))) return;
+    if (d.suspect || !(await firstToday(request, d.email))) return;
     const ok = await send(env, { to: [d.email], reply_to: env.ENQUIRY_TO || TO, ...enquiryReceivedEmail({ name: d.name }) });
     if (!ok) console.error('[enquiry] thank-you email did not send');
   })();
   // The lead for the admin's Leads page, saved to Drive after the response.
-  const lead = newLead({ token: newToken(), ...d });
+  const lead = newLead({ ...d, source: d.suspect ? 'Website form (possible spam)' : undefined });
   const save = createDoc(env, lead, leadFileName(lead)).catch((e) => console.error('[enquiry] lead not saved:', e.message));
 
   const after = Promise.all([thanks, save]);

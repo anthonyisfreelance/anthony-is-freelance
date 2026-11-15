@@ -2,8 +2,10 @@
 //
 // A lead is made when someone sends the contact form (worker/enquiry.js), or by hand here for
 // enquiries that arrive by email, LinkedIn or a referral. Each is one JSON file in the Drive data
-// folder (type "lead"), like the documents. Replies still go from Gmail: this page only tracks
-// where each lead has got to (New, Replied, Call booked, Quoted, Won, Not a fit) and holds a note.
+// folder (type "lead"), like the documents. The page tracks where each lead has got to (New,
+// Replied, Call booked, Quoted, Won, Not a fit), holds a note, and can send the reply: it goes from
+// Anthony's Gmail through the Drive bridge, like the quotes, so it lands in Sent and replies come
+// back to his inbox whatever mail app his phone or laptop would otherwise open.
 //
 // Privacy: the notice on anthonyis.uk says enquiries that don't become projects are deleted after
 // two years, so they are (expired() below, run each time the page opens). Deleting a lead here
@@ -32,6 +34,28 @@ const PILL = { new: 'overdue', replied: 'sent', call: 'sent', quoted: 'sent', wo
 export const SOURCES = ['Email', 'LinkedIn', 'Referral', 'Phone', 'Other'];
 
 const clip = (v, n) => String(v ?? '').trim().slice(0, n);
+const firstName = (n) => String(n || '').trim().split(/\s+/)[0] || 'there';
+const host = (w) => String(w || '').replace(/^https?:\/\//i, '').replace(/^www\./i, '').replace(/\/.*$/, '');
+
+// What the reply box starts with. The subject names their site when they gave one, so it stands
+// out in their inbox; their own message is added under the reply when it is sent.
+export function replyDefaults(l) {
+  const site = /^[a-z0-9-]+(\.[a-z0-9-]+)+$/i.test(host(l.website)) ? host(l.website) : '';
+  return {
+    subject: site ? `Your enquiry about ${site}` : 'Your enquiry to Anthony is Freelance',
+    body: `Hi ${firstName(l.name)},\n\n\n\nThanks,\nAnthony`,
+  };
+}
+
+// The same reply as a ready-made draft in Gmail's own compose page, for when Anthony would rather
+// write it there (attachments, formatting). Their message is quoted under it, trimmed so the link
+// stays a sensible length.
+function gmailDraft(l) {
+  const d = replyDefaults(l);
+  const quoted = l.message ? `\n\n---\nOn ${fmtDate(l.created)} you wrote:\n${l.message.slice(0, 1200)}${l.message.length > 1200 ? '…' : ''}` : '';
+  const q = new URLSearchParams({ view: 'cm', fs: '1', to: l.email || '', su: d.subject, body: d.body + quoted });
+  return `https://mail.google.com/mail/?${q}`;
+}
 
 export function newLead({ token, source = 'Website form', name, email, website, budget, message, found, page, news }) {
   const now = new Date().toISOString();
@@ -92,6 +116,14 @@ const LEADS_CSS = `
 .lead-form textarea, .lead-note textarea { min-height: 72px; resize: vertical; }
 .lead-form .btn { width: auto; min-width: 200px; }
 .lead-note { display: flex; flex-direction: column; gap: 8px; align-items: flex-start; }
+.lead-reply { display: flex; flex-direction: column; gap: 8px; margin-top: 24px; padding-top: 16px; border-top: 1px solid var(--line); }
+.lead-reply h3 { font-size: 14px; line-height: 1.3; }
+.lead-reply input, .lead-reply textarea { width: 100%; padding: 10px 12px; border: 1px solid var(--line); border-radius: 0; background: var(--paper); color: var(--ink); font: 400 14px/1.5 var(--serif); }
+.lead-reply input { font: 500 14px/1.3 var(--display); }
+.lead-reply textarea { min-height: 220px; resize: vertical; }
+.lead-reply input:focus, .lead-reply textarea:focus { outline: 2px solid var(--blue); outline-offset: -1px; border-color: var(--blue); }
+.lead-hint { font: 500 11px/1.4 var(--display); letter-spacing: 0.02em; color: var(--muted); }
+.lead-send { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; }
 .lead-add > summary { list-style: none; cursor: pointer; }
 .lead-add > summary::-webkit-details-marker { display: none; }
 @media (max-width: 900px) {
@@ -99,6 +131,8 @@ const LEADS_CSS = `
   .lead-body { gap: 16px; }
   .lead-more { padding-bottom: 16px; }
   .leads .c-amt { font-size: 12px; }
+  /* 16px stops iPhones zooming the page in when the box is tapped. */
+  .lead-reply input, .lead-reply textarea { font-size: 16px; }
 }
 `;
 
@@ -117,6 +151,30 @@ const LEADS_SCRIPT = `
       post({ action: 'lead-note', token: b.getAttribute('data-lead-note'), value: b.parentNode.querySelector('textarea').value });
     });
   });
+  // Reply: opens that lead's details and puts the cursor in the reply box.
+  function openReply(token) {
+    var box = document.getElementById('reply-' + token);
+    if (!box) return;
+    var d = box.closest('details'); if (d) d.open = true;
+    box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    var t = box.querySelector('textarea'); if (t) { t.focus({ preventScroll: true }); var at = t.value.indexOf('\\n\\n\\n\\n'); if (at > -1) t.setSelectionRange(at + 2, at + 2); }
+  }
+  document.querySelectorAll('[data-reply-open]').forEach(function (a) {
+    a.addEventListener('click', function (e) { e.preventDefault(); openReply(a.getAttribute('data-reply-open')); });
+  });
+  var want = new URLSearchParams(location.search).get('reply');
+  if (want) openReply(want);
+  // Sending takes two presses, so a reply can't go by accident.
+  document.querySelectorAll('[data-lead-reply]').forEach(function (b) {
+    var armed = false, label = b.textContent;
+    b.addEventListener('click', function () {
+      var box = b.closest('.lead-reply');
+      if (!armed) { armed = true; b.textContent = 'Send now? Press again'; setTimeout(function () { armed = false; b.textContent = label; }, 5000); return; }
+      b.disabled = true; b.textContent = 'Sending from your Gmail…';
+      post({ action: 'lead-reply', token: b.getAttribute('data-lead-reply'), subject: box.querySelector('input').value, value: box.querySelector('textarea').value })
+        .then(function () { b.disabled = false; b.textContent = label; armed = false; });
+    });
+  });
   var form = document.getElementById('lead-add');
   if (form) form.addEventListener('submit', function (e) {
     e.preventDefault();
@@ -127,8 +185,6 @@ const LEADS_SCRIPT = `
 })();
 `;
 
-const host = (w) => String(w || '').replace(/^https?:\/\//i, '').replace(/^www\./i, '').replace(/\/.*$/, '');
-
 function row(l, quotes, sample) {
   const status = LABEL[l.status] ? l.status : 'new';
   const closed = status === 'won' || status === 'lost';
@@ -137,7 +193,8 @@ function row(l, quotes, sample) {
   const setTo = (value, label, kind) => btn('lead-status', label, `data-value="${value}" data-wait="Saving…"`, kind);
 
   const a = [];
-  if (l.email) a.push(`<a class="ghost small" href="mailto:${esc(encodeURIComponent(l.email).replace(/%40/g, '@'))}?subject=${esc(encodeURIComponent('Your enquiry'))}">Reply</a>`);
+  const draft = replyDefaults(l);
+  if (l.email) a.push(`<a class="ghost small" href="#reply-${esc(l.token)}" data-reply-open="${esc(l.token)}">Reply</a>`);
   if (NEXT[status]) a.push(setTo(NEXT[status][0], NEXT[status][1], 'ghost small primary'));
   if (closed) a.push(setTo('replied', 'Reopen'));
   // A quote already written for the same person, matched on their email address.
@@ -169,6 +226,17 @@ function row(l, quotes, sample) {
       <div class="lead-body">
         <div>
           <p class="lead-msg">${esc(l.message || 'No message.')}</p>
+          ${l.email ? `<div class="lead-reply" id="reply-${esc(l.token)}">
+            <h3>Reply from your Gmail</h3>
+            <input aria-label="Subject" maxlength="150" value="${esc(draft.subject)}">
+            <textarea aria-label="Your reply to ${esc(l.name)}" maxlength="5000">${esc(draft.body)}</textarea>
+            <p class="lead-hint">Goes to ${esc(l.email)} from your Gmail, with your signature. Their message is added underneath, and the lead moves to Replied.</p>
+            <div class="lead-send">
+              <button type="button" class="ghost small primary" data-lead-reply="${esc(l.token)}">Send reply</button>
+              <a class="textbtn" href="${esc(gmailDraft(l))}" target="_blank" rel="noopener">Write it in Gmail instead</a>
+            </div>
+            ${(l.replies || []).map((r) => `<p class="lead-hint">Replied ${esc(fmtDate(r.at))}: ${esc(r.subject)}</p>`).join('')}
+          </div>` : ''}
         </div>
         <div class="lead-side">
           <table class="kv"><tbody>${facts.map(([k, v]) => `<tr><th scope="row">${esc(k)}</th><td>${esc(v)}</td></tr>`).join('')}</tbody></table>

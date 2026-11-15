@@ -31,13 +31,13 @@ import { renderQuote, quoteTotals, stageAmounts, stageLabel } from './quote.js';
 import { renderContract, signedContractPage, fingerprintSource } from './contract.js';
 import { renderInvoice, invoiceTotals } from './invoice.js';
 import { renderAdmin, renderLogin } from './admin.js';
-import { renderLeads, leadAction, newLead, leadFileName, isLead, expired } from './leads.js';
+import { renderLeads, leadAction, newLead, leadFileName, isLead, expired, replyDefaults } from './leads.js';
 import { getDoc, putDoc, createDoc, listDocs, removeLead, getSettings, savePdf, sendEmail, nextInvoiceSeq, BridgeError } from './bridge.js';
 import { renderPdfs, toBase64 } from './pdf.js';
 import { resend } from './mail.js';
 import { seal, unseal, hmac, sha256Hex, newCode, newToken, getCookie, cookie, same } from './auth.js';
 import { page as html, headers, allowed, codeAllowed, cachedPdf } from './security.js';
-import { quoteEmail, signedEmail, invoiceEmail, signCodeEmail, loginCodeEmail, loginNotice, signedNotice, signatureTest } from './emails.js';
+import { quoteEmail, signedEmail, invoiceEmail, signCodeEmail, loginCodeEmail, loginNotice, signedNotice, signatureTest, leadReplyEmail } from './emails.js';
 import { samplePage, samplePdfHtml, samplePdfView, samplesIndex, signaturePage, SAMPLE_QUOTE } from './samples.js';
 
 function json(data, status = 200, extra = {}) {
@@ -399,8 +399,10 @@ async function admin(request, env, url, parts, ctx) {
   if (request.method === 'GET') {
     if (!(await allowed(env, 'DOCS_RL_READ', request))) return tooMany(request);
     if (action === 'samples' && session) return await samples(request, env, url, parts.slice(1), ctx);
-    const leads = action === 'leads' && session && parts.length === 1;
-    if ((action && !leads) || !url.pathname.endsWith('/')) return Response.redirect(`${base}/admin/${leads ? 'leads/' : ''}`, 302);
+    // The Leads page keeps its address while logged out (the login shows there), so a link from an
+    // enquiry email lands on that lead once the code is entered.
+    const leads = action === 'leads' && parts.length === 1;
+    if ((action && !leads) || !url.pathname.endsWith('/')) return Response.redirect(`${base}/admin/${leads ? `leads/${url.search}` : ''}`, 302);
     if (!session) return html(renderLogin({ base, to: adminEmail(env) }));
     let docs = [];
     let error = '';
@@ -484,6 +486,24 @@ async function admin(request, env, url, parts, ctx) {
   const doc = await getDoc(env, String(body.token || ''), { fresh: true });
   if (!doc || doc.deleted) return json({ ok: false, error: 'Document not found.' }, 404);
   if (doc.type === 'lead') {
+    // A reply written on the Leads page: sent from Anthony's Gmail, to the address on the lead only.
+    if (body.action === 'lead-reply') {
+      if (!/^[^\s@<>"]+@[^\s@<>"]+\.[^\s@<>"]{2,}$/.test(doc.email || '')) return json({ ok: false, error: 'This lead has no email address to reply to.' }, 400);
+      const text = clip(body.value, 5000);
+      if (text.replace(/\s+/g, ' ') === replyDefaults(doc).body.replace(/\s+/g, ' ') || text.length < 20) return json({ ok: false, error: 'Write your reply first.' }, 400);
+      const subject = clip(String(body.subject || '').replace(/[\r\n]+/g, ' '), 150) || replyDefaults(doc).subject;
+      await sendEmail(env, { to: [doc.email], ...leadReplyEmail({ lead: doc, subject, text }) });
+      // The email has gone, so a problem saving the record must not look like a failed send
+      // (pressing Send again would email them twice).
+      const now = new Date().toISOString();
+      try {
+        await putDoc(env, { ...doc, replies: [...(doc.replies || []), { at: now, subject }].slice(-20), ...(doc.status === 'new' || !doc.status ? { status: 'replied', statusAt: now } : {}) });
+      } catch (e) {
+        console.error('[docs] reply sent, lead not updated:', e.message);
+        return json({ ok: true, message: `Reply sent to ${doc.email} from your Gmail, but the lead didn't update. Mark it replied by hand.` });
+      }
+      return json({ ok: true, message: `Reply sent to ${doc.email} from your Gmail.` });
+    }
     const r = leadAction(doc, body.action, body.value);
     if (r.error) return json({ ok: false, error: r.error }, 400);
     if (r.remove) await removeLead(env, doc);

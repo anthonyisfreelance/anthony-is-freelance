@@ -37,11 +37,17 @@ link is unguessable. Every document is one A4 sheet, the same on screen and in t
 - **Enquiry emails**: the contact form (`worker/enquiry.js`) sends the enquiry to Anthony and a
   "Thanks for getting in touch" reply to the sender. The reply goes to an unchecked address, so it
   carries nothing they typed except a plain first name, each address gets at most one a day, and the
-  form allows three sends a minute per visitor (`ENQUIRY_RL` in `wrangler.jsonc`).
+  form allows three sends a minute per visitor (`ENQUIRY_RL` in `wrangler.jsonc`). Junk that gets
+  past the honeypot is caught by `automated()`: obvious bot sends are dropped quietly, and a message
+  that is only a link still reaches Anthony, marked "[Possible spam]", with no thank-you sent.
 - **Leads** at `/admin/leads/` (`leads.js`): every contact-form enquiry is saved as a lead (one JSON
   file in the data folder, type `lead`), and others can be added by hand. Statuses: New, Replied,
-  Call booked, Quoted, Won, Not a fit, plus a note. Replies still go from Gmail. Leads that don't
-  become projects are deleted after two years (six for clients), as the privacy notice says. The
+  Call booked, Quoted, Won, Not a fit, plus a note. Each lead has a reply box: the reply is sent
+  from Anthony's Gmail through the bridge (so it is in Sent, and their answer comes back to his
+  inbox), with his signature and their message quoted underneath, and the lead moves to Replied.
+  The button in the enquiry email opens that lead with the box ready (`/admin/leads/?reply=TOKEN`).
+  An email link (`mailto:`) can't choose which mail app opens, which is why the reply is sent from
+  the page. Leads that don't become projects are deleted after two years (six for clients), as the privacy notice says. The
   form's unticked "occasional news" box is recorded on the lead with its wording and date: that is
   the news list and the record of consent. Deleting uses the bridge's `remove` action; a bridge
   deployed before that action wipes the lead's details instead and leaves an empty file.
