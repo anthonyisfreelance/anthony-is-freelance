@@ -33,7 +33,8 @@ link is unguessable. Every document is one A4 sheet, the same on screen and in t
 - **Emails**: every email's wording and HTML is in `emails.js` (plain text and HTML from the same
   copy): logo and document label across the top, key facts, numbered "what happens next" boxes, a
   full-width blue button, then the signature without a logo and the legal footer. The Gmail
-  signature (with the logo) is on the samples page to copy.
+  signature (logo, award line and link, no name, as he signs off by hand) is on the samples page
+  to copy, and ends replies sent from the Leads page.
 - **Enquiry emails**: the contact form (`worker/enquiry.js`) sends the enquiry to Anthony and a
   "Thanks for getting in touch" reply to the sender. The reply goes to an unchecked address, so it
   carries nothing they typed except a plain first name, each address gets at most one a day, and the

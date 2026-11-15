@@ -111,13 +111,13 @@ function mastheadRow([kind, value]) {
 </tr></table>`;
 }
 
-// The signature's two halves, shared by the emails (no logo, the header has it) and Gmail (logo).
-// The name is larger in the site's emails (26px) than in the Gmail signature (22px), as in Figma.
+// The signature's parts. The site's emails (quotes, invoices, codes) use the heading, award line
+// and link, with no logo as the header has it. The Gmail signature uses the logo, award and link.
 // `small` is the size of the supporting lines (14px, or 12px in the compact Gmail signature).
 const sigHeading = (size = 22, lh = 1.3, gap = 4, small = 14) => `<div style="${mint(small, MUTED, 'line-height:1.3')}">+ ${esc(PERSON.role)} +</div>
 <div style="padding:${gap}px 0 0;${mint(size, INK, `line-height:${lh};text-transform:uppercase`)}">${esc(PERSON.name)}</div>`;
 const sigLink = (small = 14) => `<a href="${SITE}/" target="_blank" style="${mint(small, INK, 'line-height:1.3;text-transform:uppercase;text-decoration:none;white-space:nowrap')}">${esc(PERSON.site)}&nbsp;${ARROW_UP}</a>`;
-const sigAward = (small = 14) => `<span style="${mint(small, MUTED, 'line-height:1.3;letter-spacing:0.02em')}">${esc(PERSON.award).replace('UK eCommerce Awards 2026', '<span style="white-space:nowrap">UK eCommerce Awards 2026</span>')}</span>`;
+const sigAward = (small = 14, colour = MUTED) => `<span style="${mint(small, colour, 'line-height:1.3;letter-spacing:0.02em')}">${esc(PERSON.award).replace('UK eCommerce Awards 2026', '<span style="white-space:nowrap">UK eCommerce Awards 2026</span>')}</span>`;
 
 // In the site's emails (Figma: Email signature, Logo=Off).
 function emailSignature() {
@@ -488,25 +488,25 @@ ${button(`${base}/admin/`, 'Open the documents admin')}`,
 
 /* ---------- Gmail signature ---------- */
 
-// The signature to paste into Gmail > Settings > Signature (Figma: Email signature, Logo=On): the
-// same heading as the emails, then the logo on the left and, pushed to the right edge and
-// right-aligned, the site link above the award line.
-// `adaptive` is only for the test email, where the Gmail dark-mode logo rules can apply.
+// The signature for emails Anthony writes himself: pasted into Gmail > Settings > Signature, and
+// under replies sent from the Leads page. He signs off by hand ("Thanks, Anthony"), so it carries
+// no name or role: a rule, the logo on the left and, right-aligned to the edge, the award line
+// above the site link (Figma: Email signature, Style=Gmail).
+// `adaptive` is for emails the worker sends, where the Gmail dark-mode logo rules can apply.
 // `compact` is the one pasted into Gmail: the same design scaled down to sit under Gmail's own
-// 13px text, where the full size looks oversized. The site's emails (16px text) use the full size.
+// 13px text, where the full size looks oversized. Emails the worker sends (16px text) use full.
 const SIG_SIZES = {
-  full: { width: 552, pad: 24, name: 22, gap: 4, small: 14, logo: [149, 38], between: 6 },
-  compact: { width: 448, pad: 14, name: 16, gap: 2, small: 12, logo: [110, 28], between: 3 },
+  full: { width: 552, pad: 24, small: 14, logo: [149, 38], between: 6 },
+  compact: { width: 448, pad: 14, small: 12, logo: [110, 28], between: 3 },
 };
 export function signatureHtml({ adaptive = false, compact = false } = {}) {
   const z = SIG_SIZES[compact ? 'compact' : 'full'];
   return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:${z.width}px;border-top:1px solid ${LINE}">
-<tr><td style="padding:${z.pad}px 0">${sigHeading(z.name, 1.3, z.gap, z.small)}</td></tr>
-<tr><td style="padding:${z.pad}px 0 0;border-top:1px solid ${LINE}"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
+<tr><td style="padding:${z.pad}px 0 0"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
 <td width="${z.logo[0]}" class="sig-logo" bgcolor="#FFFFFF" style="width:${z.logo[0]}px;background:#FFFFFF;vertical-align:middle">${logoLink(adaptive, z.logo[0], z.logo[1])}</td>
 <td align="right" style="padding:0 0 0 24px;text-align:right;vertical-align:middle">
-<div style="text-align:right">${sigLink(z.small)}</div>
-<div style="padding:${z.between}px 0 0;text-align:right">${sigAward(z.small)}</div>
+<div style="text-align:right">${sigAward(z.small, INK)}</div>
+<div style="padding:${z.between}px 0 0;text-align:right">${sigLink(z.small)}</div>
 </td>
 </tr></table></td></tr>
 </table>`;

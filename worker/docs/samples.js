@@ -378,10 +378,10 @@ export function signaturePage({ base }) {
   <section class="sec" aria-labelledby="h-notes">
     <h2 id="h-notes">${eyebrow('Good to know')}How it shows</h2>
     <div class="prose">
-      <p>This is the signature for emails you write yourself in Gmail, and it carries the logo. It is a smaller cut of the design, sized to sit under Gmail's own small text. The emails the site sends (quotes, contracts, invoices, enquiry replies) use larger text, so their signature is larger, and they have the logo across the top instead. The wording is the same in both.</p>
+      <p>This is the signature for emails you write yourself in Gmail. You sign off by hand, so it carries no name: just the logo, the award line and the link, sized to sit under Gmail's own small text. Replies you send from the Leads page end with the same signature. The emails the site sends on its own (quotes, contracts, invoices, the enquiry thank-you) have the logo across the top instead, and sign off with your name and role.</p>
       <p>The logo is a picture hosted on anthonyis.uk, so it shows for anyone who loads images. Gmail and Outlook can't use your own typeface, so the text shows in Arial Narrow or Arial; Apple Mail shows Mint Grotesk.</p>
       <p>Change the details in one place (<b>PERSON</b> in worker/docs/emails.js) and the emails follow; paste the signature into Gmail again after a change.</p>
-      <p>It says: ${esc([PERSON.name, PERSON.role, PERSON.award, PERSON.site].join(' · '))}.</p>
+      <p>It says: ${esc([PERSON.award, PERSON.site].join(' · '))}.</p>
     </div>
   </section>
   <p><a class="ghost" href="${P}">All samples</a></p>`;
