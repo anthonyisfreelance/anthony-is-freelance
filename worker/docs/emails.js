@@ -489,13 +489,14 @@ ${button(`${base}/admin/`, 'Open the documents admin')}`,
 /* ---------- Gmail signature ---------- */
 
 // The signature to paste into Gmail > Settings > Signature (Figma: Email signature, Logo=On): the
-// same heading as the emails, then the logo with the site link and award line on the right.
+// same heading as the emails, then the logo on the left and, pushed to the right edge and
+// right-aligned, the site link above the award line.
 // `adaptive` is only for the test email, where the Gmail dark-mode logo rules can apply.
 // `compact` is the one pasted into Gmail: the same design scaled down to sit under Gmail's own
 // 13px text, where the full size looks oversized. The site's emails (16px text) use the full size.
 const SIG_SIZES = {
   full: { width: 552, pad: 24, name: 22, gap: 4, small: 14, logo: [149, 38], between: 6 },
-  compact: { width: 400, pad: 14, name: 16, gap: 2, small: 12, logo: [110, 28], between: 3 },
+  compact: { width: 448, pad: 14, name: 16, gap: 2, small: 12, logo: [110, 28], between: 3 },
 };
 export function signatureHtml({ adaptive = false, compact = false } = {}) {
   const z = SIG_SIZES[compact ? 'compact' : 'full'];
@@ -503,10 +504,10 @@ export function signatureHtml({ adaptive = false, compact = false } = {}) {
 <tr><td style="padding:${z.pad}px 0">${sigHeading(z.name, 1.3, z.gap, z.small)}</td></tr>
 <tr><td style="padding:${z.pad}px 0 0;border-top:1px solid ${LINE}"><table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"><tr>
 <td width="${z.logo[0]}" class="sig-logo" bgcolor="#FFFFFF" style="width:${z.logo[0]}px;background:#FFFFFF;vertical-align:middle">${logoLink(adaptive, z.logo[0], z.logo[1])}</td>
-<td align="right" style="padding:0 0 0 12px;vertical-align:middle"><table role="presentation" align="right" cellpadding="0" cellspacing="0" border="0" style="width:auto"><tr><td align="left" style="text-align:left">
-<div>${sigLink(z.small)}</div>
-<div style="padding:${z.between}px 0 0">${sigAward(z.small)}</div>
-</td></tr></table></td>
+<td align="right" style="padding:0 0 0 24px;text-align:right;vertical-align:middle">
+<div style="text-align:right">${sigLink(z.small)}</div>
+<div style="padding:${z.between}px 0 0;text-align:right">${sigAward(z.small)}</div>
+</td>
 </tr></table></td></tr>
 </table>`;
 }
