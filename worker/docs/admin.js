@@ -28,6 +28,12 @@ export const ADMIN_CSS = `
 .totals dd { margin: 4px 0 0; font: 500 26px/1.1 var(--display); text-transform: uppercase; color: var(--ink); }
 .totals .t-blue dd { color: var(--blue); }
 .totals .t-red dd { color: var(--red); }
+/* The year's money on the documents page sits in four grey tiles (Figma: Admin page, Year totals).
+   Phones and the Leads counts keep the plain figures. */
+@media (min-width: 901px) {
+  .totals.tiles { gap: 8px; }
+  .totals.tiles > div { padding: 24px; background: var(--box); }
+}
 .adm { display: flex; flex-direction: column; gap: 40px; }
 .adm-head, .adm-row { display: flex; align-items: center; gap: 16px; border-top: 1px solid var(--line); font: 500 14px/1.3 var(--display); letter-spacing: 0.02em; }
 .adm-head { padding: 24px 0 12px; color: var(--muted); }
@@ -240,7 +246,7 @@ export function renderAdmin({ base, docs: all, error, year, path = '/admin/', pa
   const paid = invoices.filter((d) => d.state?.status === 'paid');
   const unpaid = invoices.filter((d) => d.state?.status !== 'paid');
   const overdue = unpaid.filter((d) => d.due && d.due < today());
-  const totals = `<dl class="totals">
+  const totals = `<dl class="totals tiles">
     <div class="t-blue"><dt>Invoiced, inc. VAT</dt><dd>${money(sum(invoices), { pennies: true })}</dd></div>
     <div><dt>Paid</dt><dd>${money(sum(paid), { pennies: true })}</dd></div>
     <div><dt>Waiting for payment</dt><dd>${money(sum(unpaid), { pennies: true })}</dd></div>
