@@ -100,6 +100,7 @@ function signingRecord(q) {
     ['Document fingerprint', `SHA-256 ${s.fingerprint}`],
     ['Signed by', `${s.name}, ${s.position}`],
     ['On behalf of', s.legalName + (s.companyNumber ? ` (company number ${s.companyNumber})` : '')],
+    ...(s.vatNumber ? [['VAT number', s.vatNumber]] : []),
     ['Email', `${s.email}, verified by a one-time code sent to this address`],
     ['Signed at', fmtDateTime(s.signedAt)],
     ['Signature', method],
@@ -120,9 +121,14 @@ function signingRecord(q) {
 function signPanel(q) {
   const c = q.client || {};
   const contact = c.contact || {};
-  const f = (id, label, value = '', attrs = '') =>
-    `<label class="field" for="${id}"><span>${label}</span><input id="${id}" name="${id}" value="${esc(value)}" ${attrs}></label>`;
+  const f = (id, label, value = '', attrs = '', wide = false) =>
+    `<label class="field${wide ? ' wide' : ''}" for="${id}"><span>${label}</span><input id="${id}" name="${id}" value="${esc(value)}" ${attrs}></label>`;
   const steps = nextSteps(q, { step: 2 });
+  // The VAT number goes on their invoices. It is asked of everyone and only insisted on when the
+  // quote says the client is VAT registered (client.vatRequired).
+  const vat = c.vatRequired
+    ? f('vatNumber', 'VAT number', c.vatNumber, 'required autocomplete="off"')
+    : f('vatNumber', 'VAT number (if VAT registered)', c.vatNumber, 'autocomplete="off"');
   return `
   <section class="sec full screen-only sign" id="sign" aria-labelledby="h-sign" data-token="${esc(q.token)}">
     <h2 id="h-sign">${eyebrow(steps.eyebrow)}${esc(steps.title)}</h2>
@@ -130,8 +136,9 @@ function signPanel(q) {
     <form id="sign-form" novalidate>
       <p class="form-h">Your company</p>
       <div class="grid">
-        ${f('legalName', 'Company legal name', c.legalName, 'required autocomplete="organization"')}
+        ${f('legalName', 'Company legal name', c.legalName, 'required autocomplete="organization"', true)}
         ${f('companyNumber', 'Company number (if a limited company)', c.companyNumber)}
+        ${vat}
         <label class="field wide" for="address"><span>Registered address</span><textarea id="address" name="address" rows="2" required>${esc(c.address || '')}</textarea></label>
       </div>
       <p class="form-h">You</p>
@@ -256,10 +263,11 @@ const SIGN_SCRIPT = `
   });
   document.getElementById('sig-clear').addEventListener('click', function () { clear(); typeIn.value = ''; fileIn.value = ''; });
   function val(id) { return document.getElementById(id).value.trim(); }
-  function fields() { return { legalName: val('legalName'), companyNumber: val('companyNumber'), address: val('address'), name: val('name'), position: val('position'), email: val('email') }; }
+  function fields() { return { legalName: val('legalName'), companyNumber: val('companyNumber'), vatNumber: val('vatNumber'), address: val('address'), name: val('name'), position: val('position'), email: val('email') }; }
   function check() {
     var f = fields();
     if (!f.legalName || !f.address) return 'Please add your company legal name and registered address.';
+    if (!f.vatNumber && document.getElementById('vatNumber').required) return 'Please add your VAT number. It goes on your invoices.';
     if (!f.name || !f.position) return 'Please add your full name and position.';
     if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]{2,}$/.test(f.email)) return 'Please add a valid email address.';
     if (!ink) return 'Please add your signature.';

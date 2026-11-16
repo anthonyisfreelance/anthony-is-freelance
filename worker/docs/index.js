@@ -275,12 +275,14 @@ async function sign(request, env, url, token, step) {
     const f = {
       legalName: clip(body.legalName, 160),
       companyNumber: clip(body.companyNumber, 20),
+      vatNumber: clip(body.vatNumber, 24),
       address: clip(body.address, 300),
       name: clip(body.name, 120),
       position: clip(body.position, 120),
       email,
     };
     if (!f.legalName || !f.address || !f.name || !f.position) return json({ ok: false, error: 'Please complete your company and personal details.' }, 400);
+    if (doc.client?.vatRequired && !f.vatNumber) return json({ ok: false, error: 'Please add your VAT number. It goes on your invoices.' }, 400);
     const image = String(body.image || '');
     if (!/^data:image\/png;base64,[A-Za-z0-9+/=]+$/.test(image) || image.length > 1_500_000) {
       return json({ ok: false, error: 'The signature could not be read. Please clear it and sign again.' }, 400);
@@ -374,7 +376,7 @@ async function createStageInvoice(env, quote, index) {
       legalName: sig.legalName || quote.client?.legalName || '',
       companyNumber: sig.companyNumber || quote.client?.companyNumber || '',
       address: sig.address || quote.client?.address || '',
-      vatNumber: quote.client?.vatNumber || '',
+      vatNumber: sig.vatNumber || quote.client?.vatNumber || '',
       contact: { name: sig.name || quote.client?.contact?.name, email: sig.email || quote.client?.contact?.email },
     },
     lines: [{

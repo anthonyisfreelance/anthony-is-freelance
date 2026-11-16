@@ -106,6 +106,7 @@ function signedQuote() {
     signature: {
       legalName: CLIENT.legalName,
       companyNumber: CLIENT.companyNumber,
+      vatNumber: CLIENT.vatNumber,
       address: CLIENT.address.replace('\n', ', '),
       name: CLIENT.contact.name,
       position: 'Founder',

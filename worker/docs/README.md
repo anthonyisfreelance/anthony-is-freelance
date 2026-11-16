@@ -66,6 +66,8 @@ link is unguessable. Every document is one A4 sheet, the same on screen and in t
    client gets an email from his Gmail with the link and the PDF.
 3. The client presses **Accept quote**, fills in their company details, signs (draw, type or upload)
    and confirms with a code emailed to them.
+   The form also asks for their VAT number, which goes on their invoices; it is optional unless
+   the quote sets `client.vatRequired`.
    The contract only says where their company is registered if the quote sets
    `client.jurisdiction` (for example "England and Wales" or "Ireland"); otherwise it gives the
    company number and registered office without naming a country.
