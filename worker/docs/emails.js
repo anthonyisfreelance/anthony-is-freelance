@@ -504,7 +504,9 @@ const SIG_SIZES = {
   // above: space over the rule. pad: rule to logo. gap: logo to award line when stacked. side: the
   // least space between them on one row.
   full: { width: 552, above: 0, pad: 32, gap: 16, side: 40, small: 14, logo: [149, 38] },
-  compact: { width: 448, above: 16, pad: 24, gap: 12, side: 32, small: 12, logo: [110, 28] },
+  // 600px is the usual email width: it fills Gmail's compose window, and stops the rule and the
+  // award line stretching right across a wide reading pane.
+  compact: { width: 600, above: 16, pad: 24, gap: 12, side: 32, small: 12, logo: [121, 31] },
 };
 export function signatureHtml({ adaptive = false, compact = false } = {}) {
   const z = SIG_SIZES[compact ? 'compact' : 'full'];
