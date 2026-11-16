@@ -144,6 +144,15 @@ Quote:
 Money is in pence. VAT is always 20%. Optional contract clauses: A third-party development,
 B contractor status, C competitor restriction.
 
+House rules for every quote:
+
+- **Scope lines:** the design system, the page design and the prototype are always separate lines,
+  each with its own hours. Never roll them into one line such as "design system, sections and page
+  design".
+- **Client details:** set `client.jurisdiction` only when you know where the company is registered,
+  and `client.vatRequired` when the client is VAT registered, so signing asks for the number.
+- **Pages:** keep "within Shopify's constraints" on account pages.
+
 Invoice (`kind` "stage" with `lines`, or "itemised" with `items` priced at `rate`):
 
 ```json
