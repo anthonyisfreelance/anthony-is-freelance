@@ -493,24 +493,32 @@ ${button(`${base}/admin/`, 'Open the documents admin')}`,
 // to two things: the logo (which links to the site) and the award line (Figma: Email signature,
 // Style=Gmail).
 //
-// Layout without a table, so it can re-flow: the logo and the award line are two inline blocks in
-// a justified line, which pushes them to the two edges when there is room. On a narrow phone the
-// award line drops under the logo in one piece (it never breaks mid-line). The last, empty block
-// is what makes the line justify; if a mail app drops it, the two simply sit side by side.
+// Layout: the logo and the award line are two small tables in a wrapping flex row, pushed to the
+// two edges. When there isn't room (a phone) the award line drops under the logo in one piece.
+// Gmail's reading view ignored the earlier justified-text version, leaving the award line floating
+// beside the logo, so this one has a second leg to stand on: the tables also carry align="left" and
+// align="right", which floats them to the edges in any mail app that drops the flex styles.
 // `adaptive` is for emails the worker sends, where the Gmail dark-mode logo rules can apply.
 // `compact` is the one pasted into Gmail: the same design scaled down to sit under Gmail's own
 // 13px text, where the full size looks oversized. Emails the worker sends (16px text) use full.
 const SIG_SIZES = {
-  // above: space over the rule. pad: rule to logo. gap: logo to award line when stacked. side: the
-  // least space between them on one row.
+  // above: clear space over the rule. pad: rule to logo. gap: logo to award line when stacked.
+  // side: the least space between them on one row.
   full: { width: 552, above: 0, pad: 32, gap: 16, side: 40, small: 14, logo: [149, 38] },
   // 600px is the usual email width: it fills Gmail's compose window, and stops the rule and the
   // award line stretching right across a wide reading pane.
-  compact: { width: 600, above: 16, pad: 24, gap: 12, side: 32, small: 12, logo: [121, 31] },
+  compact: { width: 600, above: 40, pad: 24, gap: 12, side: 32, small: 12, logo: [121, 31] },
 };
 export function signatureHtml({ adaptive = false, compact = false } = {}) {
   const z = SIG_SIZES[compact ? 'compact' : 'full'];
-  return `<div style="max-width:${z.width}px;margin:${z.above}px 0 0;border-top:1px solid ${LINE};padding:${z.pad}px 0 0;text-align:justify;font-size:0;line-height:0"><span class="sig-logo" style="display:inline-block;vertical-align:middle;margin:0 ${z.side}px ${z.gap}px 0;background:#FFFFFF">${logoLink(adaptive, z.logo[0], z.logo[1])}</span> <span style="display:inline-block;vertical-align:middle;margin:0 0 ${z.gap}px;${mint(z.small, INK, 'line-height:1.3;letter-spacing:0.02em;white-space:nowrap;text-align:left')}">${esc(PERSON.award)}</span> <span style="display:inline-block;width:100%;height:0;font-size:0;line-height:0">&nbsp;</span></div>`;
+  const t = 'role="presentation" cellpadding="0" cellspacing="0" border="0"';
+  return `<div style="max-width:${z.width}px;padding:${z.above}px 0 0"><div style="border-top:1px solid ${LINE};padding:${z.pad}px 0 0">
+<div style="display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center">
+<table ${t} align="left"><tr><td class="sig-logo" bgcolor="#FFFFFF" style="padding:0 ${z.side}px ${z.gap}px 0;background:#FFFFFF;vertical-align:middle">${logoLink(adaptive, z.logo[0], z.logo[1])}</td></tr></table>
+<table ${t} align="right"><tr><td height="${z.logo[1]}" style="height:${z.logo[1]}px;padding:0 0 ${z.gap}px;vertical-align:middle;${mint(z.small, INK, 'line-height:1.3;letter-spacing:0.02em;white-space:nowrap;text-align:left')}">${esc(PERSON.award)}</td></tr></table>
+</div>
+<div style="clear:both;height:0;font-size:0;line-height:0">&nbsp;</div>
+</div></div>`;
 }
 
 // A test email for the Gmail signature: some everyday text set the way Gmail sets it (13px sans),
