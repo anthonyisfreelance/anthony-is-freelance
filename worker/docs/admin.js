@@ -37,6 +37,10 @@ export const ADMIN_CSS = `
 .c-doc { flex: 0 0 176px; min-width: 0; overflow-wrap: anywhere; }
 .c-doc span { display: block; color: var(--muted); }
 .c-proj { flex: 0 0 150px; min-width: 0; }
+/* Who the send buttons email: the document's contact, so there is never a guess before pressing. */
+.c-proj span { display: block; font-size: 12px; color: var(--muted); overflow-wrap: anywhere; }
+.c-proj span:first-of-type { margin-top: 4px; }
+.c-proj span.none { color: var(--red); }
 .c-status { flex: 0 0 160px; min-width: 0; }
 .c-amt { flex: 0 0 110px; font-size: 18px; line-height: 1.4; letter-spacing: 0; }
 .adm-head .c-amt { font-size: 14px; line-height: 1.3; letter-spacing: 0.02em; }
@@ -96,7 +100,8 @@ export const ADMIN_SCRIPT = `
   document.querySelectorAll('[data-action]').forEach(function (b) {
     b.addEventListener('click', function () {
       var confirmText = b.getAttribute('data-confirm');
-      if (confirmText && b.getAttribute('data-armed') !== '1') { b.setAttribute('data-armed', '1'); b.textContent = confirmText; setTimeout(function () { b.removeAttribute('data-armed'); b.textContent = b.getAttribute('data-label'); }, 4000); return; }
+      if (confirmText && b.getAttribute('data-armed') !== '1') { b.setAttribute('data-armed', '1'); b.textContent = confirmText; setTimeout(function () { if (b.getAttribute('data-armed') !== '1') return; b.removeAttribute('data-armed'); b.textContent = b.getAttribute('data-label'); }, 6000); return; }
+      b.removeAttribute('data-armed');
       var label = b.getAttribute('data-label') || b.textContent; b.disabled = true; b.textContent = 'Working…';
       say(b.getAttribute('data-wait') || 'Working…');
       post('action', { action: b.getAttribute('data-action'), token: b.getAttribute('data-token'), stage: b.getAttribute('data-stage'), value: b.getAttribute('data-value') })
@@ -139,6 +144,13 @@ function statusOf(d) {
   return ['draft', 'Draft'];
 }
 
+// The line under the project: the one address this document's emails go to (client.contact).
+function sendsTo(d) {
+  const c = d.client?.contact || {};
+  if (!c.email) return '<span class="none">No contact email</span>';
+  return `${c.name ? `<span>To ${esc(c.name)}</span>` : ''}<span>${esc(c.email)}</span>`;
+}
+
 // The buttons for one document, in a fixed order so they line up down the page: Open, the one next
 // step (blue), any other actions (outlined), then Copy link and Withdraw as text links.
 function actions(d, base) {
@@ -148,12 +160,15 @@ function actions(d, base) {
   const btn = (action, label, extra = '', kind = 'ghost small') =>
     `<button type="button" class="${kind}" data-action="${action}" data-token="${esc(d.token)}" data-label="${esc(label)}" ${extra}>${esc(label)}</button>`;
   const primary = 'ghost small primary';
+  // Anything that emails the client takes two presses, and the second one names the address.
+  const to = d.client?.contact?.email;
+  const check = to ? ` data-confirm="${esc(`Send to ${to}?`)}"` : '';
   if (s.withdrawnAt) {
     a.push(btn('restore', 'Restore', 'data-wait="Restoring…"'));
     return `<div class="c-act">${a.join('')}</div>`;
   }
   if (d.type === 'quote') {
-    if (!s.signedAt) a.push(btn('send-quote', s.sentAt ? 'Send again' : 'Send quote', 'data-wait="Saving the PDF to Drive and emailing it from your Gmail…"', s.sentAt ? undefined : primary));
+    if (!s.signedAt) a.push(btn('send-quote', s.sentAt ? 'Send again' : 'Send quote', `data-wait="Saving the PDF to Drive and emailing it from your Gmail…"${check}`, s.sentAt ? undefined : primary));
     if (s.signedAt && !s.finalisedAt) a.push(btn('finalise', 'Finish signing', 'data-wait="Making the signed PDFs, saving to Drive and emailing…"', primary));
     if (s.signedAt) {
       const done = new Set((s.invoices || []).map((i) => Number(i.stage)));
@@ -162,10 +177,10 @@ function actions(d, base) {
       });
     }
   } else {
-    if (!s.sentAt) a.push(btn('send-invoice', 'Send invoice', 'data-wait="Saving the PDF to Drive and emailing it from your Gmail…"', primary));
+    if (!s.sentAt) a.push(btn('send-invoice', 'Send invoice', `data-wait="Saving the PDF to Drive and emailing it from your Gmail…"${check}`, primary));
     else if (s.status !== 'paid') {
       a.push(btn('mark-paid', 'Mark paid', 'data-wait="Marking as paid…"'));
-      a.push(btn('send-invoice', 'Send again', 'data-wait="Emailing it again…"'));
+      a.push(btn('send-invoice', 'Send again', `data-wait="Emailing it again…"${check}`));
     }
   }
   a.push(`<button type="button" class="textbtn" data-copy="${esc(link)}">Copy link</button>`);
@@ -244,7 +259,7 @@ export function renderAdmin({ base, docs: all, error, year, path = '/admin/', pa
           const amount = d.type === 'quote' ? quoteTotals(d).total : invoiceTotals(d).total;
           return `<div class="adm-row${cls === 'withdrawn' || cls === 'paid' ? ' done' : ''}">
             <div class="c-doc"><span>${d.type === 'quote' ? 'Quote' : 'Invoice'}</span>${esc(d.number)}</div>
-            <div class="c-proj">${esc(d.title || d.project || '')}</div>
+            <div class="c-proj">${esc(d.title || d.project || '')}${sendsTo(d)}</div>
             <div class="c-status"><span class="pill ${cls}">${esc(label)}</span></div>
             <div class="c-amt">${amount ? money(amount, { pennies: d.type === 'invoice' }) : ''}</div>
             ${actions(d, base)}

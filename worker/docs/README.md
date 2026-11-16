@@ -64,6 +64,8 @@ link is unguessable. Every document is one A4 sheet, the same on screen and in t
 1. A quote's JSON goes into the data folder (Claude writes it from what Anthony says).
 2. Anthony checks it at `docs.anthonyis.uk/admin/` and presses **Send quote**: the PDF is saved to Quotes and the
    client gets an email from his Gmail with the link and the PDF.
+   Each admin row shows who that is under the project (`client.contact`), and every button that emails a
+   client takes two presses: the second one reads "Send to name@client?".
 3. The client presses **Accept quote**, fills in their company details, signs (draw, type or upload)
    and confirms with a code emailed to them.
    The form also asks for their VAT number, which goes on their invoices; it is optional unless
