@@ -18,13 +18,17 @@ function clauseHtml([n, title, paras]) {
 }
 
 // The client's details: from the signature once signed, else from the quote, else blanks.
+// Where the company is registered is only stated when the quote says so (client.jurisdiction, for
+// example "England and Wales" or "Ireland"); the signing form doesn't ask, and guessing it would
+// put a wrong fact about the client into the contract.
 function clientParty(q) {
   const s = q.state?.signature;
   const c = s || q.client || {};
   const name = c.legalName;
   if (!name) return '<b>[Client legal name]</b>, details completed on signing ("the Client").';
+  const where = q.client?.jurisdiction;
   const reg = c.companyNumber
-    ? `a company registered in ${esc(c.jurisdiction || 'England and Wales')} (company number ${esc(c.companyNumber)}), whose registered office is at ${esc(c.address)}`
+    ? `a company registered ${where ? `in ${esc(where)} (company number ${esc(c.companyNumber)})` : `under company number ${esc(c.companyNumber)}`}, whose registered office is at ${esc(c.address)}`
     : `of ${esc(c.address)}`;
   return `<b>${esc(name)}</b>, ${reg} ("the Client").`;
 }

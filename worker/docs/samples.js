@@ -22,6 +22,7 @@ const CLIENT = {
   name: 'Saltwater Supply Co.',
   legalName: 'Saltwater Supply Limited',
   companyNumber: '12345678',
+  jurisdiction: 'England and Wales',
   address: '1 Example Wharf\nFalmouth TR11 0AA',
   vatNumber: 'GB 000 0000 00',
   contact: { name: 'Sam Taylor', email: 'sam@example.com' },
