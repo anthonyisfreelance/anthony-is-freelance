@@ -342,7 +342,7 @@ export function signedEmail({ base, doc, sig, deposit }) {
     : [
         ['Kick-off call', "I'll be in touch shortly to book it."],
         ['Work begins', 'On the dates we agree at the kick-off.'],
-        ['Invoices', 'Monthly in arrears, with hours by task.'],
+        ['Invoices', 'Monthly, after the work is done, with hours by task.'],
       ];
   return {
     subject: `Signed contract: ${doc.title}`,

@@ -82,7 +82,7 @@ function quote(type = 'scoped', extra = {}) {
     revisions: 'Two rounds of revisions at each stage.',
     builtBy: 'Your developer',
     fromClient: 'Brand assets, product photography and copy, and access to your analytics.',
-    contract: { optional: ['A'], completionPoint: 'Handover of the final Figma files', revisionRounds: '2 per stage' },
+    contract: { optional: ['A'], completionPoint: 'Handover of the final Figma files', revisionRounds: 'Two rounds of amends per stage' },
     state: { status: 'sent', sentAt: `${issued}T09:00:00Z` },
     ...extra,
   };

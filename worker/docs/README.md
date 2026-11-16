@@ -136,7 +136,7 @@ Quote:
   "stages": [{ "label": "Deposit", "percent": 50, "due": "Before work begins" }],
   "revisions": "…", "builtBy": "Your developer", "fromClient": "…",
   "contract": { "optional": ["A"], "completionPoint": "…", "revisionRounds": "…",
-                "startDate": "", "confidential": false, "competitor": { "months": 12, "sector": "…" } },
+                "startDate": "", "competitor": { "months": 12, "sector": "…" } },
   "state": { "status": "draft" }
 }
 ```

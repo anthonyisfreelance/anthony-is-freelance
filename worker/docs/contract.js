@@ -1,13 +1,14 @@
-// The contract page: the standard terms, a Project Schedule filled from the quote, both signatures,
-// and (after signing) the signing record. Before signing, the page carries the signing panel:
-// company details, a drawn, typed or uploaded signature, and a one-time code sent to the signer.
+// The contract page: the project's details taken from the quote, the standard terms, both
+// signatures, and (after signing) the signing record. Before signing, a Sign the contract button
+// sits right under the signatures; it opens the signing form (company details, a drawn, typed or
+// uploaded signature, and a one-time code sent to the signer). The three steps follow below.
 
 import {
   esc, money, fmtDate, fmtDateTime, today, eyebrow, masthead, legalFooter, shell, topBar, backLink, downloadLink,
   stageBlocks, STAGE_CSS, ARROW, COMPANY,
 } from './shared.js';
 import { quoteTotals, stageAmounts, stageLabel, pricingSummary, nextSteps, afterSigningAction } from './quote.js';
-import { TERMS, OPTIONAL, OPTIONAL_NAMES, CONTRACT_VERSION } from './terms.js';
+import { termsFor, OPTIONAL, OPTIONAL_NAMES, CONTRACT_VERSION } from './terms.js';
 
 const bold = (s) => esc(s).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
 
@@ -47,11 +48,10 @@ export function scheduleRows(q) {
     ['Pricing', pricingSummary(q)],
     ['Payment stages', stages.length
       ? stages.map((st) => `${stageLabel(st)}: ${money(st.net)} + VAT, ${st.due.charAt(0).toLowerCase()}${st.due.slice(1)}`).join('. ')
-      : 'Invoiced monthly in arrears'],
+      : 'Invoiced monthly, after the work is done'],
     ['Hourly rate', `${money(t.rate)} per hour + VAT`],
-    ['Revision rounds', c.revisionRounds || q.revisions || '2'],
+    ['Amends', c.revisionRounds || 'Two rounds of amends'],
     ['Completion point', c.completionPoint || 'Delivery of the final designs'],
-    ['Confidential project', c.confidential ? 'Yes' : 'No'],
     ['Additional terms', opt || 'None'],
     ['Client contact', contact || '[Completed on signing]'],
   ];
@@ -114,7 +114,7 @@ function signingRecord(q) {
     <div class="table-wrap"><table class="kv"><tbody>${rows
       .map(([k, v]) => `<tr><th scope="row">${esc(k)}</th><td>${esc(v)}</td></tr>`)
       .join('')}</tbody></table></div>
-    <p class="note">The fingerprint is calculated from the contract terms, Project Schedule and Quote as they stood when signed. Any change to them gives a different fingerprint.</p>
+    <p class="note">The fingerprint is calculated from the contract terms, project details and Quote as they stood when signed. Any change to them gives a different fingerprint.</p>
   </section>`;
 }
 
@@ -130,9 +130,8 @@ function signPanel(q) {
     ? f('vatNumber', 'VAT number', c.vatNumber, 'required autocomplete="off"')
     : f('vatNumber', 'VAT number (if VAT registered)', c.vatNumber, 'autocomplete="off"');
   return `
-  <section class="sec full screen-only sign" id="sign" aria-labelledby="h-sign" data-token="${esc(q.token)}">
-    <h2 id="h-sign">${eyebrow(steps.eyebrow)}${esc(steps.title)}</h2>
-    ${stageBlocks(steps.items)}
+  <section class="sec full screen-only sign" id="sign" aria-labelledby="h-sign" data-token="${esc(q.token)}" hidden>
+    <h2 id="h-sign">${eyebrow('Your details')}Sign the contract</h2>
     <form id="sign-form" novalidate>
       <p class="form-h">Your company</p>
       <div class="grid">
@@ -159,7 +158,7 @@ function signPanel(q) {
         <input id="sig-type" class="sig-type" placeholder="Type your full name" hidden>
         <input id="sig-file" type="file" accept="image/png,image/jpeg,image/webp" hidden>
       </div>
-      <label class="agree" for="agree"><input id="agree" type="checkbox" required> <span>I agree to this contract, the Project Schedule and the Quote, and I'm authorised to sign for the company named above.</span></label>
+      <label class="agree" for="agree"><input id="agree" type="checkbox" required> <span>I agree to this contract and the Quote, and I'm authorised to sign for the company named above.</span></label>
       <div class="act">
         <button type="button" class="btn" id="send-code">Email me a code ${ARROW}</button>
       </div>
@@ -172,6 +171,10 @@ function signPanel(q) {
       </div>
       <div id="msg" class="status" role="status" hidden></div>
     </form>
+  </section>
+  <section class="sec full screen-only" aria-labelledby="h-steps">
+    <h2 id="h-steps">${eyebrow('Next steps')}Three steps to get started</h2>
+    ${stageBlocks(steps.items)}
   </section>`;
 }
 
@@ -212,6 +215,7 @@ const CONTRACT_CSS = `
 .agree { display: flex; gap: 10px; align-items: flex-start; }
 .agree input { margin-top: 3px; width: 16px; height: 16px; flex: none; accent-color: var(--blue); }
 .sign .act { margin-top: 12px; }
+.sign-open { margin-top: 24px; display: flex; flex-direction: column; align-items: flex-start; gap: 24px; }
 .code-row { display: flex; gap: 12px; flex-wrap: wrap; }
 .code-row .btn { flex: 1 1 200px; width: auto; }
 #code { width: 160px; letter-spacing: 0.3em; font-size: 20px; text-align: center; }
@@ -227,6 +231,14 @@ const SIGN_SCRIPT = `
 (function () {
   var sec = document.getElementById('sign'); if (!sec) return;
   var token = sec.getAttribute('data-token');
+  // The button under the signatures opens the signing form in its place.
+  var start = document.getElementById('sign-start');
+  if (start) start.addEventListener('click', function () {
+    sec.hidden = false;
+    document.getElementById('sign-open').hidden = true;
+    sec.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    var first = document.getElementById('legalName'); if (first) first.focus({ preventScroll: true });
+  });
   var canvas = document.getElementById('sig'), ctx = canvas.getContext('2d');
   var typeIn = document.getElementById('sig-type'), fileIn = document.getElementById('sig-file');
   var mode = 'draw', ink = false, drawing = false, last = null;
@@ -330,16 +342,16 @@ export function renderContract(q, { base, settings, pdf = false }) {
   </section>
 
   <section class="sec full" aria-labelledby="h-schedule">
-    <h2 id="h-schedule">${eyebrow('Project Schedule')}The details of this project</h2>
+    <h2 id="h-schedule">${eyebrow('From the Quote')}The details of this project</h2>
     <div class="table-wrap"><table class="kv"><tbody>${scheduleRows(q)
       .map(([k, v]) => `<tr><th scope="row">${esc(k)}</th><td>${esc(v)}</td></tr>`)
       .join('')}</tbody></table></div>
-    <p class="note">The Project Schedule is read together with the terms below and the Quote${pdf ? ', which is attached' : ` (<a href="/quote/${esc(q.token)}/">view the Quote</a>)`}.</p>
+    <p class="note">These details are read together with the terms below and the Quote${pdf ? ', which is attached' : ` (<a href="/quote/${esc(q.token)}/">view the Quote</a>)`}.</p>
   </section>
 
   <section class="sec full page-start" aria-labelledby="h-terms">
     <h2 id="h-terms">${eyebrow('Terms')}Terms of the agreement</h2>
-    <div class="terms">${TERMS.map(clauseHtml).join('')}</div>
+    <div class="terms">${termsFor(q).map(clauseHtml).join('')}</div>
   </section>
 
   ${opt.length ? `<section class="sec full" aria-labelledby="h-opt">
@@ -349,8 +361,12 @@ export function renderContract(q, { base, settings, pdf = false }) {
 
   <section class="sec full keep" aria-labelledby="h-sigs">
     <h2 id="h-sigs">${eyebrow('Signatures')}Agreed and signed</h2>
-    <p class="note" style="margin:0 0 24px">By signing, both parties agree to this Agreement, the Project Schedule and the Quote.</p>
+    <p class="note" style="margin:0 0 24px">By signing, both parties agree to this Agreement and the Quote.</p>
     <div class="sigs">${designerSignature(q, settings)}${clientSignature(q)}</div>
+    ${signed || pdf || expired ? '' : `<div class="act sign-open screen-only" id="sign-open">
+      <button type="button" class="btn" id="sign-start">Sign the contract ${ARROW}</button>
+      <p class="contact">Questions? Email <b>${COMPANY.email}</b></p>
+    </div>`}
   </section>
 
   ${signed || pdf ? '' : expired
@@ -376,7 +392,7 @@ export function renderContract(q, { base, settings, pdf = false }) {
 // The text the fingerprint is taken from: terms, schedule and quote content as they stand.
 export function fingerprintSource(q) {
   const { state, token, ...content } = q;
-  return JSON.stringify({ version: CONTRACT_VERSION, terms: TERMS, optional: optionalClauses(q), quote: content });
+  return JSON.stringify({ version: CONTRACT_VERSION, terms: termsFor(q), optional: optionalClauses(q), quote: content });
 }
 
 // After signing, the contract page is the snapshot taken at the moment of signing, exactly as it
@@ -384,8 +400,8 @@ export function fingerprintSource(q) {
 // with the PDF link. The snapshot carries the styles it was signed with, so the panel brings its own.
 const mintFont = '"Mint Grotesk Display", "Arial Narrow", ui-sans-serif, system-ui, sans-serif';
 const AFTER_CSS = `
-.bar { max-width: 794px; margin: 0 auto 12px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 16px; font: 500 14px/1.3 ${mintFont}; letter-spacing: 0.02em; color: #111111; }
-.bar a { display: inline-flex; align-items: center; gap: 4px; color: #111111; text-decoration: none; }
+.bar { max-width: 794px; margin: 0 auto 12px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 16px; font: 500 14px/1.3 ${mintFont}; letter-spacing: 0.02em; color: #ffffff; }
+.bar a { display: inline-flex; align-items: center; gap: 4px; color: #ffffff; text-decoration: none; }
 .bar a.up { text-transform: uppercase; }
 .bar svg { width: 18px; height: 18px; flex: none; }
 .after-sign { max-width: 794px; margin: 0 auto 12px; padding: 24px 64px 32px; background: #ffffff; color: #111111; }

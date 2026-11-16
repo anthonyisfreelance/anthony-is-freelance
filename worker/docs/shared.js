@@ -156,7 +156,8 @@ export const CSS = `
 /* Sizes and colours follow the Figma design system (.docs page): 794px sheet, 64px padding, 24px
    between sections, a 439px main column, Mint Grotesk 14px for labels and Source Serif 14px for prose. */
 :root {
-  --desk: #d8d8d8;
+  --desk: #111111;
+  --on-desk: #ffffff;
   --paper: #ffffff;
   --ink: #111111;
   --muted: #393939;
@@ -180,8 +181,8 @@ a { color: inherit; }
 img { max-width: 100%; }
 [hidden] { display: none !important; }
 
-.bar { max-width: 794px; margin: 0 auto 12px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 16px; font: 500 14px/1.3 var(--display); letter-spacing: 0.02em; color: var(--ink); }
-.bar a { display: inline-flex; align-items: center; gap: 4px; color: var(--ink); text-decoration: none; }
+.bar { max-width: 794px; margin: 0 auto 12px; display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 8px 16px; font: 500 14px/1.3 var(--display); letter-spacing: 0.02em; color: var(--on-desk); }
+.bar a { display: inline-flex; align-items: center; gap: 4px; color: var(--on-desk); text-decoration: none; }
 .bar a:hover { text-decoration: underline; }
 .bar a.up { text-transform: uppercase; }
 .bar svg { width: 18px; height: 18px; flex: none; }

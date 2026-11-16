@@ -34,7 +34,7 @@ export const stageLabel = (s) => `${s.label}, ${s.percent}%`;
 export function pricingSummary(q) {
   const t = quoteTotals(q);
   if (q.pricing?.type === 'fixed') return `Fixed price of ${money(t.subtotal)} + VAT`;
-  if (q.pricing?.type === 'hourly') return `Hourly at ${money(t.rate)} per hour + VAT, invoiced monthly in arrears`;
+  if (q.pricing?.type === 'hourly') return `Hourly at ${money(t.rate)} per hour + VAT, invoiced monthly after the work is done`;
   return `Scoped at ${t.hours} hours, ${money(t.subtotal)} + VAT`;
 }
 
@@ -54,7 +54,7 @@ export function nextSteps(q, { step, depositInvoice } = {}) {
     : { state: 'current', title: 'Accept the quote', text: 'Accept online, using the button below.' };
   const two = signed
     ? { state: 'complete', title: 'Contract signed', text: `Signed ${fmtDate(s.signedAt, 'long')}${s.signature?.name ? ` by ${s.signature.name}` : ''}.` }
-    : { state: state(2), title: 'Sign the contract', text: at === 2 ? 'Sign online, using the form below.' : 'The contract opens straight after accepting, to sign online.' };
+    : { state: state(2), title: 'Sign the contract', text: at === 2 ? 'Sign online, using the button above.' : 'The contract opens straight after accepting, to sign online.' };
   let three;
   if (!deposit) three = { state: state(3), title: 'Book the kick-off', text: 'We agree dates for each phase and get started.' };
   else if (paid) three = { state: 'complete', title: 'Deposit paid', text: `${depositInvoice.paidAt ? `Paid ${fmtDate(depositInvoice.paidAt, 'long')}. ` : ''}Next, we book the kick-off call.` };
@@ -147,7 +147,7 @@ export function renderQuote(q, { base, pdf = false, depositInvoice } = {}) {
         </tfoot>` : ''}
       </table>
     </div>
-    ${type === 'hourly' ? '<p class="note">Hours are an estimate to help you plan. Time is tracked and invoiced monthly in arrears, with a breakdown by task. I will tell you before an estimate is likely to be exceeded.</p>' : ''}
+    ${type === 'hourly' ? '<p class="note">Hours are an estimate to help you plan. Time is tracked and invoiced monthly, after the work is done, with a breakdown by task. I will tell you before an estimate is likely to be exceeded.</p>' : ''}
     ${stages.length ? `
     <h3 class="sub-h">Payment stages</h3>
     <div class="table-wrap">
@@ -185,7 +185,7 @@ export function renderQuote(q, { base, pdf = false, depositInvoice } = {}) {
   const hoursNote = {
     scoped: `The work is scoped at ${t.hours} hours. If anything needs more, I'll ask before going over.`,
     fixed: 'The price is fixed for the scope above. Anything outside it is quoted separately first.',
-    hourly: 'Time is tracked and invoiced monthly in arrears, with hours by task.',
+    hourly: 'Time is tracked and invoiced monthly, after the work is done, with hours by task.',
   }[type];
   const fine = [
     q.revisions && ['Revisions', q.revisions],
