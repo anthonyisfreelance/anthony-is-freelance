@@ -36,7 +36,7 @@ interface Block {
   poster?: string;
   width?: number;
   height?: number;
-  /** figures: big blue numbers, laid out like the homepage results (number, label, then the window and source). */
+  /** figures: Article/Stat in Figma. number, label (finishes the sentence), caption (window and source). */
   items?: { number: string; label: string; caption: string }[];
 }
 interface Content {
@@ -147,7 +147,7 @@ const longestWord = Math.max(...article.title.split(/\s+/).map((w) => w.length))
             </div>
             </div>
             {c.updateNote && <p class="t-tile border-l-2 border-line pl-4 text-muted">{c.updateNote}</p>}
-            {c.standfirst && <p class="font-serif text-[20px] leading-[1.6] text-ink lg:w-[66%]">{c.standfirst}</p>}
+            {c.standfirst && <p class="standfirst font-serif text-[20px] leading-[1.65] text-ink lg:w-[66%]">{c.standfirst}</p>}
           </div>
         </div>
       </header>
@@ -190,15 +190,17 @@ const longestWord = Math.max(...article.title.split(/\s+/).map((w) => w.length))
                 );
               })()
             : b.type === 'figures' ? (
-                <dl class="grid grid-cols-2 gap-large">
+                // Article/Stat (Figma 48281:77): three across on desktop, stacked on mobile. Blue is for
+                // figures only, and every figure also appears in the text.
+                <div class="flex flex-col gap-4 md:flex-row md:gap-6">
                   {b.items!.map((r) => (
-                    <div class="flex flex-col gap-4">
-                      <dd class="t-number order-1 m-0">{r.number}</dd>
-                      <dt class="t-h7 order-2 text-ink">{r.label}</dt>
-                      <dd class="t-label order-3 m-0 border-t border-line pt-2 tracking-[0.02em] text-muted">{r.caption}</dd>
-                    </div>
+                    <figure class="stat m-0 flex flex-1 flex-col gap-2 border-t border-line pt-4">
+                      <data value={r.number.replace(/[^\d.]/g, '')} class="t-number block uppercase" style="font-size:var(--type-number)">{r.number}</data>
+                      <p class="t-h6 m-0 text-ink">{r.label}</p>
+                      <p class="t-label m-0 text-[length:var(--type-badge)] tracking-[0.02em] text-muted">{r.caption}</p>
+                    </figure>
                   ))}
-                </dl>
+                </div>
               )
             : b.type === 'video' ? (() => {
                 // Screen recording: the still shows first (and stays for reduced motion), the video
