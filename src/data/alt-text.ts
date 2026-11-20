@@ -11,6 +11,7 @@ export const ALT_TEXT: Record<string, string> = {
   'articles/benefits-of-shopify-plus/tile.png': 'Shopify Plus logo on a dark background',
   'articles/generative-engine-optimisation-shopify/tile.png': 'AI assistant logos above an Ask me anything search bar',
   'articles/good-conversion-rate-shopify/tile.png': 'Shopify logo beside a rising conversion rate line',
+  'articles/shopify-product-quiz-design/fuzzball-ux-review-poster.jpg': 'The Fuzzball homepage on mobile, on a Miro UX review board',
   'articles/shopify-product-quiz-design/tile.png': 'Fuzzball’s quiz progress bar, with a line-drawn cat chasing a ball of wool along the bar',
   'articles/shopify-product-discovery/tile.png': 'Drink Finder Shopify collection pages on mobile, with the Show extras switch on and the filter bar fixed at the top',
   'articles/how-to-design-a-shopify-website-2026/tile.png': 'Projektityyny and Hartnack & Co Shopify store designs on mobile',

@@ -1,6 +1,6 @@
 {
  "seoTitle": "Shopify Product Quiz Design: How I Simplified Fuzzball’s Quiz",
- "description": "How I redesigned Fuzzball’s Shopify product quiz: one input type per screen, fewer steps, and a cat progress bar that gave it back its character.",
+ "description": "How I redesigned Fuzzball’s Shopify product quiz from a UX review: one input type per screen, fewer steps, a skip option, and a cat progress bar for character.",
  "published": "2026-11-20",
  "modified": "2026-11-20",
  "hero": {
@@ -16,7 +16,7 @@
   },
   {
    "type": "html",
-   "html": "<p>A Shopify product quiz asks shoppers a few questions and recommends the right product or plan from their answers. Good quiz design makes every step feel like one quick decision.</p>\n<p><a href=\"/work/fuzzball/\">Fuzzball</a> sells cat food on <a href=\"/shopify-website-design/shopify-subscriptions/\">subscription</a>, and its quiz is where every new plan starts. Customers were dropping off inside it, so it was the first thing I redesigned.</p>"
+   "html": "<p>A Shopify product quiz asks shoppers a few questions and recommends the right product or plan from their answers. Good quiz design makes every step feel like one quick decision.</p>\n<p><a href=\"/work/fuzzball/\">Fuzzball</a> sells cat food on <a href=\"/shopify-website-design/shopify-subscriptions/\">subscription</a>, and its quiz is where every new plan starts. Customers were <a href=\"/shopify-website-design/shopify-conversion-rate-optimisation/\">dropping off</a> inside it, so it was the first thing I redesigned.</p>"
   },
   {
    "type": "h2",
@@ -25,7 +25,29 @@
   },
   {
    "type": "html",
-   "html": "<p>Fuzzball’s old quiz was hard work. Some screens mixed text inputs, radio buttons and tick boxes on the same step, so customers had to work out how to answer before they could answer. There were also a lot of steps between landing on the quiz and seeing a plan.</p>\n<p>The quiz wasn’t the only drop-off point. The bag was the other, because it wasn’t clear which items were the trial and which would repeat. The brief was to simplify both, show value at each step and keep the brand’s playful character.</p>"
+   "html": "<p>The problems with Fuzzball’s old quiz came out of my <a href=\"/articles/shopify-ux-review/\">UX review</a>. I went through every screen of the journey in Miro and pinned a note to everything that slowed customers down.</p>\n<p>The quiz was hard work. Some screens mixed text inputs, radio buttons and tick boxes on the same step, so customers had to work out how to answer before they could answer. A selected answer looked the same as the Next button, so it wasn’t clear what you’d picked. A unit label looked like a button but wasn’t one. The Next and Back buttons moved to a different place on almost every screen.</p>\n<p>There were also a lot of steps, with the most questions on the very first page. Some, like the cat’s birth month, didn’t change the plan at all.</p>"
+  },
+  {
+   "type": "video",
+   "file": "/video/articles/shopify-ux-review/fuzzball-ux-review.mp4",
+   "poster": "fuzzball-ux-review-poster.jpg",
+   "width": 1280,
+   "height": 868,
+   "alt": "The Fuzzball UX review in Miro, with colour-coded notes across the quiz and the rest of the purchase journey",
+   "caption": "The Fuzzball UX review in Miro. The quiz findings shaped the redesign."
+  },
+  {
+   "type": "html",
+   "html": "<p>The quiz wasn’t the only drop-off point. The bag was the other, because it wasn’t clear which items were the trial and which would repeat. The brief was to simplify both, show value at each step and keep the brand’s playful character.</p>"
+  },
+  {
+   "type": "h2",
+   "text": "The quiz starts before the quiz",
+   "id": "the-quiz-starts-before-the-quiz"
+  },
+  {
+   "type": "html",
+   "html": "<p>The Fuzzball quiz journey starts in the menu, not on the first question. The review found the buttons into the quiz said different things in different places, so customers couldn’t tell they all led to the same place. Now they all say Build Your Box.</p>\n<p>The mobile and desktop menus carry a short how it works, plus quality and delivery messages, so customers trust the subscription before they start. The quiz header keeps How it works one tap away.</p>\n<p>Product pages link straight into building a box, including for products you can only get through the quiz. On collection pages, <a href=\"/innovations/#subscription-only-cards\">subscription-only products</a> show a lock and a View Product button instead of Add to Bag, so nobody finds out at checkout. I wrote about that card in more detail in <a href=\"/articles/shopify-product-card-design/\">Shopify product card design</a>.</p>"
   },
   {
    "type": "h2",
@@ -34,7 +56,7 @@
   },
   {
    "type": "html",
-   "html": "<p>The first fix was consistency. Each screen of Fuzzball’s quiz now asks one question with one type of answer. The cat’s name is a single text field. What your cat eats and how much are big tappable cards with a product photo, one tap per answer.</p>\n<p>Buttons got clearer states too. Next stays pale until you’ve answered, so you always know what the screen is waiting for. The recommended portion carries a label, and extra detail sits in slide-up panels instead of crowding the screen.</p>"
+   "html": "<p>The first fix was consistency. Each screen of Fuzzball’s quiz now asks one question with one type of answer. The cat’s name is a single text field. What your cat eats and how much are big tappable cards with a product photo, one tap per answer.</p>\n<p>Selected answers get a blue border and a tick, so they never look like the Next button. Next and Skip Questions sit in a fixed bar at the bottom of every step, in the same place every time. Next stays pale until you’ve answered, so you always know what the screen is waiting for. The recommended portion carries a label, and extra detail sits in slide-up panels instead of crowding the screen.</p>\n<p><a href=\"/freelance-ux-ui-designer/\">Clean, consistent and accessible</a> screens let someone get through the quiz one-handed on a phone without thinking about the form.</p>"
   },
   {
    "type": "image",
@@ -48,7 +70,7 @@
   },
   {
    "type": "html",
-   "html": "<p>Fuzzball’s quiz had more steps than it needed. I went through every question with the client and asked what each one was for. If an answer didn’t change the plan, it didn’t need to be a step.</p>\n<p>The quiz now asks for your cat’s name, then what and how much your cat eats. You can add another cat on the same screen, and Skip Questions is there for anyone who already knows what they want.</p>"
+   "html": "<p>Fuzzball’s quiz had more steps than it needed. I went through every question with the client and asked what each one was for. If an answer didn’t change the plan, it didn’t need to be a step.</p>\n<p>The quiz now asks for your cat’s name, then what and how much your cat eats. The name carries through, so the next question asks what Luna eats, not what your cat eats. You can add another cat on the same screen instead of starting again.</p>\n<p>Skipping was the client’s idea and mine together. Skip Questions sits on every step and takes you straight to a set meal plan, for anyone who already knows what they want or doesn’t want to answer questions at all.</p>"
   },
   {
    "type": "h2",
@@ -57,7 +79,7 @@
   },
   {
    "type": "html",
-   "html": "<p>Stripping Fuzzball’s quiz back created a new problem. Once it was clean, consistent and accessible, it had lost a lot of its character. It worked, but it could have been any brand’s quiz.</p>\n<p>The answer was already in the brand. Fuzzball uses hand-drawn illustrations, so I turned one of them into the <a href=\"/innovations/#progress-bar-with-character\">progress bar</a>. A line-drawn cat chases a ball of wool along the bar, and every step you complete moves it closer. Finish the quiz and the confetti goes off. The progress bar is something every quiz needs anyway. Making it the cat added character without adding a single step or getting in anyone’s way.</p>\n<p>This is the bit I enjoy most about Shopify design: taking something functional and making it unmistakably the client’s brand.</p>"
+   "html": "<p>Stripping Fuzzball’s quiz back created a new problem. The review had called out the old quiz’s illustrations as one of its best bits, because they gave it so much personality. Once the quiz was clean, consistent and accessible, a lot of that character had gone. It worked, but it could have been any brand’s quiz.</p>\n<p>The answer was already in the brand. Fuzzball uses hand-drawn illustrations, so I turned one of them into the <a href=\"/innovations/#progress-bar-with-character\">progress bar</a>. A line-drawn cat chases a ball of wool along the bar, and every step you complete moves it closer. Finish the quiz and the confetti goes off. The progress bar is something every quiz needs anyway. Making it the cat added character without adding a single step or getting in anyone’s way. It’s a <a href=\"/articles/microinteractions-in-shopify-website-design/\">microinteraction</a> doing two jobs at once.</p>\n<p>The rest of the character is in the details. Each step has its own background colour from Fuzzball’s palette, and the reviews sit at the top of every step, so the trust is there right through.</p>\n<p>This is the bit I enjoy most about Shopify design: taking something functional and making it unmistakably the client’s brand.</p>"
   },
   {
    "type": "h2",
@@ -66,7 +88,7 @@
   },
   {
    "type": "html",
-   "html": "<p>The end of Fuzzball’s quiz is the bag, and it was the biggest drop-off point. The bag now <a href=\"/innovations/#trial-subscription-split\">separates the trial from the repeating order</a>, so customers see exactly what they’re signing up to before they pay. Nobody subscribes by accident.</p>"
+   "html": "<p>The end of Fuzzball’s quiz is the bag, and it was the biggest drop-off point. The review found the shopping list was a long scroll down the page, and the bag asked again for choices customers had already made in the quiz.</p>\n<p>The bag now <a href=\"/innovations/#trial-subscription-split\">separates the trial from the repeating order</a>, so customers see exactly what they’re signing up to before they pay. Nobody subscribes by accident.</p>"
   },
   {
    "type": "h2",
@@ -75,7 +97,7 @@
   },
   {
    "type": "html",
-   "html": "<p>Fuzzball’s conversion rate was 63% higher from August 2025 to August 2026 than in the same period the year before (GA4). Checkout completion rose too: 82% of customers who started checkout finished their order in the five months after launch, up from 59% in the six months before.</p>\n<p>Those figures cover the whole redesign, not the quiz alone. The quiz and the bag were the two places customers were leaving, and both were rebuilt. The full project is in the <a href=\"/work/fuzzball/\">Fuzzball case study</a>.</p>"
+   "html": "<p>Fuzzball’s conversion rate was 63% higher from August 2025 to August 2026 than in the same period the year before (GA4). Checkout completion rose too: 82% of customers who started checkout finished their order in the five months after launch, up from 59% in the six months before.</p>\n<p>Those figures cover the whole redesign, not the quiz alone. The quiz and the bag were the two places customers were leaving, and both were rebuilt as part of a <a href=\"/shopify-website-design/bespoke-shopify-store-builds/\">bespoke Shopify build</a>. The full project is in the <a href=\"/work/fuzzball/\">Fuzzball case study</a>.</p>"
   },
   {
    "type": "h2",
@@ -84,7 +106,7 @@
   },
   {
    "type": "html",
-   "html": "<ul>\n<li><strong>Use one input type per screen.</strong> Mixed fields make customers think about the form instead of their answer.</li>\n<li><strong>Question every step.</strong> If an answer doesn’t change the recommendation, cut the question.</li>\n<li><strong>Make the answer the button.</strong> Big tappable cards beat small radio buttons on a phone.</li>\n<li><strong>Put the brand in the parts you need anyway.</strong> A progress bar, a button state or a loading screen can carry character without slowing anyone down.</li>\n<li><strong>Be clear about what repeats.</strong> Customers should know what they’re committing to before checkout.</li>\n</ul>"
+   "html": "<ul>\n<li><strong>Review the quiz you have first.</strong> Go through every screen on a real phone and note everything that slows you down.</li>\n<li><strong>Use one input type per screen.</strong> Mixed fields make customers think about the form instead of their answer.</li>\n<li><strong>Keep the buttons in one place.</strong> Next and Back should never move between steps.</li>\n<li><strong>Question every step.</strong> If an answer doesn’t change the recommendation, cut the question.</li>\n<li><strong>Let people skip.</strong> Some customers already know what they want. A set plan gets them there faster.</li>\n<li><strong>Put the brand in the parts you need anyway.</strong> A progress bar, a button state or a loading screen can carry character without slowing anyone down.</li>\n<li><strong>Be clear about what repeats.</strong> Customers should know what they’re committing to before checkout.</li>\n</ul>\n<p>For another article written the same way, see how I designed <a href=\"/articles/shopify-product-discovery/\">Shopify product discovery</a> for a 5,000-product store.</p>"
   }
  ],
  "faqs": [
@@ -95,6 +117,10 @@
   {
    "q": "How many steps should a Shopify quiz have?",
    "html": "<p>A Shopify quiz should have as few steps as it takes to make a good recommendation. Every question should change the result. If it doesn’t, it’s slowing customers down for nothing.</p>"
+  },
+  {
+   "q": "Should customers be able to skip a Shopify quiz?",
+   "html": "<p>Yes. Some customers already know what they want, and making them answer questions can lose the sale. On Fuzzball, Skip Questions sits on every step and goes straight to a set meal plan, so the quiz helps people who want help without blocking anyone who doesn’t.</p>"
   },
   {
    "q": "How do you keep a simple quiz on-brand?",
