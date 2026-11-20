@@ -3,6 +3,7 @@
  "description": "How I redesigned Fuzzball’s Shopify product quiz from a UX review: one input type per screen, fewer steps, a skip option, and a cat progress bar for character.",
  "published": "2026-11-20",
  "modified": "2026-11-20",
+ "standfirst": "I simplified Fuzzball’s Shopify product quiz by giving every screen one type of answer, cutting the questions that didn’t change the plan and adding a way to skip. Then I gave it back its character with a cat that chases a ball of wool along the progress bar. Fuzzball’s conversion rate was 63% higher in the year after launch.",
  "hero": {
   "file": "tile.png",
   "alt": "Fuzzball’s quiz progress bar: a line-drawn cat chases a ball of wool along the bar, then confetti goes off at the end"
@@ -79,7 +80,19 @@
   },
   {
    "type": "html",
-   "html": "<p>Stripping Fuzzball’s quiz back created a new problem. The review had called out the old quiz’s illustrations as one of its best bits, because they gave it so much personality. Once the quiz was clean, consistent and accessible, a lot of that character had gone. It worked, but it could have been any brand’s quiz.</p>\n<p>The answer was already in the brand. Fuzzball uses hand-drawn illustrations, so I turned one of them into the <a href=\"/innovations/#progress-bar-with-character\">progress bar</a>. A line-drawn cat chases a ball of wool along the bar, and every step you complete moves it closer. Finish the quiz and the confetti goes off. The progress bar is something every quiz needs anyway. Making it the cat added character without adding a single step or getting in anyone’s way. It’s a <a href=\"/articles/microinteractions-in-shopify-website-design/\">microinteraction</a> doing two jobs at once.</p>\n<p>The rest of the character is in the details. Each step has its own background colour from Fuzzball’s palette, and the reviews sit at the top of every step, so the trust is there right through.</p>\n<p>This is the bit I enjoy most about Shopify design: taking something functional and making it unmistakably the client’s brand.</p>"
+   "html": "<p>Stripping Fuzzball’s quiz back created a new problem. The review had called out the old quiz’s illustrations as one of its best bits, because they gave it so much personality. Once the quiz was clean, consistent and accessible, a lot of that character had gone. It worked, but it could have been any brand’s quiz.</p>\n<p>The answer was already in the brand. Fuzzball uses hand-drawn illustrations, so I turned one of them into the <a href=\"/innovations/#progress-bar-with-character\">progress bar</a>. A line-drawn cat chases a ball of wool along the bar, and every step you complete moves it closer. Finish the quiz and the confetti goes off. The progress bar is something every quiz needs anyway. Making it the cat added character without adding a single step or getting in anyone’s way. It’s a <a href=\"/articles/microinteractions-in-shopify-website-design/\">microinteraction</a> doing two jobs at once.</p>"
+  },
+  {
+   "type": "video",
+   "file": "/video/articles/shopify-product-quiz-design/quiz-progress-bar.mp4",
+   "poster": "quiz-progress-bar-poster.jpg",
+   "width": 1080,
+   "height": 1080,
+   "alt": "Fuzzball’s quiz on mobile: answering each step moves the line-drawn cat along the progress bar after the ball of wool"
+  },
+  {
+   "type": "html",
+   "html": "<p>The rest of the character is in the details. Each step has its own background colour from Fuzzball’s palette, and the reviews sit at the top of every step, so the trust is there right through.</p>\n<p>This is the bit I enjoy most about Shopify design: taking something functional and making it unmistakably the client’s brand.</p>"
   },
   {
    "type": "h2",
@@ -91,13 +104,36 @@
    "html": "<p>The end of Fuzzball’s quiz is the bag, and it was the biggest drop-off point. The review found the shopping list was a long scroll down the page, and the bag asked again for choices customers had already made in the quiz.</p>\n<p>The bag now <a href=\"/innovations/#trial-subscription-split\">separates the trial from the repeating order</a>, so customers see exactly what they’re signing up to before they pay. Nobody subscribes by accident.</p>"
   },
   {
+   "type": "video",
+   "file": "/video/articles/shopify-product-quiz-design/trial-subscription-split.mp4",
+   "poster": "trial-subscription-split-poster.jpg",
+   "width": 1080,
+   "height": 1080,
+   "alt": "Fuzzball’s bag on mobile, with tabs for today’s trial and the monthly plan, so the trial and the repeating order are shown separately"
+  },
+  {
    "type": "h2",
    "text": "The results",
    "id": "the-results"
   },
   {
+   "type": "figures",
+   "items": [
+    {
+     "number": "63%",
+     "label": "Higher conversion rate",
+     "caption": "August 2025 to August 2026, against the same period a year before. GA4."
+    },
+    {
+     "number": "82%",
+     "label": "Checkout completion",
+     "caption": "Five months after launch, up from 59% in the six months before. GA4."
+    }
+   ]
+  },
+  {
    "type": "html",
-   "html": "<p>Fuzzball’s conversion rate was 63% higher from August 2025 to August 2026 than in the same period the year before (GA4). Checkout completion rose too: 82% of customers who started checkout finished their order in the five months after launch, up from 59% in the six months before.</p>\n<p>Those figures cover the whole redesign, not the quiz alone. The quiz and the bag were the two places customers were leaving, and both were rebuilt as part of a <a href=\"/shopify-website-design/bespoke-shopify-store-builds/\">bespoke Shopify build</a>. The full project is in the <a href=\"/work/fuzzball/\">Fuzzball case study</a>.</p>"
+   "html": "<p>Both figures cover the whole redesign, not the quiz alone. The quiz and the bag were the two places customers were leaving, and both were rebuilt as part of a <a href=\"/shopify-website-design/bespoke-shopify-store-builds/\">bespoke Shopify build</a>. The full project is in the <a href=\"/work/fuzzball/\">Fuzzball case study</a>.</p>"
   },
   {
    "type": "h2",

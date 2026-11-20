@@ -23,7 +23,7 @@ import { articleImage, versioned } from '../../data/media';
 import photo from '../../assets/site/anthony.jpg';
 
 interface Block {
-  type: 'h2' | 'h3' | 'html' | 'image' | 'video';
+  type: 'h2' | 'h3' | 'html' | 'image' | 'video' | 'figures';
   text?: string;
   id?: string;
   html?: string;
@@ -36,6 +36,8 @@ interface Block {
   poster?: string;
   width?: number;
   height?: number;
+  /** figures: big blue numbers, laid out like the homepage results (number, label, then the window and source). */
+  items?: { number: string; label: string; caption: string }[];
 }
 interface Content {
   /** The full title tag, exactly as on WordPress (AIOSEO), so it doesn't change at launch. */
@@ -187,6 +189,17 @@ const longestWord = Math.max(...article.title.split(/\s+/).map((w) => w.length))
                   </figure>
                 );
               })()
+            : b.type === 'figures' ? (
+                <dl class="grid grid-cols-2 gap-large">
+                  {b.items!.map((r) => (
+                    <div class="flex flex-col gap-4">
+                      <dd class="t-number order-1 m-0">{r.number}</dd>
+                      <dt class="t-h7 order-2 text-ink">{r.label}</dt>
+                      <dd class="t-label order-3 m-0 border-t border-line pt-2 tracking-[0.02em] text-muted">{r.caption}</dd>
+                    </div>
+                  ))}
+                </dl>
+              )
             : b.type === 'video' ? (() => {
                 // Screen recording: the still shows first (and stays for reduced motion), the video
                 // fades in over it once it's on screen. Nothing downloads until then.
