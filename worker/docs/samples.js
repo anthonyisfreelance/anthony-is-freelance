@@ -246,7 +246,7 @@ function sampleLeads() {
 const SAMPLE_PATHS = { documents: `${P}admin/`, leads: `${P}leads/` };
 
 const SAMPLES = [
-  { slug: 'admin', group: 'Admin', label: 'Admin page', note: 'Your documents list, with made-up documents in every state. The buttons do nothing here.', page: (o) => renderAdmin({ base: o.base, docs: [...adminDocs(), ...sampleLeads()], year: o.year, path: `${P}admin/`, paths: SAMPLE_PATHS }), pdf: false },
+  { slug: 'admin', group: 'Admin', label: 'Admin page', note: 'Your documents list, with made-up documents in every state. The buttons do nothing here.', page: (o) => renderAdmin({ base: o.base, docs: [...adminDocs(), ...sampleLeads()], year: o.year, view: o.view, path: `${P}admin/`, paths: SAMPLE_PATHS }), pdf: false },
   { slug: 'leads', group: 'Admin', label: 'Leads page', note: 'Every enquiry and where it has got to, with made-up leads in every status. The buttons do nothing here.', page: (o) => renderLeads({ base: o.base, docs: [...adminDocs(), ...sampleLeads()], sample: true, paths: SAMPLE_PATHS }), pdf: false },
   { slug: 'quote-scoped', group: 'Quotes', label: 'Quote, scoped hours', note: 'The usual quote: hours per item.', page: (o) => renderQuote(quote('scoped'), o), pdf: true },
   { slug: 'quote-fixed', group: 'Quotes', label: 'Quote, fixed price', note: 'Hours left off.', page: (o) => renderQuote(quote('fixed'), o), pdf: true },
@@ -300,7 +300,7 @@ function qaBar(s, prev, next) {
 // The comment tool, signed in through the admin session (see public/feedback.js).
 const FEEDBACK = '<script>window.__aifFeedbackLogin = true;</script><script src="/feedback.js" defer></script>';
 
-export function samplePage(slug, { base, settings, year }) {
+export function samplePage(slug, { base, settings, year, view }) {
   const i = SAMPLES.findIndex((s) => s.slug === slug);
   if (i < 0) return null;
   const s = SAMPLES[i];
@@ -310,7 +310,7 @@ export function samplePage(slug, { base, settings, year }) {
     const head = `<div style="max-width:600px;padding:0 40px;font:500 14px/1.6 'Mint Grotesk Display','Arial Narrow',Arial,sans-serif;color:#393939"><p style="margin:16px 0 0">Subject: <span style="color:#111">${esc(mail.subject)}</span></p></div>`;
     return relink(mail.html, slug).replaceAll(sampleBase, '').replace(/<body([^>]*)>/, `<body$1>\n${bar}${head}`).replace('</body>', `${FEEDBACK}\n</body>`);
   }
-  const html = s.page({ base, year, settings: { ...SAMPLE_SETTINGS, signatureSvg: settings?.signatureSvg } });
+  const html = s.page({ base, year, view, settings: { ...SAMPLE_SETTINGS, signatureSvg: settings?.signatureSvg } });
   // The sample admin page's Log out button would log you out for real, so it's switched off.
   return relink(html, slug).replace('id="logout"', 'id="logout-sample"').replace('<body>\n', `<body>\n${bar}\n`).replace('</body>', `${FEEDBACK}\n</body>`);
 }

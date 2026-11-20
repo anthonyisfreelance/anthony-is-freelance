@@ -90,13 +90,24 @@ export const DASH_CSS = `
 .totals p { margin: 8px 0 0; font: 500 12px/1.3 var(--display); letter-spacing: 0.02em; color: var(--muted); }
 .totals .t-red p { color: var(--red); }
 .fine { margin-top: 12px; font: 500 12px/1.3 var(--display); letter-spacing: 0.02em; color: var(--muted); }
-.adm { gap: 56px; }
-.adm-sec h2, .closed summary h2 { display: flex; align-items: baseline; gap: 10px; padding-top: 24px; border-top: 1px solid var(--line); font: 500 22px/1.3 var(--display); text-transform: uppercase; }
-.adm-sec h2 span, .closed summary h2 span { font-size: 14px; color: var(--muted); }
+.doc-tabs { display: flex; flex-wrap: wrap; gap: 0 32px; margin-top: 32px; border-bottom: 1px solid var(--line); }
+.doc-tabs a { margin-bottom: -1px; padding: 14px 0 12px; border-bottom: 2px solid transparent; color: var(--muted); font: 500 18px/1.2 var(--display); text-transform: uppercase; text-decoration: none; }
+.doc-tabs a span { font-size: 13px; }
+.doc-tabs a b { font-size: 13px; font-weight: 500; color: var(--blue); }
+.doc-tabs a:hover { color: var(--ink); }
+.doc-tabs a[aria-current="page"] { border-bottom-color: var(--ink); color: var(--ink); }
+.sheet > .panel { margin-top: 24px; }
+.panel { gap: 24px; }
+.panel .sec-note { margin: 0; }
+.panel .rows, .panel .projs { margin-top: 0; }
+.panel .closed .rows, .panel .closed .projs { margin-top: 20px; }
+.panel .rows .adm-row:last-child { border-bottom: 1px solid var(--line); }
+.closed summary h2 { display: flex; align-items: baseline; gap: 10px; padding-top: 24px; border-top: 1px solid var(--line); font: 500 22px/1.3 var(--display); text-transform: uppercase; }
+.closed summary h2 span { font-size: 14px; color: var(--muted); }
 .sec-note { margin-top: 4px; font: 500 13px/1.4 var(--display); letter-spacing: 0.02em; color: var(--muted); }
 .rows { margin-top: 16px; }
 .c-doc b { display: block; font-weight: 500; }
-.adm-sec .c-act, .closed .c-act { justify-content: flex-end; }
+.panel .c-act { justify-content: flex-end; }
 .projs { display: flex; flex-direction: column; gap: 16px; margin-top: 20px; }
 .proj { display: flex; flex-direction: column; gap: 20px; padding: 24px; background: var(--box); }
 .proj-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; }
@@ -147,8 +158,12 @@ export const DASH_CSS = `
 .more .menu > * { display: block; width: 100%; padding: 10px 14px; font-size: 13px; text-align: left; white-space: nowrap; }
 .more .menu > *:hover { background: var(--box); text-decoration: none; }
 @media (max-width: 900px) {
-  .adm { gap: 40px; }
-  .adm-sec h2, .closed summary h2 { padding-top: 16px; font-size: 18px; }
+  .closed summary h2 { padding-top: 16px; font-size: 18px; }
+  /* Phones: the three tabs stay on one line; a tab with something to do shows its count in blue. */
+  .doc-tabs { flex-wrap: nowrap; gap: 0 18px; margin-top: 24px; }
+  .doc-tabs a { white-space: nowrap; font-size: 15px; }
+  .doc-tabs a b { display: none; }
+  .doc-tabs a.has-todo span { color: var(--blue); }
   .proj { gap: 16px; padding: 16px; }
   .proj-head { flex-direction: column; gap: 12px; }
   .proj-val { text-align: left; font-size: 22px; }
@@ -156,7 +171,7 @@ export const DASH_CSS = `
   .s-name { grid-area: name; }
   .s-amt { grid-area: amt; font-size: 14px; text-align: right; }
   .pay .c-status { grid-area: status; }
-  .pay .c-act, .adm-sec .c-act, .closed .c-act { grid-area: act; justify-content: flex-start; }
+  .pay .c-act, .panel .c-act { grid-area: act; justify-content: flex-start; }
   .docs li { flex-wrap: wrap; gap: 8px 16px; }
   .docs li span { flex-basis: 100%; }
   .more .menu { right: auto; left: 0; }
@@ -414,13 +429,11 @@ function docRow(d, base) {
 }
 
 const byClient = (a, b) => (a.client?.name || a.key || '').localeCompare(b.client?.name || b.key || '', 'en-GB', { sensitivity: 'base' });
-const section = (title, count, inner, note = '') =>
-  `<section class="adm-sec"><h2>${esc(title)} <span>${count}</span></h2>${note ? `<p class="sec-note">${esc(note)}</p>` : ''}${inner}</section>`;
 
 // The page follows the work: proposals still out, live projects with their payment stages, invoices
 // not tied to a quote, then everything finished, folded away. Live work always shows in the current
 // tax year, whichever year it started in; finished work sits in the year it was issued.
-export function renderAdmin({ base, docs: all, error, year, path = '/admin/', paths }) {
+export function renderAdmin({ base, docs: all, error, year, view, path = '/admin/', paths }) {
   const docs = all.filter((d) => d.type === 'quote' || d.type === 'invoice');
   const thisYear = taxYear(today());
   const years = [...new Set([thisYear, ...docs.map(yearOf)])].sort().reverse();
@@ -441,11 +454,8 @@ export function renderAdmin({ base, docs: all, error, year, path = '/admin/', pa
   const loose = invoices.filter((i) => !(i.quoteToken && signedTokens.has(i.quoteToken)));
   const unpaid = (i) => i.state?.sentAt && i.state?.status !== 'paid' && !withdrawn(i);
   const otherOpen = loose.filter((i) => !withdrawn(i) && i.state?.status !== 'paid' && shows(i, true)).sort(byClient);
-  const closed = [
-    ...loose.filter((i) => (withdrawn(i) || i.state?.status === 'paid') && yearOf(i) === current),
-    ...quotes.filter((q) => !q.state?.signedAt && withdrawn(q) && yearOf(q) === current),
-    ...quotes.filter((q) => !q.state?.signedAt && !withdrawn(q) && expired(q) && yearOf(q) === current && !isNow),
-  ].sort(byClient);
+  const closedInvoices = loose.filter((i) => (withdrawn(i) || i.state?.status === 'paid') && yearOf(i) === current).sort(byClient);
+  const closedQuotes = quotes.filter((q) => !q.state?.signedAt && yearOf(q) === current && (withdrawn(q) || (expired(q) && !isNow))).sort(byClient);
 
   // Four figures that never overlap. Quotes count at their full value; invoices by what was sent.
   const qSum = (list) => list.reduce((n, q) => n + quoteTotals(q).total, 0);
@@ -463,19 +473,42 @@ export function renderAdmin({ base, docs: all, error, year, path = '/admin/', pa
   </dl>
   <p class="fine">All figures include VAT.</p>`;
   const tabs = `<nav class="years" aria-label="Tax years">${years
-    .map((y) => `<a href="${esc(path)}?year=${yearParam(y)}"${y === current ? ' aria-current="page"' : ''}>${esc(yearLabel(y))}${y === thisYear ? ' (this year)' : ''}</a>`)
+    .map((y) => `<a href="${esc(path)}?year=${yearParam(y)}${view && view !== 'projects' ? `&amp;view=${esc(view)}` : ''}"${y === current ? ' aria-current="page"' : ''}>${esc(yearLabel(y))}${y === thisYear ? ' (this year)' : ''}</a>`)
     .join('')}</nav>`;
 
-  const parts = [];
-  if (active.length) parts.push(section('Projects', active.length, `<div class="projs">${active.map((p) => projectCard(p, base)).join('')}</div>`));
-  if (proposals.length) parts.push(section('Proposals', proposals.length, `<div class="rows">${proposals.map((d) => docRow(d, base)).join('')}</div>`, 'Not signed yet, so not counted as work.'));
-  if (otherOpen.length) parts.push(section('Other invoices', otherOpen.length, `<div class="rows">${otherOpen.map((d) => docRow(d, base)).join('')}</div>`, 'Invoices not tied to a quote, such as monthly support.'));
-  const doneCount = complete.length + closed.length;
-  if (doneCount) {
-    parts.push(`<details class="closed"><summary><h2>Complete and withdrawn <span>${doneCount}</span></h2></summary>
-      ${complete.length ? `<div class="projs">${complete.map((p) => projectCard(p, base)).join('')}</div>` : ''}
-      ${closed.length ? `<div class="rows">${closed.map((d) => docRow(d, base)).join('')}</div>` : ''}
-    </details>`);
+  // Projects, proposals and invoices are tabs (links, so no script), with live projects first. Each
+  // tab folds its finished work away at the foot. A tab with something to do says so.
+  const todo = (list) => list.filter((d) => ['draft', 'unfinished', 'overdue'].includes(statusOf(d)[0])).length;
+  const projectDocs = active.flatMap((p) => [p.q, ...p.stages.map((x) => x.inv).filter(Boolean), ...p.extra]);
+  const TABS = [
+    { key: 'projects', label: 'Projects', count: active.length, todo: todo(projectDocs) },
+    { key: 'proposals', label: 'Proposals', count: proposals.length, todo: todo(proposals) },
+    { key: 'invoices', label: 'Invoices', count: otherOpen.length, todo: todo(otherOpen) },
+  ];
+  const tab = TABS.some((t) => t.key === view) ? view : 'projects';
+  const yearQ = current === thisYear ? '' : `year=${yearParam(current)}`;
+  const hrefFor = (key) => {
+    const q = [yearQ, key === 'projects' ? '' : `view=${key}`].filter(Boolean).join('&amp;');
+    return `${esc(path)}${q ? `?${q}` : ''}`;
+  };
+  const viewTabs = `<nav class="doc-tabs" aria-label="Documents">${TABS
+    .map((t) => `<a href="${hrefFor(t.key)}"${t.key === tab ? ' aria-current="page"' : ''}${t.todo ? ' class="has-todo"' : ''}>${t.label} <span>${t.count}</span>${t.todo ? ` <b>(${t.todo} to do)</b>` : ''}</a>`)
+    .join('')}</nav>`;
+  const fold = (title, n, inner) => (n ? `<details class="closed"><summary><h2>${esc(title)} <span>${n}</span></h2></summary>${inner}</details>` : '');
+  const rowsOf = (list) => `<div class="rows">${list.map((d) => docRow(d, base)).join('')}</div>`;
+  const empty = (text) => `<p class="empty">${esc(text)}</p>`;
+  let panel;
+  if (tab === 'projects') {
+    panel = (active.length ? `<div class="projs">${active.map((p) => projectCard(p, base)).join('')}</div>` : empty('No live projects. Signed quotes show here with their payment stages.'))
+      + fold('Complete', complete.length, `<div class="projs">${complete.map((p) => projectCard(p, base)).join('')}</div>`);
+  } else if (tab === 'proposals') {
+    panel = '<p class="sec-note">Not signed yet, so not counted as work.</p>'
+      + (proposals.length ? rowsOf(proposals) : empty('No proposals out.'))
+      + fold('Withdrawn and expired', closedQuotes.length, rowsOf(closedQuotes));
+  } else {
+    panel = '<p class="sec-note">Invoices not tied to a quote, such as monthly support. Project invoices sit with their project.</p>'
+      + (otherOpen.length ? rowsOf(otherOpen) : empty('No open invoices outside projects.'))
+      + fold('Paid and withdrawn', closedInvoices.length, rowsOf(closedInvoices));
   }
 
   const body = `
@@ -486,8 +519,8 @@ export function renderAdmin({ base, docs: all, error, year, path = '/admin/', pa
     ${tabs}
   </div>
   <div id="msg" class="status" role="status" ${error ? '' : 'hidden'}>${esc(error || '')}</div>
-  <div>${totals}</div>
-  ${parts.length ? `<div class="adm">${parts.join('')}</div>` : `<p class="empty">Nothing in ${esc(yearLabel(current))} yet. New quotes and invoices appear here once their data file is in the Drive folder.</p>`}
+  <div>${totals}${viewTabs}</div>
+  <div class="adm panel">${panel}</div>
   ${adminTools()}
   `;
   return shell({ title: 'Documents admin', base, body, css: ADMIN_CSS + DASH_CSS, script: ADMIN_SCRIPT + MENU_SCRIPT + COPY_SCRIPT });

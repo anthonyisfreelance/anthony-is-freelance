@@ -422,7 +422,7 @@ async function admin(request, env, url, parts, ctx) {
       }
       return html(renderLeads({ base, docs, error }));
     }
-    return html(renderAdmin({ base, docs, error, year: url.searchParams.get('year') }));
+    return html(renderAdmin({ base, docs, error, year: url.searchParams.get('year'), view: url.searchParams.get('view') }));
   }
 
   // POSTs: JSON from a page on this site only.
@@ -616,6 +616,6 @@ async function samples(request, env, url, parts, ctx) {
   }
   if (parts.length > 1) return message(base, 'Not found', 'There is no sample with that name.');
   if (slug === 'signature') return html(signaturePage({ base }));
-  const page = samplePage(slug, { base, settings, year: url.searchParams.get('year') });
+  const page = samplePage(slug, { base, settings, year: url.searchParams.get('year'), view: url.searchParams.get('view') });
   return page ? html(page) : message(base, 'Not found', 'There is no sample with that name.');
 }
