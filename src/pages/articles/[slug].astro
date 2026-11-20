@@ -132,7 +132,7 @@ const longestWord = Math.max(...article.title.split(/\s+/).map((w) => w.length))
             <!-- Byline with the category beside it on desktop, above it on phones, a hairline under both
                  (Figma 48331:13712 and 48331:14015, feedback #297). The category stays out of the H1 so the
                  H1 is the headline alone (3 Nov 2026, after the Ahrefs crawl). -->
-            <div class="flex flex-col gap-4 border-b border-line pb-4 lg:w-[916px] lg:max-w-full lg:flex-row-reverse lg:items-center lg:justify-between lg:gap-[40px] lg:pb-6">
+            <div class="flex flex-col gap-4 border-b border-line pb-4 lg:w-[66%] lg:flex-row-reverse lg:items-center lg:justify-between lg:gap-[40px] lg:pb-6">
             <p class="eyebrow !mb-0" data-deco>{category}</p>
             <div class="flex items-center gap-3">
               <!-- The photo is landscape, so it is cropped square at build time; the srcset then matches the circle (11 November 2026). -->

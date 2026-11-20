@@ -17,7 +17,7 @@
   },
   {
    "type": "html",
-   "html": "<p>Product discovery is how a customer gets from “I fancy a red” to the right bottle in their basket. On a small store it barely matters. On a store with thousands of products, it decides whether people buy at all.</p>\n<p>I’m Anthony, a UK <a href=\"/\">freelance Shopify designer</a>. This is how I designed product discovery for <a href=\"/work/drink-finder/\">Drink Finder</a>, the online shop of Constantine Stores, a Cornish wine and spirits merchant with more than 5,000 products for retail and trade buyers. The new store went live on Shopify in August 2025 and won UK eCommerce Website of the Year at the UK eCommerce Awards 2026.</p>"
+   "html": "<p>Product discovery is how a customer gets from “I fancy a red” to the right bottle in their basket. On a small store it barely matters. On a store with thousands of products, it decides whether people buy at all.</p>\n<p>I’m Anthony, a UK <a href=\"/\">freelance Shopify designer</a>. This is how I designed product discovery for Drink Finder, the online shop of Constantine Stores, a Cornish wine and spirits merchant with more than 5,000 products for retail and trade buyers. The new store went live on Shopify in August 2025 and won <a href=\"/awards/\">UK eCommerce Website of the Year</a> at the UK eCommerce Awards 2026.</p>"
   },
   {
    "type": "h2",
@@ -26,7 +26,7 @@
   },
   {
    "type": "html",
-   "html": "<p>The old site was dated, hard to use on a phone and hard to find your way around. Shoppers had to open bottle after bottle to compare them, and baskets were being abandoned.</p>\n<p>There was no sales target. The brief was to make the range easy to explore and come through the move to Shopify in better shape than we went in. Every design decision served one job: help shoppers find the right bottle, then make it easy to buy more than one.</p>"
+   "html": "<p>The old site was dated, hard to use on a phone and hard to find your way around. Shoppers had to open bottle after bottle to compare them, and baskets were being abandoned.</p>\n<p>There was no sales target. The brief was to make the range easy to explore and come through the <a href=\"/shopify-website-design/shopify-migration/\">Shopify migration</a> in better shape than we went in. Every design decision served one job: help shoppers find the right bottle, then make it easy to buy more than one.</p>"
   },
   {
    "type": "h2",
@@ -35,7 +35,7 @@
   },
   {
    "type": "html",
-   "html": "<p>Before designing anything, I reviewed every screen of the old store at real phone sizes. Sticky sign-up buttons and a chat widget were covering the buttons that mattered, including the way to checkout.</p>\n<p>So the offers and events moved into a button in the header. That freed the announcement bar for trust messages and cleared the screen for shopping. It’s the least glamorous fix in the project and one of the most important. No navigation is good enough if something is sitting on top of it.</p>"
+   "html": "<p>Before designing anything, I ran a <a href=\"/articles/shopify-ux-review/\">Shopify UX review</a> of the old store, checking every screen at real phone sizes. Sticky sign-up buttons and a chat widget were covering the buttons that mattered, including the way to checkout.</p>\n<p>So the offers and events moved into a button in the header. That freed the announcement bar for trust messages and cleared the screen for shopping. It’s the least glamorous fix in the project and one of the most important. No navigation is good enough if something is sitting on top of it.</p>"
   },
   {
    "type": "h2",
@@ -59,7 +59,7 @@
   },
   {
    "type": "html",
-   "html": "<p>This is the decision I’m proudest of. Wine shoppers compare bottles on country, region, vintage and style. A standard product card shows a photo, a name and a price, which left them opening product page after product page.</p>\n<p>So the collection pages have a Show extras switch. Turn it on and every card shows its rating, origin, region, vintage and style, so shoppers compare side by side before they click. Turn it off for a clean grid of bottles and prices.</p>\n<p>It gives both kinds of shopper what they need. Browsers get a calm page. Enthusiasts get the detail. Nobody has to set up a filter first.</p>"
+   "html": "<p>This is the decision I’m proudest of. Wine shoppers compare bottles on country, region, vintage and style. A standard <a href=\"/articles/shopify-product-card-design/\">Shopify product card</a> shows a photo, a name and a price, which left them opening product page after product page.</p>\n<p>So the collection pages have a Show extras switch. Turn it on and every card shows its rating, origin, region, vintage and style, so shoppers compare side by side before they click. Turn it off for a clean grid of bottles and prices.</p>\n<p>It gives both kinds of shopper what they need. Browsers get a calm page. Enthusiasts get the detail. Nobody has to set up a filter first.</p>"
   },
   {
    "type": "image",
@@ -86,7 +86,7 @@
   },
   {
    "type": "html",
-   "html": "<p>Comparing the six months after launch, September to February, with the same period the year before, Drink Finder made 34% more website sales and gained 32% more customers. Those figures come from the shop’s EPoS till data, with marketplace sales left out.</p>\n<p>I designed the store in Figma, and <a href=\"https://cartmasters.co.uk/work/drink-finder/\">Cartmasters</a> built it. The full story is in the <a href=\"/work/drink-finder/\">Drink Finder case study</a>, and the comparison switch is one of my <a href=\"/innovations/#comparison-toggle\">design innovations</a>.</p>"
+   "html": "<p>Comparing the six months after launch, September to February, with the same period the year before, Drink Finder made 34% more website sales and gained 32% more customers. Those figures come from the shop’s EPoS till data, with marketplace sales left out.</p>\n<p>I designed the store in Figma, and <a href=\"https://cartmasters.co.uk/work/drink-finder/\">Cartmasters</a> built it. The full story is in the <a href=\"/work/drink-finder/\">Drink Finder Shopify case study</a>, and the <a href=\"/innovations/#comparison-toggle\">comparison toggle on the collection page</a> is one of my design innovations.</p>"
   },
   {
    "type": "h2",
@@ -95,7 +95,7 @@
   },
   {
    "type": "html",
-   "html": "<ul>\n<li><strong>Clear the screen first.</strong> Check your store on a real phone. If pop-ups, chat or sticky bars cover the buttons, fix that before anything else.</li>\n<li><strong>Build the menu around how customers think.</strong> Not around your stock system or your suppliers.</li>\n<li><strong>Put the comparison on the collection page.</strong> Show the two or three facts your customers compare on, on the card itself.</li>\n<li><strong>Let search help before anyone types.</strong> Popular searches and bestsellers give a vague idea a head start.</li>\n<li><strong>Make the good offer obvious.</strong> Show it plainly where the decision happens, on the product page.</li>\n</ul>\n<p>If your range has outgrown your store, <a href=\"/contact/\">tell me about it</a>.</p>"
+   "html": "<ul>\n<li><strong>Clear the screen first.</strong> Check your store on a real phone. If pop-ups, chat or sticky bars cover the buttons, fix that before anything else.</li>\n<li><strong>Build the menu around how customers think.</strong> Not around your stock system or your suppliers.</li>\n<li><strong>Put the comparison on the collection page.</strong> Show the two or three facts your customers compare on, on the card itself.</li>\n<li><strong>Let search help before anyone types.</strong> Popular searches and bestsellers give a vague idea a head start.</li>\n<li><strong>Make the good offer obvious.</strong> Show it plainly where the decision happens, on the product page.</li>\n</ul>\n<p>For another article written the same way, see how I simplified Fuzzball’s <a href=\"/articles/shopify-product-quiz-design/\">Shopify product quiz</a>.</p>\n<p>If your range has outgrown your store, <a href=\"/contact/\">tell me about your Shopify store</a>.</p>"
   }
  ],
  "faqs": [
