@@ -2,7 +2,7 @@
 // it on (send, create the next invoice, mark paid). Login is a one-time code sent to ADMIN_EMAIL.
 
 import { esc, money, fmtDate, eyebrow, masthead, shell, today, taxYear, COPY_SCRIPT } from './shared.js';
-import { quoteTotals, stageAmounts, stageLabel } from './quote.js';
+import { quoteTotals, stageAmounts } from './quote.js';
 import { invoiceTotals } from './invoice.js';
 
 // Layout follows the Figma admin page: every row shares one set of column widths, so each column
@@ -83,6 +83,96 @@ export const ADMIN_CSS = `
 }
 `;
 
+// The documents page as projects (Figma to follow): money tiles with a line of context, a card per
+// signed project with its payment stages, single rows for proposals and loose invoices, and finished
+// work folded away. The Leads page keeps ADMIN_CSS alone.
+export const DASH_CSS = `
+.totals p { margin: 8px 0 0; font: 500 12px/1.3 var(--display); letter-spacing: 0.02em; color: var(--muted); }
+.totals .t-red p { color: var(--red); }
+.fine { margin-top: 12px; font: 500 12px/1.3 var(--display); letter-spacing: 0.02em; color: var(--muted); }
+.adm { gap: 56px; }
+.adm-sec h2, .closed summary h2 { display: flex; align-items: baseline; gap: 10px; padding-top: 24px; border-top: 1px solid var(--line); font: 500 22px/1.3 var(--display); text-transform: uppercase; }
+.adm-sec h2 span, .closed summary h2 span { font-size: 14px; color: var(--muted); }
+.sec-note { margin-top: 4px; font: 500 13px/1.4 var(--display); letter-spacing: 0.02em; color: var(--muted); }
+.rows { margin-top: 16px; }
+.c-doc b { display: block; font-weight: 500; }
+.adm-sec .c-act, .closed .c-act { justify-content: flex-end; }
+.projs { display: flex; flex-direction: column; gap: 16px; margin-top: 20px; }
+.proj { display: flex; flex-direction: column; gap: 20px; padding: 24px; background: var(--box); }
+.proj-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; }
+.proj-head h3 { margin: 0; font: 500 20px/1.2 var(--display); text-transform: uppercase; }
+.proj-head p { margin: 4px 0 0; font: 500 14px/1.3 var(--display); letter-spacing: 0.02em; }
+.proj-head .to { display: flex; flex-wrap: wrap; gap: 0 8px; }
+.proj-head .to span { font-size: 12px; color: var(--muted); }
+.proj-head .to span.none { color: var(--red); }
+.proj-val { flex: none; text-align: right; font: 500 26px/1.1 var(--display); }
+.proj-val span { display: block; margin-bottom: 6px; font-size: 12px; letter-spacing: 0.02em; color: var(--muted); }
+.proj-alert { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; padding: 12px 16px; border-left: 3px solid var(--red); background: var(--paper); }
+.proj-alert .c-act { flex: none; }
+.proj-note { margin: 0; font: 500 14px/1.3 var(--display); color: var(--muted); }
+.proj-progress progress { display: block; width: 100%; height: 6px; border: 0; background: var(--line); -webkit-appearance: none; appearance: none; }
+.proj-progress progress::-webkit-progress-bar { background: var(--line); }
+.proj-progress progress::-webkit-progress-value { background: var(--blue); }
+.proj-progress progress::-moz-progress-bar { background: var(--blue); }
+.proj-progress p { margin: 8px 0 0; font: 500 14px/1.3 var(--display); letter-spacing: 0.02em; color: var(--muted); }
+.proj-progress b { font-weight: 500; color: var(--ink); }
+.pays { border-top: 1px solid var(--line); }
+.pay { display: flex; align-items: center; gap: 16px; padding: 12px 0; border-bottom: 1px solid var(--line); font: 500 14px/1.3 var(--display); letter-spacing: 0.02em; }
+.s-name { flex: 0 0 240px; min-width: 0; }
+.s-name span { display: block; margin-top: 2px; font-size: 12px; color: var(--muted); }
+.s-amt { flex: 0 0 110px; font-size: 18px; line-height: 1.4; letter-spacing: 0; }
+.pay .c-status { flex: 0 0 230px; display: flex; flex-wrap: wrap; align-items: center; gap: 6px 8px; }
+.s-num { font-size: 12px; color: var(--muted); }
+.pay.later .s-name, .pay.later .s-amt { color: var(--muted); }
+.pay.done .s-name, .pay.done .s-amt { opacity: 0.4; }
+.pay .c-act { justify-content: flex-end; }
+.pill.ready { border-color: var(--blue); color: var(--blue); }
+.docs summary, .closed summary, .more summary { list-style: none; cursor: pointer; }
+.docs summary::-webkit-details-marker, .closed summary::-webkit-details-marker, .more summary::-webkit-details-marker { display: none; }
+.docs summary { display: inline-flex; gap: 6px; font: 500 12px/1 var(--display); letter-spacing: 0.02em; text-transform: uppercase; color: var(--muted); }
+.docs summary:hover { color: var(--ink); }
+.docs summary::after { content: "+"; }
+.docs[open] summary::after { content: "–"; }
+.docs ul { display: flex; flex-direction: column; gap: 10px; margin: 12px 0 0; padding: 0; list-style: none; }
+.docs li { display: flex; align-items: center; gap: 16px; font: 500 13px/1.3 var(--display); letter-spacing: 0.02em; }
+.docs li span { flex: 0 0 240px; }
+.closed summary h2::after { content: "+"; margin-left: auto; font-size: 22px; }
+.closed[open] summary h2::after { content: "–"; }
+.closed summary:hover h2 { color: var(--muted); }
+.closed .proj { background: var(--paper); border: 1px solid var(--line); }
+.more { position: relative; }
+.more summary { justify-content: center; min-width: 36px; letter-spacing: 0.1em; }
+.more[open] summary { border-color: var(--ink); }
+.more .menu { position: absolute; top: calc(100% + 4px); right: 0; z-index: 10; display: flex; flex-direction: column; min-width: 190px; padding: 4px 0; border: 1px solid var(--ink); background: var(--paper); }
+.more .menu > * { display: block; width: 100%; padding: 10px 14px; font-size: 13px; text-align: left; white-space: nowrap; }
+.more .menu > *:hover { background: var(--box); text-decoration: none; }
+@media (max-width: 900px) {
+  .adm { gap: 40px; }
+  .adm-sec h2, .closed summary h2 { padding-top: 16px; font-size: 18px; }
+  .proj { gap: 16px; padding: 16px; }
+  .proj-head { flex-direction: column; gap: 12px; }
+  .proj-val { text-align: left; font-size: 22px; }
+  .pay { display: grid; grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "name amt" "status status" "act act"; align-items: start; gap: 8px 16px; padding: 14px 0; font-size: 13px; }
+  .s-name { grid-area: name; }
+  .s-amt { grid-area: amt; font-size: 14px; text-align: right; }
+  .pay .c-status { grid-area: status; }
+  .pay .c-act, .adm-sec .c-act, .closed .c-act { grid-area: act; justify-content: flex-start; }
+  .docs li { flex-wrap: wrap; gap: 8px 16px; }
+  .docs li span { flex-basis: 100%; }
+  .more .menu { right: auto; left: 0; }
+}
+`;
+
+// Only one "···" menu open at a time; a click elsewhere or Escape closes it.
+export const MENU_SCRIPT = `
+(function () {
+  var menus = document.querySelectorAll('details.more');
+  menus.forEach(function (m) { m.addEventListener('toggle', function () { if (m.open) menus.forEach(function (o) { if (o !== m) o.open = false; }); }); });
+  document.addEventListener('click', function (e) { menus.forEach(function (m) { if (m.open && !m.contains(e.target)) m.open = false; }); });
+  document.addEventListener('keydown', function (e) { if (e.key === 'Escape') menus.forEach(function (m) { m.open = false; }); });
+})();
+`;
+
 export const ADMIN_SCRIPT = `
 (function () {
   var msg = document.getElementById('msg');
@@ -157,43 +247,49 @@ function sendsTo(d) {
   return `${c.name ? `<span>To ${esc(c.name)}</span>` : ''}<span>${esc(c.email)}</span>`;
 }
 
-// The buttons for one document, in a fixed order so they line up down the page: Open, the one next
-// step (blue), any other actions (outlined), then Copy link and Withdraw as text links.
-function actions(d, base) {
+// Every document gets one visible next step (blue) and a "···" menu for the rest, so a row never
+// shows a wall of equal buttons. With no next step, Open shows instead.
+const linkOf = (d, base) => `${base}/${d.type}/${d.token}/`;
+const openLink = (href, label = 'Open', cls = 'ghost small') => `<a class="${cls}" href="${esc(href)}" target="_blank" rel="noopener">${esc(label)}</a>`;
+const copyLink = (href, label = 'Copy link') => `<button type="button" class="textbtn" data-copy="${esc(href)}">${esc(label)}</button>`;
+function btn(d, action, label, { extra = '', kind = 'ghost small', stage } = {}) {
+  return `<button type="button" class="${kind}" data-action="${action}" data-token="${esc(d.token)}" data-label="${esc(label)}"${stage != null ? ` data-stage="${stage}"` : ''} ${extra}>${esc(label)}</button>`;
+}
+const PRIMARY = 'ghost small primary';
+// Anything that emails the client takes two presses, and the second one names the address.
+const checkSend = (d) => (d.client?.contact?.email ? ` data-confirm="${esc(`Send to ${d.client.contact.email}?`)}"` : '');
+const SEND_WAIT = 'data-wait="Saving the PDF to Drive and emailing it from your Gmail…"';
+
+function menu(items) {
+  const list = items.filter(Boolean);
+  if (!list.length) return '';
+  return `<details class="more"><summary class="ghost small" aria-label="More actions" title="More actions">···</summary><div class="menu">${list.join('')}</div></details>`;
+}
+
+// { primary, more } for one quote or invoice.
+function docActions(d, base) {
   const s = d.state || {};
-  const link = `${base}/${d.type}/${d.token}/`;
-  const a = [`<a class="ghost small" href="${esc(link)}" target="_blank" rel="noopener">Open</a>`];
-  const btn = (action, label, extra = '', kind = 'ghost small') =>
-    `<button type="button" class="${kind}" data-action="${action}" data-token="${esc(d.token)}" data-label="${esc(label)}" ${extra}>${esc(label)}</button>`;
-  const primary = 'ghost small primary';
-  // Anything that emails the client takes two presses, and the second one names the address.
-  const to = d.client?.contact?.email;
-  const check = to ? ` data-confirm="${esc(`Send to ${to}?`)}"` : '';
-  if (s.withdrawnAt) {
-    a.push(btn('restore', 'Restore', 'data-wait="Restoring…"'));
-    return `<div class="c-act">${a.join('')}</div>`;
-  }
+  const link = linkOf(d, base);
+  const open = openLink(link, 'Open', 'textbtn');
+  const withdraw = btn(d, 'withdraw', 'Withdraw', { kind: 'textbtn', extra: 'data-confirm="Sure? Press again" data-wait="Withdrawing…"' });
+  if (s.withdrawnAt) return { primary: btn(d, 'restore', 'Restore', { extra: 'data-wait="Restoring…"' }), more: [open] };
   if (d.type === 'quote') {
-    if (!s.signedAt) a.push(btn('send-quote', s.sentAt ? 'Send again' : 'Send quote', `data-wait="Saving the PDF to Drive and emailing it from your Gmail…"${check}`, s.sentAt ? undefined : primary));
-    if (s.signedAt && !s.finalisedAt) a.push(btn('finalise', 'Finish signing', 'data-wait="Making the signed PDFs, saving to Drive and emailing…"', primary));
-    if (s.signedAt) {
-      const done = new Set((s.invoices || []).map((i) => Number(i.stage)));
-      stageAmounts(d).forEach((st, i) => {
-        if (!done.has(i)) a.push(btn('create-invoice', `Invoice: ${stageLabel(st)}`, `data-stage="${i}" data-wait="Creating the invoice draft…"`));
-      });
-    }
-  } else {
-    if (!s.sentAt) a.push(btn('send-invoice', 'Send invoice', `data-wait="Saving the PDF to Drive and emailing it from your Gmail…"${check}`, primary));
-    else if (s.status !== 'paid') {
-      a.push(btn('mark-paid', 'Mark paid', 'data-wait="Marking as paid…"'));
-      a.push(btn('send-invoice', 'Send again', `data-wait="Emailing it again…"${check}`));
-    }
+    if (!s.signedAt && !s.sentAt) return { primary: btn(d, 'send-quote', 'Send quote', { kind: PRIMARY, extra: `${SEND_WAIT}${checkSend(d)}` }), more: [open, copyLink(link), withdraw] };
+    if (!s.signedAt) return { primary: '', more: [open, btn(d, 'send-quote', 'Send again', { kind: 'textbtn', extra: `${SEND_WAIT}${checkSend(d)}` }), copyLink(link), withdraw] };
+    const contract = openLink(`${link}contract/`, 'Open contract', 'textbtn');
+    if (!s.finalisedAt) return { primary: btn(d, 'finalise', 'Finish signing', { kind: PRIMARY, extra: 'data-wait="Making the signed PDFs, saving to Drive and emailing…"' }), more: [openLink(link, 'Open quote', 'textbtn'), contract, copyLink(link)] };
+    return { primary: '', more: [openLink(link, 'Open quote', 'textbtn'), contract, copyLink(link)] };
   }
-  a.push(`<button type="button" class="textbtn" data-copy="${esc(link)}">Copy link</button>`);
-  if (!(d.type === 'quote' && s.signedAt) && s.status !== 'paid') {
-    a.push(btn('withdraw', 'Withdraw', 'data-confirm="Sure? Press again" data-wait="Withdrawing…"', 'textbtn'));
-  }
-  return `<div class="c-act">${a.join('')}</div>`;
+  if (!s.sentAt) return { primary: btn(d, 'send-invoice', 'Send invoice', { kind: PRIMARY, extra: `${SEND_WAIT}${checkSend(d)}` }), more: [open, copyLink(link), withdraw] };
+  if (s.status !== 'paid') return { primary: btn(d, 'mark-paid', 'Mark paid', { kind: PRIMARY, extra: 'data-wait="Marking as paid…"' }), more: [open, btn(d, 'send-invoice', 'Send again', { kind: 'textbtn', extra: `data-wait="Emailing it again…"${checkSend(d)}` }), copyLink(link), withdraw] };
+  return { primary: '', more: [open, copyLink(link)] };
+}
+
+function actionCell(d, base) {
+  const { primary, more } = docActions(d, base);
+  // No next step: Open stays visible, so the row is never just a menu.
+  const lead = primary || openLink(linkOf(d, base));
+  return `<div class="c-act">${lead}${menu(primary ? more : more.slice(1))}</div>`;
 }
 
 // Tax years end on 31 January (taxYear in shared.js), the same as the Invoices folders in Drive.
@@ -225,55 +321,162 @@ export function adminTools(extra = '') {
   </div>`;
 }
 
+// A signed quote and its payment stages, each matched to its invoice (by quoteToken and stageIndex,
+// or the reference the quote keeps in state.invoices).
+function projectOf(q, invoices) {
+  const refs = q.state?.invoices || [];
+  const linked = invoices.filter((x) => x.quoteToken === q.token);
+  const stages = stageAmounts(q).map((st, i) => {
+    const ref = refs.find((r) => Number(r.stage) === i);
+    const inv = linked.find((x) => Number(x.stageIndex) === i) || (ref?.token ? invoices.find((x) => x.token === ref.token) : undefined);
+    return { st, i, ref, inv };
+  });
+  const used = new Set(stages.map((s) => s.inv).filter(Boolean));
+  const extra = linked.filter((x) => !used.has(x));
+  const all = [...used, ...extra].filter((x) => !x.state?.withdrawnAt);
+  const total = (list) => list.reduce((n, x) => n + invoiceTotals(x).total, 0);
+  const paid = total(all.filter((x) => x.state?.status === 'paid'));
+  const waiting = total(all.filter((x) => x.state?.sentAt && x.state?.status !== 'paid'));
+  const complete = stages.length > 0 && stages.every((s) => s.inv?.state?.status === 'paid');
+  return { q, stages, extra, paid, waiting, complete, value: quoteTotals(q).total };
+}
+
+const isPaid = (s) => s.inv?.state?.status === 'paid';
+
+// One payment stage: what it is, how much, where it has got to, and its one next step. A stage can
+// only be raised once every stage before it is paid; the menu keeps a way to raise it early.
+function stageRow(p, s, base) {
+  const { q, stages } = p;
+  const head = `<div class="s-name">${esc(s.st.label)}, ${s.st.percent}%${s.st.due ? `<span>${esc(s.st.due)}</span>` : ''}</div>
+    <div class="s-amt">${money(s.inv ? invoiceTotals(s.inv).total : s.st.gross)}</div>`;
+  if (s.inv) {
+    const [cls, label] = statusOf(s.inv);
+    const done = cls === 'paid' || cls === 'withdrawn';
+    return `<div class="pay${done ? ' done' : ''}">${head}
+      <div class="c-status"><span class="pill ${cls}">${esc(label)}</span><span class="s-num">${esc(s.inv.number)}</span></div>
+      ${actionCell(s.inv, base)}</div>`;
+  }
+  if (s.ref) {
+    return `<div class="pay">${head}<div class="c-status"><span class="pill">Invoice ${esc(s.ref.number || 'raised')}</span></div><div class="c-act"></div></div>`;
+  }
+  const ready = q.state?.finalisedAt && stages.slice(0, s.i).every(isPaid);
+  const first = stages.findIndex((x) => !x.inv && !x.ref) === s.i;
+  const raise = (kind, label, extra = '') => btn(q, 'create-invoice', label, { kind, stage: s.i, extra: `data-wait="Creating the invoice draft…" ${extra}` });
+  const act = ready && first
+    ? raise(PRIMARY, 'Raise invoice')
+    : q.state?.finalisedAt ? menu([raise('textbtn', 'Raise this invoice now', 'data-confirm="Earlier stages are unpaid. Press again"')]) : '';
+  const waiting = ready && first ? 'Ready to raise' : s.i > 0 && !isPaid(stages[s.i - 1]) ? `After ${stages[s.i - 1].st.label.toLowerCase()} is paid` : 'Not raised';
+  return `<div class="pay later">${head}<div class="c-status"><span class="pill${ready && first ? ' ready' : ''}">${esc(waiting)}</span></div><div class="c-act">${act}</div></div>`;
+}
+
+function projectCard(p, base) {
+  const { q } = p;
+  const [cls, label] = statusOf(q);
+  const hourly = !p.stages.length;
+  const extra = p.extra.map((inv) => {
+    const [c, l] = statusOf(inv);
+    return `<div class="pay${c === 'paid' ? ' done' : ''}"><div class="s-name">${esc(inv.lines?.[0]?.description || inv.title || 'Invoice')}</div><div class="s-amt">${money(invoiceTotals(inv).total)}</div>
+      <div class="c-status"><span class="pill ${c}">${esc(l)}</span><span class="s-num">${esc(inv.number)}</span></div>${actionCell(inv, base)}</div>`;
+  }).join('');
+  const docs = [
+    `<li><span>Quote ${esc(q.number)}</span>${openLink(linkOf(q, base), 'Open', 'textbtn')}${copyLink(linkOf(q, base))}</li>`,
+    q.state?.signedAt ? `<li><span>Contract, signed ${esc(fmtDate(q.state.signedAt))}</span>${openLink(`${linkOf(q, base)}contract/`, 'Open', 'textbtn')}</li>` : '',
+    ...[...p.stages.map((s) => s.inv).filter(Boolean), ...p.extra].map((inv) => `<li><span>Invoice ${esc(inv.number)}</span>${openLink(linkOf(inv, base), 'Open', 'textbtn')}${copyLink(linkOf(inv, base))}</li>`),
+  ].join('');
+  const finish = q.state?.signedAt && !q.state?.finalisedAt
+    ? `<div class="proj-alert"><span class="pill ${cls}">${esc(label)}</span>${actionCell(q, base)}</div>` : '';
+  return `<article class="proj${p.complete ? ' complete' : ''}">
+    <header class="proj-head">
+      <div><h3>${esc(q.client?.name || q.key || 'Client')}</h3><p>${esc(q.title || '')}</p><p class="to">${sendsTo(q)}</p></div>
+      <div class="proj-val"><span>${hourly ? 'Estimate' : 'Project'}, inc. VAT</span>${money(p.value)}</div>
+    </header>
+    ${finish}
+    ${hourly ? '<p class="proj-note">Hourly, invoiced monthly. Monthly invoices show under Other invoices.</p>' : `<div class="proj-progress">
+      <progress max="${p.value}" value="${Math.min(p.paid, p.value)}" aria-label="Paid so far"></progress>
+      <p><b>${money(p.paid)} of ${money(p.value)} paid</b>${p.waiting ? ` · ${money(p.waiting)} waiting` : ''}</p>
+    </div>`}
+    ${p.stages.length || extra ? `<div class="pays">${p.stages.map((s) => stageRow(p, s, base)).join('')}${extra}</div>` : ''}
+    <details class="docs"><summary>Documents</summary><ul>${docs}</ul></details>
+  </article>`;
+}
+
+// A quote not yet signed, or an invoice not tied to a quote: one line each.
+function docRow(d, base) {
+  const [cls, label] = statusOf(d);
+  const amount = d.type === 'quote' ? quoteTotals(d).total : invoiceTotals(d).total;
+  return `<div class="adm-row${cls === 'withdrawn' || cls === 'paid' ? ' done' : ''}">
+    <div class="c-doc"><b>${esc(d.client?.name || d.key || '')}</b><span>${d.type === 'quote' ? 'Quote' : 'Invoice'} ${esc(d.number)}</span></div>
+    <div class="c-proj">${esc(d.title || d.project || '')}${sendsTo(d)}</div>
+    <div class="c-status"><span class="pill ${cls}">${esc(label)}</span></div>
+    <div class="c-amt">${amount ? money(amount) : ''}</div>
+    ${actionCell(d, base)}
+  </div>`;
+}
+
+const byClient = (a, b) => (a.client?.name || a.key || '').localeCompare(b.client?.name || b.key || '', 'en-GB', { sensitivity: 'base' });
+const section = (title, count, inner, note = '') =>
+  `<section class="adm-sec"><h2>${esc(title)} <span>${count}</span></h2>${note ? `<p class="sec-note">${esc(note)}</p>` : ''}${inner}</section>`;
+
+// The page follows the work: proposals still out, live projects with their payment stages, invoices
+// not tied to a quote, then everything finished, folded away. Live work always shows in the current
+// tax year, whichever year it started in; finished work sits in the year it was issued.
 export function renderAdmin({ base, docs: all, error, year, path = '/admin/', paths }) {
   const docs = all.filter((d) => d.type === 'quote' || d.type === 'invoice');
-  const years = [...new Set([taxYear(today()), ...docs.map(yearOf)])].sort().reverse();
-  const current = years.includes(String(year || '').replace('-', ':')) ? String(year).replace('-', ':') : taxYear(today());
-  const inYear = docs.filter((d) => yearOf(d) === current);
+  const thisYear = taxYear(today());
+  const years = [...new Set([thisYear, ...docs.map(yearOf)])].sort().reverse();
+  const current = years.includes(String(year || '').replace('-', ':')) ? String(year).replace('-', ':') : thisYear;
+  const isNow = current === thisYear;
+  const shows = (d, live) => yearOf(d) === current || (isNow && live);
 
-  // Clients A to Z; within a client, quotes then invoices, newest first.
-  const groups = new Map();
-  for (const d of inYear) {
-    const k = d.client?.name || d.key || 'Other';
-    if (!groups.has(k)) groups.set(k, []);
-    groups.get(k).push(d);
-  }
-  const ordered = [...groups.entries()].sort((a, b) => a[0].localeCompare(b[0], 'en-GB', { sensitivity: 'base' }));
+  const quotes = docs.filter((d) => d.type === 'quote');
+  const invoices = docs.filter((d) => d.type === 'invoice');
+  const withdrawn = (d) => Boolean(d.state?.withdrawnAt);
+  const expired = (q) => Boolean(q.validUntil && q.validUntil < today());
 
-  // The year's invoices, including VAT: sent or paid, paid, still to come in, and overdue.
-  const invoices = inYear.filter((d) => d.type === 'invoice' && !d.state?.withdrawnAt && d.state?.sentAt);
-  const sum = (list) => list.reduce((n, d) => n + invoiceTotals(d).total, 0);
-  const paid = invoices.filter((d) => d.state?.status === 'paid');
-  const unpaid = invoices.filter((d) => d.state?.status !== 'paid');
-  const overdue = unpaid.filter((d) => d.due && d.due < today());
+  const proposals = quotes.filter((q) => !q.state?.signedAt && !withdrawn(q) && shows(q, !expired(q))).sort(byClient);
+  const projects = quotes.filter((q) => q.state?.signedAt).map((q) => projectOf(q, invoices));
+  const active = projects.filter((p) => !p.complete && shows(p.q, true)).sort((a, b) => byClient(a.q, b.q));
+  const complete = projects.filter((p) => p.complete && yearOf(p.q) === current).sort((a, b) => byClient(a.q, b.q));
+  const signedTokens = new Set(projects.map((p) => p.q.token));
+  const loose = invoices.filter((i) => !(i.quoteToken && signedTokens.has(i.quoteToken)));
+  const unpaid = (i) => i.state?.sentAt && i.state?.status !== 'paid' && !withdrawn(i);
+  const otherOpen = loose.filter((i) => !withdrawn(i) && i.state?.status !== 'paid' && shows(i, true)).sort(byClient);
+  const closed = [
+    ...loose.filter((i) => (withdrawn(i) || i.state?.status === 'paid') && yearOf(i) === current),
+    ...quotes.filter((q) => !q.state?.signedAt && withdrawn(q) && yearOf(q) === current),
+    ...quotes.filter((q) => !q.state?.signedAt && !withdrawn(q) && expired(q) && yearOf(q) === current && !isNow),
+  ].sort(byClient);
+
+  // Four figures that never overlap. Quotes count at their full value; invoices by what was sent.
+  const qSum = (list) => list.reduce((n, q) => n + quoteTotals(q).total, 0);
+  const iSum = (list) => list.reduce((n, i) => n + invoiceTotals(i).total, 0);
+  const out = proposals.filter((q) => q.state?.sentAt && !expired(q));
+  const signed = quotes.filter((q) => q.state?.signedAt && taxYear(q.state.signedAt.slice(0, 10)) === current);
+  const waitingList = invoices.filter((i) => unpaid(i) && shows(i, true));
+  const overdue = waitingList.filter((i) => i.due && i.due < today());
+  const paidList = invoices.filter((i) => i.state?.status === 'paid' && !withdrawn(i) && taxYear(i.state.paidAt || i.issued || today()) === current);
   const totals = `<dl class="totals tiles">
-    <div class="t-blue"><dt>Invoiced, inc. VAT</dt><dd>${money(sum(invoices), { pennies: true })}</dd></div>
-    <div><dt>Paid</dt><dd>${money(sum(paid), { pennies: true })}</dd></div>
-    <div><dt>Waiting for payment</dt><dd>${money(sum(unpaid), { pennies: true })}</dd></div>
-    <div${overdue.length ? ' class="t-red"' : ''}><dt>Overdue</dt><dd>${money(sum(overdue), { pennies: true })}</dd></div>
-  </dl>`;
+    <div><dt>Out on quote</dt><dd>${money(qSum(out))}</dd><p>${out.length} ${out.length === 1 ? 'quote' : 'quotes'} sent, not signed</p></div>
+    <div><dt>Signed work</dt><dd>${money(qSum(signed))}</dd><p>${signed.length} ${signed.length === 1 ? 'project' : 'projects'} signed${isNow ? ' this year' : ''}</p></div>
+    <div class="${overdue.length ? 't-red' : waitingList.length ? 't-blue' : ''}"><dt>Waiting for payment</dt><dd>${money(iSum(waitingList))}</dd><p>${overdue.length ? `${money(iSum(overdue))} overdue` : `${waitingList.length} ${waitingList.length === 1 ? 'invoice' : 'invoices'} sent`}</p></div>
+    <div><dt>Paid</dt><dd>${money(iSum(paidList))}</dd><p>${isNow ? 'This tax year, to 31 January' : `Tax year ${esc(yearLabel(current))}`}</p></div>
+  </dl>
+  <p class="fine">All figures include VAT.</p>`;
   const tabs = `<nav class="years" aria-label="Tax years">${years
-    .map((y) => `<a href="${esc(path)}?year=${yearParam(y)}"${y === current ? ' aria-current="page"' : ''}>${esc(yearLabel(y))}${y === taxYear(today()) ? ' (this year)' : ''}</a>`)
+    .map((y) => `<a href="${esc(path)}?year=${yearParam(y)}"${y === current ? ' aria-current="page"' : ''}>${esc(yearLabel(y))}${y === thisYear ? ' (this year)' : ''}</a>`)
     .join('')}</nav>`;
 
-  const rows = ordered
-    .map(([client, list]) => {
-      list.sort((a, b) => (a.type === b.type ? (b.issued || '').localeCompare(a.issued || '') : a.type === 'quote' ? -1 : 1));
-      return `<section class="adm-client"><h2>${esc(client)}</h2>${list
-        .map((d) => {
-          const [cls, label] = statusOf(d);
-          const amount = d.type === 'quote' ? quoteTotals(d).total : invoiceTotals(d).total;
-          return `<div class="adm-row${cls === 'withdrawn' || cls === 'paid' ? ' done' : ''}">
-            <div class="c-doc"><span>${d.type === 'quote' ? 'Quote' : 'Invoice'}</span>${esc(d.number)}</div>
-            <div class="c-proj">${esc(d.title || d.project || '')}${sendsTo(d)}</div>
-            <div class="c-status"><span class="pill ${cls}">${esc(label)}</span></div>
-            <div class="c-amt">${amount ? money(amount, { pennies: d.type === 'invoice' }) : ''}</div>
-            ${actions(d, base)}
-          </div>`;
-        })
-        .join('')}</section>`;
-    })
-    .join('');
+  const parts = [];
+  if (active.length) parts.push(section('Projects', active.length, `<div class="projs">${active.map((p) => projectCard(p, base)).join('')}</div>`));
+  if (proposals.length) parts.push(section('Proposals', proposals.length, `<div class="rows">${proposals.map((d) => docRow(d, base)).join('')}</div>`, 'Not signed yet, so not counted as work.'));
+  if (otherOpen.length) parts.push(section('Other invoices', otherOpen.length, `<div class="rows">${otherOpen.map((d) => docRow(d, base)).join('')}</div>`, 'Invoices not tied to a quote, such as monthly support.'));
+  const doneCount = complete.length + closed.length;
+  if (doneCount) {
+    parts.push(`<details class="closed"><summary><h2>Complete and withdrawn <span>${doneCount}</span></h2></summary>
+      ${complete.length ? `<div class="projs">${complete.map((p) => projectCard(p, base)).join('')}</div>` : ''}
+      ${closed.length ? `<div class="rows">${closed.map((d) => docRow(d, base)).join('')}</div>` : ''}
+    </details>`);
+  }
 
   const body = `
   ${masthead('Documents', 'Admin')}
@@ -283,13 +486,9 @@ export function renderAdmin({ base, docs: all, error, year, path = '/admin/', pa
     ${tabs}
   </div>
   <div id="msg" class="status" role="status" ${error ? '' : 'hidden'}>${esc(error || '')}</div>
-  ${totals}
-  ${inYear.length
-    ? `<div class="adm">
-        <div class="adm-head"><div class="c-doc">Document</div><div class="c-proj">Project</div><div class="c-status">Status</div><div class="c-amt">Inc. VAT</div><div class="c-act">Actions</div></div>
-        ${rows}</div>`
-    : `<p class="empty">No documents in ${esc(yearLabel(current))} yet. New quotes and invoices appear here once their data file is in the Drive folder.</p>`}
+  <div>${totals}</div>
+  ${parts.length ? `<div class="adm">${parts.join('')}</div>` : `<p class="empty">Nothing in ${esc(yearLabel(current))} yet. New quotes and invoices appear here once their data file is in the Drive folder.</p>`}
   ${adminTools()}
   `;
-  return shell({ title: 'Documents admin', base, body, css: ADMIN_CSS, script: ADMIN_SCRIPT + COPY_SCRIPT });
+  return shell({ title: 'Documents admin', base, body, css: ADMIN_CSS + DASH_CSS, script: ADMIN_SCRIPT + MENU_SCRIPT + COPY_SCRIPT });
 }

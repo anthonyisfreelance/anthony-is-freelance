@@ -6,7 +6,7 @@
 // details or links. Real documents never load the comment tool.
 
 import { esc, money, today, addDays, masthead, eyebrow, shell, COMPANY } from './shared.js';
-import { renderQuote, quoteTotals, stageAmounts } from './quote.js';
+import { renderQuote, quoteTotals, stageAmounts, stageLabel } from './quote.js';
 import { renderContract, signedContractPage } from './contract.js';
 import { renderInvoice, invoiceTotals } from './invoice.js';
 import { renderAdmin } from './admin.js';
@@ -172,22 +172,58 @@ const ENQUIRY = { check: 'passed', name: CLIENT.contact.name, email: CLIENT.cont
 // The admin list with a spread of made-up documents in every state.
 function adminDocs() {
   const day = (n) => `${addDays(today(), n)}T10:00:00Z`;
-  const other = { ...CLIENT, name: 'Fernhill Bakery', contact: { name: 'Alex Morgan', email: 'alex@example.com' } };
+  const date = (n) => addDays(today(), n);
+  const who = (name, contact, email) => ({ ...CLIENT, name, contact: { name: contact, email } });
+  const fern = who('Fernhill Bakery', 'Alex Morgan', 'alex@example.com');
+  const kestrel = who('Kestrel Coffee', 'Jo Lambert', 'jo@example.com');
+  const reeve = who('Reeve Cycles', 'Tom Reeve', 'tom@example.com');
+  const harbour = who('Harbour Tea', 'Priya Shah', 'priya@example.com');
   const q = (over) => ({ ...quote(), ...over });
-  const inv = (over, kind = 'stage') => ({ ...invoice(kind), ...over });
+  const key = (c) => c.name.replace(/[^A-Za-z]/g, '');
+  // A signed project, and its stage invoices: each entry is that stage's invoice state, or null.
+  const project = (client, token, title, signedDaysAgo, invStates, extra = {}) => {
+    const s = signedQuote();
+    const p = { ...s, ...extra, token, client, key: key(client), number: `${key(client)}_01`, title, issued: date(-signedDaysAgo - 5), updated: day(-1) };
+    p.state = { ...s.state, signedAt: day(-signedDaysAgo), finalisedAt: day(-signedDaysAgo), invoices: [] };
+    const invs = [];
+    invStates.forEach((st, i) => {
+      if (!st) return;
+      const amt = stageAmounts(p)[i];
+      const number = `${p.key}_${String(i + 1).padStart(2, '0')}`;
+      p.state.invoices.push({ stage: i, token: `${token}i${i}`, number });
+      invs.push({ ...invoice('stage'), token: `${token}i${i}`, key: p.key, number, client, title, project: title, quoteToken: token, quoteNumber: p.number, stageIndex: i,
+        issued: st.issued || date(-signedDaysAgo), due: st.due || date(-signedDaysAgo + 14),
+        lines: [{ description: stageLabel(amt), amount: amt.net }], state: st.state, updated: day(-1) });
+    });
+    return [p, ...invs];
+  };
   return [
+    // Proposals
     q({ number: 'SaltwaterSupply_02', title: 'Wholesale area design', state: { status: 'draft' }, updated: day(0) }),
-    q({ number: 'SaltwaterSupply_01', title: 'Shopify store redesign', state: { status: 'sent', sentAt: day(-3), viewedAt: day(-2) }, updated: day(-2) }),
-    inv({ number: 'SaltwaterSupply_03', state: { status: 'draft' }, updated: day(0) }),
-    inv({ number: 'SaltwaterSupply_02', issued: addDays(today(), -30), due: addDays(today(), -16), state: { status: 'sent', sentAt: day(-30) }, updated: day(-30) }),
-    inv({ number: 'SaltwaterSupply_01', state: { status: 'paid', sentAt: day(-40), paidAt: addDays(today(), -35) }, updated: day(-35) }),
-    { ...signedQuote(), client: other, key: 'FernhillBakery', number: 'FernhillBakery_01', title: 'Product page and checkout design', updated: day(-1), state: { ...signedQuote().state, invoices: [{ stage: 0 }] } },
-    { ...signedQuote(), client: other, key: 'FernhillBakery', number: 'FernhillBakery_02', title: 'Christmas landing page', updated: day(-1), state: { ...signedQuote().state, finalisedAt: undefined } },
-    inv({ client: other, key: 'FernhillBakery', number: 'FernhillBakery_04', title: 'Design support, October', project: 'Design support, October', state: { status: 'sent', sentAt: day(-2), viewedAt: day(-1) }, updated: day(-1) }, 'itemised'),
-    q({ client: other, key: 'FernhillBakery', number: 'FernhillBakery_03', title: 'Gift guide pages', state: { status: 'sent', sentAt: day(-20), withdrawnAt: day(-10) }, updated: day(-10) }),
+    q({ client: harbour, key: 'HarbourTea', number: 'HarbourTea_01', title: 'Subscription page design', state: { status: 'sent', sentAt: day(-3), viewedAt: day(-2) }, updated: day(-2) }),
+    // Projects: deposit sent and waiting (stages two and three wait for it)
+    ...project(CLIENT, 'SAMPLEsaltwater', 'Shopify store redesign and design system', 1, [{ state: { status: 'sent', sentAt: day(0) }, issued: date(0), due: date(14) }]),
+    // Deposit paid, stage two overdue
+    ...project(fern, 'SAMPLEfern1', 'Product page and checkout design', 40, [
+      { state: { status: 'paid', sentAt: day(-40), paidAt: date(-36) } },
+      { state: { status: 'sent', sentAt: day(-30) }, issued: date(-30), due: date(-16) },
+    ]),
+    // Deposit paid, stage two ready to raise
+    ...project(kestrel, 'SAMPLEkestrel', 'Shopify migration design', 25, [{ state: { status: 'paid', sentAt: day(-25), paidAt: date(-20) } }]),
+    // Signed, steps unfinished
+    { ...signedQuote(), token: 'SAMPLEfern2', client: fern, key: 'FernhillBakery', number: 'FernhillBakery_02', title: 'Christmas landing page', updated: day(-1), state: { ...signedQuote().state, finalisedAt: undefined } },
+    // Monthly support, not tied to a quote
+    { ...invoice('itemised'), token: 'SAMPLEfern4', client: fern, key: 'FernhillBakery', number: 'FernhillBakery_04', state: { status: 'sent', sentAt: day(-2), viewedAt: day(-1) }, updated: day(-1) },
+    // Finished: a fully paid project, a paid support invoice and a withdrawn quote
+    ...project(reeve, 'SAMPLEreeve', 'Collection and product page redesign', 60, [
+      { state: { status: 'paid', sentAt: day(-60), paidAt: date(-55) } },
+      { state: { status: 'paid', sentAt: day(-35), paidAt: date(-30) } },
+      { state: { status: 'paid', sentAt: day(-10), paidAt: date(-6) } },
+    ]),
+    { ...invoice('itemised'), token: 'SAMPLEfern3', client: fern, key: 'FernhillBakery', number: 'FernhillBakery_03', issued: date(-40), due: date(-26), title: 'Design support, September', project: 'Design support, September', state: { status: 'paid', sentAt: day(-40), paidAt: date(-33) }, updated: day(-33) },
+    q({ client: fern, key: 'FernhillBakery', number: 'FernhillBakery_05', title: 'Gift guide pages', state: { status: 'sent', sentAt: day(-20), withdrawnAt: day(-10) }, updated: day(-10) }),
     // Last tax year
-    inv({ client: other, key: 'FernhillBakery', number: 'FernhillBakery_02', title: 'Autumn campaign pages', project: 'Autumn campaign pages', issued: '2025-11-20', due: '2025-12-04', state: { status: 'paid', sentAt: '2025-11-20T10:00:00Z', paidAt: '2025-12-02' } }),
-    q({ client: other, key: 'FernhillBakery', number: 'FernhillBakery_00', title: 'Autumn campaign pages', issued: '2025-10-01', validUntil: '2025-10-31', state: { ...signedQuote().state, signedAt: '2025-10-08T10:00:00Z' } }),
+    { ...invoice('itemised'), token: 'SAMPLEfern0', client: fern, key: 'FernhillBakery', number: 'FernhillBakery_00', title: 'Autumn campaign pages', project: 'Autumn campaign pages', issued: '2025-11-20', due: '2025-12-04', state: { status: 'paid', sentAt: '2025-11-20T10:00:00Z', paidAt: '2025-12-02' } },
   ];
 }
 
@@ -247,7 +283,11 @@ function relink(html, slug) {
     .replaceAll(`/quote/${SAMPLE_QUOTE}/quote.pdf`, `${P}${slug}.pdf`)
     .replaceAll(`/quote/${SAMPLE_QUOTE}/`, `${P}quote-scoped/`)
     .replaceAll(`/invoice/${INVOICE}/invoice.pdf`, `${P}${slug}.pdf`)
-    .replaceAll(`/invoice/${INVOICE}/`, `${P}invoice-stage/`);
+    .replaceAll(`/invoice/${INVOICE}/`, `${P}invoice-stage/`)
+    // The admin sample's made-up projects open the matching sample pages.
+    .replace(/\/quote\/SAMPLE(?:saltwater|kestrel|reeve|fern\d)(?:i\d)?\/contract\//g, `${P}contract-signed/`)
+    .replace(/\/quote\/SAMPLE(?:saltwater|kestrel|reeve|fern\d)(?:i\d)?\//g, `${P}quote-signed/`)
+    .replace(/\/invoice\/SAMPLE(?:saltwater|kestrel|reeve|fern\d)(?:i\d)?\//g, `${P}invoice-stage/`);
 }
 
 const BAR_CSS = `.qa{position:sticky;top:0;z-index:5;display:flex;flex-wrap:wrap;gap:8px 16px;justify-content:space-between;align-items:center;margin:0 0 16px;padding:10px 14px;background:#111;color:#fff;font:500 12px/1.3 "Mint Grotesk Display","Arial Narrow",Arial,sans-serif;letter-spacing:.02em}
