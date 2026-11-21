@@ -3,7 +3,7 @@
 // Photos are Dovecote's own (Drive: Anthonyis Clients/Dovecote Northumberland/Client assets).
 // Screens and recordings drop in by name: see src/assets/brands/README.md.
 // No testimonial and no Results row yet: no quote, and no analytics access to compare periods.
-import { SERVICE, BUILDER, slot, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData, desktopSplit } from './types';
+import { SERVICE, BUILDER, slot, innovationSlot, innovationLink, photo, photoMedia, moreFor, breadcrumbs, MORE_HEADING, type CaseStudyPageData, desktopSplit } from './types';
 
 const B = 'dovecote';
 const PATH = '/work/dovecote-northumberland/';
@@ -61,7 +61,8 @@ export const DATA: CaseStudyPageData = {
       eyebrow: 'Shop by fragrance design',
       heading: 'Every scent out of the dropdown.',
       body: 'Finding a Dovecote scent used to mean opening a product and working through a dropdown. I restructured the range so every scent has its own product, grouped into five families and the Northumberland Collection. Customers start from the scent they love, not the product type.',
-      media: slot(B, 'work-01', 'Dovecote Northumberland’s Shop by Fragrance on mobile, from the menu to a fragrance family and a product.', 'Shop by fragrance recording'),
+      link: innovationLink('See shop by scent', 'shop-by-scent'),
+      media: innovationSlot('shop-by-scent', 'Dovecote Northumberland’s Shop by Fragrance on mobile, from the fragrance families to a family and a product.', 'Shop by fragrance recording'),
     },
     {
       eyebrow: 'Fragrance-led navigation',
@@ -79,7 +80,8 @@ export const DATA: CaseStudyPageData = {
       eyebrow: 'Fragrance product page design',
       heading: 'Add to bag first, then every other scent.',
       body: 'The Dovecote Northumberland product page puts add to bag and the key messages high up, where people decide. The fragrance family sits above the title, a See all scents link sits under the scent name, and Complete the set offers the same scent as a candle, refill or oil.',
-      media: slot(B, 'work-04', 'A Dovecote Northumberland reed diffuser page on mobile, from See all 15 scents to add to bag and Complete the set.', 'The product page recording'),
+      link: innovationLink('See every scent, one tap away', 'every-scent-one-tap'),
+      media: innovationSlot('every-scent-one-tap', 'A Dovecote Northumberland reed diffuser page on mobile, tapping See all 15 scents to open every scent.', 'The product page recording'),
     },
     {
       eyebrow: 'Proof-first homepage design',
