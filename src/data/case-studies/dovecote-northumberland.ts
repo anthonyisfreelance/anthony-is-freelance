@@ -66,20 +66,20 @@ export const DATA: CaseStudyPageData = {
     {
       eyebrow: 'Fragrance-led navigation',
       heading: 'Two ways in, and room for the season.',
-      body: 'The Dovecote Northumberland menu splits the range two ways: Shop by Fragrance and Shop by Product. I kept the theme’s design and restructured what sits in it, with a seasonal slot first, so Christmas gets the top spot without a rebuild.',
+      body: 'The Dovecote Northumberland menu uses the theme’s own design. My work was the structure: two ways in, Shop by Fragrance and Shop by Product, with a seasonal slot first, so Christmas gets the top spot without a rebuild.',
       media: slot(B, 'work-02', 'The Dovecote Northumberland menu on mobile, with Christmas, Shop by Fragrance and Shop by Product.', 'The menu recording'),
     },
     {
       eyebrow: 'Scent count product cards',
       heading: 'The choice shows before the click.',
-      body: 'Each card on a Dovecote collection page shows how many scents that product comes in, with a clear add to bag. Customers see the choice before they open a product, not after.',
+      body: 'Each card on a Dovecote collection page says how many scents that product comes in, with a clear add to bag. Customers see the choice before they open a product, not after.',
       media: slot(B, 'work-03', 'Dovecote Northumberland product cards on mobile, each showing its number of scents and an add to bag button.', 'The collection recording'),
     },
     {
       eyebrow: 'Fragrance product page design',
-      heading: 'Add to bag first, then the whole family.',
-      body: 'The Dovecote Northumberland product page puts add to bag and the key messages high up, where people decide. A small link shows every scent in the same family, and Complete the set offers the same scent in other products.',
-      media: slot(B, 'work-04', 'A Dovecote Northumberland product page on mobile, from add to bag to the scent family and Complete the set.', 'The product page recording'),
+      heading: 'Add to bag first, then every other scent.',
+      body: 'The Dovecote Northumberland product page puts add to bag and the key messages high up, where people decide. The fragrance family sits above the title, a See all scents link sits under the scent name, and Complete the set offers the same scent as a candle, refill or oil.',
+      media: slot(B, 'work-04', 'A Dovecote Northumberland reed diffuser page on mobile, from See all 15 scents to add to bag and Complete the set.', 'The product page recording'),
     },
     {
       eyebrow: 'Proof-first homepage design',
@@ -95,14 +95,14 @@ export const DATA: CaseStudyPageData = {
     'The Dovecote Northumberland Shop by Fragrance menu on desktop, with the five fragrance families.',
     'A Dovecote Northumberland product page on desktop, down to Complete the set.',
   ]), after: 2 }],
-  // [CONFIRM] Trade: Tim (Cartmasters) built the trade sign-up, approvals and trade-only refills.
-  // Check how much of the trade side you designed before this goes live, and reword if needed.
+  // Trade (21 November 2026): built by Tim (Cartmasters), planned as part of the project. Anthony: "mostly Tim
+  // but it has still been thought about". Page: /pages/become-a-stockist.
   feature: {
     eyebrow: 'Shopify trade and wholesale',
     heading: 'Stockists buy from the same store.',
-    body: 'Trade is part of the same Dovecote Northumberland store. Become a stockist sits in the header, and approved stockists sign in with a code emailed to them to see their own prices, postage and trade-only refills.',
-    media: slot(B, 'feature', 'The Dovecote Northumberland Become a Stockist page on mobile, with the trade application form.', 'Trade screen'),
+    body: 'Dovecote Northumberland’s trade customers apply on the Become a Stockist page, as Wholesale or Hospitality, and a valid VAT number approves them straight away. They sign in with a code emailed to them, then see their own prices, postage and trade-only refills. Cartmasters built it, and it was planned into the store from the start.',
+    media: slot(B, 'feature', 'The Dovecote Northumberland Become a Stockist page on mobile, choosing Wholesale or Hospitality and applying for trade pricing.', 'Trade screen'),
   },
   more: { ...MORE_HEADING, cards: moreFor('Dovecote Northumberland') },
-  enquiry: 'Products lost in dropdowns?',
+  enquiry: 'Customers struggling to find the right product?',
 };
