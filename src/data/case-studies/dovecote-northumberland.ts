@@ -88,9 +88,10 @@ export const DATA: CaseStudyPageData = {
       media: slot(B, 'work-05', 'The Dovecote Northumberland homepage on mobile, from the Google rating in the header to the collection signposts.', 'The homepage recording'),
     },
   ],
-  // One 50/50 halfway through the work: the diffuser photo sticks at full height while desktop
-  // screens scroll past on a tint taken from its stone background. Drop in split-desktop-1 to -3.
-  splits: [{ ...desktopSplit(B, 'Dovecote Northumberland', photoMedia(B, 'split-1-photo'), '#D9D3C8', 3, [], [
+  // One 50/50 halfway through the work: the wax melts photo sticks at full height while desktop
+  // screens scroll past on a tint taken from its marble. Drop in split-desktop-1 to -3.
+  // Hero is the diffuser photo (21 November 2026), so the 50/50 moved to the wax melts.
+  splits: [{ ...desktopSplit(B, 'Dovecote Northumberland', photoMedia(B, 'split-1-photo'), '#E6E4E0', 3, [], [
     'The Dovecote Northumberland homepage on desktop, from the Google rating in the header to the fragrance families.',
     'The Dovecote Northumberland Shop by Fragrance menu on desktop, with the five fragrance families.',
     'A Dovecote Northumberland product page on desktop, down to Complete the set.',
