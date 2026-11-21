@@ -34,7 +34,7 @@ export const DATA: CaseStudyPageData = {
   },
   details: {
     sector: 'Home',
-    services: [SERVICE.theme],
+    services: [SERVICE.theme, SERVICE.ux, SERVICE.cro],
     builtBy: BUILDER.cartmasters,
     live: 'October 2026',
     liveIso: '2026-10-29',

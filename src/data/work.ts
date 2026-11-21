@@ -81,7 +81,7 @@ const RECORDS: Omit<CaseStudy, 'image' | 'screen' | 'screenVideo'>[] = [
     claim: 'A home fragrance store customers now shop by scent',
     proof: 'Each scent has its own page, grouped into five fragrance families across the menu, collections and product pages.',
     href: p('dovecote-northumberland'),
-    services: ['theme-customisations'],
+    services: ['theme-customisations', 'shopify-ux-design', 'shopify-cro'],
   },
   {
     client: 'Whistlefish', brand: 'whistlefish', meta: 'Stationery & gifts · April 2025',
