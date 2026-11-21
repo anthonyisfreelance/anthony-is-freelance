@@ -76,6 +76,14 @@ const RECORDS: Omit<CaseStudy, 'image' | 'screen' | 'screenVideo'>[] = [
     services: ['theme-customisations'],
   },
   {
+    // Added 21 November 2026. Live 29 October 2026 (Tim's launch email). No figure yet: no analytics access.
+    client: 'Dovecote Northumberland', brand: 'dovecote', meta: 'Home · October 2026',
+    claim: 'A home fragrance store customers now shop by scent',
+    proof: 'Each scent has its own page, grouped into five fragrance families across the menu, collections and product pages.',
+    href: p('dovecote-northumberland'),
+    services: ['theme-customisations'],
+  },
+  {
     client: 'Whistlefish', brand: 'whistlefish', meta: 'Stationery & gifts · April 2025',
     claim: 'A Shopify 2.0 redesign their own team now builds on',
     proof: '"We\'ve since been able to carry that framework into our own design team." Will Manders',
