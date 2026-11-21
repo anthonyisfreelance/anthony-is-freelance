@@ -148,7 +148,7 @@ const RECORDS: InnovationRecord[] = [
     howItWorks:
       'I restructured the range so every scent has its own product, grouped into five fragrance families and the Northumberland Collection. Customers shop by fragrance from the menu, a family page or any product, all inside the existing theme.',
     caption: 'Shop by fragrance on Dovecote Northumberland.',
-    alt: "Dovecote Northumberland's Shop by Fragrance on mobile, from the five fragrance families to one family's products.",
+    alt: "Dovecote Northumberland's Shop by Fragrance on mobile, from the five fragrance families into Fresh & Citrus.",
     videoUploaded: '2026-11-21',
   },
   // ---- Choosing
@@ -167,7 +167,7 @@ const RECORDS: InnovationRecord[] = [
     howItWorks:
       'Each card on a collection says how many scents that product comes in, and a See all scents link sits under the scent name on the product page. One tap opens every scent for that product.',
     caption: 'Scent counts and See all scents on Dovecote Northumberland.',
-    alt: 'A Dovecote Northumberland reed diffuser page on mobile, tapping See all 15 scents to open every scent.',
+    alt: 'A Dovecote Northumberland reed diffuser page on mobile, with See all 15 scents under the scent name.',
     videoUploaded: '2026-11-21',
   },
   {

@@ -43,11 +43,11 @@ export const DATA: CaseStudyPageData = {
   showcase: {
     label: 'Dovecote Northumberland screens',
     background: photo(B, 'showcase-photo'),
-    desktop: slot(B, 'showcase-desktop', 'The Dovecote Northumberland store on desktop: the homepage, a fragrance family and a product page.', 'Desktop store recording'),
+    desktop: slot(B, 'showcase-desktop', 'The Dovecote Northumberland store on desktop: Shop by Fragrance, then the Warm & Spiced collection.', 'Desktop store recording'),
     phones: [
       slot(B, 'showcase-phone-1', 'The Dovecote Northumberland homepage on mobile.', 'Homepage'),
-      slot(B, 'showcase-phone-2', 'The Dovecote Northumberland menu on mobile, with Shop by Fragrance open.', 'Navigation'),
-      slot(B, 'showcase-phone-3', 'A Dovecote Northumberland fragrance family collection on mobile.', 'Fragrance family'),
+      slot(B, 'showcase-phone-2', 'The Dovecote Northumberland Warm & Spiced collection on mobile, with Available in 15 scents on each card.', 'Fragrance family'),
+      slot(B, 'showcase-phone-3', 'The Dovecote Northumberland menu on mobile, with Shop by Fragrance open on the five fragrance families.', 'Navigation'),
       slot(B, 'showcase-phone-4', 'A Dovecote Northumberland product page on mobile.', 'Product page'),
     ],
   },
@@ -62,7 +62,7 @@ export const DATA: CaseStudyPageData = {
       heading: 'Every scent out of the dropdown.',
       body: 'Finding a Dovecote scent used to mean opening a product and working through a dropdown. I restructured the range so every scent has its own product, grouped into five families and the Northumberland Collection. Customers start from the scent they love, not the product type.',
       link: innovationLink('See shop by scent', 'shop-by-scent'),
-      media: innovationSlot('shop-by-scent', 'Dovecote Northumberland’s Shop by Fragrance on mobile, from the fragrance families to a family and a product.', 'Shop by fragrance recording'),
+      media: innovationSlot('shop-by-scent', 'Dovecote Northumberland’s Shop by Fragrance on mobile, from the five fragrance families into Fresh & Citrus.', 'Shop by fragrance recording'),
     },
     {
       eyebrow: 'Fragrance-led navigation',
@@ -74,28 +74,28 @@ export const DATA: CaseStudyPageData = {
       eyebrow: 'Scent count product cards',
       heading: 'The choice shows before the click.',
       body: 'Each card on a Dovecote collection page says how many scents that product comes in, with a clear add to bag. Customers see the choice before they open a product, not after.',
-      media: slot(B, 'work-03', 'Dovecote Northumberland product cards on mobile, each showing its number of scents and an add to bag button.', 'The collection recording'),
+      media: slot(B, 'work-03', 'Dovecote Northumberland Fruity collection on mobile, each card showing its number of scents and an add to bag button.', 'The collection recording'),
     },
     {
       eyebrow: 'Fragrance product page design',
       heading: 'Add to bag first, then every other scent.',
       body: 'The Dovecote Northumberland product page puts add to bag and the key messages high up, where people decide. The fragrance family sits above the title, a See all scents link sits under the scent name, and Complete the set offers the same scent as a candle, refill or oil.',
       link: innovationLink('See every scent, one tap away', 'every-scent-one-tap'),
-      media: innovationSlot('every-scent-one-tap', 'A Dovecote Northumberland reed diffuser page on mobile, tapping See all 15 scents to open every scent.', 'The product page recording'),
+      media: innovationSlot('every-scent-one-tap', 'A Dovecote Northumberland reed diffuser page on mobile, from See all 15 scents down to Complete the set.', 'The product page recording'),
     },
     {
       eyebrow: 'Proof-first homepage design',
       heading: 'The Google rating leads, the shop follows.',
       body: 'The Dovecote Northumberland homepage leads with proof, with the Google rating in the header. The selling points sit under the hero, hand poured in Northumberland and delivered across the UK, then clear signposts take customers into fragrances, products and gifts.',
-      media: slot(B, 'work-05', 'The Dovecote Northumberland homepage on mobile, from the Google rating in the header to the collection signposts.', 'The homepage recording'),
+      media: slot(B, 'work-05', 'The Dovecote Northumberland homepage on mobile, with the Google rating in the header and the selling points under the hero.', 'The homepage recording'),
     },
   ],
   // One 50/50 halfway through the work: the wax melts photo sticks at full height while desktop
   // screens scroll past on a tint taken from its marble. Drop in split-desktop-1 to -3.
   // Hero is the diffuser photo (21 November 2026), so the 50/50 moved to the wax melts.
   splits: [{ ...desktopSplit(B, 'Dovecote Northumberland', photoMedia(B, 'split-1-photo'), '#E6E4E0', 3, [], [
-    'The Dovecote Northumberland homepage on desktop, from the Google rating in the header to the fragrance families.',
-    'The Dovecote Northumberland Shop by Fragrance menu on desktop, with the five fragrance families.',
+    'The Dovecote Northumberland homepage on desktop, stopping at the Home Fragrances and Bath & Body collection tiles.',
+    'The Dovecote Northumberland Fruity collection on desktop, with Available in 15 scents on each card.',
     'A Dovecote Northumberland product page on desktop, down to Complete the set.',
   ]), after: 2 }],
   // Trade (21 November 2026): built by Tim (Cartmasters), planned as part of the project. Anthony: "mostly Tim
