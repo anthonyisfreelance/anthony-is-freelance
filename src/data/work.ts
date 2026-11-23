@@ -76,6 +76,13 @@ const RECORDS: Omit<CaseStudy, 'image' | 'screen' | 'screenVideo'>[] = [
     services: ['theme-customisations'],
   },
   {
+    client: 'Noted. Aromas', brand: 'noted-aromas', meta: 'Beauty · 2026',
+    claim: 'A bespoke store built around finding the right scent',
+    proof: 'Designed with eComplete for a fragrance brand with over a million customers.',
+    href: p('noted-aromas'),
+    services: ['bespoke-store-design', 'shopify-ux-design', 'shopify-cro'],
+  },
+  {
     client: 'Whistlefish', brand: 'whistlefish', meta: 'Stationery & gifts · April 2025',
     claim: 'A Shopify 2.0 redesign their own team now builds on',
     proof: '"We\'ve since been able to carry that framework into our own design team." Will Manders',

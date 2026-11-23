@@ -1,0 +1,64 @@
+---
+// A run of lifestyle photos between work rows, edge to edge, no text on the photos (23 November 2026,
+// first used on Noted. Aromas). Layouts:
+//  - grid    four photos: 2x2 on phones, one row of four on desktop (a 2x2 there would be 1,800px of photo).
+//  - mosaic  one large portrait, two small portraits beside it and a landscape under those. Desktop: the
+//            large one sets the height and the two rows split it equally. Phones: the
+//            large one full width, the two small side by side, the landscape full width.
+//  - drift   two long rows that slide in opposite directions as the section crosses the screen. Pure CSS
+//            (animation-timeline: view()), so no script. Without support, or with reduced motion, each row
+//            is a strip you can swipe.
+import Media from './Media.astro';
+import type { PhotoBand } from '../../data/case-studies/types';
+interface Props { band: PhotoBand; class?: string }
+const { band, class: className = '' } = Astro.props;
+const { layout, photos, label } = band;
+const half = Math.ceil(photos.length / 2);
+const rows = layout === 'drift' ? [photos.slice(0, half), photos.slice(half)] : [];
+---
+{layout === 'grid' && (
+  <section class:list={['grid grid-cols-2 gap-2 lg:grid-cols-4 lg:gap-3', className]} aria-label={label}>
+    {photos.map((m) => (
+      <Media media={m} fit="cover" sizes="(min-width: 1024px) 25vw, 50vw" class="aspect-[4/5] w-full" />
+    ))}
+  </section>
+)}
+
+{layout === 'mosaic' && (
+  <section class:list={['grid grid-cols-2 gap-2 lg:grid-cols-4 lg:grid-rows-2 lg:gap-3', className]} aria-label={label}>
+    {photos[0] && <Media media={photos[0]} fit="cover" sizes="(min-width: 1024px) 50vw, 100vw" class="col-span-2 aspect-[4/5] w-full lg:row-span-2" />}
+    {photos[1] && <Media media={photos[1]} fit="cover" sizes="(min-width: 1024px) 25vw, 50vw" class="aspect-[4/5] w-full lg:aspect-auto lg:h-full" />}
+    {photos[2] && <Media media={photos[2]} fit="cover" sizes="(min-width: 1024px) 25vw, 50vw" class="aspect-[4/5] w-full lg:aspect-auto lg:h-full" />}
+    {photos[3] && <Media media={photos[3]} fit="cover" sizes="(min-width: 1024px) 50vw, 100vw" class="col-span-2 aspect-[16/10] w-full lg:aspect-auto lg:h-full" />}
+  </section>
+)}
+
+{layout === 'drift' && (
+  <section class:list={['photo-drift flex flex-col gap-2 lg:gap-3', className]} aria-label={label}>
+    {rows.map((row, r) => (
+      <div class="drift-track overflow-x-auto max-lg:snap-x" tabindex="0" role="region" aria-label={`${label}, row ${r + 1}`}>
+        <ul class:list={['drift-row flex w-max gap-2 lg:gap-3', r === 1 && 'drift-row--back']}>
+          {row.map((m) => (
+            <li class="snap-start"><Media media={m} fit="cover" sizes="(min-width: 1024px) 22vw, 46vw" class="aspect-[4/5] w-[46vw] lg:w-[22vw]" /></li>
+          ))}
+        </ul>
+      </div>
+    ))}
+  </section>
+)}
+
+<style>
+  .drift-track { scrollbar-width: none; }
+  .drift-track::-webkit-scrollbar { display: none; }
+  /* Scroll-driven: each row moves the width it overhangs the screen by while it crosses the screen.
+     The second row runs the other way, so the two slide past each other. */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .drift-track { overflow: clip; }
+      .drift-row { animation: drift-forward linear both; animation-timeline: view(); animation-range: cover; }
+      .drift-row--back { animation-name: drift-back; }
+    }
+  }
+  @keyframes drift-forward { from { transform: translateX(0); } to { transform: translateX(calc(100vw - 100%)); } }
+  @keyframes drift-back { from { transform: translateX(calc(100vw - 100%)); } to { transform: translateX(0); } }
+</style>

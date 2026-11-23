@@ -54,6 +54,22 @@ export interface Split {
   photoSide?: 'left' | 'right';
 }
 
+/**
+ * A run of lifestyle photos between work rows, edge to edge, with no text on them (Noted. Aromas,
+ * 23 November 2026). For brands with a big shoot. Three layouts:
+ *  - `grid`: four photos, 2x2 on phones and one row of four on desktop.
+ *  - `mosaic`: four photos, one large portrait, two small portraits and a landscape under them.
+ *  - `drift`: two long rows that slide past each other as you scroll (CSS scroll-driven animation,
+ *    no JavaScript; browsers without it, and reduced motion, get rows you can swipe).
+ */
+export interface PhotoBand {
+  /** How many work rows come before it. */
+  after: number;
+  label: string;
+  layout: 'grid' | 'mosaic' | 'drift';
+  photos: Media[];
+}
+
 export interface Card {
   client: string; meta: string; claim: string;
   image?: ImageMetadata; badge?: ImageMetadata; badgeAlt?: string; href?: string;
@@ -85,6 +101,8 @@ export interface CaseStudyPageData {
    */
   gallery?: { label: string; listLabel?: string; screens: Media[]; photo: Media; caption: string };
   splits?: Split[];
+  /** Lifestyle photo runs between the work rows, after any split at the same point. */
+  bands?: PhotoBand[];
   /** Full-bleed photo with a screen over it. Left out on pages that end the work on a plain row. */
   feature?: { background?: ImageMetadata; eyebrow: string; heading: string; body: string; media: Media; link?: Link };
   /** Left out when neither the client nor an agency can give a quote. The page still goes live. */
@@ -113,6 +131,7 @@ export const SERVICE = {
 export const BUILDER = {
   cartmasters: { label: 'Cartmasters', href: 'https://cartmasters.co.uk/' },
   tomBlanchard: { label: 'Tom Blanchard', href: 'https://tomblanchard.co.uk/' },
+  ecomplete: { label: 'eComplete', href: 'https://ecomplete.com/' },
 };
 
 /**
