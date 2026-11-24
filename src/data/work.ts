@@ -23,6 +23,8 @@ export interface CaseStudy {
   claim: string;
   proof: string;
   href?: string; // no link until the case study page exists
+  /** Live at its address but hidden everywhere (noindex, no listings) until it launches. */
+  unlisted?: boolean;
   image?: ImageMetadata;
   screen?: ImageMetadata;
   screenVideo?: string;
@@ -82,6 +84,19 @@ const RECORDS: Omit<CaseStudy, 'image' | 'screen' | 'screenVideo'>[] = [
     proof: 'Each scent has its own page, grouped into five fragrance families across the menu, collections and product pages.',
     href: p('dovecote-northumberland'),
     services: ['theme-customisations', 'shopify-ux-design', 'shopify-cro'],
+    // Unlisted (24 November 2026): the page is live at its address for review links, with noindex, and is
+    // left off the work page, menus, More cards, innovations and sitemap. Delete this line to launch it.
+    unlisted: true,
+  },
+  {
+    client: 'Noted. Aromas', brand: 'noted-aromas', meta: 'Beauty · 2026',
+    claim: 'A bespoke store built around finding the right scent',
+    proof: 'Designed with eComplete for a fragrance brand with over a million customers.',
+    href: p('noted-aromas'),
+    services: ['bespoke-store-design', 'shopify-ux-design', 'shopify-cro'],
+    // Unlisted (24 November 2026): the page is live at its address for review links, with noindex, and is
+    // left off the work page, menus, More cards, innovations and sitemap. Delete this line to launch it.
+    unlisted: true,
   },
   {
     client: 'Whistlefish', brand: 'whistlefish', meta: 'Stationery & gifts · April 2025',
@@ -136,12 +151,19 @@ const RECORDS: Omit<CaseStudy, 'image' | 'screen' | 'screenVideo'>[] = [
   },
 ];
 
-export const CASE_STUDIES: CaseStudy[] = RECORDS.map((r) => ({
+/** Every record, unlisted ones included. Only for a case study page looking up its own record. */
+export const ALL_CASE_STUDIES: CaseStudy[] = RECORDS.map((r) => ({
   ...r,
   image: brandImage(r.brand, 'card'),
   screen: brandImage(r.brand, 'card-screen'),
   screenVideo: brandVideo(r.brand, 'card-screen'),
 }));
+
+/** The case studies the site shows and links to: everything listing or picking case studies uses this. */
+export const CASE_STUDIES: CaseStudy[] = ALL_CASE_STUDIES.filter((c) => !c.unlisted);
+
+/** True for a page that is live for review links only (see `unlisted` above). */
+export const isUnlisted = (path: string) => ALL_CASE_STUDIES.some((c) => c.unlisted && c.href === path);
 
 export const WORK_META = {
   title: 'Shopify Case Studies | Freelance Shopify Designer UK',

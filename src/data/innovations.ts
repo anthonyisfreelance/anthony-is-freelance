@@ -8,7 +8,7 @@
 // Until both are there, the entry shows a placeholder tile. Set videoUploaded when a recording goes in.
 import { URLS } from './site';
 import { brandImage, brandVideo } from './media';
-import { CASE_STUDIES } from './work';
+import { ALL_CASE_STUDIES } from './work';
 import type { ImageMetadata } from 'astro';
 
 type Group = 'finding' | 'choosing' | 'buying' | 'brand';
@@ -327,14 +327,20 @@ const RECORDS: InnovationRecord[] = [
 
 // Each record with its screen still and recording, if they've been added.
 // Each links to its client's case study, now every one has a page.
-export const INNOVATIONS_LIST: Innovation[] = RECORDS.map((r) => ({
+/** Every innovation, including those of unlisted case studies. Only for a case study page's own rows. */
+export const INNOVATIONS_ALL: Innovation[] = RECORDS.map((r) => ({
   ...r,
-  clientHref: r.clientHref ?? CASE_STUDIES.find((c) => c.client === r.client)?.href,
+  clientHref: r.clientHref ?? ALL_CASE_STUDIES.find((c) => c.client === r.client)?.href,
   poster: brandImage(r.brand, `innovations/${r.slug}`),
   video: brandVideo(r.brand, r.slug),
 }));
 
-export const INNOVATION_BRANDS = new Set(RECORDS.map((r) => r.client)).size;
+// An unlisted case study's innovations stay off the innovations page, the homepage and the service
+// pages until it launches (work.ts, `unlisted`).
+const UNLISTED_CLIENTS = new Set(ALL_CASE_STUDIES.filter((c) => c.unlisted).map((c) => c.client));
+export const INNOVATIONS_LIST: Innovation[] = INNOVATIONS_ALL.filter((i) => !UNLISTED_CLIENTS.has(i.client));
+
+export const INNOVATION_BRANDS = new Set(INNOVATIONS_LIST.map((r) => r.client)).size;
 
 // The comparison toggle, used on the homepage, service page and case study tiles.
 const toggle = INNOVATIONS_LIST[0];

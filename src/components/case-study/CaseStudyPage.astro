@@ -8,6 +8,7 @@ import { altFor } from '../../data/alt-text';
 import { Image, getImage } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import Base from '../../layouts/Base.astro';
+import { isUnlisted } from '../../data/work';
 import Schema from '../Schema.astro';
 import Header from '../Header.astro';
 import Heading from '../Heading.astro';
@@ -15,13 +16,14 @@ import TextLink from '../TextLink.astro';
 import CaseStudyCard from '../CaseStudyCard.astro';
 import Media from './Media.astro';
 import SplitBlock from './Split.astro';
+import PhotoBand from './PhotoBand.astro';
 import Contact from '../home/Contact.astro';
 import { SITE, ENTITY } from '../../data/site';
 import { AWARD_LINKS } from '../../data/awards';
 import type { CaseStudyPageData, Highlight } from '../../data/case-studies/types';
 
 interface Props { data: CaseStudyPageData }
-const { meta: META, client: CLIENT, hero: HERO, brief: BRIEF, details: DETAILS, showcase: SHOWCASE, workIntro: WORK_INTRO, highlights: HIGHLIGHTS, gallery: GALLERY, splits: SPLITS = [], feature: FEATURE, testimonial: TESTIMONIAL, more: MORE, enquiry: ENQUIRY } = Astro.props.data;
+const { meta: META, client: CLIENT, hero: HERO, brief: BRIEF, details: DETAILS, showcase: SHOWCASE, workIntro: WORK_INTRO, highlights: HIGHLIGHTS, gallery: GALLERY, splits: SPLITS = [], bands: BANDS = [], feature: FEATURE, testimonial: TESTIMONIAL, more: MORE, enquiry: ENQUIRY } = Astro.props.data;
 // The splits that follow work row n (counting from 1).
 // The work rows. The design system or brand section closes them as a plain row (27 October 2026):
 // no full-bleed photo, so no text ever sits on an image.
@@ -29,6 +31,7 @@ const ROWS: Highlight[] = FEATURE ? [...HIGHLIGHTS, { eyebrow: FEATURE.eyebrow, 
 // A 50/50 with no `after` goes halfway: after row 2 of 4 or 5, row 3 of 6.
 const HALFWAY = ROWS.length >= 4 ? Math.floor(ROWS.length / 2) : ROWS.length;
 const splitsAfter = (n: number) => SPLITS.filter((s) => (s.after ?? HALFWAY) === n);
+const bandsAfter = (n: number) => BANDS.filter((b) => b.after === n);
 
 // Mobile order for the showcase phones: with exactly two recordings among four, stills at 1 and 4 and the
 // recordings at 2 and 3, so the two videos sit next to each other (feedback #133, 28 October 2026).
@@ -83,7 +86,7 @@ const bgWidths = (img: ImageMetadata, list: number[]) => [...new Set(list.filter
 const meta = 'font-display font-medium text-[14px] leading-[1.3] tracking-[0.02em]';
 const link = 'underline underline-offset-4 hover:decoration-2';
 ---
-<Base title={META.title} description={META.description} ogImage={heroImg}>
+<Base title={META.title} description={META.description} ogImage={heroImg} noindex={isUnlisted(META.path)}>
   <Schema slot="head" title={META.title} description={META.description} path={META.path} breadcrumbs={META.breadcrumbs} about={clientId} extra={[client, article]} mainEntity={articleId} page={heroPage} />
   <Header overlay />
   <main id="main">
@@ -216,9 +219,10 @@ const link = 'underline underline-offset-4 hover:decoration-2';
     {ROWS.map((h, i) => {
       const flip = h.flip ?? i % 2 === 1;
       const after = splitsAfter(i + 1);
+      const bands = bandsAfter(i + 1);
       return (
         <>
-        <section class:list={['px-margin pt-section lg:pt-[120px]', i === ROWS.length - 1 && !after.length && 'pb-section lg:pb-[120px]']}>
+        <section class:list={['px-margin pt-section lg:pt-[120px]', i === ROWS.length - 1 && !after.length && !bands.length && 'pb-section lg:pb-[120px]']}>
           <div class="grid gap-large lg:flex lg:items-center lg:justify-center lg:gap-[163px]">
             <div class:list={['flex flex-col lg:w-[434px] lg:shrink-0', flip && 'lg:order-2']}>
               <h3 class="font-display text-[length:var(--type-h5)] font-medium leading-[1.3] text-ink lg:text-[length:var(--type-h3)]">
@@ -236,6 +240,7 @@ const link = 'underline underline-offset-4 hover:decoration-2';
           </div>
         </section>
         {after.map((s) => <SplitBlock split={s} class="mt-section lg:mt-[120px]" />)}
+        {bands.map((b) => <PhotoBand band={b} class="mt-section lg:mt-[120px]" />)}
         </>
       );
     })}
