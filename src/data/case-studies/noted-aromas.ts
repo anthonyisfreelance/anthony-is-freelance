@@ -20,9 +20,9 @@ export const DATA: CaseStudyPageData = {
   client: { name: 'Noted. Aromas', url: 'https://notedaromas.co.uk/', display: 'notedaromas.co.uk' },
   hero: {
     eyebrow: 'Noted. Aromas Shopify case study',
-    heading: 'Scent discovery for a brand with 1M+ customers',
+    heading: 'Built to convert, for a brand with 1M+ customers',
     standfirst:
-      'Noted. Aromas is a Durham fragrance brand selling designer-inspired perfumes and aftershaves, made in the UK, to more than a million customers. The brand had outgrown its Shopify theme. Working with eComplete, I designed a bespoke store around one job: helping shoppers find the right scent in a big range.',
+      'Noted. Aromas is a Durham fragrance brand selling designer-inspired perfumes and aftershaves, made in the UK, to more than a million customers. The brand had outgrown its Shopify theme. Working with eComplete, I designed a bespoke store where every screen has a job: prove the value, shorten the route to a bottle and raise the basket.',
     // The brand's claw machine film, played forwards then backwards so the loop has no jump.
     image: {
       image: photo(B, 'hero'),
@@ -60,51 +60,51 @@ export const DATA: CaseStudyPageData = {
   },
   workIntro: {
     eyebrow: 'Noted. Aromas Shopify store design',
-    heading: 'Every route leads to a scent',
+    heading: 'Conversion designed in, not bolted on',
     body:
-      'Shoppers arrive knowing a designer fragrance, a mood, or nothing at all. Each one gets a short route to a bottle, and all of it works one-handed on a phone. No single feature carries this store. It is a lot of small decisions pulling the same way. The screens here are the signed-off designs.',
+      'Most stores add conversion features after launch. This one was designed around them. Trust sits in the header. The price comparison sits on every card. Size, saving and add to basket are one tap apart. The basket shows the next offer before you ask. Shoppers arrive knowing a designer fragrance, a mood, or nothing at all, and each one gets a short route to a bottle, one-handed on a phone. The screens here are the signed-off designs.',
   },
   highlights: [
     {
       eyebrow: 'Shopify navigation design',
-      heading: 'A menu that sells as well as sorts.',
-      body: 'I designed a bespoke header that puts trust and shopping routes first. The mobile menu is rebuilt around how people choose a fragrance: who it is for, the occasion and the scent family. The second level brings in the brand’s own photography.',
+      heading: 'A header that sells before you scroll.',
+      body: 'The bespoke header puts proof first: customer numbers, delivery, the guarantee and reviews all sit above the first image. The mobile menu is rebuilt around how people choose a fragrance: who it is for, the occasion and the scent family. The second level brings in the brand’s own photography, so the menu sells as well as sorts.',
       media: slot(B, 'work-01', 'The Noted. Aromas mobile menu design, second level, with a photo for Women’s and shop by occasion and scent.', 'Menu design'),
     },
     {
       eyebrow: 'Shopify homepage design',
-      heading: 'Photography that runs full portrait.',
-      body: 'The homepage is rebuilt around lifestyle photography. Section headings and buttons stick as you scroll, so images can run full portrait while the call to action stays on screen. A Shop by Scent panel fits eight scent families into a strip 120px high. An image-led footer closes the page.',
+      heading: 'Full-portrait photography, the button always in reach.',
+      body: 'The homepage is rebuilt around lifestyle photography. Section headings and buttons stick as you scroll, so images run full portrait and the call to action never leaves the screen. A Shop by Scent panel fits eight scent families into a strip 120px high. An image-led footer closes the page.',
       media: slot(B, 'work-02', 'The Noted. Aromas homepage design on mobile: the Sweet State collection, the Shop by Scent strip and As worn by.', 'Homepage design'),
     },
     {
       eyebrow: 'Collection page filtering',
-      heading: 'Filters always under the thumb.',
-      body: 'This project was about discovery, so filtering leads. On mobile the filter bar is fixed to the bottom of every collection page. Editorial sections and a quiz prompt break up long grids. Intro copy and FAQs are structured for search engines and AI search.',
+      heading: 'Filters under the thumb, a next step in every grid.',
+      body: 'This project was about discovery, so filtering leads. On mobile the filter bar is fixed to the bottom of every collection page, always one tap away. Shop by Scent and a quiz prompt sit inside the grid, so a shopper who stalls has somewhere to go. Intro copy and FAQs are structured for search engines and AI search.',
       media: slot(B, 'work-03', 'A Noted. Aromas collection page design on mobile, with a quiz prompt in the grid and the filter bar fixed at the bottom.', 'Collection design'),
     },
     {
       eyebrow: 'Quick add product cards',
-      heading: 'Pick a size without leaving the grid.',
-      body: 'Each card lets you pick a size and add to basket without opening the product page. Every size shows its price and saving, with the designer original’s RRP beside it for comparison. On desktop the size picker opens in place when you click.',
+      heading: 'Size, saving and basket, without leaving the grid.',
+      body: 'Every card does a product page’s job. It names the designer fragrance it is inspired by and shows that original’s RRP. Each size shows its price and saving, with the top pick already selected. One more tap adds it to the basket. On desktop the size picker opens in place when you click.',
       media: slot(B, 'work-04', 'The Noted. Aromas add to basket sheet on mobile: 5ml, 50ml and 100ml, each with its price per ml.', 'Quick add design'),
     },
     {
       eyebrow: 'Fragrance product page design',
-      heading: 'Lead with the scent it’s inspired by.',
-      body: 'Product pages lead with the fragrance it is inspired by, price per ml and a clear size choice. Notes are grouped under their scent family. The live pages use part of what I designed so far.',
+      heading: 'The value case, made in the first screen.',
+      body: 'Product pages lead with the fragrance it is inspired by, the price against the original’s RRP and the price per ml. The size choice is clear and the top pick is marked. Notes are grouped under their scent family. The live pages use part of what I designed so far.',
       media: slot(B, 'work-05', 'A Noted. Aromas product page design on mobile: sizes with price per ml, free gift progress and add to basket.', 'Product page design'),
     },
     {
       eyebrow: 'Shopify basket design',
-      heading: 'Every offer, one step at a time.',
-      body: 'The basket is cleaner and works harder. Stepped progress shows which offer you have unlocked and how far you are from the next, free delivery included. I designed the steps around a free gift threshold. The live store adapts them for sale events. Recommendations add in one tap.',
+      heading: 'A basket that raises the order.',
+      body: 'Stepped progress shows which offer you have unlocked and exactly what the next one takes, free delivery included. Recommendations add in one tap, without leaving the basket. I designed the steps around a free gift threshold. The live store adapts them for sale events.',
       media: slot(B, 'work-06', 'The Noted. Aromas basket design on mobile, with free gift and free delivery steps above the products.', 'Basket design'),
     },
     {
       eyebrow: 'Fragrance quiz design',
-      heading: 'One question, one tap.',
-      body: 'I designed the screen toolkit for the quiz: one question per screen, answers chosen in a tap, results that link straight to products. eComplete built the full quiz from it.',
+      heading: 'From no idea to a shortlist in a few taps.',
+      body: 'For shoppers who arrive knowing nothing, the quiz does the selling. One question per screen, answers chosen in a tap, results that link straight to products. I designed the screen toolkit. eComplete built the full quiz from it.',
       media: slot(B, 'work-07', 'A Noted. Aromas fragrance quiz screen design: what are you shopping for, with four photo answers.', 'Quiz design'),
     },
   ],
@@ -158,7 +158,7 @@ export const DATA: CaseStudyPageData = {
   ],
   feature: {
     eyebrow: 'Shopify design system',
-    heading: 'Blocks the team builds campaigns with.',
+    heading: 'Campaign pages without a new design project.',
     body: 'Everything sits in one mobile-first design system in Figma: type, colour, components and page blocks. The brand team can combine blocks to build campaign pages without commissioning new designs each time.',
     media: slot(B, 'work-08', 'Noted. Aromas promo tiles from the design system, the Lille collection repeated as a campaign block.', 'Design system'),
   },
