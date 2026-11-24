@@ -63,7 +63,7 @@ export const DATA: CaseStudyPageData = {
       slot(B, 'showcase-phone-2', 'The Noted. Aromas Women’s collection on mobile, with sizes and Add to Basket on every card.', 'Collection'),
       // Always still, recording, still, recording (24 November 2026). Phone 3 is a still, so it must
       // never have a showcase-phone-3.mp4 beside it.
-      slot(B, 'showcase-phone-3', 'The Noted. Aromas mobile menu open: special offers, Women’s, Men’s, Unisex, then shop by scent and by occasion.', 'Menu'),
+      slot(B, 'showcase-phone-3', 'The Noted. Aromas mobile menu inside Women’s: a photo, then shop by occasion and by scent.', 'Menu'),
       slot(B, 'showcase-phone-4', 'A Noted. Aromas product page on mobile, from the price and sizes down to the scent notes.', 'Product page'),
     ],
   },
@@ -84,8 +84,8 @@ export const DATA: CaseStudyPageData = {
       // Added 24 November 2026 at Anthony's request. Copy checked against the live search panel the same day.
       eyebrow: 'Shopify search design',
       heading: 'Search that helps before you type.',
-      body: 'Open search on a phone and the routes into the range are already there, before a single letter is typed. Gender, occasion and scent family sit as one-tap groups, with the bestsellers underneath, each with its rating, price and the fragrance it is inspired by. A shopper who knows the name types it. One who doesn’t still has somewhere to go.',
-      media: slot(B, 'work-08', 'Search opening on the Noted. Aromas mobile store: gender, occasion and scent family groups, then the bestsellers.', 'Search'),
+      body: 'Open search on a phone and the routes into the range are already there, before a single letter is typed. Gender, occasion and scent family sit as one-tap groups, with the bestsellers underneath. A shopper who knows a designer fragrance types its name and the match comes up first, with its rating and price. One who doesn’t still has somewhere to go.',
+      media: slot(B, 'work-08', 'Search on the Noted. Aromas mobile store: gender, occasion and scent family groups, then a search for a designer fragrance bringing up its match.', 'Search'),
     },
     {
       eyebrow: 'Shopify homepage design',
@@ -155,12 +155,14 @@ export const DATA: CaseStudyPageData = {
       ],
     },
     {
-      after: 8, layout: 'mosaic', label: 'Noted. Aromas night photography',
+      // Moved up one, to sit before the quiz (24 November 2026). The fourth photo was a daytime café shot;
+      // it is now the other night-flash car photo, cropped wide from the portrait original.
+      after: 7, layout: 'mosaic', label: 'Noted. Aromas night photography',
       photos: [
         pic('band-mosaic-1', 'Monte Carlo held out of a car window at night'),
         pic('band-mosaic-2', 'Saint-Tropez held in both hands on dark green'),
         pic('band-mosaic-3', 'Monte Carlo sprayed on the neck'),
-        pic('band-mosaic-4', 'Doha held by a woman relaxing at a café table'),
+        pic('band-mosaic-4', 'Palm Springs held in lace-gloved hands at a car window at night'),
       ],
     },
   ],
