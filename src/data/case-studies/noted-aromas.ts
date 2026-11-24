@@ -77,6 +77,14 @@ export const DATA: CaseStudyPageData = {
       media: slot(B, 'work-01', 'The Noted. Aromas mobile menu opening Women’s: a photo, then shop by occasion and by scent.', 'Menu'),
     },
     {
+      // Added 24 November 2026 at Anthony's request. DRAFT copy: written from his description before the
+      // live search could be checked. Sharpen with what the panel actually groups once the clip is recorded.
+      eyebrow: 'Shopify search design',
+      heading: 'Search that helps before you type.',
+      body: 'Open search on a phone and the routes into the range are already there, grouped and ready to tap, before a single letter is typed. A shopper who knows the name types it. One who doesn’t still has somewhere to go.',
+      media: slot(B, 'work-08', 'Search opening on the Noted. Aromas mobile store, with routes into the range grouped before anything is typed.', 'Search'),
+    },
+    {
       eyebrow: 'Shopify homepage design',
       heading: 'Full-portrait photography, the button always in reach.',
       body: 'The homepage is rebuilt around lifestyle photography. Section headings and buttons stick as you scroll, so images run full portrait and the call to action never leaves the screen. A Shop by Scent panel fits eight scent families into a strip 120px high. An image-led footer closes the page.',
@@ -113,8 +121,13 @@ export const DATA: CaseStudyPageData = {
       media: slot(B, 'work-07', 'The Noted. Aromas fragrance quiz on mobile: who it is for, then one question per screen.', 'Quiz'),
     },
   ],
-  // The one desktop 50/50, halfway: the Portofino clouds photo sticks while three desktop designs pass.
-  splits: [desktopSplit(B, 'Noted. Aromas', photoMedia(B, 'split-1-photo'), '#D3E3F3', 3, [], [
+  // The one desktop 50/50, halfway: the Portofino clouds photo sticks while the desktop screens pass.
+  // TO DO (24 November 2026): screen 2 becomes the desktop menu once recorded (drop it in as split-desktop-2
+  // and change its alt below); the two collection clips side by side were too alike. The Christmas gift shop
+  // joins as a fourth screen by itself when split-desktop-4 is dropped in.
+  splits: [desktopSplit(B, 'Noted. Aromas', photoMedia(B, 'split-1-photo'), '#D3E3F3', 3, [
+    { name: 'split-desktop-4', alt: 'The Noted. Aromas Christmas gift shop on desktop.', label: 'Christmas gift shop' },
+  ], [
     'A Noted. Aromas collection on desktop, with filters across the top.',
     'Noted. Aromas product cards on desktop, from the Shop by Scent strip to the quiz tile in the grid.',
     'The Noted. Aromas Monte Carlo product page on desktop, down to the scent notes.',
@@ -122,7 +135,7 @@ export const DATA: CaseStudyPageData = {
   // The brand's shoot, between the work rows (23 November 2026). Alt text never names another brand.
   bands: [
     {
-      after: 2, layout: 'grid', label: 'Noted. Aromas Sweet State photography',
+      after: 3, layout: 'grid', label: 'Noted. Aromas Sweet State photography',
       photos: [
         pic('band-grid-1', 'A Santa Barbara bottle in a pink cocktail glass, held to the lips'),
         pic('band-grid-2', 'A Santa Barbara bottle revealed under a silver cloche on pink'),
@@ -131,7 +144,7 @@ export const DATA: CaseStudyPageData = {
       ],
     },
     {
-      after: 5, layout: 'drift', label: 'Noted. Aromas fragrance photography',
+      after: 6, layout: 'drift', label: 'Noted. Aromas fragrance photography',
       photos: [
         pic('band-drift-1', 'Ankara on crushed ice with pink grapefruit'),
         pic('band-drift-2', 'Havana among star anise, dried orange and cinnamon'),
@@ -152,7 +165,7 @@ export const DATA: CaseStudyPageData = {
       ],
     },
     {
-      after: 7, layout: 'mosaic', label: 'Noted. Aromas night photography',
+      after: 8, layout: 'mosaic', label: 'Noted. Aromas night photography',
       photos: [
         pic('band-mosaic-1', 'Monte Carlo held out of a car window at night'),
         pic('band-mosaic-2', 'Saint-Tropez held in both hands on dark green'),
