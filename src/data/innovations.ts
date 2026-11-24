@@ -55,6 +55,7 @@ const S = {
   subscriptions: { label: 'Subscriptions', href: URLS.subscriptions },
   migrations: { label: 'Migrations', href: URLS.migrations },
   branding: { label: 'Branding', href: URLS.branding },
+  theme: { label: 'Theme customisations', href: URLS.theme },
 };
 
 const RECORDS: InnovationRecord[] = [
@@ -130,7 +131,45 @@ const RECORDS: InnovationRecord[] = [
     alt: 'Whistlefish greeting cards on mobile, with one-line names, the multi-buy offer and Add buttons.',
     videoUploaded: '2026-10-25',
   },
+  {
+    // Added 21 November 2026, the first innovation from a theme project. Passes all four tests:
+    // Pipeline doesn't group a range by scent, it's shaped by Dovecote's range, the problem is named,
+    // and it's on the live store.
+    slug: 'shop-by-scent',
+    name: 'Shop by scent, not just by product',
+    group: 'finding',
+    brand: 'dovecote',
+    client: 'Dovecote Northumberland',
+    year: '2026',
+    service: S.theme,
+    summary: 'Every scent has its own page, grouped into five fragrance families from the menu down.',
+    problem:
+      "Dovecote Northumberland's scents were hidden in a dropdown on each product page, so customers had to open a product before they could find the scent they loved.",
+    howItWorks:
+      'I restructured the range so every scent has its own product, grouped into five fragrance families and the Northumberland Collection. Customers shop by fragrance from the menu, a family page or any product, all inside the existing theme.',
+    caption: 'Shop by fragrance on Dovecote Northumberland.',
+    alt: "Dovecote Northumberland's Shop by Fragrance on mobile, from the five fragrance families into Fresh & Citrus.",
+    videoUploaded: '2026-11-24',
+  },
   // ---- Choosing
+  {
+    // Added 21 November 2026, with shop-by-scent: the other half of the same restructure.
+    slug: 'every-scent-one-tap',
+    name: 'Every scent, one tap away',
+    group: 'choosing',
+    brand: 'dovecote',
+    client: 'Dovecote Northumberland',
+    year: '2026',
+    service: S.theme,
+    summary: 'Cards say how many scents a product comes in, and every product page links to all of them.',
+    problem:
+      'Once every Dovecote scent had its own page, a customer looking at one candle could no longer see the other scents it came in.',
+    howItWorks:
+      'Each card on a collection says how many scents that product comes in, and a See all scents link sits under the scent name on the product page. One tap opens every scent for that product.',
+    caption: 'Scent counts and See all scents on Dovecote Northumberland.',
+    alt: 'A Dovecote Northumberland reed diffuser page on mobile, with See all 15 scents under the scent name.',
+    videoUploaded: '2026-11-24',
+  },
   {
     slug: 'dinner-question-cards',
     name: 'Product cards that answer dinner questions',

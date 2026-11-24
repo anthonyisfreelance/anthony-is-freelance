@@ -97,6 +97,10 @@ export const ALT_TEXT: Record<string, string> = {
   'brands/drink-finder/hero.jpg': 'A man relaxing on a teal sofa with a pineapple cocktail, from Drink Finder',
   'brands/drink-finder/split-photo.jpg': 'An Aperol spritz with a slice of orange, from Drink Finder',
   'brands/drink-finder/vineyard.jpg': 'A vineyard at sunset',
+  'brands/dovecote/card.jpg': 'A lit Dovecote Northumberland candle and a bottle of matches on the edge of a steaming bath',
+  'brands/dovecote/hero.jpg': 'A Dovecote Northumberland Lemongrass & Ginger reed diffuser beside a natural sponge on the edge of a bath',
+  'brands/dovecote/showcase-photo.jpg': 'Two Dovecote Northumberland candles on a coffee table in front of a lit wood burner',
+  'brands/dovecote/split-1-photo.jpg': 'Dovecote Northumberland heart wax melts and a cotton gift bag beside a coffee and dried flowers',
   'brands/projektityyny/hero.webp': 'A woman carrying Projektityyny striped bags on a pebble beach',
 
   // Service heroes (services page cards and each service page)
