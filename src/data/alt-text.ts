@@ -49,6 +49,7 @@ export const ALT_TEXT: Record<string, string> = {
   'brands/hartnack-and-co/card.jpg': 'A Hartnack & Co bespoke folder beside a bottle of wine and a glass of whisky',
   'brands/jing-tea/card.jpg': 'Tea pickers working across green tea fields, from JING Tea',
   'brands/projektityyny/card.jpg': 'A woman holding an armful of Projektityyny cushions and throws',
+  'brands/noted-aromas/card-screen.jpg': 'The Noted. Aromas homepage on mobile',
   'brands/noted-aromas/card.jpg': 'A Noted. Aromas Lille bottle held in silhouetted hands among peach petals',
   'brands/noted-aromas/hero.jpg': 'Three Noted. Aromas bottles held by a claw over a machine full of pink sweets',
   'brands/noted-aromas/showcase-photo.jpg': 'A Noted. Aromas Lille bottle among peach petals',
