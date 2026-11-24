@@ -56,8 +56,9 @@ export interface Split {
 
 /**
  * A run of lifestyle photos between work rows, edge to edge, with no text on them (Noted. Aromas,
- * 23 November 2026). For brands with a big shoot. Three layouts:
+ * 23 November 2026). For brands with a big shoot. Four layouts:
  *  - `grid`: four photos, 2x2 on phones and one row of four on desktop.
+ *  - `trio`: three photos, 2px apart. Phones: the first full width, the other two side by side.
  *  - `mosaic`: four photos, one large portrait, two small portraits and a landscape under them.
  *  - `drift`: two long rows that slide past each other as you scroll (CSS scroll-driven animation,
  *    no JavaScript; browsers without it, and reduced motion, get rows you can swipe).
@@ -66,7 +67,7 @@ export interface PhotoBand {
   /** How many work rows come before it. */
   after: number;
   label: string;
-  layout: 'grid' | 'mosaic' | 'drift';
+  layout: 'grid' | 'trio' | 'mosaic' | 'drift';
   photos: Media[];
 }
 
