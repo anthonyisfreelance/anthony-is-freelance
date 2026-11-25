@@ -169,7 +169,7 @@ const RECORDS: InnovationRecord[] = [
       'Skincare and Clinics sit side by side at the top of every page. Tap a side and the menu opens on it, showing only what applies. The other side stays one tap away, and Book a treatment is pinned to the foot of both.',
     caption: 'The Skincare and Clinics menu on Dr David Jack.',
     alt: 'The Dr David Jack mobile menu switching between its Skincare and Clinics sides.',
-    // videoUploaded: add the date when the recording goes in.
+    videoUploaded: '2026-11-25',
   },
   // ---- Choosing
   {
