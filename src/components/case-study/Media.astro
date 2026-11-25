@@ -12,8 +12,11 @@ interface Props {
   widths?: number[];
   eager?: boolean;
   class?: string;
+  /** CSS object-position for the still and the video (default: centre). */
+  position?: string;
 }
-const { media, fit = 'contain', sizes, widths, eager = false, class: className = '' } = Astro.props;
+const { media, fit = 'contain', sizes, widths, eager = false, class: className = '', position } = Astro.props;
+const pos = position ? `object-position: ${position}` : undefined;
 const image = media.image;
 const w = image ? widths ?? [320, 480, 640, 960, 1280, 1600, 2400].filter((x) => x <= image.width).concat(image.width) : [];
 const objectFit = fit === 'contain' ? 'object-contain' : 'object-cover';
@@ -29,6 +32,7 @@ const objectFit = fit === 'contain' ? 'object-contain' : 'object-cover';
       loading={eager ? 'eager' : 'lazy'}
       fetchpriority={eager ? 'high' : undefined}
       class:list={['absolute inset-0 size-full', objectFit]}
+      style={pos}
     />
     {media.video && (
       <video
@@ -42,6 +46,7 @@ const objectFit = fit === 'contain' ? 'object-contain' : 'object-cover';
         aria-hidden="true"
         tabindex="-1"
         class:list={['absolute inset-0 size-full opacity-0 transition-opacity duration-300', objectFit]}
+        style={pos}
       ></video>
     )}
   </div>

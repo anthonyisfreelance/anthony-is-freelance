@@ -96,7 +96,7 @@ const link = 'underline underline-offset-4 hover:decoration-2';
     <!-- A screen tall less the announcement bar, so the copy sits dead centre between the rule and the bottom of the screen (feedback #213) -->
     <section class="lg:grid lg:min-h-[calc(100dvh-var(--bar-h,0px))] lg:grid-cols-2 lg:gap-gutter">
       <div data-header-image class="relative lg:h-full lg:min-h-[calc(100dvh-var(--bar-h,0px))]">
-        <Media media={HERO.image} fit="cover" sizes={heroSizes} eager class="aspect-[4/3] w-full lg:absolute lg:inset-0 lg:aspect-auto lg:h-full" />
+        <Media media={HERO.image} fit="cover" sizes={heroSizes} eager position={HERO.imagePosition} class="aspect-[4/3] w-full lg:absolute lg:inset-0 lg:aspect-auto lg:h-full" />
         <div class="absolute inset-0 hidden bg-[linear-gradient(to_bottom,rgba(0,0,0,0.35)_0%,rgba(0,0,0,0)_21%)] lg:block" aria-hidden="true"></div>
       </div>
       <div class="px-margin pt-margin lg:flex lg:flex-col lg:pl-0 lg:pt-[124px]">

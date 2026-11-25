@@ -51,7 +51,7 @@ export const ALT_TEXT: Record<string, string> = {
   'brands/projektityyny/card.jpg': 'A woman holding an armful of Projektityyny cushions and throws',
   'brands/dr-david-jack/card-screen.jpg': 'The Dr David Jack homepage on mobile',
   'brands/dr-david-jack/card.jpg': 'Dr David Jack skincare on coloured blocks against a warm backdrop',
-  'brands/dr-david-jack/hero.jpg': 'Dr David Jack at the reception desk of his Belgravia clinic, under the Dr. David Jack sign',
+  'brands/dr-david-jack/hero.jpg': 'Dr David Jack in a linen jacket beside his skincare range, set on coloured blocks',
   'brands/dr-david-jack/showcase-photo.jpg': 'The waiting room of a Dr David Jack clinic, with paintings, cane chairs and a marble floor',
   'brands/dr-david-jack/split-1-photo.jpg': 'Dr David Jack treating a patient in clinic',
   'brands/noted-aromas/card-screen.jpg': 'The Noted. Aromas homepage on mobile',

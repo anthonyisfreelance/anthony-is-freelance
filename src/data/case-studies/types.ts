@@ -80,7 +80,9 @@ export interface CaseStudyPageData {
   meta: { path: string; title: string; description: string; breadcrumbs: { name: string; path: string }[] };
   /** The store the page is about, for schema and the Website row. */
   client: { name: string; url?: string; display?: string; parent?: string };
-  hero: { eyebrow: string; figure?: string; heading: string; standfirst: string; image: Media };
+  /** imagePosition: where the photo is cropped from, as CSS object-position (e.g. '50% 20%'), for a portrait
+   *  whose subject sits off-centre. Default: the centre. */
+  hero: { eyebrow: string; figure?: string; heading: string; standfirst: string; image: Media; imagePosition?: string };
   brief: { eyebrow: string; heading: string; body: string[] };
   details: {
     sector: string;

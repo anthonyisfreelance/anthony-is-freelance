@@ -35,9 +35,12 @@ export const DATA: CaseStudyPageData = {
       'Dr David Jack is a doctor-led skincare brand with six aesthetic clinics, in London, Edinburgh and the Cotswolds. Shop and clinic shared one Shopify store and competed for the same space. Working with eComplete, I designed a bespoke store that gives each side its own half of the menu, keeps the other one tap away, and feels as considered as the clinics do.',
     image: {
       image: photo(B, 'hero'),
-      alt: 'Dr David Jack at the reception desk of his Belgravia clinic, under the Dr. David Jack sign',
+      // 25 November 2026, Anthony's pick: Dr Jack with the range on coloured blocks (the Stellar shoot).
+      alt: 'Dr David Jack in a linen jacket beside his skincare range, set on coloured blocks',
       label: 'Hero photo',
     },
+    // His face sits in the top third, so the phone crop (4:3) is taken from there, not the middle.
+    imagePosition: '50% 18%',
   },
   brief: {
     eyebrow: 'Dr David Jack Shopify brief',
@@ -59,13 +62,13 @@ export const DATA: CaseStudyPageData = {
   showcase: {
     label: 'Dr David Jack designs',
     background: photo(B, 'showcase-photo'),
-    desktop: slot(B, 'showcase-desktop', 'The Dr David Jack homepage on desktop, with Skincare and Clinics as two halves of the header.', 'Desktop store'),
+    desktop: slot(B, 'showcase-desktop', 'The Dr David Jack homepage on desktop, sliding through its campaign slides under the Skincare and Clinics header.', 'Desktop store'),
     phones: [
       // Always still, recording, still, recording. Phones 1 and 3 are stills, so they must never have an .mp4.
-      slot(B, 'showcase-phone-1', 'The Dr David Jack homepage on mobile, with Skincare and Clinics side by side under the logo.', 'Homepage'),
+      slot(B, 'showcase-phone-1', 'The Dr David Jack homepage on mobile on its Art of Gifting slide, with Skincare and Clinics side by side under the logo.', 'Homepage'),
       slot(B, 'showcase-phone-2', 'The Dr David Jack skincare collection on mobile: category row, filters and product cards.', 'Collection'),
-      slot(B, 'showcase-phone-3', 'The Dr David Jack mobile menu on its Clinics side: treatments, results, conditions and clinics.', 'Menu'),
-      slot(B, 'showcase-phone-4', 'The Dr David Jack Stellar product page on mobile, from the photo down to the buy box.', 'Product page'),
+      slot(B, 'showcase-phone-3', 'The Dr David Jack Microbiome Facial treatment page on mobile: price, Book now and Get in touch.', 'Treatment page'),
+      slot(B, 'showcase-phone-4', 'The Dr David Jack Serums collection on mobile, from the header down to the products.', 'Serums collection'),
     ],
   },
   workIntro: {
@@ -86,25 +89,25 @@ export const DATA: CaseStudyPageData = {
       eyebrow: 'Shopify homepage design',
       heading: 'One question first: where do you start?',
       body: 'The homepage asks it outright and answers with two cards: start with skincare, or start with a treatment. From there each side leads into the other. Treatments, results and practitioners sit on the shop’s homepage, so the clinics lend their authority to the products.',
-      media: slot(B, 'work-02', 'The Dr David Jack homepage on mobile, from Where do you start? down to the first products.', 'Homepage'),
+      media: slot(B, 'work-02', 'The Dr David Jack homepage on mobile, scrolling into Where do you start? and its two routes: skincare or the clinic.', 'Homepage'),
     },
     {
       eyebrow: 'Skincare collection page design',
       heading: 'A collection page that sells.',
       body: 'A shopper can choose and add without leaving the grid. A category row sits under the heading. Every card carries its review score, a one-line description, the concern it treats and a quick add. A free samples line sits above the grid, and a free virtual consultation is offered to anyone still unsure.',
-      media: slot(B, 'work-03', 'The Dr David Jack skincare collection on mobile: category row, filters, the free samples line, then product cards with quick add.', 'Collection'),
+      media: slot(B, 'work-03', 'The Dr David Jack Moisturisers and SPFs collection on mobile: the header, category row, filters and free samples line, then the first product card.', 'Collection'),
     },
     {
       eyebrow: 'Shop by skin concern',
       heading: 'One colour per concern.',
-      body: 'It was hard to match a product to a skin concern. Now each of the four concerns has a colour, and it follows the product everywhere: a thin line on the card, the same line under the name on the product page. It is the only colour in the interface, so a shopper can scan a grid and find their concern.',
-      media: slot(B, 'work-04', 'The Dr David Jack Pigmentation page on mobile, each product card marked with a thin yellow line.', 'Concern page'),
+      body: 'It was hard to match a product to a skin concern. Now each of the four concerns has a colour, and it follows the shopper from the menu to the basket: a line beside the concern in Shop by Concern, the same line on every card, and again under the name on the product page. It is the only colour in the interface, so a shopper can scan a grid and find their concern.',
+      media: slot(B, 'work-04', 'Shop by Concern in the Dr David Jack mobile menu, each concern with its colour line, then the Pigmentation page and the Oriel product page carrying the same yellow line.', 'Shop by concern'),
     },
     {
       eyebrow: 'Skincare product page design',
       heading: 'A product page in buying order.',
-      body: 'The content was strong and the page was not. Now the page answers each doubt in the order it comes up: who it is for and who it isn’t, the benefits, the ingredients, the founder’s reasoning, how to use it, where it sits in a routine, then reviews and questions. A bar with the price and Add to bag follows you down.',
-      media: slot(B, 'work-05', 'The Dr David Jack Stellar product page on mobile: who it is for, who it isn’t, then the key benefits.', 'Product page'),
+      body: 'The content was strong and the page was not. Now the page answers each doubt in the order it comes up: who it is for and who it isn’t, the benefits, the ingredients, the founder’s reasoning, how to use it, where it sits in a routine, then reviews and questions. A bar with the price and Add to bag follows you down, with links to jump to any part of the page.',
+      media: slot(B, 'work-05', 'The Dr David Jack Stellar product page on mobile, using the links in its sticky Add to bag bar to jump to Key Benefits, The Routine and back.', 'Product page'),
     },
     {
       eyebrow: 'Free samples in the basket',
@@ -128,11 +131,11 @@ export const DATA: CaseStudyPageData = {
   // The one desktop 50/50, halfway: Dr Jack at work sticks while the desktop screens pass on the store's own
   // warm off-white. The treatments page joins by itself when split-desktop-4 is dropped in.
   splits: [desktopSplit(B, 'Dr David Jack', photoMedia(B, 'split-1-photo'), '#EDE6DC', 3, [
-    { name: 'split-desktop-4', alt: 'The Dr David Jack treatments page on desktop, with its treatment categories.', label: 'Treatments' },
+    { name: 'split-desktop-4', alt: 'The Dr David Jack treatments page on desktop, from the header down to its five treatment categories.', label: 'Treatments' },
   ], [
-    'The Dr David Jack homepage on desktop, from Where do you start? down to the bestsellers.',
-    'The Dr David Jack skincare collection on desktop, with the category row and filters.',
-    'The Dr David Jack Stellar product page on desktop.',
+    'The Dr David Jack homepage on desktop, from the hero down to the first product panel.',
+    'The Dr David Jack Shop All collection on desktop, from the header down to the first row of products.',
+    'The Dr David Jack Stellar product page on desktop, from the buy box down to Who it’s for.',
   ])],
   bands: [
     {
@@ -146,16 +149,6 @@ export const DATA: CaseStudyPageData = {
         pic('band-grid-4', 'A Dr David Jack Skin Cushion jar on a blue set'),
       ],
     },
-    {
-      // Into the clinic rows: the Belgravia shoot.
-      after: 6, layout: 'mosaic', label: 'Dr David Jack clinic photography',
-      photos: [
-        pic('band-mosaic-1', 'Dr David Jack with a patient in his clinic, seen in a mirror'),
-        pic('band-mosaic-2', 'A facial at a Dr David Jack clinic'),
-        pic('band-mosaic-3', 'A skin treatment in progress at a Dr David Jack clinic'),
-        pic('band-mosaic-4', 'Three Dr David Jack product boxes on a table in low light'),
-      ],
-    },
   ],
   feature: {
     eyebrow: 'Shopify design system',
@@ -163,7 +156,14 @@ export const DATA: CaseStudyPageData = {
     body: 'Everything sits in one design system in Figma: 76 variables, 11 text styles, 47 icons and 20 Shopify section types, each with mobile and desktop variants. An All Sections template shows every one in place. In the built theme, the team can copy sections into new landing pages without a new design project.',
     media: slot(B, 'feature', 'The Dr David Jack clinics page on mobile, built from the section library.', 'Clinics page'),
   },
-  // No testimonial yet. Jake Heath (eCommerce Director, eComplete) offered one on 12 November 2026.
+  // DUMMY (25 November 2026), so the section can be seen in place. These are not Jake's words. Swap in his
+  // quote, or delete the block, before the page is launched.
+  testimonial: {
+    eyebrow: 'Dr David Jack testimonial',
+    heading: 'In the client’s words.',
+    quote: 'Placeholder quote. Two or three lines from Jake go here: what the brief needed, what it was like to work together, and what the new store has done for Dr David Jack since launch.',
+    cite: 'Jake Heath, eCommerce Director, eComplete · 2026',
+  },
   more: { ...MORE_HEADING, cards: moreFor('Dr David Jack') },
   enquiry: 'A shop and a service in one store?',
 };
