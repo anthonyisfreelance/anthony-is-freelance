@@ -99,6 +99,16 @@ const RECORDS: Omit<CaseStudy, 'image' | 'screen' | 'screenVideo'>[] = [
     unlisted: true,
   },
   {
+    client: 'Dr David Jack', brand: 'dr-david-jack', meta: 'Beauty · 2026',
+    claim: 'One Shopify store for the skincare and the six clinics',
+    proof: 'Designed with eComplete: shop and clinic each get half the menu.',
+    href: p('dr-david-jack'),
+    services: ['bespoke-store-design', 'shopify-ux-design', 'shopify-cro'],
+    // Unlisted (25 November 2026): the page is live at its address for review links, with noindex, and is
+    // left off the work page, menus, More cards, innovations and sitemap. Delete this line to launch it.
+    unlisted: true,
+  },
+  {
     client: 'Whistlefish', brand: 'whistlefish', meta: 'Stationery & gifts · April 2025',
     claim: 'A Shopify 2.0 redesign their own team now builds on',
     proof: '"We\'ve since been able to carry that framework into our own design team." Will Manders',

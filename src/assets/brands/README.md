@@ -30,6 +30,7 @@ Until the still is there, the entry shows an empty phone with "Recording to come
 | fuzzball | subscription-only-cards (still only), trial-subscription-split (done), progress-bar-with-character (done) |
 | window-fleur | three-pages-one-screen (done) |
 | dovecote | shop-by-scent, every-scent-one-tap |
+| dr-david-jack | two-businesses-one-menu |
 
 ## Case study pages: drop in, no code
 

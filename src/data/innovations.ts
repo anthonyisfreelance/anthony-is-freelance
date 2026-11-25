@@ -151,6 +151,26 @@ const RECORDS: InnovationRecord[] = [
     alt: "Dovecote Northumberland's Shop by Fragrance on mobile, from the five fragrance families into Fresh & Citrus.",
     videoUploaded: '2026-11-24',
   },
+  {
+    // Added 25 November 2026 with the Dr David Jack case study (unlisted with it). Passes all four tests:
+    // no theme splits a menu between a shop and a clinic business, it's shaped by this client, the problem
+    // is named, and it's on the live store.
+    slug: 'two-businesses-one-menu',
+    name: 'Two businesses, one menu',
+    group: 'finding',
+    brand: 'dr-david-jack',
+    client: 'Dr David Jack',
+    year: '2026',
+    service: S.bespoke,
+    summary: 'Skincare and clinics each get half the header, with the other side always one tap away.',
+    problem:
+      'Dr David Jack sells skincare and runs six clinics from one store. In the old menu the two competed, and a visitor had no clear way in to either.',
+    howItWorks:
+      'Skincare and Clinics sit side by side at the top of every page. Tap a side and the menu opens on it, showing only what applies. The other side stays one tap away, and Book a treatment is pinned to the foot of both.',
+    caption: 'The Skincare and Clinics menu on Dr David Jack.',
+    alt: 'The Dr David Jack mobile menu switching between its Skincare and Clinics sides.',
+    // videoUploaded: add the date when the recording goes in.
+  },
   // ---- Choosing
   {
     // Added 21 November 2026, with shop-by-scent: the other half of the same restructure.

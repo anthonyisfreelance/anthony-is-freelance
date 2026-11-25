@@ -19,7 +19,7 @@ const half = Math.ceil(photos.length / 2);
 const rows = layout === 'drift' ? [photos.slice(0, half), photos.slice(half)] : [];
 ---
 {layout === 'grid' && (
-  <section class:list={['grid grid-cols-2 gap-2 lg:grid-cols-4 lg:gap-3', className]} aria-label={label}>
+  <section class:list={['grid grid-cols-2 gap-0.5 lg:grid-cols-4', className]} aria-label={label}>
     {photos.map((m) => (
       <Media media={m} fit="cover" sizes="(min-width: 1024px) 25vw, 50vw" class="aspect-[4/5] w-full" />
     ))}
