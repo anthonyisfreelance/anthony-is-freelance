@@ -9,6 +9,23 @@ import { invoiceTotals } from './invoice.js';
 // starts on the same line, and the buttons run Open, the next step (blue), other actions, then the
 // quiet text links.
 export const ADMIN_CSS = `
+/* Working overlay: a 7 by 7 grid of blue pixels ripples while an action runs, then snaps into a
+   tick (done) or a red cross (failed). Covers the page so the wait is unmistakable. */
+.busy { position: fixed; inset: 0; z-index: 100; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 32px; padding: 24px; background: rgba(255, 255, 255, 0.94); opacity: 0; transition: opacity 0.2s ease; }
+.busy.show { opacity: 1; }
+.busy-grid { display: grid; grid-template-columns: repeat(7, 14px); gap: 4px; }
+.busy-grid i { width: 14px; height: 14px; background: var(--blue); opacity: 0.1; transform: scale(0.55); animation: px 1.4s var(--d, 0ms) infinite ease-in-out; transition: opacity 0.25s ease, transform 0.25s ease, background 0.25s ease; }
+@keyframes px { 0%, 100% { opacity: 0.1; transform: scale(0.55); } 35% { opacity: 1; transform: scale(1); } 60% { opacity: 0.35; transform: scale(0.8); } }
+.busy.done .busy-grid i, .busy.fail .busy-grid i { animation: none; opacity: 0.06; transform: scale(0.55); transition-delay: var(--d2, 0ms); }
+.busy.done .busy-grid i.on, .busy.fail .busy-grid i.on { opacity: 1; transform: scale(1); }
+.busy.fail .busy-grid i { background: var(--red); }
+.busy-text { max-width: 420px; margin: 0; font: 500 20px/1.3 var(--display); letter-spacing: 0.02em; text-align: center; text-transform: uppercase; color: var(--ink); }
+.busy-sub { margin: -20px 0 0; font: 500 13px/1.4 var(--display); letter-spacing: 0.02em; color: var(--muted); }
+.busy.fail .busy-text { color: var(--red); }
+@media (prefers-reduced-motion: reduce) {
+  .busy-grid i { animation-duration: 2.4s; animation-delay: 0ms; }
+}
+
 .sheet { max-width: 1180px; }
 .sheet > * + * { margin-top: 40px; }
 .bar { max-width: 1180px; }
@@ -196,6 +213,36 @@ export const ADMIN_SCRIPT = `
     return fetch('/admin/' + path, { method: 'POST', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body || {}), credentials: 'same-origin' })
       .then(function (r) { return r.json().catch(function () { return { ok: false, error: 'Something went wrong.' }; }); });
   }
+  // The full-screen working overlay (see .busy in ADMIN_CSS). Built on first use.
+  var TICK = ['1,6', '2,5', '3,0', '3,4', '4,1', '4,3', '5,2'];
+  var CROSS = ['1,1', '2,2', '3,3', '4,4', '5,5', '1,5', '2,4', '4,2', '5,1'];
+  var busy = (function () {
+    var el, text, sub, cells = [], timer;
+    function build() {
+      el = document.createElement('div'); el.className = 'busy'; el.setAttribute('role', 'status'); el.setAttribute('aria-live', 'assertive');
+      var grid = document.createElement('div'); grid.className = 'busy-grid'; grid.setAttribute('aria-hidden', 'true');
+      for (var y = 0; y < 7; y++) for (var x = 0; x < 7; x++) {
+        var c = document.createElement('i'); c.setAttribute('data-xy', y + ',' + x);
+        c.style.setProperty('--d', ((x + y) * 70) + 'ms'); c.style.setProperty('--d2', ((x + y) * 25) + 'ms');
+        grid.appendChild(c); cells.push(c);
+      }
+      text = document.createElement('p'); text.className = 'busy-text';
+      sub = document.createElement('p'); sub.className = 'busy-sub';
+      el.appendChild(grid); el.appendChild(text); el.appendChild(sub); document.body.appendChild(el);
+    }
+    function shape(list) { cells.forEach(function (c) { c.classList.toggle('on', list.indexOf(c.getAttribute('data-xy')) > -1); }); }
+    return {
+      work: function (t) {
+        if (!el) build();
+        el.className = 'busy'; shape([]); text.textContent = t; sub.textContent = '';
+        clearTimeout(timer); timer = setTimeout(function () { sub.textContent = 'Still going. Emails and PDFs can take a little while.'; }, 6000);
+        el.offsetWidth; el.classList.add('show');
+      },
+      done: function (t) { clearTimeout(timer); el.className = 'busy show done'; shape(TICK); text.textContent = t; sub.textContent = ''; },
+      fail: function (t) { clearTimeout(timer); el.className = 'busy show fail'; shape(CROSS); text.textContent = t; sub.textContent = ''; },
+      hide: function () { clearTimeout(timer); if (el) el.classList.remove('show'); }
+    };
+  })();
   var send = document.getElementById('send-code');
   if (send) send.addEventListener('click', function () {
     send.disabled = true; say('Sending a code…');
@@ -214,9 +261,16 @@ export const ADMIN_SCRIPT = `
       if (confirmText && b.getAttribute('data-armed') !== '1') { b.setAttribute('data-armed', '1'); b.textContent = confirmText; setTimeout(function () { if (b.getAttribute('data-armed') !== '1') return; b.removeAttribute('data-armed'); b.textContent = b.getAttribute('data-label'); }, 6000); return; }
       b.removeAttribute('data-armed');
       var label = b.getAttribute('data-label') || b.textContent; b.disabled = true; b.textContent = 'Working…';
-      say(b.getAttribute('data-wait') || 'Working…');
+      var started = Date.now();
+      busy.work(b.getAttribute('data-wait') || 'Working…');
+      // Let the ripple run for at least a moment, so a quick answer still reads as work done.
+      function after(fn) { setTimeout(fn, Math.max(0, 700 - (Date.now() - started))); }
       post('action', { action: b.getAttribute('data-action'), token: b.getAttribute('data-token'), stage: b.getAttribute('data-stage'), value: b.getAttribute('data-value') })
-        .then(function (r) { if (!r.ok) { b.disabled = false; b.textContent = label; return say(r.error, true); } say(r.message || 'Done.'); setTimeout(function () { location.reload(); }, 900); });
+        .catch(function () { return { ok: false, error: 'Could not reach the server. Check your connection and try again.' }; })
+        .then(function (r) { after(function () {
+          if (!r.ok) { busy.fail(r.error || 'Something went wrong.'); setTimeout(function () { busy.hide(); b.disabled = false; b.textContent = label; say(r.error || 'Something went wrong.', true); }, 1800); return; }
+          busy.done(r.message || 'Done'); setTimeout(function () { location.reload(); }, 1100);
+        }); });
     });
   });
 })();
