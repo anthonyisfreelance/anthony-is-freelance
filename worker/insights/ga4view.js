@@ -65,26 +65,34 @@ const SMALL = 100;
 const HEADLINE_SMALL = 30;
 const ref = (x) => (x.compare?.kind === 'year' ? 'last year' : 'before');
 
-// A change in words, with whether it's good: { text, cls } or null without a comparison.
+// Arrows at 45 degrees for which way a number moved. The colour (cls) says whether that's good.
+const ARROWS = {
+  1: '<svg class="arr" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 9.5 9.5 2.5M4 2.5h5.5V8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"/></svg>',
+  '-1': '<svg class="arr" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 2.5 9.5 9.5M9.5 4v5.5H4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"/></svg>',
+};
+const arrow = (c) => (c && c.dir ? ARROWS[c.dir] : '');
+
+// A change in words, with which way it moved and whether that's good: { text, dir, cls }, or null
+// without a comparison.
 export function changeWords(now, before, x, { kind = 'count', lowerBetter = false } = {}) {
   if (!x.compare || before == null || now == null) return null;
   const r = ref(x);
   const good = (d) => (d === 0 ? '' : (d > 0) !== lowerBetter ? 'good' : 'bad');
   if (kind === 'rate') {
     const d = Math.round((now - before) * 100) / 100;
-    if (Math.abs(d) < 0.05) return { text: `Same as ${r} (${before.toFixed(1)}%)`, cls: '' };
-    return { text: `${d > 0 ? 'Up' : 'Down'} from ${before.toFixed(1)}%${r === 'last year' ? ' last year' : ''}`, cls: good(d) };
+    if (Math.abs(d) < 0.05) return { text: `Same as ${r} (${before.toFixed(1)}%)`, dir: 0, cls: '' };
+    return { text: `${d > 0 ? 'Up' : 'Down'} from ${before.toFixed(1)}%${r === 'last year' ? ' last year' : ''}`, dir: Math.sign(d), cls: good(d) };
   }
   const fmt = kind === 'money' ? (v) => money(v, x.currency) : num;
   const d = now - before;
   if (kind === 'count' && Math.max(now, before) < SMALL) {
-    if (d === 0) return { text: `Same as ${r} (${num(before)})`, cls: '' };
-    return { text: `${num(Math.abs(d))} ${d > 0 ? 'more' : 'fewer'} than the ${num(before)} ${r}`, cls: good(d) };
+    if (d === 0) return { text: `Same as ${r} (${num(before)})`, dir: 0, cls: '' };
+    return { text: `${num(Math.abs(d))} ${d > 0 ? 'more' : 'fewer'} than the ${num(before)} ${r}`, dir: Math.sign(d), cls: good(d) };
   }
-  if (!before) return { text: `None ${r}`, cls: good(d) };
+  if (!before) return { text: `None ${r}`, dir: Math.sign(d), cls: good(d) };
   const pc = Math.round((d / before) * 100);
-  if (pc === 0) return { text: `Same as ${r} (${fmt(before)})`, cls: '' };
-  return { text: `${pc > 0 ? 'Up' : 'Down'} ${Math.abs(pc)}% from ${fmt(before)}${r === 'last year' ? ' last year' : ''}`, cls: good(d) };
+  if (pc === 0) return { text: `Same as ${r} (${fmt(before)})`, dir: 0, cls: '' };
+  return { text: `${pc > 0 ? 'Up' : 'Down'} ${Math.abs(pc)}% from ${fmt(before)}${r === 'last year' ? ' last year' : ''}`, dir: Math.sign(d), cls: good(d) };
 }
 
 const fraction = (p) => {
@@ -161,7 +169,7 @@ function summary(x, { report = false, checkHref = '#check' } = {}) {
   const weeks = Math.max(1, (x.period.days || 7) / 7);
   const card = ({ label, value, chg, means, key, lead = false }) => `<div class="ga-card${lead ? ' lead' : ''}">
     <p class="lbl">${esc(label)}</p><p class="big${sizeCls(value)}">${value}</p>
-    ${chg ? `<p class="chg ${chg.cls}">${esc(chg.text)}</p>` : ''}
+    ${chg ? `<p class="chg ${chg.cls}">${arrow(chg)}${esc(chg.text)}</p>` : ''}
     ${key && unsafe.has(labels[key]) ? '<p class="care-tag">Use with care</p>' : ''}
     <p class="means">${esc(means)}</p></div>`;
   const rNow = rate(t.now.conv, t.now.sessions);
@@ -235,13 +243,13 @@ function foundBlock(x) {
     const name = (s.names || []).sort((a, b) => b.impressions - a.impressions)[0];
     const nameLine = name ? `<p>Searches for "${esc(name.name)}": you rank about ${ordinal(Math.max(1, Math.round(name.position)))} on average, with ${num(name.clicks)} click${name.clicks === 1 ? '' : 's'}.</p>` : '';
     google = `<div class="found-card"><p class="lbl">Google search, UK</p><p class="big">${num(uk.now.clicks)} <small>clicks</small></p>
-      <p>Shown ${num(uk.now.impressions)} times${shown ? ` <span class="chg ${shown.cls}">(${esc(shown.text.charAt(0).toLowerCase() + shown.text.slice(1))})</span>` : ''}. Average position ${uk.now.position.toFixed(1)}.</p>${nameLine}</div>`;
+      <p>Shown ${num(uk.now.impressions)} times${shown ? ` <span class="chg ${shown.cls}">${arrow(shown)}${esc(shown.text.charAt(0).toLowerCase() + shown.text.slice(1))}</span>` : ''}. Average position ${uk.now.position.toFixed(1)}.</p>${nameLine}</div>`;
   }
   const names = ai.list.filter((e) => e.now.sessions).map((e) => `${esc(e.name)} ${num(e.now.sessions)}`).join(', ');
   const convChg = changeWords(ai.now.conv, ai.before?.conv, x);
   const aiCard = `<div class="found-card"><p class="lbl">AI assistants</p><p class="big">${num(ai.now.sessions)} <small>visits</small></p>
     <p>${names ? `${names}.` : 'No visits from AI assistants yet.'}</p>
-    <p>${num(ai.now.conv)} ${ai.now.conv === 1 ? w.one : w.noun}${convChg ? ` <span class="chg ${convChg.cls}">(${esc(convChg.text.charAt(0).toLowerCase() + convChg.text.slice(1))})</span>` : ''}.</p></div>`;
+    <p>${num(ai.now.conv)} ${ai.now.conv === 1 ? w.one : w.noun}${convChg ? ` <span class="chg ${convChg.cls}">${arrow(convChg)}${esc(convChg.text.charAt(0).toLowerCase() + convChg.text.slice(1))}</span>` : ''}.</p></div>`;
   return `<section class="sec full"><h2>Being found</h2><div class="found">${google}${aiCard}</div></section>`;
 }
 
@@ -359,6 +367,9 @@ function auditForm(brand, token) {
   </form>`;
 }
 
+// Laid out like the AI visibility tab: one bar at the top saying which audit is shown, with its
+// buttons, then the numbers. The form for a new audit opens from the bar (closed until needed,
+// open when there are no audits yet), and every audit is listed at the bottom.
 export function ga4Tab({ brand, audits = [], audit = null, ready, email = '', sample = false, href = (id) => `?audit=${id}` }) {
   const token = sample ? 'SAMPLE' : esc(brand.slug);
   if (!brand.ga4_property) {
@@ -367,23 +378,32 @@ export function ga4Tab({ brand, audits = [], audit = null, ready, email = '', sa
   if (!ready) {
     return `<div class="placeholder"><p>The Google login isn't set up yet. Add the service account's JSON key to the worker in Cloudflare as the secret <b>GOOGLE_SA_KEY</b>, then reload this page.</p></div>`;
   }
-  const access = `<p class="note">Reads GA4 property <b>${esc(brand.ga4_property)}</b>${brand.uk_only ? ' (UK visitors only)' : ''}${brand.gsc_site ? ` and Search Console <b>${esc(brand.gsc_site)}</b>` : ''} as ${esc(email)}. That address needs Viewer access in GA4 and Restricted access in Search Console.</p>`;
+  const reads = `GA4 property ${esc(brand.ga4_property)}${brand.uk_only ? ' (UK visitors only)' : ''}${brand.gsc_site ? ` and Search Console ${esc(brand.gsc_site)}` : ''}`;
+  const open = !audit;
+  const bar = `<div class="run-bar">
+    <div class="grow">${audit ? `Showing the audit of ${esc(fmtDate(audit.data.period.start, 'long'))} to ${esc(fmtDate(audit.data.period.end, 'long'))}` : 'No audits yet'}<span>${audit ? `Run ${esc(fmtDateTime(audit.created_at))}. ` : ''}Reads ${reads}.</span></div>
+    ${audit ? `<button type="button" class="ghost small" data-action="report-ga4" data-token="${token}" data-value="${audit.id}" data-label="Make a report" data-wait="Making the report…">Make a report</button>` : ''}
+    <button type="button" class="ghost small primary" data-toggle="new-audit" data-open="Run an audit" data-close="Close" aria-controls="new-audit" aria-expanded="${open}">${open ? 'Close' : 'Run an audit'}</button>
+  </div>
+  <div class="new-audit" id="new-audit"${open ? '' : ' hidden'}>${auditForm(brand, token)}
+    <p class="note">Read as ${esc(email)}, which needs Viewer access in GA4 and Restricted access in Search Console.</p></div>`;
   const list = audits
     .map((a) => {
       const r = a.rating;
       return `<div class="adm-row${audit && audit.id === a.id ? ' here' : ''}">
       <div class="c-name"><a href="${esc(href(a.id))}"><b>${esc(fmtDate(a.start_date))} to ${esc(fmtDate(a.end_date))}</b></a><span>Run ${esc(fmtDateTime(a.created_at))}</span></div>
       <div class="c-meta">${a.compare_kind ? `Against ${a.compare_kind === 'year' ? 'last year' : 'the period before'}` : 'No comparison'}${a.gsc_error ? '. Search Console not read' : ''}</div>
-      <div class="c-act"><span class="lvl ${r === 'clean' ? '' : r === 'care' ? 'care' : 'bad'}">${esc(RATINGS[r] || '')}</span><button type="button" class="ghost small primary" data-action="report-ga4" data-token="${token}" data-value="${a.id}" data-label="Make a report" data-wait="Making the report…">Make a report</button></div>
+      <div class="c-act"><span class="lvl ${r === 'clean' ? '' : r === 'care' ? 'care' : 'bad'}">${esc(RATINGS[r] || '')}</span><a class="ghost small" href="${esc(href(a.id))}">View</a></div>
     </div>`;
     })
     .join('');
   const shown = audit
-    ? `${auditTop(audit.data)}<h2 class="detail-h">The detail</h2>${auditDetail(audit.data)}${methodSection(audit.data)}`
-    : '<p class="empty">No audits yet. Choose a period above and run the first one.</p>';
-  return `<section class="sec full"><h2>Run an audit</h2>${auditForm(brand, token)}${access}</section>
-  ${audits.length ? `<section class="sec full"><h2>Audits</h2><div class="adm brand-list"><div>${list}</div></div></section>` : ''}
-  ${shown}`;
+    ? `${auditTop(audit.data)}<h2 class="detail-h">The detail</h2>${auditDetail(audit.data)}`
+    : '<p class="empty">Choose a period and run the first audit.</p>';
+  return `${bar}
+  ${shown}
+  ${audits.length ? `<section class="sec full"><h2>All audits</h2><div class="adm brand-list"><div>${list}</div></div></section>` : ''}
+  ${audit ? methodSection(audit.data) : ''}`;
 }
 
 /* ---------- The GA4 report sheet ---------- */
@@ -445,6 +465,10 @@ export const GA4_CSS = `
 .ga-card .big.xlong { font-size: 36px; }
 .ga-card.lead .big { color: var(--blue); }
 .ga-card .chg { margin-top: 12px; font: 500 14px/1.35 var(--display); color: #cfcfcf; }
+.arr { display: inline-block; width: 0.8em; height: 0.8em; margin-right: 0.35em; vertical-align: -0.02em; }
+.found-card .chg { white-space: nowrap; font-family: var(--display); font-size: 0.93em; }
+.new-audit { margin-top: 0; padding: 24px 16px 8px; background: var(--box); border-top: 1px solid var(--line); }
+.new-audit .note { margin-top: 12px; }
 .ga-card .chg.good, .found-card .chg.good { color: #6fd08c; }
 .ga-card .chg.bad, .found-card .chg.bad { color: #ff7a7a; }
 .ga-card .care-tag { margin-top: 8px; padding-left: 8px; border-left: 3px solid #f2b632; font: 500 12px/1.3 var(--display); color: var(--on-desk); }

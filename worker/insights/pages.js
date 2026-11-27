@@ -74,6 +74,17 @@ export const INSIGHTS_SCRIPT = `
       });
     });
   });
+  document.querySelectorAll('[data-toggle]').forEach(function (b) {
+    var t = document.getElementById(b.getAttribute('data-toggle'));
+    if (!t) return;
+    b.addEventListener('click', function () {
+      var opening = t.hidden;
+      t.hidden = !opening;
+      b.setAttribute('aria-expanded', opening ? 'true' : 'false');
+      b.textContent = opening ? b.getAttribute('data-close') : b.getAttribute('data-open');
+      if (opening) { var f = t.querySelector('select, input'); if (f) f.focus(); }
+    });
+  });
   var p = document.getElementById('progress');
   if (p) {
     var run = p.getAttribute('data-run'), text = p.querySelector('[data-text]'), meter = p.querySelector('.meter > span'), busy = false;

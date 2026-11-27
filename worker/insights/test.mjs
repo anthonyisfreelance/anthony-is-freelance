@@ -413,7 +413,12 @@ await test('audit end to end with the fake Google: numbers, check, Search Consol
   assert.match(page, /\d+ [A-Z]{3} TO \d+ [A-Z]{3} 2026/);
   assert.match(page, /Where your orders came from/);
   assert.match(page, /Being found/);
-  assert.match(ga4Tab({ brand, audits: [], audit: { id: 1, data: x }, ready: true, email: 'e@x' }), /Run the audit/);
+  const tab = ga4Tab({ brand, audits: [], audit: { id: 1, data: x, created_at: '2026-11-27T10:00:00Z' }, ready: true, email: 'e@x' });
+  assert.match(tab, /Showing the audit of/);
+  assert.match(tab, /id="new-audit" hidden/);
+  assert.ok(tab.indexOf('Showing the audit of') < tab.indexOf('Data check: clean'));
+  assert.match(tab, /class="arr"/);
+  assert.doesNotMatch(ga4Tab({ brand, audits: [], audit: null, ready: true, email: 'e@x' }), /id="new-audit" hidden/);
   assert.match(ga4Tab({ brand: { ...brand, ga4_property: '' }, ready: true }), /property number/);
   assert.match(trafficSection(trafficOf({ id: 1, data: x })), /Visits from AI assistants/);
 });
@@ -422,8 +427,8 @@ await test('GA4 words: small changes as counts, big ones as percentages, headlin
   const { changeWords, headline, rangeCaps } = await import('./ga4view.js');
   const { sourceLabel } = await import('./audit.js');
   const x = { compare: { kind: 'previous' }, currency: 'GBP' };
-  assert.deepEqual(changeWords(17, 14, x), { text: '3 more than the 14 before', cls: 'good' });
-  assert.deepEqual(changeWords(66, 78, x), { text: '12 fewer than the 78 before', cls: 'bad' });
+  assert.deepEqual(changeWords(17, 14, x), { text: '3 more than the 14 before', dir: 1, cls: 'good' });
+  assert.deepEqual(changeWords(66, 78, x), { text: '12 fewer than the 78 before', dir: -1, cls: 'bad' });
   assert.equal(changeWords(2206, 3091, x).text, 'Down 29% from 3,091');
   assert.equal(changeWords(2206, 3091, { compare: { kind: 'year' } }).text, 'Down 29% from 3,091 last year');
   assert.equal(changeWords(3.0, 2.5, x, { kind: 'rate' }).text, 'Up from 2.5%');
