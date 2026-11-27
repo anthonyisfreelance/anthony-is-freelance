@@ -1,0 +1,223 @@
+---
+// Sector page template (27 November 2026): food and drink, beauty and fragrance, home and interiors.
+// Built from the service page parts, so it looks and reads like the rest of the site, in this order:
+// hero, the sector, what stores need, work, UX examples, clients, after launch, honest advice, FAQs,
+// more, start a project. A black sales page. Copy lives in src/data/sector-pages/.
+import { Image } from 'astro:assets';
+import Base from '../layouts/Base.astro';
+import Schema from './Schema.astro';
+import Header from './Header.astro';
+import Heading from './Heading.astro';
+import TextLink from './TextLink.astro';
+import TrustTiles from './TrustTiles.astro';
+import CaseStudyCard from './CaseStudyCard.astro';
+import ScreenTile from './ScreenTile.astro';
+import InlineLinks from './InlineLinks.astro';
+import Faqs from './home/Faqs.astro';
+import Contact from './home/Contact.astro';
+import { INNOVATIONS_LIST } from '../data/innovations';
+import { quoteLogoSize } from '../data/logo-size';
+import { SITE, ENTITY, URLS } from '../data/site';
+import type { SectorPage } from '../data/sector-pages/types';
+
+interface Props { page: SectorPage }
+const { page: p } = Astro.props;
+
+const url = new URL(p.meta.path, SITE).href;
+const serviceId = `${url}#service`;
+const service = {
+  '@type': 'Service',
+  '@id': serviceId,
+  name: p.meta.serviceName,
+  serviceType: p.meta.serviceType,
+  description: p.hero.intro.split('. ')[0] + '.',
+  audience: { '@type': 'BusinessAudience', name: p.meta.audience },
+  provider: { '@id': ENTITY.person.id },
+  areaServed: { '@type': 'Country', name: 'United Kingdom' },
+  url,
+};
+const breadcrumbs = [
+  { name: 'Home', path: URLS.home },
+  { name: p.meta.name, path: p.meta.path },
+];
+// The innovation records behind the tiles, matched by name. A tile with no still yet is left off.
+const innovations = (p.innovations?.items ?? [])
+  .map((it) => ({ it, rec: INNOVATIONS_LIST.find((r) => r.name === it.title) }))
+  .filter(({ rec }) => rec?.poster);
+const innovationMentions = innovations.length ? { mentions: innovations.map(({ rec }) => ({ '@id': `${SITE}/innovations/#${rec!.slug}` })) } : {};
+// Left heading, content right: the site's 50/50 section split.
+const split = 'grid gap-section-sm border-t border-line lg:grid-cols-2 lg:gap-gutter';
+---
+<Base title={p.meta.title} description={p.meta.description} noindex={p.meta.unlisted} ogImage={p.hero.image}>
+  <Schema slot="head" title={p.meta.title} description={p.meta.description} path={p.meta.path} breadcrumbs={breadcrumbs} faqs={p.faqs.items} extra={[service]} about={serviceId} mainEntity={serviceId} page={innovationMentions} />
+  <Header />
+  <main id="main">
+    <!-- Hero: the H1 is the sector claim on its own, no eyebrow. Same split as the service pages. -->
+    <section class="px-margin">
+      <div class="grid gap-large lg:grid-cols-2 lg:gap-gutter lg:border-t lg:border-line lg:pt-[40px]">
+        <div class="flex flex-col">
+          <Heading level={1} fit={10}>{p.hero.heading}</Heading>
+          <p class="t-body mt-loose text-muted lg:max-w-[676px]">{p.hero.intro}</p>
+          <p class="t-label mt-loose tracking-[0.02em] text-muted">
+            Written by Anthony Bliss, <a href={URLS.home} class="text-ink underline underline-offset-4 hover:decoration-2">freelance Shopify designer</a>
+          </p>
+          <div class="mt-large lg:mt-[38px]"><TextLink href={p.hero.cta.href}>{p.hero.cta.label}</TextLink></div>
+        </div>
+        <div class="max-lg:order-first max-lg:-mx-margin">
+          {p.hero.image && (
+            <div class="relative aspect-[4/3] overflow-hidden bg-line lg:aspect-auto lg:h-[450px]">
+              <Image src={p.hero.image} alt={p.hero.imageAlt ?? ''} widths={[400, 700, 1000, 1400]} width={Math.min(1400, p.hero.image.width)} sizes="(min-width: 1024px) 48vw, 100vw" quality={75} loading="eager" fetchpriority="high" class="absolute inset-0 size-full object-cover" style={p.hero.imagePosition ? `object-position: ${p.hero.imagePosition}` : undefined} />
+            </div>
+          )}
+        </div>
+      </div>
+    </section>
+
+    <section class="px-margin pt-large lg:pt-[40px]" aria-label="Why food and drink brands choose this">
+      <TrustTiles items={p.hero.trust} />
+    </section>
+
+    <!-- The sector -->
+    <section class="px-margin pt-section">
+      <div class={split}>
+        <div class="pt-section"><Heading eyebrow={p.sector.eyebrow}>{p.sector.heading}</Heading></div>
+        <div class="t-body flex flex-col gap-loose text-muted lg:pt-section">{p.sector.paragraphs.map((t) => <p>{t}</p>)}</div>
+      </div>
+    </section>
+
+    <!-- What the stores need: the service pages' boxed list, a hairline above every box but the first. -->
+    <section class="px-margin pt-section">
+      <div class={split}>
+        <div class="pt-section lg:sticky lg:top-0 lg:self-start">
+          <Heading eyebrow={p.needs.eyebrow}>{p.needs.heading}</Heading>
+          {p.needs.intro && <p class="t-body mt-loose text-muted">{p.needs.intro}</p>}
+        </div>
+        <ul class="flex flex-col lg:pt-section">
+          {p.needs.items.map((n, i) => (
+            <li class:list={['bg-raised px-4 py-4 lg:px-6 lg:py-6', i > 0 && 'border-t border-line']}>
+              <h3 class="t-label text-ink">{n.title}</h3>
+              <p class="t-body mt-2 text-muted">{n.body}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- Work: full cards, word for word from the work page record. -->
+    <section id="work" class="px-margin pt-section">
+      <div class="border-t border-line pt-section">
+        <div class="flex flex-col gap-loose lg:flex-row lg:items-end lg:justify-between lg:gap-gutter">
+          <div class="lg:w-half">
+            <Heading eyebrow={p.work.eyebrow}>{p.work.heading}</Heading>
+            {p.work.intro && <p class="t-body mt-loose text-muted"><InlineLinks text={p.work.intro} /></p>}
+          </div>
+          {p.work.link && <TextLink href={p.work.link.href}>{p.work.link.label}</TextLink>}
+        </div>
+        <ul class="cards-align mt-gutter grid grid-cols-2 gap-x-grid [--cards-gap:var(--spacing-large)] lg:grid-cols-2">
+          {p.work.cards.map((c) => (
+            <li class="max-sm:col-span-2"><CaseStudyCard {...c} ratio="portrait" sizes="(min-width: 640px) 48vw, calc(100vw - 32px)" /></li>
+          ))}
+        </ul>
+        {p.work.note && <p class="t-body mt-large text-muted lg:w-half">{p.work.note}</p>}
+      </div>
+    </section>
+
+    <!-- UX examples: the innovation tiles, each linking to its entry on /innovations/. -->
+    {p.innovations && innovations.length > 0 && (
+      <section id="innovations" class="px-margin pt-section">
+        <div class="border-t border-line pt-section">
+          <div class="flex flex-col gap-loose lg:flex-row lg:items-end lg:justify-between lg:gap-gutter">
+            <div class="lg:w-half">
+              <Heading eyebrow={p.innovations.eyebrow}>{p.innovations.heading}</Heading>
+              {p.innovations.intro && <p class="t-body mt-loose text-muted">{p.innovations.intro}</p>}
+            </div>
+            {p.innovations.link && <TextLink href={p.innovations.link.href}>{p.innovations.link.label}</TextLink>}
+          </div>
+          <ul class="mt-gutter grid gap-x-grid gap-y-section sm:grid-cols-3 sm:gap-y-gutter">
+            {innovations.map(({ it, rec }) => (
+              <li class="hover-card relative flex flex-col">
+                <ScreenTile screen={rec!.poster} video={rec!.video} alt={rec!.alt} anchor={rec!.anchor} sizes="(min-width: 640px) 16vw, 50vw" />
+                <div class="flex flex-col gap-3 pt-grid">
+                  <p class="t-badge text-muted" aria-hidden="true">{it.client}</p>
+                  <h3 class="t-h6 text-ink">
+                    <a href={`${URLS.innovations}#${rec!.slug}`} class="stretched-link link-hover"><span class="sr-only">{it.client}. </span>{it.title}</a>
+                  </h3>
+                  <p class="t-body text-muted">{it.body}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    )}
+
+    <!-- Clients: the testimonial section's look, with two quotes stacked on the right. -->
+    {p.quotes && (
+      <section class="px-margin pt-section">
+        <div class="flex flex-col gap-gutter border-t border-line pt-section lg:flex-row">
+          <div class="flex-1 lg:sticky lg:top-loose lg:self-start"><Heading eyebrow={p.quotes.eyebrow}>{p.quotes.heading}</Heading></div>
+          <div class="flex flex-col gap-section-sm lg:w-half lg:shrink-0">
+            {p.quotes.items.map((q, i) => {
+              const size = q.logo ? quoteLogoSize(`/logos/${q.logo}.svg`) : undefined;
+              return (
+                <figure class:list={['flex flex-col gap-grid-lg', i > 0 && 'border-t border-line pt-section-sm']}>
+                  <blockquote class="font-display text-[length:var(--type-h3)] font-medium leading-[1.3] text-ink">“{q.quote}”</blockquote>
+                  <figcaption class="t-label flex flex-col items-start gap-4 text-muted">
+                    {size && <img src={`/logos/${q.logo}.svg`} alt="" width={size.w} height={size.h} style={`width:${size.w}px;height:${size.h}px`} class="shrink-0" loading="lazy" />}
+                    {q.href ? <a href={q.href} class="link-hover">{q.cite}</a> : <span>{q.cite}</span>}
+                  </figcaption>
+                </figure>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- After launch -->
+    <section class="px-margin pt-section">
+      <div class={split}>
+        <div class="pt-section"><Heading eyebrow={p.after.eyebrow}>{p.after.heading}</Heading></div>
+        <div class="flex flex-col gap-loose lg:pt-section">
+          <div class="t-body flex flex-col gap-loose text-muted">{p.after.paragraphs.map((t) => <p>{t}</p>)}</div>
+          {p.after.link && <div><TextLink href={p.after.link.href}>{p.after.link.label}</TextLink></div>}
+        </div>
+      </div>
+    </section>
+
+    <!-- Honest advice: the service pages' routing block. -->
+    <section class="px-margin pt-section">
+      <div class={split}>
+        <div class="pt-section lg:sticky lg:top-0 lg:self-start">
+          <Heading eyebrow={p.routing.eyebrow}>{p.routing.heading}</Heading>
+          {p.routing.intro && <p class="t-body mt-loose text-muted">{p.routing.intro}</p>}
+        </div>
+        <ul class="flex flex-col gap-section-sm lg:gap-large lg:pt-section">
+          {p.routing.routes.map((r, i) => (
+            <li class:list={['flex flex-col gap-6', i > 0 && 'border-t border-line pt-section-sm lg:pt-large']}>
+              <h3 class="t-h6 text-ink">{r.situation}</h3>
+              <p class="t-body text-muted">{r.body}</p>
+              {r.links.length > 0 && (
+                <p class="flex flex-wrap gap-x-grid gap-y-2">{r.links.map((l) => <TextLink href={l.href}>{l.label}</TextLink>)}</p>
+              )}
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <div id="questions"><Faqs data={p.faqs} /></div>
+
+    {p.more && (
+      <section class="px-margin pb-section">
+        <div class="border-t border-line pt-section flex flex-col gap-loose lg:flex-row lg:items-end lg:justify-between lg:gap-gutter">
+          <div class="lg:w-half"><Heading eyebrow={p.more.eyebrow}>{p.more.heading}</Heading></div>
+          <p class="flex flex-wrap gap-x-grid gap-y-3">{p.more.links.map((l) => <TextLink href={l.href}>{l.label}</TextLink>)}</p>
+        </div>
+      </section>
+    )}
+
+    <Contact eyebrow={p.cta.eyebrow} heading={p.cta.heading} />
+
+  </main>
+</Base>
