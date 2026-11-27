@@ -1,13 +1,20 @@
 {
   // Static site served from Cloudflare Workers static assets.
   // The worker only runs for /api/* (the form and the test-site comment tool) and the 410s; every other
-  // request goes straight to the files in ./dist.
+  // request goes straight to the files in ./dist. The cron below runs the insights queue.
   "name": "anthony-is-freelance",
   "compatibility_date": "2026-10-18",
   "main": "./worker/index.js",
   // nodejs_compat and the browser binding are for the client documents' PDFs (worker/docs/pdf.js).
   "compatibility_flags": ["nodejs_compat"],
   "browser": { "binding": "BROWSER" },
+  // The insights database (worker/insights/db.js). The worker creates its own tables on first use.
+  "d1_databases": [
+    { "binding": "INSIGHTS_DB", "database_name": "insights", "database_id": "820dbc54-39e8-46e8-802e-d2032d9fdaf1" }
+  ],
+  // Every 5 minutes: the insights run queue and each brand's weekly run (worker/insights/runner.js).
+  // With nothing queued it stops after one query.
+  "triggers": { "crons": ["*/5 * * * *"] },
   // Per-IP rate limits for docs.anthonyis.uk (worker/docs/security.js) and the contact form. Period is 10 or 60 seconds.
   "ratelimits": [
     { "name": "DOCS_RL_READ", "namespace_id": "26111301", "simple": { "limit": 60, "period": 60 } },
@@ -24,7 +31,13 @@
     // Sender for document codes and notices (worker/docs/mail.js).
     "DOCS_FROM": "Anthony is Freelance <documents@mail.anthonyis.uk>",
     // The client documents' own subdomain (a custom domain on this worker).
-    "DOCS_HOST": "docs.anthonyis.uk"
+    "DOCS_HOST": "docs.anthonyis.uk",
+    // The insights subdomain (a custom domain on this worker), and its engine settings
+    // (worker/insights/README.md, Settings). Model names checked against OpenAI's docs on 27 Nov 2026.
+    "INSIGHTS_HOST": "insights.anthonyis.uk",
+    "INSIGHTS_ENGINE_MODEL": "chat-latest",
+    "INSIGHTS_SCORER_MODEL": "gpt-6-luna",
+    "INSIGHTS_BATCH": "4"
   },
   "assets": {
     "directory": "./dist",
@@ -37,6 +50,8 @@
       "/",
       "/quote/*",
       "/invoice/*",
+      // Insights reports on insights.anthonyis.uk (worker/insights/; phase 2). "/" and "/admin/*" serve it too.
+      "/report/*",
       "/admin",
       "/admin/*",
       // Old WordPress images, 301 to their new copies (oldImage in worker/index.js)

@@ -20,7 +20,7 @@ const INK = '#111111';
 const MUTED = '#393939';
 const LINE = '#D8D8D8';
 const BOX = '#F6F6F6';
-const DISPLAY = "'Mint Grotesk Display', 'Arial Narrow', Arial, Helvetica, sans-serif";
+export const DISPLAY = "'Mint Grotesk Display', 'Arial Narrow', Arial, Helvetica, sans-serif";
 const SERIF = "'Source Serif Pro', Georgia, 'Times New Roman', serif";
 
 export const PERSON = {
@@ -37,13 +37,15 @@ const firstName = (n) => String(n || '').trim().split(/\s+/)[0] || 'there';
 
 /* ---------- Building blocks ---------- */
 
+// layout, p, note, facts, codeBlock and DISPLAY are also used by the insights emails (worker/insights/emails.js).
+
 const mint = (size, colour, extra = '') => `font-family:${DISPLAY};font-size:${size}px;font-weight:500;color:${colour};${extra}`;
 // The arrows as text, never emoji (the trailing selector asks for the text form).
 const ARROW_UP = '&#8599;&#xFE0E;';
 const ARROW_RIGHT = '&rarr;';
 
-const p = (html) => `<p style="margin:0 0 24px;font-family:${SERIF};font-size:16px;line-height:1.5;color:${INK}">${html}</p>`;
-const note = (html) => `<p style="margin:0 0 24px;font-family:${SERIF};font-size:16px;line-height:1.5;color:${MUTED}">${html}</p>`;
+export const p = (html) => `<p style="margin:0 0 24px;font-family:${SERIF};font-size:16px;line-height:1.5;color:${INK}">${html}</p>`;
+export const note = (html) => `<p style="margin:0 0 24px;font-family:${SERIF};font-size:16px;line-height:1.5;color:${MUTED}">${html}</p>`;
 const label = (text) => `<p style="margin:0 0 8px;${mint(14, MUTED, 'line-height:1.3')}">${esc(text)}</p>`;
 
 // The bulletproof button: table cells with the colour, so it shows even with images off. Full
@@ -57,7 +59,7 @@ function button(href, text) {
 }
 
 // Key facts: label on the left, value beside it, a hairline above each row.
-function facts(rows) {
+export function facts(rows) {
   const tr = rows
     .filter(Boolean)
     .map(
@@ -85,7 +87,7 @@ function numbered(heading, items) {
 const numberedText = (heading, items) => `${heading}:\n${items.map(([t, d], i) => `${i + 1}. ${t}. ${d}`).join('\n')}`;
 
 // A one-time code, big and easy to read.
-const codeBlock = (code) => `<p class="code" style="margin:0 0 24px;${mint(80, BLUE, 'line-height:1')}">${esc(code)}</p>`;
+export const codeBlock = (code) => `<p class="code" style="margin:0 0 24px;${mint(80, BLUE, 'line-height:1')}">${esc(code)}</p>`;
 
 // The logo in dark mode. Gmail's apps turn the white page dark but leave pictures alone, so a dark
 // logo on a white picture shows as a white box. In the emails (adaptive), Gmail gets a second copy
@@ -136,7 +138,7 @@ function signOff(greeting = 'Thanks,') {
 
 const legal = `<p style="margin:0;padding:16px 0 0;border-top:1px solid ${LINE};font-family:${SERIF};font-size:14px;line-height:1.5;color:${MUTED}">${esc(COMPANY.name)} · Company number ${esc(COMPANY.number)} · VAT number ${esc(COMPANY.vat)}<br>Registered office: ${esc(COMPANY.office)}</p>`;
 
-function layout({ preheader, title, head, body, footer = true }) {
+export function layout({ preheader, title, head, body, footer = true }) {
   return `<!doctype html>
 <html lang="en-GB">
 <head>

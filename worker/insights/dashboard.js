@@ -1,0 +1,497 @@
+// The AI visibility tab: the numbers from a run, the trend across runs, and every answer.
+//
+// summarise() turns a run's answer rows into the numbers; the render functions only draw them, so
+// the samples page can feed in a canned run and get exactly the same page. Charts are plain inline
+// SVG drawn here: no chart library and no scripts.
+//
+// Everything that came from an AI answer (text, names, quotes, titles, links) is escaped, and only
+// http and https links are ever made clickable.
+
+import { esc, fmtDate, fmtDateTime } from '../docs/shared.js';
+import { parse } from './db.js';
+import { nameKey, namePattern, domainOf, isOwnDomain } from './text.js';
+
+const pct = (n, d) => (d ? Math.round((n / d) * 100) : 0);
+const pctText = (n, d) => (d ? `${pct(n, d)}%` : '–');
+const pos = (p) => (p == null || Number.isNaN(p) ? '–' : (Math.round(p * 10) / 10).toFixed(1));
+const plural = (n, one, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
+const num = (n) => Number(n || 0).toLocaleString('en-GB');
+
+export const LIMITS = [
+  'API answers are close to, but not the same as, what someone sees in the ChatGPT app.',
+  'Answers vary from run to run. Read the trend, not a single answer.',
+];
+
+// Only http(s) links, never passed on as a referrer or followed by search engines.
+export function safeLink(url, label, cls = '') {
+  let ok = false;
+  try {
+    const u = new URL(url);
+    ok = u.protocol === 'https:' || u.protocol === 'http:';
+  } catch {}
+  if (!ok) return esc(label || url);
+  return `<a${cls ? ` class="${cls}"` : ''} href="${esc(url)}" target="_blank" rel="noopener noreferrer nofollow">${esc(label || url)}</a>`;
+}
+
+/* ---------- Numbers ---------- */
+
+export function groupKeys(brand, rows = []) {
+  return [...new Set([...Object.keys(brand.groups || {}), ...rows.map((r) => r.grp)])].sort();
+}
+
+// rows: one per answer in the run, with its score fields (or nulls).
+export function summarise(rows, brand) {
+  const all = rows.map((r) => ({
+    ...r,
+    citations: typeof r.citations === 'string' ? parse(r.citations, []) : r.citations || [],
+    recommended: typeof r.recommended === 'string' ? parse(r.recommended, []) : r.recommended || [],
+    above: typeof r.above === 'string' ? parse(r.above, []) : r.above || [],
+    flags: typeof r.flags === 'string' ? parse(r.flags, []) : r.flags || [],
+  }));
+  const count = (st) => all.filter((r) => r.status === st).length;
+  const scored = all.filter((r) => r.status === 'done' && r.s_status);
+  const named = scored.filter((r) => r.brand_named);
+  const positioned = named.filter((r) => r.brand_position != null);
+  const avg = (list) => (list.length ? list.reduce((t, r) => t + r.brand_position, 0) / list.length : null);
+
+  const groups = groupKeys(brand, all).map((g) => {
+    const s = scored.filter((r) => r.grp === g);
+    const n = s.filter((r) => r.brand_named);
+    return {
+      key: g,
+      label: brand.groups?.[g] || `Group ${g}`,
+      answers: s.length,
+      named: n.length,
+      position: avg(n.filter((r) => r.brand_position != null)),
+      ownCited: s.filter((r) => r.domain_cited).length,
+    };
+  });
+  const A = groups.find((g) => g.key === 'A');
+  const B = groups.find((g) => g.key === 'B');
+  const gap = A && B && A.answers && B.answers ? pct(B.named, B.answers) - pct(A.named, A.answers) : null;
+
+  // Who is recommended instead, counted once per answer, with how often they sit above the brand.
+  const rivals = new Map();
+  for (const r of scored) {
+    const seen = new Set();
+    r.recommended.forEach((x, i) => {
+      if (x.is_brand) return;
+      const k = nameKey(x.name);
+      if (!k || seen.has(k)) return;
+      seen.add(k);
+      const e = rivals.get(k) || { name: x.name, answers: 0, above: 0, positions: [] };
+      e.answers++;
+      e.positions.push(i + 1);
+      if (r.above.some((a) => nameKey(a) === k)) e.above++;
+      rivals.set(k, e);
+    });
+  }
+  const instead = [...rivals.values()].sort((a, b) => b.answers - a.answers || a.name.localeCompare(b.name)).slice(0, 15);
+
+  const pages = new Map();
+  const domains = new Map();
+  for (const r of scored) {
+    const seenD = new Set();
+    for (const c of r.citations) {
+      const p = pages.get(c.url) || { url: c.url, title: c.title, answers: 0, own: isOwnDomain(domainOf(c.url), brand.match_domains) };
+      p.answers++;
+      pages.set(c.url, p);
+      const dn = domainOf(c.url);
+      if (dn && !seenD.has(dn)) {
+        seenD.add(dn);
+        domains.set(dn, (domains.get(dn) || 0) + 1);
+      }
+    }
+  }
+  const topPages = [...pages.values()].sort((a, b) => b.answers - a.answers || a.url.localeCompare(b.url)).slice(0, 15);
+  const topDomains = [...domains.entries()].map(([domain, answers]) => ({ domain, answers, own: isOwnDomain(domain, brand.match_domains) }))
+    .sort((a, b) => b.answers - a.answers || a.domain.localeCompare(b.domain)).slice(0, 10);
+
+  const flags = (brand.flags || []).map((f) => {
+    const hits = scored.filter((r) => r.flags.some((x) => x.key === f.key));
+    return { ...f, answers: hits.length, example: hits[0]?.flags.find((x) => x.key === f.key)?.evidence || '', exampleId: hits[0]?.id };
+  });
+
+  const prompts = [];
+  for (const r of all) {
+    let p = prompts.find((x) => x.prompt_id === r.prompt_id);
+    if (!p) prompts.push((p = { prompt_id: r.prompt_id, text: r.prompt_text, grp: r.grp, answers: [] }));
+    p.answers.push(r);
+  }
+  for (const p of prompts) p.answers.sort((a, b) => a.attempt - b.attempt);
+
+  return {
+    total: all.length,
+    done: count('done'),
+    failed: count('failed'),
+    cancelled: count('cancelled'),
+    waiting: count('pending') + count('working'),
+    scored: scored.length,
+    partial: scored.filter((r) => r.s_status === 'partial').length,
+    named: named.length,
+    position: avg(positioned),
+    ownCited: scored.filter((r) => r.domain_cited).length,
+    groups,
+    A,
+    B,
+    gap,
+    instead,
+    topPages,
+    topDomains,
+    flags,
+    prompts,
+    tokens: {
+      input: all.reduce((t, r) => t + (r.input_tokens || 0), 0),
+      output: all.reduce((t, r) => t + (r.output_tokens || 0), 0),
+      searches: all.reduce((t, r) => t + (r.searches || 0), 0),
+    },
+  };
+}
+
+/* ---------- Drawing ---------- */
+
+const bar = (n, d, cls = '') => `<span class="meter${cls ? ` ${cls}` : ''}" aria-hidden="true"><span style="width:${pct(n, d)}%"></span></span>`;
+
+export function headline(m) {
+  return `<dl class="totals tiles">
+    <div class="t-blue"><dt>Mention rate</dt><dd>${pctText(m.named, m.scored)}</dd><p>Named in ${m.named} of ${plural(m.scored, 'answer')}</p></div>
+    <div><dt>Average position when named</dt><dd>${pos(m.position)}</dd><p>1 is the first business recommended</p></div>
+    <div><dt>Own site cited</dt><dd>${pctText(m.ownCited, m.scored)}</dd><p>Answers linking to the brand's own pages</p></div>
+    <div${m.failed ? ' class="t-red"' : ''}><dt>Answers</dt><dd>${m.done} of ${m.total}</dd><p>${[
+      m.failed ? `${m.failed} failed` : '',
+      m.cancelled ? `${m.cancelled} stopped` : '',
+      m.waiting ? `${m.waiting} still to ask` : '',
+      m.partial ? `${m.partial} scored by rule only` : '',
+    ].filter(Boolean).join(', ') || 'All asked and scored'}</p></div>
+  </dl>`;
+}
+
+export function gapBlock(m) {
+  if (!m.A || !m.B) return '';
+  const a = pct(m.A.named, m.A.answers);
+  const b = pct(m.B.named, m.B.answers);
+  const words = m.gap == null ? 'Not enough answers yet.'
+    : m.gap === 0 ? 'Named as often either way.'
+    : m.gap > 0 ? `Named ${m.gap} points more often in group B than in group A.`
+    : `Named ${-m.gap} points more often in group A than in group B.`;
+  return `<section class="sec full gap">
+    <h2>${eyebrow2('The main number to move')}Group A against group B</h2>
+    <div class="gap-row">
+      <div><p class="k">A. ${esc(m.A.label)}</p><p class="v">${pctText(m.A.named, m.A.answers)}</p>${bar(m.A.named, m.A.answers)}</div>
+      <div><p class="k">B. ${esc(m.B.label)}</p><p class="v">${pctText(m.B.named, m.B.answers)}</p>${bar(m.B.named, m.B.answers)}</div>
+      <div><p class="k">Gap</p><p class="v blue">${m.gap == null ? '–' : `${b - a > 0 ? '+' : ''}${b - a} pts`}</p><p class="small">${words}</p></div>
+    </div>
+  </section>`;
+}
+
+const eyebrow2 = (t) => `<span class="eyebrow">${esc(t)}<span class="sr">. </span></span>`;
+
+export function groupTable(m, link) {
+  const rows = m.groups
+    .map((g) => `<tr><td><a href="${esc(link({ group: g.key }))}">${esc(g.key)}. ${esc(g.label)}</a></td><td class="r">${g.answers}</td><td class="r">${pctText(g.named, g.answers)}</td><td class="w-meter">${bar(g.named, g.answers)}</td><td class="r">${pos(g.position)}</td><td class="r">${pctText(g.ownCited, g.answers)}</td></tr>`)
+    .join('');
+  return `<section class="sec full"><h2>By group</h2><div class="table-wrap"><table>
+    <thead><tr><th>Group</th><th class="r">Answers</th><th class="r">Named</th><th class="w-meter"><span class="sr">Bar</span></th><th class="r">Avg position</th><th class="r">Own site cited</th></tr></thead>
+    <tbody>${rows || '<tr><td colspan="6" class="muted">No answers yet.</td></tr>'}</tbody></table></div></section>`;
+}
+
+export function insteadTable(m) {
+  const rows = m.instead
+    .map((r, i) => `<tr><td><span class="n">${i + 1}</span>${esc(r.name)}</td><td class="r">${r.answers}</td><td class="r">${pctText(r.answers, m.scored)}</td><td class="r">${pos(r.positions.reduce((t, p) => t + p, 0) / r.positions.length)}</td><td class="r">${r.above}</td></tr>`)
+    .join('');
+  return `<section class="sec full"><h2>Who is named instead</h2>
+    <p class="sec-note">Businesses and people recommended in these answers, other than the brand. Counted once per answer.</p>
+    <div class="table-wrap"><table>
+    <thead><tr><th>Name</th><th class="r">Answers</th><th class="r">Share</th><th class="r">Avg position</th><th class="r">Above the brand</th></tr></thead>
+    <tbody>${rows || '<tr><td colspan="5" class="muted">Nobody yet.</td></tr>'}</tbody></table></div></section>`;
+}
+
+export function citedTables(m) {
+  const pages = m.topPages
+    .map((p, i) => `<tr><td><span class="n">${i + 1}</span>${safeLink(p.url, p.title || p.url)}<span class="url">${esc(shortUrl(p.url))}</span></td><td>${p.own ? '<span class="pill own">Own site</span>' : ''}</td><td class="r">${p.answers}</td></tr>`)
+    .join('');
+  const domains = m.topDomains
+    .map((d) => `<tr><td>${esc(d.domain)}</td><td>${d.own ? '<span class="pill own">Own site</span>' : ''}</td><td class="r">${d.answers}</td><td class="r">${pctText(d.answers, m.scored)}</td></tr>`)
+    .join('');
+  return `<section class="sec full"><h2>Most cited pages</h2>
+    <p class="sec-note">The pages answers link to as sources, by how many answers cite them. Third-party lists here are the ones that matter.</p>
+    <div class="table-wrap"><table class="cited">
+    <thead><tr><th>Page</th><th></th><th class="r">Answers</th></tr></thead>
+    <tbody>${pages || '<tr><td colspan="3" class="muted">No links cited yet.</td></tr>'}</tbody></table></div>
+    <h3 class="sub-h">Most cited sites</h3>
+    <div class="table-wrap"><table>
+    <thead><tr><th>Site</th><th></th><th class="r">Answers</th><th class="r">Share</th></tr></thead>
+    <tbody>${domains || '<tr><td colspan="4" class="muted">None yet.</td></tr>'}</tbody></table></div></section>`;
+}
+
+export function flagTable(m, answerHref) {
+  if (!m.flags.length) return `<section class="sec full"><h2>Framing flags</h2><p class="muted">No flags set for this brand. Add them in Settings.</p></section>`;
+  const rows = m.flags
+    .map((f) => `<tr><td>${esc(f.label)}${f.description ? `<span class="url">${esc(f.description)}</span>` : ''}</td><td class="r">${f.answers}</td><td class="r">${pctText(f.answers, m.scored)}</td><td class="quote">${f.example ? `“${esc(f.example)}” <a href="${esc(answerHref(f.exampleId))}">Read</a>` : ''}</td></tr>`)
+    .join('');
+  return `<section class="sec full"><h2>Framing flags</h2><div class="table-wrap"><table>
+    <thead><tr><th>Flag</th><th class="r">Answers</th><th class="r">Share</th><th>Example</th></tr></thead>
+    <tbody>${rows}</tbody></table></div></section>`;
+}
+
+function shortUrl(url) {
+  try {
+    const u = new URL(url);
+    return `${u.hostname.replace(/^www\./, '')}${u.pathname === '/' ? '' : u.pathname}`.slice(0, 90);
+  } catch {
+    return String(url).slice(0, 90);
+  }
+}
+
+// The trend: mention rate per run, overall and for groups A and B, with the launch date marked.
+export function trendChart(trend, brand) {
+  // A run still being asked is left off the line until it finishes (it is in the table below).
+  const points = [...trend].filter((t) => t.n && t.status !== 'running').sort((a, b) => a.started_at.localeCompare(b.started_at));
+  if (points.length < 2) {
+    return `<p class="muted">The trend line starts after the second run.</p>`;
+  }
+  const W = 1052, H = 260, L = 44, R = 16, T = 16, Bm = 36;
+  const t0 = Date.parse(points[0].started_at);
+  const t1 = Date.parse(points[points.length - 1].started_at);
+  const launch = brand.launch_date ? Date.parse(`${brand.launch_date}T12:00:00Z`) : null;
+  const lo = Math.min(t0, launch && launch < t0 ? launch : t0);
+  const hi = Math.max(t1, launch && launch > t1 ? launch : t1);
+  const x = (t) => L + ((t - lo) / Math.max(1, hi - lo)) * (W - L - R);
+  const y = (v) => T + (1 - v / 100) * (H - T - Bm);
+  const series = [
+    { key: 'all', label: 'All answers', cls: 's-all', v: (p) => pct(p.named, p.n) },
+    { key: 'A', label: 'Group A', cls: 's-a', v: (p) => (p.na ? pct(p.nameda, p.na) : null) },
+    { key: 'B', label: 'Group B', cls: 's-b', v: (p) => (p.nb ? pct(p.namedb, p.nb) : null) },
+  ];
+  const grid = [0, 25, 50, 75, 100].map((v) => `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" class="g"/><text x="${L - 8}" y="${y(v) + 4}" text-anchor="end">${v}%</text>`).join('');
+  const lines = series
+    .map((s) => {
+      const pts = points.map((p) => [x(Date.parse(p.started_at)), s.v(p)]).filter(([, v]) => v != null);
+      if (!pts.length) return '';
+      const d = pts.map(([px, v], i) => `${i ? 'L' : 'M'}${px.toFixed(1)},${y(v).toFixed(1)}`).join(' ');
+      return `<path d="${d}" class="${s.cls}"/>${pts.map(([px, v]) => `<circle cx="${px.toFixed(1)}" cy="${y(v).toFixed(1)}" r="3.5" class="${s.cls}"/>`).join('')}`;
+    })
+    .join('');
+  const step = Math.ceil(points.length / 8);
+  const labels = points
+    .map((p, i) => [p, i])
+    .filter(([, i]) => i % step === 0 || i === points.length - 1)
+    .map(([p, i]) => `<text x="${x(Date.parse(p.started_at)).toFixed(1)}" y="${H - 12}" text-anchor="${i === 0 ? 'start' : i === points.length - 1 ? 'end' : 'middle'}">${esc(fmtDate(p.started_at))}</text>`)
+    .join('');
+  const mark = launch ? `<line x1="${x(launch)}" x2="${x(launch)}" y1="${T}" y2="${H - Bm}" class="launch"/><text x="${x(launch) + 6}" y="${T + 12}" class="launch-t">Launch ${esc(fmtDate(brand.launch_date))}</text>` : '';
+  const summary = points.map((p) => `${fmtDate(p.started_at)}: ${pct(p.named, p.n)}%`).join(', ');
+  return `<figure class="chart">
+    <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Mention rate by run. ${esc(summary)}">${grid}${mark}${lines}${labels}</svg>
+    <figcaption class="legend">${series.map((s) => `<span class="${s.cls}">${esc(s.label)}</span>`).join('')}</figcaption>
+  </figure>`;
+}
+
+export function runList(trend, current, link) {
+  const rows = trend
+    .map((r) => `<tr${r.id === current ? ' class="here"' : ''}><td><a href="${esc(link({ run: r.id }))}">${esc(fmtDateTime(r.started_at))}</a></td><td>${esc(r.kind === 'weekly' ? 'Weekly' : r.kind === 'manual' ? 'Run now' : r.kind)}</td><td>${r.status === 'running' ? '<span class="pill sent">Running</span>' : ''}</td><td class="r">${r.n}</td><td class="r">${pctText(r.named, r.n)}</td><td class="r">${r.na ? pctText(r.nameda, r.na) : '–'}</td><td class="r">${r.nb ? pctText(r.namedb, r.nb) : '–'}</td><td class="r">${pos(r.pos)}</td></tr>`)
+    .join('');
+  return `<div class="table-wrap"><table class="runs">
+    <thead><tr><th>Run</th><th>Kind</th><th></th><th class="r">Scored</th><th class="r">Named</th><th class="r">A</th><th class="r">B</th><th class="r">Avg position</th></tr></thead>
+    <tbody>${rows}</tbody></table></div>`;
+}
+
+// Every answer in the run, one row per prompt with its attempts, filtered by group or prompt.
+export function answersList(m, { group, prompt, link, answerHref }) {
+  const list = m.prompts.filter((p) => (!group || p.grp === group) && (!prompt || p.prompt_id === prompt));
+  const filters = `<nav class="views filters" aria-label="Filter answers">
+    <a href="${esc(link({ group: null, prompt: null }))}"${!group && !prompt ? ' aria-current="page"' : ''}>All</a>
+    ${m.groups.map((g) => `<a href="${esc(link({ group: g.key, prompt: null }))}"${group === g.key ? ' aria-current="page"' : ''}>${esc(g.key)}</a>`).join('')}
+  </nav>`;
+  const cell = (a) => {
+    if (a.status !== 'done') return `<span class="pill${a.status === 'failed' ? ' overdue' : ''}" title="${esc(a.error || '')}">${esc(a.status === 'working' ? 'asking' : a.status)}</span>`;
+    const label = a.brand_named ? (a.brand_position ? `#${a.brand_position}` : 'Named') : 'Not named';
+    const flags = (a.flags || []).length;
+    return `<a class="ans${a.brand_named ? ' yes' : ''}" href="${esc(answerHref(a.id))}">${esc(label)}${flags ? ` <b title="${flags} framing flag${flags === 1 ? '' : 's'}">${flags}⚑</b>` : ''}</a>`;
+  };
+  const rows = list
+    .map((p) => {
+      const named = p.answers.filter((a) => a.status === 'done' && a.brand_named).length;
+      const done = p.answers.filter((a) => a.status === 'done').length;
+      return `<tr><td class="g-key">${esc(p.grp)}</td><td><a href="${esc(link({ prompt: p.prompt_id, group: null }))}">${esc(p.text)}</a></td><td class="r">${done ? `${named} of ${done}` : '–'}</td><td class="atts">${p.answers.map(cell).join('')}</td></tr>`;
+    })
+    .join('');
+  const excerpts = prompt
+    ? list.flatMap((p) => p.answers).filter((a) => a.status === 'done' && a.text)
+      .map((a) => `<li><a href="${esc(answerHref(a.id))}">Attempt ${a.attempt}</a><p>${esc(String(a.text).replace(/\s+/g, ' ').slice(0, 320))}…</p></li>`).join('')
+    : '';
+  return `<section class="sec full" id="answers"><h2>Every answer</h2>
+    <p class="sec-note">Each prompt with its attempts. #2 means the brand was the second business recommended. Open any one to read it in full.</p>
+    ${filters}
+    <div class="table-wrap"><table class="answers">
+    <thead><tr><th></th><th>Prompt</th><th class="r">Named</th><th>Attempts</th></tr></thead>
+    <tbody>${rows || '<tr><td colspan="4" class="muted">No answers match.</td></tr>'}</tbody></table></div>
+    ${excerpts ? `<ul class="excerpts">${excerpts}</ul>` : ''}
+  </section>`;
+}
+
+export function methodNote(run, m, model) {
+  return `<section class="fine method"><h2>Method</h2><div class="cols">
+    <p>Run started ${esc(fmtDateTime(run.started_at))}${run.completed_at ? `, finished ${esc(fmtDateTime(run.completed_at))}` : ''}. Engine: ChatGPT through the OpenAI API with web search on, location United Kingdom${model ? `, model ${esc(model)}` : ''}. Each prompt asked ${plural(run.attempts, 'time')}, ${plural(m.total, 'answer')} in all, ${m.done} answered${m.failed ? `, ${m.failed} failed` : ''}.</p>
+    <p>${LIMITS.map(esc).join(' ')}</p>
+    <p>Usage this run: ${num(m.tokens.searches)} web searches, ${num(m.tokens.input)} input and ${num(m.tokens.output)} output tokens for the answers (scoring is extra, on a cheaper model).</p>
+  </div></section>`;
+}
+
+/* ---------- The tab ---------- */
+
+// The whole tab, from loaded data. Used by the brand page and by the samples.
+export function visibilityContent({ brand, trend, run, rows = [], group = null, prompt = null, link, answerHref, progress = null, promptCount = 0, sample = false }) {
+  if (!run) return runBar({ brand, run: null, promptCount, sample }) + `<p class="empty">No runs yet. ${promptCount ? 'Press Run now for a first baseline.' : 'Add the prompt list in Settings first.'}</p>`;
+  const m = summarise(rows, brand);
+  const model = rows.find((r) => r.model)?.model;
+  return [
+    runBar({ brand, run, promptCount, progress, sample }),
+    headline(m),
+    gapBlock(m),
+    `<section class="sec full"><h2>Trend</h2>${trendChart(trend, brand)}<h3 class="sub-h">Runs</h3>${runList(trend, run.id, link)}</section>`,
+    groupTable(m, link),
+    insteadTable(m),
+    citedTables(m),
+    flagTable(m, answerHref),
+    answersList(m, { group, prompt, link, answerHref }),
+    methodNote(run, m, model),
+  ].join('\n');
+}
+
+export function progressOf(p) {
+  if (!p) return null;
+  const total = Number(p.total) || 0;
+  const finished = (p.done || 0) + (p.failed || 0) + (p.cancelled || 0);
+  const label = p.status === 'complete'
+    ? `Finished: ${p.done} answered${p.failed ? `, ${p.failed} failed` : ''}.`
+    : p.waiting
+      ? `${finished} of ${total} answers done${p.failed ? ` (${p.failed} failed)` : ''}. Keep this page open to speed it up, or come back later: the rest run every 5 minutes.`
+      : `All answered. Scoring ${p.scoring} again…`;
+  return { status: p.status, total, finished, waiting: p.waiting || 0, label, percent: total ? Math.round((finished / total) * 100) : 0 };
+}
+
+function runBar({ brand, run, promptCount, progress, sample = false }) {
+  const g = progressOf(progress);
+  const running = run && run.status === 'running';
+  const buttons = running
+    ? `<button type="button" class="ghost small" data-action="run-stop" data-token="${sample ? 'SAMPLE' : run.id}" data-label="Stop run" data-confirm="Stop this run?">Stop run</button>`
+    : `<button type="button" class="ghost small primary" data-action="run-now" data-token="${sample ? 'SAMPLE' : esc(brand.slug)}" data-label="Run now" data-confirm="${esc(`Ask ${promptCount * (Number(brand.asks_per_week) || 3)} questions now?`)}" data-wait="Starting the run and asking the first questions…"${promptCount ? '' : ' disabled'}>Run now</button>
+       ${run ? `<button type="button" class="ghost small" data-action="rescore" data-token="${sample ? 'SAMPLE' : run.id}" data-label="Re-score this run" data-confirm="Score every answer again?" data-wait="Queuing the answers for scoring…">Re-score this run</button>` : ''}`;
+  const status = running && g
+    ? `<div class="grow" ${sample ? '' : 'id="progress" '}data-run="${run.id}"><p data-text>${esc(g.label)}</p><span class="meter"><span style="width:${g.percent}%"></span></span></div>`
+    : `<div class="grow">${run ? `Showing the run of ${esc(fmtDateTime(run.started_at))}` : 'No runs yet'}<span>${promptCount} prompts, each asked ${Number(brand.asks_per_week) || 3} times. Weekly run ${brand.active ? 'on' : 'off'}.</span></div>`;
+  return `<div class="run-bar">${status}${buttons}</div>`;
+}
+
+
+/* ---------- One answer in full ---------- */
+
+// The answer as written, escaped, with the brand's names marked. Line breaks are kept, and the
+// little Markdown ChatGPT uses is tidied after escaping: **bold** and headings become bold, and
+// [label](link) shows its label (every cited link is listed under the answer).
+export function answerText(text, brand) {
+  const safe = esc(text)
+    .replace(/\*\*([^*\n]+)\*\*/g, '<b>$1</b>')
+    .replace(/^#{1,6} +(.+)$/gm, '<b>$1</b>')
+    .replace(/\[([^\]\n]+)\]\((?:https?:)[^)\s]*\)/g, '$1');
+  const re = namePattern([brand.name, ...(brand.match_names || [])].map(esc));
+  return re ? safe.replace(re, (m) => `<mark>${m}</mark>`) : safe;
+}
+
+export function answerBody(a, brand, { back }) {
+  const citations = typeof a.citations === 'string' ? parse(a.citations, []) : a.citations || [];
+  const recommended = typeof a.recommended === 'string' ? parse(a.recommended, []) : a.recommended || [];
+  const flags = typeof a.flags === 'string' ? parse(a.flags, []) : a.flags || [];
+  const labels = new Map((brand.flags || []).map((f) => [f.key, f.label]));
+  const facts = [
+    ['Group', `${a.grp}. ${brand.groups?.[a.grp] || ''}`],
+    ['Attempt', String(a.attempt)],
+    ['Asked', a.asked_at ? fmtDateTime(a.asked_at) : '–'],
+    ['Model', a.model || '–'],
+    ['Web searches', String(a.searches || 0)],
+    ['Tokens', `${num(a.input_tokens)} in, ${num(a.output_tokens)} out`],
+  ];
+  const scoreRows = a.s_status
+    ? [
+      ['Brand named', a.brand_named ? 'Yes' : 'No'],
+      ['Position', a.brand_position ? `#${a.brand_position} of ${recommended.length}` : a.brand_named ? 'Named, not in the list of recommendations' : '–'],
+      ['Named above it', (typeof a.above === 'string' ? parse(a.above, []) : a.above || []).join(', ') || '–'],
+      ['Own site cited', a.domain_cited ? 'Yes' : 'No'],
+      ['Scored', `${a.s_status === 'partial' ? 'By rule only (the model step failed' + (a.s_error ? `: ${a.s_error}` : '') + ')' : 'By rule and model'}, scorer version ${a.s_version || '–'}`],
+    ]
+    : [['Scored', 'Not yet']];
+  return `
+  <h2 class="answer-q">${eyebrow2('Answer')}${esc(a.prompt_text)}</h2>
+  <dl class="facts">${facts.map(([k, v]) => `<div><dt>${esc(k)}</dt><dd>${esc(v)}</dd></div>`).join('')}</dl>
+  ${a.status !== 'done' ? `<p class="status error">${esc(a.status === 'failed' ? `Failed: ${a.error || 'no reason given'}` : `Status: ${a.status}`)}</p>` : ''}
+  <section class="sec"><h2>Scoring</h2><div>
+    <table class="kv"><tbody>${scoreRows.map(([k, v]) => `<tr><th>${esc(k)}</th><td>${esc(v)}</td></tr>`).join('')}</tbody></table>
+    ${flags.length ? `<h3 class="sub-h">Framing flags</h3><ul class="boxes">${flags.map((f) => `<li class="box"><div><h3>${esc(labels.get(f.key) || f.key)}</h3><p>“${esc(f.evidence)}”</p></div></li>`).join('')}</ul>` : ''}
+    ${recommended.length ? `<h3 class="sub-h">Recommended, in order</h3><ol class="recs">${recommended.map((r) => `<li${r.is_brand ? ' class="brand"' : ''}>${esc(r.name)}</li>`).join('')}</ol>` : ''}
+  </div></section>
+  ${a.text ? `<section class="sec full"><h2>The answer in full</h2><div class="answer-text">${answerText(a.text, brand)}</div></section>` : ''}
+  <section class="sec full"><h2>Cited links</h2>${citations.length ? `<ol class="links">${citations.map((c) => `<li>${safeLink(c.url, c.title || c.url)}<span class="url">${esc(shortUrl(c.url))}</span></li>`).join('')}</ol>` : '<p class="muted">No links cited.</p>'}</section>
+  <p><a class="ghost" href="${esc(back)}">Back to the run</a></p>`;
+}
+
+export const DASH_STYLES = `
+.meter { display: block; width: 100%; height: 6px; background: var(--line); }
+.meter > span { display: block; height: 100%; background: var(--blue); }
+td.w-meter, th.w-meter { width: 22%; }
+td.w-meter .meter { margin-top: 6px; }
+.gap-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; }
+.gap-row > div { padding: 24px; background: var(--box); display: flex; flex-direction: column; gap: 8px; }
+.gap-row .k { font: 500 14px/1.3 var(--display); color: var(--muted); }
+.gap-row .v { font: 500 38px/1 var(--display); }
+.gap-row .v.blue { color: var(--blue); }
+.gap-row .small { font: 500 13px/1.4 var(--display); color: var(--muted); }
+.url { display: block; margin-top: 2px; font-size: 12px; color: var(--muted); overflow-wrap: anywhere; }
+table.cited a, .links a { color: var(--ink); }
+.pill.own { border-color: var(--blue); color: var(--blue); }
+td.quote { font: 400 13px/1.5 var(--serif); }
+td.quote a { font: 500 12px/1 var(--display); }
+.chart { margin: 0; }
+.chart svg { display: block; width: 100%; height: auto; font: 500 12px var(--display); fill: var(--muted); }
+.chart .g { stroke: var(--line); stroke-width: 1; }
+.chart path { fill: none; stroke-width: 2; }
+.chart circle { stroke: none; }
+.chart .s-all { stroke: var(--blue); fill: var(--blue); }
+.chart path.s-all { fill: none; }
+.chart .s-a { stroke: var(--ink); fill: var(--ink); }
+.chart path.s-a { fill: none; }
+.chart .s-b { stroke: #8a8a8a; fill: #8a8a8a; }
+.chart path.s-b { fill: none; stroke-dasharray: 5 4; }
+.chart .launch { stroke: var(--red); stroke-width: 1; stroke-dasharray: 3 3; }
+.chart .launch-t { fill: var(--red); }
+.legend { display: flex; gap: 24px; margin-top: 8px; font: 500 13px/1 var(--display); }
+.legend span::before { content: ""; display: inline-block; width: 18px; height: 2px; margin: 0 8px 4px 0; vertical-align: middle; background: currentColor; }
+.legend .s-all { color: var(--blue); }
+.legend .s-a { color: var(--ink); }
+.legend .s-b { color: #8a8a8a; }
+table.runs tr.here td { background: var(--box); }
+.filters { margin-bottom: 16px; }
+table.answers td.g-key { width: 24px; color: var(--muted); }
+td.atts { white-space: nowrap; }
+.ans, td.atts .pill { display: inline-block; margin: 0 6px 4px 0; padding: 4px 8px; border: 1px solid var(--line); font: 500 12px/1 var(--display); text-decoration: none; color: var(--muted); }
+.ans.yes { border-color: var(--blue); color: var(--blue); }
+.ans b { font-weight: 500; color: var(--red); }
+.excerpts { list-style: none; margin: 24px 0 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.excerpts li { padding: 12px; background: var(--box); }
+.excerpts a { font: 500 14px/1.3 var(--display); }
+.excerpts p { margin-top: 4px; }
+.answer-q { font-size: 28px; line-height: 1.15; text-transform: uppercase; }
+.answer-text b { font-family: var(--display); font-weight: 500; }
+.answer-text { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 15px; }
+mark { background: #fce233; color: inherit; padding: 0 2px; }
+.recs { margin: 0; padding-left: 24px; font: 500 14px/1.6 var(--display); }
+.recs li.brand { color: var(--blue); }
+.links { margin: 0; padding-left: 24px; display: flex; flex-direction: column; gap: 8px; font: 500 14px/1.3 var(--display); }
+.method .cols p + p { margin-top: 1em; }
+@media (max-width: 900px) {
+  .gap-row { grid-template-columns: 1fr; }
+  .gap-row > div { padding: 16px; }
+  .gap-row .v { font-size: 28px; }
+  td.w-meter, th.w-meter { display: none; }
+  td.atts { white-space: normal; }
+}
+`;
