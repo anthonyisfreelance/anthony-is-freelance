@@ -260,10 +260,10 @@ if (BASE) {
   const slug = `test-${Date.now().toString(36)}`;
   testNo = (Date.now() / 1000) % 200 | 0; // fresh addresses on each run
 
-  await test('the site root redirects to anthonyis.uk', async () => {
+  await test('the site root opens the admin', async () => {
     const r = await get('/');
     assert.equal(r.status, 302);
-    assert.equal(r.headers.get('location'), 'https://anthonyis.uk/');
+    assert.equal(r.headers.get('location'), `${ORIGIN}/admin/`);
   });
 
   await test('logged out: the login page, with strict headers', async () => {
@@ -386,6 +386,18 @@ if (BASE) {
     assert.ok(!page.includes('utm_source'));
     answerId = Number(page.match(/\/answers\/(\d+)\//)?.[1]);
     assert.ok(answerId);
+  });
+
+  await test('summary: big numbers, where you win, where to focus, and the phone screenshot', async () => {
+    const page = await get(`/admin/brands/${slug}/`).then((x) => x.text());
+    for (const t of ['of ChatGPT answers name you', 'Where you win', 'Where to focus', 'The detail']) assert.ok(page.includes(t), `missing "${t}"`);
+    assert.match(page, /screenshot/i);
+    const r = await act('screen-take', slug);
+    assert.equal(r.ok, true, r.error);
+    const img = await get(`/admin/brands/${slug}/screen/`);
+    assert.equal(img.status, 200);
+    assert.match(img.headers.get('content-type'), /^image\//);
+    assert.match(await get(`/admin/brands/${slug}/`).then((x) => x.text()), /class="phone-screen"><img src="\/admin\/brands\//);
   });
 
   await test('dashboard: filter by group and by prompt', async () => {

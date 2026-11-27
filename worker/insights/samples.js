@@ -14,6 +14,7 @@ import { ruleScore, placeBrand, fakeModelScore, SCORER_VERSION } from './score.j
 import { visibilityContent, answerBody } from './dashboard.js';
 import { brandsPage, brandSettings, brandShell, placeholderTab, scheduleTab, insightsShell } from './pages.js';
 import { insightsCodeEmail, insightsLoginNotice } from './emails.js';
+import { placeholderSvg } from './screen.js';
 
 const P = '/admin/samples/';
 const FEEDBACK = '<script>window.__aifFeedbackLogin = true;</script><script src="/feedback.js" defer></script>';
@@ -171,7 +172,8 @@ export async function samples(request, env, url, parts) {
     const chosen = runs.find((r) => r.run.id === pick) || latest;
     const prompt = Number(url.searchParams.get('prompt')) || null;
     const group = (url.searchParams.get('group') || '').slice(0, 1) || null;
-    return html(shellOf('', visibilityContent({ brand, trend, run: chosen.run, rows: chosen.rows, group, prompt, link: sampleLink('ai-visibility'), answerHref, promptCount, sample: true })));
+    const screen = { src: `data:image/svg+xml;base64,${btoa(placeholderSvg(brand.name))}`, url: 'https://saltwatersupply.example/', taken_at: '2026-11-02T06:05:00Z', action: '<button type="button" data-action="screen-take" data-token="SAMPLE" data-label="Take a new screenshot">Take a new screenshot</button>' };
+    return html(shellOf('', visibilityContent({ brand, trend, run: chosen.run, rows: chosen.rows, group, prompt, link: sampleLink('ai-visibility'), answerHref, promptCount, sample: true, screen })));
   }
   if (slug === 'ai-running') {
     const run = { ...latest.run, id: 99, status: 'running', started_at: new Date(Date.now() - 4 * 60 * 1000).toISOString(), completed_at: null };

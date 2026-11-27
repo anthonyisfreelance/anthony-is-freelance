@@ -93,8 +93,9 @@ export function summarise(rows, brand) {
   for (const r of scored) {
     const seenD = new Set();
     for (const c of r.citations) {
-      const p = pages.get(c.url) || { url: c.url, title: c.title, answers: 0, own: isOwnDomain(domainOf(c.url), brand.match_domains) };
+      const p = pages.get(c.url) || { url: c.url, title: c.title, answers: 0, missed: 0, own: isOwnDomain(domainOf(c.url), brand.match_domains) };
       p.answers++;
+      if (!r.brand_named) p.missed++;
       pages.set(c.url, p);
       const dn = domainOf(c.url);
       if (dn && !seenD.has(dn)) {
@@ -103,6 +104,8 @@ export function summarise(rows, brand) {
       }
     }
   }
+  // Third-party pages behind answers that left the brand out: the lists worth getting onto.
+  const missedPages = [...pages.values()].filter((p) => !p.own && p.missed).sort((a, b) => b.missed - a.missed || a.url.localeCompare(b.url)).slice(0, 3);
   const topPages = [...pages.values()].sort((a, b) => b.answers - a.answers || a.url.localeCompare(b.url)).slice(0, 15);
   const topDomains = [...domains.entries()].map(([domain, answers]) => ({ domain, answers, own: isOwnDomain(domain, brand.match_domains) }))
     .sort((a, b) => b.answers - a.answers || a.domain.localeCompare(b.domain)).slice(0, 10);
@@ -135,8 +138,10 @@ export function summarise(rows, brand) {
     A,
     B,
     gap,
+    median: median(positioned.map((r) => r.brand_position)),
     instead,
     topPages,
+    missedPages,
     topDomains,
     flags,
     prompts,
@@ -148,7 +153,72 @@ export function summarise(rows, brand) {
   };
 }
 
+function median(list) {
+  if (!list.length) return null;
+  const s = [...list].sort((a, b) => a - b);
+  return s[Math.floor((s.length - 1) / 2)];
+}
+
 /* ---------- Drawing ---------- */
+
+// The short version, at the top: four big numbers, then where the brand wins and where to focus,
+// worked out by rule from this run (no AI writing). `prev` is the run before, for the changes.
+export function summaryBlock(m, prev, screen = null) {
+  if (!m.scored) return '';
+  const rate = pct(m.named, m.scored);
+  const a = m.A?.answers ? pct(m.A.named, m.A.answers) : null;
+  const b = m.B?.answers ? pct(m.B.named, m.B.answers) : null;
+  const change = (now, before) => {
+    if (before == null || now == null) return '';
+    const d = now - before;
+    return `<span class="chg ${d > 0 ? 'up' : d < 0 ? 'down' : ''}">${d > 0 ? '+' : ''}${d} pts since the last run</span>`;
+  };
+  const prevRate = prev?.n ? pct(prev.named, prev.n) : null;
+  const prevA = prev?.na ? pct(prev.nameda, prev.na) : null;
+  const rival = m.instead[0];
+
+  const done = (p) => p.answers.filter((x) => x.status === 'done');
+  const always = m.prompts.filter((p) => done(p).length && done(p).every((x) => x.brand_named));
+  const never = m.prompts.filter((p) => done(p).length && !done(p).some((x) => x.brand_named));
+  const quote = (list, n = 3) => list.slice(0, n).map((p) => `“${esc(p.text)}”`).join(', ') + (list.length > n ? ` and ${list.length - n} more` : '');
+
+  const wins = [];
+  if (always.length) wins.push([`Named every time on ${plural(always.length, 'prompt')}`, `Including ${quote(always)}.`]);
+  if (m.median === 1) wins.push(['First when you are named', `When ChatGPT names you, you are usually the first business it recommends.`]);
+  else if (m.median) wins.push([`Usually #${m.median} when named`, `Your typical place in the list when ChatGPT names you.`]);
+  if (m.ownCited) wins.push([`Your own site is cited in ${pctText(m.ownCited, m.scored)} of answers`, 'ChatGPT reads and links to your pages, so what they say is what it repeats.']);
+
+  const focus = [];
+  if (a != null && b != null && b - a >= 15) {
+    focus.push([`Close the gap on general questions`, `You are named in ${a}% of answers when buyers don't say freelance or independent, against ${b}% when they do. That gap is where the agencies win.`]);
+  }
+  if (never.length) focus.push([`Never named on ${plural(never.length, 'prompt')}`, `${quote(never, 4)}.`]);
+  if (m.missedPages.length) {
+    focus.push(['Pages behind the answers that leave you out', m.missedPages.map((p) => `${safeLink(p.url, shortUrl(p.url))} (${p.missed})`).join(', ') + '. ChatGPT cites these when it names others.']);
+  }
+  const loud = m.flags.filter((f) => f.answers && f.answers / m.scored >= 0.05).sort((x, y) => y.answers - x.answers)[0];
+  if (loud) focus.push([`${loud.label} in ${pctText(loud.answers, m.scored)} of answers`, `${loud.example ? `For example “${esc(loud.example)}”. ` : ''}Read those answers to see what drives it.`]);
+
+  const list = (items) => `<ol class="boxes">${items.slice(0, 4).map(([t, x], i) => `<li class="box"><span class="n">${String(i + 1).padStart(2, '0')}</span><div><h3>${esc(t)}</h3><p>${x}</p></div></li>`).join('')}</ol>`;
+  const phone = screen
+    ? `<figure class="phone"><div class="phone-screen">${screen.src ? `<img src="${esc(screen.src)}" alt="${esc(`The homepage of ${screen.url} on a phone`)}" width="390" height="844">` : ''}</div>
+        <figcaption>${screen.src ? `${esc(shortUrl(screen.url))}${screen.taken_at ? ` · ${esc(fmtDate(screen.taken_at))}` : ''}` : 'No screenshot yet'}${screen.action || ''}</figcaption></figure>`
+    : '';
+  return `<section class="summary${phone ? ' with-phone' : ''}" aria-label="Summary">
+    ${phone}
+    <div class="sum-nums">
+      <div><p class="big blue">${rate}%</p><p class="lbl">of ChatGPT answers name you</p>${change(rate, prevRate)}</div>
+      <div><p class="big">${a == null ? '–' : `${a}%`}</p><p class="lbl">when buyers just ask for the best</p>${change(a, prevA)}</div>
+      <div><p class="big">${b == null ? '–' : `${b}%`}</p><p class="lbl">when they ask for freelance or independent</p></div>
+      <div><p class="big">${rival ? pctText(rival.answers, m.scored) : '–'}</p><p class="lbl">${rival ? `${esc(rival.name)}, named more than anyone else` : 'Nobody else named yet'}</p></div>
+    </div>
+    <div class="sum-cols">
+      <div><h2>Where you win</h2>${wins.length ? list(wins) : '<p class="muted">Nothing yet.</p>'}</div>
+      <div><h2>Where to focus</h2>${focus.length ? list(focus) : '<p class="muted">Nothing stands out in this run.</p>'}</div>
+    </div>
+    <p class="sum-note">Worked out from this run's ${plural(m.scored, 'answer')}. ${esc(LIMITS[1])}</p>
+  </section>`;
+}
 
 const bar = (n, d, cls = '') => `<span class="meter${cls ? ` ${cls}` : ''}" aria-hidden="true"><span style="width:${pct(n, d)}%"></span></span>`;
 
@@ -340,12 +410,16 @@ export function methodNote(run, m, model) {
 /* ---------- The tab ---------- */
 
 // The whole tab, from loaded data. Used by the brand page and by the samples.
-export function visibilityContent({ brand, trend, run, rows = [], group = null, prompt = null, link, answerHref, progress = null, promptCount = 0, sample = false }) {
+export function visibilityContent({ brand, trend, run, rows = [], group = null, prompt = null, link, answerHref, progress = null, promptCount = 0, sample = false, screen = null }) {
   if (!run) return runBar({ brand, run: null, promptCount, sample }) + `<p class="empty">No runs yet. ${promptCount ? 'Press Run now for a first baseline.' : 'Add the prompt list in Settings first.'}</p>`;
   const m = summarise(rows, brand);
   const model = rows.find((r) => r.model)?.model;
+  const at = trend.findIndex((r) => r.id === run.id);
+  const prev = trend.slice(at + 1).find((r) => r.status === 'complete' && r.n);
   return [
     runBar({ brand, run, promptCount, progress, sample }),
+    summaryBlock(m, prev, screen),
+    `<h2 class="detail-h">The detail</h2>`,
     headline(m),
     gapBlock(m),
     `<section class="sec full"><h2>Trend</h2>${trendChart(trend, brand)}<h3 class="sub-h">Runs</h3>${runList(trend, run.id, link)}</section>`,
@@ -435,6 +509,44 @@ export function answerBody(a, brand, { back }) {
 }
 
 export const DASH_STYLES = `
+.summary { padding: 40px; background: var(--desk); color: var(--on-desk); }
+.summary h2 { margin-bottom: 16px; font-size: 16px; line-height: 1; text-transform: uppercase; }
+.summary.with-phone { display: grid; grid-template-columns: 220px minmax(0, 1fr); grid-template-areas: "phone nums" "phone cols" "phone note"; column-gap: 40px; align-items: start; }
+.summary.with-phone .phone { grid-area: phone; }
+.summary.with-phone .sum-nums { grid-area: nums; grid-template-columns: 1fr 1fr; }
+.summary.with-phone .sum-cols { grid-area: cols; }
+.summary.with-phone .sum-note { grid-area: note; }
+.phone { margin: 0; position: sticky; top: 24px; }
+.phone-screen { overflow: hidden; aspect-ratio: 390 / 844; border: 6px solid #2b2b2b; border-radius: 30px; background: #222; }
+.phone-screen img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.phone figcaption { margin-top: 12px; font: 500 12px/1.4 var(--display); letter-spacing: 0.02em; color: #9a9a9a; text-align: center; overflow-wrap: anywhere; }
+.phone figcaption button { display: block; margin: 8px auto 0; padding: 6px 10px; border: 1px solid #393939; background: none; color: #cfcfcf; font: 500 11px/1 var(--display); cursor: pointer; }
+.phone figcaption button:hover { border-color: #cfcfcf; }
+.sum-nums { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; padding-bottom: 40px; border-bottom: 1px solid #393939; }
+.sum-nums .big { font: 500 88px/0.95 var(--display); letter-spacing: -0.01em; }
+.sum-nums .big.blue { color: #4d8bff; }
+.sum-nums .lbl { margin-top: 12px; font: 500 15px/1.3 var(--display); color: #cfcfcf; }
+.sum-nums .chg { display: inline-block; margin-top: 8px; font: 500 12px/1 var(--display); letter-spacing: 0.02em; color: #9a9a9a; }
+.sum-nums .chg.up { color: #6fd08c; }
+.sum-nums .chg.down { color: #ff7a7a; }
+.sum-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; padding-top: 32px; }
+.summary .box { background: #1d1d1d; }
+.summary .box .n { color: #4d8bff; }
+.summary .box h3 { color: var(--on-desk); }
+.summary .box p { color: #cfcfcf; }
+.summary .box a { color: var(--on-desk); }
+.summary .muted { color: #9a9a9a; }
+.sum-note { margin-top: 24px; font: 500 12px/1.4 var(--display); letter-spacing: 0.02em; color: #9a9a9a; }
+.detail-h { padding-top: 16px; font-size: 22px; line-height: 1.3; text-transform: uppercase; }
+@media (max-width: 900px) {
+  .summary { margin-inline: -16px; padding: 24px 16px; }
+  .summary.with-phone { display: block; }
+  .phone { position: static; width: 160px; margin: 0 auto 24px; }
+  .sum-nums { grid-template-columns: 1fr 1fr; gap: 24px 16px; padding-bottom: 24px; }
+  .sum-nums .big { font-size: 52px; }
+  .sum-nums .lbl { font-size: 13px; }
+  .sum-cols { grid-template-columns: 1fr; gap: 24px; padding-top: 24px; }
+}
 .meter { display: block; width: 100%; height: 6px; background: var(--line); }
 .meter > span { display: block; height: 100%; background: var(--blue); }
 td.w-meter, th.w-meter { width: 22%; }

@@ -1,7 +1,7 @@
 // Insights on insights.anthonyis.uk: how AI engines talk about a brand (phase 1), and later GA4
 // audits, before-and-after reports and scheduled dates. How it fits together: worker/insights/README.md.
 //
-//   /                                    redirects to anthonyis.uk
+//   /                                    redirects to /admin/
 //   /admin/                              login, then the brands list
 //   /admin/brands/new/                   add a brand
 //   /admin/brands/<slug>/                the brand page: AI visibility tab (?run=, ?group=, ?prompt=)
@@ -10,6 +10,7 @@
 //   /admin/brands/<slug>/schedule/       Schedule tab
 //   /admin/brands/<slug>/settings/       brand settings and the prompt list
 //   /admin/brands/<slug>/answers/<id>/   one answer in full
+//   /admin/brands/<slug>/screen/         the phone screenshot of its homepage (screen.js)
 //   /admin/samples/                      a made-up brand with a canned run, for checking the design
 //   POST /admin/code, /admin/verify, /admin/logout, /admin/action   (JSON, from this site only)
 //
@@ -32,6 +33,7 @@ import { insightsCodeEmail, insightsLoginNotice } from './emails.js';
 import { flagKey } from './score.js';
 import { list } from './text.js';
 import { samples } from './samples.js';
+import { takeScreen, screenInfo, screenImage, homepageOf } from './screen.js';
 
 const CODE_MINUTES = 10;
 const ADMIN_DAYS = 14;
@@ -81,7 +83,8 @@ export async function insights(request, env, ctx) {
   const base = url.origin;
   const parts = url.pathname.split('/').filter(Boolean);
   try {
-    if (!parts.length) return Response.redirect('https://anthonyis.uk/', 302);
+    // The bare address opens the admin (the login page until logged in).
+    if (!parts.length) return Response.redirect(`${base}/admin/`, 302);
     if (parts[0] === 'admin') return await admin(request, env, url, parts.slice(1), ctx);
     // Reports (/report/<token>/) arrive in phase 2.
     if (parts[0] === 'report') return message(base, 'Not found', 'This link is not a report.');
@@ -158,7 +161,7 @@ async function admin(request, env, url, parts, ctx) {
   if (!session) return json({ ok: false, error: 'Please log in again.' }, 401);
   if (action !== 'action') return json({ ok: false, error: 'Not found' }, 404);
   await ensureSchema(env);
-  return act(env, body, ctx);
+  return act(env, body, ctx, request);
 }
 
 /* ---------- Brand pages ---------- */
@@ -178,6 +181,11 @@ async function brandPages(env, url, brand, rest) {
     if (!a) return message(base, 'Answer not found', 'There is no answer at this address.');
     const back = `/admin/brands/${brand.slug}/?run=${a.run_id}&prompt=${a.prompt_id}#answers`;
     return html(brandShell({ base, brand, active: '', content: answerBody(a, brand, { back }) }));
+  }
+  if (tab === 'screen' && rest.length === 1) {
+    const img = await screenImage(env, brand.id);
+    if (!img) return message(base, 'Not found', 'There is no screenshot yet.');
+    return new Response(img.bytes, { headers: { 'content-type': img.type, ...headers() } });
   }
   if (tab === 'ga4' || tab === 'reports') return html(brandShell({ base, brand, active: tab, content: placeholderTab(tab, brand) }));
   if (tab === 'schedule') return html(brandShell({ base, brand, active: tab, content: scheduleTab(brand, { nextRun: nextRunDay(brand) }) }));
@@ -228,7 +236,12 @@ async function visibilityTab(env, url, brand) {
   };
   const answerHref = (id) => `/admin/brands/${brand.slug}/answers/${id}/`;
   const progress = run.status === 'running' ? await runProgress(env, run.id) : null;
-  return visibilityContent({ brand, trend, run, rows, group, prompt, link, answerHref, progress, promptCount });
+  const shot = homepageOf(brand) ? await screenInfo(env, brand.id) : null;
+  const action = `<button type="button" data-action="screen-take" data-token="${esc(brand.slug)}" data-label="${shot ? 'Take a new screenshot' : 'Take a screenshot'}" data-wait="Taking a screenshot of the homepage…">${shot ? 'Take a new screenshot' : 'Take a screenshot'}</button>`;
+  const screen = homepageOf(brand)
+    ? { src: shot ? `/admin/brands/${brand.slug}/screen/?t=${encodeURIComponent(shot.taken_at)}` : null, url: shot?.url || homepageOf(brand), taken_at: shot?.taken_at, action }
+    : null;
+  return visibilityContent({ brand, trend, run, rows, group, prompt, link, answerHref, progress, promptCount, screen });
 }
 
 /* ---------- Actions ---------- */
@@ -267,7 +280,7 @@ function brandFields(f, { isNew }) {
   };
 }
 
-async function act(env, body, ctx) {
+async function act(env, body, ctx, request) {
   const d = db(env);
   const token = clip(body.token, 60);
   const f = body.fields && typeof body.fields === 'object' ? body.fields : {};
@@ -286,7 +299,7 @@ async function act(env, body, ctx) {
     return json({ ok: true, message: 'Brand added. Now paste in the prompt list.', go: `/admin/brands/${v.slug}/settings/` });
   }
 
-  if (body.action === 'brand-save' || body.action === 'prompts-save' || body.action === 'run-now') {
+  if (body.action === 'brand-save' || body.action === 'prompts-save' || body.action === 'run-now' || body.action === 'screen-take') {
     const brand = await getBrand(env, token);
     if (!brand) return json({ ok: false, error: 'Brand not found.' }, 404);
     if (body.action === 'brand-save') {
@@ -307,9 +320,18 @@ async function act(env, body, ctx) {
       const skipped = parsed.skipped.length ? ` Skipped ${parsed.skipped.length} line${parsed.skipped.length === 1 ? '' : 's'} that weren't a group or a numbered prompt: "${parsed.skipped[0]}"${parsed.skipped.length > 1 ? ' and others' : ''}.` : '';
       return json({ ok: true, message: `Saved ${r.saved} prompts in ${groups} group${groups === 1 ? '' : 's'}${r.removed ? `, ${r.removed} switched off` : ''}.${skipped}` });
     }
-    // Run now: queue the whole run and ask the first batch straight away.
+    if (body.action === 'screen-take') {
+      if (!(await allowed(env, 'DOCS_RL_PDF', request, RL))) return json({ ok: false, error: 'Too many screenshots in a short time. Please wait a minute.' }, 429);
+      const r = await takeScreen(env, brand);
+      return json(r.ok ? { ok: true, message: 'Screenshot taken.' } : r, r.ok ? 200 : 400);
+    }
+    // Run now: queue the whole run and ask the first batch straight away, while a fresh phone
+    // screenshot of the homepage is taken alongside.
     const run = await startRun(env, brand, { kind: 'manual' });
-    const first = await processBatch(env, { runId: run.id });
+    const [first] = await Promise.all([
+      processBatch(env, { runId: run.id }),
+      homepageOf(brand) ? takeScreen(env, brand).catch((e) => console.error('[insights] screenshot', e.message)) : null,
+    ]);
     return json({ ok: true, message: `Run started: ${run.total} questions. ${first.asked} answered so far.` });
   }
 

@@ -103,6 +103,16 @@ export const STEPS = [
     `CREATE INDEX IF NOT EXISTS scores_queue ON scores (status, tries)`,
     `CREATE INDEX IF NOT EXISTS scores_run ON scores (run_id)`,
   ],
+  // 2: a phone screenshot of each brand's homepage, for the summary (screen.js).
+  [
+    `CREATE TABLE IF NOT EXISTS shots (
+      brand_id INTEGER PRIMARY KEY REFERENCES brands(id),
+      url TEXT NOT NULL,
+      type TEXT NOT NULL,
+      image BLOB NOT NULL,
+      taken_at TEXT NOT NULL
+    )`,
+  ],
 ];
 
 export const SCHEMA_VERSION = STEPS.length;
