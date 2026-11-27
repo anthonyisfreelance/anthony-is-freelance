@@ -219,6 +219,15 @@ await test('trend chart: plain SVG, launch date marked', () => {
   assert.ok(!svg.includes('<script'));
 });
 
+await test('phone frame: status bar colour kept to a plain colour, text colour from it', async () => {
+  const { cleanColour, isDark } = await import('./screen.js');
+  assert.equal(cleanColour('rgb(17, 17, 17)'), '#111111');
+  assert.equal(cleanColour('#fff'), '#fff');
+  assert.equal(cleanColour('red; background:url(x)'), '#ffffff');
+  assert.equal(isDark('#111111'), true);
+  assert.equal(isDark('#f4efe6'), false);
+});
+
 await test('ISO weeks and UK time', () => {
   assert.equal(isoWeek('2026-11-27'), '2026-W48');
   assert.equal(isoWeek('2027-01-01'), '2026-W53');
@@ -388,16 +397,19 @@ if (BASE) {
     assert.ok(answerId);
   });
 
-  await test('summary: big numbers, where you win, where to focus, and the phone screenshot', async () => {
+  await test('summary: big numbers with standings, what to do next, and the phone screenshot', async () => {
     const page = await get(`/admin/brands/${slug}/`).then((x) => x.text());
-    for (const t of ['of ChatGPT answers name you', 'Where you win', 'Where to focus', 'The detail']) assert.ok(page.includes(t), `missing "${t}"`);
+    for (const t of ['of answers name you', 'What to do next', 'class="watch"', 'The detail', 'class="iphone"']) assert.ok(page.includes(t), `missing "${t}"`);
     assert.match(page, /screenshot/i);
     const r = await act('screen-take', slug);
     assert.equal(r.ok, true, r.error);
     const img = await get(`/admin/brands/${slug}/screen/`);
     assert.equal(img.status, 200);
     assert.match(img.headers.get('content-type'), /^image\//);
-    assert.match(await get(`/admin/brands/${slug}/`).then((x) => x.text()), /class="phone-screen"><img src="\/admin\/brands\//);
+    const page2 = await get(`/admin/brands/${slug}/`).then((x) => x.text());
+    assert.match(page2, /class="ios-page"><img src="\/admin\/brands\//);
+    assert.match(page2, /class="ios-status on-(light|dark)" style="background:#[0-9a-f]{3,6}"/);
+    assert.match(page2, /<b>testwidget\.example<\/b>/);
   });
 
   await test('dashboard: filter by group and by prompt', async () => {

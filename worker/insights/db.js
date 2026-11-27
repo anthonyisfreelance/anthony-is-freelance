@@ -113,6 +113,8 @@ export const STEPS = [
       taken_at TEXT NOT NULL
     )`,
   ],
+  // 3: the colour behind the top of the page, so the phone's status bar matches it, as Safari does.
+  [`ALTER TABLE shots ADD COLUMN tint TEXT`],
 ];
 
 export const SCHEMA_VERSION = STEPS.length;

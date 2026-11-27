@@ -10,6 +10,7 @@
 import { esc, fmtDate, fmtDateTime } from '../docs/shared.js';
 import { parse } from './db.js';
 import { nameKey, namePattern, domainOf, isOwnDomain } from './text.js';
+import { isDark, cleanColour } from './screen.js';
 
 const pct = (n, d) => (d ? Math.round((n / d) * 100) : 0);
 const pctText = (n, d) => (d ? `${pct(n, d)}%` : '–');
@@ -163,60 +164,164 @@ function median(list) {
 
 // The short version, at the top: four big numbers, then where the brand wins and where to focus,
 // worked out by rule from this run (no AI writing). `prev` is the run before, for the changes.
-export function summaryBlock(m, prev, screen = null) {
+// The screenshot inside an iPhone in Safari: the status bar (tinted to the page, as Safari does),
+// the page, then Safari's bottom bar with the address. Drawn in HTML and CSS, sized to the phone.
+const SIGNAL = '<svg viewBox="0 0 18 12" aria-hidden="true"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg>';
+const WIFI = '<svg viewBox="0 0 16 12" aria-hidden="true"><path d="M8 11.5 5.6 9a3.4 3.4 0 0 1 4.8 0Z"/><path d="M3.3 6.7a6.6 6.6 0 0 1 9.4 0l-1.2 1.2a4.9 4.9 0 0 0-7 0Z"/><path d="M1 4.4a9.9 9.9 0 0 1 14 0l-1.2 1.2a8.2 8.2 0 0 0-11.6 0Z"/></svg>';
+const BATTERY = '<svg viewBox="0 0 27 13" aria-hidden="true"><rect x="0.5" y="0.5" width="22" height="12" rx="3.5" fill="none" stroke="currentColor" opacity="0.4"/><rect x="2" y="2" width="19" height="9" rx="2"/><path d="M24.5 4.5v4a2 2 0 0 0 0-4Z" opacity="0.4"/></svg>';
+const LOCK = '<svg viewBox="0 0 10 13" aria-hidden="true"><rect x="0.5" y="5.5" width="9" height="7" rx="1.5"/><path d="M2.5 5.5V3.8a2.5 2.5 0 0 1 5 0v1.7" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>';
+const RELOAD = '<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M10 6a4 4 0 1 1-1.2-2.9" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M9.6 1.2v2.6H7"  fill="none" stroke="currentColor" stroke-width="1.2"/></svg>';
+const BACK = '<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M7.5 2 3.5 6l4 4" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>';
+const DOTS = '<svg viewBox="0 0 12 12" aria-hidden="true"><circle cx="2" cy="6" r="1.2"/><circle cx="6" cy="6" r="1.2"/><circle cx="10" cy="6" r="1.2"/></svg>';
+
+export function phoneFrame(screen) {
+  const tint = cleanColour(screen.tint || '#ffffff');
+  const host = screen.url ? domainOf(screen.url) : '';
+  return `<div class="iphone"><i class="hw act" aria-hidden="true"></i><i class="hw vup" aria-hidden="true"></i><i class="hw vdn" aria-hidden="true"></i><i class="hw pwr" aria-hidden="true"></i><i class="hw cam" aria-hidden="true"></i><div class="phone-screen">
+    <div class="ios-status ${isDark(tint) ? 'on-dark' : 'on-light'}" style="background:${tint}"><span class="time">9:41</span><span class="island" aria-hidden="true"></span><span class="icons">${SIGNAL}${WIFI}${BATTERY}</span></div>
+    <div class="ios-page">${screen.src ? `<img src="${esc(screen.src)}" alt="${esc(`The homepage of ${host} on a phone in Safari`)}" width="390" height="714">` : ''}</div>
+    <div class="ios-safari"><span class="round">${BACK}</span><span class="addr">${LOCK}<b>${esc(host)}</b>${RELOAD}</span><span class="round">${DOTS}</span><i class="home" aria-hidden="true"></i></div>
+  </div></div>`;
+}
+
+// Who is named across a set of answers, the brand included, counted once per answer, most first.
+export function leaderboard(rows, brand) {
+  const tally = new Map();
+  let mentions = 0;
+  for (const r of rows) {
+    const seen = new Set();
+    if (r.brand_named) seen.add('\u0000brand');
+    for (const x of r.recommended || []) if (!x.is_brand) seen.add(nameKey(x.name));
+    seen.delete('');
+    for (const k of seen) {
+      const e = tally.get(k) || { key: k, name: k === '\u0000brand' ? brand.name : null, answers: 0, isBrand: k === '\u0000brand' };
+      if (!e.name) e.name = (r.recommended || []).find((x) => nameKey(x.name) === k)?.name || k;
+      e.answers++;
+      mentions++;
+      tally.set(k, e);
+    }
+  }
+  const list = [...tally.values()].sort((a, b) => b.answers - a.answers || (b.isBrand ? 1 : 0) - (a.isBrand ? 1 : 0) || a.name.localeCompare(b.name));
+  const me = list.find((e) => e.isBrand);
+  return { n: rows.length, list, mentions, me, rank: me ? list.indexOf(me) + 1 : null, leader: list.find((e) => !e.isBrand) };
+}
+
+// How the brand stands in one set of answers, against the businesses named in the same answers.
+function standing(board) {
+  if (!board.n) return { cls: '', text: 'No answers yet' };
+  const { me, rank, leader, list } = board;
+  const others = list.filter((e) => !e.isBrand).length;
+  if (!me) return { cls: 'behind', text: leader ? `Not named. ${esc(leader.name)} leads with ${pctText(leader.answers, board.n)}` : 'Not named' };
+  if (rank === 1) {
+    const gap = leader ? pct(me.answers, board.n) - pct(leader.answers, board.n) : null;
+    return { cls: 'ahead', text: `Most named of ${others + 1}${gap ? `, ${gap} pts ahead of ${esc(leader.name)}` : ''}` };
+  }
+  return { cls: rank <= 3 ? 'close' : 'behind', text: `#${rank} of ${others + 1}. ${esc(leader.name)} leads with ${pctText(leader.answers, board.n)}` };
+}
+
+export function summaryBlock(m, prev, screen = null, brand = {}) {
   if (!m.scored) return '';
-  const rate = pct(m.named, m.scored);
-  const a = m.A?.answers ? pct(m.A.named, m.A.answers) : null;
-  const b = m.B?.answers ? pct(m.B.named, m.B.answers) : null;
+  const done = (p) => p.answers.filter((x) => x.status === 'done' && x.s_status);
+  const names = [brand.name, ...(brand.match_names || [])];
+  // Questions that name the brand (who is ..., how much does ... charge) always name it back, so
+  // the standings only count the questions that don't.
+  const branded = (p) => (names.some(Boolean) ? namePattern(names)?.test(p.text) : false);
+  const open = m.prompts.filter((p) => !branded(p));
+  const rowsOf = (list) => list.flatMap(done);
+  const all = leaderboard(rowsOf(open), brand);
+  const gA = leaderboard(rowsOf(open.filter((p) => p.grp === 'A')), brand);
+  const gB = leaderboard(rowsOf(open.filter((p) => p.grp === 'B')), brand);
+  const share = all.mentions ? Math.round(((all.me?.answers || 0) / all.mentions) * 100) : 0;
+
   const change = (now, before) => {
     if (before == null || now == null) return '';
     const d = now - before;
     return `<span class="chg ${d > 0 ? 'up' : d < 0 ? 'down' : ''}">${d > 0 ? '+' : ''}${d} pts since the last run</span>`;
   };
-  const prevRate = prev?.n ? pct(prev.named, prev.n) : null;
   const prevA = prev?.na ? pct(prev.nameda, prev.na) : null;
-  const rival = m.instead[0];
+  const prevB = prev?.nb ? pct(prev.namedb, prev.nb) : null;
+  const rateOf = (b) => (b.n ? pct(b.me?.answers || 0, b.n) : null);
+  const tile = (value, label, st, extra = '', cls = '') => `<div><p class="big${cls}">${value == null ? '–' : `${value}%`}</p><p class="lbl">${label}</p><p class="verdict ${st.cls}">${st.text}</p>${extra}</div>`;
 
-  const done = (p) => p.answers.filter((x) => x.status === 'done');
-  const always = m.prompts.filter((p) => done(p).length && done(p).every((x) => x.brand_named));
-  const never = m.prompts.filter((p) => done(p).length && !done(p).some((x) => x.brand_named));
-  const quote = (list, n = 3) => list.slice(0, n).map((p) => `“${esc(p.text)}”`).join(', ') + (list.length > n ? ` and ${list.length - n} more` : '');
+  // What to do next: each one from a number in this run, with what to watch next time.
+  const pagesIn = (rows, skip = new Set()) => {
+    const map = new Map();
+    for (const r of rows) {
+      if (r.brand_named) continue;
+      for (const c of r.citations || []) {
+        if (isOwnDomain(domainOf(c.url), brand.match_domains) || skip.has(c.url)) continue;
+        map.set(c.url, (map.get(c.url) || 0) + 1);
+      }
+    }
+    return [...map.entries()].sort((x, y) => y[1] - x[1] || x[0].localeCompare(y[0])).slice(0, 3);
+  };
+  const links = (pages) => pages.map(([u, n]) => `${safeLink(u, shortUrl(u))} (${n})`).join(', ');
+  const actions = [];
+  const used = new Set();
+  if (gA.n && gA.rank !== 1) {
+    const pages = pagesIn(rowsOf(open.filter((p) => p.grp === 'A')));
+    pages.forEach(([u]) => used.add(u));
+    actions.push({
+      title: `Win the general questions`,
+      why: `Group A (${esc(brand.groups?.A || 'no modifier')}) names you in ${rateOf(gA)}% of answers. ${gA.leader ? `${esc(gA.leader.name)} leads with ${pctText(gA.leader.answers, gA.n)}.` : ''}`,
+      todo: `${pages.length ? `Those answers lean most on ${links(pages)}. Get onto those pages first: ask the author to add you, or buy a placement where they sell one. ` : ''}Then make sure your homepage answers the plain question, not only the freelance one.`,
+      watch: 'Group A rate',
+    });
+  }
+  const lists = pagesIn(rowsOf(open), used);
+  if (lists.length) {
+    actions.push({
+      title: 'Get onto the pages ChatGPT reads',
+      why: `These are cited most in answers that leave you out: ${links(lists)}.`,
+      todo: 'Work down the list. Each one is a page ChatGPT trusts for this topic, and a mention there is likely to carry into its answers.',
+      watch: 'Mention rate',
+    });
+  }
+  const never = open.filter((p) => p.grp !== 'A' && done(p).length && !done(p).some((x) => x.brand_named));
+  if (never.length) {
+    actions.push({
+      title: `Give ChatGPT a page to cite for ${plural(never.length, 'more question')}`,
+      why: `Never named on ${never.slice(0, 3).map((p) => `“${esc(p.text)}”`).join(', ')}${never.length > 3 ? ` and ${never.length - 3} more` : ''}.`,
+      todo: 'Open each prompt in Every answer below and see which pages it cites. If you offer that service, make sure one page answers that exact question in plain words and is linked from your homepage.',
+      watch: 'Prompts never named',
+    });
+  }
+  const loud = m.flags.filter((f) => f.answers && f.answers / m.scored >= 0.1).sort((x, y) => y.answers - x.answers)[0];
+  if (loud) {
+    actions.push({
+      title: `Tackle “${esc(loud.label)}”`,
+      why: `It shows in ${pctText(loud.answers, m.scored)} of answers${loud.example ? `, for example “${esc(loud.example)}”` : ''}.`,
+      todo: 'Read the answers marked ⚑ in Every answer below, then answer the point on your own pages, in your words, where ChatGPT will read it.',
+      watch: `${esc(loud.label)} rate`,
+    });
+  }
 
+  const always = open.filter((p) => done(p).length && done(p).every((x) => x.brand_named));
   const wins = [];
-  if (always.length) wins.push([`Named every time on ${plural(always.length, 'prompt')}`, `Including ${quote(always)}.`]);
-  if (m.median === 1) wins.push(['First when you are named', `When ChatGPT names you, you are usually the first business it recommends.`]);
-  else if (m.median) wins.push([`Usually #${m.median} when named`, `Your typical place in the list when ChatGPT names you.`]);
-  if (m.ownCited) wins.push([`Your own site is cited in ${pctText(m.ownCited, m.scored)} of answers`, 'ChatGPT reads and links to your pages, so what they say is what it repeats.']);
+  if (always.length) wins.push(`Named every time on ${plural(always.length, 'question')}, including ${always.slice(0, 2).map((p) => `“${esc(p.text)}”`).join(' and ')}.`);
+  if (m.median === 1) wins.push('First in the list whenever you are named.');
+  else if (m.median) wins.push(`Usually #${m.median} in the list when named.`);
+  if (m.ownCited) wins.push(`Your own site is cited in ${pctText(m.ownCited, m.scored)} of answers.`);
 
-  const focus = [];
-  if (a != null && b != null && b - a >= 15) {
-    focus.push([`Close the gap on general questions`, `You are named in ${a}% of answers when buyers don't say freelance or independent, against ${b}% when they do. That gap is where the agencies win.`]);
-  }
-  if (never.length) focus.push([`Never named on ${plural(never.length, 'prompt')}`, `${quote(never, 4)}.`]);
-  if (m.missedPages.length) {
-    focus.push(['Pages behind the answers that leave you out', m.missedPages.map((p) => `${safeLink(p.url, shortUrl(p.url))} (${p.missed})`).join(', ') + '. ChatGPT cites these when it names others.']);
-  }
-  const loud = m.flags.filter((f) => f.answers && f.answers / m.scored >= 0.05).sort((x, y) => y.answers - x.answers)[0];
-  if (loud) focus.push([`${loud.label} in ${pctText(loud.answers, m.scored)} of answers`, `${loud.example ? `For example “${esc(loud.example)}”. ` : ''}Read those answers to see what drives it.`]);
-
-  const list = (items) => `<ol class="boxes">${items.slice(0, 4).map(([t, x], i) => `<li class="box"><span class="n">${String(i + 1).padStart(2, '0')}</span><div><h3>${esc(t)}</h3><p>${x}</p></div></li>`).join('')}</ol>`;
   const phone = screen
-    ? `<figure class="phone"><div class="phone-screen">${screen.src ? `<img src="${esc(screen.src)}" alt="${esc(`The homepage of ${screen.url} on a phone`)}" width="390" height="844">` : ''}</div>
+    ? `<figure class="phone">${phoneFrame(screen)}
         <figcaption>${screen.src ? `${esc(shortUrl(screen.url))}${screen.taken_at ? ` · ${esc(fmtDate(screen.taken_at))}` : ''}` : 'No screenshot yet'}${screen.action || ''}</figcaption></figure>`
     : '';
+  const shareNote = share >= 30 ? 'Category leader level (30% and up)' : share >= 20 ? 'Strong (20 to 30%)' : share >= 10 ? 'In the running (10 to 20%)' : 'Low (under 10%)';
   return `<section class="summary${phone ? ' with-phone' : ''}" aria-label="Summary">
     ${phone}
     <div class="sum-nums">
-      <div><p class="big blue">${rate}%</p><p class="lbl">of ChatGPT answers name you</p>${change(rate, prevRate)}</div>
-      <div><p class="big">${a == null ? '–' : `${a}%`}</p><p class="lbl">when buyers just ask for the best</p>${change(a, prevA)}</div>
-      <div><p class="big">${b == null ? '–' : `${b}%`}</p><p class="lbl">when they ask for freelance or independent</p></div>
-      <div><p class="big">${rival ? pctText(rival.answers, m.scored) : '–'}</p><p class="lbl">${rival ? `${esc(rival.name)}, named more than anyone else` : 'Nobody else named yet'}</p></div>
+      ${tile(rateOf(all), `of answers name you, on ${plural(open.length, 'question')} that don't name you first`, standing(all), '', ' blue')}
+      ${tile(rateOf(gA), 'when buyers just ask for the best', standing(gA), change(rateOf(gA), prevA))}
+      ${tile(rateOf(gB), 'when they ask for freelance or independent', standing(gB), change(rateOf(gB), prevB))}
+      ${tile(share, 'of all the business mentions in those answers are you', { cls: share >= 20 ? 'ahead' : share >= 10 ? 'close' : 'behind', text: shareNote })}
     </div>
-    <div class="sum-cols">
-      <div><h2>Where you win</h2>${wins.length ? list(wins) : '<p class="muted">Nothing yet.</p>'}</div>
-      <div><h2>Where to focus</h2>${focus.length ? list(focus) : '<p class="muted">Nothing stands out in this run.</p>'}</div>
+    <div class="sum-next">
+      <h2>What to do next</h2>
+      ${actions.length ? `<ol class="steps">${actions.slice(0, 4).map((x, i) => `<li><span class="n">${String(i + 1).padStart(2, '0')}</span><h3>${x.title}</h3><div class="step-body"><p><b>Why</b>${x.why}</p><p><b>Do</b>${x.todo}</p></div><p class="watch">Watch<span>${x.watch}</span></p></li>`).join('')}</ol>` : '<p class="muted">Nothing stands out in this run.</p>'}
     </div>
-    <p class="sum-note">Worked out from this run's ${plural(m.scored, 'answer')}. ${esc(LIMITS[1])}</p>
+    ${wins.length ? `<div class="sum-wins"><h2>Where you win</h2><ol class="steps wins">${wins.map((w, i) => `<li><span class="n">${String(i + 1).padStart(2, '0')}</span><p class="win">${w}</p></li>`).join('')}</ol></div>` : ''}
+    <p class="sum-note">How to read it: there is no settled industry standard yet. The fairest yardstick is the other businesses ChatGPT names in the same answers, which is what Most named and #2 of 40 mean. Published 2026 guides put category leaders at about 20 to 40% mention rate and 25 to 35% share of mentions; treat that as a rough guide only. ${esc(LIMITS[1])}</p>
   </section>`;
 }
 
@@ -418,7 +523,7 @@ export function visibilityContent({ brand, trend, run, rows = [], group = null, 
   const prev = trend.slice(at + 1).find((r) => r.status === 'complete' && r.n);
   return [
     runBar({ brand, run, promptCount, progress, sample }),
-    summaryBlock(m, prev, screen),
+    summaryBlock(m, prev, screen, brand),
     `<h2 class="detail-h">The detail</h2>`,
     headline(m),
     gapBlock(m),
@@ -511,46 +616,94 @@ export function answerBody(a, brand, { back }) {
 export const DASH_STYLES = `
 .summary { padding: 40px; background: var(--desk); color: var(--on-desk); }
 .summary h2 { margin-bottom: 16px; font-size: 16px; line-height: 1; text-transform: uppercase; }
-.summary.with-phone { display: grid; grid-template-columns: 220px minmax(0, 1fr); grid-template-areas: "phone nums" "phone cols" "phone note"; column-gap: 40px; align-items: start; }
+.summary.with-phone { display: grid; grid-template-columns: 240px minmax(0, 1fr); grid-template-areas: "phone nums" "phone next" "phone wins" "phone note"; column-gap: 48px; align-items: start; }
 .summary.with-phone .phone { grid-area: phone; }
 .summary.with-phone .sum-nums { grid-area: nums; grid-template-columns: 1fr 1fr; }
-.summary.with-phone .sum-cols { grid-area: cols; }
+.summary.with-phone .sum-next { grid-area: next; }
+.summary.with-phone .sum-wins { grid-area: wins; }
 .summary.with-phone .sum-note { grid-area: note; }
 .phone { margin: 0; position: sticky; top: 24px; }
-.phone-screen { overflow: hidden; aspect-ratio: 390 / 844; border: 6px solid #2b2b2b; border-radius: 30px; background: #222; }
-.phone-screen img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+/* The handset: a metal band, a black bezel and the side buttons (action button and volume on the
+   left, power and camera control on the right), in proportion to its width. The screen inside is
+   sized in units of its own width (1cqw = 1/100 of the screen), so it scales as one piece.
+   The phone, in units of its own width (1cqw = 1/100 of the screen), so it scales as one piece.
+   iPhone 390 by 844: status bar 47, page 714, Safari bar 83. */
+.iphone { position: relative; padding: 3.2%; border-radius: 15.5% / 7.2%; background: linear-gradient(135deg, #8d8f93 0%, #4b4d51 18%, #2e3034 50%, #55575b 82%, #9a9ca0 100%); box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.25), inset 0 0 0 2px rgba(0, 0, 0, 0.6), 0 24px 48px rgba(0, 0, 0, 0.55); }
+.iphone::before { content: ""; position: absolute; inset: 1.4%; border-radius: 14.5% / 6.7%; background: #050505; }
+.iphone .hw { position: absolute; width: 1.6%; border-radius: 1px; background: linear-gradient(90deg, #3a3c40, #8a8c90 50%, #3a3c40); }
+.iphone .act { left: -1.3%; top: 15%; height: 3.6%; }
+.iphone .vup { left: -1.3%; top: 22.5%; height: 7%; }
+.iphone .vdn { left: -1.3%; top: 31%; height: 7%; }
+.iphone .pwr { right: -1.3%; top: 24%; height: 11%; }
+.iphone .cam { right: -1%; top: 58%; height: 6.5%; width: 1.2%; }
+.phone-screen { position: relative; container-type: inline-size; display: flex; flex-direction: column; overflow: hidden; aspect-ratio: 390 / 844; border-radius: 13.2% / 6.1%; background: #ffffff; }
+.ios-status { position: relative; flex: none; height: 12.05cqw; display: flex; align-items: center; justify-content: space-between; padding: 1.5cqw 7.5cqw 0 9cqw; font: 600 4.3cqw/1 -apple-system, "SF Pro Text", system-ui, sans-serif; }
+.ios-status.on-light { color: #000000; }
+.ios-status.on-dark { color: #ffffff; }
+.ios-status .island { position: absolute; left: 50%; top: 2.8cqw; width: 31cqw; height: 9.2cqw; margin-left: -15.5cqw; border-radius: 6cqw; background: #000000; }
+.ios-status .icons { display: flex; align-items: center; gap: 1.4cqw; }
+.ios-status svg { display: block; height: 3.1cqw; width: auto; fill: currentColor; }
+.ios-status svg:last-child { height: 3.4cqw; }
+.ios-page { flex: 1 1 auto; min-height: 0; overflow: hidden; background: #f4f4f4; }
+.ios-page img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.ios-safari { position: relative; flex: none; height: 21.3cqw; display: flex; align-items: flex-start; gap: 2cqw; padding: 2.6cqw 3.6cqw 0; background: rgba(246, 246, 246, 0.96); border-top: 0.3cqw solid rgba(0, 0, 0, 0.08); color: #000000; }
+.ios-safari .round { flex: none; display: grid; place-items: center; width: 11.3cqw; height: 11.3cqw; border-radius: 50%; background: #ffffff; box-shadow: 0 0.4cqw 1.5cqw rgba(0, 0, 0, 0.12); }
+.ios-safari .round svg { width: 3.6cqw; height: 3.6cqw; fill: currentColor; }
+.ios-safari .addr { flex: 1 1 auto; min-width: 0; display: flex; align-items: center; justify-content: center; gap: 1.6cqw; height: 11.3cqw; padding: 0 3cqw; border-radius: 6cqw; background: #ffffff; box-shadow: 0 0.4cqw 1.5cqw rgba(0, 0, 0, 0.12); font: 500 3.9cqw/1 -apple-system, "SF Pro Text", system-ui, sans-serif; }
+.ios-safari .addr b { overflow: hidden; font-weight: 500; white-space: nowrap; text-overflow: ellipsis; }
+.ios-safari .addr svg { flex: none; width: 2.6cqw; height: 3.4cqw; fill: currentColor; }
+.ios-safari .addr svg:last-child { width: 3.2cqw; height: 3.2cqw; fill: none; }
+.ios-safari .home { position: absolute; left: 50%; bottom: 2.2cqw; width: 34cqw; height: 1.3cqw; margin-left: -17cqw; border-radius: 1cqw; background: #000000; }
 .phone figcaption { margin-top: 12px; font: 500 12px/1.4 var(--display); letter-spacing: 0.02em; color: #9a9a9a; text-align: center; overflow-wrap: anywhere; }
 .phone figcaption button { display: block; margin: 8px auto 0; padding: 6px 10px; border: 1px solid #393939; background: none; color: #cfcfcf; font: 500 11px/1 var(--display); cursor: pointer; }
 .phone figcaption button:hover { border-color: #cfcfcf; }
 .sum-nums { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; padding-bottom: 40px; border-bottom: 1px solid #393939; }
 .sum-nums .big { font: 500 88px/0.95 var(--display); letter-spacing: -0.01em; }
-.sum-nums .big.blue { color: #4d8bff; }
+.sum-nums .big.blue { color: var(--blue); }
 .sum-nums .lbl { margin-top: 12px; font: 500 15px/1.3 var(--display); color: #cfcfcf; }
+.sum-nums .verdict { margin-top: 12px; padding-left: 12px; border-left: 3px solid #6b6b6b; font: 500 13px/1.35 var(--display); color: var(--on-desk); }
+.sum-nums .verdict.ahead { border-color: #2fbf71; }
+.sum-nums .verdict.close { border-color: #f2b632; }
+.sum-nums .verdict.behind { border-color: #ff5a5a; }
 .sum-nums .chg { display: inline-block; margin-top: 8px; font: 500 12px/1 var(--display); letter-spacing: 0.02em; color: #9a9a9a; }
 .sum-nums .chg.up { color: #6fd08c; }
 .sum-nums .chg.down { color: #ff7a7a; }
-.sum-cols { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; padding-top: 32px; }
-.summary .box { background: #1d1d1d; }
-.summary .box .n { color: #4d8bff; }
-.summary .box h3 { color: var(--on-desk); }
-.summary .box p { color: #cfcfcf; }
-.summary .box a { color: var(--on-desk); }
+.sum-next { padding-top: 32px; }
+.steps { list-style: none; margin: 0; padding: 0; border-top: 1px solid #393939; }
+.steps li { display: grid; grid-template-columns: 56px minmax(0, 1fr) 150px; grid-template-areas: "n title watch" "n body watch"; column-gap: 24px; row-gap: 10px; padding: 24px 0; border-bottom: 1px solid #393939; }
+.steps .n { grid-area: n; font: 500 38px/1 var(--display); color: var(--blue); }
+.steps h3 { grid-area: title; font-size: 20px; line-height: 1.25; color: var(--on-desk); }
+.step-body { grid-area: body; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.step-body p { color: #cfcfcf; }
+.step-body b { display: block; margin-bottom: 4px; font: 500 12px/1 var(--display); letter-spacing: 0.02em; text-transform: uppercase; color: var(--on-desk); }
+.steps .watch { grid-area: watch; align-self: start; padding-left: 12px; border-left: 1px solid #393939; font: 500 12px/1 var(--display); letter-spacing: 0.02em; text-transform: uppercase; color: #9a9a9a; }
+.steps .watch span { display: block; margin-top: 6px; font-size: 14px; line-height: 1.3; letter-spacing: 0; text-transform: none; color: var(--on-desk); }
+.steps.wins li { grid-template-columns: 56px minmax(0, 1fr); grid-template-areas: "n body"; align-items: baseline; padding: 16px 0; }
+.steps.wins .n { font-size: 26px; }
+.steps .win { grid-area: body; font: 500 16px/1.4 var(--display); color: var(--on-desk); }
+.summary a { color: var(--on-desk); }
+.sum-wins { padding-top: 32px; }
+.sum-wins ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 6px; color: #cfcfcf; }
 .summary .muted { color: #9a9a9a; }
 .sum-note { margin-top: 24px; font: 500 12px/1.4 var(--display); letter-spacing: 0.02em; color: #9a9a9a; }
 .detail-h { padding-top: 16px; font-size: 22px; line-height: 1.3; text-transform: uppercase; }
 /* Laptop widths with the phone beside: the two lists stack so neither gets squeezed. */
 @media (max-width: 1240px) {
-  .summary.with-phone .sum-cols { grid-template-columns: 1fr; }
+  .step-body { grid-template-columns: 1fr; gap: 12px; }
   .summary.with-phone .sum-nums .big { font-size: 72px; }
 }
 @media (max-width: 900px) {
   .summary { margin-inline: -16px; padding: 24px 16px; }
   .summary.with-phone { display: block; }
-  .phone { position: static; width: 160px; margin: 0 auto 24px; }
+  .phone { position: static; width: 180px; margin: 0 auto 24px; }
   .sum-nums { grid-template-columns: 1fr 1fr; gap: 24px 16px; padding-bottom: 24px; }
   .sum-nums .big { font-size: 52px; }
   .sum-nums .lbl { font-size: 13px; }
-  .sum-cols { grid-template-columns: 1fr; gap: 24px; padding-top: 24px; }
+  .steps li { grid-template-columns: 40px minmax(0, 1fr); grid-template-areas: "n title" "n body" "n watch"; column-gap: 12px; }
+  .steps .n { font-size: 28px; }
+  .steps.wins .n { font-size: 22px; }
+  .steps .watch { padding-left: 0; border-left: 0; }
+  .sum-next, .sum-wins { padding-top: 24px; }
 }
 .meter { display: block; width: 100%; height: 6px; background: var(--line); }
 .meter > span { display: block; height: 100%; background: var(--blue); }
