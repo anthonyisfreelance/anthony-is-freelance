@@ -244,8 +244,7 @@ export function reportPage({ base, report, brand, pdf = false, admin = false }) 
   const intro = b
     ? compareLine(a, b, brand)
     : `ChatGPT was asked ${plural(a.questionsAll || a.questions, 'question')} a UK buyer might ask, ${plural(a.run.attempts || 3, 'time')} each, on ${fmtDate(a.run.started_at, 'long')}. This is how it answered.`;
-  const status = report.withdrawn_at ? 'Withdrawn' : report.status === 'draft' ? 'Draft' : '';
-  const bar = pdf ? '' : topBar(`${admin ? backLink(`/admin/brands/${brand.slug}/reports/${report.id}/`, status ? `${status}: back to the report settings` : 'Report settings') : '<span></span>'}${downloadLink(`/report/${report.token}/report.pdf`)}`);
+  const bar = pdf ? '' : topBar(`${admin ? backLink(`/admin/brands/${brand.slug}/reports/${report.id}/`, isShared(report) ? 'Back to the report' : 'Private: back to the report') : '<span></span>'}${downloadLink(`/report/${report.token}/report.pdf`)}`);
   const body = `
   ${masthead(REPORT_KINDS[report.kind] || 'AI visibility', fmtDate(a.run.started_at, 'long'))}
   <div class="rhead"><h1>${eyebrow(brand.name)}${esc(b ? 'AI visibility: before and after' : 'AI visibility')}</h1>
@@ -339,89 +338,78 @@ tr.me .rbar > span { background: var(--blue); }
 }
 `;
 
-/* ---------- The Reports tab and a report's settings (admin) ---------- */
+/* ---------- The Reports tab and a report's page (admin) ---------- */
 
-const runLabel = (r) => `${fmtDate(r.started_at, 'long')} (${r.kind === 'weekly' ? 'weekly' : r.kind === 'manual' ? 'Run now' : r.kind}, ${r.n} scored)`;
-
-export function statusPill(r) {
-  if (r.withdrawn_at) return '<span class="pill overdue">Withdrawn</span>';
-  if (r.status === 'sent') return '<span class="pill sent">Sent</span>';
-  if (r.status === 'approved') return '<span class="pill signed">Approved</span>';
-  return '<span class="pill">Draft</span>';
-}
+const runLabel = (r) => `${fmtDate(r.started_at, 'long')}${r.kind === 'weekly' ? ', weekly' : r.kind === 'manual' ? ', Run now' : ''}`;
+// A report is shared when its link opens for anyone who has it.
+export const isShared = (r) => r.status !== 'draft' && !r.withdrawn_at;
+export const sharePill = (r) => (isShared(r) ? '<span class="pill sent">Shared</span>' : '<span class="pill">Private</span>');
+export const statusPill = sharePill;
 
 export function reportsTab({ brand, reports, runs, href = (id) => `/admin/brands/${brand.slug}/reports/${id}/`, sample = false }) {
+  const token = sample ? 'SAMPLE' : esc(brand.slug);
   const done = runs.filter((r) => r.status === 'complete' && r.n);
-  const opts = (list, empty) => (empty ? `<option value="">${esc(empty)}</option>` : '') + list.map((r) => `<option value="${r.id}">${esc(runLabel(r))}</option>`).join('');
-  const form = done.length
-    ? `<form class="form" data-save="report-new" data-token="${sample ? 'SAMPLE' : esc(brand.slug)}">
-      <label><span>Kind</span><select name="kind"><option value="snapshot">Snapshot: one run</option><option value="compare"${done.length > 1 ? ' selected' : ''}>Before and after: two runs</option></select></label>
-      <label><span>Run</span><select name="run">${opts(done)}</select><small>For before and after, this is the after run.</small></label>
-      <label><span>Before run</span><select name="before">${opts(done.slice(1), done.length > 1 ? '' : 'Needs a second finished run')}</select><small>Only used for before and after.</small></label>
-      <span></span>
-      <label><span>Send to (name)</span><input name="recipient_name" maxlength="120" autocomplete="off"></label>
-      <label><span>Send to (email)</span><input name="recipient_email" type="email" maxlength="200" autocomplete="off"></label>
-      <div class="wide"><button type="submit" class="btn">Make a draft</button></div>
-      <p class="status wide" role="status" hidden></p>
-    </form>`
-    : '<p class="muted">Reports are made from finished runs. Once the first run finishes, you can make one here.</p>';
-  const rows = reports
+  const pct2 = (n, d) => (d ? `${Math.round((n / d) * 100)}%` : '–');
+  const compare = done.length > 1
+    ? `<form class="form compare" data-save="report-new" data-token="${token}">
+        <input type="hidden" name="kind" value="compare">
+        <label><span>Before</span><select name="before">${done.slice(1).map((r) => `<option value="${r.id}">${esc(runLabel(r))}</option>`).join('')}</select></label>
+        <label><span>After</span><select name="run">${done.slice(0, -1).map((r) => `<option value="${r.id}">${esc(runLabel(r))}</option>`).join('')}</select></label>
+        <div><button type="submit" class="btn">Compare</button></div>
+        <p class="status wide" role="status" hidden></p>
+      </form>`
+    : '<p class="muted">Compare opens up once there are two finished runs. The weekly run adds one every Monday.</p>';
+  const runRows = done
     .map((r) => `<div class="adm-row">
-      <div class="c-name"><a href="${esc(href(r.id))}"><b>${esc(REPORT_KINDS[r.kind] || r.kind)}</b></a><span>${esc(fmtDate(r.created_at, 'long'))}</span></div>
-      <div class="c-meta">${esc(r.title)}<span>${r.recipient_email ? `For ${esc(r.recipient_name || r.recipient_email)}` : 'No recipient yet'}${r.sent_at ? ` · sent ${esc(fmtDate(r.sent_at, 'long'))}` : ''}</span></div>
-      <div class="c-act">${statusPill(r)}<a class="ghost small" href="${esc(href(r.id))}">Open</a></div>
+      <div class="c-name"><b>${esc(fmtDate(r.started_at, 'long'))}</b><span>${esc(r.kind === 'weekly' ? 'Weekly run' : 'Run now')}</span></div>
+      <div class="c-meta">Named in ${pct2(r.named, r.n)} of ${r.n} answers</div>
+      <div class="c-act"><button type="button" class="ghost small primary" data-action="report-quick" data-token="${token}" data-value="${r.id}" data-label="Make a report" data-wait="Making the report…">Make a report</button></div>
     </div>`)
     .join('');
-  return `<section class="sec full"><h2>Reports</h2><div class="adm brand-list"><div>${rows || '<p class="empty">No reports yet.</p>'}</div></div></section>
-  <section class="sec full"><h2>New report</h2>
-    <p class="sec-note">A report is an A4 sheet at a private link, with a PDF. It keeps its own copy of the numbers. It stays a draft, visible only to you, until you approve it, and nothing reaches a client until you press Send.</p>
-    ${form}</section>`;
+  const saved = reports
+    .map((r) => `<div class="adm-row">
+      <div class="c-name"><a href="${esc(href(r.id))}"><b>${esc(r.kind === 'compare' ? 'Before and after' : 'Snapshot')}</b></a><span>Made ${esc(fmtDate(r.created_at, 'long'))}</span></div>
+      <div class="c-meta">${esc(r.title)}</div>
+      <div class="c-act">${sharePill(r)}<a class="ghost small" href="${esc(href(r.id))}">Open</a></div>
+    </div>`)
+    .join('');
+  return `<p class="sec-note">A report is a fixed copy of a run's results: an A4 page and a PDF that never change, even as new runs come in. Use one to keep a record, or to compare before and after a change.</p>
+  <section class="sec full"><h2>Before and after</h2>${compare}</section>
+  <section class="sec full"><h2>Your reports</h2><div class="adm brand-list"><div>${saved || '<p class="empty">None yet. Make one from a run below.</p>'}</div></div></section>
+  <section class="sec full"><h2>Runs</h2><div class="adm brand-list"><div>${runRows || '<p class="empty">Reports are made from finished runs. Once the first run finishes, it shows here.</p>'}</div></div></section>`;
 }
 
-export function reportEditor({ brand, report, base, sample = false, emailApproved = false, preview = null }) {
-  const live = !report.withdrawn_at && report.status !== 'draft';
-  const link = `${base}/report/${report.token}/`;
+export function reportEditor({ brand, report, base, sample = false, emailOn = false, preview = null }) {
   const token = sample ? 'SAMPLE' : String(report.id);
-  const b = (action, label, extra = '', kind = 'ghost small') => `<button type="button" class="${kind}" data-action="${action}" data-token="${token}" data-label="${esc(label)}" ${extra}>${esc(label)}</button>`;
-  const buttons = [];
-  if (report.withdrawn_at) buttons.push(b('report-restore', 'Restore the link', 'data-wait="Restoring…"', 'ghost small primary'));
-  else {
-    if (report.status === 'draft') {
-      buttons.push(b('report-approve', 'Approve', 'data-confirm="Approve this report?" data-wait="Approving…"', 'ghost small primary'));
-      buttons.push(b('report-refresh', 'Refresh the numbers', 'data-confirm="Take a fresh copy of the numbers?" data-wait="Refreshing…"'));
-    }
-    if (report.status === 'approved') buttons.push(b('report-unapprove', 'Back to draft', 'data-wait="Working…"'));
-    if (report.status !== 'draft') {
-      const to = report.recipient_email;
-      buttons.push(
-        !emailApproved
-          ? '<span class="muted small">Sending switches on once you approve the client email (see Samples).</span>'
-          : to
-            ? b('report-send', report.status === 'sent' ? 'Send again' : 'Send', `data-confirm="${esc(`Send to ${to}?`)}" data-wait="Saving the PDF to Drive and emailing it from your Gmail…"`, 'ghost small primary')
-            : '<span class="muted small">Add an email address below to send it.</span>',
-      );
-    }
-    buttons.push(b('report-withdraw', 'Withdraw the link', 'data-confirm="Sure? Press again" data-wait="Withdrawing…"'));
-  }
-  const facts = [
-    ['Status', report.withdrawn_at ? `Withdrawn ${fmtDate(report.withdrawn_at, 'long')}` : report.status === 'sent' ? `Sent ${fmtDate(report.sent_at, 'long')}` : report.status === 'approved' ? `Approved ${fmtDate(report.approved_at, 'long')}` : 'Draft'],
-    ['Kind', REPORT_KINDS[report.kind] || report.kind],
-    ['Private link', live ? `<a href="${esc(link)}">${esc(link)}</a>` : `${esc(link)} <span class="muted">(${report.withdrawn_at ? 'off' : 'opens only for you until approved'})</span>`],
-    ['Made', fmtDate(report.created_at, 'long')],
-  ];
-  return `<div class="run-bar"><div class="grow">${esc(report.title)}<p class="pill-line">${statusPill(report)}</p></div>${buttons.join('')}</div>
-  <section class="sec full"><h2>Report</h2>
-    <table class="kv"><tbody>${facts.map(([k, v]) => `<tr><th>${esc(k)}</th><td>${v}</td></tr>`).join('')}</tbody></table>
-    <p style="margin-top:16px"><a class="ghost small primary" href="${esc(preview || `/report/${report.token}/`)}">View the report</a> <a class="ghost small" href="${esc(preview ? `${preview.replace(/\/$/, '')}.pdf` : `/report/${report.token}/report.pdf`)}">PDF</a></p>
-  </section>
-  <section class="sec full"><h2>Details</h2>
+  const shared = isShared(report);
+  const link = `${base}/report/${report.token}/`;
+  const view = preview || `/report/${report.token}/`;
+  const pdf = preview ? `${preview.replace(/\/$/, '')}/report.pdf` : `/report/${report.token}/report.pdf`;
+  const shareBtn = shared
+    ? `<button type="button" class="ghost small" data-action="report-unshare" data-token="${token}" data-label="Turn sharing off" data-wait="Turning the link off…">Turn sharing off</button>`
+    : `<button type="button" class="ghost small" data-action="report-share" data-token="${token}" data-label="Share the link" data-confirm="Anyone with the link can open it. Share?" data-wait="Sharing…">Share the link</button>`;
+  // Sending to a client by email only appears once it's switched on (INSIGHTS_REPORT_EMAIL).
+  const send = emailOn
+    ? `<section class="sec full"><h2>Send by email</h2>
+      <form class="form" data-save="report-save" data-token="${token}">
+        <input type="hidden" name="title" value="${esc(report.title)}"><input type="hidden" name="recommendations" value="${esc(report.recommendations)}">
+        <label><span>Name</span><input name="recipient_name" maxlength="120" value="${esc(report.recipient_name)}" autocomplete="off"></label>
+        <label><span>Email</span><input name="recipient_email" type="email" maxlength="200" value="${esc(report.recipient_email)}" autocomplete="off"></label>
+        <div class="wide"><button type="submit" class="btn">Save</button> ${report.recipient_email && shared ? `<button type="button" class="ghost small primary" data-action="report-send" data-token="${token}" data-label="Send" data-confirm="${esc(`Send to ${report.recipient_email}?`)}" data-wait="Saving the PDF to Drive and emailing it from your Gmail…">Send</button>` : ''}</div>
+        <p class="status wide" role="status" hidden></p>
+      </form></section>`
+    : '';
+  return `<div class="run-bar"><div class="grow">${esc(report.title)}<p class="pill-line">${sharePill(report)}</p></div>
+    <a class="ghost small primary" href="${esc(view)}">View</a><a class="ghost small" href="${esc(pdf)}">PDF</a>${shareBtn}</div>
+  ${shared ? `<p class="note">Anyone with this link can open it: <a href="${esc(link)}">${esc(link)}</a></p>` : '<p class="note">Private: only you can open it while you are logged in.</p>'}
+  <section class="sec full"><h2>Recommendations</h2>
     <form class="form" data-save="report-save" data-token="${token}">
-      <label class="wide"><span>Title</span><input name="title" maxlength="160" value="${esc(report.title)}"></label>
-      <label><span>Send to (name)</span><input name="recipient_name" maxlength="120" value="${esc(report.recipient_name)}" autocomplete="off"></label>
-      <label><span>Send to (email)</span><input name="recipient_email" type="email" maxlength="200" value="${esc(report.recipient_email)}" autocomplete="off"></label>
-      <label class="wide"><span>Recommendations</span><textarea name="recommendations" maxlength="6000" rows="10">${esc(report.recommendations)}</textarea><small>Yours to write. Left empty, the section is left out of the report. Blank lines start new paragraphs.</small></label>
+      <input type="hidden" name="title" value="${esc(report.title)}">
+      <input type="hidden" name="recipient_name" value="${esc(report.recipient_name)}"><input type="hidden" name="recipient_email" value="${esc(report.recipient_email)}">
+      <label class="wide"><textarea name="recommendations" maxlength="6000" rows="8" aria-label="Recommendations">${esc(report.recommendations)}</textarea><small>Optional, and only ever yours. Left empty, the report has no recommendations section. Blank lines start new paragraphs.</small></label>
       <div class="wide"><button type="submit" class="btn">Save</button></div>
       <p class="status wide" role="status" hidden></p>
     </form>
-  </section>`;
+  </section>
+  ${send}`;
 }

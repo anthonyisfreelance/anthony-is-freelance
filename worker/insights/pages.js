@@ -38,11 +38,14 @@ const PAGE_CSS = `
 .run-bar .grow { flex: 1 1 260px; font: 500 14px/1.4 var(--display); }
 .run-bar .grow > span { display: block; font-size: 12px; color: var(--muted); }
 .run-bar .pill-line { margin-top: 6px; }
+.form.compare { grid-template-columns: 1fr 1fr auto; align-items: end; }
+.form.compare .btn { min-width: 160px; }
+.run-bar > a.ghost { text-decoration: none; }
 .run-bar .meter { margin-top: 8px; height: 8px; background: var(--paper); }
 .placeholder { padding: 24px; background: var(--box); }
 .placeholder p + p { margin-top: 1em; }
 @media (max-width: 900px) {
-  .form { grid-template-columns: 1fr; }
+  .form, .form.compare { grid-template-columns: 1fr; }
   .c-name { flex: none; }
 }
 `;
