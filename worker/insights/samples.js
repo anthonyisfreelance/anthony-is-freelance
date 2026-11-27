@@ -15,6 +15,10 @@ import { visibilityContent, answerBody } from './dashboard.js';
 import { brandsPage, brandSettings, brandShell, placeholderTab, scheduleTab, insightsShell } from './pages.js';
 import { insightsCodeEmail, insightsLoginNotice } from './emails.js';
 import { placeholderSvg } from './screen.js';
+import { freezeRun, reportPage, reportsTab, reportEditor, defaultTitle } from './reports.js';
+import { reportEmail } from './emails.js';
+import { renderPdfs } from '../docs/pdf.js';
+import { cachedPdf, allowed, headers } from '../docs/security.js';
 
 const P = '/admin/samples/';
 const FEEDBACK = '<script>window.__aifFeedbackLogin = true;</script><script src="/feedback.js" defer></script>';
@@ -136,17 +140,46 @@ const PAGES = [
   ['ai-settings', 'Brand settings and prompts', 'The brand form and the grouped prompt list.'],
   ['ai-schedule', 'Schedule tab', 'The weekly run. Dated runs arrive in phase 4.'],
   ['ai-ga4', 'GA4 tab', 'A placeholder until phase 3.'],
-  ['ai-reports', 'Reports tab', 'A placeholder until phase 2.'],
+  ['ai-reports', 'Reports tab', 'The list of reports and the form for a new one.'],
+  ['report-settings', 'A report’s settings', 'Approve, send, withdraw, and the recommendations box.'],
+  ['report-compare', 'Report: before and after', 'Two runs side by side, as the client sees it. With its PDF.'],
+  ['report-snapshot', 'Report: snapshot', 'One run, with recommendations written in. With its PDF.'],
   ['email-code', 'Email: login code', 'Sent to Anthony when he asks for a code.'],
   ['email-notice', 'Email: login notice', 'Sent to Anthony after every login.'],
+  ['email-report', 'Email: report to a client', 'Sent from your Gmail with the PDF. Needs your approval before any real send.'],
 ];
 
 const tabHref = (k) => `${P}${k === '' ? 'ai-visibility' : `ai-${k}`}/`;
 
-export async function samples(request, env, url, parts) {
+// Two sample reports from the canned runs: before and after (first and last run), and a snapshot
+// of the last run with recommendations written in, as Anthony would.
+function sampleReports() {
+  const { runs } = sampleData();
+  const first = runs[0];
+  const last = runs[runs.length - 1];
+  const brand = SAMPLE_BRAND;
+  const screen = { src: `data:image/svg+xml;base64,${btoa(placeholderSvg(brand.name))}`, url: 'https://saltwatersupply.example/', tint: '#ffffff', taken_at: '2026-11-02T06:05:00Z' };
+  const after = { ...freezeRun(last.run, last.rows, brand), screen };
+  const before = freezeRun(first.run, first.rows, brand);
+  const base = { brand_id: 0, recipient_name: 'Sam Fielding', recipient_email: 'sam@saltwatersupply.example', created_at: '2026-11-02T09:00:00Z', approved_at: '2026-11-02T09:30:00Z', sent_at: null, withdrawn_at: null };
+  return {
+    compare: { ...base, id: 2, token: 'SAMPLEcompareXXXXXXXXXX', kind: 'compare', status: 'approved', title: defaultTitle('compare', brand, last.run, first.run), data: { after, before, screen }, recommendations: '' },
+    snapshot: { ...base, id: 1, token: 'SAMPLEsnapshotXXXXXXXXX', kind: 'snapshot', status: 'sent', sent_at: '2026-11-03T10:00:00Z', title: defaultTitle('snapshot', brand, last.run), data: after,
+      recommendations: 'Get onto the two agency lists ChatGPT leans on for general questions. Both take paid placements.\n\nAdd a plain answer to "who makes the best sailing jacket in the UK" on the jackets page, with the awards and reviews beside it.' },
+  };
+}
+
+export async function samples(request, env, url, parts, ctx) {
   const base = url.origin;
   const slug = parts[0] || '';
   if (!slug) return html(index(base));
+  if (parts.length === 2 && parts[1] === 'report.pdf' && (slug === 'report-compare' || slug === 'report-snapshot')) {
+    const report = sampleReports()[slug.slice(7)];
+    const page = reportPage({ base, report, brand: SAMPLE_BRAND, pdf: true });
+    const bytes = await cachedPdf(env, ctx, base, page, async (h) => (await renderPdfs(env, [h]))[0], () => allowed(env, 'DOCS_RL_PDF', request, 'insights'));
+    if (!bytes) return html(notFound(base), 429);
+    return new Response(bytes, { headers: { 'content-type': 'application/pdf', 'content-disposition': `inline; filename="Sample_${slug}.pdf"`, ...headers() } });
+  }
   if (parts.length > 1) return html(notFound(base), 404);
   const brand = SAMPLE_BRAND;
   const { runs, trend } = sampleData();
@@ -193,7 +226,19 @@ export async function samples(request, env, url, parts) {
   }
   if (slug === 'ai-schedule') return html(shellOf('schedule', scheduleTab(brand, { nextRun: '2026-11-30' })));
   if (slug === 'ai-ga4') return html(shellOf('ga4', placeholderTab('ga4', brand)));
-  if (slug === 'ai-reports') return html(shellOf('reports', placeholderTab('reports', brand)));
+  if (slug === 'ai-reports') {
+    const r = sampleReports();
+    return html(shellOf('reports', reportsTab({ brand, sample: true, reports: [r.compare, r.snapshot], runs: trend, href: (id) => `${P}${id === 2 ? 'report-settings' : 'report-snapshot'}/` })));
+  }
+  if (slug === 'report-settings') {
+    return html(shellOf('reports', reportEditor({ brand, base, sample: true, emailApproved: true, report: sampleReports().compare, preview: `${P}report-compare/` })));
+  }
+  if (slug === 'report-compare' || slug === 'report-snapshot') {
+    const report = sampleReports()[slug.slice(7)];
+    const page = reportPage({ base, report, brand, admin: false }).replace(`/report/${report.token}/report.pdf`, `${P}${slug}/report.pdf`);
+    return html(withFeedback(page));
+  }
+  if (slug === 'email-report') return html(withFeedback(reportEmail({ base, report: sampleReports().compare, brand }).html));
   if (slug === 'email-code') return html(withFeedback(insightsCodeEmail({ code: '418 207'.replace(' ', ''), ip: '203.0.113.7', place: 'Falmouth, GB' }).html));
   if (slug === 'email-notice') {
     return html(withFeedback(insightsLoginNotice({ host: url.host, when: fmtDateTime('2026-11-27T09:12:00Z'), ip: '203.0.113.7', place: 'Falmouth, GB', ua: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 15_6) Safari/605.1.15' }).html));

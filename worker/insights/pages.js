@@ -36,7 +36,8 @@ const PAGE_CSS = `
 .form .btn { width: auto; min-width: 220px; }
 .run-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 16px; padding: 16px; background: var(--box); }
 .run-bar .grow { flex: 1 1 260px; font: 500 14px/1.4 var(--display); }
-.run-bar .grow span { display: block; font-size: 12px; color: var(--muted); }
+.run-bar .grow > span { display: block; font-size: 12px; color: var(--muted); }
+.run-bar .pill-line { margin-top: 6px; }
 .run-bar .meter { margin-top: 8px; height: 8px; background: var(--paper); }
 .placeholder { padding: 24px; background: var(--box); }
 .placeholder p + p { margin-top: 1em; }

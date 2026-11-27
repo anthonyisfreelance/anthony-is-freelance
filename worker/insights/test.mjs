@@ -243,6 +243,28 @@ await test('phone frame: status bar colour kept to a plain colour, text colour f
   assert.equal(isDark('#f4efe6'), false);
 });
 
+await test('report: numbers frozen from a run, excerpts escaped, recommendations left out when empty', async () => {
+  const { freezeRun, reportPage } = await import('./reports.js');
+  const rows = [];
+  let id = 0;
+  for (const [grp, prompt] of [['A', 'Best widget designer UK'], ['B', 'Freelance widget designer UK'], ['F', 'Who is Example Studio?']]) {
+    for (let attempt = 1; attempt <= 3; attempt++) {
+      const r = fakeAnswer(prompt, BRAND, attempt);
+      const text = `${r.text} <img src=x onerror=alert(1)>`;
+      const answer = { prompt_text: prompt, text, citations: r.citations };
+      const m = fakeModelScore(answer, BRAND);
+      rows.push({ id: ++id, prompt_id: grp.charCodeAt(0), prompt_text: prompt, grp, attempt, status: 'done', s_status: 'done', text, citations: r.citations, ...ruleScore(answer, BRAND), ...placeBrand(m.recommended, BRAND), flags: m.flags });
+    }
+  }
+  const data = freezeRun({ id: 1, started_at: '2026-11-27T10:51:00Z', completed_at: '2026-11-27T12:00:00Z', attempts: 3 }, rows, BRAND);
+  assert.equal(data.questions, 2); // the question naming the brand is left out of the headline numbers
+  assert.equal(data.questionsAll, 3);
+  const html = reportPage({ base: 'https://insights.example', report: { id: 1, token: 'x'.repeat(22), kind: 'snapshot', status: 'approved', title: 'T', data, recommendations: '' }, brand: { ...BRAND, slug: 'ex' } });
+  assert.ok(!html.includes('<img src=x'));
+  assert.ok(!html.includes('>Recommendations<'));
+  assert.match(html, /Visibility score/);
+});
+
 await test('ISO weeks and UK time', () => {
   assert.equal(isoWeek('2026-11-27'), '2026-W48');
   assert.equal(isoWeek('2027-01-01'), '2026-W53');
@@ -509,8 +531,72 @@ if (BASE) {
     assert.equal(btn.status, 400);
   });
 
-  await test('reports are not built yet: /report/ answers not found', async () => {
-    assert.equal((await get('/report/abc/')).status, 404);
+  let reportId, reportToken;
+  await test('report: a draft is made from a finished run, and only Anthony can open it', async () => {
+    const tab = await get(`/admin/brands/${slug}/reports/`).then((x) => x.text());
+    const run = tab.match(/<select name="run"><option value="(\d+)"/)?.[1];
+    assert.ok(run, 'a finished run to choose');
+    const r = await act('report-new', slug, { kind: 'snapshot', run, recipient_name: 'Jo Tester', recipient_email: 'not an email' });
+    assert.equal(r.status, 400);
+    const ok = await act('report-new', slug, { kind: 'snapshot', run, recipient_name: 'Jo <b>Tester</b>', recipient_email: 'jo@testwidget.example' });
+    assert.equal(ok.ok, true, ok.error);
+    reportId = ok.go.match(/reports\/(\d+)\//)[1];
+    const editor = await get(ok.go).then((x) => x.text());
+    reportToken = editor.match(/\/report\/([A-Za-z0-9_-]{20,40})\//)[1];
+    assert.ok(!editor.includes('<b>Tester</b>'));
+    const mine = await get(`/report/${reportToken}/`);
+    assert.equal(mine.status, 200);
+    assert.match(await mine.text(), /Visibility score/i);
+    const theirs = await fetch(`${BASE}/report/${reportToken}/`, { headers: { 'cf-connecting-ip': ip() } });
+    assert.equal(theirs.status, 404);
+  });
+
+  await test('report: recommendations only when written, escaped', async () => {
+    let page = await get(`/report/${reportToken}/`).then((x) => x.text());
+    assert.ok(!page.includes('>Recommendations<'));
+    const r = await act('report-save', reportId, { title: 'Test report', recipient_name: 'Jo', recipient_email: 'jo@testwidget.example', recommendations: 'First <script>x</script>\n\nSecond' });
+    assert.equal(r.ok, true, r.error);
+    page = await get(`/report/${reportToken}/`).then((x) => x.text());
+    assert.match(page, />Recommendations</);
+    assert.ok(!page.includes('<script>x'));
+  });
+
+  await test('report: approved opens for anyone, withdrawn is off at once, restore turns it back on', async () => {
+    assert.equal((await act('report-approve', reportId)).ok, true);
+    const open = (path = '') => fetch(`${BASE}/report/${reportToken}/${path}`, { headers: { 'cf-connecting-ip': ip() } });
+    const r1 = await open();
+    assert.equal(r1.status, 200);
+    assert.equal(r1.headers.get('x-robots-tag'), 'noindex, nofollow');
+    assert.equal(r1.headers.get('cache-control'), 'no-store');
+    const pdf = await open('report.pdf');
+    assert.equal(pdf.status, 200);
+    assert.equal(pdf.headers.get('content-type'), 'application/pdf');
+    assert.equal((await act('report-withdraw', reportId)).ok, true);
+    assert.equal((await open()).status, 410);
+    assert.equal((await open('report.pdf')).status, 410);
+    assert.equal((await act('report-restore', reportId)).ok, true);
+    assert.equal((await open()).status, 200);
+    assert.equal((await fetch(`${BASE}/report/${reportToken.slice(0, -2)}xx/`)).status, 404);
+  });
+
+  await test('report: nothing is sent until the email wording is approved', async () => {
+    const r = await act('report-send', reportId);
+    assert.equal(r.status, 400);
+    assert.match(r.error, /approve the client email/);
+  });
+
+  await test('report: before and after needs two runs, and shows the changes', async () => {
+    const tab = await get(`/admin/brands/${slug}/reports/`).then((x) => x.text());
+    const runs = [...tab.matchAll(/<option value="(\d+)">/g)].map((m) => m[1]);
+    const ids = [...new Set(runs)];
+    if (ids.length < 2) return console.log('       (skipped: one finished run)');
+    const r = await act('report-new', slug, { kind: 'compare', run: ids[0], before: ids[1] });
+    assert.equal(r.ok, true, r.error);
+    const editor = await get(r.go).then((x) => x.text());
+    const token = editor.match(/\/report\/([A-Za-z0-9_-]{20,40})\//)[1];
+    const page = await get(`/report/${token}/`).then((x) => x.text());
+    assert.match(page, /before and after/i);
+    assert.match(page, /Comparing ChatGPT/);
   });
 
   await test('log out ends the session', async () => {

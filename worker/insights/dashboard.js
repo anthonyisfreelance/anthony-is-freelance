@@ -652,16 +652,8 @@ export function answerBody(a, brand, { back }) {
   <p><a class="ghost" href="${esc(back)}">Back to the run</a></p>`;
 }
 
-export const DASH_STYLES = `
-.summary { padding: 40px; background: var(--desk); color: var(--on-desk); }
-.summary h2 { margin-bottom: 16px; font-size: 16px; line-height: 1; text-transform: uppercase; }
-.summary.with-phone { display: grid; grid-template-columns: 240px minmax(0, 1fr); grid-template-areas: "phone score" "phone nums" "phone next" "phone wins" "phone note"; column-gap: 48px; align-items: start; }
-.summary.with-phone .phone { grid-area: phone; }
-.summary.with-phone .sum-nums { grid-area: nums; grid-template-columns: 1fr 1fr; }
-.summary.with-phone .sum-next { grid-area: next; }
-.summary.with-phone .sum-wins { grid-area: wins; }
-.summary.with-phone .sum-note { grid-area: note; }
-.phone { margin: 0; position: sticky; top: 24px; }
+// The phone frame's styles, shared with the report sheet (reports.js).
+export const PHONE_CSS = `
 /* The handset: a metal band, a black bezel and the side buttons (action button and volume on the
    left, power and camera control on the right), in proportion to its width. The screen inside is
    sized in units of its own width (1cqw = 1/100 of the screen), so it scales as one piece.
@@ -693,7 +685,19 @@ export const DASH_STYLES = `
 .ios-safari .addr svg { flex: none; width: 2.6cqw; height: 3.4cqw; fill: currentColor; }
 .ios-safari .addr svg:last-child { width: 3.2cqw; height: 3.2cqw; fill: none; }
 .ios-safari .home { position: absolute; left: 50%; bottom: 2.2cqw; width: 34cqw; height: 1.3cqw; margin-left: -17cqw; border-radius: 1cqw; background: #000000; }
-.phone figcaption { margin-top: 12px; font: 500 12px/1.4 var(--display); letter-spacing: 0.02em; color: #9a9a9a; text-align: center; overflow-wrap: anywhere; }
+`;
+
+export const DASH_STYLES = `
+.summary { padding: 40px; background: var(--desk); color: var(--on-desk); }
+.summary h2 { margin-bottom: 16px; font-size: 16px; line-height: 1; text-transform: uppercase; }
+.summary.with-phone { display: grid; grid-template-columns: 240px minmax(0, 1fr); grid-template-areas: "phone score" "phone nums" "phone next" "phone wins" "phone note"; column-gap: 48px; align-items: start; }
+.summary.with-phone .phone { grid-area: phone; }
+.summary.with-phone .sum-nums { grid-area: nums; grid-template-columns: 1fr 1fr; }
+.summary.with-phone .sum-next { grid-area: next; }
+.summary.with-phone .sum-wins { grid-area: wins; }
+.summary.with-phone .sum-note { grid-area: note; }
+.phone { margin: 0; position: sticky; top: 24px; }
+${PHONE_CSS}.phone figcaption { margin-top: 12px; font: 500 12px/1.4 var(--display); letter-spacing: 0.02em; color: #9a9a9a; text-align: center; overflow-wrap: anywhere; }
 .phone figcaption button { display: block; margin: 8px auto 0; padding: 6px 10px; border: 1px solid #393939; background: none; color: #cfcfcf; font: 500 11px/1 var(--display); cursor: pointer; }
 .phone figcaption button:hover { border-color: #cfcfcf; }
 .sum-nums { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; padding-bottom: 40px; border-bottom: 1px solid #393939; }

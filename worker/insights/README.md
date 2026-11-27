@@ -5,8 +5,8 @@ worker). It tracks how AI engines talk about a brand, and later audits GA4 prope
 results into before-and-after reports. Only Anthony logs in. Nothing reaches a client until he
 approves it.
 
-This is phase 1: the AI visibility tracker. Phase 2 adds snapshots and reports, phase 3 the GA4
-audit, phase 4 client brands and scheduled dates.
+Built so far: phase 1, the AI visibility tracker, and phase 2, reports. Phase 3 adds the GA4 audit,
+phase 4 client brands and scheduled dates.
 
 ## How it fits together
 
@@ -61,6 +61,33 @@ audit, phase 4 client brands and scheduled dates.
   these pages only: its comments are public GitHub issues. Insights comments carry their host, so
   docs and insights each list only their own.
 
+## Reports (phase 2)
+
+- **What a report is.** Any finished run (a snapshot), or two finished runs side by side (before and
+  after), as an A4 sheet at a private link, `/report/<token>/`, with the same sheet as a PDF at
+  `/report/<token>/report.pdf`. The token is random (128 bits). Runs are the saved snapshots: every
+  run is kept with its date, and a report takes its own copy of the numbers when it is made, so it
+  never changes if runs are re-scored later. A draft can take a fresh copy (Refresh the numbers).
+- **What it shows.** The visibility score and the three headline rates (counting only questions
+  that don't name the business), the score table, the group table, who is named instead, the most
+  cited sites and third-party pages, three short excerpts, and the method note with the dates,
+  engine, model, answer counts and the two limits. Before and after shows each change and the
+  comparison line ("Comparing ChatGPT's answers on … with …, N days apart", with the launch date
+  when it falls between). The dashboard's What to do next is not in reports.
+- **Recommendations** are Anthony's alone: a box on the report's settings page. Left empty, the
+  section is left out. Nothing is ever written into it for him.
+- **Status.** Draft (opens only for Anthony, logged in), Approved (the link opens for anyone who has
+  it), Sent. Withdraw turns the link off at once (the client sees "This report has been withdrawn");
+  Restore turns it back on. Back to draft works until it is sent.
+- **Sending** takes two presses ("Send to name@client?"). It renders the PDF, saves it to Drive
+  through the bridge (Insights folder, a subfolder per brand), then emails the client from
+  Anthony's Gmail with the link and the PDF attached. The wording is `reportEmail` in `emails.js`,
+  on the samples page. **Sending stays off until `INSIGHTS_REPORT_EMAIL` is set to `approved`**, so
+  nothing reaches a client before Anthony has approved that wording.
+- **The bridge** has a `report` folder kind (`worker/docs/apps-script/Code.gs`). After changing
+  Code.gs, paste it into the Apps Script project and deploy a new version (Deploy > Manage
+  deployments > edit > Version: New version > Deploy). The URL stays the same.
+
 ## Settings
 
 Worker (Cloudflare dashboard > Worker > Settings > Variables and secrets). Add secrets as secrets:
@@ -75,9 +102,11 @@ plain-text variables set in the dashboard are wiped by the next deploy.
 | `INSIGHTS_SCORER_MODEL` | var | `gpt-6-luna`: the cheapest current model with structured outputs (checked 27 Nov 2026) |
 | `INSIGHTS_BATCH` | var | Answers per batch, default 4 (at most 8) |
 | `INSIGHTS_RUN_HOUR` | var, optional | Hour (UK) from which weekly runs start, default 6 |
+| `INSIGHTS_REPORT_EMAIL` | var | Set to `approved` once Anthony approves the client report email. Until then, Send is off |
 
 Reused from the documents: `DOCS_SECRET` (signs the login cookies), `RESEND_API_KEY` and
-`ADMIN_EMAIL` (login codes and notices). `BRIDGE_URL` and `BRIDGE_KEY` come in with phase 2.
+`ADMIN_EMAIL` (login codes and notices), `BRIDGE_URL` and `BRIDGE_KEY` (report PDFs to Drive and
+client emails from Gmail).
 
 `wrangler.jsonc` adds the D1 binding, the vars, a cron trigger (`*/5 * * * *`) and `/report/*` to
 `run_worker_first`. The worker's `scheduled` handler (`worker/index.js`) calls the runner.
@@ -112,6 +141,9 @@ Everything in the docs Security section applies here too (`worker/docs/README.md
   keys before it is saved.
 - **Rate limits** per IP use the docs bindings with their own counters: 60 page views, 20 posts and
   5 guesses a minute at any one code.
+- **Reports** show that report's own data and nothing else. Drafts open only for Anthony; a
+  withdrawn link answers 410 at once, the PDF included. Report pages and PDFs carry the same headers
+  as every page (noindex, never cached), and fresh PDF renders are rate limited.
 - **Secrets** live in Cloudflare, never in this repo. Brand data and results live in D1.
 
 ## Testing locally
@@ -125,5 +157,7 @@ Everything in the docs Security section applies here too (`worker/docs/README.md
 4. `node worker/insights/test.mjs` runs the unit tests;
    `BASE=http://127.0.0.1:8787 node worker/insights/test.mjs` also runs the whole flow against the
    local worker: login and code limits, the Origin check, a run with the fake engine through to
-   complete (with failures), scoring and re-scoring, stopping a run, the cron and weekly run, the
-   samples, and the rate limits.
+   complete (with failures), scoring and re-scoring, stopping a run, the cron and weekly run,
+   reports (draft privacy, recommendations, approve, the PDF, withdraw and restore, the send guard,
+   before and after), the samples, and the rate limits. `DOCS_FAKE_PDF=1` in `.dev.vars` gives
+   placeholder PDFs without a browser.

@@ -11,6 +11,8 @@
 //   /admin/brands/<slug>/settings/       brand settings and the prompt list
 //   /admin/brands/<slug>/answers/<id>/   one answer in full
 //   /admin/brands/<slug>/screen/         the phone screenshot of its homepage (screen.js)
+//   /admin/brands/<slug>/reports/<id>/   a report's settings: approve, send, withdraw (phase 2)
+//   /report/<token>/ and report.pdf      a report: the A4 sheet and its PDF (reports.js)
 //   /admin/samples/                      a made-up brand with a canned run, for checking the design
 //   POST /admin/code, /admin/verify, /admin/logout, /admin/action   (JSON, from this site only)
 //
@@ -24,7 +26,7 @@ import { esc, fmtDateTime, masthead, eyebrow, COMPANY } from '../docs/shared.js'
 import { seal, unseal, hmac, newCode, newToken, getCookie, cookie, same } from '../docs/auth.js';
 import { page as html, headers, allowed, codeAllowed } from '../docs/security.js';
 import { resend } from '../docs/mail.js';
-import { ensureSchema, db, getBrand, listBrands, getPrompts, now } from './db.js';
+import { ensureSchema, db, getBrand, listBrands, getPrompts, now, brandOf } from './db.js';
 import { parsePromptList, savePromptList } from './prompts.js';
 import { startRun, processBatch, runProgress, stopRun, rescoreRun, cron, ukClock, RunError } from './runner.js';
 import { visibilityContent, progressOf, answerBody } from './dashboard.js';
@@ -34,6 +36,11 @@ import { flagKey } from './score.js';
 import { list } from './text.js';
 import { samples } from './samples.js';
 import { takeScreen, screenInfo, screenImage, homepageOf } from './screen.js';
+import { runRows, freezeRun, listReports, getReport, defaultTitle, reportPage, reportsTab, reportEditor } from './reports.js';
+import { reportEmail } from './emails.js';
+import { renderPdfs, toBase64 } from '../docs/pdf.js';
+import { cachedPdf } from '../docs/security.js';
+import { bridge, sendEmail, BridgeError } from '../docs/bridge.js';
 
 const CODE_MINUTES = 10;
 const ADMIN_DAYS = 14;
@@ -86,8 +93,7 @@ export async function insights(request, env, ctx) {
     // The bare address opens the admin (the login page until logged in).
     if (!parts.length) return Response.redirect(`${base}/admin/`, 302);
     if (parts[0] === 'admin') return await admin(request, env, url, parts.slice(1), ctx);
-    // Reports (/report/<token>/) arrive in phase 2.
-    if (parts[0] === 'report') return message(base, 'Not found', 'This link is not a report.');
+    if (parts[0] === 'report') return await reportRoute(request, env, url, parts.slice(1), ctx);
     return null;
   } catch (e) {
     if (!(e instanceof RunError)) console.error('[insights]', e);
@@ -104,12 +110,12 @@ async function admin(request, env, url, parts, ctx) {
 
   if (request.method === 'GET') {
     if (!(await allowed(env, 'DOCS_RL_READ', request, RL))) return tooMany(request, base);
-    if (!url.pathname.endsWith('/')) return Response.redirect(`${base}${url.pathname}/${url.search}`, 301);
+    if (!url.pathname.endsWith('/') && !url.pathname.endsWith('.pdf')) return Response.redirect(`${base}${url.pathname}/${url.search}`, 301);
     if (!session) {
       // Keep the address, so a bookmarked page opens once the code is entered.
       return html(loginPage({ base, to: adminEmail(env) }));
     }
-    if (action === 'samples') return samples(request, env, url, parts.slice(1));
+    if (action === 'samples') return samples(request, env, url, parts.slice(1), ctx);
     await ensureSchema(env);
     if (!action) return html(brandsPage({ base, brands: await listBrands(env) }));
     if (action === 'brands' && parts[1] === 'new' && parts.length === 2) return html(brandSettings({ base, isNew: true }));
@@ -161,7 +167,126 @@ async function admin(request, env, url, parts, ctx) {
   if (!session) return json({ ok: false, error: 'Please log in again.' }, 401);
   if (action !== 'action') return json({ ok: false, error: 'Not found' }, 404);
   await ensureSchema(env);
-  return act(env, body, ctx, request);
+  return act(env, body, ctx, request, base);
+}
+
+/* ---------- Reports at /report/<token>/ ---------- */
+
+// Approved and sent reports open for anyone with the link; drafts and withdrawn links open only for
+// Anthony (logged in), so he can check them. A withdrawn link tells the client it was withdrawn.
+async function reportRoute(request, env, url, parts, ctx) {
+  const base = url.origin;
+  const token = parts[0] || '';
+  const pdf = parts[1] === 'report.pdf' && parts.length === 2;
+  if (request.method !== 'GET' || !/^[A-Za-z0-9_-]{20,40}$/.test(token) || (parts.length > 1 && !pdf)) return message(base, 'Not found', 'This link is not a report.');
+  if (!(await allowed(env, 'DOCS_RL_READ', request, RL))) return tooMany(request, base);
+  if (!pdf && !url.pathname.endsWith('/')) return Response.redirect(`${base}${url.pathname}/`, 301);
+  await ensureSchema(env);
+  const report = await getReport(env, 'token', token);
+  const admin = await insightsSession(request, env);
+  if (!report || (report.status === 'draft' && !admin)) return message(base, 'Not found', 'This link is not a report.');
+  if (report.withdrawn_at && !admin) return message(base, 'Report withdrawn', 'This report has been withdrawn. If you need it, please get in touch.', 410);
+  const brand = brandOf(await db(env).prepare(`SELECT * FROM brands WHERE id = ?`).bind(report.brand_id).first());
+  if (!pdf) return html(reportPage({ base, report, brand, admin }));
+  const page = reportPage({ base, report, brand, pdf: true });
+  const bytes = await cachedPdf(env, ctx, base, page, async (h) => (await renderPdfs(env, [h]))[0], () => allowed(env, 'DOCS_RL_PDF', request, RL));
+  if (!bytes) return tooMany(request, base);
+  return new Response(bytes, { headers: { 'content-type': 'application/pdf', 'content-disposition': `inline; filename="${reportFile(report, brand)}"`, ...headers() } });
+}
+
+export function reportFile(report, brand) {
+  const a = report.data.after || report.data;
+  const safe = (t) => String(t).replace(/[^A-Za-z0-9]+/g, '_').replace(/^_|_$/g, '');
+  return `${safe(brand.name)}_AI_visibility_${report.kind === 'compare' ? 'before_and_after_' : ''}${String(a.run?.started_at || '').slice(0, 10)}.pdf`;
+}
+
+async function freezeReport(env, brand, kind, runId, beforeId) {
+  const d = db(env);
+  const getRun = (id) => d.prepare(`SELECT * FROM runs WHERE id = ? AND brand_id = ? AND status = 'complete'`).bind(id, brand.id).first();
+  let after = await getRun(runId);
+  if (!after) return { error: 'Choose a finished run.' };
+  // The phone screenshot goes into the report as it is now, so the report keeps it.
+  const shot = await d.prepare(`SELECT url, type, image, tint, taken_at FROM shots WHERE brand_id = ?`).bind(brand.id).first();
+  const screen = shot?.image ? { src: `data:${shot.type};base64,${Buffer.from(new Uint8Array(shot.image)).toString('base64')}`, url: shot.url, tint: shot.tint, taken_at: shot.taken_at } : null;
+  if (kind !== 'compare') return { data: { ...freezeRun(after, await runRows(env, after.id), brand), screen }, after };
+  let before = await getRun(beforeId);
+  if (!before || before.id === after.id) return { error: 'For before and after, choose two different finished runs.' };
+  if (before.started_at > after.started_at) [before, after] = [after, before];
+  const [ra, rb] = await Promise.all([runRows(env, after.id), runRows(env, before.id)]);
+  return { data: { after: freezeRun(after, ra, brand), before: freezeRun(before, rb, brand), screen }, after, before };
+}
+
+const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+async function reportAction(env, body, base) {
+  const d = db(env);
+  const f = body.fields && typeof body.fields === 'object' ? body.fields : {};
+  if (body.action === 'report-new') {
+    const brand = await getBrand(env, clip(body.token, 60));
+    if (!brand) return json({ ok: false, error: 'Brand not found.' }, 404);
+    const kind = f.kind === 'compare' ? 'compare' : 'snapshot';
+    const r = await freezeReport(env, brand, kind, Number(f.run) || 0, Number(f.before) || 0);
+    if (r.error) return json({ ok: false, error: r.error }, 400);
+    const email = clip(f.recipient_email, 200);
+    if (email && !EMAIL.test(email)) return json({ ok: false, error: 'That email address doesn\'t look right.' }, 400);
+    const at = now();
+    const row = await d
+      .prepare(`INSERT INTO reports (token, brand_id, kind, title, run_id, before_run_id, data, recipient_name, recipient_email, status, created_at, updated_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'draft', ?, ?) RETURNING id`)
+      .bind(newToken(16), brand.id, kind, defaultTitle(kind, brand, r.after, r.before), r.after.id, r.before?.id || null, JSON.stringify(r.data), clip(f.recipient_name, 120), email, at, at)
+      .first();
+    return json({ ok: true, message: 'Draft made.', go: `/admin/brands/${brand.slug}/reports/${row.id}/` });
+  }
+  const report = await getReport(env, 'id', Number(body.token) || 0);
+  if (!report) return json({ ok: false, error: 'Report not found.' }, 404);
+  const brand = brandOf(await d.prepare(`SELECT * FROM brands WHERE id = ?`).bind(report.brand_id).first());
+  const set = (sql, ...args) => d.prepare(`UPDATE reports SET ${sql}, updated_at = ? WHERE id = ?`).bind(...args, now(), report.id).run();
+  switch (body.action) {
+    case 'report-save': {
+      const email = clip(f.recipient_email, 200);
+      if (email && !EMAIL.test(email)) return json({ ok: false, error: 'That email address doesn\'t look right.' }, 400);
+      await set('title = ?, recipient_name = ?, recipient_email = ?, recommendations = ?', clip(f.title, 160) || report.title, clip(f.recipient_name, 120), email, String(f.recommendations ?? '').slice(0, 6000).trim());
+      return json({ ok: true, message: report.status === 'draft' ? 'Saved.' : 'Saved. The live report shows the change straight away.' });
+    }
+    case 'report-refresh': {
+      if (report.status !== 'draft') return json({ ok: false, error: 'Only a draft can take fresh numbers.' }, 400);
+      const r = await freezeReport(env, brand, report.kind, report.run_id, report.before_run_id);
+      if (r.error) return json({ ok: false, error: r.error }, 400);
+      await set('data = ?', JSON.stringify(r.data));
+      return json({ ok: true, message: 'Numbers refreshed.' });
+    }
+    case 'report-approve':
+      if (report.status !== 'draft') return json({ ok: false, error: 'This report is already approved.' }, 400);
+      await set(`status = 'approved', approved_at = ?`, now());
+      return json({ ok: true, message: 'Approved. The link now opens for anyone who has it.' });
+    case 'report-unapprove':
+      if (report.status !== 'approved') return json({ ok: false, error: 'Only an approved, unsent report can go back to draft.' }, 400);
+      await set(`status = 'draft', approved_at = NULL`);
+      return json({ ok: true, message: 'Back to draft.' });
+    case 'report-withdraw':
+      await set('withdrawn_at = ?', now());
+      return json({ ok: true, message: 'Withdrawn. The link is off.' });
+    case 'report-restore':
+      await set('withdrawn_at = NULL');
+      return json({ ok: true, message: 'Restored. The link works again.' });
+    case 'report-send': {
+      if (env.INSIGHTS_REPORT_EMAIL !== 'approved') return json({ ok: false, error: 'Sending is off until you approve the client email wording (Samples).' }, 400);
+      if (report.withdrawn_at) return json({ ok: false, error: 'Restore the link before sending.' }, 400);
+      if (report.status === 'draft') return json({ ok: false, error: 'Approve the report before sending it.' }, 400);
+      if (!report.recipient_email) return json({ ok: false, error: 'Add an email address first.' }, 400);
+      try {
+        const [bytes] = await renderPdfs(env, [reportPage({ base, report, brand, pdf: true })]);
+        const file = await bridge(env, 'savePdf', { kind: 'report', name: reportFile(report, brand), base64: toBase64(bytes), brand: brand.name });
+        await sendEmail(env, { to: [report.recipient_email], ...reportEmail({ base, report, brand }), attachments: [{ fileId: file.id }] });
+        await set(`status = 'sent', sent_at = ?, drive_file_id = ?`, now(), file.id);
+      } catch (e) {
+        if (e instanceof BridgeError) return json({ ok: false, error: e.message }, 502);
+        throw e;
+      }
+      return json({ ok: true, message: `Sent to ${report.recipient_email} from your Gmail, and the PDF is saved to Drive.` });
+    }
+  }
+  return json({ ok: false, error: 'Not found' }, 404);
 }
 
 /* ---------- Brand pages ---------- */
@@ -187,7 +312,16 @@ async function brandPages(env, url, brand, rest) {
     if (!img) return message(base, 'Not found', 'There is no screenshot yet.');
     return new Response(img.bytes, { headers: { 'content-type': img.type, ...headers() } });
   }
-  if (tab === 'ga4' || tab === 'reports') return html(brandShell({ base, brand, active: tab, content: placeholderTab(tab, brand) }));
+  if (tab === 'reports' && rest.length === 1) {
+    const [{ results: runs }, reports] = await Promise.all([db(env).prepare(TREND_SQL).bind(brand.id).all(), listReports(env, brand.id)]);
+    return html(brandShell({ base, brand, active: tab, content: reportsTab({ brand, reports, runs }) }));
+  }
+  if (tab === 'reports' && rest.length === 2) {
+    const report = await getReport(env, 'id', Number(rest[1]) || 0);
+    if (!report || report.brand_id !== brand.id) return message(base, 'Not found', 'There is no report here.');
+    return html(brandShell({ base, brand, active: 'reports', content: reportEditor({ brand, report, base, emailApproved: env.INSIGHTS_REPORT_EMAIL === 'approved' }) }));
+  }
+  if (tab === 'ga4') return html(brandShell({ base, brand, active: tab, content: placeholderTab(tab, brand) }));
   if (tab === 'schedule') return html(brandShell({ base, brand, active: tab, content: scheduleTab(brand, { nextRun: nextRunDay(brand) }) }));
   if (tab) return message(base, 'Not found', 'There is no page here.');
   return html(brandShell({ base, brand, active: '', content: await visibilityTab(env, url, brand) }));
@@ -280,7 +414,7 @@ function brandFields(f, { isNew }) {
   };
 }
 
-async function act(env, body, ctx, request) {
+async function act(env, body, ctx, request, base) {
   const d = db(env);
   const token = clip(body.token, 60);
   const f = body.fields && typeof body.fields === 'object' ? body.fields : {};
@@ -334,6 +468,8 @@ async function act(env, body, ctx, request) {
     ]);
     return json({ ok: true, message: `Run started: ${run.total} questions. ${first.asked} answered so far.` });
   }
+
+  if (String(body.action || '').startsWith('report-')) return reportAction(env, body, base);
 
   if (['run-step', 'run-stop', 'rescore'].includes(body.action)) {
     const runId = Number(token) || 0;
