@@ -15,6 +15,8 @@
 //
 // Figures appear twice at most: 34% and 82% on their cards and in the results numbers.
 import { URLS, GOOGLE_RATING } from '../site';
+import { AWARD_LINKS } from '../awards';
+import { SERVICES_GRID } from '../services';
 import { card } from '../service-pages/shared';
 import type { SectorPage } from './types';
 import heroImage from '../../assets/brands/east-at-home/feature-photo.jpg';
@@ -59,6 +61,7 @@ export const FOOD_AND_DRINK: SectorPage = {
     heading: 'Judged the best in the UK. Twice.',
     cards: [card('Drink Finder'), card('East at Home')],
     note: 'UK eCommerce Awards 2026: four shortlistings, two wins.',
+    noteLink: { label: 'See the winners on the organiser’s site', href: AWARD_LINKS.winners },
     link: { label: 'View all Shopify success stories', href: URLS.work },
   },
   results: {
@@ -83,7 +86,7 @@ export const FOOD_AND_DRINK: SectorPage = {
     heading: 'Built around how people buy food and drink.',
     // Matched to src/data/innovations.ts by name: the only three of the 13 from food and drink stores.
     items: [
-      { client: 'Drink Finder', title: 'A comparison toggle on the collection page', body: 'One switch adds origin, region, vintage and style to every card, so shoppers compare bottles without opening each one.' },
+      { client: 'Drink Finder', title: 'A comparison toggle on the collection page', body: 'One switch adds country, region, vintage and style to every card, so shoppers compare bottles without opening each one.' },
       { client: 'East at Home', title: 'Product cards that answer dinner questions', body: 'Heat, dietary needs, reviews and price on every card, in a list built for comparing on a phone.' },
       { client: 'Drink Finder', title: 'An offers button instead of sticky pop-ups', body: 'Offers moved into the navigation, so sign-up prompts no longer block the way to checkout.' },
     ],
@@ -98,6 +101,23 @@ export const FOOD_AND_DRINK: SectorPage = {
       { quote: 'When I first saw Anthony’s work I knew that he was the right person for us, my initial hunch turned out to be correct.', cite: 'Ali Zaman, Owner, East at Home · 2026', logo: 'east-at-home', href: `${URLS.testimonials}#east-at-home` },
     ],
   },
+  logos: {
+    eyebrow: 'Ecommerce brands',
+    heading: 'Food and drink, and far beyond.',
+    // The logos are images, so this line names the clients for search and AI tools.
+    line: 'Drink Finder and East at Home in food and drink, alongside Dyson, Wrangler, Thameen London, Whistlefish, Wide Fit Shoes and Dr Lipp. Every logo opens the work.',
+    // Food and drink first, then the wider list. Same logos and links as the homepage.
+    logos: [
+      { name: 'Drink Finder', slug: 'drink-finder', href: URLS.caseStudies.drinkFinder },
+      { name: 'East at Home', slug: 'east-at-home', href: URLS.caseStudies.eastAtHome },
+      { name: 'Dyson', slug: 'dyson', href: URLS.dyson, mobileThird: true },
+      { name: 'Wrangler', slug: 'wrangler', href: URLS.wrangler },
+      { name: 'Thameen London', slug: 'thameen', href: '/work/thameen-london/' },
+      { name: 'Whistlefish', slug: 'whistlefish', href: '/work/whistlefish/' },
+      { name: 'Wide Fit Shoes', slug: 'wide-fit-shoes', href: '/work/wide-fit-shoes/' },
+      { name: 'Dr Lipp', slug: 'dr-lipp', href: '/work/dr-lipp/' },
+    ],
+  },
   sells: {
     eyebrow: 'Food and drink Shopify stores',
     heading: 'Bigger baskets, without the hard sell.',
@@ -107,6 +127,19 @@ export const FOOD_AND_DRINK: SectorPage = {
       { client: 'East at Home', title: 'Mix and match', body: 'Customers build their own box of sauces and kits on a phone.', screen: eahBundle, alt: 'East at Home’s mix and match curry sauce builder on mobile.', href: URLS.caseStudies.eastAtHome },
       { client: 'Drink Finder', title: 'A menu for 5,000 products', body: 'Mobile navigation designed from scratch around the whole range.', screen: dfMenu, alt: 'The Drink Finder mobile menu, listing wine, whisky, rum, gin and more.', href: URLS.caseStudies.drinkFinder },
     ],
+  },
+  services: {
+    eyebrow: 'Food and drink Shopify services',
+    heading: 'Priced up front.',
+    // Photo, link and price come from the services hub record; only the line is written for this page.
+    items: [
+      { name: 'Bespoke store design', body: 'Every template designed around the range. East at Home’s bespoke store won UK User Experience of the Year.' },
+      { name: 'Migrations', body: 'A move to Shopify, redesigned on the way. Drink Finder’s won UK eCommerce Website of the Year.' },
+      { name: 'Theme customisations', body: 'A premium theme reshaped around the products, for brands that need to move quickly.' },
+      { name: 'Shopify CRO', body: 'Multi-buy offers, quantity savings and basket thresholds, tested on a live store.' },
+    ],
+    // The hub's price note, word for word, so prices read the same on both pages.
+    note: SERVICES_GRID.note,
   },
   faqs: {
     eyebrow: 'Food and drink Shopify FAQs',

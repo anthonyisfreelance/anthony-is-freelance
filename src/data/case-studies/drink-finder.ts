@@ -103,8 +103,8 @@ const HIGHLIGHTS = [
   {
     eyebrow: 'Shopify collection page design',
     heading: 'Compare bottles without opening every product page.',
-    body: 'Drink Finder’s collection pages are where wine shoppers compare. A Show extras switch opens every product card to show style, grape and country, so they compare side by side before they click.',
-    media: { image: COMPARE.poster, video: COMPARE.video, alt: 'A Drink Finder collection on mobile, with the Show extras switch turning on style, grape and country on every card.' },
+    body: 'Drink Finder’s collection pages are where wine shoppers compare. A Show extras switch opens every product card to show a short description, country, region, vintage and style, so they compare side by side before they click.',
+    media: { image: COMPARE.poster, video: COMPARE.video, alt: 'A Drink Finder collection on mobile, with the Show extras switch turning on country, region, vintage and style on every card.' },
     link: { label: 'See the comparison toggle', href: `${URLS.innovations}#comparison-toggle` },
     flip: false,
   },

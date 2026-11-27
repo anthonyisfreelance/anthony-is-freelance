@@ -8,8 +8,12 @@ import { join } from 'node:path';
 import Heading from '../Heading.astro';
 import { BRANDS } from '../../data/home';
 
+// Pages other than the homepage can pass their own heading, line and logos (the sector pages, 27 November 2026).
+interface Props { data?: { eyebrow: string; heading: string; line: string; logos: { name: string; slug: string; href: string; mobileThird?: boolean }[] } }
+const { data = BRANDS } = Astro.props;
+
 const AREA = { mobile: 2000, desktop: 3600 }; // px² of artwork per logo
-const logos = BRANDS.logos.map((l) => {
+const logos = data.logos.map((l) => {
   const svg = readFileSync(join(process.cwd(), 'public/logos', `${l.slug}.svg`), 'utf8');
   const [, , w, h] = svg.match(/viewBox="([^"]+)"/)![1].split(/[\s,]+/).map(Number);
   const ratio = w / h;
@@ -22,9 +26,9 @@ const phoneOrder = (l: (typeof logos)[number], i: number) => ('mobileThird' in l
 <section class="px-margin pt-section-sm lg:pt-section-pre">
   <div class="gap-gutter border-t border-line pt-section lg:flex lg:pt-section-sm">
     <div class="flex flex-1 flex-col gap-loose">
-      <Heading eyebrow={BRANDS.eyebrow}>{BRANDS.heading}</Heading>
+      <Heading eyebrow={data.eyebrow}>{data.heading}</Heading>
       <!-- The logos are images, so this line is what names the clients for search and AI tools. -->
-      <p class="t-body text-muted lg:max-w-[560px]">{BRANDS.line}</p>
+      <p class="t-body text-muted lg:max-w-[560px]">{data.line}</p>
     </div>
     <ul class="mt-large flex flex-1 flex-wrap justify-center lg:mt-0 lg:grid lg:grid-cols-4 lg:content-center lg:gap-x-grid">
       {logos.map((l, i) => (

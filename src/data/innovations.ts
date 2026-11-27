@@ -74,7 +74,7 @@ const RECORDS: InnovationRecord[] = [
     problem:
       'Drink Finder stocks over 1,500 wines, and buyers compare them on country, region, vintage and style. A standard card left them opening bottle after bottle.',
     howItWorks:
-      'A Show extras toggle at the top of the collection adds rating, origin, region, vintage and style to every card. Leave it on to compare, or switch it off for a clean grid of bottles and prices.',
+      'A Show extras toggle at the top of the collection adds a short description, country, region, vintage and style to every card. Leave it on to compare, or switch it off for a clean grid of bottles and prices.',
     // Andrew Rowe in Business Cornwall, 15 October 2026, word for word.
     evidence:
       '“Customers are now finding and buying bottles online that we used to struggle to sell.” Andrew Rowe, Constantine director, in [Business Cornwall](https://businesscornwall.co.uk/news-by-industry/awards/2026/10/national-award-for-drink-finder/), 15 October 2026.',
