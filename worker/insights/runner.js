@@ -19,6 +19,7 @@
 import { db, now, brandOf, parse } from './db.js';
 import { engineFor, EngineError } from './engine.js';
 import { scoreAnswer } from './score.js';
+import { takeScreen, homepageOf } from './screen.js';
 
 export const MAX_TRIES = 3;
 const STALE_MS = 10 * 60 * 1000;
@@ -253,7 +254,10 @@ export async function cron(env, when = new Date()) {
       .all();
     for (const b of results) {
       try {
-        out.started.push(await startRun(env, brandOf(b), { kind: 'weekly', week: clock.week }));
+        const brand = brandOf(b);
+        out.started.push(await startRun(env, brand, { kind: 'weekly', week: clock.week }));
+        // A fresh phone screenshot of the homepage with each weekly run.
+        if (homepageOf(brand)) await takeScreen(env, brand).catch((e) => console.error('[insights] screenshot', brand.slug, e.message));
       } catch (e) {
         console.error('[insights] weekly run', b.slug, e.message);
       }

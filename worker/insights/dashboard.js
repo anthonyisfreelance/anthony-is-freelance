@@ -163,7 +163,7 @@ function median(list) {
 
 // The short version, at the top: four big numbers, then where the brand wins and where to focus,
 // worked out by rule from this run (no AI writing). `prev` is the run before, for the changes.
-export function summaryBlock(m, prev) {
+export function summaryBlock(m, prev, screen = null) {
   if (!m.scored) return '';
   const rate = pct(m.named, m.scored);
   const a = m.A?.answers ? pct(m.A.named, m.A.answers) : null;
@@ -200,7 +200,12 @@ export function summaryBlock(m, prev) {
   if (loud) focus.push([`${loud.label} in ${pctText(loud.answers, m.scored)} of answers`, `${loud.example ? `For example “${esc(loud.example)}”. ` : ''}Read those answers to see what drives it.`]);
 
   const list = (items) => `<ol class="boxes">${items.slice(0, 4).map(([t, x], i) => `<li class="box"><span class="n">${String(i + 1).padStart(2, '0')}</span><div><h3>${esc(t)}</h3><p>${x}</p></div></li>`).join('')}</ol>`;
-  return `<section class="summary" aria-label="Summary">
+  const phone = screen
+    ? `<figure class="phone"><div class="phone-screen">${screen.src ? `<img src="${esc(screen.src)}" alt="${esc(`The homepage of ${screen.url} on a phone`)}" width="390" height="844">` : ''}</div>
+        <figcaption>${screen.src ? `${esc(shortUrl(screen.url))}${screen.taken_at ? ` · ${esc(fmtDate(screen.taken_at))}` : ''}` : 'No screenshot yet'}${screen.action || ''}</figcaption></figure>`
+    : '';
+  return `<section class="summary${phone ? ' with-phone' : ''}" aria-label="Summary">
+    ${phone}
     <div class="sum-nums">
       <div><p class="big blue">${rate}%</p><p class="lbl">of ChatGPT answers name you</p>${change(rate, prevRate)}</div>
       <div><p class="big">${a == null ? '–' : `${a}%`}</p><p class="lbl">when buyers just ask for the best</p>${change(a, prevA)}</div>
@@ -405,7 +410,7 @@ export function methodNote(run, m, model) {
 /* ---------- The tab ---------- */
 
 // The whole tab, from loaded data. Used by the brand page and by the samples.
-export function visibilityContent({ brand, trend, run, rows = [], group = null, prompt = null, link, answerHref, progress = null, promptCount = 0, sample = false }) {
+export function visibilityContent({ brand, trend, run, rows = [], group = null, prompt = null, link, answerHref, progress = null, promptCount = 0, sample = false, screen = null }) {
   if (!run) return runBar({ brand, run: null, promptCount, sample }) + `<p class="empty">No runs yet. ${promptCount ? 'Press Run now for a first baseline.' : 'Add the prompt list in Settings first.'}</p>`;
   const m = summarise(rows, brand);
   const model = rows.find((r) => r.model)?.model;
@@ -413,7 +418,7 @@ export function visibilityContent({ brand, trend, run, rows = [], group = null, 
   const prev = trend.slice(at + 1).find((r) => r.status === 'complete' && r.n);
   return [
     runBar({ brand, run, promptCount, progress, sample }),
-    summaryBlock(m, prev),
+    summaryBlock(m, prev, screen),
     `<h2 class="detail-h">The detail</h2>`,
     headline(m),
     gapBlock(m),
@@ -506,6 +511,17 @@ export function answerBody(a, brand, { back }) {
 export const DASH_STYLES = `
 .summary { padding: 40px; background: var(--desk); color: var(--on-desk); }
 .summary h2 { margin-bottom: 16px; font-size: 16px; line-height: 1; text-transform: uppercase; }
+.summary.with-phone { display: grid; grid-template-columns: 220px minmax(0, 1fr); grid-template-areas: "phone nums" "phone cols" "phone note"; column-gap: 40px; align-items: start; }
+.summary.with-phone .phone { grid-area: phone; }
+.summary.with-phone .sum-nums { grid-area: nums; grid-template-columns: 1fr 1fr; }
+.summary.with-phone .sum-cols { grid-area: cols; }
+.summary.with-phone .sum-note { grid-area: note; }
+.phone { margin: 0; position: sticky; top: 24px; }
+.phone-screen { overflow: hidden; aspect-ratio: 390 / 844; border: 6px solid #2b2b2b; border-radius: 30px; background: #222; }
+.phone-screen img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.phone figcaption { margin-top: 12px; font: 500 12px/1.4 var(--display); letter-spacing: 0.02em; color: #9a9a9a; text-align: center; overflow-wrap: anywhere; }
+.phone figcaption button { display: block; margin: 8px auto 0; padding: 6px 10px; border: 1px solid #393939; background: none; color: #cfcfcf; font: 500 11px/1 var(--display); cursor: pointer; }
+.phone figcaption button:hover { border-color: #cfcfcf; }
 .sum-nums { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 32px; padding-bottom: 40px; border-bottom: 1px solid #393939; }
 .sum-nums .big { font: 500 88px/0.95 var(--display); letter-spacing: -0.01em; }
 .sum-nums .big.blue { color: #4d8bff; }
@@ -524,6 +540,8 @@ export const DASH_STYLES = `
 .detail-h { padding-top: 16px; font-size: 22px; line-height: 1.3; text-transform: uppercase; }
 @media (max-width: 900px) {
   .summary { margin-inline: -16px; padding: 24px 16px; }
+  .summary.with-phone { display: block; }
+  .phone { position: static; width: 160px; margin: 0 auto 24px; }
   .sum-nums { grid-template-columns: 1fr 1fr; gap: 24px 16px; padding-bottom: 24px; }
   .sum-nums .big { font-size: 52px; }
   .sum-nums .lbl { font-size: 13px; }

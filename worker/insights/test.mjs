@@ -388,6 +388,18 @@ if (BASE) {
     assert.ok(answerId);
   });
 
+  await test('summary: big numbers, where you win, where to focus, and the phone screenshot', async () => {
+    const page = await get(`/admin/brands/${slug}/`).then((x) => x.text());
+    for (const t of ['of ChatGPT answers name you', 'Where you win', 'Where to focus', 'The detail']) assert.ok(page.includes(t), `missing "${t}"`);
+    assert.match(page, /screenshot/i);
+    const r = await act('screen-take', slug);
+    assert.equal(r.ok, true, r.error);
+    const img = await get(`/admin/brands/${slug}/screen/`);
+    assert.equal(img.status, 200);
+    assert.match(img.headers.get('content-type'), /^image\//);
+    assert.match(await get(`/admin/brands/${slug}/`).then((x) => x.text()), /class="phone-screen"><img src="\/admin\/brands\//);
+  });
+
   await test('dashboard: filter by group and by prompt', async () => {
     const a = await get(`/admin/brands/${slug}/?group=B`).then((x) => x.text());
     assert.ok(a.includes('Best freelance widget designer UK') && !a.includes('Who is the best widget designer in the UK?</a>'));
