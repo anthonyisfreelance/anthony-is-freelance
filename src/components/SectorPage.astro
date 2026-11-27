@@ -149,12 +149,14 @@ const split = 'grid gap-section-sm border-t border-line lg:grid-cols-2 lg:gap-gu
     )}
 
     <!-- The sector -->
+    {p.sector && (
     <section class="px-margin pt-section">
       <div class={split}>
         <div class="pt-section"><Heading eyebrow={p.sector.eyebrow}>{p.sector.heading}</Heading></div>
-        <div class="t-body flex flex-col gap-loose text-muted lg:pt-section">{p.sector.paragraphs.map((t) => <p>{t}</p>)}</div>
+        <div class="t-body flex flex-col gap-loose text-muted lg:pt-section">{p.sector!.paragraphs.map((t) => <p>{t}</p>)}</div>
       </div>
     </section>
+    )}
 
     <!-- What the stores need: the service pages' boxed list, a hairline above every box but the first. -->
     <section class="px-margin pt-section">
@@ -175,6 +177,7 @@ const split = 'grid gap-section-sm border-t border-line lg:grid-cols-2 lg:gap-gu
     </section>
 
     <!-- After launch -->
+    {p.after && (
     <section class="px-margin pt-section">
       <div class={split}>
         <div class="pt-section"><Heading eyebrow={p.after.eyebrow}>{p.after.heading}</Heading></div>
@@ -184,6 +187,7 @@ const split = 'grid gap-section-sm border-t border-line lg:grid-cols-2 lg:gap-gu
         </div>
       </div>
     </section>
+    )}
 
     <!-- Honest advice: the service pages' routing block. -->
     <section class="px-margin pt-section">

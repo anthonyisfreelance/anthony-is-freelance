@@ -21,12 +21,13 @@ export interface SectorPage {
   };
   /** The H1 has no eyebrow on sector pages: the sector claim is the whole heading. */
   hero: { heading: string; intro: string; cta: Link; image?: ImageMetadata; imageAlt?: string; imagePosition?: string; trust: Tile[] };
-  sector: { eyebrow: string; heading: string; paragraphs: string[] };
+  /** Optional sector-truth section, after the proof. */
+  sector?: { eyebrow: string; heading: string; paragraphs: string[] };
   needs: { eyebrow: string; heading: string; intro?: string; items: { title: string; body: string }[] };
   work: { eyebrow: string; heading: string; intro?: string; cards: Card[]; note?: string; link?: Link };
   innovations?: { eyebrow: string; heading: string; intro?: string; items: { client: string; title: string; body: string }[]; link?: Link };
   quotes?: { eyebrow: string; heading: string; items: { quote: string; cite: string; logo?: string; href?: string }[] };
-  after: { eyebrow: string; heading: string; paragraphs: string[]; link?: Link };
+  after?: { eyebrow: string; heading: string; paragraphs: string[]; link?: Link };
   routing: { eyebrow: string; heading: string; intro?: string; routes: { situation: string; body: string; links: Link[] }[] };
   faqs: { eyebrow: string; heading: string; items: { q: string; a: string[] }[] };
   cta: { eyebrow: string; heading: string };

@@ -1,5 +1,8 @@
-// Food and drink sector page (27 November 2026, unlisted). Copy from the Claude doc
-// "Sector page: Shopify design for food and drink brands". The template is SectorPage.astro.
+// Food and drink sector page (27 November 2026, unlisted). The template is SectorPage.astro.
+//
+// Voice (27 November 2026): authoritative, almost no "I". The results and the clients are the subject of
+// each sentence, and Anthony is named where "I" would have been. Every line is a fact from the two case
+// studies: no slogans, nothing that couldn't be checked.
 //
 // Six rules keep this page off the homepage's broad terms (agreed 27 November 2026):
 //   1. "Designer" always has the sector attached. Never "Shopify designer UK" or "Shopify expert".
@@ -17,7 +20,7 @@ export const FOOD_AND_DRINK: SectorPage = {
   meta: {
     title: 'Food and Drink Shopify Designer | Anthony is Freelance',
     description:
-      'Shopify design for food and drink brands by Anthony Bliss. Drink Finder and East at Home both won at the UK eCommerce Awards 2026. Every result sourced.',
+      'The UK eCommerce Website of the Year 2026 sells wine. The UK User Experience of the Year sells curry sauce. Anthony Bliss designed both stores.',
     path: '/food-and-drink-shopify-designer/',
     name: 'Food and drink brands',
     serviceName: 'Shopify design for food and drink brands',
@@ -29,7 +32,8 @@ export const FOOD_AND_DRINK: SectorPage = {
   hero: {
     // No eyebrow on sector page H1s: the sector claim is the whole heading (27 November 2026).
     heading: 'Shopify designer for food and drink brands',
-    intro: 'My two UK eCommerce Award wins in 2026 were both for food and drink stores. I design every screen myself, and work with agencies and expert Shopify developers to bring each store to life.',
+    intro:
+      'The UK eCommerce Website of the Year 2026 sells wine. The UK User Experience of the Year sells curry sauce. Anthony Bliss designed both stores. Brands commission him directly, and agencies bring him in to lead the design.',
     cta: { label: 'Start a food and drink project', href: '#start-a-project' },
     image: heroImage,
     imageAlt: '',
@@ -40,45 +44,23 @@ export const FOOD_AND_DRINK: SectorPage = {
       { text: '20+ years of brand and ecommerce experience', href: URLS.about },
     ],
   },
-  sector: {
-    eyebrow: 'Food and drink ecommerce',
-    heading: 'Nobody can taste it through a screen.',
-    paragraphs: [
-      'Food and drink ecommerce asks people to buy with one sense missing. In a shop they’d pick up the jar, read the label and ask what it goes with. Online, the product card and the product page have to do that work, often on a phone.',
-      'Most customers have bought something like it before. So the store also has to make it easy to compare, add a few more and come back. I start with what customers would ask in the shop, and design the store to answer it.',
-    ],
-  },
-  needs: {
-    eyebrow: 'Food and drink Shopify stores',
-    heading: 'What they need to sell well.',
-    intro: 'Food and drink Shopify stores need to answer questions before anyone asks them. These are the seven I design for.',
-    items: [
-      { title: 'Answers on the product card.', body: 'Heat, dietary needs, reviews and price, before anyone clicks.' },
-      { title: 'A way to compare similar products.', body: 'A shelf of sauces or a wall of wine looks alike until the card shows what’s different.' },
-      { title: 'Navigation and search built for the range.', body: 'Twelve products and 5,000 products need different routes in.' },
-      { title: 'Savings for buying more, shown plainly.', body: 'Multi-buy offers on the product page, with no countdown timers.' },
-      { title: 'A basket that shows what the next spend unlocks.', body: 'Free delivery or a gift, as a progress bar and not a pop-up.' },
-      { title: 'Mix and match.', body: 'Bundles customers build themselves, on a phone.' },
-      { title: 'Delivery costs before the basket.', body: 'When it arrives and what it costs, on the product page.' },
-    ],
-  },
   work: {
     eyebrow: 'Food and drink Shopify work',
-    heading: 'Two stores, two UK eCommerce Awards.',
-    intro: 'My food and drink Shopify work includes Drink Finder, a Cornish wine and spirits merchant, and East at Home, a curry sauce brand. I designed both stores, and expert Shopify developers built them.',
+    heading: 'Two stores. Two national awards.',
+    intro: 'Drink Finder is a Cornish wine and spirits merchant with more than 5,000 products. East at Home makes curry sauces and spice kits. Both stores were designed mobile first, and both were judged the best in the UK in their category.',
     cards: [card('Drink Finder'), card('East at Home')],
-    note: 'Both stores were shortlisted in a second category: Drink Finder for Food & Drink eCommerce Website of the Year, and East at Home for B2C eCommerce Website of the Year.',
+    note: 'Both were also shortlisted in a second category: Drink Finder for Food & Drink eCommerce Website of the Year, and East at Home for B2C eCommerce Website of the Year.',
     link: { label: 'View all Shopify success stories', href: URLS.work },
   },
   innovations: {
     eyebrow: 'Food and drink UX examples',
-    heading: 'Ideas shaped by what’s on the shelf.',
-    intro: 'Food and drink UX examples from the two stores. Each one solved a problem that brand’s customers had.',
+    heading: 'Designed for how people buy food and drink.',
+    intro: 'Three ideas from Drink Finder and East at Home, each one solving a problem their customers had.',
     // Matched to src/data/innovations.ts by name: the only three of the 13 from food and drink stores.
     items: [
-      { client: 'Drink Finder', title: 'A comparison toggle on the collection page', body: 'A Show extras switch adds origin, region, vintage and style to every card, so shoppers compare without opening each bottle.' },
-      { client: 'East at Home', title: 'Product cards that answer dinner questions', body: 'Every card shows heat, dietary needs, reviews and price, in a list built for comparing on mobile.' },
-      { client: 'Drink Finder', title: 'An offers button instead of sticky pop-ups', body: 'Offers moved into a navigation button, so sign-up prompts no longer block the way to checkout.' },
+      { client: 'Drink Finder', title: 'A comparison toggle on the collection page', body: 'One switch adds origin, region, vintage and style to every card, so shoppers compare bottles without opening each one.' },
+      { client: 'East at Home', title: 'Product cards that answer dinner questions', body: 'Heat, dietary needs, reviews and price on every card, in a list built for comparing on a phone.' },
+      { client: 'Drink Finder', title: 'An offers button instead of sticky pop-ups', body: 'Offers moved into the navigation, so sign-up prompts no longer block the way to checkout.' },
     ],
     link: { label: 'See all Shopify innovations', href: URLS.innovations },
   },
@@ -91,24 +73,27 @@ export const FOOD_AND_DRINK: SectorPage = {
       { quote: 'When I first saw Anthony’s work I knew that he was the right person for us, my initial hunch turned out to be correct.', cite: 'Ali Zaman, Owner, East at Home · 2026', logo: 'east-at-home', href: `${URLS.testimonials}#east-at-home` },
     ],
   },
-  after: {
-    eyebrow: 'Food and drink CRO',
-    heading: 'A store is never finished.',
-    paragraphs: [
-      'Food and drink CRO carries on after launch, because a store is never finished. I check conversion rate and average order value at one, three and seven days. After that, each change is judged a week against a week, starting from what GA4 and Microsoft Clarity show.',
-      'Each store is handed over as a design system, so seasonal campaigns, new products and landing pages stay consistent without starting again. For SEO and Klaviyo, I introduce specialists I work with.',
+  needs: {
+    eyebrow: 'Food and drink Shopify stores',
+    heading: 'What sells, proven on live stores.',
+    items: [
+      { title: 'Answers on the product card.', body: 'Heat, dietary needs, reviews and price on every East at Home card, before anyone clicks.' },
+      { title: 'A way to compare a big range.', body: 'Drink Finder’s Show extras switch adds the details wine buyers compare to every card.' },
+      { title: 'Multi-buy offers as buttons, not small print.', body: 'One, six and twelve bottles at Drink Finder, with the next saving shown in the basket.' },
+      { title: 'A basket that shows the next threshold.', body: 'At East at Home, free delivery unlocks at £35 and a recipe book at £50.' },
+      { title: 'Bundles built on a phone.', body: 'East at Home’s mix-and-match builder, with feedback at every step.' },
+      { title: 'Search that works before anyone types.', body: 'Drink Finder’s search shows popular searches and bottles as soon as it opens.' },
+      { title: 'Retail and trade in one store.', body: 'Drink Finder sells to both, across wine and spirits.' },
     ],
-    link: { label: 'Shopify CRO', href: URLS.cro },
   },
   routing: {
     eyebrow: 'Honest Shopify advice',
-    heading: 'When I’m not the right fit.',
-    intro: 'Honest Shopify advice for food and drink brands: not every one needs a new store, and some don’t need me yet.',
+    heading: 'When a new store isn’t the answer.',
+    intro: 'Not every food and drink brand needs a redesign.',
     routes: [
-      { situation: 'You’re launching your first product.', body: 'Start on a good theme or Shopify’s AI store builder. Come back when sales show what the store needs.', links: [] },
-      { situation: 'Your store works, it just doesn’t convert well enough.', body: 'Rebuilding the whole store to fix a few leaking steps is the expensive way to do it. Find where customers leave and fix that first.', links: [{ label: 'Shopify CRO', href: URLS.cro }] },
-      { situation: 'You’re on another platform.', body: 'A move to Shopify changes what the store needs, so start there. Drink Finder moved from a bespoke platform and redesigned on the way.', links: [{ label: 'Migrations', href: URLS.migrations }] },
-      { situation: 'Repeat orders are the business.', body: 'If most of your sales are subscriptions, the subscribe journey comes first and the store is designed around it.', links: [{ label: 'Subscriptions', href: URLS.subscriptions }] },
+      { situation: 'Launching a first product.', body: 'Start on a well-chosen theme. Sales data then shows what a bespoke store needs to fix.', links: [{ label: 'Theme customisations', href: URLS.theme }] },
+      { situation: 'The store works, but doesn’t convert.', body: 'Find the steps that lose sales and fix those before rebuilding anything.', links: [{ label: 'Shopify CRO', href: URLS.cro }] },
+      { situation: 'Subscriptions are the business.', body: 'The subscribe journey comes first, and the store is designed around it.', links: [{ label: 'Subscriptions', href: URLS.subscriptions }] },
     ],
   },
   faqs: {
@@ -117,28 +102,32 @@ export const FOOD_AND_DRINK: SectorPage = {
     items: [
       {
         q: 'Can Shopify handle a food and drink range of 5,000 products?',
-        a: ['Yes. Drink Finder sells more than 5,000 wines and spirits on Shopify. With a range that size, the work is in the navigation and search. I designed the mobile navigation from scratch, and search suggests popular searches and bottles before anyone types.'],
+        a: ['Yes. Drink Finder sells more than 5,000 wines and spirits on Shopify. Its mobile navigation was designed from scratch around the range, and search shows popular searches and bottles before anyone types.'],
       },
       {
-        q: 'How do you raise basket size without pushy tactics?',
-        a: ['By making the better deal obvious. Drink Finder shows one, six and twelve bottle offers as buttons above the price. East at Home shows the saving rising with quantity on the product page, and a bar in the basket shows what the next spend unlocks: free delivery, then a recipe book. None of it relies on countdown timers or fake scarcity.'],
+        q: 'Can a store move platforms without losing its regulars?',
+        a: ['Yes. Drink Finder moved from a bespoke platform to Shopify in August 2025, after more than 65 years of trading. Website sales rose 34% in the six months that followed.'],
       },
       {
-        q: 'Can we move to Shopify without losing our regulars?',
-        a: ['Yes. Drink Finder moved from a bespoke platform to Shopify in August 2025, after more than 65 years of trading. The UX review of the old store found sign-up buttons and a chat widget covering key buttons, so the new design fixed those first. I designed every screen mobile first.'],
+        q: 'Can one Shopify store sell to retail and trade customers?',
+        // [CONFIRM] what was designed for trade buyers, to make this answer specific.
+        a: ['Yes. Drink Finder’s store serves retail and trade buyers, across wine and spirits.'],
       },
       {
-        q: 'Can one Shopify store serve trade and retail customers?',
-        // [CONFIRM] what was designed for trade buyers. Until then the answer stays with what Jon said.
-        a: ['Yes. Drink Finder’s store serves retail and trade buyers, with different needs for wine and spirits. In Jon Wigmore’s words, the site handles “the distinct functional requirements for wine vs. spirits, managing wholesale and retail channels, and juggling complex shipping metrics.”'],
+        q: 'How long does a food and drink Shopify store take?',
+        a: ['A bespoke store takes six to eight weeks to design, with the build about the same again. A theme customisation takes six to ten weeks in total.'],
       },
       {
-        q: 'Do you work with agencies and developers?',
-        a: ['Yes. Some brands come to me directly, and some agencies bring me in to lead the design. Either way, I design every screen myself and work with expert Shopify developers, or your own team, to build it. I check the build on real devices before launch.'],
+        q: 'Do you work with agencies?',
+        a: ['Yes. Brands commission the design directly, or agencies bring Anthony in to lead it. Expert Shopify developers, or the agency’s own team, build it, and every screen is checked on real devices before launch.'],
+      },
+      {
+        q: 'What happens after launch?',
+        a: ['Conversion rate and average order value are checked at one, three and seven days. After that, changes are tested a week against a week. Every store is handed over as a Figma design system, so new pages and campaigns stay on brand.'],
       },
     ],
   },
-  cta: { eyebrow: 'Start a food and drink project', heading: 'Tell me what you sell.' },
+  cta: { eyebrow: 'Start a food and drink project', heading: 'What do you sell?' },
   more: {
     eyebrow: 'More Shopify design',
     heading: 'Other sectors and services.',
