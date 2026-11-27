@@ -318,9 +318,9 @@ export function summaryBlock(m, prev, screen = null, brand = {}) {
     </div>
     <div class="sum-next">
       <h2>What to do next</h2>
-      ${actions.length ? `<ol class="acts">${actions.slice(0, 4).map((x, i) => `<li><span class="n">${String(i + 1).padStart(2, '0')}</span><div><h3>${x.title}</h3><p><b>Why</b> ${x.why}</p><p><b>Do</b> ${x.todo}</p><p class="watch">Watch: ${x.watch}</p></div></li>`).join('')}</ol>` : '<p class="muted">Nothing stands out in this run.</p>'}
+      ${actions.length ? `<ol class="steps">${actions.slice(0, 4).map((x, i) => `<li><span class="n">${String(i + 1).padStart(2, '0')}</span><h3>${x.title}</h3><div class="step-body"><p><b>Why</b>${x.why}</p><p><b>Do</b>${x.todo}</p></div><p class="watch">Watch<span>${x.watch}</span></p></li>`).join('')}</ol>` : '<p class="muted">Nothing stands out in this run.</p>'}
     </div>
-    ${wins.length ? `<div class="sum-wins"><h2>Where you win</h2><ul>${wins.map((w) => `<li>${w}</li>`).join('')}</ul></div>` : ''}
+    ${wins.length ? `<div class="sum-wins"><h2>Where you win</h2><ol class="steps wins">${wins.map((w, i) => `<li><span class="n">${String(i + 1).padStart(2, '0')}</span><p class="win">${w}</p></li>`).join('')}</ol></div>` : ''}
     <p class="sum-note">How to read it: there is no settled industry standard yet. The fairest yardstick is the other businesses ChatGPT names in the same answers, which is what Most named and #2 of 40 mean. Published 2026 guides put category leaders at about 20 to 40% mention rate and 25 to 35% share of mentions; treat that as a rough guide only. ${esc(LIMITS[1])}</p>
   </section>`;
 }
@@ -669,13 +669,18 @@ export const DASH_STYLES = `
 .sum-nums .chg.up { color: #6fd08c; }
 .sum-nums .chg.down { color: #ff7a7a; }
 .sum-next { padding-top: 32px; }
-.acts { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.acts li { display: flex; gap: 12px; padding: 16px; background: #1d1d1d; }
-.acts .n { flex: none; min-width: 27px; font: 500 26px/1.1 var(--display); color: var(--blue); }
-.acts h3 { margin-bottom: 8px; font-size: 16px; line-height: 1.3; color: var(--on-desk); }
-.acts p { margin-top: 6px; color: #cfcfcf; }
-.acts p b { display: inline-block; min-width: 34px; font: 500 12px/1 var(--display); letter-spacing: 0.02em; text-transform: uppercase; color: var(--on-desk); }
-.acts .watch { font: 500 12px/1.3 var(--display); letter-spacing: 0.02em; color: #9a9a9a; }
+.steps { list-style: none; margin: 0; padding: 0; border-top: 1px solid #393939; }
+.steps li { display: grid; grid-template-columns: 56px minmax(0, 1fr) 150px; grid-template-areas: "n title watch" "n body watch"; column-gap: 24px; row-gap: 10px; padding: 24px 0; border-bottom: 1px solid #393939; }
+.steps .n { grid-area: n; font: 500 38px/1 var(--display); color: var(--blue); }
+.steps h3 { grid-area: title; font-size: 20px; line-height: 1.25; color: var(--on-desk); }
+.step-body { grid-area: body; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.step-body p { color: #cfcfcf; }
+.step-body b { display: block; margin-bottom: 4px; font: 500 12px/1 var(--display); letter-spacing: 0.02em; text-transform: uppercase; color: var(--on-desk); }
+.steps .watch { grid-area: watch; align-self: start; padding-left: 12px; border-left: 1px solid #393939; font: 500 12px/1 var(--display); letter-spacing: 0.02em; text-transform: uppercase; color: #9a9a9a; }
+.steps .watch span { display: block; margin-top: 6px; font-size: 14px; line-height: 1.3; letter-spacing: 0; text-transform: none; color: var(--on-desk); }
+.steps.wins li { grid-template-columns: 56px minmax(0, 1fr); grid-template-areas: "n body"; align-items: baseline; padding: 16px 0; }
+.steps.wins .n { font-size: 26px; }
+.steps .win { grid-area: body; font: 500 16px/1.4 var(--display); color: var(--on-desk); }
 .summary a { color: var(--on-desk); }
 .sum-wins { padding-top: 32px; }
 .sum-wins ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 6px; color: #cfcfcf; }
@@ -684,7 +689,7 @@ export const DASH_STYLES = `
 .detail-h { padding-top: 16px; font-size: 22px; line-height: 1.3; text-transform: uppercase; }
 /* Laptop widths with the phone beside: the two lists stack so neither gets squeezed. */
 @media (max-width: 1240px) {
-  .summary.with-phone .acts { grid-template-columns: 1fr; }
+  .step-body { grid-template-columns: 1fr; gap: 12px; }
   .summary.with-phone .sum-nums .big { font-size: 72px; }
 }
 @media (max-width: 900px) {
@@ -694,7 +699,10 @@ export const DASH_STYLES = `
   .sum-nums { grid-template-columns: 1fr 1fr; gap: 24px 16px; padding-bottom: 24px; }
   .sum-nums .big { font-size: 52px; }
   .sum-nums .lbl { font-size: 13px; }
-  .acts { grid-template-columns: 1fr; }
+  .steps li { grid-template-columns: 40px minmax(0, 1fr); grid-template-areas: "n title" "n body" "n watch"; column-gap: 12px; }
+  .steps .n { font-size: 28px; }
+  .steps.wins .n { font-size: 22px; }
+  .steps .watch { padding-left: 0; border-left: 0; }
   .sum-next, .sum-wins { padding-top: 24px; }
 }
 .meter { display: block; width: 100%; height: 6px; background: var(--line); }
