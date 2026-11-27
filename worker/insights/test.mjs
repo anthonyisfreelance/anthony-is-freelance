@@ -20,7 +20,7 @@ import assert from 'node:assert/strict';
 import { parsePromptList, formatPromptList } from './prompts.js';
 import { readResponse, cleanUrl, fakeAnswer } from './engine.js';
 import { ruleScore, placeBrand, cleanModelOutput, scorerInput, scorerSchema, fakeModelScore, flagKey } from './score.js';
-import { summarise, answerText, safeLink, trendChart } from './dashboard.js';
+import { summarise, answerText, safeLink, trendChart, leaderboard } from './dashboard.js';
 import { isoWeek, ukClock } from './runner.js';
 import { namePattern, isOwnDomain, nameKey } from './text.js';
 import { seal } from '../docs/auth.js';
@@ -206,6 +206,21 @@ await test('summary: mention rate, group gap, rivals, cited pages, flags', () =>
   assert.equal(m.gap, Math.round((m.B.named / 3) * 100) - Math.round((m.A.named / 6) * 100));
   assert.ok(m.instead.length > 0 && m.instead.every((r) => r.name !== 'Example Studio'));
   assert.ok(m.topPages.every((p) => !p.url.includes('utm_')));
+});
+
+await test('visibility score: same points rule for the brand and every rival', () => {
+  const rows = [
+    { brand_named: 1, brand_position: 1, recommended: [{ name: 'Example Studio', is_brand: true }, { name: 'Rival', is_brand: false }] },
+    { brand_named: 1, brand_position: null, recommended: [{ name: 'Rival', is_brand: false }] },
+    { brand_named: 0, recommended: [{ name: 'Other', is_brand: false }, { name: 'Rival', is_brand: false }] },
+    { brand_named: 0, recommended: [] },
+  ];
+  const b = leaderboard(rows, BRAND);
+  const me = b.ranked.find((e) => e.isBrand);
+  const rival = b.ranked.find((e) => e.name === 'Rival');
+  assert.equal(me.score, Math.round((100 + 30) / 4)); // first, then named outside the list
+  assert.equal(rival.score, Math.round((85 + 100 + 85) / 4));
+  assert.equal(b.scoreRank, 2);
 });
 
 await test('trend chart: plain SVG, launch date marked', () => {
@@ -399,7 +414,7 @@ if (BASE) {
 
   await test('summary: big numbers with standings, what to do next, and the phone screenshot', async () => {
     const page = await get(`/admin/brands/${slug}/`).then((x) => x.text());
-    for (const t of ['of answers name you', 'What to do next', 'class="watch"', 'The detail', 'class="iphone"']) assert.ok(page.includes(t), `missing "${t}"`);
+    for (const t of ['of answers name you', 'What to do next', 'Visibility score', '<dt>Measure</dt>', 'The detail', 'class="iphone"']) assert.ok(page.includes(t), `missing "${t}"`);
     assert.match(page, /screenshot/i);
     const r = await act('screen-take', slug);
     assert.equal(r.ok, true, r.error);
