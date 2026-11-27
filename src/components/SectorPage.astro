@@ -1,24 +1,25 @@
 ---
 // Sector page template (27 November 2026): food and drink, beauty and fragrance, home and interiors.
-// Built from the service page parts, so it looks and reads like the rest of the site, in this order:
-// hero, work, UX examples, clients (the proof first, 27 November 2026), then the sector, what stores
-// need, after launch, honest advice, FAQs, more, start a project. A black sales page. Copy lives in src/data/sector-pages/.
+// Built from parts already on the site, so it looks like the rest of it: the service page hero, the
+// work cards, the homepage results numbers, the services hub's full-width strip and service card grid,
+// the innovation tiles and the FAQs. Proof first, then the detail. A black sales page.
+// Copy lives in src/data/sector-pages/.
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Schema from './Schema.astro';
 import Header from './Header.astro';
 import Heading from './Heading.astro';
+import SectionIntro from './SectionIntro.astro';
 import TextLink from './TextLink.astro';
 import TrustTiles from './TrustTiles.astro';
 import CaseStudyCard from './CaseStudyCard.astro';
 import ScreenTile from './ScreenTile.astro';
-import InlineLinks from './InlineLinks.astro';
 import Faqs from './home/Faqs.astro';
 import Contact from './home/Contact.astro';
 import { INNOVATIONS_LIST } from '../data/innovations';
 import { quoteLogoSize } from '../data/logo-size';
 import { SITE, ENTITY, URLS } from '../data/site';
-import type { SectorPage } from '../data/sector-pages/types';
+import type { SectorPage, Strip } from '../data/sector-pages/types';
 
 interface Props { page: SectorPage }
 const { page: p } = Astro.props;
@@ -30,7 +31,7 @@ const service = {
   '@id': serviceId,
   name: p.meta.serviceName,
   serviceType: p.meta.serviceType,
-  description: p.hero.intro.split('. ')[0] + '.',
+  description: p.hero.intro.split('. ').slice(0, 2).join('. ') + '.',
   audience: { '@type': 'BusinessAudience', name: p.meta.audience },
   provider: { '@id': ENTITY.person.id },
   areaServed: { '@type': 'Country', name: 'United Kingdom' },
@@ -45,8 +46,7 @@ const innovations = (p.innovations?.items ?? [])
   .map((it) => ({ it, rec: INNOVATIONS_LIST.find((r) => r.name === it.title) }))
   .filter(({ rec }) => rec?.poster);
 const innovationMentions = innovations.length ? { mentions: innovations.map(({ rec }) => ({ '@id': `${SITE}/innovations/#${rec!.slug}` })) } : {};
-// Left heading, content right: the site's 50/50 section split.
-const split = 'grid gap-section-sm border-t border-line lg:grid-cols-2 lg:gap-gutter';
+const strips: (Strip | undefined)[] = [p.strips?.afterResults, p.strips?.afterQuotes];
 ---
 <Base title={p.meta.title} description={p.meta.description} noindex={p.meta.unlisted} ogImage={p.hero.image}>
   <Schema slot="head" title={p.meta.title} description={p.meta.description} path={p.meta.path} breadcrumbs={breadcrumbs} faqs={p.faqs.items} extra={[service]} about={serviceId} mainEntity={serviceId} page={innovationMentions} />
@@ -73,40 +73,64 @@ const split = 'grid gap-section-sm border-t border-line lg:grid-cols-2 lg:gap-gu
       </div>
     </section>
 
-    <section class="px-margin pt-large lg:pt-[40px]" aria-label="Why food and drink brands choose this">
+    <section class="px-margin pt-large lg:pt-[40px]" aria-label="Awards and experience">
       <TrustTiles items={p.hero.trust} />
     </section>
 
-    <!-- Work: full cards, word for word from the work page record. -->
+    <!-- Work: full cards, word for word from the work page record. The heading carries the message. -->
     <section id="work" class="px-margin pt-section">
       <div class="border-t border-line pt-section">
-        <div class="flex flex-col gap-loose lg:flex-row lg:items-end lg:justify-between lg:gap-gutter">
-          <div class="lg:w-half">
-            <Heading eyebrow={p.work.eyebrow}>{p.work.heading}</Heading>
-            {p.work.intro && <p class="t-body mt-loose text-muted"><InlineLinks text={p.work.intro} /></p>}
-          </div>
-          {p.work.link && <TextLink href={p.work.link.href}>{p.work.link.label}</TextLink>}
-        </div>
-        <ul class="cards-align mt-gutter grid grid-cols-2 gap-x-grid [--cards-gap:var(--spacing-large)] lg:grid-cols-2">
+        <SectionIntro eyebrow={p.work.eyebrow} heading={p.work.heading}>
+          {p.work.link && <TextLink slot="links" href={p.work.link.href}>{p.work.link.label}</TextLink>}
+        </SectionIntro>
+        <ul class="cards-align mt-gutter grid grid-cols-2 gap-x-grid [--cards-gap:var(--spacing-large)]">
           {p.work.cards.map((c) => (
             <li class="max-sm:col-span-2"><CaseStudyCard {...c} ratio="portrait" sizes="(min-width: 640px) 48vw, calc(100vw - 32px)" /></li>
           ))}
         </ul>
-        {p.work.note && <p class="t-body mt-large text-muted lg:w-half">{p.work.note}</p>}
+        {p.work.note && <p class="t-label mt-large tracking-[0.02em] text-muted">{p.work.note}</p>}
       </div>
     </section>
+
+    <!-- Results: the homepage's big blue numbers, a photo running to the screen edge beside them. -->
+    {p.results && (
+      <section class="px-margin pt-section lg:px-0">
+        <div class="grid items-center gap-large lg:grid-cols-2 lg:gap-gutter">
+          <div class="flex flex-col gap-large lg:pl-margin">
+            <SectionIntro eyebrow={p.results.eyebrow} heading={p.results.heading} split={false} />
+            <dl class="grid grid-cols-2 gap-large">
+              {p.results.items.map((r) => (
+                <div class="flex flex-col gap-4">
+                  <dd class="t-number order-1">{r.number}</dd>
+                  <dt class="t-h7 order-2 text-ink">{r.label}</dt>
+                  <dd class="t-label order-3 border-t border-line pt-2 tracking-[0.02em] text-muted">{r.caption}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+          <div class="relative order-first aspect-[3/2] max-lg:-mx-margin lg:order-none lg:aspect-[4/5]">
+            <Image src={p.results.image} alt={p.results.imageAlt ?? ''} widths={[480, 720, 1000, 1400]} width={Math.min(1400, p.results.image.width)} sizes="(min-width: 1024px) 50vw, 100vw" quality={75} class="absolute inset-0 size-full object-cover" />
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- Full-width client photo, the size of the strip under the services hub hero. -->
+    {strips[0] && (
+      <div class="px-margin pt-section">
+        <div class="relative aspect-[16/9] overflow-hidden bg-line lg:aspect-auto lg:h-[419px]">
+          <Image src={strips[0].image} alt={strips[0].alt} widths={[640, 1000, 1400, 2000, 2560]} width={Math.min(2560, strips[0].image.width)} sizes="calc(100vw - 32px)" quality={75} class="absolute inset-0 size-full object-cover" style={strips[0].position ? `object-position: ${strips[0].position}` : undefined} />
+        </div>
+      </div>
+    )}
 
     <!-- UX examples: the innovation tiles, each linking to its entry on /innovations/. -->
     {p.innovations && innovations.length > 0 && (
       <section id="innovations" class="px-margin pt-section">
         <div class="border-t border-line pt-section">
-          <div class="flex flex-col gap-loose lg:flex-row lg:items-end lg:justify-between lg:gap-gutter">
-            <div class="lg:w-half">
-              <Heading eyebrow={p.innovations.eyebrow}>{p.innovations.heading}</Heading>
-              {p.innovations.intro && <p class="t-body mt-loose text-muted">{p.innovations.intro}</p>}
-            </div>
-            {p.innovations.link && <TextLink href={p.innovations.link.href}>{p.innovations.link.label}</TextLink>}
-          </div>
+          <SectionIntro eyebrow={p.innovations.eyebrow} heading={p.innovations.heading}>
+            {p.innovations.link && <TextLink slot="links" href={p.innovations.link.href}>{p.innovations.link.label}</TextLink>}
+          </SectionIntro>
           <ul class="mt-gutter grid gap-x-grid gap-y-section sm:grid-cols-3 sm:gap-y-gutter">
             {innovations.map(({ it, rec }) => (
               <li class="hover-card relative flex flex-col">
@@ -148,73 +172,40 @@ const split = 'grid gap-section-sm border-t border-line lg:grid-cols-2 lg:gap-gu
       </section>
     )}
 
-    <!-- The sector -->
-    {p.sector && (
-    <section class="px-margin pt-section">
-      <div class={split}>
-        <div class="pt-section"><Heading eyebrow={p.sector.eyebrow}>{p.sector.heading}</Heading></div>
-        <div class="t-body flex flex-col gap-loose text-muted lg:pt-section">{p.sector!.paragraphs.map((t) => <p>{t}</p>)}</div>
+    {strips[1] && (
+      <div class="px-margin pt-section">
+        <div class="relative aspect-[16/9] overflow-hidden bg-line lg:aspect-auto lg:h-[419px]">
+          <Image src={strips[1].image} alt={strips[1].alt} widths={[640, 1000, 1400, 2000, 2560]} width={Math.min(2560, strips[1].image.width)} sizes="calc(100vw - 32px)" quality={75} class="absolute inset-0 size-full object-cover" style={strips[1].position ? `object-position: ${strips[1].position}` : undefined} />
+        </div>
       </div>
-    </section>
     )}
 
-    <!-- What the stores need: the service pages' boxed list, a hairline above every box but the first. -->
-    <section class="px-margin pt-section">
-      <div class={split}>
-        <div class="pt-section lg:sticky lg:top-0 lg:self-start">
-          <Heading eyebrow={p.needs.eyebrow}>{p.needs.heading}</Heading>
-          {p.needs.intro && <p class="t-body mt-loose text-muted">{p.needs.intro}</p>}
+    <!-- What sells: the services hub's card grid, a live store screen on every tile. -->
+    {p.sells && (
+      <section class="px-margin pt-section">
+        <div class="border-t border-line pt-section">
+          <SectionIntro eyebrow={p.sells.eyebrow} heading={p.sells.heading} />
+          <ul class="mt-large grid grid-cols-2 gap-x-4 gap-y-[40px] lg:mt-gutter lg:grid-cols-4 lg:gap-x-grid lg:gap-y-[64px]">
+            {p.sells.items.map((s) => (
+              <li class:list={['flex flex-col', s.href && 'hover-card relative']}>
+                <ScreenTile screen={s.screen} alt={s.alt} sizes="(min-width: 1024px) 15vw, 40vw" />
+                <p class="t-badge mt-loose text-muted" aria-hidden="true">{s.client}</p>
+                <h3 class="t-h5 mt-2 uppercase text-ink">
+                  {s.href ? <a href={s.href} class="stretched-link link-hover"><span class="sr-only">{s.client}. </span>{s.title}</a> : <><span class="sr-only">{s.client}. </span>{s.title}</>}
+                </h3>
+                <p class="t-small mt-2 text-muted lg:t-body lg:mt-loose">{s.body}</p>
+              </li>
+            ))}
+          </ul>
         </div>
-        <ul class="flex flex-col lg:pt-section">
-          {p.needs.items.map((n, i) => (
-            <li class:list={['bg-raised px-4 py-4 lg:px-6 lg:py-6', i > 0 && 'border-t border-line']}>
-              <h3 class="t-label text-ink">{n.title}</h3>
-              <p class="t-body mt-2 text-muted">{n.body}</p>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
-
-    <!-- After launch -->
-    {p.after && (
-    <section class="px-margin pt-section">
-      <div class={split}>
-        <div class="pt-section"><Heading eyebrow={p.after.eyebrow}>{p.after.heading}</Heading></div>
-        <div class="flex flex-col gap-loose lg:pt-section">
-          <div class="t-body flex flex-col gap-loose text-muted">{p.after.paragraphs.map((t) => <p>{t}</p>)}</div>
-          {p.after.link && <div><TextLink href={p.after.link.href}>{p.after.link.label}</TextLink></div>}
-        </div>
-      </div>
-    </section>
+      </section>
     )}
-
-    <!-- Honest advice: the service pages' routing block. -->
-    <section class="px-margin pt-section">
-      <div class={split}>
-        <div class="pt-section lg:sticky lg:top-0 lg:self-start">
-          <Heading eyebrow={p.routing.eyebrow}>{p.routing.heading}</Heading>
-          {p.routing.intro && <p class="t-body mt-loose text-muted">{p.routing.intro}</p>}
-        </div>
-        <ul class="flex flex-col gap-section-sm lg:gap-large lg:pt-section">
-          {p.routing.routes.map((r, i) => (
-            <li class:list={['flex flex-col gap-6', i > 0 && 'border-t border-line pt-section-sm lg:pt-large']}>
-              <h3 class="t-h6 text-ink">{r.situation}</h3>
-              <p class="t-body text-muted">{r.body}</p>
-              {r.links.length > 0 && (
-                <p class="flex flex-wrap gap-x-grid gap-y-2">{r.links.map((l) => <TextLink href={l.href}>{l.label}</TextLink>)}</p>
-              )}
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
 
     <div id="questions"><Faqs data={p.faqs} /></div>
 
     {p.more && (
       <section class="px-margin pb-section">
-        <div class="border-t border-line pt-section flex flex-col gap-loose lg:flex-row lg:items-end lg:justify-between lg:gap-gutter">
+        <div class="flex flex-col gap-loose border-t border-line pt-section lg:flex-row lg:items-end lg:justify-between lg:gap-gutter">
           <div class="lg:w-half"><Heading eyebrow={p.more.eyebrow}>{p.more.heading}</Heading></div>
           <p class="flex flex-wrap gap-x-grid gap-y-3">{p.more.links.map((l) => <TextLink href={l.href}>{l.label}</TextLink>)}</p>
         </div>
@@ -222,6 +213,5 @@ const split = 'grid gap-section-sm border-t border-line lg:grid-cols-2 lg:gap-gu
     )}
 
     <Contact eyebrow={p.cta.eyebrow} heading={p.cta.heading} />
-
   </main>
 </Base>

@@ -2,7 +2,8 @@
 //
 // Voice (27 November 2026): authoritative, almost no "I". The results and the clients are the subject of
 // each sentence, and Anthony is named where "I" would have been. Every line is a fact from the two case
-// studies: no slogans, nothing that couldn't be checked.
+// studies: no slogans, nothing that couldn't be checked. Headings carry the message, so most sections
+// have no body copy under them. More proof, more celebration: big numbers, award wins, client photos.
 //
 // Six rules keep this page off the homepage's broad terms (agreed 27 November 2026):
 //   1. "Designer" always has the sector attached. Never "Shopify designer UK" or "Shopify expert".
@@ -11,10 +12,19 @@
 //   4. Sector first in the URL and the title tag.
 //   5. One link to the homepage, anchored "freelance Shopify designer", in the byline.
 //   6. Links into this page use sector anchors, e.g. "Shopify design for food and drink brands".
+//
+// Figures appear twice at most: 34% and 82% on their cards and in the results numbers.
 import { URLS, GOOGLE_RATING } from '../site';
 import { card } from '../service-pages/shared';
 import type { SectorPage } from './types';
 import heroImage from '../../assets/brands/east-at-home/feature-photo.jpg';
+import resultsImage from '../../assets/brands/drink-finder/margarita.jpg';
+import vineyard from '../../assets/brands/drink-finder/vineyard.jpg';
+import curry from '../../assets/brands/east-at-home/showcase-photo.jpg';
+import dfSavings from '../../assets/brands/drink-finder/work-savings-mobile.jpg';
+import dfMenu from '../../assets/brands/drink-finder/work-menu-mobile.jpg';
+import eahQuantity from '../../assets/brands/east-at-home/work-03.jpg';
+import eahBundle from '../../assets/brands/east-at-home/work-05.jpg';
 
 export const FOOD_AND_DRINK: SectorPage = {
   meta: {
@@ -46,16 +56,31 @@ export const FOOD_AND_DRINK: SectorPage = {
   },
   work: {
     eyebrow: 'Food and drink Shopify work',
-    heading: 'Two stores. Two national awards.',
-    intro: 'Drink Finder is a Cornish wine and spirits merchant with more than 5,000 products. East at Home makes curry sauces and spice kits. Both stores were designed mobile first, and both were judged the best in the UK in their category.',
+    heading: 'Judged the best in the UK. Twice.',
     cards: [card('Drink Finder'), card('East at Home')],
-    note: 'Both were also shortlisted in a second category: Drink Finder for Food & Drink eCommerce Website of the Year, and East at Home for B2C eCommerce Website of the Year.',
+    note: 'UK eCommerce Awards 2026: four shortlistings, two wins.',
     link: { label: 'View all Shopify success stories', href: URLS.work },
+  },
+  results: {
+    eyebrow: 'Food and drink Shopify results',
+    heading: 'The numbers behind the awards.',
+    image: resultsImage,
+    imageAlt: '',
+    // Windows and sources from the case studies (signed off with the clients for the awards).
+    items: [
+      { number: '34%', label: 'More website sales', caption: 'Drink Finder. September to February vs a year earlier. EPoS till data.' },
+      { number: '32%', label: 'More customers', caption: 'Drink Finder. Same window and source.' },
+      { number: '82%', label: 'More revenue', caption: 'East at Home. October to June vs a year earlier. GA4, UK sessions.' },
+      { number: '14%', label: 'Higher conversion rate', caption: 'East at Home. Same window and source.' },
+    ],
+  },
+  strips: {
+    afterResults: { image: vineyard, alt: 'A vineyard at sunset, from the Drink Finder brand photography.', position: 'center 60%' },
+    afterQuotes: { image: curry, alt: 'Two East at Home curries in steel dishes, from the brand photography.', position: 'center 35%' },
   },
   innovations: {
     eyebrow: 'Food and drink UX examples',
-    heading: 'Designed for how people buy food and drink.',
-    intro: 'Three ideas from Drink Finder and East at Home, each one solving a problem their customers had.',
+    heading: 'Built around how people buy food and drink.',
     // Matched to src/data/innovations.ts by name: the only three of the 13 from food and drink stores.
     items: [
       { client: 'Drink Finder', title: 'A comparison toggle on the collection page', body: 'One switch adds origin, region, vintage and style to every card, so shoppers compare bottles without opening each one.' },
@@ -73,27 +98,14 @@ export const FOOD_AND_DRINK: SectorPage = {
       { quote: 'When I first saw Anthony’s work I knew that he was the right person for us, my initial hunch turned out to be correct.', cite: 'Ali Zaman, Owner, East at Home · 2026', logo: 'east-at-home', href: `${URLS.testimonials}#east-at-home` },
     ],
   },
-  needs: {
+  sells: {
     eyebrow: 'Food and drink Shopify stores',
-    heading: 'What sells, proven on live stores.',
+    heading: 'Bigger baskets, without the hard sell.',
     items: [
-      { title: 'Answers on the product card.', body: 'Heat, dietary needs, reviews and price on every East at Home card, before anyone clicks.' },
-      { title: 'A way to compare a big range.', body: 'Drink Finder’s Show extras switch adds the details wine buyers compare to every card.' },
-      { title: 'Multi-buy offers as buttons, not small print.', body: 'One, six and twelve bottles at Drink Finder, with the next saving shown in the basket.' },
-      { title: 'A basket that shows the next threshold.', body: 'At East at Home, free delivery unlocks at £35 and a recipe book at £50.' },
-      { title: 'Bundles built on a phone.', body: 'East at Home’s mix-and-match builder, with feedback at every step.' },
-      { title: 'Search that works before anyone types.', body: 'Drink Finder’s search shows popular searches and bottles as soon as it opens.' },
-      { title: 'Retail and trade in one store.', body: 'Drink Finder sells to both, across wine and spirits.' },
-    ],
-  },
-  routing: {
-    eyebrow: 'Honest Shopify advice',
-    heading: 'When a new store isn’t the answer.',
-    intro: 'Not every food and drink brand needs a redesign.',
-    routes: [
-      { situation: 'Launching a first product.', body: 'Start on a well-chosen theme. Sales data then shows what a bespoke store needs to fix.', links: [{ label: 'Theme customisations', href: URLS.theme }] },
-      { situation: 'The store works, but doesn’t convert.', body: 'Find the steps that lose sales and fix those before rebuilding anything.', links: [{ label: 'Shopify CRO', href: URLS.cro }] },
-      { situation: 'Subscriptions are the business.', body: 'The subscribe journey comes first, and the store is designed around it.', links: [{ label: 'Subscriptions', href: URLS.subscriptions }] },
+      { client: 'Drink Finder', title: 'Multi-buy as buttons', body: 'One, six or twelve bottles, picked with one tap above the price.', screen: dfSavings, alt: 'A Drink Finder wine page on mobile, with one, six and twelve bottle buttons above the price.', href: URLS.caseStudies.drinkFinder },
+      { client: 'East at Home', title: 'Savings that grow', body: 'The saving rises as customers add more pouches, right on the product page.', screen: eahQuantity, alt: 'An East at Home curry sauce page on mobile, with pack sizes and their savings.', href: URLS.caseStudies.eastAtHome },
+      { client: 'East at Home', title: 'Mix and match', body: 'Customers build their own box of sauces and kits on a phone.', screen: eahBundle, alt: 'East at Home’s mix and match curry sauce builder on mobile.', href: URLS.caseStudies.eastAtHome },
+      { client: 'Drink Finder', title: 'A menu for 5,000 products', body: 'Mobile navigation designed from scratch around the whole range.', screen: dfMenu, alt: 'The Drink Finder mobile menu, listing wine, whisky, rum, gin and more.', href: URLS.caseStudies.drinkFinder },
     ],
   },
   faqs: {
@@ -106,7 +118,7 @@ export const FOOD_AND_DRINK: SectorPage = {
       },
       {
         q: 'Can a store move platforms without losing its regulars?',
-        a: ['Yes. Drink Finder moved from a bespoke platform to Shopify in August 2025, after more than 65 years of trading. Website sales rose 34% in the six months that followed.'],
+        a: ['Yes. Drink Finder moved from a bespoke platform to Shopify in August 2025, after more than 65 years of trading. In Jon Wigmore’s words, the site got a modern upgrade “without alienating our core customers.”'],
       },
       {
         q: 'Can one Shopify store sell to retail and trade customers?',
