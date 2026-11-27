@@ -185,25 +185,63 @@ export function phoneFrame(screen) {
 }
 
 // Who is named across a set of answers, the brand included, counted once per answer, most first.
+// Points for where a business sits in one answer: first 100, second 85, third 70, fourth 55,
+// lower 40, named but outside the list of recommendations 30, not named 0. Every business is
+// scored by the same rule from the same answers, so the scores compare like for like.
+export const POINTS = [100, 85, 70, 55];
+const pointsFor = (pos) => (pos == null ? 30 : POINTS[pos - 1] ?? 40);
+
+// Who is named across a set of answers, the brand included, counted once per answer, with each
+// one's visibility score (its average points across all the answers). Highest score first.
 export function leaderboard(rows, brand) {
   const tally = new Map();
   let mentions = 0;
   for (const r of rows) {
-    const seen = new Set();
-    if (r.brand_named) seen.add('\u0000brand');
-    for (const x of r.recommended || []) if (!x.is_brand) seen.add(nameKey(x.name));
-    seen.delete('');
-    for (const k of seen) {
-      const e = tally.get(k) || { key: k, name: k === '\u0000brand' ? brand.name : null, answers: 0, isBrand: k === '\u0000brand' };
-      if (!e.name) e.name = (r.recommended || []).find((x) => nameKey(x.name) === k)?.name || k;
+    const seen = new Map();
+    if (r.brand_named) seen.set('\u0000brand', { name: brand.name, pos: r.brand_position ?? null });
+    (r.recommended || []).forEach((x, i) => {
+      const k = nameKey(x.name);
+      if (!x.is_brand && k && !seen.has(k)) seen.set(k, { name: x.name, pos: i + 1 });
+    });
+    for (const [k, v] of seen) {
+      const e = tally.get(k) || { key: k, name: v.name, answers: 0, points: 0, isBrand: k === '\u0000brand' };
       e.answers++;
+      e.points += pointsFor(v.pos);
       mentions++;
       tally.set(k, e);
     }
   }
+  for (const e of tally.values()) e.score = rows.length ? Math.round(e.points / rows.length) : 0;
+  const byScore = (a, b) => b.score - a.score || b.answers - a.answers || (b.isBrand ? 1 : 0) - (a.isBrand ? 1 : 0) || a.name.localeCompare(b.name);
   const list = [...tally.values()].sort((a, b) => b.answers - a.answers || (b.isBrand ? 1 : 0) - (a.isBrand ? 1 : 0) || a.name.localeCompare(b.name));
+  const ranked = [...tally.values()].sort(byScore);
   const me = list.find((e) => e.isBrand);
-  return { n: rows.length, list, mentions, me, rank: me ? list.indexOf(me) + 1 : null, leader: list.find((e) => !e.isBrand) };
+  return {
+    n: rows.length, list, ranked, mentions, me,
+    rank: me ? list.indexOf(me) + 1 : null,
+    scoreRank: me ? ranked.indexOf(me) + 1 : null,
+    leader: list.find((e) => !e.isBrand),
+  };
+}
+
+// The score at the top: the brand's visibility score, its place, and the top five beside it.
+function scoreBlock(board) {
+  if (!board.n) return '';
+  const me = board.me;
+  const score = me ? me.score : 0;
+  const top = board.ranked.slice(0, 5);
+  if (me && !top.includes(me)) top.push(me);
+  const max = Math.max(1, ...top.map((e) => e.score));
+  const rows = top
+    .map((e) => `<li${e.isBrand ? ' class="me"' : ''}><span class="who">${esc(e.isBrand ? 'You' : e.name)}</span><span class="sbar"><span style="width:${Math.round((e.score / max) * 100)}%"></span></span><span class="pts">${e.score}</span></li>`)
+    .join('');
+  const others = board.ranked.length;
+  const place = me ? (board.scoreRank === 1 ? `Highest of ${others} businesses named` : `#${board.scoreRank} of ${others} businesses named`) : 'Not named in these answers';
+  return `<div class="sum-score">
+    <div class="score-main"><p class="eyebrow-d">Visibility score</p><p class="score"><span class="blue">${score}</span><small>/100</small></p><p class="verdict ${board.scoreRank === 1 ? 'ahead' : board.scoreRank && board.scoreRank <= 3 ? 'close' : 'behind'}">${place}</p></div>
+    <ol class="score-list">${rows}</ol>
+    <p class="score-how">How it works: each answer gives a business points for where it is recommended (first 100, second 85, third 70, fourth 55, lower 40, mentioned outside the list 30, left out 0), averaged over the ${plural(board.n, 'answer')} below. Every business is scored the same way, so it shows how you compare, not a grade.</p>
+  </div>`;
 }
 
 // How the brand stands in one set of answers, against the businesses named in the same answers.
@@ -265,7 +303,7 @@ export function summaryBlock(m, prev, screen = null, brand = {}) {
       title: `Win the general questions`,
       why: `Group A (${esc(brand.groups?.A || 'no modifier')}) names you in ${rateOf(gA)}% of answers. ${gA.leader ? `${esc(gA.leader.name)} leads with ${pctText(gA.leader.answers, gA.n)}.` : ''}`,
       todo: `${pages.length ? `Those answers lean most on ${links(pages)}. Get onto those pages first: ask the author to add you, or buy a placement where they sell one. ` : ''}Then make sure your homepage answers the plain question, not only the freelance one.`,
-      watch: 'Group A rate',
+      watch: `“When buyers just ask for the best” goes up from ${rateOf(gA)}%.`,
     });
   }
   const lists = pagesIn(rowsOf(open), used);
@@ -274,7 +312,7 @@ export function summaryBlock(m, prev, screen = null, brand = {}) {
       title: 'Get onto the pages ChatGPT reads',
       why: `These are cited most in answers that leave you out: ${links(lists)}.`,
       todo: 'Work down the list. Each one is a page ChatGPT trusts for this topic, and a mention there is likely to carry into its answers.',
-      watch: 'Mention rate',
+      watch: `“Of answers name you” goes up from ${rateOf(all)}%.`,
     });
   }
   const never = open.filter((p) => p.grp !== 'A' && done(p).length && !done(p).some((x) => x.brand_named));
@@ -283,7 +321,7 @@ export function summaryBlock(m, prev, screen = null, brand = {}) {
       title: `Give ChatGPT a page to cite for ${plural(never.length, 'more question')}`,
       why: `Never named on ${never.slice(0, 3).map((p) => `“${esc(p.text)}”`).join(', ')}${never.length > 3 ? ` and ${never.length - 3} more` : ''}.`,
       todo: 'Open each prompt in Every answer below and see which pages it cites. If you offer that service, make sure one page answers that exact question in plain words and is linked from your homepage.',
-      watch: 'Prompts never named',
+      watch: `Fewer than ${plural(never.length, 'question')} with no mention of you.`,
     });
   }
   const loud = m.flags.filter((f) => f.answers && f.answers / m.scored >= 0.1).sort((x, y) => y.answers - x.answers)[0];
@@ -292,7 +330,7 @@ export function summaryBlock(m, prev, screen = null, brand = {}) {
       title: `Tackle “${esc(loud.label)}”`,
       why: `It shows in ${pctText(loud.answers, m.scored)} of answers${loud.example ? `, for example “${esc(loud.example)}”` : ''}.`,
       todo: 'Read the answers marked ⚑ in Every answer below, then answer the point on your own pages, in your words, where ChatGPT will read it.',
-      watch: `${esc(loud.label)} rate`,
+      watch: `“${esc(loud.label)}” shows in fewer than ${pctText(loud.answers, m.scored)} of answers (Framing flags, below).`,
     });
   }
 
@@ -310,6 +348,7 @@ export function summaryBlock(m, prev, screen = null, brand = {}) {
   const shareNote = share >= 30 ? 'Category leader level (30% and up)' : share >= 20 ? 'Strong (20 to 30%)' : share >= 10 ? 'In the running (10 to 20%)' : 'Low (under 10%)';
   return `<section class="summary${phone ? ' with-phone' : ''}" aria-label="Summary">
     ${phone}
+    ${scoreBlock(all)}
     <div class="sum-nums">
       ${tile(rateOf(all), `of answers name you, on ${plural(open.length, 'question')} that don't name you first`, standing(all), '', ' blue')}
       ${tile(rateOf(gA), 'when buyers just ask for the best', standing(gA), change(rateOf(gA), prevA))}
@@ -318,7 +357,7 @@ export function summaryBlock(m, prev, screen = null, brand = {}) {
     </div>
     <div class="sum-next">
       <h2>What to do next</h2>
-      ${actions.length ? `<ol class="steps">${actions.slice(0, 4).map((x, i) => `<li><span class="n">${String(i + 1).padStart(2, '0')}</span><h3>${x.title}</h3><div class="step-body"><p><b>Why</b>${x.why}</p><p><b>Do</b>${x.todo}</p></div><p class="watch">Watch<span>${x.watch}</span></p></li>`).join('')}</ol>` : '<p class="muted">Nothing stands out in this run.</p>'}
+      ${actions.length ? `<ol class="steps">${actions.slice(0, 4).map((x, i) => `<li><span class="n">${String(i + 1).padStart(2, '0')}</span><div class="step"><h3>${x.title}</h3><dl class="step-rows"><div><dt>Why</dt><dd>${x.why}</dd></div><div><dt>Do</dt><dd>${x.todo}</dd></div><div class="measure"><dt>Measure</dt><dd>${x.watch}</dd></div></dl></div></li>`).join('')}</ol>` : '<p class="muted">Nothing stands out in this run.</p>'}
     </div>
     ${wins.length ? `<div class="sum-wins"><h2>Where you win</h2><ol class="steps wins">${wins.map((w, i) => `<li><span class="n">${String(i + 1).padStart(2, '0')}</span><p class="win">${w}</p></li>`).join('')}</ol></div>` : ''}
     <p class="sum-note">How to read it: there is no settled industry standard yet. The fairest yardstick is the other businesses ChatGPT names in the same answers, which is what Most named and #2 of 40 mean. Published 2026 guides put category leaders at about 20 to 40% mention rate and 25 to 35% share of mentions; treat that as a rough guide only. ${esc(LIMITS[1])}</p>
@@ -616,7 +655,7 @@ export function answerBody(a, brand, { back }) {
 export const DASH_STYLES = `
 .summary { padding: 40px; background: var(--desk); color: var(--on-desk); }
 .summary h2 { margin-bottom: 16px; font-size: 16px; line-height: 1; text-transform: uppercase; }
-.summary.with-phone { display: grid; grid-template-columns: 240px minmax(0, 1fr); grid-template-areas: "phone nums" "phone next" "phone wins" "phone note"; column-gap: 48px; align-items: start; }
+.summary.with-phone { display: grid; grid-template-columns: 240px minmax(0, 1fr); grid-template-areas: "phone score" "phone nums" "phone next" "phone wins" "phone note"; column-gap: 48px; align-items: start; }
 .summary.with-phone .phone { grid-area: phone; }
 .summary.with-phone .sum-nums { grid-area: nums; grid-template-columns: 1fr 1fr; }
 .summary.with-phone .sum-next { grid-area: next; }
@@ -670,17 +709,37 @@ export const DASH_STYLES = `
 .sum-nums .chg.down { color: #ff7a7a; }
 .sum-next { padding-top: 32px; }
 .steps { list-style: none; margin: 0; padding: 0; border-top: 1px solid #393939; }
-.steps li { display: grid; grid-template-columns: 56px minmax(0, 1fr) 150px; grid-template-areas: "n title watch" "n body watch"; column-gap: 24px; row-gap: 10px; padding: 24px 0; border-bottom: 1px solid #393939; }
-.steps .n { grid-area: n; font: 500 38px/1 var(--display); color: var(--blue); }
-.steps h3 { grid-area: title; font-size: 20px; line-height: 1.25; color: var(--on-desk); }
-.step-body { grid-area: body; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
-.step-body p { color: #cfcfcf; }
-.step-body b { display: block; margin-bottom: 4px; font: 500 12px/1 var(--display); letter-spacing: 0.02em; text-transform: uppercase; color: var(--on-desk); }
-.steps .watch { grid-area: watch; align-self: start; padding-left: 12px; border-left: 1px solid #393939; font: 500 12px/1 var(--display); letter-spacing: 0.02em; text-transform: uppercase; color: #9a9a9a; }
-.steps .watch span { display: block; margin-top: 6px; font-size: 14px; line-height: 1.3; letter-spacing: 0; text-transform: none; color: var(--on-desk); }
-.steps.wins li { grid-template-columns: 56px minmax(0, 1fr); grid-template-areas: "n body"; align-items: baseline; padding: 16px 0; }
+.steps li { display: grid; grid-template-columns: 72px minmax(0, 1fr); column-gap: 16px; padding: 28px 0; border-bottom: 1px solid #393939; }
+.steps .n { font: 500 38px/1 var(--display); color: var(--blue); }
+.steps h3 { margin-bottom: 16px; font-size: 22px; line-height: 1.25; color: var(--on-desk); }
+.step-rows { margin: 0; }
+.step-rows > div { display: grid; grid-template-columns: 96px minmax(0, 1fr); gap: 16px; padding: 12px 0; border-top: 1px solid #2a2a2a; }
+.step-rows dt { padding-top: 3px; font: 500 12px/1.2 var(--display); letter-spacing: 0.02em; text-transform: uppercase; color: #9a9a9a; }
+.step-rows dd { margin: 0; color: #cfcfcf; }
+.step-rows .measure dd { font: 500 15px/1.4 var(--display); color: var(--on-desk); }
+.steps.wins li { align-items: baseline; padding: 16px 0; }
 .steps.wins .n { font-size: 26px; }
-.steps .win { grid-area: body; font: 500 16px/1.4 var(--display); color: var(--on-desk); }
+.steps .win { font: 500 16px/1.4 var(--display); color: var(--on-desk); }
+.sum-score { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr); grid-template-areas: "main list" "how how"; gap: 16px 40px; padding-bottom: 40px; margin-bottom: 40px; border-bottom: 1px solid #393939; }
+.summary.with-phone .sum-score { grid-area: score; }
+.score-main { grid-area: main; }
+.eyebrow-d { font: 500 14px/1 var(--display); letter-spacing: 0.02em; text-transform: uppercase; color: #9a9a9a; }
+.score { margin-top: 12px; font: 500 120px/0.9 var(--display); letter-spacing: -0.02em; }
+.score .blue { color: var(--blue); }
+.score small { margin-left: 6px; font-size: 32px; color: #9a9a9a; letter-spacing: 0; }
+.sum-score .verdict { margin-top: 16px; padding-left: 12px; border-left: 3px solid #6b6b6b; font: 500 14px/1.35 var(--display); }
+.sum-score .verdict.ahead { border-color: #2fbf71; }
+.sum-score .verdict.close { border-color: #f2b632; }
+.sum-score .verdict.behind { border-color: #ff5a5a; }
+.score-list { grid-area: list; align-self: end; list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.score-list li { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr) 32px; align-items: center; gap: 12px; font: 500 14px/1.2 var(--display); color: #cfcfcf; }
+.score-list .who { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.score-list .sbar { display: block; height: 8px; background: #2a2a2a; }
+.score-list .sbar > span { display: block; height: 100%; background: #8a8a8a; }
+.score-list .pts { text-align: right; }
+.score-list li.me { color: var(--on-desk); }
+.score-list li.me .sbar > span { background: var(--blue); }
+.score-how { grid-area: how; font: 500 12px/1.45 var(--display); letter-spacing: 0.02em; color: #9a9a9a; }
 .summary a { color: var(--on-desk); }
 .sum-wins { padding-top: 32px; }
 .sum-wins ul { margin: 0; padding-left: 18px; display: flex; flex-direction: column; gap: 6px; color: #cfcfcf; }
@@ -689,7 +748,8 @@ export const DASH_STYLES = `
 .detail-h { padding-top: 16px; font-size: 22px; line-height: 1.3; text-transform: uppercase; }
 /* Laptop widths with the phone beside: the two lists stack so neither gets squeezed. */
 @media (max-width: 1240px) {
-  .step-body { grid-template-columns: 1fr; gap: 12px; }
+  .sum-score { grid-template-columns: 1fr; grid-template-areas: "main" "list" "how"; }
+  .score { font-size: 100px; }
   .summary.with-phone .sum-nums .big { font-size: 72px; }
 }
 @media (max-width: 900px) {
@@ -699,10 +759,12 @@ export const DASH_STYLES = `
   .sum-nums { grid-template-columns: 1fr 1fr; gap: 24px 16px; padding-bottom: 24px; }
   .sum-nums .big { font-size: 52px; }
   .sum-nums .lbl { font-size: 13px; }
-  .steps li { grid-template-columns: 40px minmax(0, 1fr); grid-template-areas: "n title" "n body" "n watch"; column-gap: 12px; }
+  .steps li { grid-template-columns: 40px minmax(0, 1fr); column-gap: 12px; }
   .steps .n { font-size: 28px; }
   .steps.wins .n { font-size: 22px; }
-  .steps .watch { padding-left: 0; border-left: 0; }
+  .step-rows > div { grid-template-columns: 1fr; gap: 4px; }
+  .sum-score { grid-template-columns: 1fr; grid-template-areas: "main" "list" "how"; padding-bottom: 24px; margin-bottom: 24px; }
+  .score { font-size: 88px; }
   .sum-next, .sum-wins { padding-top: 24px; }
 }
 .meter { display: block; width: 100%; height: 6px; background: var(--line); }
