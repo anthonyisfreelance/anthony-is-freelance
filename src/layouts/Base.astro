@@ -19,7 +19,7 @@ interface Props {
   /** Keep the page out of search (thank-you and error pages). */
   noindex?: boolean;
   /** A heading and benefit line for the sticky Start a project bar (sector pages). Without it, the plain phone bar. */
-  sticky?: { heading: string; line: string; button?: string };
+  sticky?: { heading: string; line: string; button?: string; image?: ImageMetadata };
 }
 const { title, description, announcement = true, image, ogImage, ogType = 'website', noindex = false, sticky } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
