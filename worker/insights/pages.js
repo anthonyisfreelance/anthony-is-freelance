@@ -6,6 +6,7 @@ import { esc, fmtDate, fmtDateTime, masthead, eyebrow, shell, topBar, backLink }
 import { ADMIN_CSS, DASH_CSS, ADMIN_SCRIPT } from '../docs/admin.js';
 import { DASH_STYLES } from './dashboard.js';
 import { formatPromptList } from './prompts.js';
+import { GA4_CSS } from './ga4view.js';
 
 export const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 export const TABS = [
@@ -94,7 +95,7 @@ export const INSIGHTS_SCRIPT = `
 })();
 `;
 
-const CSS = ADMIN_CSS + DASH_CSS + DASH_STYLES + PAGE_CSS;
+const CSS = ADMIN_CSS + DASH_CSS + DASH_STYLES + PAGE_CSS + GA4_CSS;
 
 export function insightsShell({ base, title, body, bar = '' }) {
   return shell({ title, base, body, css: CSS, script: ADMIN_SCRIPT + INSIGHTS_SCRIPT, bar });
@@ -142,7 +143,7 @@ const field = (label, input, { wide = false, hint = '' } = {}) => `<label${wide 
 const lines = (list) => esc((list || []).join('\n'));
 
 export function brandSettings({ base, brand, prompts = [], isNew = false, sample = false, back = null }) {
-  const b = brand || { name: '', slug: '', match_names: [], match_domains: [], facts: '', flags: [], launch_date: '', ga4_property: '', uk_only: 0, asks_per_week: 3, run_weekday: 1, groups: {} };
+  const b = brand || { name: '', slug: '', match_names: [], match_domains: [], facts: '', flags: [], launch_date: '', ga4_property: '', gsc_site: '', ga4_goal: '', uk_only: 0, asks_per_week: 3, run_weekday: 1, groups: {} };
   const flagText = (b.flags || []).map((f) => `${f.label}${f.description ? `: ${f.description}` : ''}`).join('\n');
   const token = isNew ? '' : b.slug;
   const settings = `<form class="form" data-save="${isNew ? 'brand-add' : 'brand-save'}" data-token="${esc(token)}">
@@ -153,7 +154,9 @@ export function brandSettings({ base, brand, prompts = [], isNew = false, sample
     ${field('Facts note', `<textarea name="facts" maxlength="4000">${esc(b.facts)}</textarea>`, { wide: true, hint: 'A few lines the scorer checks answers against for wrong facts: what the brand does and doesn\'t do, prices, current page addresses.' })}
     ${field('Framing flags', `<textarea name="flags" maxlength="4000">${esc(flagText)}</textarea>`, { wide: true, hint: 'One per line, as "Label: what to look for". For example "Price steering: points the reader to cheaper options".' })}
     ${field('Launch date', `<input name="launch_date" type="date" value="${esc(b.launch_date || '')}">`, { hint: 'Optional. Marked on every chart.' })}
-    ${field('GA4 property', `<input name="ga4_property" inputmode="numeric" maxlength="20" value="${esc(b.ga4_property || '')}">`, { hint: 'Optional. Used by the GA4 audit (phase 3).' })}
+    ${field('GA4 property', `<input name="ga4_property" inputmode="numeric" maxlength="20" value="${esc(b.ga4_property || '')}">`, { hint: 'Optional. The property number, for the GA4 audit.' })}
+    ${field('Search Console property', `<input name="gsc_site" maxlength="200" placeholder="sc-domain:example.com" value="${esc(b.gsc_site || '')}">`, { hint: 'Optional. A domain property (sc-domain:example.com) or a URL prefix (https://www.example.com/). Read alongside GA4.' })}
+    ${field('GA4 lead event', `<input name="ga4_goal" maxlength="40" placeholder="generate_lead" value="${esc(b.ga4_goal || '')}">`, { hint: 'Leave empty for a shop: the audit counts purchases. For a site that takes enquiries, the key event to count as a lead.' })}
     ${field('Times each prompt is asked a week', `<input name="asks_per_week" type="number" min="1" max="10" value="${Number(b.asks_per_week) || 3}">`)}
     ${field('Weekly run day', `<select name="run_weekday">${WEEKDAYS.map((d, i) => `<option value="${i}"${Number(b.run_weekday) === i ? ' selected' : ''}>${d}</option>`).join('')}</select>`, { hint: 'The run starts from 6am UK time that day.' })}
     <label class="check wide"><input type="checkbox" name="uk_only"${b.uk_only ? ' checked' : ''}> <span>GA4: UK visitors only</span></label>
@@ -197,10 +200,6 @@ export function brandShell({ base, brand, active, content, sample = false, href,
 
 // The three tabs that fill up in later phases.
 export function placeholderTab(kind, brand) {
-  if (kind === 'ga4') {
-    return `<div class="placeholder"><p>GA4 audits arrive in phase 3: a data check with a trust rating, then sessions, purchases, revenue, devices, landing pages and AI traffic for a period and a comparison period.</p>
-    <p>${brand.ga4_property ? `GA4 property on file: <b>${esc(brand.ga4_property)}</b>${brand.uk_only ? ', UK visitors only' : ''}.` : 'No GA4 property on file yet. Add it in Settings.'}</p></div>`;
-  }
   if (kind === 'reports') {
     return `<div class="placeholder"><p>Reports arrive in phase 2: any run or comparison as an A4 sheet at a private link, with a PDF. Drafts, approved and sent reports will be listed here, each with a Withdraw button.</p></div>`;
   }

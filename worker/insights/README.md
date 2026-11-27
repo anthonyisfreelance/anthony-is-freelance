@@ -5,8 +5,8 @@ worker). It tracks how AI engines talk about a brand, and later audits GA4 prope
 results into before-and-after reports. Only Anthony logs in. Nothing reaches a client until he
 approves it.
 
-Built so far: phase 1, the AI visibility tracker, and phase 2, reports. Phase 3 adds the GA4 audit,
-phase 4 client brands and scheduled dates.
+Built so far: phase 1, the AI visibility tracker, phase 2, reports, and phase 3, the GA4 audit with
+Search Console. Phase 4 adds client brands and scheduled dates.
 
 ## How it fits together
 
@@ -17,11 +17,12 @@ phase 4 client brands and scheduled dates.
 - **Data** lives in Cloudflare D1, in the `insights` database (`INSIGHTS_DB`), not in this public repo.
   The worker creates and upgrades its own tables on first use (`db.js`): a schema version row says
   which steps have run, so there are no migration commands. Tables: `brands`, `prompts`, `runs`,
-  `answers`, `scores`. Snapshots, reports, schedule and GA4 tables arrive with their phases.
+  `answers`, `scores`, `shots`, `reports`, `audits`. The schedule table arrives with phase 4.
 - **The repo is public.** Brands, prompt lists, facts notes and results are entered in the admin and
   live only in the database. The only brand in code is the made-up one on the samples page.
 - **Brands** have a name, the names and domains to look for in answers, a facts note, framing flags
-  (label and what to look for), a launch date, a GA4 property, a UK-only switch, how many times each
+  (label and what to look for), a launch date, a GA4 property, a Search Console property, the GA4
+lead event (empty for a shop), a UK-only switch, how many times each
   prompt is asked a week (default 3) and the weekday of the weekly run.
 - **Prompt lists** are pasted or edited as plain text in groups (`prompts.js`): a group line is a
   capital letter, a full stop and its name ("A. Recommendation, no modifier"), and each prompt is
@@ -90,6 +91,45 @@ phase 4 client brands and scheduled dates.
   Code.gs, paste it into the Apps Script project and deploy a new version (Deploy > Manage
   deployments > edit > Version: New version > Deploy). The URL stays the same.
 
+## GA4 audit and Search Console (phase 3)
+
+- **Access.** The platform reads Google through its own read-only login: a service account
+  (`insights-reader@anthonyisfreelance.iam.gserviceaccount.com`) in the `anthonyisfreelance`
+  Google Cloud project, with the GA4 Data API and the Search Console API turned on. Its JSON key
+  is the secret `GOOGLE_SA_KEY`. `google.js` signs its own token request (RS256, Web Crypto) and
+  keeps the token for its hour. A brand gives access by adding that address as a **Viewer** on its
+  GA4 property and a **Restricted** user on its Search Console property. Nothing else changes on
+  their side.
+- **An audit** (`audit.js`) is one period and, usually, a comparison (the period before or the
+  same period last year; "Since launch" compares with last year and uses the standard line). It
+  asks GA4 for ten small reports in two batch calls and Search Console for four: seven calls in
+  all. It keeps totals and top-ten lists only, in `audits.data`, never visitor-level data.
+- **Step 1, the data check** (`dataCheck`, thresholds in `THRESHOLDS`):
+  - Bot traffic: a source or city with over 10% of sessions and engagement under 5% or under a
+    third of the rest of the site, or days at over 4x a normal day with half the engagement. One
+    sign is use with care; two or more, or over 20% of sessions, is not reliable. Smaller ones
+    (over 2% of sessions) are listed as "also seen" without changing the rating.
+  - Internal links with UTM tags (sessions started from the brand's own pages with a campaign set):
+    over 2% use with care, over 10% not reliable.
+  - Duplicate transactions: over 0.5% of transactions use with care, over 2% not reliable.
+  - Purchase tracking: a week with visits but no purchases is use with care; none at all on a shop
+    is not reliable. For a lead site, no leads in the period is use with care.
+  - "(not set)" landing pages: over 5% care, over 15% not reliable, shown on the landing page table
+    only. It skews that table, not the totals, so it doesn't change the overall rating.
+
+  The result is clean, use with care or not reliable, with the reasons and which numbers are still
+  safe to use. Agreed with Anthony on 27 Nov 2026, then adjusted after testing against two known
+  properties (one clean, one with heavy bot traffic) so both come out as expected.
+- **Step 2, the numbers:** sessions, purchasers and transactions (exact), conversion rate, revenue
+  (or leads for a lead site), devices, top landing pages, AI traffic and Google search. AI traffic
+  is counted by source name (gpt, perplexity, gemini, claude, copilot, openai), never GA4's AI
+  Assistant channel, and the "(not set)" medium share is noted. The UK-only switch filters GA4 to
+  the United Kingdom and Search Console to GBR.
+- **Reports.** Any audit can become a GA4 report (Make a report on the GA4 tab): the same A4 sheet
+  and PDF, private until shared. AI visibility reports made after an audit also show "What it
+  brought in": visits and orders (or leads) from AI assistants and Google search clicks from the
+  latest audit.
+
 ## Settings
 
 Worker (Cloudflare dashboard > Worker > Settings > Variables and secrets). Add secrets as secrets:
@@ -105,6 +145,7 @@ plain-text variables set in the dashboard are wiped by the next deploy.
 | `INSIGHTS_BATCH` | var | Answers per batch, default 4 (at most 8) |
 | `INSIGHTS_RUN_HOUR` | var, optional | Hour (UK) from which weekly runs start, default 6 |
 | `INSIGHTS_REPORT_EMAIL` | var | Set to `approved` once Anthony approves the client report email. Until then, Send is off |
+| `GOOGLE_SA_KEY` | secret | The service account's JSON key, the whole file. Anthony adds it; never in chat or the repo |
 
 Reused from the documents: `DOCS_SECRET` (signs the login cookies), `RESEND_API_KEY` and
 `ADMIN_EMAIL` (login codes and notices), `BRIDGE_URL` and `BRIDGE_KEY` (report PDFs to Drive and
@@ -146,13 +187,17 @@ Everything in the docs Security section applies here too (`worker/docs/README.md
 - **Reports** show that report's own data and nothing else. Private reports open only for Anthony; a
   link with sharing turned off answers 410 at once, the PDF included. Report pages and PDFs carry the same headers
   as every page (noindex, never cached), and fresh PDF renders are rate limited.
+- **Google** access is read-only (the `analytics.readonly` and `webmasters.readonly` scopes) and
+  granted per property by its owner. GA4 page paths, search queries and source names are escaped
+  like AI answers.
 - **Secrets** live in Cloudflare, never in this repo. Brand data and results live in D1.
 
 ## Testing locally
 
 1. Build the site once for the fonts: `npm run build`.
-2. Make a `.dev.vars` file (never committed) with `INSIGHTS_DEV=1`, `INSIGHTS_FAKE_AI=1` and
-   `DOCS_SECRET=` any local string. `INSIGHTS_FAKE_AI=1` gives canned answers and scores, so every
+2. Make a `.dev.vars` file (never committed) with `INSIGHTS_DEV=1`, `INSIGHTS_FAKE_AI=1`,
+   `INSIGHTS_FAKE_GOOGLE=1` and `DOCS_SECRET=` any local string. `INSIGHTS_FAKE_GOOGLE=1` gives
+   canned GA4 and Search Console responses, shaped like the real ones. `INSIGHTS_FAKE_AI=1` gives canned answers and scores, so every
    flow runs without an OpenAI key. Without `RESEND_API_KEY`, codes are printed in the log and
    shown on the login page.
 3. `npx wrangler dev --local --test-scheduled`, then open `http://localhost:8787/admin/`.
@@ -161,5 +206,6 @@ Everything in the docs Security section applies here too (`worker/docs/README.md
    local worker: login and code limits, the Origin check, a run with the fake engine through to
    complete (with failures), scoring and re-scoring, stopping a run, the cron and weekly run,
    reports (draft privacy, recommendations, approve, the PDF, withdraw and restore, the send guard,
-   before and after), the samples, and the rate limits. `DOCS_FAKE_PDF=1` in `.dev.vars` gives
+   before and after), a GA4 audit and its report with the fake Google, the samples, and the rate
+   limits. `DOCS_FAKE_PDF=1` in `.dev.vars` gives
    placeholder PDFs without a browser.
