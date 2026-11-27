@@ -1,8 +1,8 @@
 ---
 // Sector page template (27 November 2026): food and drink, beauty and fragrance, home and interiors.
 // Built from the service page parts, so it looks and reads like the rest of the site, in this order:
-// hero, the sector, what stores need, work, UX examples, clients, after launch, honest advice, FAQs,
-// more, start a project. A black sales page. Copy lives in src/data/sector-pages/.
+// hero, work, UX examples, clients (the proof first, 27 November 2026), then the sector, what stores
+// need, after launch, honest advice, FAQs, more, start a project. A black sales page. Copy lives in src/data/sector-pages/.
 import { Image } from 'astro:assets';
 import Base from '../layouts/Base.astro';
 import Schema from './Schema.astro';
@@ -77,32 +77,6 @@ const split = 'grid gap-section-sm border-t border-line lg:grid-cols-2 lg:gap-gu
       <TrustTiles items={p.hero.trust} />
     </section>
 
-    <!-- The sector -->
-    <section class="px-margin pt-section">
-      <div class={split}>
-        <div class="pt-section"><Heading eyebrow={p.sector.eyebrow}>{p.sector.heading}</Heading></div>
-        <div class="t-body flex flex-col gap-loose text-muted lg:pt-section">{p.sector.paragraphs.map((t) => <p>{t}</p>)}</div>
-      </div>
-    </section>
-
-    <!-- What the stores need: the service pages' boxed list, a hairline above every box but the first. -->
-    <section class="px-margin pt-section">
-      <div class={split}>
-        <div class="pt-section lg:sticky lg:top-0 lg:self-start">
-          <Heading eyebrow={p.needs.eyebrow}>{p.needs.heading}</Heading>
-          {p.needs.intro && <p class="t-body mt-loose text-muted">{p.needs.intro}</p>}
-        </div>
-        <ul class="flex flex-col lg:pt-section">
-          {p.needs.items.map((n, i) => (
-            <li class:list={['bg-raised px-4 py-4 lg:px-6 lg:py-6', i > 0 && 'border-t border-line']}>
-              <h3 class="t-label text-ink">{n.title}</h3>
-              <p class="t-body mt-2 text-muted">{n.body}</p>
-            </li>
-          ))}
-        </ul>
-      </div>
-    </section>
-
     <!-- Work: full cards, word for word from the work page record. -->
     <section id="work" class="px-margin pt-section">
       <div class="border-t border-line pt-section">
@@ -173,6 +147,32 @@ const split = 'grid gap-section-sm border-t border-line lg:grid-cols-2 lg:gap-gu
         </div>
       </section>
     )}
+
+    <!-- The sector -->
+    <section class="px-margin pt-section">
+      <div class={split}>
+        <div class="pt-section"><Heading eyebrow={p.sector.eyebrow}>{p.sector.heading}</Heading></div>
+        <div class="t-body flex flex-col gap-loose text-muted lg:pt-section">{p.sector.paragraphs.map((t) => <p>{t}</p>)}</div>
+      </div>
+    </section>
+
+    <!-- What the stores need: the service pages' boxed list, a hairline above every box but the first. -->
+    <section class="px-margin pt-section">
+      <div class={split}>
+        <div class="pt-section lg:sticky lg:top-0 lg:self-start">
+          <Heading eyebrow={p.needs.eyebrow}>{p.needs.heading}</Heading>
+          {p.needs.intro && <p class="t-body mt-loose text-muted">{p.needs.intro}</p>}
+        </div>
+        <ul class="flex flex-col lg:pt-section">
+          {p.needs.items.map((n, i) => (
+            <li class:list={['bg-raised px-4 py-4 lg:px-6 lg:py-6', i > 0 && 'border-t border-line']}>
+              <h3 class="t-label text-ink">{n.title}</h3>
+              <p class="t-body mt-2 text-muted">{n.body}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
 
     <!-- After launch -->
     <section class="px-margin pt-section">

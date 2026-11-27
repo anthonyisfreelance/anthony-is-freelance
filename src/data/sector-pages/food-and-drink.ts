@@ -8,12 +8,10 @@
 //   4. Sector first in the URL and the title tag.
 //   5. One link to the homepage, anchored "freelance Shopify designer", in the byline.
 //   6. Links into this page use sector anchors, e.g. "Shopify design for food and drink brands".
-import { URLS, GOOGLE_RATING, LAUNCH_COUNT } from '../site';
+import { URLS, GOOGLE_RATING } from '../site';
 import { card } from '../service-pages/shared';
 import type { SectorPage } from './types';
 import heroImage from '../../assets/brands/east-at-home/feature-photo.jpg';
-
-const CARTMASTERS = 'https://cartmasters.co.uk/';
 
 export const FOOD_AND_DRINK: SectorPage = {
   meta: {
@@ -31,7 +29,7 @@ export const FOOD_AND_DRINK: SectorPage = {
   hero: {
     // No eyebrow on sector page H1s: the sector claim is the whole heading (27 November 2026).
     heading: 'Shopify designer for food and drink brands',
-    intro: `My two UK eCommerce Award wins in 2026 were both for food and drink stores. I design every screen myself, with 20+ years of brand and ecommerce experience, and team up with the Shopify developers who have built all ${LAUNCH_COUNT} of my launches since 2023.`,
+    intro: 'My two UK eCommerce Award wins in 2026 were both for food and drink stores. I design every screen myself, and work with agencies and expert Shopify developers to bring each store to life.',
     cta: { label: 'Start a food and drink project', href: '#start-a-project' },
     image: heroImage,
     imageAlt: '',
@@ -39,7 +37,7 @@ export const FOOD_AND_DRINK: SectorPage = {
       { text: 'Winner: UK eCommerce Website of the Year 2026', href: URLS.caseStudies.drinkFinder },
       { text: 'Winner: UK User Experience of the Year 2026', href: URLS.caseStudies.eastAtHome },
       GOOGLE_RATING,
-      { text: 'Built by Cartmasters', href: CARTMASTERS },
+      { text: '20+ years of brand and ecommerce experience', href: URLS.about },
     ],
   },
   sector: {
@@ -67,7 +65,7 @@ export const FOOD_AND_DRINK: SectorPage = {
   work: {
     eyebrow: 'Food and drink Shopify work',
     heading: 'Two stores, two UK eCommerce Awards.',
-    intro: 'My food and drink Shopify work includes Drink Finder, a Cornish wine and spirits merchant, and East at Home, a curry sauce brand. I designed both, and [Cartmasters](https://cartmasters.co.uk/) built them.',
+    intro: 'My food and drink Shopify work includes Drink Finder, a Cornish wine and spirits merchant, and East at Home, a curry sauce brand. I designed both stores, and expert Shopify developers built them.',
     cards: [card('Drink Finder'), card('East at Home')],
     note: 'Both stores were shortlisted in a second category: Drink Finder for Food & Drink eCommerce Website of the Year, and East at Home for B2C eCommerce Website of the Year.',
     link: { label: 'View all Shopify success stories', href: URLS.work },
@@ -127,7 +125,7 @@ export const FOOD_AND_DRINK: SectorPage = {
       },
       {
         q: 'Can we move to Shopify without losing our regulars?',
-        a: ['Yes. Drink Finder moved from a bespoke platform to Shopify in August 2025, after more than 65 years of trading. The UX review of the old store found sign-up buttons and a chat widget covering key buttons, so the new design fixed those first. I designed every screen mobile first, and Cartmasters built it.'],
+        a: ['Yes. Drink Finder moved from a bespoke platform to Shopify in August 2025, after more than 65 years of trading. The UX review of the old store found sign-up buttons and a chat widget covering key buttons, so the new design fixed those first. I designed every screen mobile first.'],
       },
       {
         q: 'Can one Shopify store serve trade and retail customers?',
@@ -135,8 +133,8 @@ export const FOOD_AND_DRINK: SectorPage = {
         a: ['Yes. Drink Finder’s store serves retail and trade buyers, with different needs for wine and spirits. In Jon Wigmore’s words, the site handles “the distinct functional requirements for wine vs. spirits, managing wholesale and retail channels, and juggling complex shipping metrics.”'],
       },
       {
-        q: 'Who built Drink Finder and East at Home?',
-        a: [`Cartmasters, a Shopify development specialist, built both stores from my designs. Cartmasters or Tom Blanchard have built all ${LAUNCH_COUNT} of my launches since 2023. I design every screen and check the build on real devices before launch. I also work with in-house developers and agencies.`],
+        q: 'Do you work with agencies and developers?',
+        a: ['Yes. Some brands come to me directly, and some agencies bring me in to lead the design. Either way, I design every screen myself and work with expert Shopify developers, or your own team, to build it. I check the build on real devices before launch.'],
       },
     ],
   },
