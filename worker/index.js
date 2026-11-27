@@ -3,10 +3,13 @@
 //
 // /api/enquiry sends the start-a-project form, and thanks the sender (worker/enquiry.js).
 // docs.anthonyis.uk serves client quotes, contracts and invoices (worker/docs/).
+// insights.anthonyis.uk is Anthony's AI visibility tracker and, later, GA4 audits (worker/insights/).
+// Its cron (`scheduled` below, every 5 minutes in wrangler.jsonc) works through the run queue.
 // /api/feedback powers the test-site comment tool (public/feedback.js). Each comment
 // becomes a GitHub issue labelled "feedback" on the site repo. It never runs on
 // anthonyis.uk itself. On docs.anthonyis.uk it runs only for the made-up sample documents
 // at /admin/samples/ (issues on this repo are public), with the admin login instead of the key.
+// The same goes for the insights samples on insights.anthonyis.uk, with the insights login.
 //
 // Secrets (Cloudflare dashboard > Worker > Settings > Variables and secrets):
 //   GITHUB_TOKEN  fine-grained token, this repo only, Issues: read and write
@@ -14,6 +17,7 @@
 
 import { enquiry } from './enquiry.js';
 import { docs, adminSession } from './docs/index.js';
+import { insights, insightsSession, insightsCron } from './insights/index.js';
 
 // Pages removed for good: a 410 tells Google they're gone on purpose, so they drop out quickly.
 // Every path here must also be in run_worker_first in wrangler.jsonc, or the worker never sees it.
@@ -54,6 +58,11 @@ export default {
   async fetch(request, env, ctx) {
     const url = new URL(request.url);
     if (url.pathname.startsWith('/wp-content/uploads/')) return oldImage(request, env, url);
+    // The AI visibility tracker and audits, on their own subdomain (worker/insights/README.md).
+    if (url.hostname === (env.INSIGHTS_HOST || 'insights.anthonyis.uk') || env.INSIGHTS_DEV === '1') {
+      const res = await insights(request, env, ctx);
+      if (res) return res;
+    }
     // Client quotes, contracts and invoices, on their own subdomain (worker/docs/README.md).
     if (url.hostname === (env.DOCS_HOST || 'docs.anthonyis.uk') || env.DOCS_DEV === '1') {
       const res = await docs(request, env, ctx);
@@ -67,6 +76,11 @@ export default {
     }
     return env.ASSETS.fetch(request);
   },
+
+  // Every 5 minutes (wrangler.jsonc triggers): the insights run queue and weekly runs.
+  async scheduled(controller, env, ctx) {
+    ctx.waitUntil(insightsCron(env, new Date(controller.scheduledTime)).catch((e) => console.error('[insights] cron', e)));
+  },
 };
 
 // Comments on the documents subdomain may only be about the sample pages.
@@ -74,11 +88,14 @@ const SAMPLES = '/admin/samples/';
 
 async function feedback(request, env, url) {
   const docsHost = url.hostname === (env.DOCS_HOST || 'docs.anthonyis.uk');
-  if (/(^|\.)anthonyis\.uk$/.test(url.hostname) && !docsHost) return json({ error: 'Not found' }, 404);
-  if (docsHost) {
+  const insightsHost = url.hostname === (env.INSIGHTS_HOST || 'insights.anthonyis.uk');
+  const loginHost = docsHost || insightsHost;
+  if (/(^|\.)anthonyis\.uk$/.test(url.hostname) && !loginHost) return json({ error: 'Not found' }, 404);
+  if (loginHost) {
     if (!env.GITHUB_TOKEN) return json({ error: 'Comments are not set up yet: add GITHUB_TOKEN in Cloudflare.' }, 503);
     if (request.method !== 'GET' && request.headers.get('origin') !== url.origin) return json({ error: 'Not allowed.' }, 403);
-    if (!(await adminSession(request, env))) return json({ error: 'Log in at /admin/ first.' }, 401);
+    const signedIn = insightsHost ? await insightsSession(request, env) : await adminSession(request, env);
+    if (!signedIn) return json({ error: 'Log in at /admin/ first.' }, 401);
   } else {
     if (!env.GITHUB_TOKEN || !env.FEEDBACK_KEY) {
       return json({ error: 'Comments are not set up yet: add GITHUB_TOKEN and FEEDBACK_KEY in Cloudflare.' }, 503);
@@ -87,6 +104,10 @@ async function feedback(request, env, url) {
       return json({ error: 'Wrong feedback key.' }, 401);
     }
   }
+  // Both subdomains have samples at /admin/samples/, so insights comments carry their host and
+  // each subdomain lists only its own (comments without a host are from docs).
+  const only = loginHost ? SAMPLES : '';
+  const host = insightsHost ? url.hostname : '';
 
   const gh = (path, init = {}) =>
     fetch(`${env.GITHUB_API || 'https://api.github.com'}/repos/${env.FEEDBACK_REPO || REPO}${path}`, {
@@ -101,10 +122,10 @@ async function feedback(request, env, url) {
     });
 
   try {
-    if (request.method === 'GET') return await list(gh, docsHost ? SAMPLES : '');
-    if (request.method === 'POST' && url.pathname === '/api/feedback') return await create(gh, request, docsHost ? SAMPLES : '');
+    if (request.method === 'GET') return await list(gh, only, loginHost ? host : null);
+    if (request.method === 'POST' && url.pathname === '/api/feedback') return await create(gh, request, only, host);
     const done = url.pathname.match(/^\/api\/feedback\/(\d+)$/);
-    if (request.method === 'PATCH' && done) return await close(gh, Number(done[1]), docsHost ? SAMPLES : '');
+    if (request.method === 'PATCH' && done) return await close(gh, Number(done[1]), only);
     return json({ error: 'Not found' }, 404);
   } catch (err) {
     return json({ error: err.message || 'Something went wrong.' }, 502);
@@ -112,7 +133,8 @@ async function feedback(request, env, url) {
 }
 
 // Open comments across the whole site. The page filters to its own path.
-async function list(gh, only) {
+// `host`: on a subdomain, only that subdomain's comments ('' is docs); null on the test site.
+async function list(gh, only, host = null) {
   const items = [];
   for (let page = 1; page <= 5; page++) {
     const res = await gh(`/issues?labels=${LABEL}&state=open&per_page=100&page=${page}`);
@@ -123,6 +145,7 @@ async function list(gh, only) {
       const meta = readMeta(issue.body);
       if (!meta) continue;
       if (only && !String(meta.path || '').startsWith(only)) continue;
+      if (host !== null && (meta.host || '') !== host) continue;
       items.push({
         number: issue.number,
         comment: meta.comment,
@@ -143,7 +166,7 @@ async function list(gh, only) {
   return json({ items });
 }
 
-async function create(gh, request, only) {
+async function create(gh, request, only, host = '') {
   const d = await request.json().catch(() => null);
   const comment = clean(d && d.comment, 4000);
   const path = clean(d && d.path, 300);
@@ -158,6 +181,7 @@ async function create(gh, request, only) {
     ox: num(d.ox),
     oy: num(d.oy),
     vw: num(d.vw),
+    ...(host ? { host } : {}),
   };
   const vw = num(d.vw), vh = num(d.vh);
   const lines = [
