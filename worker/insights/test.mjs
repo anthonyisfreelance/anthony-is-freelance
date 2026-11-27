@@ -534,7 +534,7 @@ if (BASE) {
   let reportId, reportToken;
   await test('report: a draft is made from a finished run, and only Anthony can open it', async () => {
     const tab = await get(`/admin/brands/${slug}/reports/`).then((x) => x.text());
-    const run = tab.match(/<select name="run"><option value="(\d+)"/)?.[1];
+    const run = tab.match(/data-action="report-quick" data-token="[^"]+" data-value="(\d+)"/)?.[1];
     assert.ok(run, 'a finished run to choose');
     const r = await act('report-new', slug, { kind: 'snapshot', run, recipient_name: 'Jo Tester', recipient_email: 'not an email' });
     assert.equal(r.status, 400);
@@ -561,8 +561,31 @@ if (BASE) {
     assert.ok(!page.includes('<script>x'));
   });
 
-  await test('report: approved opens for anyone, withdrawn is off at once, restore turns it back on', async () => {
-    assert.equal((await act('report-approve', reportId)).ok, true);
+  await test('report: one press makes a snapshot of a run', async () => {
+    const tab = await get(`/admin/brands/${slug}/reports/`).then((x) => x.text());
+    const run = tab.match(/data-action="report-quick" data-token="[^"]+" data-value="(\d+)"/)[1];
+    const before = (tab.match(/>Open</g) || []).length;
+    const r = await act('report-quick', slug, null);
+    assert.equal(r.status, 400); // no run chosen
+    const ok = await post('/admin/action', { action: 'report-quick', token: slug, value: run }).then((x) => x.json());
+    assert.equal(ok.ok, true, ok.error);
+    const after = await get(`/admin/brands/${slug}/reports/`).then((x) => x.text());
+    assert.equal((after.match(/>Open</g) || []).length, before + 1);
+    assert.ok(!after.includes('Send to'));
+  });
+
+  await test('report: sharing on opens the link for anyone, off turns it off at once', async () => {
+    assert.equal((await act('report-share', reportId)).ok, true);
+    const o = await fetch(`${BASE}/report/${reportToken}/`, { headers: { 'cf-connecting-ip': ip() } });
+    assert.equal(o.status, 200);
+    assert.equal((await act('report-unshare', reportId)).ok, true);
+    assert.equal((await fetch(`${BASE}/report/${reportToken}/`, { headers: { 'cf-connecting-ip': ip() } })).status, 410);
+    const page = await get(`/admin/brands/${slug}/reports/${reportId}/`).then((x) => x.text());
+    assert.match(page, /Share the link/);
+  });
+
+  await test('report: shared opens for anyone with the PDF, withdrawn is off at once, restore turns it back on', async () => {
+    assert.equal((await act('report-share', reportId)).ok, true);
     const open = (path = '') => fetch(`${BASE}/report/${reportToken}/${path}`, { headers: { 'cf-connecting-ip': ip() } });
     const r1 = await open();
     assert.equal(r1.status, 200);
@@ -587,8 +610,7 @@ if (BASE) {
 
   await test('report: before and after needs two runs, and shows the changes', async () => {
     const tab = await get(`/admin/brands/${slug}/reports/`).then((x) => x.text());
-    const runs = [...tab.matchAll(/<option value="(\d+)">/g)].map((m) => m[1]);
-    const ids = [...new Set(runs)];
+    const ids = [...new Set([...tab.matchAll(/data-action="report-quick" data-token="[^"]+" data-value="(\d+)"/g)].map((m) => m[1]))];
     if (ids.length < 2) return console.log('       (skipped: one finished run)');
     const r = await act('report-new', slug, { kind: 'compare', run: ids[0], before: ids[1] });
     assert.equal(r.ok, true, r.error);

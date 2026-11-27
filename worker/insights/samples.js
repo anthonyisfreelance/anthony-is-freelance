@@ -140,13 +140,13 @@ const PAGES = [
   ['ai-settings', 'Brand settings and prompts', 'The brand form and the grouped prompt list.'],
   ['ai-schedule', 'Schedule tab', 'The weekly run. Dated runs arrive in phase 4.'],
   ['ai-ga4', 'GA4 tab', 'A placeholder until phase 3.'],
-  ['ai-reports', 'Reports tab', 'The list of reports and the form for a new one.'],
-  ['report-settings', 'A report’s settings', 'Approve, send, withdraw, and the recommendations box.'],
+  ['ai-reports', 'Reports tab', 'Before and after, your reports, and a report from any run.'],
+  ['report-settings', 'A report’s page', 'View, PDF, share the link, and the recommendations box.'],
   ['report-compare', 'Report: before and after', 'Two runs side by side, as the client sees it. With its PDF.'],
   ['report-snapshot', 'Report: snapshot', 'One run, with recommendations written in. With its PDF.'],
   ['email-code', 'Email: login code', 'Sent to Anthony when he asks for a code.'],
   ['email-notice', 'Email: login notice', 'Sent to Anthony after every login.'],
-  ['email-report', 'Email: report to a client', 'Sent from your Gmail with the PDF. Needs your approval before any real send.'],
+  ['email-report', 'Email: report to a client', 'Switched off. Only used once you choose to email reports.'],
 ];
 
 const tabHref = (k) => `${P}${k === '' ? 'ai-visibility' : `ai-${k}`}/`;
@@ -231,7 +231,7 @@ export async function samples(request, env, url, parts, ctx) {
     return html(shellOf('reports', reportsTab({ brand, sample: true, reports: [r.compare, r.snapshot], runs: trend, href: (id) => `${P}${id === 2 ? 'report-settings' : 'report-snapshot'}/` })));
   }
   if (slug === 'report-settings') {
-    return html(shellOf('reports', reportEditor({ brand, base, sample: true, emailApproved: true, report: sampleReports().compare, preview: `${P}report-compare/` })));
+    return html(shellOf('reports', reportEditor({ brand, base, sample: true, report: sampleReports().compare, preview: `${P}report-compare/` })));
   }
   if (slug === 'report-compare' || slug === 'report-snapshot') {
     const report = sampleReports()[slug.slice(7)];

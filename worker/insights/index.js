@@ -36,7 +36,7 @@ import { flagKey } from './score.js';
 import { list } from './text.js';
 import { samples } from './samples.js';
 import { takeScreen, screenInfo, screenImage, homepageOf } from './screen.js';
-import { runRows, freezeRun, listReports, getReport, defaultTitle, reportPage, reportsTab, reportEditor } from './reports.js';
+import { runRows, freezeRun, listReports, getReport, defaultTitle, reportPage, reportsTab, reportEditor, isShared } from './reports.js';
 import { reportEmail } from './emails.js';
 import { renderPdfs, toBase64 } from '../docs/pdf.js';
 import { cachedPdf } from '../docs/security.js';
@@ -221,9 +221,11 @@ const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 async function reportAction(env, body, base) {
   const d = db(env);
   const f = body.fields && typeof body.fields === 'object' ? body.fields : {};
-  if (body.action === 'report-new') {
+  if (body.action === 'report-new' || body.action === 'report-quick') {
     const brand = await getBrand(env, clip(body.token, 60));
     if (!brand) return json({ ok: false, error: 'Brand not found.' }, 404);
+    // report-quick: a snapshot of one run, from the button beside it.
+    if (body.action === 'report-quick') Object.assign(f, { kind: 'snapshot', run: body.value });
     const kind = f.kind === 'compare' ? 'compare' : 'snapshot';
     const r = await freezeReport(env, brand, kind, Number(f.run) || 0, Number(f.before) || 0);
     if (r.error) return json({ ok: false, error: r.error }, 400);
@@ -235,7 +237,7 @@ async function reportAction(env, body, base) {
         VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'draft', ?, ?) RETURNING id`)
       .bind(newToken(16), brand.id, kind, defaultTitle(kind, brand, r.after, r.before), r.after.id, r.before?.id || null, JSON.stringify(r.data), clip(f.recipient_name, 120), email, at, at)
       .first();
-    return json({ ok: true, message: 'Draft made.', go: `/admin/brands/${brand.slug}/reports/${row.id}/` });
+    return json({ ok: true, message: 'Report made.', go: `/admin/brands/${brand.slug}/reports/${row.id}/` });
   }
   const report = await getReport(env, 'id', Number(body.token) || 0);
   if (!report) return json({ ok: false, error: 'Report not found.' }, 404);
@@ -246,7 +248,7 @@ async function reportAction(env, body, base) {
       const email = clip(f.recipient_email, 200);
       if (email && !EMAIL.test(email)) return json({ ok: false, error: 'That email address doesn\'t look right.' }, 400);
       await set('title = ?, recipient_name = ?, recipient_email = ?, recommendations = ?', clip(f.title, 160) || report.title, clip(f.recipient_name, 120), email, String(f.recommendations ?? '').slice(0, 6000).trim());
-      return json({ ok: true, message: report.status === 'draft' ? 'Saved.' : 'Saved. The live report shows the change straight away.' });
+      return json({ ok: true, message: isShared(report) ? 'Saved. The shared report shows the change straight away.' : 'Saved.' });
     }
     case 'report-refresh': {
       if (report.status !== 'draft') return json({ ok: false, error: 'Only a draft can take fresh numbers.' }, 400);
@@ -263,6 +265,14 @@ async function reportAction(env, body, base) {
       if (report.status !== 'approved') return json({ ok: false, error: 'Only an approved, unsent report can go back to draft.' }, 400);
       await set(`status = 'draft', approved_at = NULL`);
       return json({ ok: true, message: 'Back to draft.' });
+    // Sharing: on opens the link for anyone with it; off turns it off at once (a shared link that is
+    // turned off tells whoever has it that the report was withdrawn).
+    case 'report-share':
+      await set(`status = CASE WHEN status = 'draft' THEN 'approved' ELSE status END, approved_at = coalesce(approved_at, ?), withdrawn_at = NULL`, now());
+      return json({ ok: true, message: 'Shared. Anyone with the link can open it.' });
+    case 'report-unshare':
+      await set('withdrawn_at = ?', now());
+      return json({ ok: true, message: 'Sharing off. The link no longer opens.' });
     case 'report-withdraw':
       await set('withdrawn_at = ?', now());
       return json({ ok: true, message: 'Withdrawn. The link is off.' });
@@ -271,8 +281,8 @@ async function reportAction(env, body, base) {
       return json({ ok: true, message: 'Restored. The link works again.' });
     case 'report-send': {
       if (env.INSIGHTS_REPORT_EMAIL !== 'approved') return json({ ok: false, error: 'Sending is off until you approve the client email wording (Samples).' }, 400);
-      if (report.withdrawn_at) return json({ ok: false, error: 'Restore the link before sending.' }, 400);
-      if (report.status === 'draft') return json({ ok: false, error: 'Approve the report before sending it.' }, 400);
+      if (report.withdrawn_at) return json({ ok: false, error: 'Turn sharing on before sending.' }, 400);
+      if (report.status === 'draft') return json({ ok: false, error: 'Share the link before sending it.' }, 400);
       if (!report.recipient_email) return json({ ok: false, error: 'Add an email address first.' }, 400);
       try {
         const [bytes] = await renderPdfs(env, [reportPage({ base, report, brand, pdf: true })]);
@@ -319,7 +329,7 @@ async function brandPages(env, url, brand, rest) {
   if (tab === 'reports' && rest.length === 2) {
     const report = await getReport(env, 'id', Number(rest[1]) || 0);
     if (!report || report.brand_id !== brand.id) return message(base, 'Not found', 'There is no report here.');
-    return html(brandShell({ base, brand, active: 'reports', content: reportEditor({ brand, report, base, emailApproved: env.INSIGHTS_REPORT_EMAIL === 'approved' }) }));
+    return html(brandShell({ base, brand, active: 'reports', content: reportEditor({ brand, report, base, emailOn: env.INSIGHTS_REPORT_EMAIL === 'approved' }) }));
   }
   if (tab === 'ga4') return html(brandShell({ base, brand, active: tab, content: placeholderTab(tab, brand) }));
   if (tab === 'schedule') return html(brandShell({ base, brand, active: tab, content: scheduleTab(brand, { nextRun: nextRunDay(brand) }) }));

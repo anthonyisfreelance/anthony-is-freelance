@@ -76,14 +76,16 @@ phase 4 client brands and scheduled dates.
   when it falls between). The dashboard's What to do next is not in reports.
 - **Recommendations** are Anthony's alone: a box on the report's settings page. Left empty, the
   section is left out. Nothing is ever written into it for him.
-- **Status.** Draft (opens only for Anthony, logged in), Approved (the link opens for anyone who has
-  it), Sent. Withdraw turns the link off at once (the client sees "This report has been withdrawn");
-  Restore turns it back on. Back to draft works until it is sent.
-- **Sending** takes two presses ("Send to name@client?"). It renders the PDF, saves it to Drive
-  through the bridge (Insights folder, a subfolder per brand), then emails the client from
-  Anthony's Gmail with the link and the PDF attached. The wording is `reportEmail` in `emails.js`,
-  on the samples page. **Sending stays off until `INSIGHTS_REPORT_EMAIL` is set to `approved`**, so
-  nothing reaches a client before Anthony has approved that wording.
+- **Making one.** The Reports tab lists the finished runs, each with a Make a report button (a
+  snapshot), and a Before and after line: pick two runs, press Compare.
+- **Sharing.** A new report is private: it opens only for Anthony, logged in. Share the link turns
+  it on for anyone who has it; Turn sharing off turns it off at once (whoever has the link is told
+  the report was withdrawn).
+- **Sending by email** is switched off, and its fields are hidden, until `INSIGHTS_REPORT_EMAIL` is
+  `approved`. Then a report's page gets a Send by email section: two presses ("Send to
+  name@client?"), the PDF saved to Drive through the bridge (Insights folder, a subfolder per
+  brand), and the email from Anthony's Gmail with the link and the PDF. The wording is
+  `reportEmail` in `emails.js`, on the samples page.
 - **The bridge** has a `report` folder kind (`worker/docs/apps-script/Code.gs`). After changing
   Code.gs, paste it into the Apps Script project and deploy a new version (Deploy > Manage
   deployments > edit > Version: New version > Deploy). The URL stays the same.
@@ -141,8 +143,8 @@ Everything in the docs Security section applies here too (`worker/docs/README.md
   keys before it is saved.
 - **Rate limits** per IP use the docs bindings with their own counters: 60 page views, 20 posts and
   5 guesses a minute at any one code.
-- **Reports** show that report's own data and nothing else. Drafts open only for Anthony; a
-  withdrawn link answers 410 at once, the PDF included. Report pages and PDFs carry the same headers
+- **Reports** show that report's own data and nothing else. Private reports open only for Anthony; a
+  link with sharing turned off answers 410 at once, the PDF included. Report pages and PDFs carry the same headers
   as every page (noindex, never cached), and fresh PDF renders are rate limited.
 - **Secrets** live in Cloudflare, never in this repo. Brand data and results live in D1.
 
