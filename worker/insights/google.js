@@ -148,6 +148,16 @@ export function fakeGoogle(url, body) {
     if (!dims.length && filters.includes('"query"')) return { rows: [{ clicks: 210, impressions: 640, ctr: 0.33, position: 1.4 }] };
     if (!dims.length && filters.includes('gbr')) return { rows: [{ clicks: Math.round(1620 * scale), impressions: Math.round(50100 * scale), ctr: 0.032, position: 12.8 }] };
     if (!dims.length) return { rows: [{ clicks: Math.round(1840 * scale), impressions: Math.round(61200 * scale), ctr: 0.03, position: 14.2 }] };
+    if (dims[0] === 'query' && body.rowLimit > 100) {
+      // The UK position list: 40 made-up searches across the bands, a little lower the year before.
+      const before = body.startDate < '2026-01-01';
+      return {
+        rows: Array.from({ length: 40 }, (_, i) => {
+          const pos = 1 + i * 2.1 + (before ? (i % 3 === 0 ? 3 : -1.5) : 0);
+          return { keys: [`sailing search ${i + 1}`], clicks: Math.max(0, 60 - i * 2), impressions: 400 - i * 9, ctr: 0.02, position: Math.max(1, Math.round(pos * 10) / 10) };
+        }),
+      };
+    }
     if (dims[0] === 'query') return { rows: ['sailing jacket', 'saltwater supply', 'fisherman jumper', 'waterproof smock'].map((q, i) => ({ keys: [q], clicks: 220 - i * 40, impressions: 5000 - i * 900, ctr: 0.04, position: 3 + i * 2.5 })) };
     return { rows: ['/', '/collections/jackets/', '/products/harbour-smock/'].map((p, i) => ({ keys: [`https://saltwatersupply.example${p}`], clicks: 400 - i * 110, impressions: 9000 - i * 2000, ctr: 0.04, position: 4 + i })) };
   }

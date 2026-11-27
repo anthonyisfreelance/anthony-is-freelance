@@ -133,6 +133,11 @@ lead event (empty for a shop), a UK-only switch, how many times each
   where the leads or orders came from (by plain source name, with each source's rate), and "Being
   found": Google search in the UK, with the brand's own name, and AI assistants. The detail
   follows.
+- **Google positions, UK.** Every UK search the site showed up for at least 5 times (read in one
+  call per period, up to 2,000 searches), counted into bands: top 3, 4 to 10, 11 to 20, 21 to 50,
+  51 and lower, against the comparison period. Also the top searches with their position change,
+  and the biggest climbs and drops among searches seen at least 10 times in both periods. Only the
+  counts and short lists are kept.
 - **Reports.** Any audit can become a GA4 report (Make a report on the GA4 tab): the same A4 sheet
   and PDF, private until shared. AI visibility reports made after an audit also show "What it
   brought in": visits and orders (or leads) from AI assistants and Google search clicks from the
