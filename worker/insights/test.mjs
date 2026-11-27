@@ -401,16 +401,48 @@ await test('audit end to end with the fake Google: numbers, check, Search Consol
   assert.ok(x.totals.before.sessions < x.totals.now.sessions);
   assert.ok(x.ai.list[0].name === 'ChatGPT' && x.ai.notSetMedium > 0);
   assert.ok(x.check.also.some((l) => l.includes('Botsville')));
-  assert.equal(x.search.now.clicks, 1840);
+  assert.equal(x.search.now.clicks, 1620);
+  assert.equal(x.search.uk.now.clicks, 1620);
+  assert.equal(x.search.names[0].position, 1.4);
+  assert.equal(x.sources[0].name, 'Google search');
   assert.equal(x.search.queries.length, 4);
   x.landing[0].page = '/<script>alert(1)</script>';
   const page = ga4ReportPage({ base: 'https://x', report: { id: 1, token: 't', title: 'T', status: 'draft', data: x }, brand });
   assert.ok(!page.includes('<script>alert'));
-  assert.match(page, /Can the data be trusted/);
-  assert.match(page, /Clean/);
+  assert.match(page, /Data check: clean/);
+  assert.match(page, /\d+ [A-Z]{3} TO \d+ [A-Z]{3} 2026/);
+  assert.match(page, /Where your orders came from/);
+  assert.match(page, /Being found/);
   assert.match(ga4Tab({ brand, audits: [], audit: { id: 1, data: x }, ready: true, email: 'e@x' }), /Run the audit/);
   assert.match(ga4Tab({ brand: { ...brand, ga4_property: '' }, ready: true }), /property number/);
   assert.match(trafficSection(trafficOf({ id: 1, data: x })), /Visits from AI assistants/);
+});
+
+await test('GA4 words: small changes as counts, big ones as percentages, headline from rules', async () => {
+  const { changeWords, headline, rangeCaps } = await import('./ga4view.js');
+  const { sourceLabel } = await import('./audit.js');
+  const x = { compare: { kind: 'previous' }, currency: 'GBP' };
+  assert.deepEqual(changeWords(17, 14, x), { text: '3 more than the 14 before', cls: 'good' });
+  assert.deepEqual(changeWords(66, 78, x), { text: '12 fewer than the 78 before', cls: 'bad' });
+  assert.equal(changeWords(2206, 3091, x).text, 'Down 29% from 3,091');
+  assert.equal(changeWords(2206, 3091, { compare: { kind: 'year' } }).text, 'Down 29% from 3,091 last year');
+  assert.equal(changeWords(3.0, 2.5, x, { kind: 'rate' }).text, 'Up from 2.5%');
+  assert.equal(changeWords(5, 4, { compare: null }), null);
+  assert.equal(rangeCaps('2026-08-29', '2026-11-26'), '29 AUG TO 26 NOV 2026');
+  assert.equal(rangeCaps('2025-12-01', '2026-01-31'), '1 DEC 2025 TO 31 JAN 2026');
+  assert.equal(sourceLabel('google', 'organic'), 'Google search');
+  assert.equal(sourceLabel('(direct)', '(none)'), 'Direct');
+  assert.equal(sourceLabel('chatgpt.com', 'referral'), 'ChatGPT');
+  assert.equal(sourceLabel('l.instagram.com', 'referral'), 'Instagram');
+  assert.equal(sourceLabel('klaviyo', 'email'), 'Email');
+  assert.equal(sourceLabel('ukecommerceawards.co.uk', 'referral'), 'ukecommerceawards.co.uk');
+  const audit = {
+    goal: { shop: false }, compare: { kind: 'previous' }, check: { rating: 'clean' },
+    totals: { now: { sessions: 2206, conv: 66 }, before: { sessions: 3091, conv: 78 } },
+    sources: [{ name: 'ChatGPT', sessions: 176, conv: 17 }, { name: 'Direct', sessions: 1263, conv: 23 }],
+  };
+  assert.equal(headline(audit), 'Fewer visitors, but better ones. Visits fell 29% and leads only 15%, so more of your visitors got in touch. ChatGPT is your best source: 1 in 10 of its visitors sent an enquiry.');
+  assert.match(headline({ ...audit, check: { rating: 'unreliable' } }), /^The data check found serious problems/);
 });
 
 await test('ISO weeks and UK time', () => {
@@ -676,9 +708,9 @@ if (BASE) {
     const r = await act('audit-run', slug, { period: '28', compare: 'previous' });
     assert.equal(r.ok, true, r.error);
     const tab = await get(r.go).then((x) => x.text());
-    assert.match(tab, /Can the data be trusted/);
-    assert.match(tab, />Clean</);
-    assert.match(tab, /Traffic from AI assistants/);
+    assert.match(tab, /Data check: clean/);
+    assert.match(tab, /Where your orders came from/);
+    assert.match(tab, /Google search, UK/);
     assert.match(tab, /Top searches/);
     const rep = await act('report-ga4', slug, { }).catch(() => null);
     const auditId = tab.match(/data-action="report-ga4" data-token="[^"]+" data-value="(\d+)"/)?.[1];

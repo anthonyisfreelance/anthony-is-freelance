@@ -281,7 +281,9 @@ export function ga4Requests(brand, p) {
   ];
   // Leave out the reports that don't apply, remembering where each one sits.
   const slots = second.map((r, i) => (r ? i : -1)).filter((i) => i >= 0);
-  return { first, second: second.filter(Boolean), slots, goal, domain };
+  // Where the leads (or orders) came from: every source and medium in the period, grouped in code.
+  const third = [{ dateRanges: nowOnly, dimensions: d('sessionSource', 'sessionMedium'), metrics: m('sessions', conv, goal.shop ? 'purchaseRevenue' : null), dimensionFilter: and(uk), orderBys: bySessions, limit: 250 }];
+  return { first, second: second.filter(Boolean), slots, third, goal, domain };
 }
 
 /* ---------- Running an audit ---------- */
@@ -294,6 +296,25 @@ function totalsOf(row, goal) {
   if (!row) return null;
   const conv = goal.shop ? row.transactions : row[goal.metric];
   return { sessions: row.sessions || 0, engaged: row.engagedSessions || 0, purchasers: row.totalPurchasers || 0, transactions: row.transactions || 0, revenue: round2(row.purchaseRevenue || 0), conv: conv || 0 };
+}
+
+// A plain name for a source and medium: "Google search", "Direct", "ChatGPT", "Email", "Facebook".
+const SOCIAL = [['facebook', 'Facebook'], ['instagram', 'Instagram'], ['linkedin', 'LinkedIn'], ['tiktok', 'TikTok'], ['pinterest', 'Pinterest'], ['youtube', 'YouTube'], ['reddit', 'Reddit'], ['t.co', 'X'], ['twitter', 'X']];
+const cap = (t) => t.charAt(0).toUpperCase() + t.slice(1);
+export function sourceLabel(source, medium) {
+  const s = String(source || '').toLowerCase();
+  const md = String(medium || '').toLowerCase();
+  const ai = aiFamily(s);
+  if (ai !== s) return ai;
+  if (s === '(direct)') return 'Direct';
+  if (s === '(not set)' || s === '(data not available)' || !s) return 'Unknown';
+  if (md === 'email' || s.includes('klaviyo') || s.includes('mailchimp') || s.includes('newsletter')) return 'Email';
+  const social = SOCIAL.find(([k]) => s === k || s.includes(`${k}.`) || s.startsWith(k));
+  if (social) return md === 'cpc' || md === 'paid' || md === 'paidsocial' ? `${social[1]} ads` : social[1];
+  const name = cap(s.replace(/^www\./, '').replace(/^(m|l|lm)\./, ''));
+  if (md === 'organic') return `${name} search`;
+  if (['cpc', 'ppc', 'paid', 'paidsearch'].includes(md)) return `${name} ads`;
+  return s.replace(/^www\./, '');
 }
 
 function aiFamily(source) {
@@ -313,15 +334,24 @@ export async function runAudit(env, brand, p) {
   const site = String(brand.gsc_site || '').trim();
   const gscBase = { type: 'web', ...(brand.uk_only ? { dimensionFilterGroups: [{ filters: [{ dimension: 'country', operator: 'equals', expression: 'gbr' }] }] } : {}) };
   const gscCall = (start, end, dims = [], rowLimit = 1) => gscQuery(env, site, { ...gscBase, startDate: start, endDate: end, dimensions: dims, rowLimit });
-  const [a, b, gsc] = await Promise.all([
+  // UK-only figures for the "Being found" card (the same as the main ones when the brand is UK only),
+  // and how the brand ranks for its own name in the UK.
+  const ukFilter = (extra = []) => ({ dimensionFilterGroups: [{ filters: [{ dimension: 'country', operator: 'equals', expression: 'gbr' }, ...extra] }] });
+  const gscUk = (start, end, extra) => gscQuery(env, site, { type: 'web', ...ukFilter(extra), startDate: start, endDate: end, dimensions: [], rowLimit: 1 });
+  const names = [...new Set([brand.name, ...(brand.match_names || [])].map((n) => String(n || '').trim().toLowerCase()).filter((n) => n.length >= 3))].slice(0, 2);
+  const [a, b, c, gsc] = await Promise.all([
     ga4Batch(env, property, q.first),
     q.second.length ? ga4Batch(env, property, q.second) : [],
+    ga4Batch(env, property, q.third),
     site
       ? Promise.all([
           gscCall(p.start, p.end),
           p.compare ? gscCall(p.compare.start, p.compare.end) : [],
           gscCall(p.start, p.end, ['query'], 10),
           gscCall(p.start, p.end, ['page'], 10),
+          brand.uk_only ? null : gscUk(p.start, p.end),
+          brand.uk_only || !p.compare ? null : gscUk(p.compare.start, p.compare.end),
+          Promise.all(names.map((n) => gscUk(p.start, p.end, [{ dimension: 'query', operator: 'contains', expression: n }]))),
         ]).catch((e) => ({ error: e instanceof GoogleError ? e.message : 'Search Console could not be read.' }))
       : null,
   ]);
@@ -358,6 +388,18 @@ export async function runAudit(env, brand, p) {
 
   const landing = (landingRows || []).map((r) => ({ page: r.landingPage, sessions: r.sessions, conv: r[conv] || 0 }));
 
+  // Where the leads (or orders) came from, by plain source name, most first.
+  const bySource = new Map();
+  for (const r of c[0] || []) {
+    const k = sourceLabel(r.sessionSource, r.sessionMedium);
+    const e = bySource.get(k) || { name: k, sessions: 0, conv: 0, revenue: 0 };
+    e.sessions += r.sessions;
+    e.conv += r[conv] || 0;
+    e.revenue = round2(e.revenue + (r.purchaseRevenue || 0));
+    bySource.set(k, e);
+  }
+  const sources = [...bySource.values()].sort((x, y) => y.conv - x.conv || y.sessions - x.sessions).slice(0, 12);
+
   const ai = byRange(aiRows || []);
   const fam = new Map();
   for (const [range, rows] of [['now', ai.now], ['before', ai.before]]) {
@@ -386,6 +428,8 @@ export async function runAudit(env, brand, p) {
         queries: gsc[2].map((r) => ({ query: r.keys?.[0] || '', clicks: r.clicks || 0, impressions: r.impressions || 0, position: round2(r.position || 0) })),
         pages: gsc[3].map((r) => ({ page: r.keys?.[0] || '', clicks: r.clicks || 0, impressions: r.impressions || 0, position: round2(r.position || 0) })),
       };
+      search.uk = brand.uk_only ? { now: search.now, before: search.before } : { now: tot(gsc[4] || []), before: p.compare ? tot(gsc[5] || []) : null };
+      search.names = names.map((n, i) => ({ name: n, ...tot(gsc[6][i] || []) })).filter((n) => n.impressions > 0);
     }
   }
 
@@ -399,6 +443,7 @@ export async function runAudit(env, brand, p) {
     totals,
     devices,
     landing,
+    sources,
     ai: { list: aiList, now: aiTotal('now'), before: p.compare ? aiTotal('before') : null, notSetMedium },
     check,
     search,
