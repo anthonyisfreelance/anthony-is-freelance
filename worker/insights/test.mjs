@@ -546,7 +546,7 @@ if (BASE) {
     assert.ok(!editor.includes('<b>Tester</b>'));
     const mine = await get(`/report/${reportToken}/`);
     assert.equal(mine.status, 200);
-    assert.match(await mine.text(), /Visibility score/);
+    assert.match(await mine.text(), /Visibility score/i);
     const theirs = await fetch(`${BASE}/report/${reportToken}/`, { headers: { 'cf-connecting-ip': ip() } });
     assert.equal(theirs.status, 404);
   });

@@ -158,11 +158,12 @@ function sampleReports() {
   const first = runs[0];
   const last = runs[runs.length - 1];
   const brand = SAMPLE_BRAND;
-  const after = freezeRun(last.run, last.rows, brand);
+  const screen = { src: `data:image/svg+xml;base64,${btoa(placeholderSvg(brand.name))}`, url: 'https://saltwatersupply.example/', tint: '#ffffff', taken_at: '2026-11-02T06:05:00Z' };
+  const after = { ...freezeRun(last.run, last.rows, brand), screen };
   const before = freezeRun(first.run, first.rows, brand);
   const base = { brand_id: 0, recipient_name: 'Sam Fielding', recipient_email: 'sam@saltwatersupply.example', created_at: '2026-11-02T09:00:00Z', approved_at: '2026-11-02T09:30:00Z', sent_at: null, withdrawn_at: null };
   return {
-    compare: { ...base, id: 2, token: 'SAMPLEcompareXXXXXXXXXX', kind: 'compare', status: 'approved', title: defaultTitle('compare', brand, last.run, first.run), data: { after, before }, recommendations: '' },
+    compare: { ...base, id: 2, token: 'SAMPLEcompareXXXXXXXXXX', kind: 'compare', status: 'approved', title: defaultTitle('compare', brand, last.run, first.run), data: { after, before, screen }, recommendations: '' },
     snapshot: { ...base, id: 1, token: 'SAMPLEsnapshotXXXXXXXXX', kind: 'snapshot', status: 'sent', sent_at: '2026-11-03T10:00:00Z', title: defaultTitle('snapshot', brand, last.run), data: after,
       recommendations: 'Get onto the two agency lists ChatGPT leans on for general questions. Both take paid placements.\n\nAdd a plain answer to "who makes the best sailing jacket in the UK" on the jackets page, with the awards and reviews beside it.' },
   };

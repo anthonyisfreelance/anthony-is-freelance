@@ -205,12 +205,15 @@ async function freezeReport(env, brand, kind, runId, beforeId) {
   const getRun = (id) => d.prepare(`SELECT * FROM runs WHERE id = ? AND brand_id = ? AND status = 'complete'`).bind(id, brand.id).first();
   let after = await getRun(runId);
   if (!after) return { error: 'Choose a finished run.' };
-  if (kind !== 'compare') return { data: freezeRun(after, await runRows(env, after.id), brand), after };
+  // The phone screenshot goes into the report as it is now, so the report keeps it.
+  const shot = await d.prepare(`SELECT url, type, image, tint, taken_at FROM shots WHERE brand_id = ?`).bind(brand.id).first();
+  const screen = shot?.image ? { src: `data:${shot.type};base64,${Buffer.from(new Uint8Array(shot.image)).toString('base64')}`, url: shot.url, tint: shot.tint, taken_at: shot.taken_at } : null;
+  if (kind !== 'compare') return { data: { ...freezeRun(after, await runRows(env, after.id), brand), screen }, after };
   let before = await getRun(beforeId);
   if (!before || before.id === after.id) return { error: 'For before and after, choose two different finished runs.' };
   if (before.started_at > after.started_at) [before, after] = [after, before];
   const [ra, rb] = await Promise.all([runRows(env, after.id), runRows(env, before.id)]);
-  return { data: { after: freezeRun(after, ra, brand), before: freezeRun(before, rb, brand) }, after, before };
+  return { data: { after: freezeRun(after, ra, brand), before: freezeRun(before, rb, brand), screen }, after, before };
 }
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;

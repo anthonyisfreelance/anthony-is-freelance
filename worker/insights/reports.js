@@ -15,7 +15,7 @@
 
 import { esc, fmtDate, masthead, eyebrow, legalFooter, shell, topBar, downloadLink, backLink } from '../docs/shared.js';
 import { db, parse, now } from './db.js';
-import { summarise, leaderboard, LIMITS, safeLink } from './dashboard.js';
+import { summarise, leaderboard, LIMITS, safeLink, phoneFrame, PHONE_CSS } from './dashboard.js';
 import { namePattern, domainOf } from './text.js';
 
 export const REPORT_KINDS = { snapshot: 'AI visibility snapshot', compare: 'AI visibility before and after' };
@@ -64,7 +64,7 @@ export function freezeRun(run, rows, brand) {
     score: { score: all.me?.score || 0, rank: all.scoreRank, of: all.ranked.length, top: top.map((e) => ({ name: e.isBrand ? brand.name : e.name, score: e.score, me: e.isBrand })) },
     rates: { all: rate(all), A: rate(gA), B: rate(gB) },
     ranks: { all: all.rank, A: gA.rank, B: gB.rank, ofAll: all.list.length, ofA: gA.list.length, ofB: gB.list.length },
-    leaders: { A: gA.leader ? { name: gA.leader.name, pct: pct(gA.leader.answers, gA.n) } : null },
+    leaders: Object.fromEntries([['all', all], ['A', gA], ['B', gB]].map(([k, g]) => [k, g.leader ? { name: g.leader.name, pct: pct(g.leader.answers, g.n) } : null])),
     share: all.mentions ? Math.round(((all.me?.answers || 0) / all.mentions) * 100) : 0,
     position: m.position,
     ownCited: pct(m.ownCited, m.scored),
@@ -137,28 +137,45 @@ const delta = (now, before, unit = ' pts') => {
   return `<span class="d ${d > 0 ? 'up' : d < 0 ? 'down' : ''}">${d > 0 ? '+' : ''}${d}${unit}</span>`;
 };
 
-function tiles(a, b) {
-  const t = (label, value, sub, before, unit = '%') => `<div class="tile"><dt>${esc(label)}</dt><dd>${value == null ? '–' : `${value}${unit}`}</dd>${b ? `<p class="chg">${delta(value, before, unit === '%' ? ' pts' : '') || 'No change'}</p>` : ''}<p>${sub}</p></div>`;
-  const place = a.score.rank ? (a.score.rank === 1 ? `Highest of ${a.score.of} businesses named` : `#${a.score.rank} of ${a.score.of} businesses named`) : 'Not named';
-  return `<dl class="tiles4">
-    ${t('Visibility score', a.score.score, `${esc(place)}${b ? `. Was ${b.score.score}.` : ''}`, b?.score.score, '')}
-    ${t('Named in', a.rates.all, `of answers to ${plural(a.questions, 'question')} that don't name the business${b ? `. Was ${b.rates.all ?? '–'}%.` : ''}`, b?.rates.all)}
-    ${t('General questions', a.rates.A, `when buyers just ask for the best${a.leaders.A ? `. ${esc(a.leaders.A.name)} leads with ${a.leaders.A.pct}%` : ''}${b ? `. Was ${b.rates.A ?? '–'}%.` : '.'}`, b?.rates.A)}
-    ${t('Freelance or independent', a.rates.B, `when buyers ask for an independent${b ? `. Was ${b.rates.B ?? '–'}%.` : '.'}`, b?.rates.B)}
-  </dl>`;
+// The top of the report, like the summary on the AI visibility tab: the homepage on a phone, the
+// visibility score with the top five, then the four headline numbers, each with where the brand
+// stands among the businesses named in the same answers.
+function standing(rate, rank, of, leader) {
+  if (rate == null) return { cls: '', text: 'No answers' };
+  if (!rank) return { cls: 'behind', text: leader ? `Not named. ${leader.name} leads with ${leader.pct}%` : 'Not named' };
+  if (rank === 1) return { cls: 'ahead', text: `Most named of ${of}` };
+  return { cls: rank <= 3 ? 'close' : 'behind', text: `#${rank} of ${of}. ${leader?.name || ''} leads with ${leader?.pct ?? 0}%` };
 }
 
-function scoreTable(a, b) {
-  const was = new Map((b?.score.top || []).map((e) => [e.me ? '\u0000me' : e.name, e.score]));
-  const rows = a.score.top
-    .map((e) => {
-      const before = was.get(e.me ? '\u0000me' : e.name);
-      return `<tr${e.me ? ' class="me"' : ''}><td>${esc(e.name)}</td><td class="w-bar"><span class="rbar"><span style="width:${Math.round((e.score / Math.max(1, a.score.top[0]?.score || 1)) * 100)}%"></span></span></td><td class="r">${e.score}${b && before != null ? ` ${delta(e.score, before, '')}` : ''}</td></tr>`;
-    })
-    .join('');
-  return `<section class="sec full"><h2>Visibility score</h2>
-    <p class="sec-note">Each answer gives a business points for where it is recommended: first 100, second 85, third 70, fourth 55, lower 40, mentioned outside the list 30, left out 0. The score is the average across the answers. Every business is scored the same way, so it shows how they compare.</p>
-    <table class="rtable"><thead><tr><th>Business</th><th class="w-bar"><span class="sr">Bar</span></th><th class="r">Score</th></tr></thead><tbody>${rows}</tbody></table></section>`;
+function panel(a, b, screen) {
+  const since = b ? ` since ${fmtDate(b.run.started_at)}` : '';
+  const chg = (now, before, unit = ' pts') => {
+    if (!b || before == null || now == null) return '';
+    const d = now - before;
+    return `<p class="chg ${d > 0 ? 'up' : d < 0 ? 'down' : ''}">${d === 0 ? 'No change' : `${d > 0 ? '+' : ''}${d}${unit}`}${since}</p>`;
+  };
+  const top = a.score.top;
+  const max = Math.max(1, ...top.map((e) => e.score));
+  const place = a.score.rank ? (a.score.rank === 1 ? `Highest of ${a.score.of} businesses named` : `#${a.score.rank} of ${a.score.of} businesses named`) : 'Not named in these answers';
+  const placeCls = a.score.rank === 1 ? 'ahead' : a.score.rank && a.score.rank <= 3 ? 'close' : 'behind';
+  const num = (value, label, st, before) => `<div><p class="big">${value == null ? '–' : `${value}%`}</p><p class="lbl">${esc(label)}</p>${st ? `<p class="verdict ${st.cls}">${esc(st.text)}</p>` : ''}${chg(value, before)}</div>`;
+  const share = a.share >= 30 ? { cls: 'ahead', text: 'Category leader level (30% and up)' } : a.share >= 20 ? { cls: 'ahead', text: 'Strong (20 to 30%)' } : a.share >= 10 ? { cls: 'close', text: 'In the running (10 to 20%)' } : { cls: 'behind', text: 'Low (under 10%)' };
+  return `<section class="rp${screen ? ' with-phone' : ''}" aria-label="Summary">
+    ${screen ? `<figure class="rp-phone">${phoneFrame(screen)}<figcaption>${esc(domainOf(screen.url))}${screen.taken_at ? ` · ${esc(fmtDate(screen.taken_at))}` : ''}</figcaption></figure>` : ''}
+    <div class="rp-score">
+      <p class="eyebrow-d">Visibility score</p>
+      <p class="score"><span class="blue">${a.score.score}</span><small>/100</small></p>
+      ${chg(a.score.score, b?.score.score, '')}
+      <p class="verdict ${placeCls}">${esc(place)}</p>
+      <ol class="rp-top">${top.map((e) => `<li${e.me ? ' class="me"' : ''}><span class="who">${esc(e.name)}</span><span class="sbar"><span style="width:${Math.round((e.score / max) * 100)}%"></span></span><span class="pts">${e.score}</span></li>`).join('')}</ol>
+    </div>
+    <div class="rp-nums">
+      ${num(a.rates.all, `of answers name you, on ${plural(a.questions, 'question')} that don't name you first`, standing(a.rates.all, a.ranks.all, a.ranks.ofAll, a.leaders.all), b?.rates.all)}
+      ${num(a.rates.A, 'when buyers just ask for the best', standing(a.rates.A, a.ranks.A, a.ranks.ofA, a.leaders.A), b?.rates.A)}
+      ${num(a.rates.B, 'when they ask for freelance or independent', standing(a.rates.B, a.ranks.B, a.ranks.ofB, a.leaders.B), b?.rates.B)}
+      ${num(a.share, 'of all the business mentions in those answers are you', share, b?.share)}
+    </div>
+  </section>`;
 }
 
 function groupTable(a, b) {
@@ -209,6 +226,7 @@ function method(a, b) {
     : `One run on ${fmtDate(a.run.started_at, 'long')}: ${plural(a.done, 'answer')}${a.failed ? `, ${a.failed} failed` : ''}.`;
   return `<section class="fine rmethod"><h2>Method</h2>
     <p>${runs} Engine: ChatGPT, through the OpenAI API with web search on and the location set to the United Kingdom${a.run.model ? ` (model ${esc(a.run.model)})` : ''}. Each question asked ${plural(a.run.attempts || 3, 'time')}. The headline numbers count only the questions that don't name the business, since those always name it back.</p>
+    <p>Visibility score: each answer gives a business points for where it is recommended (first 100, second 85, third 70, fourth 55, lower 40, mentioned outside the list 30, left out 0), averaged across the answers. Every business is scored the same way, so the score shows how they compare.</p>
     <p>${LIMITS.map(esc).join(' ')}</p>
   </section>`;
 }
@@ -230,10 +248,9 @@ export function reportPage({ base, report, brand, pdf = false, admin = false }) 
   const bar = pdf ? '' : topBar(`${admin ? backLink(`/admin/brands/${brand.slug}/reports/${report.id}/`, status ? `${status}: back to the report settings` : 'Report settings') : '<span></span>'}${downloadLink(`/report/${report.token}/report.pdf`)}`);
   const body = `
   ${masthead(REPORT_KINDS[report.kind] || 'AI visibility', fmtDate(a.run.started_at, 'long'))}
-  <h1>${eyebrow(brand.name)}${esc(b ? 'AI visibility: before and after' : 'AI visibility')}</h1>
-  <p class="standfirst">${esc(intro)}</p>
-  ${tiles(a, b)}
-  ${scoreTable(a, b)}
+  <div class="rhead"><h1>${eyebrow(brand.name)}${esc(b ? 'AI visibility: before and after' : 'AI visibility')}</h1>
+  <p class="standfirst">${esc(intro)}</p></div>
+  ${panel(a, b, report.data.screen || null)}
   ${groupTable(a, b)}
   ${insteadTable(a, b)}
   ${sourcesTable(a)}
@@ -245,16 +262,39 @@ export function reportPage({ base, report, brand, pdf = false, admin = false }) 
 }
 
 export const REPORT_CSS = `
-h1 { margin: 0; font: 500 40px/1.05 var(--display); text-transform: uppercase; }
-.standfirst { font-size: 16px; line-height: 1.5; max-width: 560px; }
-.tiles4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-bottom: 0; }
-.tiles4 .tile { padding: 16px; background: var(--box); break-inside: avoid; }
-.tiles4 dt { font: 500 13px/1.3 var(--display); letter-spacing: 0.02em; color: var(--muted); }
-.tiles4 dd { margin: 8px 0 0; font: 500 40px/1 var(--display); color: var(--ink); }
-.tiles4 .tile:first-child dd { color: var(--blue); }
-.tiles4 p { margin-top: 8px; font: 500 12px/1.35 var(--display); color: var(--muted); }
-.tiles4 p.chg { margin-top: 6px; }
-.tiles4 p.chg .d { margin-left: 0; }
+.rhead h1 { margin: 0; font: 500 40px/1.05 var(--display); text-transform: uppercase; }
+.rhead .standfirst { margin-top: 16px; font-size: 16px; line-height: 1.5; max-width: 560px; }
+.sheet > .rp { margin-top: 32px; }
+.rp { padding: 32px; background: var(--desk); color: var(--on-desk); break-inside: avoid; }
+.rp.with-phone { display: grid; grid-template-columns: 168px minmax(0, 1fr); grid-template-areas: "phone score" "nums nums"; column-gap: 32px; }
+.rp-phone { grid-area: phone; margin: 0; }
+.rp-phone figcaption { margin-top: 10px; font: 500 11px/1.3 var(--display); color: #9a9a9a; text-align: center; }
+.rp-score { grid-area: score; min-width: 0; }
+.rp .eyebrow-d { font: 500 13px/1 var(--display); letter-spacing: 0.02em; text-transform: uppercase; color: #9a9a9a; }
+.rp .score { margin-top: 10px; font: 500 96px/0.9 var(--display); letter-spacing: -0.02em; }
+.rp .score .blue { color: var(--blue); }
+.rp .score small { margin-left: 4px; font-size: 26px; color: #9a9a9a; letter-spacing: 0; }
+.rp .verdict { margin-top: 12px; padding-left: 10px; border-left: 3px solid #6b6b6b; font: 500 13px/1.35 var(--display); color: var(--on-desk); }
+.rp .verdict.ahead { border-color: #2fbf71; }
+.rp .verdict.close { border-color: #f2b632; }
+.rp .verdict.behind { border-color: #ff5a5a; }
+.rp .chg { margin-top: 8px; font: 500 12px/1.3 var(--display); color: #9a9a9a; }
+.rp .chg.up { color: #6fd08c; }
+.rp .chg.down { color: #ff7a7a; }
+.rp-top { list-style: none; margin: 20px 0 0; padding: 0; display: flex; flex-direction: column; gap: 8px; }
+.rp-top li { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr) 28px; align-items: center; gap: 10px; font: 500 13px/1.2 var(--display); color: #cfcfcf; }
+.rp-top .who { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+.rp-top .sbar { display: block; height: 7px; background: #2a2a2a; }
+.rp-top .sbar > span { display: block; height: 100%; background: #8a8a8a; }
+.rp-top .pts { text-align: right; }
+.rp-top li.me { color: var(--on-desk); }
+.rp-top li.me .sbar > span { background: var(--blue); }
+.rp-nums { grid-area: nums; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px; margin-top: 28px; padding-top: 24px; border-top: 1px solid #393939; }
+.rp-nums .big { font: 500 46px/0.95 var(--display); }
+.rp-nums > div:first-child .big { color: var(--blue); }
+.rp-nums .lbl { margin-top: 8px; font: 500 12px/1.3 var(--display); color: #cfcfcf; }
+.rp-nums .verdict { font-size: 12px; }
+${PHONE_CSS}
 .d { margin-left: 6px; font: 500 13px/1 var(--display); color: var(--muted); vertical-align: middle; }
 .d.up { color: #0d7a3f; }
 .d.down { color: var(--red); }
@@ -286,13 +326,16 @@ tr.me .rbar > span { background: var(--blue); }
 .rmethod p { color: var(--muted); font-size: 12px; }
 .rmethod p + p { margin-top: 6px; }
 @media (max-width: 720px) {
-  h1 { font-size: 30px; }
-  .tiles4 { grid-template-columns: 1fr 1fr; }
-  .tiles4 dd { font-size: 32px; }
+  .rhead h1 { font-size: 30px; }
+  .rp { margin-inline: -16px; padding: 24px 16px; }
+  .rp.with-phone { display: block; }
+  .rp-phone { width: 150px; margin: 0 auto 24px; }
+  .rp-nums { grid-template-columns: 1fr 1fr; }
   table.rtable .w-bar { display: none; }
 }
 @media print {
-  .tiles4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .rp.with-phone { display: grid; }
+  .rp-nums { grid-template-columns: repeat(4, minmax(0, 1fr)); }
 }
 `;
 
