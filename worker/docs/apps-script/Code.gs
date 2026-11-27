@@ -23,6 +23,7 @@ var FOLDERS = {
   quote: '1sJEQSnsJMW_iWaey8Lf5qbJZSiaUVNOl',     // Anthonyis Management > Quotes
   contract: '1tweE1uZvTyjvMX-H6B5_NxMZ56R8jjP5',  // Anthonyis Management > Contracts (signed ones go in "Signed")
   invoice: '1aizO2WjsPB7JNwireePQs-vTYb57hXt3',   // Anthonyis Management > Invoices (by tax year, "26:27")
+  report: '1X84BUU5EWYUI8bV1U7Dg9YXAHvyJUfmZ',    // Anthonyis Management > Insights (report PDFs, a subfolder per brand)
 };
 var SEND_FROM = 'hello@anthonyis.uk';
 var SENDER_NAME = 'Anthony Bliss';
@@ -98,9 +99,11 @@ var ACTIONS = {
     return { settings: it.hasNext() ? JSON.parse(it.next().getBlob().getDataAsString()) : {} };
   },
 
-  // kind: quote | contract | invoice. Replaces a file of the same name in the same folder.
+  // kind: quote | contract | invoice | report. Replaces a file of the same name in the same folder.
   savePdf: function (req) {
+    if (!FOLDERS[req.kind] || FOLDERS[req.kind].indexOf('_ID') !== -1) throw new Error('No Drive folder is set for ' + req.kind + ' PDFs in the bridge script.');
     var folder = DriveApp.getFolderById(FOLDERS[req.kind]);
+    if (req.kind === 'report' && req.brand) folder = subfolder(folder, String(req.brand).slice(0, 100));
     if (req.kind === 'invoice') folder = subfolder(folder, taxYear(req.date || today()));
     if (req.kind === 'contract') folder = subfolder(folder, 'Signed');
     var old = folder.getFilesByName(req.name);

@@ -1,8 +1,9 @@
-// Emails from the insights platform. Phase 1 has two, both to Anthony only, through Resend: the
-// login code and the notice after every login. They use the docs email layout (worker/docs/emails.js).
+// Emails from the insights platform. To Anthony, through Resend: the login code and the notice after
+// every login. To a client, from Anthony's Gmail: the report email. All use the docs email layout
+// (worker/docs/emails.js).
 
-import { layout, p, note, facts, codeBlock, DISPLAY } from '../docs/emails.js';
-import { esc } from '../docs/shared.js';
+import { layout, p, note, facts, codeBlock, button, signOff, firstName, textSig, DISPLAY } from '../docs/emails.js';
+import { esc, fmtDate } from '../docs/shared.js';
 
 export function insightsCodeEmail({ code, ip, place }) {
   const where = [ip, place].filter(Boolean).join(', ');
@@ -34,6 +35,45 @@ export function insightsLoginNotice({ host, when, ip, place, ua }) {
       body: `${p('Someone just logged in to the insights admin.')}
 ${facts(rows)}
 ${note(`If this wasn't you, change <b style="font-family:${DISPLAY};font-weight:500">DOCS_SECRET</b> in Cloudflare (Worker &gt; Settings &gt; Variables and secrets). That logs everyone out of insights and documents straight away.`)}`,
+    }),
+  };
+}
+
+// The email that sends a report to a client, from Anthony's Gmail through the Drive bridge, with
+// the PDF attached. Nothing is sent until Anthony approves this wording (INSIGHTS_REPORT_EMAIL).
+export function reportEmail({ base, report, brand }) {
+  const link = `${base}/report/${report.token}/`;
+  const a = report.data.after || report.data;
+  const b = report.kind === 'compare' ? report.data.before : null;
+  const when = b ? `comparing ${fmtDate(b.run.started_at, 'long')} with ${fmtDate(a.run.started_at, 'long')}` : `from ${fmtDate(a.run.started_at, 'long')}`;
+  const name = firstName(report.recipient_name);
+  const what = b ? 'before and after report' : 'report';
+  return {
+    subject: `Your AI visibility ${what}: ${brand.name}`,
+    text: `Hi ${name},
+
+Here's your AI visibility ${what} for ${brand.name}, ${when}. It shows how ChatGPT answers the questions your buyers ask: how often it names you, who it names instead, and the sources it relies on.
+
+Read it online:
+${link}
+
+There's a PDF copy attached. Any questions, just reply to this email.
+
+Thanks,
+${textSig}`,
+    html: layout({
+      title: `AI visibility: ${brand.name}`,
+      preheader: `How ChatGPT answers the questions your buyers ask, ${when}.`,
+      head: ['AI visibility', brand.name],
+      body: `${p(`Hi ${esc(name)},`)}
+${p(`Here's your AI visibility ${what} for ${esc(brand.name)}, ${esc(when)}. It shows how ChatGPT answers the questions your buyers ask: how often it names you, who it names instead, and the sources it relies on.`)}
+${facts([
+  ['Visibility score', `${a.score.score} out of 100${b ? ` (was ${b.score.score})` : ''}`],
+  ['Named in', `${a.rates.all ?? 0}% of answers${b ? ` (was ${b.rates.all ?? 0}%)` : ''}`],
+])}
+${button(link, 'Read the report')}
+${p('There’s a PDF copy attached. Any questions, just reply to this email.')}
+${signOff()}`,
     }),
   };
 }

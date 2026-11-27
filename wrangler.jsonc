@@ -37,7 +37,10 @@
     "INSIGHTS_HOST": "insights.anthonyis.uk",
     "INSIGHTS_ENGINE_MODEL": "chat-latest",
     "INSIGHTS_SCORER_MODEL": "gpt-6-luna",
-    "INSIGHTS_BATCH": "4"
+    "INSIGHTS_BATCH": "4",
+    // "approved" switches on sending insights reports to clients. Leave it as "no" until Anthony has
+    // approved the client email on the insights samples page.
+    "INSIGHTS_REPORT_EMAIL": "no"
   },
   "assets": {
     "directory": "./dist",

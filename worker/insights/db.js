@@ -115,6 +115,30 @@ export const STEPS = [
   ],
   // 3: the colour behind the top of the page, so the phone's status bar matches it, as Safari does.
   [`ALTER TABLE shots ADD COLUMN tint TEXT`],
+  // 4: reports (phase 2, reports.js). Each keeps its own copy of the numbers in `data`.
+  [
+    `CREATE TABLE IF NOT EXISTS reports (
+      id INTEGER PRIMARY KEY,
+      token TEXT NOT NULL UNIQUE,
+      brand_id INTEGER NOT NULL REFERENCES brands(id),
+      kind TEXT NOT NULL,
+      title TEXT NOT NULL,
+      run_id INTEGER NOT NULL,
+      before_run_id INTEGER,
+      data TEXT NOT NULL,
+      recommendations TEXT NOT NULL DEFAULT '',
+      status TEXT NOT NULL DEFAULT 'draft',
+      withdrawn_at TEXT,
+      recipient_name TEXT NOT NULL DEFAULT '',
+      recipient_email TEXT NOT NULL DEFAULT '',
+      drive_file_id TEXT,
+      created_at TEXT NOT NULL,
+      updated_at TEXT NOT NULL,
+      approved_at TEXT,
+      sent_at TEXT
+    )`,
+    `CREATE INDEX IF NOT EXISTS reports_brand ON reports (brand_id, created_at)`,
+  ],
 ];
 
 export const SCHEMA_VERSION = STEPS.length;

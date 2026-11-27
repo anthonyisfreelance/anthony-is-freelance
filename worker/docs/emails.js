@@ -33,11 +33,12 @@ export const PERSON = {
   site: 'anthonyis.uk',
 };
 
-const firstName = (n) => String(n || '').trim().split(/\s+/)[0] || 'there';
+export const firstName = (n) => String(n || '').trim().split(/\s+/)[0] || 'there';
 
 /* ---------- Building blocks ---------- */
 
-// layout, p, note, facts, codeBlock and DISPLAY are also used by the insights emails (worker/insights/emails.js).
+// layout, p, note, facts, codeBlock, button, signOff, firstName, textSig and DISPLAY are also used by
+// the insights emails (worker/insights/emails.js).
 
 const mint = (size, colour, extra = '') => `font-family:${DISPLAY};font-size:${size}px;font-weight:500;color:${colour};${extra}`;
 // The arrows as text, never emoji (the trailing selector asks for the text form).
@@ -50,7 +51,7 @@ const label = (text) => `<p style="margin:0 0 8px;${mint(14, MUTED, 'line-height
 
 // The bulletproof button: table cells with the colour, so it shows even with images off. Full
 // width, label on the left and arrow on the right, both linked.
-function button(href, text) {
+export function button(href, text) {
   const a = `display:block;${mint(16, '#FFFFFF', 'line-height:1;text-transform:uppercase;text-decoration:none')}`;
   return `<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="margin:0 0 24px"><tr>
 <td bgcolor="${BLUE}" style="background:${BLUE}"><a href="${esc(href)}" target="_blank" style="${a};padding:15px 8px 15px 16px">${esc(text)}</a></td>
@@ -132,7 +133,7 @@ function emailSignature() {
 </table>`;
 }
 
-function signOff(greeting = 'Thanks,') {
+export function signOff(greeting = 'Thanks,') {
   return `${p(`${esc(greeting)}<br>Anthony`)}\n${emailSignature()}`;
 }
 
@@ -174,7 +175,7 @@ ${footer ? legal : ''}
 }
 
 // Plain text: the same copy, with the button as a link on its own line.
-const textSig = `Anthony\n\n${PERSON.name}\n${PERSON.role}\n${PERSON.award}\n${PERSON.site}`;
+export const textSig = `Anthony\n\n${PERSON.name}\n${PERSON.role}\n${PERSON.award}\n${PERSON.site}`;
 
 /* ---------- Enquiry emails (sent by Resend from the contact form, worker/enquiry.js) ---------- */
 
