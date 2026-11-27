@@ -1,7 +1,7 @@
 // Insights on insights.anthonyis.uk: how AI engines talk about a brand (phase 1), and later GA4
 // audits, before-and-after reports and scheduled dates. How it fits together: worker/insights/README.md.
 //
-//   /                                    redirects to anthonyis.uk
+//   /                                    redirects to /admin/
 //   /admin/                              login, then the brands list
 //   /admin/brands/new/                   add a brand
 //   /admin/brands/<slug>/                the brand page: AI visibility tab (?run=, ?group=, ?prompt=)
@@ -81,7 +81,8 @@ export async function insights(request, env, ctx) {
   const base = url.origin;
   const parts = url.pathname.split('/').filter(Boolean);
   try {
-    if (!parts.length) return Response.redirect('https://anthonyis.uk/', 302);
+    // The bare address opens the admin (the login page until logged in).
+    if (!parts.length) return Response.redirect(`${base}/admin/`, 302);
     if (parts[0] === 'admin') return await admin(request, env, url, parts.slice(1), ctx);
     // Reports (/report/<token>/) arrive in phase 2.
     if (parts[0] === 'report') return message(base, 'Not found', 'This link is not a report.');

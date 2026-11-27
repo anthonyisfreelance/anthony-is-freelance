@@ -260,10 +260,10 @@ if (BASE) {
   const slug = `test-${Date.now().toString(36)}`;
   testNo = (Date.now() / 1000) % 200 | 0; // fresh addresses on each run
 
-  await test('the site root redirects to anthonyis.uk', async () => {
+  await test('the site root opens the admin', async () => {
     const r = await get('/');
     assert.equal(r.status, 302);
-    assert.equal(r.headers.get('location'), 'https://anthonyis.uk/');
+    assert.equal(r.headers.get('location'), `${ORIGIN}/admin/`);
   });
 
   await test('logged out: the login page, with strict headers', async () => {
