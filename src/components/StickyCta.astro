@@ -1,10 +1,76 @@
 ---
-// Mobile only: a start-a-project bar pinned to the bottom of the screen.
+// A start-a-project bar pinned to the bottom of the screen.
+//
+// With no message (most pages): phones only, a plain Start a project button, as before.
+// With a message (sector pages first, 27 November 2026): a heading and a short benefit line beside the
+// button, on every screen size.
+//   Phones: always there, the heading beside the button (the line is left out to keep the bar short).
+//   Desktop: slides up once the hero has scrolled away, and slides off again when the enquiry form
+//   comes into view, so it never sits over the form or the footer. A close button hides it for the visit.
+// The button opens the project dialog (data-project-open), the same as every Start a project button.
 import { URLS } from '../data/site';
+interface Props { message?: { heading: string; line: string; button?: string } }
+const { message } = Astro.props;
 ---
-<div class="fixed inset-x-0 bottom-0 z-40 bg-surface px-margin py-4 lg:hidden">
-  <a href={URLS.contact} data-project-open class="t-button flex items-center justify-between gap-1 bg-white px-[14px] py-2 text-[#111]">
-    Start a project
-    <img src="/icons/plus-dark.svg" alt="" width="18" height="18" class="size-[18px]" />
-  </a>
-</div>
+{!message ? (
+  <div class="fixed inset-x-0 bottom-0 z-40 bg-surface px-margin py-4 lg:hidden">
+    <a href={URLS.contact} data-project-open class="t-button flex items-center justify-between gap-1 bg-white px-[14px] py-2 text-[#111]">
+      Start a project
+      <img src="/icons/plus-dark.svg" alt="" width="18" height="18" class="size-[18px]" />
+    </a>
+  </div>
+) : (
+  <aside id="sticky-cta" aria-label={message.heading} class="sticky-cta fixed inset-x-0 bottom-0 z-40 border-t border-line bg-raised px-margin py-3 lg:py-4">
+    <div class="flex items-center gap-4 lg:gap-gutter">
+      <div class="min-w-0 flex-1">
+        <p class="t-label text-ink lg:font-display lg:text-[length:var(--type-h6)] lg:font-medium lg:leading-[1.3]">{message.heading}</p>
+        <p class="t-small mt-1 hidden text-muted lg:block">{message.line}</p>
+      </div>
+      <a href={URLS.contact} data-project-open class="t-button inline-flex shrink-0 items-center gap-1 bg-white px-[14px] py-2 text-[#111] hover:opacity-90">
+        {message.button ?? 'Start a project'}
+        <img src="/icons/plus-dark.svg" alt="" width="18" height="18" class="size-[18px]" />
+      </a>
+      <button type="button" data-sticky-close class="hidden shrink-0 hover:opacity-70 lg:block" aria-label="Hide this bar">
+        <img src="/icons/close.svg" alt="" width="18" height="18" class="size-[18px]" />
+      </button>
+    </div>
+  </aside>
+)}
+
+{message && (
+  <style>
+    @media (min-width: 1024px) {
+      .sticky-cta { transform: translateY(100%); transition: transform 0.35s ease; }
+      .sticky-cta.is-shown { transform: translateY(0); }
+    }
+    @media (prefers-reduced-motion: reduce) { .sticky-cta { transition: none; } }
+  </style>
+)}
+
+{message && (
+  <script is:inline>
+    (function () {
+      var bar = document.getElementById('sticky-cta');
+      if (!bar) return;
+      var closed = false;
+      try { closed = sessionStorage.getItem('sticky-cta-closed') === '1'; } catch (e) {}
+      var form = document.getElementById('start-a-project');
+      var ticking = false;
+      function update() {
+        ticking = false;
+        var pastHero = window.scrollY > window.innerHeight * 0.8;
+        var formInView = form ? form.getBoundingClientRect().top < window.innerHeight : false;
+        bar.classList.toggle('is-shown', !closed && pastHero && !formInView);
+      }
+      window.addEventListener('scroll', function () { if (!ticking) { ticking = true; requestAnimationFrame(update); } }, { passive: true });
+      window.addEventListener('resize', update);
+      var close = bar.querySelector('[data-sticky-close]');
+      if (close) close.addEventListener('click', function () {
+        closed = true;
+        try { sessionStorage.setItem('sticky-cta-closed', '1'); } catch (e) {}
+        update();
+      });
+      update();
+    })();
+  </script>
+)}

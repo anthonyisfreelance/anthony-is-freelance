@@ -57,7 +57,7 @@ const services = (p.services?.items ?? []).map((it) => {
   return { ...s, body: it.body };
 });
 ---
-<Base title={p.meta.title} description={p.meta.description} noindex={p.meta.unlisted} ogImage={p.hero.image}>
+<Base title={p.meta.title} description={p.meta.description} noindex={p.meta.unlisted} ogImage={p.hero.image} sticky={p.sticky}>
   <Schema slot="head" title={p.meta.title} description={p.meta.description} path={p.meta.path} breadcrumbs={breadcrumbs} faqs={p.faqs.items} extra={[service]} about={serviceId} mainEntity={serviceId} page={innovationMentions} />
   <Header />
   <main id="main">

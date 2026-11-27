@@ -173,6 +173,10 @@ export const FOOD_AND_DRINK: SectorPage = {
     ],
   },
   cta: { eyebrow: 'Start a food and drink project', heading: 'What do you sell?' },
+  sticky: {
+    heading: 'Need help with your food and drink store?',
+    line: 'The UK’s 2026 Website of the Year and User Experience of the Year both sell food and drink. Yours could be next.',
+  },
   more: {
     eyebrow: 'More Shopify design',
     heading: 'Other sectors and services.',

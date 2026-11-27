@@ -43,5 +43,7 @@ export interface SectorPage {
   services?: { eyebrow: string; heading: string; items: { name: string; body: string }[]; note?: string };
   faqs: { eyebrow: string; heading: string; items: { q: string; a: string[] }[] };
   cta: { eyebrow: string; heading: string };
+  /** The sticky bar at the foot of the screen: a question for this sector and one benefit line. */
+  sticky?: { heading: string; line: string; button?: string };
   more?: { eyebrow: string; heading: string; links: Link[] };
 }

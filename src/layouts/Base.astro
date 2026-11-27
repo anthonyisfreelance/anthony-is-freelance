@@ -18,8 +18,10 @@ interface Props {
   ogType?: 'website' | 'article';
   /** Keep the page out of search (thank-you and error pages). */
   noindex?: boolean;
+  /** A heading and benefit line for the sticky Start a project bar (sector pages). Without it, the plain phone bar. */
+  sticky?: { heading: string; line: string; button?: string };
 }
-const { title, description, announcement = true, image, ogImage, ogType = 'website', noindex = false } = Astro.props;
+const { title, description, announcement = true, image, ogImage, ogType = 'website', noindex = false, sticky } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 // Share image: an article's own /og/ picture, otherwise the page's hero (ogImage) cropped to 1200 x 675,
 // otherwise Anthony's About photo, so every page shares with a picture.
@@ -75,7 +77,7 @@ import defaultOg from '../assets/site/anthony-about-hero.jpg';
     {announcement && <AnnouncementBar />}
     <slot />
     <Footer />
-    <StickyCta />
+    <StickyCta message={sticky} />
     <ProjectDialog />
     <PrivacyDialog />
     <ConsentBanner />
