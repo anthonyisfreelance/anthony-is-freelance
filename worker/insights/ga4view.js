@@ -74,10 +74,10 @@ const arrow = (c) => (c && c.dir ? ARROWS[c.dir] : '');
 
 // A change in words, with which way it moved and whether that's good: { text, dir, cls }, or null
 // without a comparison.
-export function changeWords(now, before, x, { kind = 'count', lowerBetter = false } = {}) {
+export function changeWords(now, before, x, { kind = 'count', lowerBetter = false, neutral = false } = {}) {
   if (!x.compare || before == null || now == null) return null;
   const r = ref(x);
-  const good = (d) => (d === 0 ? '' : (d > 0) !== lowerBetter ? 'good' : 'bad');
+  const good = (d) => (d === 0 || neutral ? '' : (d > 0) !== lowerBetter ? 'good' : 'bad');
   if (kind === 'rate') {
     const d = Math.round((now - before) * 100) / 100;
     if (Math.abs(d) < 0.05) return { text: `Same as ${r} (${before.toFixed(1)}%)`, dir: 0, cls: '' };
@@ -209,6 +209,53 @@ function summary(x, { report = false, checkHref = '#check' } = {}) {
   </section>`;
 }
 
+/* ---------- Google positions (UK) ---------- */
+
+// A position change: lower is better, so moving from 9.4 to 6.1 is "Up 3.3".
+export function posChange(now, before) {
+  if (before == null || now == null) return null;
+  const d = Math.round((before - now) * 10) / 10;
+  if (Math.abs(d) < 0.1) return { text: 'Same', dir: 0, cls: '' };
+  return { text: `${d > 0 ? 'Up' : 'Down'} ${Math.abs(d).toFixed(1)}`, dir: Math.sign(d), cls: d > 0 ? 'good' : 'bad' };
+}
+
+const BAND_MEANS = { top3: 'Where most clicks go.', page1: 'The rest of page one.', page2: 'Page two: close to page one.', near: 'Pages three to five.', far: 'Rarely seen.' };
+const BAND_GOOD = new Set(['top3', 'page1']);
+
+function positionsBlock(x, report) {
+  const s = x.search && !x.search.error ? x.search : null;
+  const p = s?.positions;
+  if (!p || !p.total.now) return '';
+  const has = x.compare && p.total.before != null;
+  const tiles = p.bands
+    .map((b) => {
+      const c = has ? changeWords(b.now, b.before, x, { neutral: !BAND_GOOD.has(b.key) }) : null;
+      return `<div class="band ${b.key}"><p class="lbl"><span class="sw"></span>${esc(b.label)}</p><p class="big">${num(b.now)}</p>${c ? `<p class="chg ${c.cls}">${arrow(c)}${esc(c.text)}</p>` : ''}<p class="means">${esc(BAND_MEANS[b.key])}</p></div>`;
+    })
+    .join('');
+  const stack = (key, label) => {
+    const total = p.bands.reduce((n, b) => n + (b[key] || 0), 0) || 1;
+    return `<div class="dist-row"><span class="dl">${esc(label)}</span><span class="stack">${p.bands.map((b) => (b[key] ? `<span class="${b.key}" style="width:${((b[key] / total) * 100).toFixed(1)}%"></span>` : '')).join('')}</span><span class="dn">${num(total)}</span></div>`;
+  };
+  const avgC = has ? posChange(p.average.now, p.average.before) : null;
+  const top = p.top
+    .map((r, i) => {
+      const c = has ? posChange(r.position, r.before) : null;
+      return `<tr><td><span class="n">${i + 1}</span>${esc(r.query)}</td><td class="r">${num(r.clicks)}</td><td class="r">${r.position.toFixed(1)}</td>${has ? `<td class="r">${c ? `<span class="pchg ${c.cls}">${arrow(c)}${esc(c.text)}</span>` : '<span class="pchg">New</span>'}</td>` : ''}</tr>`;
+    })
+    .join('');
+  const movers = (list, title, empty) => `<div><h3 class="sub-h">${esc(title)}</h3>${list.length ? `<ol class="movers">${list.map((r) => `<li><span class="q">${esc(r.query)}</span><span class="mv">${r.before.toFixed(1)} → <b>${r.now.toFixed(1)}</b></span></li>`).join('')}</ol>` : `<p class="muted">${esc(empty)}</p>`}</div>`;
+  const R = { min: 5, mover: 10 };
+  return `<section class="sec full gpos"><h2>Google positions, UK</h2>
+    <p class="sec-note">Every UK search you showed up for at least ${R.min} times, by your average place in the results.${p.average.now != null ? ` Average position ${p.average.now.toFixed(1)}${avgC ? ` <span class="pchg ${avgC.cls}">${arrow(avgC)}${esc(avgC.text)}</span>` : ''}.` : ''}${p.capped ? ' Read from the top 2,000 searches.' : ''}</p>
+    <div class="bands">${tiles}</div>
+    <div class="dist">${stack('now', 'This period')}${has ? stack('before', x.compare.kind === 'year' ? 'Last year' : 'Before') : ''}</div>
+    <h3 class="sub-h">Top searches</h3>
+    ${tbl(report, `<th>Search</th><th class="r">Clicks</th><th class="r">Position</th>${has ? '<th class="r">Change</th>' : ''}`, top, 'No searches yet.', has ? 4 : 3)}
+    ${has ? `<div class="movers-2">${movers(p.up, 'Biggest climbs', 'No searches climbed by a full place.')}${movers(p.down, 'Biggest drops', 'No searches dropped by a full place.')}</div><p class="sec-note">Climbs and drops compare searches seen at least ${R.mover} times in both periods.</p>` : ''}
+  </section>`;
+}
+
 /* ---------- Where the leads came from, and being found ---------- */
 
 function sourcesBlock(x) {
@@ -301,7 +348,7 @@ function searchSection(x, report) {
   return `<section class="sec full"><h2>Google search in detail</h2>
     <p class="sec-note">From Search Console (${esc(s.site)})${x.uk_only ? ', UK only' : ', all countries'}. Its last two or three days fill in late, so a period ending yesterday reads a little low.</p>
     ${tbl(report, `<th></th><th class="r">${x.compare ? `This period, with the change ${esc(since(x))}` : 'This period'}</th>`, totals, '', 2)}
-    <h3 class="sub-h">Top searches</h3>${tbl(report, '<th>Search</th><th class="r">Clicks</th><th class="r">Position</th>', q, 'No searches yet.', 3)}
+    ${s.positions ? '' : `<h3 class="sub-h">Top searches</h3>${tbl(report, '<th>Search</th><th class="r">Clicks</th><th class="r">Position</th>', q, 'No searches yet.', 3)}`}
     <h3 class="sub-h">Top pages from search</h3>${tbl(report, '<th>Page</th><th class="r">Clicks</th><th class="r">Position</th>', p, 'No pages yet.', 3)}</section>`;
 }
 
@@ -347,7 +394,7 @@ export function auditDetail(x, { report = false } = {}) {
 
 // Everything above the detail: the summary, then where the leads came from and being found.
 export function auditTop(x, opts = {}) {
-  return [summary(x, opts), sourcesBlock(x), foundBlock(x)].join('\n');
+  return [summary(x, opts), sourcesBlock(x), foundBlock(x), positionsBlock(x, opts.report)].join('\n');
 }
 
 /* ---------- The GA4 tab ---------- */
@@ -491,8 +538,35 @@ export const GA4_CSS = `
 .found-card p + p { margin-top: 6px; }
 .found-card .chg.good { color: #0d7a3f; }
 .found-card .chg.bad { color: var(--red); }
+.bands { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
+.band { padding: 16px; background: var(--box); }
+.band .lbl { display: flex; align-items: center; gap: 8px; font: 500 13px/1.2 var(--display); letter-spacing: 0.02em; text-transform: uppercase; color: var(--muted); }
+.band .sw { width: 10px; height: 10px; flex: none; }
+.band .big { margin-top: 10px; font: 500 40px/1 var(--display); }
+.band .chg { margin-top: 8px; font: 500 13px/1.35 var(--display); color: var(--muted); }
+.band .chg.good, .pchg.good { color: #0d7a3f; }
+.band .chg.bad, .pchg.bad { color: var(--red); }
+.band .means { margin-top: 8px; font: 400 13px/1.4 var(--serif); color: var(--muted); }
+.top3 .sw, .stack .top3 { background: var(--blue); }
+.page1 .sw, .stack .page1 { background: #6b9bff; }
+.page2 .sw, .stack .page2 { background: #b3cbff; }
+.near .sw, .stack .near { background: #bdbdbd; }
+.far .sw, .stack .far { background: #e2e2e2; }
+.dist { margin: 20px 0 8px; display: flex; flex-direction: column; gap: 8px; }
+.dist-row { display: grid; grid-template-columns: 96px minmax(0, 1fr) 48px; gap: 12px; align-items: center; font: 500 13px/1.2 var(--display); }
+.dist-row .dn { text-align: right; color: var(--muted); }
+.stack { display: flex; height: 14px; background: var(--box); }
+.stack > span { display: block; height: 100%; }
+.pchg { white-space: nowrap; font: 500 13px/1.2 var(--display); color: var(--muted); }
+.movers-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.movers { margin: 0; padding: 0; list-style: none; }
+.movers li { display: flex; justify-content: space-between; gap: 12px; padding: 8px 0; border-bottom: 1px solid var(--line); font: 500 14px/1.3 var(--display); }
+.movers .q { min-width: 0; overflow-wrap: anywhere; }
+.movers .mv { flex: none; color: var(--muted); }
+.movers .mv b { font-weight: 500; color: var(--ink); }
 @media (max-width: 1240px) {
   .ga-cards { grid-template-columns: 1fr 1fr; }
+  .bands { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 }
 @media (max-width: 900px) {
   .ga2 .ga-head { flex-direction: column; }
@@ -507,6 +581,8 @@ export const GA4_CSS = `
 }
 @media (max-width: 560px) {
   .ga-cards { grid-template-columns: 1fr; }
+  .bands { grid-template-columns: 1fr 1fr; }
+  .movers-2 { grid-template-columns: 1fr; }
 }
 td.r, th.r { text-align: right; white-space: nowrap; }
 .sec .sec-note { margin-bottom: 12px; }
@@ -547,5 +623,11 @@ const GA4_REPORT_EXTRA = `
 .sheet .src-list li { font-size: 14px; padding: 7px 0; grid-template-columns: minmax(0, 150px) minmax(0, 1fr) 52px 60px; }
 .sheet .found-card { padding: 16px; break-inside: avoid; }
 .sheet .found-card .big { font-size: 30px; }
+.sheet .bands { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 8px; }
+.sheet .band { padding: 10px; break-inside: avoid; }
+.sheet .band .lbl { font-size: 10px; }
+.sheet .band .big { font-size: 26px; }
+.sheet .band .chg, .sheet .band .means { font-size: 11px; }
+.sheet .movers li { font-size: 13px; padding: 6px 0; }
 @media print { .rp.ga2 .ga-cards { grid-template-columns: repeat(4, minmax(0, 1fr)); } .found { grid-template-columns: 1fr 1fr; } }
 `;

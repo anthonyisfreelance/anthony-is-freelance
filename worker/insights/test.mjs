@@ -405,6 +405,10 @@ await test('audit end to end with the fake Google: numbers, check, Search Consol
   assert.equal(x.search.uk.now.clicks, 1620);
   assert.equal(x.search.names[0].position, 1.4);
   assert.equal(x.sources[0].name, 'Google search');
+  assert.equal(x.search.positions.total.now, 40);
+  assert.equal(x.search.positions.bands.reduce((n, b) => n + b.now, 0), 40);
+  assert.ok(x.search.positions.up.length && x.search.positions.down.length);
+  assert.equal(x.search.positions.top.length, 10);
   assert.equal(x.search.queries.length, 4);
   x.landing[0].page = '/<script>alert(1)</script>';
   const page = ga4ReportPage({ base: 'https://x', report: { id: 1, token: 't', title: 'T', status: 'draft', data: x }, brand });
@@ -448,6 +452,20 @@ await test('GA4 words: small changes as counts, big ones as percentages, headlin
   };
   assert.equal(headline(audit), 'Fewer visitors, but better ones. Visits fell 29% and leads only 15%, so more of your visitors got in touch. ChatGPT is your best source: 1 in 10 of its visitors sent an enquiry.');
   assert.match(headline({ ...audit, check: { rating: 'unreliable' } }), /^The data check found serious problems/);
+});
+
+await test('Google positions: bands, the 5-impression floor, climbs and drops', async () => {
+  const { positionsOf } = await import('./audit.js');
+  const { posChange } = await import('./ga4view.js');
+  const row = (q, position, impressions = 20, clicks = 1) => ({ keys: [q], position, impressions, clicks });
+  const p = positionsOf([row('a', 1.2), row('b', 6), row('c', 15), row('d', 30), row('e', 70), row('noise', 1, 2), row('f', 4, 12)], [row('a', 2), row('b', 9), row('f', 2, 12), row('c', 15.3)]);
+  assert.deepEqual(p.bands.map((b) => b.now), [1, 2, 1, 1, 1]);
+  assert.equal(p.total.now, 6);
+  assert.deepEqual(p.up.map((r) => r.query), ['b']);
+  assert.deepEqual(p.down.map((r) => r.query), ['f']);
+  assert.equal(p.top.find((r) => r.query === 'e').before, null);
+  assert.deepEqual(posChange(6.1, 9.4), { text: 'Up 3.3', dir: 1, cls: 'good' });
+  assert.deepEqual(posChange(9.4, 6.1), { text: 'Down 3.3', dir: -1, cls: 'bad' });
 });
 
 await test('ISO weeks and UK time', () => {
@@ -716,6 +734,8 @@ if (BASE) {
     assert.match(tab, /Data check: clean/);
     assert.match(tab, /Where your orders came from/);
     assert.match(tab, /Google search, UK/);
+    assert.match(tab, /Google positions, UK/);
+    assert.match(tab, /Biggest climbs/);
     assert.match(tab, /Top searches/);
     const rep = await act('report-ga4', slug, { }).catch(() => null);
     const auditId = tab.match(/data-action="report-ga4" data-token="[^"]+" data-value="(\d+)"/)?.[1];

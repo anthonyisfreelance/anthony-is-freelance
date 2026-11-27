@@ -327,6 +327,56 @@ function aiFamily(source) {
   return source;
 }
 
+/* ---------- Google positions (UK) ---------- */
+
+// Every UK search the site showed up for, read in one call per period (up to POSITION_ROWS, which
+// covers a small or medium site), then kept only as counts and short lists.
+export const POSITION_ROWS = 2000;
+export const POSITION_RULES = { minImpressions: 5, moverImpressions: 10, moverChange: 1 };
+export const BANDS = [
+  { key: 'top3', label: 'Top 3', from: 0, to: 3.5 },
+  { key: 'page1', label: '4 to 10', from: 3.5, to: 10.5 },
+  { key: 'page2', label: '11 to 20', from: 10.5, to: 20.5 },
+  { key: 'near', label: '21 to 50', from: 20.5, to: 50.5 },
+  { key: 'far', label: '51 and lower', from: 50.5, to: Infinity },
+];
+
+export function positionsOf(nowRows, beforeRows) {
+  const R = POSITION_RULES;
+  const read = (rows) => (rows || []).map((r) => ({ query: r.keys?.[0] || '', clicks: r.clicks || 0, impressions: r.impressions || 0, position: round2(r.position || 0) }));
+  const now = read(nowRows);
+  const before = beforeRows ? read(beforeRows) : null;
+  const counted = (list) => list.filter((r) => r.impressions >= R.minImpressions);
+  const bandCounts = (list) => BANDS.map((b) => counted(list).filter((r) => r.position >= b.from && r.position < b.to).length);
+  const nowBands = bandCounts(now);
+  const beforeBands = before ? bandCounts(before) : null;
+  const was = new Map((before || []).map((r) => [r.query, r]));
+  const top = [...now]
+    .sort((a, b) => b.clicks - a.clicks || b.impressions - a.impressions)
+    .slice(0, 10)
+    .map((r) => ({ ...r, before: was.get(r.query)?.position ?? null }));
+  const both = before
+    ? now
+        .filter((r) => r.impressions >= R.moverImpressions && was.get(r.query)?.impressions >= R.moverImpressions)
+        .map((r) => ({ query: r.query, now: r.position, before: was.get(r.query).position, change: round2(was.get(r.query).position - r.position) }))
+        .filter((r) => Math.abs(r.change) >= R.moverChange)
+    : [];
+  const avg = (list) => {
+    const c = counted(list);
+    const imp = c.reduce((n, r) => n + r.impressions, 0);
+    return imp ? round2(c.reduce((n, r) => n + r.position * r.impressions, 0) / imp) : null;
+  };
+  return {
+    bands: BANDS.map((b, i) => ({ key: b.key, label: b.label, now: nowBands[i], before: beforeBands ? beforeBands[i] : null })),
+    total: { now: counted(now).length, before: before ? counted(before).length : null },
+    average: { now: avg(now), before: before ? avg(before) : null },
+    top,
+    up: both.filter((r) => r.change > 0).sort((a, b) => b.change - a.change).slice(0, 5),
+    down: both.filter((r) => r.change < 0).sort((a, b) => a.change - b.change).slice(0, 5),
+    capped: now.length >= POSITION_ROWS,
+  };
+}
+
 // Runs the audit and returns what is stored (or throws GoogleError).
 export async function runAudit(env, brand, p) {
   const q = ga4Requests(brand, p);
@@ -352,6 +402,8 @@ export async function runAudit(env, brand, p) {
           brand.uk_only ? null : gscUk(p.start, p.end),
           brand.uk_only || !p.compare ? null : gscUk(p.compare.start, p.compare.end),
           Promise.all(names.map((n) => gscUk(p.start, p.end, [{ dimension: 'query', operator: 'contains', expression: n }]))),
+          gscQuery(env, site, { type: 'web', ...ukFilter(), startDate: p.start, endDate: p.end, dimensions: ['query'], rowLimit: POSITION_ROWS }),
+          p.compare ? gscQuery(env, site, { type: 'web', ...ukFilter(), startDate: p.compare.start, endDate: p.compare.end, dimensions: ['query'], rowLimit: POSITION_ROWS }) : null,
         ]).catch((e) => ({ error: e instanceof GoogleError ? e.message : 'Search Console could not be read.' }))
       : null,
   ]);
@@ -430,6 +482,7 @@ export async function runAudit(env, brand, p) {
       };
       search.uk = brand.uk_only ? { now: search.now, before: search.before } : { now: tot(gsc[4] || []), before: p.compare ? tot(gsc[5] || []) : null };
       search.names = names.map((n, i) => ({ name: n, ...tot(gsc[6][i] || []) })).filter((n) => n.impressions > 0);
+      search.positions = positionsOf(gsc[7] || [], gsc[8]);
     }
   }
 
