@@ -125,6 +125,14 @@ lead event (empty for a shop), a UK-only switch, how many times each
   is counted by source name (gpt, perplexity, gemini, claude, copilot, openai), never GA4's AI
   Assistant channel, and the "(not set)" medium share is noted. The UK-only switch filters GA4 to
   the United Kingdom and Search Console to GBR.
+- **How it reads** (`ga4view.js`). The period in big capitals, the data check as a badge, a
+  one or two sentence headline written by fixed rules from the numbers (never generated text), then
+  four cards ranked for the brand: revenue, orders, conversion rate and visits for a shop; leads,
+  conversion rate, visits and leads from AI for a lead site. Each card says the change in words
+  ("12 fewer than the 78 before" under 100, a percentage above) and what the number means. Then
+  where the leads or orders came from (by plain source name, with each source's rate), and "Being
+  found": Google search in the UK, with the brand's own name, and AI assistants. The detail
+  follows.
 - **Reports.** Any audit can become a GA4 report (Make a report on the GA4 tab): the same A4 sheet
   and PDF, private until shared. AI visibility reports made after an audit also show "What it
   brought in": visits and orders (or leads) from AI assistants and Google search clicks from the
