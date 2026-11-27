@@ -538,6 +538,11 @@ export const DASH_STYLES = `
 .summary .muted { color: #9a9a9a; }
 .sum-note { margin-top: 24px; font: 500 12px/1.4 var(--display); letter-spacing: 0.02em; color: #9a9a9a; }
 .detail-h { padding-top: 16px; font-size: 22px; line-height: 1.3; text-transform: uppercase; }
+/* Laptop widths with the phone beside: the two lists stack so neither gets squeezed. */
+@media (max-width: 1240px) {
+  .summary.with-phone .sum-cols { grid-template-columns: 1fr; }
+  .summary.with-phone .sum-nums .big { font-size: 72px; }
+}
 @media (max-width: 900px) {
   .summary { margin-inline: -16px; padding: 24px 16px; }
   .summary.with-phone { display: block; }
