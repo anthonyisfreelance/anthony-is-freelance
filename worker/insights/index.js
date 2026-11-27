@@ -5,7 +5,7 @@
 //   /admin/                              login, then the brands list
 //   /admin/brands/new/                   add a brand
 //   /admin/brands/<slug>/                the brand page: AI visibility tab (?run=, ?group=, ?prompt=)
-//   /admin/brands/<slug>/ga4/            GA4 tab (phase 3)
+//   /admin/brands/<slug>/ga4/            GA4 tab: run an audit, saved audits (?audit=) (audit.js)
 //   /admin/brands/<slug>/reports/        Reports tab (phase 2)
 //   /admin/brands/<slug>/schedule/       Schedule tab
 //   /admin/brands/<slug>/settings/       brand settings and the prompt list
@@ -30,7 +30,7 @@ import { ensureSchema, db, getBrand, listBrands, getPrompts, now, brandOf } from
 import { parsePromptList, savePromptList } from './prompts.js';
 import { startRun, processBatch, runProgress, stopRun, rescoreRun, cron, ukClock, RunError } from './runner.js';
 import { visibilityContent, progressOf, answerBody } from './dashboard.js';
-import { loginPage, brandsPage, brandSettings, brandShell, placeholderTab, scheduleTab, insightsShell } from './pages.js';
+import { loginPage, brandsPage, brandSettings, brandShell, scheduleTab, insightsShell } from './pages.js';
 import { insightsCodeEmail, insightsLoginNotice } from './emails.js';
 import { flagKey } from './score.js';
 import { list } from './text.js';
@@ -41,6 +41,9 @@ import { reportEmail } from './emails.js';
 import { renderPdfs, toBase64 } from '../docs/pdf.js';
 import { cachedPdf } from '../docs/security.js';
 import { bridge, sendEmail, BridgeError } from '../docs/bridge.js';
+import { periodFrom, runAudit, saveAudit, listAudits, getAudit, latestAudit, trafficOf } from './audit.js';
+import { googleReady, serviceEmail, GoogleError } from './google.js';
+import { ga4Tab } from './ga4view.js';
 
 const CODE_MINUTES = 10;
 const ADMIN_DAYS = 14;
@@ -197,6 +200,7 @@ async function reportRoute(request, env, url, parts, ctx) {
 export function reportFile(report, brand) {
   const a = report.data.after || report.data;
   const safe = (t) => String(t).replace(/[^A-Za-z0-9]+/g, '_').replace(/^_|_$/g, '');
+  if (report.kind === 'ga4') return `${safe(brand.name)}_GA4_and_search_${a.period?.start}_to_${a.period?.end}.pdf`;
   return `${safe(brand.name)}_AI_visibility_${report.kind === 'compare' ? 'before_and_after_' : ''}${String(a.run?.started_at || '').slice(0, 10)}.pdf`;
 }
 
@@ -208,12 +212,14 @@ async function freezeReport(env, brand, kind, runId, beforeId) {
   // The phone screenshot goes into the report as it is now, so the report keeps it.
   const shot = await d.prepare(`SELECT url, type, image, tint, taken_at FROM shots WHERE brand_id = ?`).bind(brand.id).first();
   const screen = shot?.image ? { src: `data:${shot.type};base64,${Buffer.from(new Uint8Array(shot.image)).toString('base64')}`, url: shot.url, tint: shot.tint, taken_at: shot.taken_at } : null;
-  if (kind !== 'compare') return { data: { ...freezeRun(after, await runRows(env, after.id), brand), screen }, after };
+  // Visits from AI and Google search, from the latest GA4 audit if there is one.
+  const traffic = trafficOf(await latestAudit(env, brand.id));
+  if (kind !== 'compare') return { data: { ...freezeRun(after, await runRows(env, after.id), brand), screen, traffic }, after };
   let before = await getRun(beforeId);
   if (!before || before.id === after.id) return { error: 'For before and after, choose two different finished runs.' };
   if (before.started_at > after.started_at) [before, after] = [after, before];
   const [ra, rb] = await Promise.all([runRows(env, after.id), runRows(env, before.id)]);
-  return { data: { after: freezeRun(after, ra, brand), before: freezeRun(before, rb, brand), screen }, after, before };
+  return { data: { after: freezeRun(after, ra, brand), before: freezeRun(before, rb, brand), screen, traffic }, after, before };
 }
 
 const EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -239,6 +245,18 @@ async function reportAction(env, body, base) {
       .first();
     return json({ ok: true, message: 'Report made.', go: `/admin/brands/${brand.slug}/reports/${row.id}/` });
   }
+  if (body.action === 'report-ga4') {
+    const brand = await getBrand(env, clip(body.token, 60));
+    if (!brand) return json({ ok: false, error: 'Brand not found.' }, 404);
+    const audit = await getAudit(env, brand.id, Number(body.value) || 0);
+    if (!audit) return json({ ok: false, error: 'Audit not found.' }, 404);
+    const at = now();
+    const row = await d
+      .prepare(`INSERT INTO reports (token, brand_id, kind, title, run_id, audit_id, data, status, created_at, updated_at) VALUES (?, ?, 'ga4', ?, 0, ?, ?, 'draft', ?, ?) RETURNING id`)
+      .bind(newToken(16), brand.id, defaultTitle('ga4', brand, audit.data), audit.id, JSON.stringify(audit.data), at, at)
+      .first();
+    return json({ ok: true, message: 'Report made.', go: `/admin/brands/${brand.slug}/reports/${row.id}/` });
+  }
   const report = await getReport(env, 'id', Number(body.token) || 0);
   if (!report) return json({ ok: false, error: 'Report not found.' }, 404);
   const brand = brandOf(await d.prepare(`SELECT * FROM brands WHERE id = ?`).bind(report.brand_id).first());
@@ -252,6 +270,7 @@ async function reportAction(env, body, base) {
     }
     case 'report-refresh': {
       if (report.status !== 'draft') return json({ ok: false, error: 'Only a draft can take fresh numbers.' }, 400);
+      if (report.kind === 'ga4') return json({ ok: false, error: 'A GA4 report keeps its audit. Run a new audit for fresh numbers.' }, 400);
       const r = await freezeReport(env, brand, report.kind, report.run_id, report.before_run_id);
       if (r.error) return json({ ok: false, error: r.error }, 400);
       await set('data = ?', JSON.stringify(r.data));
@@ -331,7 +350,12 @@ async function brandPages(env, url, brand, rest) {
     if (!report || report.brand_id !== brand.id) return message(base, 'Not found', 'There is no report here.');
     return html(brandShell({ base, brand, active: 'reports', content: reportEditor({ brand, report, base, emailOn: env.INSIGHTS_REPORT_EMAIL === 'approved' }) }));
   }
-  if (tab === 'ga4') return html(brandShell({ base, brand, active: tab, content: placeholderTab(tab, brand) }));
+  if (tab === 'ga4' && rest.length === 1) {
+    const audits = await listAudits(env, brand.id);
+    const pick = Number(url.searchParams.get('audit')) || audits[0]?.id || 0;
+    const audit = pick ? await getAudit(env, brand.id, pick) : null;
+    return html(brandShell({ base, brand, active: tab, content: ga4Tab({ brand, audits, audit, ready: googleReady(env), email: serviceEmail(env) }) }));
+  }
   if (tab === 'schedule') return html(brandShell({ base, brand, active: tab, content: scheduleTab(brand, { nextRun: nextRunDay(brand) }) }));
   if (tab) return message(base, 'Not found', 'There is no page here.');
   return html(brandShell({ base, brand, active: '', content: await visibilityTab(env, url, brand) }));
@@ -390,6 +414,14 @@ async function visibilityTab(env, url, brand) {
 
 /* ---------- Actions ---------- */
 
+// A Search Console property: sc-domain:example.com, or a URL prefix ending in a slash.
+function gscSite(v) {
+  const t = clip(v, 200).toLowerCase();
+  if (/^sc-domain:[a-z0-9.-]+\.[a-z]{2,}$/.test(t)) return t;
+  if (/^https?:\/\/[a-z0-9.-]+\.[a-z]{2,}(\/[^\s]*)?$/.test(t)) return t.endsWith('/') ? t : `${t}/`;
+  return '';
+}
+
 function brandFields(f, { isNew }) {
   const name = clip(f.name, 120);
   if (!name) return { error: 'Please add the brand name.' };
@@ -417,6 +449,8 @@ function brandFields(f, { isNew }) {
     flags: JSON.stringify(flags),
     launch_date: launch,
     ga4_property: clip(f.ga4_property, 20).replace(/[^0-9]/g, ''),
+    gsc_site: gscSite(f.gsc_site),
+    ga4_goal: /^[A-Za-z][A-Za-z0-9_]{0,39}$/.test(clip(f.ga4_goal, 40)) ? clip(f.ga4_goal, 40) : '',
     uk_only: f.uk_only ? 1 : 0,
     asks_per_week: Math.min(10, Math.max(1, Math.round(Number(f.asks_per_week) || 3))),
     run_weekday: Math.min(6, Math.max(0, Math.round(Number(f.run_weekday ?? 1)))),
@@ -436,11 +470,30 @@ async function act(env, body, ctx, request, base) {
     if (await getBrand(env, v.slug)) return json({ ok: false, error: 'A brand with that short name already exists.' }, 409);
     const at = now();
     await d
-      .prepare(`INSERT INTO brands (slug, name, match_names, match_domains, facts, flags, launch_date, ga4_property, uk_only, asks_per_week, run_weekday, active, created_at, updated_at)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?)`)
-      .bind(v.slug, v.name, v.match_names, v.match_domains, v.facts, v.flags, v.launch_date, v.ga4_property, v.uk_only, v.asks_per_week, v.run_weekday, at, at)
+      .prepare(`INSERT INTO brands (slug, name, match_names, match_domains, facts, flags, launch_date, ga4_property, gsc_site, ga4_goal, uk_only, asks_per_week, run_weekday, active, created_at, updated_at)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1, ?, ?)`)
+      .bind(v.slug, v.name, v.match_names, v.match_domains, v.facts, v.flags, v.launch_date, v.ga4_property, v.gsc_site, v.ga4_goal, v.uk_only, v.asks_per_week, v.run_weekday, at, at)
       .run();
     return json({ ok: true, message: 'Brand added. Now paste in the prompt list.', go: `/admin/brands/${v.slug}/settings/` });
+  }
+
+  if (body.action === 'audit-run') {
+    const brand = await getBrand(env, token);
+    if (!brand) return json({ ok: false, error: 'Brand not found.' }, 404);
+    if (!brand.ga4_property) return json({ ok: false, error: 'Add the GA4 property in Settings first.' }, 400);
+    if (!googleReady(env)) return json({ ok: false, error: 'The Google key (GOOGLE_SA_KEY) is not set up yet.' }, 400);
+    if (!(await allowed(env, 'DOCS_RL_PDF', request, RL))) return json({ ok: false, error: 'Too many audits in a short time. Please wait a minute.' }, 429);
+    const p = periodFrom(f, brand, ukClock().day);
+    if (p.error) return json({ ok: false, error: p.error }, 400);
+    let data;
+    try {
+      data = await runAudit(env, brand, p);
+    } catch (e) {
+      if (e instanceof GoogleError) return json({ ok: false, error: e.message }, 502);
+      throw e;
+    }
+    const id = await saveAudit(env, brand, data);
+    return json({ ok: true, message: 'Audit done.', go: `/admin/brands/${brand.slug}/ga4/?audit=${id}` });
   }
 
   if (body.action === 'brand-save' || body.action === 'prompts-save' || body.action === 'run-now' || body.action === 'screen-take') {
@@ -450,8 +503,8 @@ async function act(env, body, ctx, request, base) {
       const v = brandFields(f, { isNew: false });
       if (v.error) return json({ ok: false, error: v.error }, 400);
       await d
-        .prepare(`UPDATE brands SET name = ?, match_names = ?, match_domains = ?, facts = ?, flags = ?, launch_date = ?, ga4_property = ?, uk_only = ?, asks_per_week = ?, run_weekday = ?, active = ?, updated_at = ? WHERE id = ?`)
-        .bind(v.name, v.match_names, v.match_domains, v.facts, v.flags, v.launch_date, v.ga4_property, v.uk_only, v.asks_per_week, v.run_weekday, v.active, now(), brand.id)
+        .prepare(`UPDATE brands SET name = ?, match_names = ?, match_domains = ?, facts = ?, flags = ?, launch_date = ?, ga4_property = ?, gsc_site = ?, ga4_goal = ?, uk_only = ?, asks_per_week = ?, run_weekday = ?, active = ?, updated_at = ? WHERE id = ?`)
+        .bind(v.name, v.match_names, v.match_domains, v.facts, v.flags, v.launch_date, v.ga4_property, v.gsc_site, v.ga4_goal, v.uk_only, v.asks_per_week, v.run_weekday, v.active, now(), brand.id)
         .run();
       return json({ ok: true, message: 'Settings saved.' });
     }

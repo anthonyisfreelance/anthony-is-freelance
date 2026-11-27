@@ -17,8 +17,9 @@ import { esc, fmtDate, masthead, eyebrow, legalFooter, shell, topBar, downloadLi
 import { db, parse, now } from './db.js';
 import { summarise, leaderboard, LIMITS, safeLink, phoneFrame, PHONE_CSS } from './dashboard.js';
 import { namePattern, domainOf } from './text.js';
+import { ga4ReportPage, trafficSection } from './ga4view.js';
 
-export const REPORT_KINDS = { snapshot: 'AI visibility snapshot', compare: 'AI visibility before and after' };
+export const REPORT_KINDS = { snapshot: 'AI visibility snapshot', compare: 'AI visibility before and after', ga4: 'GA4 and search audit' };
 
 const pct = (n, d) => (d ? Math.round((n / d) * 100) : 0);
 const plural = (n, one, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
@@ -125,6 +126,8 @@ export async function getReport(env, where, value) {
 }
 
 export function defaultTitle(kind, brand, after, before) {
+  // For a GA4 report, `after` is the audit's data.
+  if (kind === 'ga4') return `${brand.name}: GA4 and search, ${fmtDate(after.period.start, 'long')} to ${fmtDate(after.period.end, 'long')}`;
   if (kind === 'compare' && before) return `${brand.name}: AI visibility, ${fmtDate(before.started_at, 'long')} to ${fmtDate(after.started_at, 'long')}`;
   return `${brand.name}: AI visibility, ${fmtDate(after.started_at, 'long')}`;
 }
@@ -239,6 +242,7 @@ export function compareLine(a, b, brand) {
 }
 
 export function reportPage({ base, report, brand, pdf = false, admin = false }) {
+  if (report.kind === 'ga4') return ga4ReportPage({ base, report, brand, pdf, admin, recommendations: recommendations(report.recommendations), css: REPORT_CSS });
   const a = report.data.after || report.data;
   const b = report.kind === 'compare' ? report.data.before : null;
   const intro = b
@@ -254,6 +258,7 @@ export function reportPage({ base, report, brand, pdf = false, admin = false }) 
   ${insteadTable(a, b)}
   ${sourcesTable(a)}
   ${excerptBlock(a)}
+  ${trafficSection(report.data.traffic)}
   ${recommendations(report.recommendations)}
   ${method(a, b)}
   ${legalFooter()}`;
@@ -368,12 +373,12 @@ export function reportsTab({ brand, reports, runs, href = (id) => `/admin/brands
     .join('');
   const saved = reports
     .map((r) => `<div class="adm-row">
-      <div class="c-name"><a href="${esc(href(r.id))}"><b>${esc(r.kind === 'compare' ? 'Before and after' : 'Snapshot')}</b></a><span>Made ${esc(fmtDate(r.created_at, 'long'))}</span></div>
+      <div class="c-name"><a href="${esc(href(r.id))}"><b>${esc(r.kind === 'compare' ? 'Before and after' : r.kind === 'ga4' ? 'GA4 and search' : 'Snapshot')}</b></a><span>Made ${esc(fmtDate(r.created_at, 'long'))}</span></div>
       <div class="c-meta">${esc(r.title)}</div>
       <div class="c-act">${sharePill(r)}<a class="ghost small" href="${esc(href(r.id))}">Open</a></div>
     </div>`)
     .join('');
-  return `<p class="sec-note">A report is a fixed copy of a run's results: an A4 page and a PDF that never change, even as new runs come in. Use one to keep a record, or to compare before and after a change.</p>
+  return `<p class="sec-note">A report is a fixed copy of a run's results: an A4 page and a PDF that never change, even as new runs come in. Use one to keep a record, or to compare before and after a change. GA4 reports are made from an audit on the GA4 tab. AI visibility reports also show the visits from AI and Google from the latest GA4 audit, if there is one.</p>
   <section class="sec full"><h2>Before and after</h2>${compare}</section>
   <section class="sec full"><h2>Your reports</h2><div class="adm brand-list"><div>${saved || '<p class="empty">None yet. Make one from a run below.</p>'}</div></div></section>
   <section class="sec full"><h2>Runs</h2><div class="adm brand-list"><div>${runRows || '<p class="empty">Reports are made from finished runs. Once the first run finishes, it shows here.</p>'}</div></div></section>`;

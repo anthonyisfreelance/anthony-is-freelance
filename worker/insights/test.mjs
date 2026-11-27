@@ -11,6 +11,7 @@
 //       and a .dev.vars file (never committed) holding:
 //         INSIGHTS_DEV=1
 //         INSIGHTS_FAKE_AI=1
+//         INSIGHTS_FAKE_GOOGLE=1
 //         DOCS_SECRET=any-local-string
 //       It covers login and code limits, the Origin check, the run lifecycle with the fake engine,
 //       scoring and re-scoring, stopping a run, the cron and weekly run, the samples and rate limits.
@@ -24,6 +25,10 @@ import { summarise, answerText, safeLink, trendChart, leaderboard } from './dash
 import { isoWeek, ukClock } from './runner.js';
 import { namePattern, isOwnDomain, nameKey } from './text.js';
 import { seal } from '../docs/auth.js';
+import { dataCheck, periodFrom, ga4Requests, runAudit, goalOf, trafficOf } from './audit.js';
+import { signedAssertion, readReport, readKey } from './google.js';
+import { ga4ReportPage, ga4Tab, trafficSection } from './ga4view.js';
+import { generateKeyPairSync, createVerify } from 'node:crypto';
 
 let passed = 0;
 let failed = 0;
@@ -263,6 +268,149 @@ await test('report: numbers frozen from a run, excerpts escaped, recommendations
   assert.ok(!html.includes('<img src=x'));
   assert.ok(!html.includes('>Recommendations<'));
   assert.match(html, /Visibility score/);
+});
+
+
+// GA4 audit. Numbers are made up but shaped like two real properties: a shop with heavy social
+// ad traffic and a Shopify "(not set)" landing page pattern (clean), and one swamped by a bot city
+// whose engagement is 6.5% against about 50% for the rest of the site (not reliable).
+const days = (n, f) => Array.from({ length: n }, (_, i) => ({ date: `202609${String(i + 1).padStart(2, '0')}`, ...f(i) }));
+const cleanShop = () => ({
+  shop: true,
+  hasDomain: true,
+  totals: { sessions: 546000, engagedSessions: 291000, conv: 23800 },
+  sources: [{ name: 'facebook', sessions: 304000, engagedSessions: 148000 }, { name: 'google', sessions: 90000, engagedSessions: 56000 }, { name: '(not set)', sessions: 5100, engagedSessions: 1100 }],
+  cities: [{ name: 'London', sessions: 73000, engagedSessions: 39000 }, { name: '(not set)', sessions: 31000, engagedSessions: 15900 }],
+  daily: days(28, (i) => ({ sessions: 19000 + (i % 5) * 400, engagedSessions: 10100, conv: 830 })),
+  notSet: 193000,
+  dups: Array.from({ length: 7 }, (_, i) => ({ id: `T${i}`, eventCount: 2 })),
+  internal: 0,
+});
+
+await test('data check: a busy clean shop stays clean; "(not set)" landing pages only flag their own table', () => {
+  const c = dataCheck(cleanShop());
+  assert.equal(c.rating, 'clean');
+  assert.equal(c.landing.level, 'bad');
+  assert.ok(c.unsafe.includes('Landing pages'));
+  assert.ok(c.safe.includes('Revenue') && c.safe.includes('Purchasers'));
+  assert.equal(c.checks.find((x) => x.key === 'duplicates').level, 'ok');
+});
+
+await test('data check: a bot city at 6.5% engagement against 50% elsewhere is not reliable', () => {
+  const c = dataCheck({
+    shop: true,
+    hasDomain: true,
+    totals: { sessions: 607000, engagedSessions: 66500, conv: 1136 },
+    sources: [{ name: '(direct)', sessions: 568000, engagedSessions: 43000 }, { name: 'google', sessions: 32000, engagedSessions: 17700 }],
+    cities: [{ name: 'Faraway', sessions: 550000, engagedSessions: 36000 }, { name: 'London', sessions: 11000, engagedSessions: 7200 }],
+    daily: days(28, (i) => (i === 20 ? { sessions: 40000, engagedSessions: 900, conv: 12 } : { sessions: 700, engagedSessions: 320, conv: 12 })),
+    notSet: 2700,
+    dups: [],
+    internal: 0,
+  });
+  assert.equal(c.rating, 'unreliable');
+  const bots = c.checks.find((x) => x.key === 'bots');
+  assert.equal(bots.level, 'bad');
+  assert.ok(bots.lines.some((l) => l.startsWith('City Faraway')));
+  assert.ok(c.safe.includes('Purchasers') && c.unsafe.includes('Sessions') && c.unsafe.includes('Conversion rate'));
+});
+
+await test('data check: a small bot city is listed as also seen, without marking the data down', () => {
+  const x = cleanShop();
+  x.cities.push({ name: 'Faraway', sessions: 42000, engagedSessions: 1200 });
+  const c = dataCheck(x);
+  assert.equal(c.rating, 'clean');
+  assert.ok(c.also.some((l) => l.includes('Faraway')));
+});
+
+await test('data check: internal UTMs, duplicates and tracking lines', () => {
+  const x = cleanShop();
+  x.internal = 546000 * 0.03;
+  assert.equal(dataCheck(x).rating, 'care');
+  x.internal = 546000 * 0.11;
+  assert.equal(dataCheck(x).rating, 'unreliable');
+  const y = cleanShop();
+  y.dups = Array.from({ length: 200 }, (_, i) => ({ id: `T${i}`, eventCount: 2 }));
+  assert.equal(dataCheck(y).checks.find((c) => c.key === 'duplicates').level, 'care');
+  const z = cleanShop();
+  z.daily = z.daily.map((d, i) => (i >= 21 ? { ...d, conv: 0 } : d));
+  assert.equal(dataCheck(z).checks.find((c) => c.key === 'tracking').level, 'care');
+  z.totals.conv = 0;
+  assert.equal(dataCheck(z).rating, 'unreliable');
+  const leads = { ...cleanShop(), shop: false, totals: { sessions: 2200, engagedSessions: 900, conv: 0 }, daily: days(28, () => ({ sessions: 80, engagedSessions: 30, conv: 0 })), notSet: 0, dups: [] };
+  const l = dataCheck(leads);
+  assert.equal(l.checks.find((c) => c.key === 'tracking').level, 'care');
+  assert.ok(!l.checks.some((c) => c.key === 'duplicates'));
+  assert.ok(l.unsafe.includes('Leads') && !l.safe.includes('Revenue'));
+});
+
+await test('audit periods: presets end yesterday, previous and last year, launch, limits', () => {
+  const p = periodFrom({ period: '28', compare: 'previous' }, {}, '2026-11-27');
+  assert.deepEqual([p.start, p.end, p.days], ['2026-10-30', '2026-11-26', 28]);
+  assert.deepEqual([p.compare.start, p.compare.end], ['2026-10-02', '2026-10-29']);
+  const y = periodFrom({ period: '90', compare: 'year' }, {}, '2026-11-27');
+  assert.deepEqual([y.compare.start, y.compare.end], ['2025-08-29', '2025-11-26']);
+  const l = periodFrom({ period: 'launch' }, { launch_date: '2026-10-15' }, '2026-11-27');
+  assert.equal(l.start, '2026-10-15');
+  assert.equal(l.compare.kind, 'year');
+  assert.match(periodFrom({ period: 'launch' }, {}, '2026-11-27').error, /launch date/);
+  assert.match(periodFrom({ period: 'custom', start: '2026-01-01', end: '2025-01-01' }, {}, '2026-11-27').error, /after/);
+  assert.match(periodFrom({ period: 'custom', start: '2024-01-01', end: '2026-01-01' }, {}, '2026-11-27').error, /400 days/);
+  assert.equal(periodFrom({ period: '28', compare: 'none' }, {}, '2026-11-27').compare, null);
+});
+
+await test('GA4 requests: UK filter, lead event, AI sources by name, no duplicate check for leads', () => {
+  const q = ga4Requests({ uk_only: 1, ga4_goal: 'generate_lead', match_domains: ['example.com'] }, periodFrom({ period: '28' }, {}, '2026-11-27'));
+  assert.equal(goalOf({ ga4_goal: 'generate_lead' }).metric, 'keyEvents:generate_lead');
+  assert.equal(q.first.length, 5);
+  assert.ok(q.second.length <= 5 && !q.second.some((r) => r.dimensions?.[0]?.name === 'transactionId'));
+  assert.ok(JSON.stringify(q.first[0]).includes('United Kingdom'));
+  const ai = JSON.stringify(q.first[3].dimensionFilter);
+  for (const s of ['gpt', 'perplexity', 'gemini', 'claude', 'copilot', 'openai']) assert.ok(ai.includes(`"${s}"`));
+  assert.ok(!JSON.stringify(q).includes('AI Assistant'));
+});
+
+await test('Google sign-in: an RS256 JWT for the read-only scopes that verifies with the key', async () => {
+  const { privateKey, publicKey } = generateKeyPairSync('rsa', { modulusLength: 2048 });
+  const pem = privateKey.export({ type: 'pkcs8', format: 'pem' });
+  const key = readKey({ GOOGLE_SA_KEY: JSON.stringify({ type: 'service_account', client_email: 'x@p.iam.gserviceaccount.com', private_key: pem, token_uri: 'https://oauth2.googleapis.com/token' }) });
+  assert.equal(readKey({ GOOGLE_SA_KEY: '{"type":"nope"}' }), null);
+  const jwt = await signedAssertion(key, undefined, 1800000000);
+  const [h, c, sig] = jwt.split('.');
+  const claims = JSON.parse(Buffer.from(c, 'base64url').toString());
+  assert.equal(claims.iss, 'x@p.iam.gserviceaccount.com');
+  assert.equal(claims.aud, 'https://oauth2.googleapis.com/token');
+  assert.equal(claims.exp - claims.iat, 3600);
+  assert.match(claims.scope, /analytics\.readonly/);
+  assert.match(claims.scope, /webmasters\.readonly/);
+  const v = createVerify('RSA-SHA256');
+  v.update(`${h}.${c}`);
+  assert.ok(v.verify(publicKey, Buffer.from(sig, 'base64url')));
+});
+
+await test('GA4 response: rows read by header name, two date ranges told apart', () => {
+  const rows = readReport({ dimensionHeaders: [{ name: 'deviceCategory' }, { name: 'dateRange' }], metricHeaders: [{ name: 'sessions' }], rows: [{ dimensionValues: [{ value: 'mobile' }, { value: 'before' }], metricValues: [{ value: '12' }] }] });
+  assert.deepEqual(rows, [{ deviceCategory: 'mobile', range: 'before', sessions: 12 }]);
+});
+
+await test('audit end to end with the fake Google: numbers, check, Search Console, escaped report', async () => {
+  const brand = { id: 1, slug: 'x', name: 'Example', ga4_property: '1', gsc_site: 'sc-domain:example.com', uk_only: 1, match_domains: ['example.com'] };
+  const x = await runAudit({ INSIGHTS_FAKE_GOOGLE: '1' }, brand, periodFrom({ period: '90', compare: 'year' }, brand, '2026-11-27'));
+  assert.equal(x.check.rating, 'clean');
+  assert.equal(x.totals.now.purchasers, 296);
+  assert.ok(x.totals.before.sessions < x.totals.now.sessions);
+  assert.ok(x.ai.list[0].name === 'ChatGPT' && x.ai.notSetMedium > 0);
+  assert.ok(x.check.also.some((l) => l.includes('Botsville')));
+  assert.equal(x.search.now.clicks, 1840);
+  assert.equal(x.search.queries.length, 4);
+  x.landing[0].page = '/<script>alert(1)</script>';
+  const page = ga4ReportPage({ base: 'https://x', report: { id: 1, token: 't', title: 'T', status: 'draft', data: x }, brand });
+  assert.ok(!page.includes('<script>alert'));
+  assert.match(page, /Can the data be trusted/);
+  assert.match(page, /Clean/);
+  assert.match(ga4Tab({ brand, audits: [], audit: { id: 1, data: x }, ready: true, email: 'e@x' }), /Run the audit/);
+  assert.match(ga4Tab({ brand: { ...brand, ga4_property: '' }, ready: true }), /property number/);
+  assert.match(trafficSection(trafficOf({ id: 1, data: x })), /Visits from AI assistants/);
 });
 
 await test('ISO weeks and UK time', () => {
@@ -514,6 +662,37 @@ if (BASE) {
     for (const t of ['ga4', 'reports', 'schedule']) assert.equal((await get(`/admin/brands/${slug}/${t}/`)).status, 200);
   });
 
+  await test('GA4: settings take the property, Search Console and lead event; an audit runs with the fake Google', async () => {
+    const before = await get(`/admin/brands/${slug}/ga4/`).then((x) => x.text());
+    assert.match(before, /property number/);
+    const day = String(new Date().getDay());
+    const save = await act('brand-save', slug, { name: 'Test Widget Studio', match_names: 'Test Widget Studio', match_domains: 'testwidget.example', flags: 'Price steering', asks_per_week: '1', run_weekday: day, active: true, ga4_property: '123456', gsc_site: 'sc-domain:testwidget.example', ga4_goal: 'not a valid event!' });
+    assert.equal(save.ok, true, save.error);
+    const settings = await get(`/admin/brands/${slug}/settings/`).then((x) => x.text());
+    assert.match(settings, /value="sc-domain:testwidget\.example"/);
+    assert.match(settings, /name="ga4_goal" maxlength="40" placeholder="generate_lead" value=""/);
+    const bad = await act('audit-run', slug, { period: 'custom', start: '2026-05-01', end: '2026-04-01' });
+    assert.equal(bad.status, 400);
+    const r = await act('audit-run', slug, { period: '28', compare: 'previous' });
+    assert.equal(r.ok, true, r.error);
+    const tab = await get(r.go).then((x) => x.text());
+    assert.match(tab, /Can the data be trusted/);
+    assert.match(tab, />Clean</);
+    assert.match(tab, /Traffic from AI assistants/);
+    assert.match(tab, /Top searches/);
+    const rep = await act('report-ga4', slug, { }).catch(() => null);
+    const auditId = tab.match(/data-action="report-ga4" data-token="[^"]+" data-value="(\d+)"/)?.[1];
+    assert.ok(auditId);
+    const made = await post('/admin/action', { action: 'report-ga4', token: slug, value: auditId }).then((x) => x.json());
+    assert.equal(made.ok, true, made.error);
+    const editor = await get(made.go).then((x) => x.text());
+    const token = editor.match(/\/report\/([A-Za-z0-9_-]{20,40})\//)[1];
+    const sheet = await get(`/report/${token}/`).then((x) => x.text());
+    assert.match(sheet, /GA4 and search/);
+    assert.equal((await fetch(`${BASE}/report/${token}/`, { headers: { 'cf-connecting-ip': ip() } })).status, 404);
+    assert.ok(rep === null || rep.status >= 400);
+  });
+
   await test('samples: every page loads with the made-up brand and the comment tool', async () => {
     const index = await get('/admin/samples/').then((x) => x.text());
     const slugs = [...index.matchAll(/href="\/admin\/samples\/([a-z0-9-]+)\/"/g)].map((m) => m[1]);
@@ -546,7 +725,9 @@ if (BASE) {
     assert.ok(!editor.includes('<b>Tester</b>'));
     const mine = await get(`/report/${reportToken}/`);
     assert.equal(mine.status, 200);
-    assert.match(await mine.text(), /Visibility score/i);
+    const mineText = await mine.text();
+    assert.match(mineText, /Visibility score/i);
+    assert.match(mineText, /What it brought in/);
     const theirs = await fetch(`${BASE}/report/${reportToken}/`, { headers: { 'cf-connecting-ip': ip() } });
     assert.equal(theirs.status, 404);
   });

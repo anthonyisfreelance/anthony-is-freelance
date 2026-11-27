@@ -139,6 +139,24 @@ export const STEPS = [
     )`,
     `CREATE INDEX IF NOT EXISTS reports_brand ON reports (brand_id, created_at)`,
   ],
+  // 5: GA4 audits with Search Console (phase 3, audit.js). A brand gets its Search Console property
+  // (sc-domain:example.com or a URL prefix) and the GA4 event it is judged on: empty for a shop
+  // (purchases), or a lead event such as generate_lead. An audit keeps its totals in `data`.
+  // A GA4 report points at its audit (audit_id; run_id is 0 for these).
+  [
+    `ALTER TABLE brands ADD COLUMN gsc_site TEXT NOT NULL DEFAULT ''`,
+    `ALTER TABLE brands ADD COLUMN ga4_goal TEXT NOT NULL DEFAULT ''`,
+    `CREATE TABLE IF NOT EXISTS audits (
+      id INTEGER PRIMARY KEY,
+      brand_id INTEGER NOT NULL REFERENCES brands(id),
+      start_date TEXT NOT NULL,
+      end_date TEXT NOT NULL,
+      data TEXT NOT NULL,
+      created_at TEXT NOT NULL
+    )`,
+    `CREATE INDEX IF NOT EXISTS audits_brand ON audits (brand_id, created_at)`,
+    `ALTER TABLE reports ADD COLUMN audit_id INTEGER`,
+  ],
 ];
 
 export const SCHEMA_VERSION = STEPS.length;
