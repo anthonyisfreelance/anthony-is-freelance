@@ -239,7 +239,7 @@ async function visibilityTab(env, url, brand) {
   const shot = homepageOf(brand) ? await screenInfo(env, brand.id) : null;
   const action = `<button type="button" data-action="screen-take" data-token="${esc(brand.slug)}" data-label="${shot ? 'Take a new screenshot' : 'Take a screenshot'}" data-wait="Taking a screenshot of the homepage…">${shot ? 'Take a new screenshot' : 'Take a screenshot'}</button>`;
   const screen = homepageOf(brand)
-    ? { src: shot ? `/admin/brands/${brand.slug}/screen/?t=${encodeURIComponent(shot.taken_at)}` : null, url: shot?.url || homepageOf(brand), taken_at: shot?.taken_at, action }
+    ? { src: shot ? `/admin/brands/${brand.slug}/screen/?t=${encodeURIComponent(shot.taken_at)}` : null, url: shot?.url || homepageOf(brand), tint: shot?.tint, taken_at: shot?.taken_at, action }
     : null;
   return visibilityContent({ brand, trend, run, rows, group, prompt, link, answerHref, progress, promptCount, screen });
 }

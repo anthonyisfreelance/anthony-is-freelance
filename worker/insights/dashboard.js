@@ -10,6 +10,7 @@
 import { esc, fmtDate, fmtDateTime } from '../docs/shared.js';
 import { parse } from './db.js';
 import { nameKey, namePattern, domainOf, isOwnDomain } from './text.js';
+import { isDark, cleanColour } from './screen.js';
 
 const pct = (n, d) => (d ? Math.round((n / d) * 100) : 0);
 const pctText = (n, d) => (d ? `${pct(n, d)}%` : '–');
@@ -163,6 +164,26 @@ function median(list) {
 
 // The short version, at the top: four big numbers, then where the brand wins and where to focus,
 // worked out by rule from this run (no AI writing). `prev` is the run before, for the changes.
+// The screenshot inside an iPhone in Safari: the status bar (tinted to the page, as Safari does),
+// the page, then Safari's bottom bar with the address. Drawn in HTML and CSS, sized to the phone.
+const SIGNAL = '<svg viewBox="0 0 18 12" aria-hidden="true"><rect x="0" y="8" width="3" height="4" rx="1"/><rect x="5" y="5.5" width="3" height="6.5" rx="1"/><rect x="10" y="3" width="3" height="9" rx="1"/><rect x="15" y="0" width="3" height="12" rx="1"/></svg>';
+const WIFI = '<svg viewBox="0 0 16 12" aria-hidden="true"><path d="M8 11.5 5.6 9a3.4 3.4 0 0 1 4.8 0Z"/><path d="M3.3 6.7a6.6 6.6 0 0 1 9.4 0l-1.2 1.2a4.9 4.9 0 0 0-7 0Z"/><path d="M1 4.4a9.9 9.9 0 0 1 14 0l-1.2 1.2a8.2 8.2 0 0 0-11.6 0Z"/></svg>';
+const BATTERY = '<svg viewBox="0 0 27 13" aria-hidden="true"><rect x="0.5" y="0.5" width="22" height="12" rx="3.5" fill="none" stroke="currentColor" opacity="0.4"/><rect x="2" y="2" width="19" height="9" rx="2"/><path d="M24.5 4.5v4a2 2 0 0 0 0-4Z" opacity="0.4"/></svg>';
+const LOCK = '<svg viewBox="0 0 10 13" aria-hidden="true"><rect x="0.5" y="5.5" width="9" height="7" rx="1.5"/><path d="M2.5 5.5V3.8a2.5 2.5 0 0 1 5 0v1.7" fill="none" stroke="currentColor" stroke-width="1.2"/></svg>';
+const RELOAD = '<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M10 6a4 4 0 1 1-1.2-2.9" fill="none" stroke="currentColor" stroke-width="1.2"/><path d="M9.6 1.2v2.6H7"  fill="none" stroke="currentColor" stroke-width="1.2"/></svg>';
+const BACK = '<svg viewBox="0 0 12 12" aria-hidden="true"><path d="M7.5 2 3.5 6l4 4" fill="none" stroke="currentColor" stroke-width="1.4"/></svg>';
+const DOTS = '<svg viewBox="0 0 12 12" aria-hidden="true"><circle cx="2" cy="6" r="1.2"/><circle cx="6" cy="6" r="1.2"/><circle cx="10" cy="6" r="1.2"/></svg>';
+
+export function phoneFrame(screen) {
+  const tint = cleanColour(screen.tint || '#ffffff');
+  const host = screen.url ? domainOf(screen.url) : '';
+  return `<div class="phone-screen">
+    <div class="ios-status ${isDark(tint) ? 'on-dark' : 'on-light'}" style="background:${tint}"><span class="time">9:41</span><span class="island" aria-hidden="true"></span><span class="icons">${SIGNAL}${WIFI}${BATTERY}</span></div>
+    <div class="ios-page">${screen.src ? `<img src="${esc(screen.src)}" alt="${esc(`The homepage of ${host} on a phone in Safari`)}" width="390" height="714">` : ''}</div>
+    <div class="ios-safari"><span class="round">${BACK}</span><span class="addr">${LOCK}<b>${esc(host)}</b>${RELOAD}</span><span class="round">${DOTS}</span><i class="home" aria-hidden="true"></i></div>
+  </div>`;
+}
+
 export function summaryBlock(m, prev, screen = null) {
   if (!m.scored) return '';
   const rate = pct(m.named, m.scored);
@@ -201,7 +222,7 @@ export function summaryBlock(m, prev, screen = null) {
 
   const list = (items) => `<ol class="boxes">${items.slice(0, 4).map(([t, x], i) => `<li class="box"><span class="n">${String(i + 1).padStart(2, '0')}</span><div><h3>${esc(t)}</h3><p>${x}</p></div></li>`).join('')}</ol>`;
   const phone = screen
-    ? `<figure class="phone"><div class="phone-screen">${screen.src ? `<img src="${esc(screen.src)}" alt="${esc(`The homepage of ${screen.url} on a phone`)}" width="390" height="844">` : ''}</div>
+    ? `<figure class="phone">${phoneFrame(screen)}
         <figcaption>${screen.src ? `${esc(shortUrl(screen.url))}${screen.taken_at ? ` · ${esc(fmtDate(screen.taken_at))}` : ''}` : 'No screenshot yet'}${screen.action || ''}</figcaption></figure>`
     : '';
   return `<section class="summary${phone ? ' with-phone' : ''}" aria-label="Summary">
@@ -517,8 +538,26 @@ export const DASH_STYLES = `
 .summary.with-phone .sum-cols { grid-area: cols; }
 .summary.with-phone .sum-note { grid-area: note; }
 .phone { margin: 0; position: sticky; top: 24px; }
-.phone-screen { overflow: hidden; aspect-ratio: 390 / 844; border: 6px solid #2b2b2b; border-radius: 30px; background: #222; }
-.phone-screen img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+/* The phone, in units of its own width (1cqw = 1/100 of the screen), so it scales as one piece.
+   iPhone 390 by 844: status bar 47, page 714, Safari bar 83. */
+.phone-screen { container-type: inline-size; display: flex; flex-direction: column; overflow: hidden; aspect-ratio: 390 / 844; border: 6px solid #2b2b2b; border-radius: 34px; background: #ffffff; box-shadow: 0 0 0 1px #4a4a4a; }
+.ios-status { position: relative; flex: none; height: 12.05cqw; display: flex; align-items: center; justify-content: space-between; padding: 1.5cqw 7.5cqw 0 9cqw; font: 600 4.3cqw/1 -apple-system, "SF Pro Text", system-ui, sans-serif; }
+.ios-status.on-light { color: #000000; }
+.ios-status.on-dark { color: #ffffff; }
+.ios-status .island { position: absolute; left: 50%; top: 2.8cqw; width: 31cqw; height: 9.2cqw; margin-left: -15.5cqw; border-radius: 6cqw; background: #000000; }
+.ios-status .icons { display: flex; align-items: center; gap: 1.4cqw; }
+.ios-status svg { display: block; height: 3.1cqw; width: auto; fill: currentColor; }
+.ios-status svg:last-child { height: 3.4cqw; }
+.ios-page { flex: 1 1 auto; min-height: 0; overflow: hidden; background: #f4f4f4; }
+.ios-page img { display: block; width: 100%; height: 100%; object-fit: cover; object-position: top; }
+.ios-safari { position: relative; flex: none; height: 21.3cqw; display: flex; align-items: flex-start; gap: 2cqw; padding: 2.6cqw 3.6cqw 0; background: rgba(246, 246, 246, 0.96); border-top: 0.3cqw solid rgba(0, 0, 0, 0.08); color: #000000; }
+.ios-safari .round { flex: none; display: grid; place-items: center; width: 11.3cqw; height: 11.3cqw; border-radius: 50%; background: #ffffff; box-shadow: 0 0.4cqw 1.5cqw rgba(0, 0, 0, 0.12); }
+.ios-safari .round svg { width: 3.6cqw; height: 3.6cqw; fill: currentColor; }
+.ios-safari .addr { flex: 1 1 auto; min-width: 0; display: flex; align-items: center; justify-content: center; gap: 1.6cqw; height: 11.3cqw; padding: 0 3cqw; border-radius: 6cqw; background: #ffffff; box-shadow: 0 0.4cqw 1.5cqw rgba(0, 0, 0, 0.12); font: 500 3.9cqw/1 -apple-system, "SF Pro Text", system-ui, sans-serif; }
+.ios-safari .addr b { overflow: hidden; font-weight: 500; white-space: nowrap; text-overflow: ellipsis; }
+.ios-safari .addr svg { flex: none; width: 2.6cqw; height: 3.4cqw; fill: currentColor; }
+.ios-safari .addr svg:last-child { width: 3.2cqw; height: 3.2cqw; fill: none; }
+.ios-safari .home { position: absolute; left: 50%; bottom: 2.2cqw; width: 34cqw; height: 1.3cqw; margin-left: -17cqw; border-radius: 1cqw; background: #000000; }
 .phone figcaption { margin-top: 12px; font: 500 12px/1.4 var(--display); letter-spacing: 0.02em; color: #9a9a9a; text-align: center; overflow-wrap: anywhere; }
 .phone figcaption button { display: block; margin: 8px auto 0; padding: 6px 10px; border: 1px solid #393939; background: none; color: #cfcfcf; font: 500 11px/1 var(--display); cursor: pointer; }
 .phone figcaption button:hover { border-color: #cfcfcf; }

@@ -172,7 +172,7 @@ export async function samples(request, env, url, parts) {
     const chosen = runs.find((r) => r.run.id === pick) || latest;
     const prompt = Number(url.searchParams.get('prompt')) || null;
     const group = (url.searchParams.get('group') || '').slice(0, 1) || null;
-    const screen = { src: `data:image/svg+xml;base64,${btoa(placeholderSvg(brand.name))}`, url: 'https://saltwatersupply.example/', taken_at: '2026-11-02T06:05:00Z', action: '<button type="button" data-action="screen-take" data-token="SAMPLE" data-label="Take a new screenshot">Take a new screenshot</button>' };
+    const screen = { src: `data:image/svg+xml;base64,${btoa(placeholderSvg(brand.name))}`, url: 'https://saltwatersupply.example/', tint: '#ffffff', taken_at: '2026-11-02T06:05:00Z', action: '<button type="button" data-action="screen-take" data-token="SAMPLE" data-label="Take a new screenshot">Take a new screenshot</button>' };
     return html(shellOf('', visibilityContent({ brand, trend, run: chosen.run, rows: chosen.rows, group, prompt, link: sampleLink('ai-visibility'), answerHref, promptCount, sample: true, screen })));
   }
   if (slug === 'ai-running') {
