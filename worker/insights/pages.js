@@ -17,7 +17,7 @@ export const TABS = [
 
 const PAGE_CSS = `
 .sheet > .doc-tabs { margin-top: 32px; }
-.brand-list .adm-row a { color: var(--ink); }
+.brand-list .c-name a { color: var(--ink); }
 .c-name { flex: 0 0 260px; min-width: 0; }
 .c-name b { display: block; font-weight: 500; font-size: 18px; text-transform: uppercase; }
 .c-name span, .c-meta span { display: block; font-size: 12px; color: var(--muted); }
