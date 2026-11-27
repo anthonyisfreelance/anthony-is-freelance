@@ -397,9 +397,9 @@ if (BASE) {
     assert.ok(answerId);
   });
 
-  await test('summary: big numbers, where you win, where to focus, and the phone screenshot', async () => {
+  await test('summary: big numbers with standings, what to do next, and the phone screenshot', async () => {
     const page = await get(`/admin/brands/${slug}/`).then((x) => x.text());
-    for (const t of ['of ChatGPT answers name you', 'Where you win', 'Where to focus', 'The detail']) assert.ok(page.includes(t), `missing "${t}"`);
+    for (const t of ['of answers name you', 'What to do next', 'Watch:', 'The detail', 'class="iphone"']) assert.ok(page.includes(t), `missing "${t}"`);
     assert.match(page, /screenshot/i);
     const r = await act('screen-take', slug);
     assert.equal(r.ok, true, r.error);
