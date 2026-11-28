@@ -17,7 +17,7 @@
 // the queue.
 
 import { db, now, brandOf, parse } from './db.js';
-import { engineFor, EngineError } from './engine.js';
+import { engineFor, enginesOn, engineName, EngineError } from './engine.js';
 import { scoreAnswer } from './score.js';
 import { takeScreen, homepageOf } from './screen.js';
 
@@ -29,13 +29,21 @@ export const batchSize = (env) => Math.min(8, Math.max(1, Number(env.INSIGHTS_BA
 
 export class RunError extends Error {}
 
-export async function startRun(env, brand, { kind = 'manual', week = null } = {}) {
+// One run per engine. Starts ChatGPT, and Google AI Mode when it's set up; returns the ChatGPT run.
+// A Google run that can't start (one already going) doesn't stop the ChatGPT one.
+export async function startRuns(env, brand, opts = {}) {
+  const [first, ...rest] = enginesOn(env);
+  const run = await startRun(env, brand, { ...opts, engine: first });
+  for (const engine of rest) await startRun(env, brand, { ...opts, engine }).catch((e) => console.error('[insights] run', engine, brand.slug, e.message));
+  return run;
+}
+
+export async function startRun(env, brand, { kind = 'manual', week = null, engine = 'chatgpt' } = {}) {
   const d = db(env);
-  const busy = await d.prepare(`SELECT id FROM runs WHERE brand_id = ? AND status = 'running' LIMIT 1`).bind(brand.id).first();
-  if (busy) throw new RunError('A run for this brand is still going. Wait for it to finish, or stop it first.');
+  const busy = await d.prepare(`SELECT id FROM runs WHERE brand_id = ? AND engine = ? AND status = 'running' LIMIT 1`).bind(brand.id, engine).first();
+  if (busy) throw new RunError(`A ${engineName(engine)} run for this brand is still going. Wait for it to finish, or stop it first.`);
   const attempts = Math.min(10, Math.max(1, Number(brand.asks_per_week) || 3));
   const at = now();
-  const engine = engineFor(env).id;
   const run = await d
     .prepare(`INSERT INTO runs (brand_id, kind, week, engine, country, attempts, status, started_at) VALUES (?, ?, ?, ?, ?, ?, 'running', ?) RETURNING id`)
     .bind(brand.id, kind, week, engine, COUNTRY, attempts, at)
@@ -66,23 +74,23 @@ export async function processBatch(env, { limit = batchSize(env), runId = null }
     .prepare(`UPDATE answers SET status = 'working', claimed_at = ?, tries = tries + 1
       WHERE id IN (SELECT id FROM answers WHERE (status = 'pending' OR (status = 'working' AND claimed_at < ?))
         ORDER BY ${runId ? 'run_id = ? DESC,' : ''} id LIMIT ?)
-      RETURNING id, run_id, brand_id, prompt_id, prompt_text, grp, attempt, tries`)
+      RETURNING id, run_id, brand_id, prompt_id, prompt_text, grp, attempt, tries, engine`)
     .bind(...[at, stale, ...(runId ? [runId] : []), limit])
     .all();
 
   const done = { asked: 0, failed: 0, retry: 0, rescored: 0 };
   if (claimed.length) {
     const brands = await brandsById(env, claimed.map((a) => a.brand_id));
-    const engine = engineFor(env);
-    let paused = false;
+    // A rate limit pauses only the engine that hit it.
+    const paused = new Set();
     await Promise.all(
       claimed.map(async (a) => {
         const brand = brands.get(a.brand_id);
         if (!brand) return fail(d, a, 'The brand was not found.', done);
         if (a.tries > MAX_TRIES) return fail(d, a, 'Timed out on every try.', done);
-        if (paused) return requeue(d, a, true, done);
+        if (paused.has(a.engine)) return requeue(d, a, true, done);
         try {
-          const r = await engine.ask({ prompt: a.prompt_text, country: COUNTRY, brand, attempt: a.attempt });
+          const r = await engineFor(env, a.engine).ask({ prompt: a.prompt_text, country: COUNTRY, brand, attempt: a.attempt });
           const answer = { ...a, text: r.text, citations: r.citations };
           const s = await scoreAnswer(env, answer, brand);
           await d.batch([
@@ -93,7 +101,7 @@ export async function processBatch(env, { limit = batchSize(env), runId = null }
           done.asked++;
         } catch (e) {
           if (e instanceof EngineError && e.rateLimited) {
-            paused = true;
+            paused.add(a.engine);
             return requeue(d, a, true, done);
           }
           if (e instanceof EngineError && e.retry && a.tries < MAX_TRIES) return requeue(d, a, false, done, e.message);
@@ -255,7 +263,7 @@ export async function cron(env, when = new Date()) {
     for (const b of results) {
       try {
         const brand = brandOf(b);
-        out.started.push(await startRun(env, brand, { kind: 'weekly', week: clock.week }));
+        out.started.push(await startRuns(env, brand, { kind: 'weekly', week: clock.week }));
         // A fresh phone screenshot of the homepage with each weekly run.
         if (homepageOf(brand)) await takeScreen(env, brand).catch((e) => console.error('[insights] screenshot', brand.slug, e.message));
       } catch (e) {

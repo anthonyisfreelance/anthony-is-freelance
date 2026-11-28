@@ -561,6 +561,36 @@ await test('overview: headline, cards and next steps from saved data, and it cop
   assert.match(overviewActions(o2, {}).map((a) => a.title).join('|'), /Run a fresh GA4 audit/);
 });
 
+await test('Google AI Mode: answer and sources read from DataForSEO, problems as status codes', async () => {
+  const { readAiMode, enginesOn, engineFor, engineName } = await import('./engine.js');
+  const ok = {
+    status_code: 20000,
+    tasks: [{ status_code: 20000, result: [{ items: [
+      { type: 'organic', title: 'ignored' },
+      { type: 'ai_overview', markdown: 'Try **Big Agency** or Example Studio.', items: [{ type: 'ai_overview_element', text: 'x', references: [{ url: 'https://lists.example/best/?utm_source=google', title: 'Best list' }] }],
+        references: [{ type: 'ai_overview_reference', url: 'https://lists.example/best/', source: 'Lists' }, { url: 'javascript:alert(1)' }, { url: 'https://example.com/', source: 'Example' }] },
+    ] }] }],
+  };
+  const r = readAiMode(ok);
+  assert.equal(r.text, 'Try **Big Agency** or Example Studio.');
+  assert.deepEqual(r.citations.map((c) => c.url), ['https://lists.example/best/', 'https://example.com/']);
+  assert.equal(r.citations[1].title, 'Example');
+  assert.equal(r.model, 'google-ai-mode');
+  // Built from the elements when there is no markdown on the whole.
+  const parts = { tasks: [{ status_code: 20000, result: [{ items: [{ type: 'ai_overview', items: [{ text: 'One.' }, { markdown: 'Two.' }] }] }] }] };
+  assert.equal(readAiMode(parts).text, 'One.\n\nTwo.');
+  const err = (json) => { try { readAiMode(json); } catch (e) { return e; } return null; };
+  assert.equal(err({ tasks: [{ status_code: 40200, status_message: 'Payment Required.' }] }).retry, false);
+  assert.equal(err({ tasks: [{ status_code: 50000, status_message: 'Internal error.' }] }).retry, true);
+  assert.match(err({ tasks: [{ status_code: 20000, result: [{ items: [] }] }] }).message, /no answer/);
+  // On only when the login is set, or the local fake is on.
+  assert.deepEqual(enginesOn({}), ['chatgpt']);
+  assert.deepEqual(enginesOn({ DATAFORSEO_LOGIN: 'a', DATAFORSEO_PASSWORD: 'b' }), ['chatgpt', 'google_ai_mode']);
+  assert.equal(engineFor({ INSIGHTS_FAKE_AI: '1' }, 'google_ai_mode').id, 'google_ai_mode');
+  assert.equal(engineName('google_ai_mode'), 'Google AI Mode');
+  await assert.rejects(engineFor({}, 'google_ai_mode').ask({ prompt: 'x' }), /DataForSEO login is not set/);
+});
+
 await test('GA4 what changed: the parts add up to the whole', async () => {
   const { changeParts } = await import('./ga4view.js');
   const leads = changeParts({ compare: { kind: 'previous' }, goal: { shop: false }, totals: { now: { sessions: 2206, conv: 66 }, before: { sessions: 3091, conv: 78 } } });
@@ -754,6 +784,21 @@ if (BASE) {
     assert.match(page2, /class="ios-page"><img src="\/admin\/brands\//);
     assert.match(page2, /class="ios-status on-(light|dark)" style="background:#[0-9a-f]{3,6}"/);
     assert.match(page2, /<b>testwidget\.example<\/b>/);
+  });
+
+  await test('Google AI Mode: its own run alongside, behind a ChatGPT | Google AI Mode switch', async () => {
+    const page = await get(`/admin/brands/${slug}/`).then((x) => x.text());
+    if (!page.includes('class="engine-switch"')) return console.log('     (skipped: set INSIGHTS_FAKE_GOOGLE_AI=1 in .dev.vars to test it)');
+    const cronUrl = `${BASE}/cdn-cgi/handler/scheduled?cron=*/5+*+*+*+*`;
+    for (let i = 0; i < 10; i++) await fetch(cronUrl);
+    const g = await get(`/admin/brands/${slug}/?engine=google_ai_mode`).then((x) => x.text());
+    assert.match(g, /<a href="\/admin\/brands\/[^"]+\/\?engine=google_ai_mode" aria-current="page">Google AI Mode<\/a>/);
+    assert.match(g, /Google AI Mode through DataForSEO/);
+    assert.match(g, /Cost this run: about \$/);
+    assert.match(g, /of answers name you/);
+    // The ChatGPT view and the competitors stay on ChatGPT.
+    assert.match(page, /aria-current="page">ChatGPT<\/a>/);
+    assert.ok(!page.includes('Google AI Mode through DataForSEO'));
   });
 
   await test('dashboard: filter by group and by prompt', async () => {

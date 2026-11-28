@@ -21,6 +21,10 @@ export const TABS = [
 ];
 
 const PAGE_CSS = `
+.engine-switch { display: flex; gap: 8px; margin: 24px 0 0; }
+.engine-switch a { padding: 8px 14px; border: 1px solid var(--line, #d9d9d9); color: var(--ink); text-decoration: none; font: 500 14px/1.2 var(--display); text-transform: uppercase; letter-spacing: 0.02em; }
+.engine-switch a[aria-current] { background: var(--ink); border-color: var(--ink); color: #fff; }
+.engine-switch a:hover:not([aria-current]), .engine-switch a:focus-visible { border-color: var(--blue); }
 .sheet > .doc-tabs { margin-top: 32px; }
 .brand-list .c-name a { color: var(--ink); }
 .c-name { flex: 0 0 260px; min-width: 0; }

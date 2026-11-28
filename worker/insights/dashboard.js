@@ -11,6 +11,7 @@ import { esc, fmtDate, fmtDateTime } from '../docs/shared.js';
 import { parse } from './db.js';
 import { nameKey, namePattern, domainOf, isOwnDomain } from './text.js';
 import { isDark, cleanColour } from './screen.js';
+import { engineName } from './engine.js';
 
 const pct = (n, d) => (d ? Math.round((n / d) * 100) : 0);
 const pctText = (n, d) => (d ? `${pct(n, d)}%` : '–');
@@ -257,7 +258,8 @@ function standing(board) {
   return { cls: rank <= 3 ? 'close' : 'behind', text: `#${rank} of ${others + 1}. ${esc(leader.name)} leads with ${pctText(leader.answers, board.n)}` };
 }
 
-export function summaryBlock(m, prev, screen = null, brand = {}) {
+export function summaryBlock(m, prev, screen = null, brand = {}, engine = 'chatgpt') {
+  const who = engineName(engine);
   if (!m.scored) return '';
   const done = (p) => p.answers.filter((x) => x.status === 'done' && x.s_status);
   const names = [brand.name, ...(brand.match_names || [])];
@@ -309,16 +311,16 @@ export function summaryBlock(m, prev, screen = null, brand = {}) {
   const lists = pagesIn(rowsOf(open), used);
   if (lists.length) {
     actions.push({
-      title: 'Get onto the pages ChatGPT reads',
+      title: 'Get onto the pages ${who} reads',
       why: `These are cited most in answers that leave you out: ${links(lists)}.`,
-      todo: 'Work down the list. Each one is a page ChatGPT trusts for this topic, and a mention there is likely to carry into its answers.',
+      todo: 'Work down the list. Each one is a page ${who} trusts for this topic, and a mention there is likely to carry into its answers.',
       watch: `“Of answers name you” goes up from ${rateOf(all)}%.`,
     });
   }
   const never = open.filter((p) => p.grp !== 'A' && done(p).length && !done(p).some((x) => x.brand_named));
   if (never.length) {
     actions.push({
-      title: `Give ChatGPT a page to cite for ${plural(never.length, 'more question')}`,
+      title: `Give ${who} a page to cite for ${plural(never.length, 'more question')}`,
       why: `Never named on ${never.slice(0, 3).map((p) => `“${esc(p.text)}”`).join(', ')}${never.length > 3 ? ` and ${never.length - 3} more` : ''}.`,
       todo: 'Open each prompt in Every answer below and see which pages it cites. If you offer that service, make sure one page answers that exact question in plain words and is linked from your homepage.',
       watch: `Fewer than ${plural(never.length, 'question')} with no mention of you.`,
@@ -329,7 +331,7 @@ export function summaryBlock(m, prev, screen = null, brand = {}) {
     actions.push({
       title: `Tackle “${esc(loud.label)}”`,
       why: `It shows in ${pctText(loud.answers, m.scored)} of answers${loud.example ? `, for example “${esc(loud.example)}”` : ''}.`,
-      todo: 'Read the answers marked ⚑ in Every answer below, then answer the point on your own pages, in your words, where ChatGPT will read it.',
+      todo: 'Read the answers marked ⚑ in Every answer below, then answer the point on your own pages, in your words, where ${who} will read it.',
       watch: `“${esc(loud.label)}” shows in fewer than ${pctText(loud.answers, m.scored)} of answers (Framing flags, below).`,
     });
   }
@@ -360,7 +362,7 @@ export function summaryBlock(m, prev, screen = null, brand = {}) {
       ${actions.length ? `<ol class="steps">${actions.slice(0, 4).map((x, i) => `<li><span class="n">${String(i + 1).padStart(2, '0')}</span><div class="step"><h3>${x.title}</h3><dl class="step-rows"><div><dt>Why</dt><dd>${x.why}</dd></div><div><dt>Do</dt><dd>${x.todo}</dd></div><div class="measure"><dt>Measure</dt><dd>${x.watch}</dd></div></dl></div></li>`).join('')}</ol>` : '<p class="muted">Nothing stands out in this run.</p>'}
     </div>
     ${wins.length ? `<div class="sum-wins"><h2>Where you win</h2><ol class="steps wins">${wins.map((w, i) => `<li><span class="n">${String(i + 1).padStart(2, '0')}</span><p class="win">${w}</p></li>`).join('')}</ol></div>` : ''}
-    <p class="sum-note">How to read it: there is no settled industry standard yet. The fairest yardstick is the other businesses ChatGPT names in the same answers, which is what Most named and #2 of 40 mean. Published 2026 guides put category leaders at about 20 to 40% mention rate and 25 to 35% share of mentions; treat that as a rough guide only. ${esc(LIMITS[1])}</p>
+    <p class="sum-note">How to read it: there is no settled industry standard yet. The fairest yardstick is the other businesses ${who} names in the same answers, which is what Most named and #2 of 40 mean. Published 2026 guides put category leaders at about 20 to 40% mention rate and 25 to 35% share of mentions; treat that as a rough guide only. ${esc(LIMITS[1])}</p>
   </section>`;
 }
 
@@ -545,16 +547,16 @@ export function answersList(m, { group, prompt, link, answerHref }) {
 
 export function methodNote(run, m, model) {
   return `<section class="fine method"><h2>Method</h2><div class="cols">
-    <p>Run started ${esc(fmtDateTime(run.started_at))}${run.completed_at ? `, finished ${esc(fmtDateTime(run.completed_at))}` : ''}. Engine: ChatGPT through the OpenAI API with web search on, location United Kingdom${model ? `, model ${esc(model)}` : ''}. Each prompt asked ${plural(run.attempts, 'time')}, ${plural(m.total, 'answer')} in all, ${m.done} answered${m.failed ? `, ${m.failed} failed` : ''}.</p>
-    <p>${LIMITS.map(esc).join(' ')}</p>
-    <p>Usage this run: ${num(m.tokens.searches)} web searches, ${num(m.tokens.input)} input and ${num(m.tokens.output)} output tokens for the answers (scoring is extra, on a cheaper model).</p>
+    <p>Run started ${esc(fmtDateTime(run.started_at))}${run.completed_at ? `, finished ${esc(fmtDateTime(run.completed_at))}` : ''}. Engine: ${run.engine === 'google_ai_mode' ? 'Google AI Mode through DataForSEO, location United Kingdom, desktop, in English' : `ChatGPT through the OpenAI API with web search on, location United Kingdom${model ? `, model ${esc(model)}` : ''}`}. Each prompt asked ${plural(run.attempts, 'time')}, ${plural(m.total, 'answer')} in all, ${m.done} answered${m.failed ? `, ${m.failed} failed` : ''}.</p>
+    <p>${(run.engine === 'google_ai_mode' ? ['Answers come from a real Google search in the UK, signed out, so they can differ from what a signed-in person sees.', LIMITS[1]] : LIMITS).map(esc).join(' ')}</p>
+    <p>${run.engine === 'google_ai_mode' ? `Cost this run: about $${(m.done * 0.004).toFixed(2)} at DataForSEO's live price, plus scoring on a cheaper model.` : `Usage this run: ${num(m.tokens.searches)} web searches, ${num(m.tokens.input)} input and ${num(m.tokens.output)} output tokens for the answers (scoring is extra, on a cheaper model).`}</p>
   </div></section>`;
 }
 
 /* ---------- The tab ---------- */
 
 // The whole tab, from loaded data. Used by the brand page and by the samples.
-export function visibilityContent({ brand, trend, run, rows = [], group = null, prompt = null, link, answerHref, progress = null, promptCount = 0, sample = false, screen = null }) {
+export function visibilityContent({ brand, trend, run, rows = [], group = null, prompt = null, link, answerHref, progress = null, promptCount = 0, sample = false, screen = null, engine = 'chatgpt' }) {
   if (!run) return runBar({ brand, run: null, promptCount, sample }) + `<p class="empty">No runs yet. ${promptCount ? 'Press Run now for a first baseline.' : 'Add the prompt list in Settings first.'}</p>`;
   const m = summarise(rows, brand);
   const model = rows.find((r) => r.model)?.model;
@@ -562,7 +564,7 @@ export function visibilityContent({ brand, trend, run, rows = [], group = null, 
   const prev = trend.slice(at + 1).find((r) => r.status === 'complete' && r.n);
   return [
     runBar({ brand, run, promptCount, progress, sample }),
-    summaryBlock(m, prev, screen, brand),
+    summaryBlock(m, prev, screen, brand, engine),
     `<h2 class="detail-h">The detail</h2>`,
     headline(m),
     gapBlock(m),

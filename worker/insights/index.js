@@ -28,7 +28,8 @@ import { page as html, headers, allowed, codeAllowed } from '../docs/security.js
 import { resend } from '../docs/mail.js';
 import { ensureSchema, db, getBrand, listBrands, getPrompts, now, brandOf } from './db.js';
 import { parsePromptList, savePromptList } from './prompts.js';
-import { startRun, processBatch, runProgress, stopRun, rescoreRun, cron, ukClock, RunError } from './runner.js';
+import { ENGINES, engineName, enginesOn } from './engine.js';
+import { startRuns, processBatch, runProgress, stopRun, rescoreRun, cron, ukClock, RunError } from './runner.js';
 import { visibilityContent, progressOf, answerBody } from './dashboard.js';
 import { loginPage, brandsPage, brandSettings, brandShell, scheduleTab, insightsShell } from './pages.js';
 import { insightsCodeEmail, insightsLoginNotice } from './emails.js';
@@ -344,7 +345,7 @@ async function brandPages(env, url, brand, rest) {
     return new Response(img.bytes, { headers: { 'content-type': img.type, ...headers() } });
   }
   if (tab === 'reports' && rest.length === 1) {
-    const [{ results: runs }, reports] = await Promise.all([db(env).prepare(TREND_SQL).bind(brand.id).all(), listReports(env, brand.id)]);
+    const [{ results: runs }, reports] = await Promise.all([db(env).prepare(TREND_SQL).bind(brand.id, 'chatgpt').all(), listReports(env, brand.id)]);
     return html(brandShell({ base, brand, active: tab, content: reportsTab({ brand, reports, runs }) }));
   }
   if (tab === 'reports' && rest.length === 2) {
@@ -359,7 +360,7 @@ async function brandPages(env, url, brand, rest) {
     return html(brandShell({ base, brand, active: tab, content: ga4Tab({ brand, audits, audit, ready: googleReady(env), email: serviceEmail(env) }) }));
   }
   if (tab === 'competitors' && rest.length === 1) {
-    const { results: trend } = await db(env).prepare(TREND_SQL).bind(brand.id).all();
+    const { results: trend } = await db(env).prepare(TREND_SQL).bind(brand.id, 'chatgpt').all();
     const done = trend.filter((r) => r.status === 'complete' && r.n);
     const pick = Number(url.searchParams.get('run')) || null;
     const run = (pick && done.find((r) => r.id === pick)) || done[0] || null;
@@ -368,7 +369,7 @@ async function brandPages(env, url, brand, rest) {
     return html(brandShell({ base, brand, active: tab, content: competitorsTab({ brand, run, rows, prevRows, sites, runLink: run ? `/admin/brands/${brand.slug}/${run.id === trend[0]?.id ? '' : `?run=${run.id}`}` : null }) }));
   }
   if (tab === 'overview' && rest.length === 1) {
-    const { results: trend } = await db(env).prepare(TREND_SQL).bind(brand.id).all();
+    const { results: trend } = await db(env).prepare(TREND_SQL).bind(brand.id, 'chatgpt').all();
     const done = trend.filter((r) => r.status === 'complete' && r.n);
     const [run, prev] = done;
     const [rows, prevRows, audit] = await Promise.all([run ? competitorRows(env, run.id) : [], prev ? competitorRows(env, prev.id) : null, latestAudit(env, brand.id)]);
@@ -393,12 +394,12 @@ function nextRunDay(brand) {
   return d.toISOString().slice(0, 10);
 }
 
-const TREND_SQL = `SELECT r.id, r.kind, r.status, r.started_at, r.completed_at, r.attempts, r.total,
+const TREND_SQL = `SELECT r.id, r.kind, r.engine, r.status, r.started_at, r.completed_at, r.attempts, r.total,
   count(s.answer_id) AS n, coalesce(sum(s.brand_named), 0) AS named, avg(s.brand_position) AS pos,
   coalesce(sum(a.grp = 'A'), 0) AS na, coalesce(sum(CASE WHEN a.grp = 'A' THEN s.brand_named END), 0) AS nameda,
   coalesce(sum(a.grp = 'B'), 0) AS nb, coalesce(sum(CASE WHEN a.grp = 'B' THEN s.brand_named END), 0) AS namedb
   FROM runs r LEFT JOIN answers a ON a.run_id = r.id AND a.status = 'done' LEFT JOIN scores s ON s.answer_id = a.id
-  WHERE r.brand_id = ? GROUP BY r.id ORDER BY r.started_at DESC LIMIT 26`;
+  WHERE r.brand_id = ? AND r.engine = ? GROUP BY r.id ORDER BY r.started_at DESC LIMIT 26`;
 
 // What the competitors tab needs from a run: no answer text, just the scores and links.
 async function competitorRows(env, runId) {
@@ -412,11 +413,18 @@ async function competitorRows(env, runId) {
 
 async function visibilityTab(env, url, brand) {
   const d = db(env);
-  const { results: trend } = await d.prepare(TREND_SQL).bind(brand.id).all();
   const pick = Number(url.searchParams.get('run')) || null;
+  // The engine comes from the run asked for, else ?engine=, else ChatGPT.
+  const { results: has } = await d.prepare(`SELECT DISTINCT engine FROM runs WHERE brand_id = ?`).bind(brand.id).all();
+  const engines = Object.keys(ENGINES).filter((k) => k === 'chatgpt' || has.some((r) => r.engine === k));
+  const picked = pick ? (await d.prepare(`SELECT engine FROM runs WHERE id = ? AND brand_id = ?`).bind(pick, brand.id).first())?.engine : null;
+  const engine = [picked, url.searchParams.get('engine')].find((e) => engines.includes(e)) || 'chatgpt';
+  const { results: trend } = await d.prepare(TREND_SQL).bind(brand.id, engine).all();
   const run = (pick && trend.find((r) => r.id === pick)) || trend.find((r) => r.status === 'running') || trend.find((r) => r.status === 'complete') || trend[0];
   const promptCount = (await d.prepare(`SELECT count(*) AS n FROM prompts WHERE brand_id = ? AND active = 1`).bind(brand.id).first()).n;
-  if (!run) return visibilityContent({ brand, trend, run: null, promptCount });
+  const engineLink = (e) => `/admin/brands/${brand.slug}/${e === 'chatgpt' ? '' : `?engine=${e}`}`;
+  const switcher = engineSwitch(engines, engine, engineLink);
+  if (!run) return switcher + visibilityContent({ brand, trend, run: null, promptCount, engine });
   const group = (url.searchParams.get('group') || '').slice(0, 1) || null;
   const prompt = Number(url.searchParams.get('prompt')) || null;
   const { results: rows } = await d
@@ -430,6 +438,7 @@ async function visibilityTab(env, url, brand) {
     const q = new URLSearchParams();
     const next = { run: run.id, group, prompt, ...change };
     if (next.run && next.run !== trend[0]?.id) q.set('run', next.run);
+    else if (engine !== 'chatgpt') q.set('engine', engine);
     if (next.group) q.set('group', next.group);
     if (next.prompt) q.set('prompt', next.prompt);
     const s = q.toString();
@@ -442,7 +451,15 @@ async function visibilityTab(env, url, brand) {
   const screen = homepageOf(brand)
     ? { src: shot ? `/admin/brands/${brand.slug}/screen/?t=${encodeURIComponent(shot.taken_at)}` : null, url: shot?.url || homepageOf(brand), tint: shot?.tint, taken_at: shot?.taken_at, action }
     : null;
-  return visibilityContent({ brand, trend, run, rows, group, prompt, link, answerHref, progress, promptCount, screen });
+  return switcher + visibilityContent({ brand, trend, run, rows, group, prompt, link, answerHref, progress, promptCount, screen, engine });
+}
+
+// ChatGPT | Google AI Mode, shown once there is more than one engine to look at.
+function engineSwitch(engines, current, href) {
+  if (engines.length < 2) return '';
+  return `<nav class="engine-switch" aria-label="AI engine">${engines
+    .map((e) => `<a href="${esc(href(e))}"${e === current ? ' aria-current="page"' : ''}>${esc(engineName(e))}</a>`)
+    .join('')}</nav>`;
 }
 
 /* ---------- Actions ---------- */
@@ -569,12 +586,13 @@ async function act(env, body, ctx, request, base) {
     }
     // Run now: queue the whole run and ask the first batch straight away, while a fresh phone
     // screenshot of the homepage is taken alongside.
-    const run = await startRun(env, brand, { kind: 'manual' });
+    const run = await startRuns(env, brand, { kind: 'manual' });
     const [first] = await Promise.all([
       processBatch(env, { runId: run.id }),
       homepageOf(brand) ? takeScreen(env, brand).catch((e) => console.error('[insights] screenshot', e.message)) : null,
     ]);
-    return json({ ok: true, message: `Run started: ${run.total} questions. ${first.asked} answered so far.` });
+    const google = enginesOn(env).includes('google_ai_mode') ? ' Google AI Mode runs alongside, in the background.' : '';
+    return json({ ok: true, message: `Run started: ${run.total} questions. ${first.asked} answered so far.${google}` });
   }
 
   if (String(body.action || '').startsWith('report-')) return reportAction(env, body, base);
