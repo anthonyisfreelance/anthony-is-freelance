@@ -1,5 +1,5 @@
 // The insights admin pages: login, the brands list, a brand's settings and prompt list, and the
-// brand page with its four tabs. Built from the docs admin's styles and components
+// brand page with its tabs. Built from the docs admin's styles and components
 // (worker/docs/admin.js); the few extra styles are in PAGE_CSS and DASH_STYLES.
 
 import { esc, fmtDate, fmtDateTime, masthead, eyebrow, shell, topBar, backLink } from '../docs/shared.js';
@@ -8,9 +8,11 @@ import { DASH_STYLES } from './dashboard.js';
 import { formatPromptList } from './prompts.js';
 import { GA4_CSS } from './ga4view.js';
 import { COMPETITOR_CSS } from './competitors.js';
+import { OVERVIEW_CSS } from './overview.js';
 
 export const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 export const TABS = [
+  ['overview', 'Overview'],
   ['', 'AI visibility'],
   ['competitors', 'Competitors'],
   ['ga4', 'GA4'],
@@ -118,7 +120,7 @@ export const INSIGHTS_SCRIPT = `
 })();
 `;
 
-const CSS = ADMIN_CSS + DASH_CSS + DASH_STYLES + PAGE_CSS + GA4_CSS + COMPETITOR_CSS;
+const CSS = ADMIN_CSS + DASH_CSS + DASH_STYLES + PAGE_CSS + GA4_CSS + COMPETITOR_CSS + OVERVIEW_CSS;
 
 export function insightsShell({ base, title, body, bar = '' }) {
   return shell({ title, base, body, css: CSS, script: ADMIN_SCRIPT + INSIGHTS_SCRIPT, bar });
@@ -148,9 +150,9 @@ export function loginPage({ base, to }) {
 export function brandsPage({ base, brands, sample = false }) {
   const rows = brands
     .map((b) => `<div class="adm-row">
-      <div class="c-name"><a href="${esc(b.href || `/admin/brands/${b.slug}/`)}"><b>${esc(b.name)}</b></a><span>${esc((b.match_domains || []).join(', '))}</span></div>
+      <div class="c-name"><a href="${esc(b.href || `/admin/brands/${b.slug}/overview/`)}"><b>${esc(b.name)}</b></a><span>${esc((b.match_domains || []).join(', '))}</span></div>
       <div class="c-meta">${b.prompt_count} prompts, each asked ${b.asks_per_week} times a week<span>${b.last_run ? `Last run ${esc(fmtDateTime(b.last_run))}` : 'No runs yet'} · weekly on ${esc(WEEKDAYS[b.run_weekday] || '')}s</span></div>
-      <div class="c-act"><a class="ghost small primary" href="${esc(b.href || `/admin/brands/${b.slug}/`)}">Open</a><a class="ghost small" href="${esc(b.settingsHref || `/admin/brands/${b.slug}/settings/`)}">Settings</a></div>
+      <div class="c-act"><a class="ghost small primary" href="${esc(b.href || `/admin/brands/${b.slug}/overview/`)}">Open</a><a class="ghost small" href="${esc(b.settingsHref || `/admin/brands/${b.slug}/settings/`)}">Settings</a></div>
     </div>`)
     .join('');
   const body = `

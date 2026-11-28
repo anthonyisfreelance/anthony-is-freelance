@@ -91,6 +91,24 @@ lead event (empty for a shop), a UK-only switch, how many times each
   Code.gs, paste it into the Apps Script project and deploy a new version (Deploy > Manage
   deployments > edit > Version: New version > Deploy). The URL stays the same.
 
+## Overview
+
+The first tab, and where the brands list opens. One page on how people find the brand, from what
+is already saved (the latest finished run, the run before it, and the latest GA4 audit), so it
+costs nothing to open (`overview.js`).
+
+- **The headline**, written by fixed rules: how often ChatGPT names the brand and its place among
+  the businesses named, how many UK searches it is on Google page one for, and how many of the
+  leads (or orders) came from Google search and AI assistants.
+- **Four cards:** named by ChatGPT, place against competitors, Google page one, and leads (or
+  orders) from search and AI. Each with its change and what it means.
+- **What to do next:** up to four steps, in this order: fix the data if the check isn't clean,
+  run what's missing or stale (an audit over 45 days old), the biggest drop of a page one search,
+  the top page to get listed on, the searches on page two (the five most seen, kept by each audit),
+  and the gap to the business named most. Each links to the tab with the detail.
+- **From being seen to getting in touch:** Google and AI assistants side by side, seen, visited
+  and leads (or orders and revenue).
+
 ## Competitors
 
 The Competitors tab (`competitors.js`) works from answers a run has already saved and scored, so
