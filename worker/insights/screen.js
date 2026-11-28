@@ -20,30 +20,30 @@ export function homepageOf(brand) {
   return d ? `https://${d}/` : null;
 }
 
+// A phone screenshot of any page: { bytes, type, tint }. Throws if the browser can't be used.
+export async function capture(env, url, name) {
+  if (env.INSIGHTS_FAKE_AI === '1') return { bytes: new TextEncoder().encode(placeholderSvg(name)), type: 'image/svg+xml', tint: '#ffffff' };
+  if (!env.BROWSER) throw new Error('Browser Rendering is not set up (BROWSER binding).');
+  const browser = await puppeteer.launch(env.BROWSER);
+  try {
+    const page = await browser.newPage();
+    await page.setViewport(PHONE);
+    await page.setUserAgent(UA);
+    await page.goto(url, { waitUntil: 'networkidle2', timeout: 30000 });
+    await new Promise((r) => setTimeout(r, 1500));
+    const tint = await page.evaluate(topColour).catch(() => '#ffffff');
+    const bytes = new Uint8Array(await page.screenshot({ type: 'jpeg', quality: 70 }));
+    return { bytes, type: 'image/jpeg', tint };
+  } finally {
+    await browser.close();
+  }
+}
+
 export async function takeScreen(env, brand) {
   const url = homepageOf(brand);
   if (!url) return { ok: false, error: 'Add a domain in Settings first.' };
-  let bytes;
-  let type = 'image/jpeg';
-  let tint = '#ffffff';
-  if (env.INSIGHTS_FAKE_AI === '1') {
-    bytes = new TextEncoder().encode(placeholderSvg(brand.name));
-    type = 'image/svg+xml';
-  } else {
-    if (!env.BROWSER) return { ok: false, error: 'Browser Rendering is not set up (BROWSER binding).' };
-    const browser = await puppeteer.launch(env.BROWSER);
-    try {
-      const page = await browser.newPage();
-      await page.setViewport(PHONE);
-      await page.setUserAgent(UA);
-      await page.goto(url, { waitUntil: 'networkidle2', timeout: 30000 });
-      await new Promise((r) => setTimeout(r, 1500));
-      tint = await page.evaluate(topColour).catch(() => '#ffffff');
-      bytes = new Uint8Array(await page.screenshot({ type: 'jpeg', quality: 70 }));
-    } finally {
-      await browser.close();
-    }
-  }
+  if (env.INSIGHTS_FAKE_AI !== '1' && !env.BROWSER) return { ok: false, error: 'Browser Rendering is not set up (BROWSER binding).' };
+  const { bytes, type, tint } = await capture(env, url, brand.name);
   await db(env)
     .prepare(`INSERT INTO shots (brand_id, url, type, image, tint, taken_at) VALUES (?, ?, ?, ?, ?, ?)
       ON CONFLICT(brand_id) DO UPDATE SET url = excluded.url, type = excluded.type, image = excluded.image, tint = excluded.tint, taken_at = excluded.taken_at`)

@@ -13,7 +13,8 @@
 import { openaiCall, EngineError } from './engine.js';
 import { mentions, domainOf, isOwnDomain, nameKey, namePattern, hash } from './text.js';
 
-export const SCORER_VERSION = '1';
+// 2: each recommended business also gets a short description and its website, for the competitors tab.
+export const SCORER_VERSION = '2';
 // The cheapest current model with structured outputs (checked 27 Nov 2026). Set INSIGHTS_SCORER_MODEL to change it.
 export const DEFAULT_SCORER_MODEL = 'gpt-6-luna';
 
@@ -34,7 +35,7 @@ export function placeBrand(recommended, brand) {
   const isBrand = (r) => r.is_brand || keys.has(nameKey(r.name)) || (re ? new RegExp(re.source, 'iu').test(r.name) : false);
   const at = recommended.findIndex(isBrand);
   return {
-    recommended: recommended.map((r) => ({ name: r.name, is_brand: isBrand(r) })),
+    recommended: recommended.map((r) => ({ name: r.name, is_brand: isBrand(r), ...(r.description ? { description: r.description } : {}), ...(r.website ? { website: r.website } : {}) })),
     brand_position: at === -1 ? null : at + 1,
     above: at === -1 ? [] : recommended.slice(0, at).map((r) => r.name),
   };
@@ -58,7 +59,7 @@ export const SCORER_INSTRUCTIONS = `You analyse one answer that an AI assistant 
 
 Return JSON with two lists.
 
-recommended: every business, agency, freelancer or person the answer recommends or puts forward as an option for the user, in the order each first appears. Use the name as written in the answer. Leave out directories, review sites, publications, platforms and tools (for example Shopify itself) unless the answer puts them forward as a provider to hire. Set is_brand to true for the tracked brand, under any of its names.
+recommended: every business, agency, freelancer or person the answer recommends or puts forward as an option for the user, in the order each first appears. Use the name as written in the answer. Leave out directories, review sites, publications, platforms and tools (for example Shopify itself) unless the answer puts them forward as a provider to hire. Set is_brand to true for the tracked brand, under any of its names. For each one, description: how the answer describes them in under 15 words, in the answer's own terms (what they do, who for, size, strengths, price), or an empty string if it says nothing; and website: their own website's domain (for example example.co.uk) if the answer names or links it, otherwise an empty string.
 
 flags: one entry for each framing flag below that the answer clearly shows, with the flag's key and a short quote from the answer (under 20 words) as evidence. Leave a flag out when it is not clearly present. For a flag about wrong facts, compare the answer with the facts note. If there are no flags to check, return an empty list.`;
 
@@ -89,8 +90,8 @@ export function scorerSchema(brand) {
         items: {
           type: 'object',
           additionalProperties: false,
-          required: ['name', 'is_brand'],
-          properties: { name: { type: 'string' }, is_brand: { type: 'boolean' } },
+          required: ['name', 'is_brand', 'description', 'website'],
+          properties: { name: { type: 'string' }, is_brand: { type: 'boolean' }, description: { type: 'string' }, website: { type: 'string' } },
         },
       },
       flags: {
@@ -141,7 +142,7 @@ export function cleanModelOutput(raw, brand) {
   const recommended = (Array.isArray(data?.recommended) ? data.recommended : [])
     .filter((r) => r && typeof r.name === 'string' && r.name.trim())
     .slice(0, 30)
-    .map((r) => ({ name: r.name.trim().slice(0, 120), is_brand: r.is_brand === true }));
+    .map((r) => ({ name: r.name.trim().slice(0, 120), is_brand: r.is_brand === true, description: String(r.description || '').trim().slice(0, 140), website: cleanSite(r.website) }));
   const flags = [];
   for (const f of Array.isArray(data?.flags) ? data.flags : []) {
     if (!f || !keys.has(f.key) || flags.some((x) => x.key === f.key)) continue;
@@ -150,10 +151,21 @@ export function cleanModelOutput(raw, brand) {
   return { recommended, flags };
 }
 
+// A bare domain (example.co.uk) or nothing: no paths, no schemes, nothing odd.
+export function cleanSite(v) {
+  const t = String(v || '').trim().toLowerCase().replace(/^https?:\/\//, '').replace(/^www\./, '').split(/[/?#\s]/)[0];
+  return /^[a-z0-9-]+(\.[a-z0-9-]+)+$/.test(t) && t.length <= 80 ? t : '';
+}
+
 // Canned scoring for local runs and the samples: bold names in a canned answer are its
 // recommendations, and a flag shows when its label shares a word with the answer.
 export function fakeModelScore(answer, brand) {
-  const recommended = [...String(answer.text || '').matchAll(/\*\*([^*]+)\*\*/g)].map((m) => ({ name: m[1].trim(), is_brand: false }));
+  const recommended = [...String(answer.text || '').matchAll(/\*\*([^*]+)\*\*/g)].map((m) => {
+    const name = m[1].trim();
+    const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '');
+    const said = ['Shopify Plus agency for growing UK brands', 'independent designer known for bespoke builds', 'full-service agency with in-house developers', 'small studio focused on conversion'];
+    return { name, is_brand: false, description: said[hash(name + answer.text.length) % said.length], website: `${slug}.example` };
+  });
   const flags = [];
   for (const f of brand.flags || []) {
     const word = /price|cheap|budget/i.test(`${f.key} ${f.label}`) ? /cheaper[^.]*\./i : null;

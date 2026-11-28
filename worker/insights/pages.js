@@ -7,10 +7,12 @@ import { ADMIN_CSS, DASH_CSS, ADMIN_SCRIPT } from '../docs/admin.js';
 import { DASH_STYLES } from './dashboard.js';
 import { formatPromptList } from './prompts.js';
 import { GA4_CSS } from './ga4view.js';
+import { COMPETITOR_CSS } from './competitors.js';
 
 export const WEEKDAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 export const TABS = [
   ['', 'AI visibility'],
+  ['competitors', 'Competitors'],
   ['ga4', 'GA4'],
   ['reports', 'Reports'],
   ['schedule', 'Schedule'],
@@ -106,7 +108,7 @@ export const INSIGHTS_SCRIPT = `
 })();
 `;
 
-const CSS = ADMIN_CSS + DASH_CSS + DASH_STYLES + PAGE_CSS + GA4_CSS;
+const CSS = ADMIN_CSS + DASH_CSS + DASH_STYLES + PAGE_CSS + GA4_CSS + COMPETITOR_CSS;
 
 export function insightsShell({ base, title, body, bar = '' }) {
   return shell({ title, base, body, css: CSS, script: ADMIN_SCRIPT + INSIGHTS_SCRIPT, bar });

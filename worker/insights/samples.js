@@ -15,6 +15,7 @@ import { visibilityContent, answerBody } from './dashboard.js';
 import { brandsPage, brandSettings, brandShell, scheduleTab, insightsShell } from './pages.js';
 import { runAudit, periodFrom, trafficOf } from './audit.js';
 import { ga4Tab } from './ga4view.js';
+import { competitorsTab } from './competitors.js';
 import { insightsCodeEmail, insightsLoginNotice } from './emails.js';
 import { placeholderSvg } from './screen.js';
 import { freezeRun, reportPage, reportsTab, reportEditor, defaultTitle } from './reports.js';
@@ -152,6 +153,7 @@ const PAGES = [
   ['ai-running', 'A run in progress', 'The progress bar while a run is being asked.'],
   ['ai-answer', 'One answer in full', 'The scoring, the full text with the brand marked, and its cited links.'],
   ['ai-settings', 'Brand settings and prompts', 'The brand form and the grouped prompt list.'],
+  ['ai-competitors', 'Competitors tab', 'The field, the closest competitors, head to head by group, where to get listed, how each is described, and their sites.'],
   ['ai-schedule', 'Schedule tab', 'The weekly run. Dated runs arrive in phase 4.'],
   ['ai-ga4', 'GA4 tab', 'An audit: the data check with its trust rating, the numbers, AI traffic and Google search.'],
   ['ai-reports', 'Reports tab', 'Before and after, your reports, and a report from any run.'],
@@ -243,6 +245,11 @@ export async function samples(request, env, url, parts, ctx) {
     return html(withFeedback(brandSettings({ base, brand: { ...brand, slug: 'SAMPLE' }, prompts: PROMPTS.map((p, i) => ({ ...p, position: i + 1 })), sample: true, back: `${P}ai-visibility/` })));
   }
   if (slug === 'ai-schedule') return html(shellOf('schedule', scheduleTab(brand, { nextRun: '2026-11-30' })));
+  if (slug === 'ai-competitors') {
+    const prev = runs[runs.length - 2];
+    const sites = new Map();
+    return html(shellOf('competitors', competitorsTab({ brand, run: latest.run, rows: latest.rows, prevRows: prev?.rows || null, sites, sample: true, runLink: `${P}ai-visibility/` })));
+  }
   if (slug === 'ai-ga4') {
     const a = await sampleAudit();
     return html(shellOf('ga4', ga4Tab({ brand: a.brand, audits: [a], audit: a, ready: true, email: 'insights-reader@example-project.iam.gserviceaccount.com', sample: true, href: () => `${P}ai-ga4/` })));
