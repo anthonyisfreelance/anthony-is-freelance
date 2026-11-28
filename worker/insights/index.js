@@ -44,6 +44,7 @@ import { bridge, sendEmail, BridgeError } from '../docs/bridge.js';
 import { periodFrom, runAudit, saveAudit, listAudits, getAudit, latestAudit, trafficOf } from './audit.js';
 import { googleReady, serviceEmail, GoogleError } from './google.js';
 import { ga4Tab } from './ga4view.js';
+import { competitorsTab, checkRival, rivalSites, rivalImage } from './competitors.js';
 
 const CODE_MINUTES = 10;
 const ADMIN_DAYS = 14;
@@ -356,6 +357,20 @@ async function brandPages(env, url, brand, rest) {
     const audit = pick ? await getAudit(env, brand.id, pick) : null;
     return html(brandShell({ base, brand, active: tab, content: ga4Tab({ brand, audits, audit, ready: googleReady(env), email: serviceEmail(env) }) }));
   }
+  if (tab === 'competitors' && rest.length === 1) {
+    const { results: trend } = await db(env).prepare(TREND_SQL).bind(brand.id).all();
+    const done = trend.filter((r) => r.status === 'complete' && r.n);
+    const pick = Number(url.searchParams.get('run')) || null;
+    const run = (pick && done.find((r) => r.id === pick)) || done[0] || null;
+    const prev = run ? done[done.indexOf(run) + 1] || null : null;
+    const [rows, prevRows, sites] = run ? await Promise.all([competitorRows(env, run.id), prev ? competitorRows(env, prev.id) : null, rivalSites(env, brand.id)]) : [[], null, new Map()];
+    return html(brandShell({ base, brand, active: tab, content: competitorsTab({ brand, run, rows, prevRows, sites, runLink: run ? `/admin/brands/${brand.slug}/${run.id === trend[0]?.id ? '' : `?run=${run.id}`}` : null }) }));
+  }
+  if (tab === 'rival' && rest.length === 2) {
+    const img = await rivalImage(env, brand.id, decodeURIComponent(rest[1]).slice(0, 120));
+    if (!img) return message(base, 'Not found', 'There is no screenshot yet.');
+    return new Response(img.bytes, { headers: { 'content-type': img.type, ...headers() } });
+  }
   if (tab === 'schedule') return html(brandShell({ base, brand, active: tab, content: scheduleTab(brand, { nextRun: nextRunDay(brand) }) }));
   if (tab) return message(base, 'Not found', 'There is no page here.');
   return html(brandShell({ base, brand, active: '', content: await visibilityTab(env, url, brand) }));
@@ -376,6 +391,16 @@ const TREND_SQL = `SELECT r.id, r.kind, r.status, r.started_at, r.completed_at, 
   coalesce(sum(a.grp = 'B'), 0) AS nb, coalesce(sum(CASE WHEN a.grp = 'B' THEN s.brand_named END), 0) AS namedb
   FROM runs r LEFT JOIN answers a ON a.run_id = r.id AND a.status = 'done' LEFT JOIN scores s ON s.answer_id = a.id
   WHERE r.brand_id = ? GROUP BY r.id ORDER BY r.started_at DESC LIMIT 26`;
+
+// What the competitors tab needs from a run: no answer text, just the scores and links.
+async function competitorRows(env, runId) {
+  const { results } = await db(env)
+    .prepare(`SELECT a.id, a.prompt_text, a.grp, a.status, a.citations, s.status AS s_status, s.brand_named, s.brand_position, s.recommended
+      FROM answers a LEFT JOIN scores s ON s.answer_id = a.id WHERE a.run_id = ? ORDER BY a.id`)
+    .bind(runId)
+    .all();
+  return results;
+}
 
 async function visibilityTab(env, url, brand) {
   const d = db(env);
@@ -475,6 +500,18 @@ async function act(env, body, ctx, request, base) {
       .bind(v.slug, v.name, v.match_names, v.match_domains, v.facts, v.flags, v.launch_date, v.ga4_property, v.gsc_site, v.ga4_goal, v.uk_only, v.asks_per_week, v.run_weekday, at, at)
       .run();
     return json({ ok: true, message: 'Brand added. Now paste in the prompt list.', go: `/admin/brands/${v.slug}/settings/` });
+  }
+
+  if (body.action === 'rival-check') {
+    const brand = await getBrand(env, token);
+    if (!brand) return json({ ok: false, error: 'Brand not found.' }, 404);
+    if (!(await allowed(env, 'DOCS_RL_PDF', request, RL))) return json({ ok: false, error: 'Too many checks in a short time. Please wait a minute.' }, 429);
+    const key = clip(f.key, 120);
+    const name = clip(f.name, 120);
+    if (!key || !name) return json({ ok: false, error: 'Which competitor?' }, 400);
+    const r = await checkRival(env, brand, key, name, clip(f.domain, 120));
+    if (!r.ok) return json({ ok: false, error: r.error }, 400);
+    return json({ ok: true, message: 'Checked.', go: `/admin/brands/${brand.slug}/competitors/` });
   }
 
   if (body.action === 'audit-run') {

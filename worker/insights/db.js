@@ -157,6 +157,21 @@ export const STEPS = [
     `CREATE INDEX IF NOT EXISTS audits_brand ON audits (brand_id, created_at)`,
     `ALTER TABLE reports ADD COLUMN audit_id INTEGER`,
   ],
+  // 6: competitors' sites (competitors.js): the last check of each one, with a phone screenshot.
+  [
+    `CREATE TABLE IF NOT EXISTS rivals (
+      brand_id INTEGER NOT NULL REFERENCES brands(id),
+      rkey TEXT NOT NULL,
+      name TEXT NOT NULL,
+      domain TEXT NOT NULL,
+      checks TEXT NOT NULL DEFAULT '{}',
+      type TEXT,
+      image BLOB,
+      tint TEXT,
+      checked_at TEXT NOT NULL,
+      PRIMARY KEY (brand_id, rkey)
+    )`,
+  ],
 ];
 
 export const SCHEMA_VERSION = STEPS.length;

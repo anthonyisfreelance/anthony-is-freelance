@@ -167,10 +167,10 @@ await test('scorer: schema is strict and lists only the brand\'s flags', () => {
 
 await test('scorer output: unknown flags and junk dropped, repeats merged', () => {
   const out = cleanModelOutput(JSON.stringify({
-    recommended: [{ name: ' Rival ', is_brand: false }, { name: '', is_brand: true }, { nope: 1 }],
+    recommended: [{ name: ' Rival ', is_brand: false, description: ' Big agency ', website: 'https://www.Rival.co.uk/about' }, { name: '', is_brand: true }, { nope: 1 }, { name: 'Odd', is_brand: false, website: 'javascript:alert(1)' }],
     flags: [{ key: 'price_steering', evidence: 'go cheaper' }, { key: 'price_steering', evidence: 'again' }, { key: 'invented', evidence: 'x' }],
   }), BRAND);
-  assert.deepEqual(out.recommended, [{ name: 'Rival', is_brand: false }]);
+  assert.deepEqual(out.recommended, [{ name: 'Rival', is_brand: false, description: 'Big agency', website: 'rival.co.uk' }, { name: 'Odd', is_brand: false, description: '', website: '' }]);
   assert.deepEqual(out.flags, [{ key: 'price_steering', evidence: 'go cheaper' }]);
   assert.throws(() => cleanModelOutput('not json', BRAND));
 });
@@ -468,6 +468,42 @@ await test('Google positions: bands, the 5-impression floor, climbs and drops', 
   assert.deepEqual(posChange(9.4, 6.1), { text: 'Down 3.3', dir: -1, cls: 'bad' });
 });
 
+await test('competitors: the field, head to head, where to get listed, descriptions', async () => {
+  const { competitorsOf, competitorsTab, blockedBots, schemaTypes } = await import('./competitors.js');
+  const brand = { name: 'Example Studio', match_names: ['Example Studio'], match_domains: ['example.com'], groups: { A: 'No modifier', B: 'Freelance' } };
+  const rec = (...xs) => JSON.stringify(xs.map(([name, is_brand = false, description = '', website = '']) => ({ name, is_brand, description, website })));
+  const cite = (...urls) => JSON.stringify(urls.map((url) => ({ url, title: `Title of ${url}` })));
+  const row = (grp, named, recommended, citations, prompt = 'best designer uk') => ({ status: 'done', s_status: 'done', grp, prompt_text: prompt, brand_named: named ? 1 : 0, brand_position: named ? 2 : null, recommended, citations });
+  const rows = [
+    row('A', false, rec(['Big Agency', false, 'Shopify Plus agency', 'bigagency.co.uk'], ['Other Co']), cite('https://lists.example/best/', 'https://bigagency.co.uk/', 'https://example.com/')),
+    row('A', false, rec(['Big Agency', false, 'Shopify Plus agency', 'bigagency.co.uk']), cite('https://lists.example/best/')),
+    row('B', true, rec(['Big Agency'], ['Example Studio', true, 'Freelance designer in Cornwall']), cite('https://lists.example/best/', 'https://blog.example/freelancers/')),
+    row('B', true, rec(['Example Studio', true, 'Freelance designer in Cornwall']), cite('https://blog.example/freelancers/')),
+    row('A', true, rec(['Example Studio', true]), cite(), 'who is Example Studio'),
+  ];
+  const c = competitorsOf(rows, brand);
+  assert.equal(c.n, 4);
+  assert.equal(c.rivals[0].name, 'Big Agency');
+  assert.equal(c.rivals[0].rate, 75);
+  assert.equal(c.rivals[0].site, 'bigagency.co.uk');
+  assert.deepEqual(c.rivals[0].descriptions, ['Shopify Plus agency']);
+  assert.deepEqual(c.me.descriptions, ['Freelance designer in Cornwall']);
+  assert.equal(c.rivals[0].groups.find((g) => g.key === 'A').rate, 100);
+  assert.equal(c.me.groups.find((g) => g.key === 'A').rate, 0);
+  assert.equal(c.listed[0].url, 'https://lists.example/best/');
+  assert.equal(c.listed[0].without, 2);
+  assert.equal(c.listed[0].with, 1);
+  assert.ok(!c.listed.some((p) => p.domain === 'bigagency.co.uk' || p.domain === 'example.com'));
+  const html = competitorsTab({ brand: { ...brand, slug: 'x' }, run: { started_at: '2026-11-27T10:00:00Z' }, rows: rows.map((r) => ({ ...r, citations: r.citations.replace('lists.example/best/', 'lists.example/best/?x=<b>') })) });
+  assert.match(html, /Where to get listed/);
+  assert.match(html, /Head to head/);
+  assert.ok(!html.includes('<b>'));
+  assert.deepEqual(blockedBots('User-agent: GPTBot\nDisallow: /\n\nUser-agent: *\nDisallow: /admin'), ['GPTBot']);
+  assert.deepEqual(blockedBots('User-agent: *\nDisallow: /'), ['GPTBot', 'OAI-SearchBot', 'ChatGPT-User', 'PerplexityBot', 'ClaudeBot', 'Google-Extended']);
+  assert.deepEqual(blockedBots(''), []);
+  assert.deepEqual(schemaTypes('<script type="application/ld+json">{"@graph":[{"@type":"Organization"},{"@type":["WebSite","Thing"]}]}</script>'), ['Organization', 'WebSite', 'Thing']);
+});
+
 await test('ISO weeks and UK time', () => {
   assert.equal(isoWeek('2026-11-27'), '2026-W48');
   assert.equal(isoWeek('2027-01-01'), '2026-W53');
@@ -748,6 +784,25 @@ if (BASE) {
     assert.match(sheet, /GA4 and search/);
     assert.equal((await fetch(`${BASE}/report/${token}/`, { headers: { 'cf-connecting-ip': ip() } })).status, 404);
     assert.ok(rep === null || rep.status >= 400);
+  });
+
+  await test('competitors: the tab loads, and a site check saves with a screenshot', async () => {
+    const tab = await get(`/admin/brands/${slug}/competitors/`).then((x) => x.text());
+    assert.match(tab, /The field|No finished runs yet/);
+    if (/The field/.test(tab)) {
+      const unesc = (v) => v?.replace(/&amp;/g, '&').replace(/&#39;/g, "'").replace(/&quot;/g, '"').replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+      const key = unesc(tab.match(/name="key" value="([^"]+)"/)?.[1]);
+      const name = unesc(tab.match(/name="name" value="([^"]+)"/)?.[1]);
+      if (key) {
+        const r = await post('/admin/action', { action: 'rival-check', token: slug, fields: { key, name, domain: 'https://www.rival.example/x' } }).then((x) => x.json());
+        assert.equal(r.ok, true, r.error);
+        const after = await get(`/admin/brands/${slug}/competitors/`).then((x) => x.text());
+        assert.match(after, /Checked /);
+        const src = after.match(/src="(\/admin\/brands\/[^"]+\/rival\/[^"]+)"/)?.[1].replace(/&amp;/g, '&');
+        assert.ok(src);
+        assert.equal((await get(src)).status, 200);
+      }
+    }
   });
 
   await test('samples: every page loads with the made-up brand and the comment tool', async () => {

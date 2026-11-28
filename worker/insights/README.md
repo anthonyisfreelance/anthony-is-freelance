@@ -91,6 +91,25 @@ lead event (empty for a shop), a UK-only switch, how many times each
   Code.gs, paste it into the Apps Script project and deploy a new version (Deploy > Manage
   deployments > edit > Version: New version > Deploy). The URL stays the same.
 
+## Competitors
+
+The Competitors tab (`competitors.js`) works from answers a run has already saved and scored, so
+it costs no extra API calls: tracking more competitors doesn't mean asking more questions.
+
+- **The field.** Every business named in answers to questions that don't name the brand, ranked by
+  the same visibility score as the AI visibility tab, with the change since the run before.
+- **Closest competitors.** Score, mention rate, average position, the question groups where each
+  is named more often than the brand, and how the answers describe them.
+- **Head to head.** Mention rate per question group for the brand and each competitor.
+- **Where to get listed.** Third-party pages cited in answers that recommend a competitor and
+  leave the brand out, most first. The brand's and the competitors' own sites are left out.
+- **How you're described.** The scorer (version 2) gives each recommended business a short
+  description in the answer's words, and its website when the answer names it. Older runs show
+  these after Re-score.
+- **Their sites.** By hand, per competitor: a phone screenshot of the homepage and three checks
+  (schema types on the homepage, an llms.txt file, and whether robots.txt shuts out GPTBot,
+  OAI-SearchBot, ChatGPT-User, PerplexityBot, ClaudeBot or Google-Extended). Kept in `rivals`.
+
 ## GA4 audit and Search Console (phase 3)
 
 - **Access.** The platform reads Google through its own read-only login: a service account
