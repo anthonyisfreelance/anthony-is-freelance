@@ -7,8 +7,8 @@ import { esc, fmtDate, fmtDateTime, masthead, eyebrow, legalFooter, shell, topBa
 import { RATINGS, THRESHOLDS, numberLabels } from './audit.js';
 
 const isShared = (r) => r.status !== 'draft' && !r.withdrawn_at;
-const num = (n) => Math.round(Number(n) || 0).toLocaleString('en-GB');
-const money = (n, cur = 'GBP') => {
+export const num = (n) => Math.round(Number(n) || 0).toLocaleString('en-GB');
+export const money = (n, cur = 'GBP') => {
   try {
     return new Intl.NumberFormat('en-GB', { style: 'currency', currency: cur, maximumFractionDigits: 0 }).format(Number(n) || 0);
   } catch {
@@ -70,7 +70,7 @@ const ARROWS = {
   1: '<svg class="arr" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 9.5 9.5 2.5M4 2.5h5.5V8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"/></svg>',
   '-1': '<svg class="arr" viewBox="0 0 12 12" aria-hidden="true"><path d="M2.5 2.5 9.5 9.5M9.5 4v5.5H4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="square"/></svg>',
 };
-const arrow = (c) => (c && c.dir ? ARROWS[c.dir] : '');
+export const arrow = (c) => (c && c.dir ? ARROWS[c.dir] : '');
 
 // A change in words, with which way it moved and whether that's good: { text, dir, cls }, or null
 // without a comparison.

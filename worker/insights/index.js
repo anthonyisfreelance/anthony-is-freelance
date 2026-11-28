@@ -45,6 +45,7 @@ import { periodFrom, runAudit, saveAudit, listAudits, getAudit, latestAudit, tra
 import { googleReady, serviceEmail, GoogleError } from './google.js';
 import { ga4Tab } from './ga4view.js';
 import { competitorsTab, checkRival, rivalSites, rivalImage } from './competitors.js';
+import { overviewTab } from './overview.js';
 
 const CODE_MINUTES = 10;
 const ADMIN_DAYS = 14;
@@ -365,6 +366,13 @@ async function brandPages(env, url, brand, rest) {
     const prev = run ? done[done.indexOf(run) + 1] || null : null;
     const [rows, prevRows, sites] = run ? await Promise.all([competitorRows(env, run.id), prev ? competitorRows(env, prev.id) : null, rivalSites(env, brand.id)]) : [[], null, new Map()];
     return html(brandShell({ base, brand, active: tab, content: competitorsTab({ brand, run, rows, prevRows, sites, runLink: run ? `/admin/brands/${brand.slug}/${run.id === trend[0]?.id ? '' : `?run=${run.id}`}` : null }) }));
+  }
+  if (tab === 'overview' && rest.length === 1) {
+    const { results: trend } = await db(env).prepare(TREND_SQL).bind(brand.id).all();
+    const done = trend.filter((r) => r.status === 'complete' && r.n);
+    const [run, prev] = done;
+    const [rows, prevRows, audit] = await Promise.all([run ? competitorRows(env, run.id) : [], prev ? competitorRows(env, prev.id) : null, latestAudit(env, brand.id)]);
+    return html(brandShell({ base, brand, active: tab, content: overviewTab({ brand, run: run || null, rows, prevRows, audit }) }));
   }
   if (tab === 'rival' && rest.length === 2) {
     const img = await rivalImage(env, brand.id, decodeURIComponent(rest[1]).slice(0, 120));

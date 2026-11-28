@@ -377,6 +377,8 @@ export function positionsOf(nowRows, beforeRows) {
     top,
     up: both.filter((r) => r.change > 0).sort((a, b) => b.change - a.change).slice(0, 5),
     down: both.filter((r) => r.change < 0).sort((a, b) => a.change - b.change).slice(0, 5),
+    // Page two, most seen first: the searches closest to page one.
+    nearly: counted(now).filter((r) => r.position >= 10.5 && r.position < 20.5).sort((a, b) => b.impressions - a.impressions || a.position - b.position).slice(0, 5),
     capped: now.length >= POSITION_ROWS,
   };
 }

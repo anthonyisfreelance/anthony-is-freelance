@@ -15,6 +15,7 @@ import { visibilityContent, answerBody } from './dashboard.js';
 import { brandsPage, brandSettings, brandShell, scheduleTab, insightsShell } from './pages.js';
 import { runAudit, periodFrom, trafficOf } from './audit.js';
 import { ga4Tab } from './ga4view.js';
+import { overviewTab } from './overview.js';
 import { competitorsTab } from './competitors.js';
 import { insightsCodeEmail, insightsLoginNotice } from './emails.js';
 import { placeholderSvg } from './screen.js';
@@ -149,6 +150,7 @@ function sampleData() {
 
 const PAGES = [
   ['ai-brands', 'Brands list', 'The first page after logging in.'],
+  ['ai-overview', 'Overview tab', 'How people find the brand: ChatGPT, Google positions, visits and leads in one page, with what to do next.'],
   ['ai-visibility', 'AI visibility tab', 'A finished run: headline numbers, the A against B gap, trend, groups, who is named instead, cited pages, flags and every answer.'],
   ['ai-running', 'A run in progress', 'The progress bar while a run is being asked.'],
   ['ai-answer', 'One answer in full', 'The scoring, the full text with the brand marked, and its cited links.'],
@@ -218,7 +220,7 @@ export async function samples(request, env, url, parts, ctx) {
   const shellOf = (active, content) => withFeedback(brandShell({ base, brand, active, content, sample: true, href: tabHref, settingsHref: `${P}ai-settings/` }));
 
   if (slug === 'ai-brands') {
-    return html(withFeedback(brandsPage({ base, sample: true, brands: [{ ...brand, prompt_count: promptCount, last_run: latest.run.started_at, href: `${P}ai-visibility/`, settingsHref: `${P}ai-settings/` }] })));
+    return html(withFeedback(brandsPage({ base, sample: true, brands: [{ ...brand, prompt_count: promptCount, last_run: latest.run.started_at, href: `${P}ai-overview/`, settingsHref: `${P}ai-settings/` }] })));
   }
   if (slug === 'ai-visibility') {
     const pick = Number(url.searchParams.get('run')) || latest.run.id;
@@ -249,6 +251,11 @@ export async function samples(request, env, url, parts, ctx) {
     const prev = runs[runs.length - 2];
     const sites = new Map();
     return html(shellOf('competitors', competitorsTab({ brand, run: latest.run, rows: latest.rows, prevRows: prev?.rows || null, sites, sample: true, runLink: `${P}ai-visibility/` })));
+  }
+  if (slug === 'ai-overview') {
+    const prev = runs[runs.length - 2];
+    const hrefs = { ai: `${P}ai-visibility/`, competitors: `${P}ai-competitors/`, listed: `${P}ai-competitors/#listed`, ga4: `${P}ai-ga4/`, check: `${P}ai-ga4/#check` };
+    return html(shellOf('overview', overviewTab({ brand, run: latest.run, rows: latest.rows, prevRows: prev?.rows || null, audit: await sampleAudit(), today: '2026-11-03', hrefs })));
   }
   if (slug === 'ai-ga4') {
     const a = await sampleAudit();

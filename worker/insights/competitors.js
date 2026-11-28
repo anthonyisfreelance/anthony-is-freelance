@@ -117,7 +117,7 @@ export function competitorsOf(rows, brand, prevRows = null) {
     .slice(0, 15)
     .map((p) => ({ url: p.url, title: p.title, domain: p.domain, without: p.without, with: p.with, names: top(p.names, 3) }));
 
-  return { n: board.n, run: null, me, rivals, groups: byGroup.map((g) => ({ key: g.key, label: g.label, n: g.board.n })), listed, described: rivals.some((r) => r.descriptions.length) || me.descriptions.length > 0 };
+  return { n: board.n, run: null, me, rivals, place: board.scoreRank, field: board.ranked.length, prevPlace: prevBoard?.scoreRank ?? null, groups: byGroup.map((g) => ({ key: g.key, label: g.label, n: g.board.n })), listed, described: rivals.some((r) => r.descriptions.length) || me.descriptions.length > 0 };
 }
 
 /* ---------- Site checks ---------- */

@@ -510,6 +510,57 @@ await test('competitors: the field, head to head, where to get listed, descripti
   assert.deepEqual(schemaTypes('<script type="application/ld+json">{"@graph":[{"@type":"Organization"},{"@type":["WebSite","Thing"]}]}</script>'), ['Organization', 'WebSite', 'Thing']);
 });
 
+await test('overview: headline, cards and next steps from saved data, and it copes with gaps', async () => {
+  const { overviewOf, overviewHeadline, overviewActions, overviewTab } = await import('./overview.js');
+  const brand = { name: 'Example Studio', slug: 'x', match_names: ['Example Studio'], match_domains: ['example.com'], groups: { A: 'No modifier', B: 'Freelance' } };
+  const rec = (...names) => JSON.stringify(names.map((n) => ({ name: n, is_brand: n === 'Example Studio', description: '', website: '' })));
+  const row = (named, names, cites = '[]') => ({ status: 'done', s_status: 'done', grp: 'A', prompt_text: 'best designer uk', brand_named: named ? 1 : 0, brand_position: named ? names.indexOf('Example Studio') + 1 : null, recommended: rec(...names), citations: cites });
+  const listCite = JSON.stringify([{ url: 'https://lists.example/best/', title: 'Best <b>' }]);
+  const rows = [row(false, ['Big Agency'], listCite), row(false, ['Big Agency', 'Other Co'], listCite), row(true, ['Big Agency', 'Example Studio']), row(true, ['Example Studio'])];
+  const prevRows = [row(false, ['Big Agency']), row(false, ['Big Agency']), row(false, ['Big Agency']), row(true, ['Example Studio'])];
+  const bands = (n) => [['top3', n[0]], ['page1', n[1]], ['page2', n[2]], ['near', n[3]], ['far', n[4]]].map(([key, v], i) => ({ key, label: key, now: v, before: [29, 164, 176, 218, 152][i] }));
+  const audit = {
+    created_at: '2026-11-27T10:00:00Z',
+    data: {
+      period: { start: '2026-08-29', end: '2026-11-26', days: 90 }, compare: { kind: 'previous', start: '2026-05-31', end: '2026-08-28' }, goal: { shop: false }, currency: 'GBP',
+      totals: { now: { sessions: 2206, conv: 66 }, before: { sessions: 3091, conv: 78 } },
+      sources: [{ name: 'Google search', sessions: 900, conv: 30, revenue: 0, before: { sessions: 1200, conv: 40, revenue: 0 } }],
+      ai: { list: [], now: { sessions: 95, conv: 6, revenue: 0 }, before: { sessions: 60, conv: 3, revenue: 0 } },
+      check: { rating: 'care', checks: [{ level: 'care', title: 'Bot traffic', value: 'Botsville <i>' }], also: [], landing: { share: 0, level: 'ok' }, safe: [], unsafe: [] },
+      search: { uk: { now: { clicks: 400, impressions: 12400, position: 18 }, before: { clicks: 500, impressions: 15000, position: 15 } }, positions: { bands: bands([24, 80, 116, 207, 96]), total: { now: 523, before: 739 }, average: { now: 20, before: 18 }, top: [], up: [], down: [{ query: 'shopify website design', before: 8.2, now: 48.2, change: -40 }], nearly: [{ query: 'hire shopify designer', position: 12.7, impressions: 300, clicks: 2 }] } },
+    },
+  };
+  const o = overviewOf({ brand, run: { started_at: '2026-11-23T06:00:00Z' }, rows, prevRows, audit, today: '2026-11-28' });
+  assert.equal(o.ai.me.rate, 50);
+  assert.equal(o.ai.place, 2);
+  assert.equal(o.ai.prevPlace, 2);
+  assert.deepEqual(o.pageOne, { now: 104, before: 193, top3: 24 });
+  const h = overviewHeadline(o);
+  assert.match(h, /names you in 50% of answers, 2nd of 3 businesses, behind Big Agency on 75%/);
+  assert.match(h, /page one for 104 UK searches, down from 193/);
+  assert.match(h, /brought in 36 of your 66 leads/);
+  const acts = overviewActions(o, { ai: '/a/', competitors: '/c/', listed: '/c/#listed', ga4: '/g/', check: '/g/#check' });
+  assert.equal(acts.length, 4);
+  assert.match(acts[0].title, /Check the data/);
+  assert.ok(!acts[0].why.includes('<i>'));
+  assert.match(acts[1].title, /shopify website design/);
+  assert.match(acts[2].title, /lists\.example/);
+  const html = overviewTab({ brand, run: { started_at: '2026-11-23T06:00:00Z' }, rows, prevRows, audit, today: '2026-11-28' });
+  assert.match(html, /How people find you/);
+  assert.match(html, /Got in touch/);
+  assert.match(html, /href="\/admin\/brands\/x\/ga4\/#check"/);
+  assert.ok(!html.includes('Best <b>') && !html.includes('<i>'));
+  // Nothing saved yet: no errors, and it says what to run.
+  const empty = overviewTab({ brand, today: '2026-11-28' });
+  assert.match(empty, /Run AI visibility/);
+  assert.match(empty, /Run a GA4 audit/);
+  // An old audit with no Search Console.
+  const old = { created_at: '2026-08-01T10:00:00Z', data: { ...audit.data, search: null, check: { ...audit.data.check, rating: 'clean' } } };
+  const o2 = overviewOf({ brand, audit: old, today: '2026-11-28' });
+  assert.equal(o2.pageOne, null);
+  assert.match(overviewActions(o2, {}).map((a) => a.title).join('|'), /Run a fresh GA4 audit/);
+});
+
 await test('GA4 what changed: the parts add up to the whole', async () => {
   const { changeParts } = await import('./ga4view.js');
   const leads = changeParts({ compare: { kind: 'previous' }, goal: { shop: false }, totals: { now: { sessions: 2206, conv: 66 }, before: { sessions: 3091, conv: 78 } } });
@@ -820,6 +871,16 @@ if (BASE) {
         assert.equal((await get(src)).status, 200);
       }
     }
+  });
+
+  await test('overview: the first tab loads for a brand', async () => {
+    const r = await get(`/admin/brands/${slug}/overview/`);
+    assert.equal(r.status, 200);
+    const t = await r.text();
+    assert.match(t, /How people find you/);
+    assert.match(t, /aria-current="page">Overview/);
+    const list = await get('/admin/').then((x) => x.text());
+    assert.match(list, new RegExp(`/admin/brands/${slug}/overview/`));
   });
 
   await test('samples: every page loads with the made-up brand and the comment tool', async () => {
