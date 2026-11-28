@@ -218,6 +218,15 @@ isolate has some flexibility on CPU but doesn't say how much; if the logs show r
 limit errors, the fix is Workers Paid (about $5 a month), and that is Anthony's call. Prompt lists
 are capped at 45 prompts so saving one stays within the query limit.
 
+**Google AI Mode.** A second engine through DataForSEO's AI Mode API (live mode, United Kingdom,
+desktop, English). It switches on when two secrets are set on the worker, `DATAFORSEO_LOGIN` and
+`DATAFORSEO_PASSWORD` (the API login and password from the DataForSEO dashboard, under API Access).
+Every run then starts a Google run alongside the ChatGPT one, with the same prompts and number of
+asks, scored the same way. The Google answers are worked through by the cron in the background. The
+AI visibility tab gets a ChatGPT | Google AI Mode switch; the Overview, Competitors and reports stay
+on ChatGPT for now. Each answer costs $0.004 at DataForSEO (checked 28 Nov 2026), so 90 answers is
+about 36 cents. Locally, `INSIGHTS_FAKE_GOOGLE_AI=1` turns on canned Google answers.
+
 **Cost.** Every answer is one OpenAI call with web search ($10 per 1,000 searches, and the search
 results count as input tokens at the model's rate) plus one small scoring call. The method note on
 each run shows its searches and tokens, so the real cost per run can be read off the first one.
