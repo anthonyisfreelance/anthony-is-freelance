@@ -270,7 +270,7 @@ export function ga4Requests(brand, p) {
   ];
   const second = [
     { dateRanges: nowOnly, dimensions: d('city'), metrics: m('sessions', 'engagedSessions'), dimensionFilter: and(uk), orderBys: bySessions, limit: 25 },
-    { dateRanges: nowOnly, dimensions: d('date'), metrics: m('sessions', 'engagedSessions', conv), dimensionFilter: and(uk), orderBys: [{ dimension: { dimensionName: 'date' } }], limit: MAX_DAYS + 5 },
+    { dateRanges: nowOnly, dimensions: d('date'), metrics: m('sessions', 'engagedSessions', conv, goal.shop ? 'purchaseRevenue' : null), dimensionFilter: and(uk), orderBys: [{ dimension: { dimensionName: 'date' } }], limit: MAX_DAYS + 5 },
     { dateRanges: nowOnly, dimensions: d('landingPage'), metrics: m('sessions'), dimensionFilter: and(uk, str('landingPage', '(not set)')) },
     goal.shop
       ? { dateRanges: nowOnly, dimensions: d('transactionId'), metrics: m('eventCount'), dimensionFilter: and(uk, str('eventName', 'purchase')), metricFilter: { filter: { fieldName: 'eventCount', numericFilter: { operation: 'GREATER_THAN', value: { int64Value: '1' } } } }, limit: 1000 }
@@ -282,7 +282,11 @@ export function ga4Requests(brand, p) {
   // Leave out the reports that don't apply, remembering where each one sits.
   const slots = second.map((r, i) => (r ? i : -1)).filter((i) => i >= 0);
   // Where the leads (or orders) came from: every source and medium in the period, grouped in code.
-  const third = [{ dateRanges: nowOnly, dimensions: d('sessionSource', 'sessionMedium'), metrics: m('sessions', conv, goal.shop ? 'purchaseRevenue' : null), dimensionFilter: and(uk), orderBys: bySessions, limit: 250 }];
+  // Sources in both periods (for what changed), and the comparison period's days (for the trend).
+  const third = [
+    { dateRanges: ranges, dimensions: d('sessionSource', 'sessionMedium'), metrics: m('sessions', conv, goal.shop ? 'purchaseRevenue' : null), dimensionFilter: and(uk), orderBys: bySessions, limit: 250 },
+    ...(p.compare ? [{ dateRanges: [ranges[1]], dimensions: d('date'), metrics: m('sessions', conv, goal.shop ? 'purchaseRevenue' : null), dimensionFilter: and(uk), orderBys: [{ dimension: { dimensionName: 'date' } }], limit: MAX_DAYS + 5 }] : []),
+  ];
   return { first, second: second.filter(Boolean), slots, third, goal, domain };
 }
 
@@ -441,16 +445,42 @@ export async function runAudit(env, brand, p) {
   const landing = (landingRows || []).map((r) => ({ page: r.landingPage, sessions: r.sessions, conv: r[conv] || 0 }));
 
   // Where the leads (or orders) came from, by plain source name, most first.
+  // Each source keeps its numbers for the comparison period too, in `before`.
   const bySource = new Map();
   for (const r of c[0] || []) {
     const k = sourceLabel(r.sessionSource, r.sessionMedium);
-    const e = bySource.get(k) || { name: k, sessions: 0, conv: 0, revenue: 0 };
-    e.sessions += r.sessions;
-    e.conv += r[conv] || 0;
-    e.revenue = round2(e.revenue + (r.purchaseRevenue || 0));
+    const e = bySource.get(k) || { name: k, sessions: 0, conv: 0, revenue: 0, before: p.compare ? { sessions: 0, conv: 0, revenue: 0 } : null };
+    const t = r.range === 'before' ? e.before : e;
+    if (t) {
+      t.sessions += r.sessions;
+      t.conv += r[conv] || 0;
+      t.revenue = round2(t.revenue + (r.purchaseRevenue || 0));
+    }
     bySource.set(k, e);
   }
   const sources = [...bySource.values()].sort((x, y) => y.conv - x.conv || y.sessions - x.sessions).slice(0, 12);
+  // The biggest movers in leads (or orders), for what changed: any source, even outside the top 12.
+  const movers = p.compare
+    ? [...bySource.values()].map((e) => ({ name: e.name, change: e.conv - e.before.conv, revenue: round2(e.revenue - e.before.revenue) })).filter((e) => e.change !== 0).sort((x, y) => Math.abs(y.change) - Math.abs(x.change) || x.name.localeCompare(y.name)).slice(0, 6)
+    : [];
+
+  // Week by week, from the first day of each period.
+  const weekly = (rows, start) => {
+    const out = [];
+    const t0 = Date.parse(`${start}T00:00:00Z`);
+    for (const r of rows || []) {
+      const d = String(r.date || '');
+      const at = Date.parse(`${d.slice(0, 4)}-${d.slice(4, 6)}-${d.slice(6, 8)}T00:00:00Z`);
+      const w = Math.floor((at - t0) / (7 * 864e5));
+      if (!(w >= 0)) continue;
+      out[w] = out[w] || { sessions: 0, conv: 0, revenue: 0 };
+      out[w].sessions += r.sessions;
+      out[w].conv += r[conv] || 0;
+      out[w].revenue = round2(out[w].revenue + (r.purchaseRevenue || 0));
+    }
+    return Array.from({ length: out.length }, (_, i) => out[i] || { sessions: 0, conv: 0, revenue: 0 });
+  };
+  const trend = { now: weekly(dailyRows, p.start), before: p.compare ? weekly(c[1], p.compare.start) : null };
 
   const ai = byRange(aiRows || []);
   const fam = new Map();
@@ -497,6 +527,8 @@ export async function runAudit(env, brand, p) {
     devices,
     landing,
     sources,
+    movers,
+    trend,
     ai: { list: aiList, now: aiTotal('now'), before: p.compare ? aiTotal('before') : null, notSetMedium },
     check,
     search,

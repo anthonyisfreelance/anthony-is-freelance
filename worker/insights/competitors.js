@@ -326,7 +326,7 @@ export function competitorsTab({ brand, run, rows, prevRows = null, sites = new 
   const c = competitorsOf(rows, brand, prevRows);
   if (!c.n) return '<p class="empty">This run has no scored answers yet.</p>';
   const bar = `<div class="run-bar"><div class="grow">Competitors in the run of ${esc(fmtDate(run.started_at, 'long'))}<span>${c.n} answers to questions that don't name you. ${prevRows ? 'Changes are against the run before.' : 'Changes show from the second run.'}</span></div>
-    <a class="ghost small" href="#listed">Where to get listed</a>${runLink ? `<a class="ghost small" href="${esc(runLink)}">See the answers</a>` : ''}</div>`;
+    <a class="ghost small" href="${sample ? '/admin/samples/ai-competitors/' : `/admin/brands/${esc(brand.slug)}/competitors/`}#listed">Where to get listed</a>${runLink ? `<a class="ghost small" href="${esc(runLink)}">See the answers</a>` : ''}</div>`;
   return [
     bar,
     fieldPanel(c),

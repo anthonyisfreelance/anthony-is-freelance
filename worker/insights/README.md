@@ -121,8 +121,9 @@ it costs no extra API calls: tracking more competitors doesn't mean asking more 
   their side.
 - **An audit** (`audit.js`) is one period and, usually, a comparison (the period before or the
   same period last year; "Since launch" compares with last year and uses the standard line). It
-  asks GA4 for ten small reports in two batch calls and Search Console for four: seven calls in
-  all. It keeps totals and top-ten lists only, in `audits.data`, never visitor-level data.
+  asks GA4 for up to twelve small reports in three batch calls and Search Console for up to eleven,
+  well inside the Workers limit of 50 calls. It keeps totals, weekly sums and short lists only, in
+  `audits.data`, never visitor-level data.
 - **Step 1, the data check** (`dataCheck`, thresholds in `THRESHOLDS`):
   - Bot traffic: a source or city with over 10% of sessions and engagement under 5% or under a
     third of the rest of the site, or days at over 4x a normal day with half the engagement. One
@@ -150,8 +151,14 @@ it costs no extra API calls: tracking more competitors doesn't mean asking more 
   conversion rate, visits and leads from AI for a lead site. Each card says the change in words
   ("12 fewer than the 78 before" under 100, a percentage above) and what the number means. Then
   where the leads or orders came from (by plain source name, with each source's rate), and "Being
-  found": Google search in the UK, with the brand's own name, and AI assistants. The detail
-  follows.
+  found": Google search in the UK, with the brand's own name, and AI assistants.
+- **What changed.** The change in the main number split by source (Google, AI, direct, email and
+  so on), biggest movers first, so a drop has a cause next to it. Sources under 20 visits show no
+  rate, as a rate on so few visits means little.
+- **Week by week.** Visits, and revenue or leads, per whole week, with the same weeks of the
+  comparison period in grey behind. Part weeks at either end are left out.
+- **Show the detail.** The data check, AI assistants, Google search, devices and landing pages sit
+  in a drop-down below. A link to `#check` (the data check badge) opens it.
 - **Google positions, UK.** Every UK search the site showed up for at least 5 times (read in one
   call per period, up to 2,000 searches), counted into bands: top 3, 4 to 10, 11 to 20, 21 to 50,
   51 and lower, against the comparison period. Also the top searches with their position change,

@@ -195,7 +195,8 @@ export function fakeGoogle(url, body) {
       const days = Math.max(1, Math.round((end - start) / 864e5) + 1);
       rows = Array.from({ length: days }, (_, i) => {
         const d = new Date(start + i * 864e5).toISOString().slice(0, 10).replace(/-/g, '');
-        return row([d], { sessions: 130 + (i % 7) * 4, engagedSessions: 78, transactions: 3 + (i % 3), eventCount: 1 });
+        const before = ranges[0].startDate < '2026-01-01';
+        return row([d], { sessions: Math.round((130 + (i % 7) * 4 + i * 0.6) * (before ? 0.85 : 1)), engagedSessions: 78, transactions: 3 + (i % 3) - (before && i % 4 === 0 ? 1 : 0), purchaseRevenue: Math.round((250 + (i % 5) * 20 + i * 0.8) * (before ? 0.8 : 1)), eventCount: 1 });
       });
     } else if (first === 'transactionId') rows = [row(['T-1001'], { eventCount: 2 })];
     else if (first === 'sessionCampaignName') rows = [row(['(organic)'], { eventCount: 9 }), row(['footer_banner'], { eventCount: 40 })];

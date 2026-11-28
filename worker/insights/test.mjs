@@ -409,6 +409,11 @@ await test('audit end to end with the fake Google: numbers, check, Search Consol
   assert.equal(x.search.positions.bands.reduce((n, b) => n + b.now, 0), 40);
   assert.ok(x.search.positions.up.length && x.search.positions.down.length);
   assert.equal(x.search.positions.top.length, 10);
+  assert.ok(x.trend.now.length >= 12 && x.trend.before.length >= 12);
+  assert.ok(x.sources[0].before && x.movers.length);
+  const sheet = ga4ReportPage({ base: 'https://x', report: { id: 1, token: 't', title: 'T', status: 'draft', data: x }, brand });
+  assert.match(sheet, /What changed/);
+  assert.match(sheet, /Week by week/);
   assert.equal(x.search.queries.length, 4);
   x.landing[0].page = '/<script>alert(1)</script>';
   const page = ga4ReportPage({ base: 'https://x', report: { id: 1, token: 't', title: 'T', status: 'draft', data: x }, brand });
@@ -419,6 +424,7 @@ await test('audit end to end with the fake Google: numbers, check, Search Consol
   assert.match(page, /Being found/);
   const tab = ga4Tab({ brand, audits: [], audit: { id: 1, data: x, created_at: '2026-11-27T10:00:00Z' }, ready: true, email: 'e@x' });
   assert.match(tab, /Showing the audit of/);
+  assert.match(tab, /<details class="ga-more" id="detail">/);
   assert.match(tab, /id="new-audit" hidden/);
   assert.ok(tab.indexOf('Showing the audit of') < tab.indexOf('Data check: clean'));
   assert.match(tab, /class="arr"/);
@@ -502,6 +508,17 @@ await test('competitors: the field, head to head, where to get listed, descripti
   assert.deepEqual(blockedBots('User-agent: *\nDisallow: /'), ['GPTBot', 'OAI-SearchBot', 'ChatGPT-User', 'PerplexityBot', 'ClaudeBot', 'Google-Extended']);
   assert.deepEqual(blockedBots(''), []);
   assert.deepEqual(schemaTypes('<script type="application/ld+json">{"@graph":[{"@type":"Organization"},{"@type":["WebSite","Thing"]}]}</script>'), ['Organization', 'WebSite', 'Thing']);
+});
+
+await test('GA4 what changed: the parts add up to the whole', async () => {
+  const { changeParts } = await import('./ga4view.js');
+  const leads = changeParts({ compare: { kind: 'previous' }, goal: { shop: false }, totals: { now: { sessions: 2206, conv: 66 }, before: { sessions: 3091, conv: 78 } } });
+  assert.equal(leads.total, -12);
+  assert.ok(Math.abs(leads.parts.reduce((n, p) => n + p.value, 0) - leads.total) < 1e-9);
+  assert.ok(leads.parts[0].value < 0 && leads.parts[1].value > 0);
+  const shop = changeParts({ compare: { kind: 'year' }, goal: { shop: true }, totals: { now: { sessions: 12400, conv: 312, revenue: 24890.5 }, before: { sessions: 10540, conv: 265, revenue: 21157 } } });
+  assert.ok(Math.abs(shop.parts.reduce((n, p) => n + p.value, 0) - shop.total) < 1e-6);
+  assert.equal(changeParts({ compare: null, goal: { shop: false }, totals: { now: { sessions: 1, conv: 0 }, before: null } }), null);
 });
 
 await test('ISO weeks and UK time', () => {

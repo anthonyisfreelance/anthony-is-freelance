@@ -256,6 +256,117 @@ function positionsBlock(x, report) {
   </section>`;
 }
 
+/* ---------- What changed ---------- */
+
+export const MIN_RATE_VISITS = 20;
+
+// The change in leads (or revenue) split into its causes, so the parts add up to the whole:
+// leads = visits x rate; revenue = visits x rate x average order. Each part is the change in one
+// factor with the factors before it already moved (visits first, then rate, then order size).
+export function changeParts(x) {
+  const t = x.totals;
+  if (!x.compare || !t.before || !t.before.sessions) return null;
+  const S0 = t.before.sessions;
+  const S1 = t.now.sessions;
+  const C0 = t.before.conv;
+  const C1 = t.now.conv;
+  const cr0 = C0 / S0;
+  const cr1 = S1 ? C1 / S1 : 0;
+  if (x.goal.shop) {
+    const R0 = t.before.revenue;
+    const R1 = t.now.revenue;
+    const aov0 = C0 ? R0 / C0 : 0;
+    const aov1 = C1 ? R1 / C1 : aov0;
+    return {
+      kind: 'revenue',
+      total: R1 - R0,
+      parts: [
+        { key: 'visits', value: (S1 - S0) * cr0 * aov0 },
+        { key: 'rate', value: S1 * (cr1 - cr0) * aov0 },
+        { key: 'order', value: S1 * cr1 * (aov1 - aov0) },
+      ],
+    };
+  }
+  return { kind: 'leads', total: C1 - C0, parts: [{ key: 'visits', value: (S1 - S0) * cr0 }, { key: 'rate', value: S1 * (cr1 - cr0) }] };
+}
+
+function changedBlock(x) {
+  const c = changeParts(x);
+  if (!c) return '';
+  const shop = c.kind === 'revenue';
+  const fmt = (v) => (shop ? money(Math.abs(v), x.currency) : `${Math.round(Math.abs(v))}`);
+  const label = {
+    visits: (v) => (v >= 0 ? 'More visits' : 'Fewer visits'),
+    rate: (v) => (v >= 0 ? 'A better conversion rate' : 'A lower conversion rate'),
+    order: (v) => (v >= 0 ? 'Bigger orders' : 'Smaller orders'),
+  };
+  const noun = shop ? '' : ' leads';
+  const max = Math.max(1, ...c.parts.map((p) => Math.abs(p.value)));
+  const rows = c.parts
+    .filter((p) => (shop ? Math.abs(p.value) >= 1 : Math.abs(p.value) >= 0.5))
+    .map((p) => {
+      const w = Math.round((Math.abs(p.value) / max) * 100);
+      const pos = p.value >= 0;
+      return `<li><span class="nm">${esc(label[p.key](p.value))}</span><span class="div"><span class="neg">${pos ? '' : `<span style="width:${w}%"></span>`}</span><span class="pos">${pos ? `<span style="width:${w}%"></span>` : ''}</span></span><span class="vl ${pos ? 'good' : 'bad'}">${pos ? '+' : '−'}${fmt(p.value)}${noun}</span></li>`;
+    })
+    .join('');
+  const total = shop ? `Revenue ${c.total >= 0 ? 'up' : 'down'} ${money(Math.abs(c.total), x.currency)}` : c.total === 0 ? 'Leads held steady' : `${Math.abs(c.total)} ${c.total > 0 ? 'more' : 'fewer'} leads`;
+  const movers = (x.movers || [])
+    .slice(0, 5)
+    .map((m) => `<li><span class="nm">${esc(m.name)}</span><span class="vl ${m.change > 0 ? 'good' : 'bad'}">${m.change > 0 ? '+' : '−'}${Math.abs(m.change)} ${Math.abs(m.change) === 1 ? (shop ? 'order' : 'lead') : shop ? 'orders' : 'leads'}</span></li>`)
+    .join('');
+  return `<section class="sec full ga-changed"><h2>What changed</h2>
+    <div class="changed-2">
+      <div><p class="ch-total">${esc(total)} ${esc(since(x))}. Where that came from:</p><ul class="parts">${rows}</ul>
+      <p class="sec-note">${shop ? 'Revenue is visits × conversion rate × average order, so each part is what one of them moved on its own.' : 'Leads are visits × conversion rate, so each part is what one of them moved on its own.'} The parts are rounded, so may not add up exactly.</p></div>
+      ${movers ? `<div><p class="ch-total">By source</p><ul class="movers-src">${movers}</ul><p class="sec-note">The sources whose ${shop ? 'orders' : 'leads'} changed most.</p></div>` : ''}
+    </div></section>`;
+}
+
+/* ---------- Trend, week by week ---------- */
+
+// A small line chart: this period in blue, the comparison period behind it in grey.
+function lineChart(now, before, { title, fmt }) {
+  const W = 560;
+  const H = 180;
+  const pad = { l: 8, r: 8, t: 16, b: 28 };
+  const n = Math.max(now.length, before?.length || 0);
+  if (n < 2) return '';
+  const max = Math.max(1, ...now, ...(before || []));
+  const xAt = (i) => pad.l + (i * (W - pad.l - pad.r)) / (n - 1);
+  const yAt = (v) => pad.t + (H - pad.t - pad.b) * (1 - v / max);
+  const path = (list) => list.map((v, i) => `${i ? 'L' : 'M'}${xAt(i).toFixed(1)} ${yAt(v).toFixed(1)}`).join(' ');
+  const last = now.length - 1;
+  const ticks = [0, Math.floor((n - 1) / 2), n - 1].filter((v, i, a) => a.indexOf(v) === i);
+  return `<figure class="tchart"><figcaption><span>${esc(title)}</span><b>${esc(fmt(now[last] ?? 0))}</b><small>last week</small></figcaption>
+    <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="${esc(title)}, week by week">
+      <line x1="${pad.l}" x2="${W - pad.r}" y1="${H - pad.b}" y2="${H - pad.b}" class="ax"/>
+      ${before ? `<path d="${path(before)}" class="was"/>` : ''}
+      <path d="${path(now)}" class="now"/>
+      <circle cx="${xAt(last).toFixed(1)}" cy="${yAt(now[last] ?? 0).toFixed(1)}" r="4" class="dot"/>
+      ${ticks.map((i) => `<text x="${xAt(i).toFixed(1)}" y="${H - 8}" text-anchor="${i === 0 ? 'start' : i === n - 1 ? 'end' : 'middle'}">Week ${i + 1}</text>`).join('')}
+    </svg></figure>`;
+}
+
+function trendBlock(x) {
+  const t = x.trend;
+  if (!t?.now?.length) return '';
+  // Only whole weeks: a part week at the end would read as a drop.
+  const weeks = Math.floor((x.period.days || 0) / 7);
+  if (weeks < 2) return '';
+  const cut = (list) => (list ? list.slice(0, weeks) : null);
+  const now = cut(t.now);
+  const before = cut(t.before);
+  const shop = x.goal.shop;
+  const visits = lineChart(now.map((w) => w.sessions), before?.map((w) => w.sessions), { title: 'Visits per week', fmt: num });
+  const second = shop
+    ? lineChart(now.map((w) => w.revenue), before?.map((w) => w.revenue), { title: 'Revenue per week', fmt: (v) => money(v, x.currency) })
+    : lineChart(now.map((w) => w.conv), before?.map((w) => w.conv), { title: 'Leads per week', fmt: num });
+  return `<section class="sec full ga-trend"><h2>Week by week</h2>
+    <p class="sec-note">This period in blue${before ? `, ${x.compare.kind === 'year' ? 'the same weeks last year' : 'the period before'} in grey behind it` : ''}. Whole weeks only.</p>
+    <div class="tcharts">${visits}${second}</div></section>`;
+}
+
 /* ---------- Where the leads came from, and being found ---------- */
 
 function sourcesBlock(x) {
@@ -268,15 +379,17 @@ function sourcesBlock(x) {
   const rest = total - top.reduce((n, e) => n + e.conv, 0);
   const max = Math.max(...top.map((e) => e.conv), rest, 1);
   const site = rate(x.totals.now.conv, x.totals.now.sessions);
+  // A rate from a handful of visits misleads (2 visits, 2 leads reads as 100%), so under 20 visits
+  // it isn't shown.
   const row = (name, conv, sessions) => {
-    const rt = sessions ? rate(conv, sessions) : null;
+    const rt = sessions >= MIN_RATE_VISITS ? rate(conv, sessions) : null;
     const hi = rt != null && rt >= site * 2 && conv >= 3;
     return `<li><span class="nm">${esc(name)}</span><span class="ibar"><span style="width:${Math.round((conv / max) * 100)}%"></span></span><span class="ct">${num(conv)}</span><span class="rt${hi ? ' hi' : ''}">${rt == null ? '' : `${rt.toFixed(1)}%`}</span></li>`;
   };
   return `<section class="sec full ga-src"><h2>Where your ${w.noun} came from</h2>
     <ol class="src-list"><li class="hd"><span>Source</span><span></span><span class="ct">${shop ? 'Orders' : 'Leads'}</span><span class="rt">Rate</span></li>
     ${top.map((e) => row(e.name, e.conv, e.sessions)).join('')}${rest > 0 ? row('Everything else', rest, null) : ''}</ol>
-    <p class="sec-note">Rate is the share of that source's visits that ${w.did === 'placed an order' ? 'ended in an order' : 'ended in an enquiry'}. The site as a whole is ${site.toFixed(1)}%; anything twice that is shown in blue.</p></section>`;
+    <p class="sec-note">Rate is the share of that source's visits that ${w.did === 'placed an order' ? 'ended in an order' : 'ended in an enquiry'}, shown once a source has ${MIN_RATE_VISITS} visits. The site as a whole is ${site.toFixed(1)}%; anything twice that is shown in blue.</p></section>`;
 }
 
 function foundBlock(x) {
@@ -394,7 +507,7 @@ export function auditDetail(x, { report = false } = {}) {
 
 // Everything above the detail: the summary, then where the leads came from and being found.
 export function auditTop(x, opts = {}) {
-  return [summary(x, opts), sourcesBlock(x), foundBlock(x), positionsBlock(x, opts.report)].join('\n');
+  return [summary(x, opts), changedBlock(x), trendBlock(x), sourcesBlock(x), foundBlock(x), positionsBlock(x, opts.report)].join('\n');
 }
 
 /* ---------- The GA4 tab ---------- */
@@ -417,7 +530,8 @@ function auditForm(brand, token) {
 // Laid out like the AI visibility tab: one bar at the top saying which audit is shown, with its
 // buttons, then the numbers. The form for a new audit opens from the bar (closed until needed,
 // open when there are no audits yet), and every audit is listed at the bottom.
-export function ga4Tab({ brand, audits = [], audit = null, ready, email = '', sample = false, href = (id) => `?audit=${id}` }) {
+// Links are full paths: the page sets a <base>, so a bare "?audit=" or "#check" would go to the site root.
+export function ga4Tab({ brand, audits = [], audit = null, ready, email = '', sample = false, href = (id) => `/admin/brands/${brand.slug}/ga4/?audit=${id}` }) {
   const token = sample ? 'SAMPLE' : esc(brand.slug);
   if (!brand.ga4_property) {
     return `<div class="placeholder"><p>Add the brand's GA4 property number in Settings to run an audit. Its Search Console property and lead event go there too.</p></div>`;
@@ -445,7 +559,7 @@ export function ga4Tab({ brand, audits = [], audit = null, ready, email = '', sa
     })
     .join('');
   const shown = audit
-    ? `${auditTop(audit.data)}<h2 class="detail-h">The detail</h2>${auditDetail(audit.data)}`
+    ? `${auditTop(audit.data, { checkHref: `${href(audit.id)}#check` })}<details class="ga-more" id="detail"><summary><span class="when-closed">Show the detail</span><span class="when-open">Hide the detail</span><small>Data check, AI assistants, Google search, devices and landing pages</small></summary>${auditDetail(audit.data)}</details>`
     : '<p class="empty">Choose a period and run the first audit.</p>';
   return `${bar}
   ${shown}
@@ -462,7 +576,7 @@ export function ga4ReportPage({ base, report, brand, pdf = false, admin = false,
   ${masthead('GA4 and search audit', fmtDate(x.period.end, 'long'))}
   <div class="rhead"><h1>${eyebrow(brand.name)}GA4 and search</h1>
   <p class="standfirst">${esc(`How the site did, from GA4 and Google Search Console${x.uk_only ? ', UK visitors only' : ''}. The data is checked before any numbers are read.`)}</p></div>
-  ${auditTop(x, { report: true })}
+  ${auditTop(x, { report: true, checkHref: `/report/${report.token}/#check` })}
   ${auditDetail(x, { report: true })}
   ${recommendations}
   ${methodSection(x)}
@@ -538,6 +652,39 @@ export const GA4_CSS = `
 .found-card p + p { margin-top: 6px; }
 .found-card .chg.good { color: #0d7a3f; }
 .found-card .chg.bad { color: var(--red); }
+.changed-2 { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 40px; }
+.ch-total { font: 500 20px/1.35 var(--display); }
+.parts, .movers-src { margin: 12px 0 0; padding: 0; list-style: none; }
+.parts li { display: grid; grid-template-columns: minmax(0, 200px) minmax(0, 1fr) 110px; gap: 16px; align-items: center; padding: 10px 0; border-bottom: 1px solid var(--line); font: 500 16px/1.3 var(--display); }
+.parts .div { display: grid; grid-template-columns: 1fr 1fr; height: 12px; border-left: 0; }
+.parts .div > span { display: flex; height: 100%; }
+.parts .div .neg { justify-content: flex-end; border-right: 1px solid var(--ink); }
+.parts .div .neg > span { background: var(--red); }
+.parts .div .pos > span { background: #2fbf71; }
+.parts .vl, .movers-src .vl { text-align: right; white-space: nowrap; }
+.vl.good { color: #0d7a3f; }
+.vl.bad { color: var(--red); }
+.movers-src li { display: flex; justify-content: space-between; gap: 12px; padding: 10px 0; border-bottom: 1px solid var(--line); font: 500 16px/1.3 var(--display); }
+.ga-changed .sec-note { margin-top: 12px; }
+.tcharts { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.tchart { margin: 0; padding: 16px; background: var(--box); }
+.tchart figcaption { display: flex; align-items: baseline; gap: 10px; font: 500 13px/1.2 var(--display); letter-spacing: 0.02em; text-transform: uppercase; color: var(--muted); }
+.tchart figcaption b { margin-left: auto; font: 500 24px/1 var(--display); letter-spacing: 0; text-transform: none; color: var(--ink); }
+.tchart figcaption small { font-size: 11px; text-transform: none; letter-spacing: 0; }
+.tchart svg { display: block; width: 100%; height: auto; margin-top: 8px; overflow: visible; }
+.tchart .ax { stroke: var(--line); }
+.tchart .was { fill: none; stroke: #bdbdbd; stroke-width: 2; stroke-dasharray: 4 4; }
+.tchart .now { fill: none; stroke: var(--blue); stroke-width: 2.5; }
+.tchart .dot { fill: var(--blue); }
+.tchart text { font: 500 11px/1 var(--display); fill: var(--muted); }
+details.ga-more { margin-top: 48px; border-top: 1px solid var(--ink); }
+details.ga-more > summary { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 16px; padding: 20px 0; cursor: pointer; list-style: none; font: 500 20px/1.2 var(--display); text-transform: uppercase; }
+details.ga-more > summary::-webkit-details-marker { display: none; }
+details.ga-more > summary::before { content: '+'; width: 20px; }
+details.ga-more[open] > summary::before { content: '−'; }
+details.ga-more > summary small { font: 400 14px/1.4 var(--serif); text-transform: none; color: var(--muted); }
+details.ga-more .when-open, details.ga-more[open] .when-closed { display: none; }
+details.ga-more[open] .when-open { display: inline; }
 .bands { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 12px; }
 .band { padding: 16px; background: var(--box); }
 .band .lbl { display: flex; align-items: center; gap: 8px; font: 500 13px/1.2 var(--display); letter-spacing: 0.02em; text-transform: uppercase; color: var(--muted); }
@@ -578,6 +725,11 @@ export const GA4_CSS = `
   .found { grid-template-columns: 1fr; }
   .src-list li { grid-template-columns: minmax(0, 1fr) 56px 64px; }
   .src-list .ibar, .src-list li.hd span:nth-child(2) { display: none; }
+}
+@media (max-width: 900px) {
+  .changed-2, .tcharts { grid-template-columns: 1fr; }
+  .parts li { grid-template-columns: minmax(0, 1fr) 90px; }
+  .parts .div { display: none; }
 }
 @media (max-width: 560px) {
   .ga-cards { grid-template-columns: 1fr; }
@@ -629,5 +781,10 @@ const GA4_REPORT_EXTRA = `
 .sheet .band .big { font-size: 26px; }
 .sheet .band .chg, .sheet .band .means { font-size: 11px; }
 .sheet .movers li { font-size: 13px; padding: 6px 0; }
+.sheet .ch-total { font-size: 15px; }
+.sheet .parts li, .sheet .movers-src li { font-size: 13px; padding: 6px 0; }
+.sheet .changed-2 { gap: 24px; }
+.sheet .tcharts { gap: 12px; }
+.sheet .tchart { padding: 10px; break-inside: avoid; }
 @media print { .rp.ga2 .ga-cards { grid-template-columns: repeat(4, minmax(0, 1fr)); } .found { grid-template-columns: 1fr 1fr; } }
 `;
