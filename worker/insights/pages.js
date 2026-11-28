@@ -76,6 +76,16 @@ export const INSIGHTS_SCRIPT = `
       });
     });
   });
+  // A link to something inside a closed "Show the detail" opens it first.
+  function reveal() {
+    var id = location.hash.slice(1);
+    var t = id && document.getElementById(id);
+    if (!t) return;
+    var d = t.closest('details');
+    if (d && !d.open) { d.open = true; t.scrollIntoView(); }
+  }
+  window.addEventListener('hashchange', reveal);
+  reveal();
   document.querySelectorAll('[data-toggle]').forEach(function (b) {
     var t = document.getElementById(b.getAttribute('data-toggle'));
     if (!t) return;
